@@ -1,3 +1,6 @@
 [submodule "submodules/kcgen"]
 	path = submodules/kcgen
 	url = git@github.com:ohmtech/kcgen.git
+[submodule "submodules/kicad-libs"]
+	path = submodules/kicad-libs
+	url = git@github.com:ohmtech/kicad-libs.git
