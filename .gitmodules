@@ -1,0 +1,3 @@
+[submodule "submodules/kcgen"]
+	path = submodules/kcgen
+	url = git@github.com:ohmtech/kcgen.git
