@@ -1,0 +1,23 @@
+# Kicad temporary files
+# Format documentation: http://kicad-pcb.org/help/file-formats/
+
+*.000
+*.bak
+*.bck
+*.kicad_pcb-bak
+*~
+_autosave-*
+*.tmp
+*-cache.lib
+*-rescue.lib
+*-save.pro
+*-save.kicad_pcb
+
+# Don't ignore exported .net files to allow to build pcb production
+# file without launching Kicad
+
+
+
+# Python temporary files
+
+*.py[cod]
