@@ -39,7 +39,9 @@ this soldering technic.
 
 Finally each block was heavily inspired by eurorack open-hardware projects,
 with probably [Mutable Instruments](https://github.com/pichenettes/eurorack)
-by pichennettes/Emilie Gillet as the most influential one.
+by pichennettes/Emilie Gillet,
+and [Electrosmith Daisy Patch](https://github.com/electro-smith/Hardware/tree/master/reference/daisy_patch)
+as the most influential ones.
 
 
 ## Design Choices
