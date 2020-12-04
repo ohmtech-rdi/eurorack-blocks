@@ -39,6 +39,7 @@ used in that repository.
 eurorack-blocks/
    audio-in-daisy/
    audio-out-daisy/
+   gate-in/
    submodules/
       kcgen/
       kicad-libs/
@@ -51,6 +52,10 @@ eurorack-blocks/
 ### `audio-out-daisy`
 
 [`audio-out-daisy`](./audio-out-daisy/) is an audio output block, meant to be used directly with [Daisy Seed](https://www.electro-smith.com/daisy/daisy) on pins 18 and 19.
+
+### `gate-in`
+
+[`gate-in`](./gate-in/) is a gate input block compatible with 3V3 MCU GPIOs.
 
 ### `kcgen`
 
