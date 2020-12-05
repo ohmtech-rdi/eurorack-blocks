@@ -41,6 +41,7 @@ eurorack-blocks/
    audio-out-daisy/
    cv-in/
    gate-in/
+   pot/
    submodules/
       kcgen/
       kicad-libs/
@@ -61,6 +62,10 @@ eurorack-blocks/
 ### `gate-in`
 
 [`gate-in`](./gate-in/) is a gate input block compatible with 3V3 MCU GPIOs.
+
+### `pot`
+
+[`pot`](./pot/) is a potentiometer block compatible with 3V3 MCU GPIOs.
 
 ### `kcgen`
 
