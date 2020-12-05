@@ -39,6 +39,7 @@ used in that repository.
 eurorack-blocks/
    audio-in-daisy/
    audio-out-daisy/
+   cv-in/
    gate-in/
    submodules/
       kcgen/
@@ -52,6 +53,10 @@ eurorack-blocks/
 ### `audio-out-daisy`
 
 [`audio-out-daisy`](./audio-out-daisy/) is an audio output block, meant to be used directly with [Daisy Seed](https://www.electro-smith.com/daisy/daisy) on pins 18 and 19.
+
+### `cv-in`
+
+[`cv-in`](./cv-in/) is a CV input block compatible with 3V3 MCU GPIOs.
 
 ### `gate-in`
 
