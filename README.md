@@ -41,6 +41,7 @@ eurorack-blocks/
    audio-out-daisy/
    cv-in/
    gate-in/
+   multiplexer/
    pot/
    submodules/
       kcgen/
@@ -62,6 +63,10 @@ eurorack-blocks/
 ### `gate-in`
 
 [`gate-in`](./gate-in/) is a gate input block compatible with 3V3 MCU GPIOs.
+
+### `multiplexer`
+
+[`multiplexer`](./multiplexer/) is a multiplexer block compatible with 3V3 MCU GPIOs.
 
 ### `pot`
 
