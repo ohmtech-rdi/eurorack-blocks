@@ -44,6 +44,7 @@ eurorack-blocks/
    multiplexer/
    pot/
    power-bus/
+   regulator-daisy/
    submodules/
       kcgen/
       kicad-libs/
@@ -76,6 +77,10 @@ eurorack-blocks/
 ### `power-bus`
 
 [`power-bus`](./power-bus/) is a eurorack compatible power bus.
+
+### `regulator-daisy`
+
+[`regulator-daisy`](./regulator-daisy/) is a voltage regulator compatible with the Daisy Seed.
 
 ### `kcgen`
 
