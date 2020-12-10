@@ -1,0 +1,374 @@
+EESchema Schematic File Version 4
+LIBS:gate-out-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L Connector:AudioJack2_Ground_Switch J1
+U 1 1 5FC82E98
+P 6500 3300
+F 0 "J1" H 6504 3642 50  0000 C CNN
+F 1 "OUT" H 6504 3551 50  0000 C CNN
+F 2 "Connector_Thonk:ThonkiconnJack" H 6500 3300 50  0001 C CNN
+F 3 "~" H 6500 3300 50  0001 C CNN
+F 4 "Jack Connector" H 6500 3300 50  0001 C CNN "Device"
+F 5 "Thonkiconn – 3.5mm Jack Sockets" H 6500 3300 50  0001 C CNN "Description"
+F 6 "No" H 6500 3300 50  0001 C CNN "Place"
+F 7 "Thonk" H 6500 3300 50  0001 C CNN "Dist"
+F 8 "PJ398SM" H 6500 3300 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.thonk.co.uk/shop/thonkiconn/" H 6500 3300 50  0001 C CNN "DistLink"
+	1    6500 3300
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5FC83467
+P 7900 4700
+F 0 "#FLG0101" H 7900 4775 50  0001 C CNN
+F 1 "PWR_FLAG" H 7900 4874 50  0000 C CNN
+F 2 "" H 7900 4700 50  0001 C CNN
+F 3 "~" H 7900 4700 50  0001 C CNN
+	1    7900 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5FC83485
+P 7900 4700
+F 0 "#PWR0106" H 7900 4450 50  0001 C CNN
+F 1 "GND" H 7905 4527 50  0000 C CNN
+F 2 "" H 7900 4700 50  0001 C CNN
+F 3 "" H 7900 4700 50  0001 C CNN
+	1    7900 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:R R2
+U 1 1 5FC9316D
+P 5200 3050
+F 0 "R2" H 5350 3100 50  0000 C CNN
+F 1 "4.7k" H 5350 3000 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5130 3050 50  0001 C CNN
+F 3 "~" H 5200 3050 50  0001 C CNN
+F 4 "Resistor" H 5200 3050 50  0001 C CNN "Device"
+F 5 "RES SMD 4.7K OHM 1% 1/10W 0603" H 5200 3050 50  0001 C CNN "Description"
+F 6 "Yes" H 5200 3050 50  0001 C CNN "Place"
+F 7 "Digikey" H 5200 3050 50  0001 C CNN "Dist"
+F 8 "P4.70KHCT-ND" H 5200 3050 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF4701V/P4-70KHCT-ND/1746782" H 5200 3050 50  0001 C CNN "DistLink"
+	1    5200 3050
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J2
+U 1 1 5FC933AD
+P 6900 4400
+F 0 "J2" H 6980 4392 50  0000 L CNN
+F 1 "GND" H 6980 4301 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 6900 4400 50  0001 C CNN
+F 3 "~" H 6900 4400 50  0001 C CNN
+F 4 "Male Header" H 6900 4400 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 6POS 2.54MM" H 6900 4400 50  0001 C CNN "Description"
+F 6 "No" H 6900 4400 50  0001 C CNN "Place"
+F 7 "Digikey" H 6900 4400 50  0001 C CNN "Dist"
+F 8 "609-3272-ND" H 6900 4400 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-106HLF/609-3272-ND/1878473" H 6900 4400 50  0001 C CNN "DistLink"
+	1    6900 4400
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5FC9450D
+P 8300 4700
+F 0 "#FLG0102" H 8300 4775 50  0001 C CNN
+F 1 "PWR_FLAG" H 8300 4874 50  0000 C CNN
+F 2 "" H 8300 4700 50  0001 C CNN
+F 3 "~" H 8300 4700 50  0001 C CNN
+	1    8300 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0115
+U 1 1 5FC9AC4F
+P 6200 3100
+F 0 "#PWR0115" H 6200 2850 50  0001 C CNN
+F 1 "GND" H 6205 2927 50  0000 C CNN
+F 2 "" H 6200 3100 50  0001 C CNN
+F 3 "" H 6200 3100 50  0001 C CNN
+	1    6200 3100
+	1    0    0    1   
+$EndComp
+Wire Wire Line
+	6300 3200 6200 3200
+Wire Wire Line
+	6200 3200 6200 3100
+$Comp
+L Transistor_BJT:MMBT3904 Q1
+U 1 1 5FCAD2ED
+P 5100 3600
+F 0 "Q1" H 5291 3646 50  0000 L CNN
+F 1 "MMBT3904" H 5291 3555 50  0000 L CNN
+F 2 "Package_TO_SOT_SMD:SOT-23" H 5300 3525 50  0001 L CIN
+F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 5100 3600 50  0001 L CNN
+F 4 "Bipolar Transistor" H 5100 3600 50  0001 C CNN "Device"
+F 5 "TRANS NPN 40V 200MA SOT23-3" H 5100 3600 50  0001 C CNN "Description"
+F 6 "Yes" H 5100 3600 50  0001 C CNN "Place"
+F 7 "Digikey" H 5100 3600 50  0001 C CNN "Dist"
+F 8 "MMBT3904LT1GOSCT-ND" H 5100 3600 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/MMBT3904LT1G/MMBT3904LT1GOSCT-ND/1139813" H 5100 3600 50  0001 C CNN "DistLink"
+	1    5100 3600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0108
+U 1 1 5FCAE64F
+P 5200 3900
+F 0 "#PWR0108" H 5200 3650 50  0001 C CNN
+F 1 "GND" H 5205 3727 50  0000 C CNN
+F 2 "" H 5200 3900 50  0001 C CNN
+F 3 "" H 5200 3900 50  0001 C CNN
+	1    5200 3900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 3800 5200 3900
+$Comp
+L Connector_Generic:Conn_01x06 J3
+U 1 1 5FCAF962
+P 3700 4400
+F 0 "J3" H 3780 4392 50  0000 L CNN
+F 1 "IN" H 3780 4301 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 3700 4400 50  0001 C CNN
+F 3 "~" H 3700 4400 50  0001 C CNN
+F 4 "Male Header" H 3700 4400 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 6POS 2.54MM" H 3700 4400 50  0001 C CNN "Description"
+F 6 "No" H 3700 4400 50  0001 C CNN "Place"
+F 7 "Digikey" H 3700 4400 50  0001 C CNN "Dist"
+F 8 "609-3272-ND" H 3700 4400 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-106HLF/609-3272-ND/1878473" H 3700 4400 50  0001 C CNN "DistLink"
+	1    3700 4400
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Device:R R1
+U 1 1 5FD295C4
+P 4550 3600
+F 0 "R1" V 4700 3600 50  0000 C CNN
+F 1 "10k" V 4800 3600 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 4480 3600 50  0001 C CNN
+F 3 "~" H 4550 3600 50  0001 C CNN
+F 4 "Resistor" H 4550 3600 50  0001 C CNN "Device"
+F 5 "RES SMD 10K OHM 1% 1/10W 0603" H 4550 3600 50  0001 C CNN "Description"
+F 6 "Yes" H 4550 3600 50  0001 C CNN "Place"
+F 7 "Digikey" H 4550 3600 50  0001 C CNN "Dist"
+F 8 "P10.0KHCT-ND" H 4550 3600 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1002V/P10-0KHCT-ND/198102" H 4550 3600 50  0001 C CNN "DistLink"
+	1    4550 3600
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5200 3200 5200 3300
+$Comp
+L Device:R R3
+U 1 1 5FD29F91
+P 5800 3650
+F 0 "R3" H 5950 3700 50  0000 C CNN
+F 1 "3.3k" H 5950 3600 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5730 3650 50  0001 C CNN
+F 3 "~" H 5800 3650 50  0001 C CNN
+F 4 "Resistor" H 5800 3650 50  0001 C CNN "Device"
+F 5 "RES SMD 3.3K OHM 1% 1/10W 0603" H 5800 3650 50  0001 C CNN "Description"
+F 6 "Yes" H 5800 3650 50  0001 C CNN "Place"
+F 7 "Digikey" H 5800 3650 50  0001 C CNN "Dist"
+F 8 "P3.30KHCT-ND" H 5800 3650 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF3301V/P3-30KHCT-ND/1746762" H 5800 3650 50  0001 C CNN "DistLink"
+	1    5800 3650
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0102
+U 1 1 5FD29FCB
+P 5800 3900
+F 0 "#PWR0102" H 5800 3650 50  0001 C CNN
+F 1 "GND" H 5805 3727 50  0000 C CNN
+F 2 "" H 5800 3900 50  0001 C CNN
+F 3 "" H 5800 3900 50  0001 C CNN
+	1    5800 3900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5FD2A245
+P 6700 4200
+F 0 "#PWR0103" H 6700 3950 50  0001 C CNN
+F 1 "GND" V 6700 4000 50  0000 C CNN
+F 2 "" H 6700 4200 50  0001 C CNN
+F 3 "" H 6700 4200 50  0001 C CNN
+	1    6700 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5FD2A2B1
+P 6700 4300
+F 0 "#PWR0104" H 6700 4050 50  0001 C CNN
+F 1 "GND" V 6700 4100 50  0000 C CNN
+F 2 "" H 6700 4300 50  0001 C CNN
+F 3 "" H 6700 4300 50  0001 C CNN
+	1    6700 4300
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5FD2A2ED
+P 6700 4400
+F 0 "#PWR0105" H 6700 4150 50  0001 C CNN
+F 1 "GND" V 6700 4200 50  0000 C CNN
+F 2 "" H 6700 4400 50  0001 C CNN
+F 3 "" H 6700 4400 50  0001 C CNN
+	1    6700 4400
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0107
+U 1 1 5FD2A306
+P 6700 4500
+F 0 "#PWR0107" H 6700 4250 50  0001 C CNN
+F 1 "GND" V 6700 4300 50  0000 C CNN
+F 2 "" H 6700 4500 50  0001 C CNN
+F 3 "" H 6700 4500 50  0001 C CNN
+	1    6700 4500
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0109
+U 1 1 5FD2A31F
+P 6700 4600
+F 0 "#PWR0109" H 6700 4350 50  0001 C CNN
+F 1 "GND" V 6700 4400 50  0000 C CNN
+F 2 "" H 6700 4600 50  0001 C CNN
+F 3 "" H 6700 4600 50  0001 C CNN
+	1    6700 4600
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR0110
+U 1 1 5FD2A338
+P 6700 4700
+F 0 "#PWR0110" H 6700 4450 50  0001 C CNN
+F 1 "GND" V 6700 4500 50  0000 C CNN
+F 2 "" H 6700 4700 50  0001 C CNN
+F 3 "" H 6700 4700 50  0001 C CNN
+	1    6700 4700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5200 3300 5800 3300
+Connection ~ 5200 3300
+Wire Wire Line
+	5200 3300 5200 3400
+Wire Wire Line
+	5800 3300 5800 3500
+Connection ~ 5800 3300
+Wire Wire Line
+	5800 3300 6300 3300
+Wire Wire Line
+	5800 3800 5800 3900
+Wire Wire Line
+	4700 3600 4900 3600
+$Comp
+L power:+12V #PWR0112
+U 1 1 5FD2B675
+P 3900 4200
+F 0 "#PWR0112" H 3900 4050 50  0001 C CNN
+F 1 "+12V" V 3915 4328 50  0000 L CNN
+F 2 "" H 3900 4200 50  0001 C CNN
+F 3 "" H 3900 4200 50  0001 C CNN
+	1    3900 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+12V #PWR0113
+U 1 1 5FD2B71A
+P 5200 2900
+F 0 "#PWR0113" H 5200 2750 50  0001 C CNN
+F 1 "+12V" H 5215 3073 50  0000 C CNN
+F 2 "" H 5200 2900 50  0001 C CNN
+F 3 "" H 5200 2900 50  0001 C CNN
+	1    5200 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+12V #PWR0114
+U 1 1 5FD2B911
+P 8300 4700
+F 0 "#PWR0114" H 8300 4550 50  0001 C CNN
+F 1 "+12V" H 8315 4873 50  0000 C CNN
+F 2 "" H 8300 4700 50  0001 C CNN
+F 3 "" H 8300 4700 50  0001 C CNN
+	1    8300 4700
+	-1   0    0    1   
+$EndComp
+Text GLabel 4300 3600 0    50   Input ~ 0
+IN
+Text GLabel 3900 4300 2    50   Output ~ 0
+IN
+Wire Wire Line
+	4300 3600 4400 3600
+$Comp
+L power:GND #PWR0101
+U 1 1 5FD61A26
+P 3900 4400
+F 0 "#PWR0101" H 3900 4150 50  0001 C CNN
+F 1 "GND" V 3900 4200 50  0000 C CNN
+F 2 "" H 3900 4400 50  0001 C CNN
+F 3 "" H 3900 4400 50  0001 C CNN
+	1    3900 4400
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0116
+U 1 1 5FD61A4D
+P 3900 4500
+F 0 "#PWR0116" H 3900 4250 50  0001 C CNN
+F 1 "GND" V 3900 4300 50  0000 C CNN
+F 2 "" H 3900 4500 50  0001 C CNN
+F 3 "" H 3900 4500 50  0001 C CNN
+	1    3900 4500
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0117
+U 1 1 5FD61A66
+P 3900 4600
+F 0 "#PWR0117" H 3900 4350 50  0001 C CNN
+F 1 "GND" V 3900 4400 50  0000 C CNN
+F 2 "" H 3900 4600 50  0001 C CNN
+F 3 "" H 3900 4600 50  0001 C CNN
+	1    3900 4600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0118
+U 1 1 5FD61A7F
+P 3900 4700
+F 0 "#PWR0118" H 3900 4450 50  0001 C CNN
+F 1 "GND" V 3900 4500 50  0000 C CNN
+F 2 "" H 3900 4700 50  0001 C CNN
+F 3 "" H 3900 4700 50  0001 C CNN
+	1    3900 4700
+	0    -1   -1   0   
+$EndComp
+NoConn ~ 6300 3400
+$EndSCHEMATC
