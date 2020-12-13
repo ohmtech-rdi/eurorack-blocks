@@ -1,0 +1,251 @@
+EESchema Schematic File Version 4
+LIBS:slider-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5FC83467
+P 6600 3150
+F 0 "#FLG0101" H 6600 3225 50  0001 C CNN
+F 1 "PWR_FLAG" H 6600 3324 50  0000 C CNN
+F 2 "" H 6600 3150 50  0001 C CNN
+F 3 "~" H 6600 3150 50  0001 C CNN
+	1    6600 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5FC83485
+P 6600 3150
+F 0 "#PWR0106" H 6600 2900 50  0001 C CNN
+F 1 "GND" H 6605 2977 50  0000 C CNN
+F 2 "" H 6600 3150 50  0001 C CNN
+F 3 "" H 6600 3150 50  0001 C CNN
+	1    6600 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J2
+U 1 1 5FC933AD
+P 6850 1500
+F 0 "J2" H 6930 1492 50  0000 L CNN
+F 1 "OUT" H 6930 1401 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 6850 1500 50  0001 C CNN
+F 3 "~" H 6850 1500 50  0001 C CNN
+F 4 "Male Header" H 6850 1500 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 2POS 2.54MM" H 6850 1500 50  0001 C CNN "Description"
+F 6 "No" H 6850 1500 50  0001 C CNN "Place"
+F 7 "Digikey" H 6850 1500 50  0001 C CNN "Dist"
+F 8 "609-3506-ND" H 6850 1500 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-102HLF/609-3506-ND/1493701" H 6850 1500 50  0001 C CNN "DistLink"
+	1    6850 1500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 5FC9452E
+P 7000 3150
+F 0 "#FLG0103" H 7000 3225 50  0001 C CNN
+F 1 "PWR_FLAG" H 7000 3324 50  0000 C CNN
+F 2 "" H 7000 3150 50  0001 C CNN
+F 3 "~" H 7000 3150 50  0001 C CNN
+	1    7000 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR0108
+U 1 1 5FCAD0BA
+P 7000 3150
+F 0 "#PWR0108" H 7000 3000 50  0001 C CNN
+F 1 "+3V3" V 7015 3278 50  0000 L CNN
+F 2 "" H 7000 3150 50  0001 C CNN
+F 3 "" H 7000 3150 50  0001 C CNN
+	1    7000 3150
+	-1   0    0    1   
+$EndComp
+Text GLabel 4900 1500 2    50   Input ~ 0
+OUT
+$Comp
+L power:GND #PWR?
+U 1 1 5FD615D4
+P 4900 1900
+F 0 "#PWR?" H 4900 1650 50  0001 C CNN
+F 1 "GND" V 4900 1700 50  0000 C CNN
+F 2 "" H 4900 1900 50  0001 C CNN
+F 3 "" H 4900 1900 50  0001 C CNN
+	1    4900 1900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5FD652D0
+P 6650 1900
+F 0 "#PWR?" H 6650 1750 50  0001 C CNN
+F 1 "+3V3" V 6665 2028 50  0000 L CNN
+F 2 "" H 6650 1900 50  0001 C CNN
+F 3 "" H 6650 1900 50  0001 C CNN
+	1    6650 1900
+	0    -1   -1   0   
+$EndComp
+Text GLabel 6650 1500 0    50   Output ~ 0
+IN
+$Comp
+L Bourns:PTL U1
+U 1 1 5FD65E7D
+P 5450 3700
+F 0 "U1" H 5450 4025 50  0000 C CNN
+F 1 "PTL" H 5450 3934 50  0000 C CNN
+F 2 "Package_Bourns:PTL20" H 5450 3700 50  0001 C CNN
+F 3 "https://www.bourns.com/docs/Product-Datasheets/PTL.pdf" H 5450 3700 50  0001 C CNN
+F 4 "Slide Potentiometer" H 5450 3700 50  0001 C CNN "Device"
+F 5 "SLIDE POT 20K OHM 0.05W TOP 20MM" H 5450 3700 50  0001 C CNN "Description"
+F 6 "No" H 5450 3700 50  0001 C CNN "Place"
+F 7 "Digikey" H 5450 3700 50  0001 C CNN "Dist"
+F 8 "PTL20-15G1-203B2-ND" H 5450 3700 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/bourns-inc/PTL20-15G1-203B2/PTL20-15G1-203B2-ND/3820508" H 5450 3700 50  0001 C CNN "DistLink"
+	1    5450 3700
+	1    0    0    -1  
+$EndComp
+Text GLabel 4500 3400 0    50   Output ~ 0
+OUT
+$Comp
+L Device:C C1
+U 1 1 5FD66092
+P 4700 3550
+F 0 "C1" H 4815 3596 50  0000 L CNN
+F 1 "100n" H 4815 3505 50  0000 L CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 4738 3400 50  0001 C CNN
+F 3 "~" H 4700 3550 50  0001 C CNN
+F 4 "Ceramic Capacitor" H 4700 3550 50  0001 C CNN "Device"
+F 5 "CAP CER 0.1UF 16V X7R 0603" H 4700 3550 50  0001 C CNN "Description"
+F 6 "Yes" H 4700 3550 50  0001 C CNN "Place"
+F 7 "Digikey" H 4700 3550 50  0001 C CNN "Dist"
+F 8 "311-1088-1-ND" H 4700 3550 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/yageo/CC0603KRX7R7BB104/311-1088-1-ND/302998" H 4700 3550 50  0001 C CNN "DistLink"
+	1    4700 3550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FD66189
+P 4500 3700
+F 0 "#PWR?" H 4500 3450 50  0001 C CNN
+F 1 "GND" H 4505 3527 50  0000 C CNN
+F 2 "" H 4500 3700 50  0001 C CNN
+F 3 "" H 4500 3700 50  0001 C CNN
+	1    4500 3700
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 5FD661A4
+P 5700 3600
+F 0 "#PWR?" H 5700 3450 50  0001 C CNN
+F 1 "+3V3" V 5715 3728 50  0000 L CNN
+F 2 "" H 5700 3600 50  0001 C CNN
+F 3 "" H 5700 3600 50  0001 C CNN
+	1    5700 3600
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FD66308
+P 5200 3900
+F 0 "#PWR?" H 5200 3650 50  0001 C CNN
+F 1 "GND" H 5205 3727 50  0000 C CNN
+F 2 "" H 5200 3900 50  0001 C CNN
+F 3 "" H 5200 3900 50  0001 C CNN
+	1    5200 3900
+	0    1    1    0   
+$EndComp
+Text GLabel 6400 3700 2    50   Input ~ 0
+IN
+$Comp
+L Device:R R1
+U 1 1 5FD66488
+P 6250 3700
+F 0 "R1" V 6043 3700 50  0000 C CNN
+F 1 "15k" V 6134 3700 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 6180 3700 50  0001 C CNN
+F 3 "~" H 6250 3700 50  0001 C CNN
+F 4 "Resistor" H 6250 3700 50  0001 C CNN "Device"
+F 5 "RES SMD 15K OHM 1% 1/10W 0603" H 6250 3700 50  0001 C CNN "Description"
+F 6 "Yes" H 6250 3700 50  0001 C CNN "Place"
+F 7 "Digikey" H 6250 3700 50  0001 C CNN "Dist"
+F 8 "P15.0KHCT-ND" H 6250 3700 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1502V/P15-0KHCT-ND/198172" H 6250 3700 50  0001 C CNN "DistLink"
+	1    6250 3700
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	4500 3700 4700 3700
+Connection ~ 4700 3700
+Wire Wire Line
+	4700 3700 5200 3700
+Wire Wire Line
+	4500 3400 4700 3400
+Wire Wire Line
+	5100 3400 5100 3600
+Wire Wire Line
+	5100 3600 5200 3600
+Connection ~ 4700 3400
+Wire Wire Line
+	4700 3400 5100 3400
+Wire Wire Line
+	5700 3700 6100 3700
+$Comp
+L Connector_Generic:Conn_01x01 J3
+U 1 1 5FD66735
+P 6850 1900
+F 0 "J3" H 6930 1892 50  0000 L CNN
+F 1 "GND" H 6930 1801 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 6850 1900 50  0001 C CNN
+F 3 "~" H 6850 1900 50  0001 C CNN
+F 4 "Male Header" H 6850 1900 50  0001 C CNN "Device"
+F 5 "No" H 6850 1900 50  0001 C CNN "Place"
+	1    6850 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J1
+U 1 1 5FD66DA8
+P 4700 1500
+F 0 "J1" H 4780 1492 50  0000 L CNN
+F 1 "OUT" H 4780 1401 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 4700 1500 50  0001 C CNN
+F 3 "~" H 4700 1500 50  0001 C CNN
+F 4 "Male Header" H 4700 1500 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 2POS 2.54MM" H 4700 1500 50  0001 C CNN "Description"
+F 6 "No" H 4700 1500 50  0001 C CNN "Place"
+F 7 "Digikey" H 4700 1500 50  0001 C CNN "Dist"
+F 8 "609-3506-ND" H 4700 1500 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-102HLF/609-3506-ND/1493701" H 4700 1500 50  0001 C CNN "DistLink"
+	1    4700 1500
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x01 J4
+U 1 1 5FD67065
+P 4700 1900
+F 0 "J4" H 4780 1892 50  0000 L CNN
+F 1 "GND" H 4780 1801 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 4700 1900 50  0001 C CNN
+F 3 "~" H 4700 1900 50  0001 C CNN
+F 4 "Male Header" H 4700 1900 50  0001 C CNN "Device"
+F 5 "No" H 4700 1900 50  0001 C CNN "Place"
+	1    4700 1900
+	-1   0    0    -1  
+$EndComp
+$EndSCHEMATC
