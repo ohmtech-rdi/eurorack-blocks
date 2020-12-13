@@ -49,6 +49,7 @@ eurorack-blocks/
    pot/
    power-bus/
    regulator-daisy/
+   slider/
    submodules/
       kcgen/
       kicad-libs/
@@ -103,6 +104,10 @@ eurorack-blocks/
 ### `regulator-daisy`
 
 [`regulator-daisy`](./regulator-daisy/) is a voltage regulator compatible with the Daisy Seed.
+
+### `slider`
+
+[`slider`](./slider/) is a slider potentiometer block compatible with 3V3 MCU GPIOs.
 
 ### `switch`
 
