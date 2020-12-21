@@ -51,6 +51,7 @@ eurorack-blocks/
       kcgen/
       kicad-libs/
    switch/
+   trim/
 ```
 
 ### `audio-in-daisy`
@@ -96,6 +97,10 @@ eurorack-blocks/
 ### `switch`
 
 [`switch`](./switch/) is a 2 or 3 positions toggle switch.
+
+### `trim`
+
+[`trim`](./trim/) is a trim potentiometer block compatible with 3V3 MCU GPIOs.
 
 ### `kcgen`
 
