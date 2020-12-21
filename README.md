@@ -43,6 +43,7 @@ eurorack-blocks/
    gate-in/
    multiplexer/
    pot/
+   power-bus/
    submodules/
       kcgen/
       kicad-libs/
@@ -71,6 +72,10 @@ eurorack-blocks/
 ### `pot`
 
 [`pot`](./pot/) is a potentiometer block compatible with 3V3 MCU GPIOs.
+
+### `power-bus`
+
+[`power-bus`](./power-bus/) is a eurorack compatible power bus.
 
 ### `kcgen`
 

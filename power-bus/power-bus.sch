@@ -1,0 +1,480 @@
+EESchema Schematic File Version 4
+LIBS:power-bus-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5FC83467
+P 6600 3150
+F 0 "#FLG0101" H 6600 3225 50  0001 C CNN
+F 1 "PWR_FLAG" H 6600 3324 50  0000 C CNN
+F 2 "" H 6600 3150 50  0001 C CNN
+F 3 "~" H 6600 3150 50  0001 C CNN
+	1    6600 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5FC83485
+P 6600 3150
+F 0 "#PWR0106" H 6600 2900 50  0001 C CNN
+F 1 "GND" H 6605 2977 50  0000 C CNN
+F 2 "" H 6600 3150 50  0001 C CNN
+F 3 "" H 6600 3150 50  0001 C CNN
+	1    6600 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0103
+U 1 1 5FC9452E
+P 7000 3150
+F 0 "#FLG0103" H 7000 3225 50  0001 C CNN
+F 1 "PWR_FLAG" H 7000 3324 50  0000 C CNN
+F 2 "" H 7000 3150 50  0001 C CNN
+F 3 "~" H 7000 3150 50  0001 C CNN
+	1    7000 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5FCAE989
+P 4700 2800
+F 0 "#PWR0101" H 4700 2550 50  0001 C CNN
+F 1 "GND" V 4700 2600 50  0000 C CNN
+F 2 "" H 4700 2800 50  0001 C CNN
+F 3 "" H 4700 2800 50  0001 C CNN
+	1    4700 2800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_02x05_Odd_Even J1
+U 1 1 5FCFE0AD
+P 4400 2900
+F 0 "J1" H 4450 3317 50  0000 C CNN
+F 1 "POWER BUS" H 4450 3226 50  0000 C CNN
+F 2 "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical" H 4400 2900 50  0001 C CNN
+F 3 "~" H 4400 2900 50  0001 C CNN
+F 4 "IDC Header" H 4400 2900 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 10POS 2.54MM" H 4400 2900 50  0001 C CNN "Description"
+F 6 "No" H 4400 2900 50  0001 C CNN "Place"
+F 7 "Digikey" H 4400 2900 50  0001 C CNN "Dist"
+F 8 "732-2094-ND" H 4400 2900 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/würth-elektronik/61201021621/732-2094-ND/2060590" H 4400 2900 50  0001 C CNN "DistLink"
+	1    4400 2900
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0104
+U 1 1 5FCFE43D
+P 4700 2900
+F 0 "#PWR0104" H 4700 2650 50  0001 C CNN
+F 1 "GND" V 4700 2700 50  0000 C CNN
+F 2 "" H 4700 2900 50  0001 C CNN
+F 3 "" H 4700 2900 50  0001 C CNN
+	1    4700 2900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5FCFE44C
+P 4700 3000
+F 0 "#PWR0105" H 4700 2750 50  0001 C CNN
+F 1 "GND" V 4700 2800 50  0000 C CNN
+F 2 "" H 4700 3000 50  0001 C CNN
+F 3 "" H 4700 3000 50  0001 C CNN
+	1    4700 3000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0107
+U 1 1 5FCFE45B
+P 4200 3000
+F 0 "#PWR0107" H 4200 2750 50  0001 C CNN
+F 1 "GND" V 4200 2800 50  0000 C CNN
+F 2 "" H 4200 3000 50  0001 C CNN
+F 3 "" H 4200 3000 50  0001 C CNN
+	1    4200 3000
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0108
+U 1 1 5FCFE46C
+P 4200 2900
+F 0 "#PWR0108" H 4200 2650 50  0001 C CNN
+F 1 "GND" V 4200 2700 50  0000 C CNN
+F 2 "" H 4200 2900 50  0001 C CNN
+F 3 "" H 4200 2900 50  0001 C CNN
+	1    4200 2900
+	0    1    -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0109
+U 1 1 5FCFE47B
+P 4200 2800
+F 0 "#PWR0109" H 4200 2550 50  0001 C CNN
+F 1 "GND" V 4200 2600 50  0000 C CNN
+F 2 "" H 4200 2800 50  0001 C CNN
+F 3 "" H 4200 2800 50  0001 C CNN
+	1    4200 2800
+	0    1    -1   0   
+$EndComp
+$Comp
+L Device:Ferrite_Bead L1
+U 1 1 5FCFE7A2
+P 6150 4400
+F 0 "L1" V 5876 4400 50  0000 C CNN
+F 1 "Ferrite_Bead" V 5967 4400 50  0000 C CNN
+F 2 "Inductor_SMD:L_0603_1608Metric" V 6080 4400 50  0001 C CNN
+F 3 "~" H 6150 4400 50  0001 C CNN
+F 4 "Ferrite Bead" H 6150 4400 50  0001 C CNN "Device"
+F 5 "FERRITE BEAD 1 KOHM 0603 1LN" H 6150 4400 50  0001 C CNN "Description"
+F 6 "Yes" H 6150 4400 50  0001 C CNN "Place"
+F 7 "Digikey" H 6150 4400 50  0001 C CNN "Dist"
+F 8 "732-1586-1-ND" H 6150 4400 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/würth-elektronik/742792664/732-1586-1-ND/1639530" H 6150 4400 50  0001 C CNN "DistLink"
+	1    6150 4400
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:D_Schottky D1
+U 1 1 5FCFEAAA
+P 5650 4400
+F 0 "D1" H 5650 4184 50  0000 C CNN
+F 1 "D_Schottky" H 5650 4275 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123" H 5650 4400 50  0001 C CNN
+F 3 "~" H 5650 4400 50  0001 C CNN
+F 4 "Rectifier Diode" H 5650 4400 50  0001 C CNN "Device"
+F 5 "DIODE SCHOTTKY 40V 1A SOD123" H 5650 4400 50  0001 C CNN "Description"
+F 6 "Yes" H 5650 4400 50  0001 C CNN "Place"
+F 7 "Digikey" H 5650 4400 50  0001 C CNN "Dist"
+F 8 "1N5819HW-FDICT-ND" H 5650 4400 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/diodes-incorporated/1N5819HW-7-F/1N5819HW-FDICT-ND/815283" H 5650 4400 50  0001 C CNN "DistLink"
+	1    5650 4400
+	-1   0    0    1   
+$EndComp
+$Comp
+L Device:D_Schottky D2
+U 1 1 5FCFF182
+P 5650 5200
+F 0 "D2" H 5650 5416 50  0000 C CNN
+F 1 "D_Schottky" H 5650 5325 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123" H 5650 5200 50  0001 C CNN
+F 3 "~" H 5650 5200 50  0001 C CNN
+F 4 "Rectifier Diode" H 5650 5200 50  0001 C CNN "Device"
+F 5 "DIODE SCHOTTKY 40V 1A SOD123" H 5650 5200 50  0001 C CNN "Description"
+F 6 "Yes" H 5650 5200 50  0001 C CNN "Place"
+F 7 "Digikey" H 5650 5200 50  0001 C CNN "Dist"
+F 8 "1N5819HW-FDICT-ND" H 5650 5200 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/diodes-incorporated/1N5819HW-7-F/1N5819HW-FDICT-ND/815283" H 5650 5200 50  0001 C CNN "DistLink"
+	1    5650 5200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Ferrite_Bead L2
+U 1 1 5FCFF328
+P 6150 5200
+F 0 "L2" V 5876 5200 50  0000 C CNN
+F 1 "Ferrite_Bead" V 5967 5200 50  0000 C CNN
+F 2 "Inductor_SMD:L_0603_1608Metric" V 6080 5200 50  0001 C CNN
+F 3 "~" H 6150 5200 50  0001 C CNN
+F 4 "Ferrite Bead" H 6150 5200 50  0001 C CNN "Device"
+F 5 "FERRITE BEAD 1 KOHM 0603 1LN" H 6150 5200 50  0001 C CNN "Description"
+F 6 "Yes" H 6150 5200 50  0001 C CNN "Place"
+F 7 "Digikey" H 6150 5200 50  0001 C CNN "Dist"
+F 8 "732-1586-1-ND" H 6150 5200 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/würth-elektronik/742792664/732-1586-1-ND/1639530" H 6150 5200 50  0001 C CNN "DistLink"
+	1    6150 5200
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	5800 5200 6000 5200
+$Comp
+L Device:CP C1
+U 1 1 5FCFF4F5
+P 6600 4550
+F 0 "C1" H 6718 4596 50  0000 L CNN
+F 1 "22u" H 6718 4505 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_4x5.8" H 6638 4400 50  0001 C CNN
+F 3 "~" H 6600 4550 50  0001 C CNN
+F 4 "Aluminum Electrolytic Capacitor" H 6600 4550 50  0001 C CNN "Device"
+F 5 "CAP ALUM 22UF 20% 35V SMD" H 6600 4550 50  0001 C CNN "Description"
+F 6 "Yes" H 6600 4550 50  0001 C CNN "Place"
+F 7 "Digikey" H 6600 4550 50  0001 C CNN "Dist"
+F 8 "493-14929-1-ND" H 6600 4550 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/nichicon/UCM1V220MCL1GS/493-14929-1-ND/6555934" H 6600 4550 50  0001 C CNN "DistLink"
+	1    6600 4550
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0114
+U 1 1 5FCFF6B2
+P 6700 4800
+F 0 "#PWR0114" H 6700 4550 50  0001 C CNN
+F 1 "GND" V 6700 4600 50  0000 C CNN
+F 2 "" H 6700 4800 50  0001 C CNN
+F 3 "" H 6700 4800 50  0001 C CNN
+	1    6700 4800
+	0    -1   -1   0   
+$EndComp
+Wire Wire Line
+	6300 4400 6600 4400
+Wire Wire Line
+	6600 4400 6600 4300
+Connection ~ 6600 4400
+Wire Wire Line
+	6600 4700 6600 4800
+Wire Wire Line
+	6600 4800 6700 4800
+Connection ~ 6600 4800
+Wire Wire Line
+	6600 4800 6600 4900
+Wire Wire Line
+	6300 5200 6600 5200
+Wire Wire Line
+	6600 5200 6600 5300
+$Comp
+L power:+12V #PWR0115
+U 1 1 5FD0BA1D
+P 7000 3150
+F 0 "#PWR0115" H 7000 3000 50  0001 C CNN
+F 1 "+12V" V 7015 3278 50  0000 L CNN
+F 2 "" H 7000 3150 50  0001 C CNN
+F 3 "" H 7000 3150 50  0001 C CNN
+	1    7000 3150
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:PWR_FLAG #FLG0102
+U 1 1 5FD0BA3D
+P 7400 3150
+F 0 "#FLG0102" H 7400 3225 50  0001 C CNN
+F 1 "PWR_FLAG" H 7400 3324 50  0000 C CNN
+F 2 "" H 7400 3150 50  0001 C CNN
+F 3 "~" H 7400 3150 50  0001 C CNN
+	1    7400 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:-12V #PWR0116
+U 1 1 5FD0BA56
+P 7400 3150
+F 0 "#PWR0116" H 7400 3250 50  0001 C CNN
+F 1 "-12V" V 7415 3278 50  0000 L CNN
+F 2 "" H 7400 3150 50  0001 C CNN
+F 3 "" H 7400 3150 50  0001 C CNN
+	1    7400 3150
+	-1   0    0    1   
+$EndComp
+Wire Wire Line
+	5900 4400 5900 4500
+Wire Wire Line
+	5900 4400 6000 4400
+Wire Wire Line
+	5800 4400 5900 4400
+Connection ~ 5900 4400
+Text GLabel 5900 4500 3    50   Output ~ 0
++12R
+$Comp
+L Connector_Generic:Conn_01x06 J2
+U 1 1 5FD0BDC6
+P 8000 4000
+F 0 "J2" H 8079 3992 50  0000 L CNN
+F 1 "POWER1" H 8079 3901 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 8000 4000 50  0001 C CNN
+F 3 "~" H 8000 4000 50  0001 C CNN
+F 4 "Male Header" H 8000 4000 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 6POS 2.54MM" H 8000 4000 50  0001 C CNN "Description"
+F 6 "Yes" H 8000 4000 50  0001 C CNN "Place"
+F 7 "Digikey" H 8000 4000 50  0001 C CNN "Dist"
+F 8 "609-3272-ND" H 8000 4000 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-106HLF/609-3272-ND/1878473" H 8000 4000 50  0001 C CNN "DistLink"
+	1    8000 4000
+	1    0    0    -1  
+$EndComp
+Text GLabel 7800 4100 0    50   Input ~ 0
++12R
+$Comp
+L power:GND #PWR0117
+U 1 1 5FD0C57F
+P 7800 5000
+F 0 "#PWR0117" H 7800 4750 50  0001 C CNN
+F 1 "GND" V 7800 4800 50  0000 C CNN
+F 2 "" H 7800 5000 50  0001 C CNN
+F 3 "" H 7800 5000 50  0001 C CNN
+	1    7800 5000
+	0    1    1    0   
+$EndComp
+$Comp
+L Device:CP C2
+U 1 1 5FD0D04C
+P 6600 5050
+F 0 "C2" H 6718 5096 50  0000 L CNN
+F 1 "22u" H 6718 5005 50  0000 L CNN
+F 2 "Capacitor_SMD:CP_Elec_4x5.8" H 6638 4900 50  0001 C CNN
+F 3 "~" H 6600 5050 50  0001 C CNN
+F 4 "Aluminum Electrolytic Capacitor" H 6600 5050 50  0001 C CNN "Device"
+F 5 "CAP ALUM 22UF 20% 35V SMD" H 6600 5050 50  0001 C CNN "Description"
+F 6 "Yes" H 6600 5050 50  0001 C CNN "Place"
+F 7 "Digikey" H 6600 5050 50  0001 C CNN "Dist"
+F 8 "493-14929-1-ND" H 6600 5050 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/nichicon/UCM1V220MCL1GS/493-14929-1-ND/6555934" H 6600 5050 50  0001 C CNN "DistLink"
+	1    6600 5050
+	1    0    0    -1  
+$EndComp
+Connection ~ 6600 5200
+$Comp
+L power:+12V #PWR?
+U 1 1 5FD0C481
+P 7800 3800
+F 0 "#PWR?" H 7800 3650 50  0001 C CNN
+F 1 "+12V" V 7815 3928 50  0000 L CNN
+F 2 "" H 7800 3800 50  0001 C CNN
+F 3 "" H 7800 3800 50  0001 C CNN
+	1    7800 3800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:-12V #PWR?
+U 1 1 5FD0C4B0
+P 7800 4700
+F 0 "#PWR?" H 7800 4800 50  0001 C CNN
+F 1 "-12V" V 7815 4828 50  0000 L CNN
+F 2 "" H 7800 4700 50  0001 C CNN
+F 3 "" H 7800 4700 50  0001 C CNN
+	1    7800 4700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:-12V #PWR?
+U 1 1 5FD0C597
+P 6600 5300
+F 0 "#PWR?" H 6600 5400 50  0001 C CNN
+F 1 "-12V" V 6615 5428 50  0000 L CNN
+F 2 "" H 6600 5300 50  0001 C CNN
+F 3 "" H 6600 5300 50  0001 C CNN
+	1    6600 5300
+	-1   0    0    1   
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 5FD0C5CF
+P 6600 4300
+F 0 "#PWR?" H 6600 4150 50  0001 C CNN
+F 1 "+12V" V 6615 4428 50  0000 L CNN
+F 2 "" H 6600 4300 50  0001 C CNN
+F 3 "" H 6600 4300 50  0001 C CNN
+	1    6600 4300
+	1    0    0    -1  
+$EndComp
+Text GLabel 4700 2700 2    50   Output ~ 0
+-12E
+Text GLabel 4200 2700 0    50   Output ~ 0
+-12E
+Text GLabel 4700 3100 2    50   Output ~ 0
++12E
+Text GLabel 4200 3100 0    50   Output ~ 0
++12E
+Text GLabel 5500 5200 0    50   Input ~ 0
+-12E
+Text GLabel 5500 4400 0    50   Input ~ 0
++12E
+Text GLabel 7800 4200 0    50   Input ~ 0
++12R
+Text GLabel 7800 4300 0    50   Input ~ 0
++12R
+$Comp
+L power:+12V #PWR?
+U 1 1 5FE0EBF1
+P 7800 3900
+F 0 "#PWR?" H 7800 3750 50  0001 C CNN
+F 1 "+12V" V 7815 4028 50  0000 L CNN
+F 2 "" H 7800 3900 50  0001 C CNN
+F 3 "" H 7800 3900 50  0001 C CNN
+	1    7800 3900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:+12V #PWR?
+U 1 1 5FE0EC0E
+P 7800 4000
+F 0 "#PWR?" H 7800 3850 50  0001 C CNN
+F 1 "+12V" V 7815 4128 50  0000 L CNN
+F 2 "" H 7800 4000 50  0001 C CNN
+F 3 "" H 7800 4000 50  0001 C CNN
+	1    7800 4000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FE0EE19
+P 7800 5100
+F 0 "#PWR?" H 7800 4850 50  0001 C CNN
+F 1 "GND" V 7800 4900 50  0000 C CNN
+F 2 "" H 7800 5100 50  0001 C CNN
+F 3 "" H 7800 5100 50  0001 C CNN
+	1    7800 5100
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FE0EE36
+P 7800 5200
+F 0 "#PWR?" H 7800 4950 50  0001 C CNN
+F 1 "GND" V 7800 5000 50  0000 C CNN
+F 2 "" H 7800 5200 50  0001 C CNN
+F 3 "" H 7800 5200 50  0001 C CNN
+	1    7800 5200
+	0    1    1    0   
+$EndComp
+$Comp
+L power:-12V #PWR?
+U 1 1 5FE0EE95
+P 7800 4800
+F 0 "#PWR?" H 7800 4900 50  0001 C CNN
+F 1 "-12V" V 7815 4928 50  0000 L CNN
+F 2 "" H 7800 4800 50  0001 C CNN
+F 3 "" H 7800 4800 50  0001 C CNN
+	1    7800 4800
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:-12V #PWR?
+U 1 1 5FE0EEB2
+P 7800 4900
+F 0 "#PWR?" H 7800 5000 50  0001 C CNN
+F 1 "-12V" V 7815 5028 50  0000 L CNN
+F 2 "" H 7800 4900 50  0001 C CNN
+F 3 "" H 7800 4900 50  0001 C CNN
+	1    7800 4900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x06 J3
+U 1 1 5FE0F33D
+P 8000 4900
+F 0 "J3" H 8079 4892 50  0000 L CNN
+F 1 "POWER2" H 8079 4801 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 8000 4900 50  0001 C CNN
+F 3 "~" H 8000 4900 50  0001 C CNN
+F 4 "Male Header" H 8000 4900 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 6POS 2.54MM" H 8000 4900 50  0001 C CNN "Description"
+F 6 "Yes" H 8000 4900 50  0001 C CNN "Place"
+F 7 "Digikey" H 8000 4900 50  0001 C CNN "Dist"
+F 8 "609-3272-ND" H 8000 4900 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-106HLF/609-3272-ND/1878473" H 8000 4900 50  0001 C CNN "DistLink"
+	1    8000 4900
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC
