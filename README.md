@@ -48,6 +48,7 @@ eurorack-blocks/
    submodules/
       kcgen/
       kicad-libs/
+   switch/
 ```
 
 ### `audio-in-daisy`
@@ -81,6 +82,10 @@ eurorack-blocks/
 ### `regulator-daisy`
 
 [`regulator-daisy`](./regulator-daisy/) is a voltage regulator compatible with the Daisy Seed.
+
+### `switch`
+
+[`switch`](./switch/) is a 2 or 3 positions toggle switch.
 
 ### `kcgen`
 
