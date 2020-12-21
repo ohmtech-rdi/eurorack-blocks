@@ -17,7 +17,11 @@ _autosave-*
 # file without launching Kicad
 
 
-
 # Python temporary files
 
 *.py[cod]
+
+
+# Build temporary files
+
+artifacts/
