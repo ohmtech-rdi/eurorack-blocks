@@ -34,3 +34,24 @@ This repository contains submodules
 
 All blocks have their own directory. The `submodules` folder contains `git` submodules
 used in that repository.
+
+```
+eurorack-blocks/
+   audio-in-daisy/
+   submodules/
+      kcgen/
+      kicad-libs/
+```
+
+### `audio-in-daisy`
+
+[`audio-in-daisy`](./audio-in-daisy/) is an audio input block, meant to be used directly with [Daisy Seed](https://www.electro-smith.com/daisy/daisy) on pins 16 and 17.
+
+### `kcgen`
+
+`kcgen` is a Kicad gerber and BOM automatic generator.
+
+### `kicad-libs`
+
+`kicad-libs` is a symbol and footprint library for Kicad, containing components like
+the standard Thonk jack connector.
