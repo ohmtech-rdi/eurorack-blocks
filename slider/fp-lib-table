@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name Package_Bourns)(type KiCad)(uri /${KIPRJMOD}/../submodules/kicad-libs/footprints/Package_Bourns.pretty)(options "")(descr ""))
+)
