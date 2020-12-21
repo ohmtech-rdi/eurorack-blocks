@@ -44,6 +44,7 @@ eurorack-blocks/
    gate-in/
    gate-out/
    multiplexer/
+   led-bi/
    led-mono/
    pot/
    power-bus/
@@ -78,6 +79,10 @@ eurorack-blocks/
 ### `gate-out`
 
 [`gate-out`](./gate-out/) is a gate output block compatible with 3V3 MCU GPIOs.
+
+### `led-bi`
+
+[`led-bi`](./led-bi/) is a dichromatic LED compatible with 3V3 MCU GPIOs.
 
 ### `led-mono`
 
