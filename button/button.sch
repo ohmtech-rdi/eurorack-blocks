@@ -1,0 +1,160 @@
+EESchema Schematic File Version 4
+LIBS:button-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L power:PWR_FLAG #FLG0101
+U 1 1 5FC83467
+P 7900 4700
+F 0 "#FLG0101" H 7900 4775 50  0001 C CNN
+F 1 "PWR_FLAG" H 7900 4874 50  0000 C CNN
+F 2 "" H 7900 4700 50  0001 C CNN
+F 3 "~" H 7900 4700 50  0001 C CNN
+	1    7900 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0106
+U 1 1 5FC83485
+P 7900 4700
+F 0 "#PWR0106" H 7900 4450 50  0001 C CNN
+F 1 "GND" H 7905 4527 50  0000 C CNN
+F 2 "" H 7900 4700 50  0001 C CNN
+F 3 "" H 7900 4700 50  0001 C CNN
+	1    7900 4700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J1
+U 1 1 5FD25C62
+P 3800 4000
+F 0 "J1" H 3720 3675 50  0000 C CNN
+F 1 "POWER" H 3720 3766 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 3800 4000 50  0001 C CNN
+F 3 "~" H 3800 4000 50  0001 C CNN
+F 4 "Male Hader" H 3800 4000 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 3POS 2.54MM" H 3800 4000 50  0001 C CNN "Description"
+F 6 "No" H 3800 4000 50  0001 C CNN "Place"
+F 7 "Digikey" H 3800 4000 50  0001 C CNN "Dist"
+F 8 "609-3468-ND" H 3800 4000 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-103HLF/609-3468-ND/2023306" H 3800 4000 50  0001 C CNN "DistLink"
+	1    3800 4000
+	-1   0    0    1   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x03 J2
+U 1 1 5FD260DD
+P 6300 4000
+F 0 "J2" H 6219 3675 50  0000 C CNN
+F 1 "OUT" H 6219 3766 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 6300 4000 50  0001 C CNN
+F 3 "~" H 6300 4000 50  0001 C CNN
+F 4 "Male Hader" H 6300 4000 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 3POS 2.54MM" H 6300 4000 50  0001 C CNN "Description"
+F 6 "No" H 6300 4000 50  0001 C CNN "Place"
+F 7 "Digikey" H 6300 4000 50  0001 C CNN "Dist"
+F 8 "609-3468-ND" H 6300 4000 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-103HLF/609-3468-ND/2023306" H 6300 4000 50  0001 C CNN "DistLink"
+	1    6300 4000
+	1    0    0    1   
+$EndComp
+$Comp
+L power:GND #PWR0103
+U 1 1 5FD262CC
+P 4000 4100
+F 0 "#PWR0103" H 4000 3850 50  0001 C CNN
+F 1 "GND" V 4000 3900 50  0000 C CNN
+F 2 "" H 4000 4100 50  0001 C CNN
+F 3 "" H 4000 4100 50  0001 C CNN
+	1    4000 4100
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR0105
+U 1 1 5FD262EB
+P 6100 3900
+F 0 "#PWR0105" H 6100 3650 50  0001 C CNN
+F 1 "GND" V 6100 3700 50  0000 C CNN
+F 2 "" H 6100 3900 50  0001 C CNN
+F 3 "" H 6100 3900 50  0001 C CNN
+	1    6100 3900
+	0    1    1    0   
+$EndComp
+Text GLabel 6100 4000 0    50   Input ~ 0
+OUT
+$Comp
+L power:GND #PWR0102
+U 1 1 5FD2628F
+P 4000 3900
+F 0 "#PWR0102" H 4000 3650 50  0001 C CNN
+F 1 "GND" V 4000 3700 50  0000 C CNN
+F 2 "" H 4000 3900 50  0001 C CNN
+F 3 "" H 4000 3900 50  0001 C CNN
+	1    4000 3900
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FD27361
+P 4000 4000
+F 0 "#PWR?" H 4000 3750 50  0001 C CNN
+F 1 "GND" V 4000 3800 50  0000 C CNN
+F 2 "" H 4000 4000 50  0001 C CNN
+F 3 "" H 4000 4000 50  0001 C CNN
+	1    4000 4000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FD273E1
+P 6100 4100
+F 0 "#PWR?" H 6100 3850 50  0001 C CNN
+F 1 "GND" V 6100 3900 50  0000 C CNN
+F 2 "" H 6100 4100 50  0001 C CNN
+F 3 "" H 6100 4100 50  0001 C CNN
+	1    6100 4100
+	0    1    1    0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FD2759E
+P 4900 4000
+F 0 "#PWR?" H 4900 3750 50  0001 C CNN
+F 1 "GND" V 4900 3800 50  0000 C CNN
+F 2 "" H 4900 4000 50  0001 C CNN
+F 3 "" H 4900 4000 50  0001 C CNN
+	1    4900 4000
+	0    1    1    0   
+$EndComp
+Text GLabel 5300 4000 2    50   Output ~ 0
+OUT
+$Comp
+L Switch:SW_Push SW1
+U 1 1 5FD27819
+P 5100 4000
+F 0 "SW1" H 5100 4285 50  0000 C CNN
+F 1 "SW_Push_Dual" H 5100 4194 50  0000 C CNN
+F 2 "Button_Switch_THT:SW_PUSH_6mm_H7.3mm" H 5100 4200 50  0001 C CNN
+F 3 "https://sten-eswitch-13110800-production.s3.amazonaws.com/system/asset/product_line/data_sheet/144/TL1105.pdf" H 5100 4200 50  0001 C CNN
+F 4 "Tactile Switch" H 5100 4000 50  0001 C CNN "Device"
+F 5 "SWITCH TACTILE SPST-NO 0.05A 12V" H 5100 4000 50  0001 C CNN "Description"
+F 6 "No" H 5100 4000 50  0001 C CNN "Place"
+F 7 "Digikey" H 5100 4000 50  0001 C CNN "Dist"
+F 8 "EG1862-ND" H 5100 4000 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559" H 5100 4000 50  0001 C CNN "DistLink"
+	1    5100 4000
+	1    0    0    -1  
+$EndComp
+$EndSCHEMATC

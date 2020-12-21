@@ -39,6 +39,7 @@ used in that repository.
 eurorack-blocks/
    audio-in-daisy/
    audio-out-daisy/
+   button/
    cv-in/
    gate-in/
    multiplexer/
@@ -58,6 +59,10 @@ eurorack-blocks/
 ### `audio-out-daisy`
 
 [`audio-out-daisy`](./audio-out-daisy/) is an audio output block, meant to be used directly with [Daisy Seed](https://www.electro-smith.com/daisy/daisy) on pins 18 and 19.
+
+### `button`
+
+[`button`](./button/) is a trigger button.
 
 ### `cv-in`
 
