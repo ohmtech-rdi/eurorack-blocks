@@ -42,6 +42,7 @@ eurorack-blocks/
    button/
    cv-in/
    gate-in/
+   gate-out/
    multiplexer/
    pot/
    power-bus/
@@ -71,6 +72,10 @@ eurorack-blocks/
 ### `gate-in`
 
 [`gate-in`](./gate-in/) is a gate input block compatible with 3V3 MCU GPIOs.
+
+### `gate-out`
+
+[`gate-out`](./gate-out/) is a gate output block compatible with 3V3 MCU GPIOs.
 
 ### `multiplexer`
 
