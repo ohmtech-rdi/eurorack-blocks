@@ -24,3 +24,47 @@ All modules are considered, apart from heavily specific/utility ones.
 
 This file provides statistics feed into the `stats.py` script, which calculates correlations
 to the most popular modules, based on the number of panels ordered.
+
+
+## Daisy panel
+
+![Daisy Panel](daisy.png)
+
+The standard daisy panel provides:
+
+- 1 [`audio-in-daisy`](../audio-in-daisy/)
+- 1 [`audio-out-daisy`](../audio-out-daisy/)
+- 1 [`button`](../button/)
+- 6 [`cv-in`](../cv-in/)
+- 2 [`gate-in`](../gate-in/)
+- 2 [`led-bi`](../led-bi/)
+- 2 [`led-mono`](../led-mono/)
+- 6 [`pot`](../pot/)
+- 1 [`switch`](../switch/)
+- 3 [`trim`](../trim/)
+- 1 [`multiplexer`](../multiplexer/)
+- 1 [`power-bus`](../power-bus/)
+- 1 [`regulator-daisy`](../regulator-daisy/)
+
+Producing the latest version of the panel can be done by running the `build.py` script.
+It will create an `artifacts` folder in which the gerber files along with the BOMs are
+produced.
+
+However it is recommended to use the
+[releases artifacts](https://github.com/ohmtech-rdi/eurorack-blocks/releases).
+
+### Producing the PCB
+
+Most PCB manufacturer supports visualisation of the produced PCB. Load up the
+`panel-daisy-gerber.zip` file into their interface, and make sure the render looks
+very similar to the screenshot above.
+
+### Ordering the BOM
+
+This panel uses two distributors.
+
+- Digikey: Load the `panel-daisy-bom-digikey.csv` into their
+   [BOM manager](https://www.digikey.de/en/help/features-updates/bom-manager-tour),
+   and map the `Diki-Key Part Number` and `Quantity` headers.
+- Thonk: Thonk can't automatically process BOMs. However the `panel-daisy-bom-thonk.csv`
+   file provides links to their shop. Make sure to order the correct part in the correct quantity.
