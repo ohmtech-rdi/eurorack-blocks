@@ -7,3 +7,6 @@
 [submodule "submodules/gyp"]
 	path = submodules/gyp
 	url = https://chromium.googlesource.com/external/gyp
+[submodule "submodules/libDaisy"]
+	path = submodules/libDaisy
+	url = git@github.com:electro-smith/libDaisy.git
