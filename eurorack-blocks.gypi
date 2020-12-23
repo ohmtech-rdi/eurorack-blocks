@@ -27,6 +27,7 @@
    },
 
    'includes': [
+      './include/erb/erb.gypi',
       './submodules/libdaisy.gypi',
    ],
 
