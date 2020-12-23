@@ -73,10 +73,10 @@ F 1 "3V3" H 6930 2401 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 6850 2500 50  0001 C CNN
 F 3 "~" H 6850 2500 50  0001 C CNN
 F 4 "Male Header" H 6850 2500 50  0001 C CNN "Device"
-F 5 "CONN HEADER VERT 6POS 2.54MM" H 6850 2500 50  0001 C CNN "Description"
+F 5 "CONN HEADER VERT 2POS 2.54MM" H 6850 2500 50  0001 C CNN "Description"
 F 6 "No" H 6850 2500 50  0001 C CNN "Place"
 F 7 "Digikey" H 6850 2500 50  0001 C CNN "Dist"
-F 8 "609-3272-ND" H 6850 2500 50  0001 C CNN "DistPartNumber"
+F 8 "609-3506-ND" H 6850 2500 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-106HLF/609-3272-ND/1878473" H 6850 2500 50  0001 C CNN "DistLink"
 	1    6850 2500
 	1    0    0    -1  
@@ -115,7 +115,7 @@ F 4 "Potentiometer" H 5150 2800 50  0001 C CNN "Device"
 F 5 "ALPHA 9MM POTS – VERTICAL D-SHAFT" H 5150 2800 50  0001 C CNN "Description"
 F 6 "No" H 5150 2800 50  0001 C CNN "Place"
 F 7 "Thonk" H 5150 2800 50  0001 C CNN "Dist"
-F 8 "B100K" H 5150 2800 50  0001 C CNN "DistPartNumber"
+F 8 "RD901F-B100K" H 5150 2800 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.thonk.co.uk/shop/alpha-9mm-pots-dshaft/" H 5150 2800 50  0001 C CNN "DistLink"
 	1    5150 2800
 	1    0    0    -1  
@@ -183,12 +183,6 @@ F 0 "J3" H 6930 2692 50  0000 L CNN
 F 1 "GND" H 6930 2601 50  0000 L CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" H 6850 2700 50  0001 C CNN
 F 3 "~" H 6850 2700 50  0001 C CNN
-F 4 "Male Header" H 6850 2700 50  0001 C CNN "Device"
-F 5 "CONN HEADER VERT 6POS 2.54MM" H 6850 2700 50  0001 C CNN "Description"
-F 6 "No" H 6850 2700 50  0001 C CNN "Place"
-F 7 "Digikey" H 6850 2700 50  0001 C CNN "Dist"
-F 8 "609-3272-ND" H 6850 2700 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-106HLF/609-3272-ND/1878473" H 6850 2700 50  0001 C CNN "DistLink"
 	1    6850 2700
 	1    0    0    -1  
 $EndComp
