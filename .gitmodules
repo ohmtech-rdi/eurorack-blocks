@@ -4,3 +4,6 @@
 [submodule "submodules/kicad-libs"]
 	path = submodules/kicad-libs
 	url = git@github.com:ohmtech/kicad-libs.git
+[submodule "submodules/gyp"]
+	path = submodules/gyp
+	url = https://chromium.googlesource.com/external/gyp
