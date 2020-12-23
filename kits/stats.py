@@ -34,20 +34,14 @@ Name : make_target
 """
 
 def make_target ():
-   return {
-      'audio-in': 1,
-      'audio-out': 1,
-      'button': 1,
-      'cv-in': 6,
-      #'cv-out': 0,
-      'gate-in': 2,
-      #'gate-out': 0,
-      'led-bi': 2,
-      'led-mono': 2,
-      'pot': 6,
-      'switch': 1,
-      'trim': 3,
-   }
+   conf = open (os.path.join (PATH_THIS, 'panel-daisy-conf.py'), "r").read ()
+   dict = eval (conf)
+   dict ['audio-in'] = dict.pop ('audio-in-daisy')
+   dict ['audio-out'] = dict.pop ('audio-out-daisy')
+   dict.pop ('multiplexer')
+   dict.pop ('power-bus')
+   dict.pop ('regulator-daisy')
+   return dict
 
 
 

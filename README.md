@@ -43,6 +43,7 @@ eurorack-blocks/
    cv-in/
    gate-in/
    gate-out/
+   kits/
    multiplexer/
    led-bi/
    led-mono/
@@ -80,6 +81,10 @@ eurorack-blocks/
 ### `gate-out`
 
 [`gate-out`](./gate-out/) is a gate output block compatible with 3V3 MCU GPIOs.
+
+### `kits`
+
+[`kits`](./kits/) contains panelized blocks standard kits.
 
 ### `led-bi`
 
