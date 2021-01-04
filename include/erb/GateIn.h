@@ -37,10 +37,10 @@ public:
 
    enum class Mode
    {
-      RisingEdge, FallingEdge, Gate
+      Trigger, Gate
    };
 
-                  GateIn (Module & module, const dsy_gpio_pin & pin, Mode mode = Mode::RisingEdge);
+                  GateIn (Module & module, const dsy_gpio_pin & pin, Mode mode = Mode::Trigger);
    virtual        ~GateIn () override = default;
 
    void           set_mode (Mode mode);
