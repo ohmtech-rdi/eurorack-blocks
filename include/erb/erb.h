@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Button.h"
 #include "erb/CvIn.h"
 #include "erb/GateIn.h"
 #include "erb/GateOut.h"
@@ -29,7 +30,6 @@ namespace erb
 
 
 
-using Button = GateIn;
 using Pot = CvIn;
 using Trim = CvIn;
 

@@ -19,6 +19,7 @@
             # headers
             'erb.h',
             'AdcChannels.h',
+            'Button.h',
             'Control.h',
             'Controls.h',
             'CvIn.h',
@@ -34,6 +35,7 @@
             # sources
             '../../src/erb.cpp',
             '../../src/AdcChannels.cpp',
+            '../../src/Button.cpp',
             '../../src/Controls.cpp',
             '../../src/CvIn.cpp',
             '../../src/GateIn.cpp',
