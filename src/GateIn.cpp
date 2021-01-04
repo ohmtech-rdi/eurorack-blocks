@@ -62,16 +62,13 @@ GateIn::operator bool () const
 {
    switch (_mode)
    {
-   case Mode::RisingEdge:
+   case Mode::Trigger:
       return _current && !_previous;
-
-   case Mode::FallingEdge:
-      return _previous && !_current;
 
    case Mode::Gate:
       return _current;
 
-#if defined (__GNUC__)
+#if defined (__GNUC__) && ! defined (__clang__)
    default:
       return false;
 #endif
