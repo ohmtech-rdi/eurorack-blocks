@@ -34,7 +34,7 @@
   )
 
   (setup
-    (last_trace_width 0.4064)
+    (last_trace_width 0.1524)
     (user_trace_width 0.1524)
     (user_trace_width 0.254)
     (user_trace_width 0.4064)
@@ -264,7 +264,7 @@
   (gr_text GND (at 106.18 59.825) (layer F.SilkS) (tstamp 5FD2688E)
     (effects (font (size 1 0.8) (thickness 0.15)))
   )
-  (gr_text "LED\nmono" (at 105.156 68.58) (layer F.SilkS) (tstamp 5FC9695F)
+  (gr_text LED (at 105.156 68.58) (layer F.SilkS) (tstamp 5FC9695F)
     (effects (font (size 1 0.95) (thickness 0.15)))
   )
   (gr_line (start 101 56) (end 101 75) (layer Edge.Cuts) (width 0.15))
