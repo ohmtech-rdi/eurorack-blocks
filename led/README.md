@@ -1,4 +1,4 @@
-# led-mono
+# led
 
 ## Description
 

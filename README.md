@@ -114,8 +114,8 @@ eurorack-blocks/
    include/
    kits/
    multiplexer/
+   led/
    led-bi/
-   led-mono/
    pot/
    power-bus/
    regulator-daisy/
@@ -160,13 +160,13 @@ eurorack-blocks/
 
 [`kits`](./kits/) contains panelized blocks standard kits.
 
+### `led`
+
+[`led`](./led/) is a monochromatic LED compatible with 3V3 MCU GPIOs.
+
 ### `led-bi`
 
 [`led-bi`](./led-bi/) is a dichromatic LED compatible with 3V3 MCU GPIOs.
-
-### `led-mono`
-
-[`led-mono`](./led-mono/) is a monochromatic LED compatible with 3V3 MCU GPIOs.
 
 ### `multiplexer`
 

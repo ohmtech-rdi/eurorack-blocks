@@ -39,8 +39,8 @@ Name : build
 
 def build ():
    args = lambda: None
-   args.input_net = os.path.join (PATH_THIS, 'led-mono.net')
-   args.input_pcb = os.path.join (PATH_THIS, 'led-mono.kicad_pcb')
+   args.input_net = os.path.join (PATH_THIS, 'led.net')
+   args.input_pcb = os.path.join (PATH_THIS, 'led.kicad_pcb')
    args.manufacturer = 'pcbpool'
    args.output_dir = os.path.join (PATH_THIS, 'artifacts')
 
