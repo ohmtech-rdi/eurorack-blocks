@@ -30,7 +30,7 @@ namespace erb
 
 
 using Button = GateIn;
-using Knob = CvIn;
+using Pot = CvIn;
 using Trim = CvIn;
 
 static constexpr float sample_rate = 48014.f;
