@@ -39,10 +39,7 @@ namespace erb
 
 
 
-class CvIn;
-class GateIn;
-class GateOut;
-class Led;
+class AnalogControlBase;
 
 class Module
 {
@@ -61,7 +58,7 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    uint32_t       now_ms ();
-   void           add (CvIn & cv_in, const dsy_gpio_pin & pin);
+   void           add (AnalogControlBase & control, const dsy_gpio_pin & pin);
    void           add (Control & control);
 
 
