@@ -110,7 +110,7 @@ def check ():
    check_block_test ('led')
    check_block_test ('led-bi')
    #check_block_test ('multiplexer')
-   #check_block_test ('pot')
+   check_block_test ('pot')
    #check_block_test ('slider')
    check_block_test ('switch')
    #check_block_test ('trim')
