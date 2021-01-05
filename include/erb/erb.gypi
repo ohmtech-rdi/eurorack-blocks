@@ -31,6 +31,7 @@
             'Module.h',
             'Module.hpp',
             'Pins.h',
+            'Pot.h',
             'Switch.h',
 
             # sources
@@ -45,6 +46,7 @@
             '../../src/Led.cpp',
             '../../src/LedBi.cpp',
             '../../src/Module.cpp',
+            '../../src/Pot.cpp',
             '../../src/Switch.cpp',
          ],
 
