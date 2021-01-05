@@ -147,15 +147,15 @@ L Device:C C1
 U 1 1 5FC94BD6
 P 4950 1900
 F 0 "C1" V 4698 1900 50  0000 C CNN
-F 1 "1n" V 4789 1900 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 4988 1750 50  0001 C CNN
+F 1 "33n" V 4789 1900 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0805_2012Metric" H 4988 1750 50  0001 C CNN
 F 3 "~" H 4950 1900 50  0001 C CNN
 F 4 "Ceramic Capacitor" H 4950 1900 50  0001 C CNN "Device"
-F 5 "CAP CER 1000PF 50V C0G/NP0 0603" H 4950 1900 50  0001 C CNN "Description"
+F 5 "CAP CER 0.033UF 50V C0G 0805" H 4950 1900 50  0001 C CNN "Description"
 F 6 "Yes" H 4950 1900 50  0001 C CNN "Place"
 F 7 "Digikey" H 4950 1900 50  0001 C CNN "Dist"
-F 8 "399-3293-1-ND" H 4950 1900 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/kemet/C0603C102J5GACTU/399-3293-1-ND/608488" H 4950 1900 50  0001 C CNN "DistLink"
+F 8 "445-7523-1-ND" H 4950 1900 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/tdk-corporation/C2012C0G1H333J125AA/445-7523-1-ND/2733595" H 4950 1900 50  0001 C CNN "DistLink"
 	1    4950 1900
 	0    1    1    0   
 $EndComp
