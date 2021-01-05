@@ -429,7 +429,7 @@ Wire Wire Line
 Connection ~ 5200 3900
 Wire Wire Line
 	5200 3900 5500 3900
-Text GLabel 7700 2800 0    50   Output ~ 0
+Text GLabel 7700 3100 0    50   Output ~ 0
 NOP
 Text GLabel 3600 2800 2    50   Input ~ 0
 NOP
@@ -540,7 +540,7 @@ F 3 "" H 7700 1700 50  0001 C CNN
 	1    7700 1700
 	0    1    1    0   
 $EndComp
-Text GLabel 7700 2700 0    50   Input ~ 0
+Text GLabel 7700 2900 0    50   Input ~ 0
 OUT
 Text GLabel 5600 2800 2    50   Output ~ 0
 OUT
@@ -549,35 +549,24 @@ Wire Wire Line
 Connection ~ 5400 2800
 $Comp
 L power:GND #PWR?
-U 1 1 5FD62436
-P 7700 2900
-F 0 "#PWR?" H 7700 2650 50  0001 C CNN
-F 1 "GND" V 7700 2700 50  0000 C CNN
-F 2 "" H 7700 2900 50  0001 C CNN
-F 3 "" H 7700 2900 50  0001 C CNN
-	1    7700 2900
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR?
 U 1 1 5FD6245B
-P 7700 3000
-F 0 "#PWR?" H 7700 2750 50  0001 C CNN
-F 1 "GND" V 7700 2800 50  0000 C CNN
-F 2 "" H 7700 3000 50  0001 C CNN
-F 3 "" H 7700 3000 50  0001 C CNN
-	1    7700 3000
+P 7700 2800
+F 0 "#PWR?" H 7700 2550 50  0001 C CNN
+F 1 "GND" V 7700 2600 50  0000 C CNN
+F 2 "" H 7700 2800 50  0001 C CNN
+F 3 "" H 7700 2800 50  0001 C CNN
+	1    7700 2800
 	0    1    1    0   
 $EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5FD62480
-P 7700 3100
-F 0 "#PWR?" H 7700 2850 50  0001 C CNN
-F 1 "GND" V 7700 2900 50  0000 C CNN
-F 2 "" H 7700 3100 50  0001 C CNN
-F 3 "" H 7700 3100 50  0001 C CNN
-	1    7700 3100
+P 7700 2700
+F 0 "#PWR?" H 7700 2450 50  0001 C CNN
+F 1 "GND" V 7700 2500 50  0000 C CNN
+F 2 "" H 7700 2700 50  0001 C CNN
+F 3 "" H 7700 2700 50  0001 C CNN
+	1    7700 2700
 	0    1    1    0   
 $EndComp
 $Comp
@@ -591,4 +580,10 @@ F 3 "" H 7700 3200 50  0001 C CNN
 	1    7700 3200
 	0    1    1    0   
 $EndComp
+Text GLabel 3900 2500 1    50   Output ~ 0
+DI
+Wire Wire Line
+	3900 2500 3900 2700
+Text GLabel 7700 3000 0    50   Input ~ 0
+DI
 $EndSCHEMATC
