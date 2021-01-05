@@ -67,10 +67,10 @@ Name : add
 ==============================================================================
 */
 
-void  Module::add (CvIn & cv_in, const dsy_gpio_pin & pin)
+void  Module::add (AnalogControlBase & control, const dsy_gpio_pin & pin)
 {
-   _adc_channels.add (cv_in, pin);
-   _controls.add (cv_in);
+   _adc_channels.add (control, pin);
+   _controls.add (control);
 }
 
 

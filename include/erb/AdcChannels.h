@@ -31,7 +31,7 @@ namespace erb
 
 
 
-class CvIn;
+class AnalogControlBase;
 
 class AdcChannels
 {
@@ -42,7 +42,7 @@ public:
                   AdcChannels (daisy::DaisySeed & seed);
    virtual        ~AdcChannels () = default;
 
-   void           add (CvIn & cv_in, const dsy_gpio_pin & pin);
+   void           add (AnalogControlBase & control, const dsy_gpio_pin & pin);
 
    void           init ();
 
@@ -63,7 +63,8 @@ protected:
 private:
    struct Channel
    {
-      CvIn *      cv_in_ptr = nullptr;
+      AnalogControlBase *
+                  control_ptr = nullptr;
       dsy_gpio_pin
                   pin;
    };

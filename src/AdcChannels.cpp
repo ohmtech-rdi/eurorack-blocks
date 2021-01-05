@@ -11,7 +11,7 @@
 
 #include "erb/AdcChannels.h"
 
-#include "erb/CvIn.h"
+#include "erb/AnalogControlBase.h"
 
 #if defined (__GNUC__)
    #pragma GCC diagnostic push
@@ -54,12 +54,12 @@ Name : add
 ==============================================================================
 */
 
-void  AdcChannels::add (CvIn & cv_in, const dsy_gpio_pin & pin)
+void  AdcChannels::add (AnalogControlBase & control, const dsy_gpio_pin & pin)
 {
    auto & channel = _channels [_nbr_adc_channel];
    ++_nbr_adc_channel;
 
-   channel.cv_in_ptr = &cv_in;
+   channel.control_ptr = &control;
    channel.pin = pin;
 }
 
@@ -88,8 +88,9 @@ void  AdcChannels::init ()
    for (size_t i = 0 ; i < _nbr_adc_channel ; ++i)
    {
       const auto & channel = _channels [i];
-      auto cv_in_ptr = channel.cv_in_ptr;
-      cv_in_ptr->impl_bind (_seed.adc.GetPtr (i));
+      auto control_ptr = channel.control_ptr;
+
+      control_ptr->impl_bind (_seed.adc.GetPtr (i));
    }
 }
 

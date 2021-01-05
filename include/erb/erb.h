@@ -21,6 +21,7 @@
 #include "erb/LedBi.h"
 #include "erb/Module.h"
 #include "erb/Pins.h"
+#include "erb/Pot.h"
 #include "erb/Switch.h"
 
 
@@ -30,8 +31,7 @@ namespace erb
 
 
 
-using Pot = CvIn;
-using Trim = CvIn;
+using Trim = Pot;
 
 static constexpr float sample_rate = 48014.f;
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      CvIn.h
+      Pot.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -27,7 +27,7 @@ namespace erb
 
 class Module;
 
-class CvIn
+class Pot
 :  public AnalogControlBase
 {
 
@@ -35,9 +35,15 @@ class CvIn
 
 public:
 
-                  CvIn (Module & module, const AdcPin & pin);
-   virtual        ~CvIn () override = default;
+   enum class Mode
+   {
+      Normalized, Bipolar
+   };
 
+                  Pot (Module & module, const AdcPin & pin, Mode mode = Mode::Normalized);
+   virtual        ~Pot () override = default;
+
+   void           set_mode (Mode mode);
                   operator float () const;
 
 
@@ -56,22 +62,24 @@ protected:
 
 private:
 
+   Mode           _mode;
+
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  CvIn () = delete;
-                  CvIn (const CvIn & rhs) = delete;
-                  CvIn (CvIn && rhs) = delete;
-   CvIn &         operator = (const CvIn & rhs) = delete;
-   CvIn &         operator = (CvIn && rhs) = delete;
-   bool           operator == (const CvIn & rhs) const = delete;
-   bool           operator != (const CvIn & rhs) const = delete;
+                  Pot () = delete;
+                  Pot (const Pot & rhs) = delete;
+                  Pot (Pot && rhs) = delete;
+   Pot &          operator = (const Pot & rhs) = delete;
+   Pot &          operator = (Pot && rhs) = delete;
+   bool           operator == (const Pot & rhs) const = delete;
+   bool           operator != (const Pot & rhs) const = delete;
 
 
 
-}; // class CvIn
+}; // class Pot
 
 
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      CvIn.cpp
+      Pot.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/CvIn.h"
+#include "erb/Pot.h"
 
 #include "erb/Module.h"
 
@@ -26,9 +26,23 @@ Name : ctor
 ==============================================================================
 */
 
-CvIn::CvIn (Module & module, const AdcPin & pin)
+Pot::Pot (Module & module, const AdcPin & pin, Mode mode)
 :  AnalogControlBase (module, pin)
+,  _mode (mode)
 {
+}
+
+
+
+/*
+==============================================================================
+Name : set_mode
+==============================================================================
+*/
+
+void  Pot::set_mode (Mode mode)
+{
+   _mode = mode;
 }
 
 
@@ -39,9 +53,19 @@ Name : operator float
 ==============================================================================
 */
 
-CvIn::operator float () const
+Pot::operator float () const
 {
-   return norm_val () * 2.f - 1.f;
+   switch (_mode)
+   {
+   case Mode::Normalized:
+#if defined (__GNUC__) && ! defined (__clang__)
+   default:
+#endif
+      return norm_val ();
+
+   case Mode::Bipolar:
+      return norm_val () * 2.f - 1.f;
+   }
 }
 
 

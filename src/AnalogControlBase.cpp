@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      CvIn.cpp
+      AnalogControlBase.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/CvIn.h"
+#include "erb/AnalogControlBase.h"
 
 #include "erb/Module.h"
 
@@ -26,27 +26,52 @@ Name : ctor
 ==============================================================================
 */
 
-CvIn::CvIn (Module & module, const AdcPin & pin)
-:  AnalogControlBase (module, pin)
+AnalogControlBase::AnalogControlBase (Module & module, const AdcPin & pin)
 {
+   module.add (*this, pin.pin);
 }
 
 
 
 /*
 ==============================================================================
-Name : operator float
+Name : norm_val
 ==============================================================================
 */
 
-CvIn::operator float () const
+float AnalogControlBase::norm_val () const
 {
-   return norm_val () * 2.f - 1.f;
+   return _norm_val;
 }
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+void  AnalogControlBase::impl_bind (uint16_t * val_u16_ptr)
+{
+   _val_u16_ptr = val_u16_ptr;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_process
+==============================================================================
+*/
+
+void  AnalogControlBase::impl_process ()
+{
+   constexpr float u16_to_norm = 1.f / 65535.f;
+   _norm_val = 1.f - float (*_val_u16_ptr) * u16_to_norm;
+}
 
 
 

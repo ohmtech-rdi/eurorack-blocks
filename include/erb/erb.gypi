@@ -19,6 +19,7 @@
             # headers
             'erb.h',
             'AdcChannels.h',
+            'AnalogControlBase.h',
             'Button.h',
             'Control.h',
             'Controls.h',
@@ -30,11 +31,13 @@
             'Module.h',
             'Module.hpp',
             'Pins.h',
+            'Pot.h',
             'Switch.h',
 
             # sources
             '../../src/erb.cpp',
             '../../src/AdcChannels.cpp',
+            '../../src/AnalogControlBase.cpp',
             '../../src/Button.cpp',
             '../../src/Controls.cpp',
             '../../src/CvIn.cpp',
@@ -43,6 +46,7 @@
             '../../src/Led.cpp',
             '../../src/LedBi.cpp',
             '../../src/Module.cpp',
+            '../../src/Pot.cpp',
             '../../src/Switch.cpp',
          ],
 
