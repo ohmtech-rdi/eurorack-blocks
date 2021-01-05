@@ -74,10 +74,10 @@ int main ()
    module.run ([&](auto out, auto /* in */, auto size){
       for (size_t i = 0 ; i < size ; ++i)
       {
-         osc1.set_freq (20.f * std::pow (500.f, ctrl_2));
+         osc1.set_freq (20.f * std::pow (500.f, std::abs (ctrl_2)));
          auto out_val = osc1.process () * ctrl_1;
 
-         osc2.set_freq (20.f * std::pow (500.f, ctrl_4));
+         osc2.set_freq (20.f * std::pow (500.f, std::abs (ctrl_4)));
          out_val += osc2.process () * ctrl_3;
 
          out [0][i] = out_val;
