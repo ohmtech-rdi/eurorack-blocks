@@ -27,8 +27,8 @@ Name : ctor
 */
 
 CvIn::CvIn (Module & module, const AdcPin & pin)
+:  AnalogControlBase (module, pin)
 {
-   module.add (*this, pin.pin);
 }
 
 
@@ -41,37 +41,12 @@ Name : operator float
 
 CvIn::operator float () const
 {
-   return _val;
+   return norm_val () * 2.f - 1.f;
 }
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-void  CvIn::impl_bind (uint16_t * val_ptr)
-{
-   _val_ptr = val_ptr;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_process
-==============================================================================
-*/
-
-void  CvIn::impl_process ()
-{
-   constexpr float scaler = 1.f / 65535.f;
-   _val = 1.f - float (*_val_ptr) * scaler;
-}
 
 
 
