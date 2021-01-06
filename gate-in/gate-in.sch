@@ -116,17 +116,6 @@ F 3 "~" H 8300 4700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0113
-U 1 1 5FC94F2A
-P 7700 3000
-F 0 "#PWR0113" H 7700 2750 50  0001 C CNN
-F 1 "GND" V 7700 2800 50  0000 C CNN
-F 2 "" H 7700 3000 50  0001 C CNN
-F 3 "" H 7700 3000 50  0001 C CNN
-	1    7700 3000
-	0    1    1    0   
-$EndComp
-$Comp
 L power:GND #PWR0115
 U 1 1 5FC9AC4F
 P 4200 2500
@@ -169,7 +158,7 @@ F 3 "" H 7700 2300 50  0001 C CNN
 	1    7700 2300
 	0    -1   -1   0   
 $EndComp
-Text GLabel 7700 2900 0    50   Output ~ 0
+Text GLabel 7700 3000 0    50   Output ~ 0
 NOP
 Text GLabel 4100 2800 2    50   Input ~ 0
 NOP
@@ -254,7 +243,7 @@ $EndComp
 Wire Wire Line
 	5900 2900 5900 3000
 Wire Wire Line
-	4100 2700 4400 2700
+	4100 2700 4350 2700
 Wire Wire Line
 	4700 2700 4800 2700
 Connection ~ 4800 2700
@@ -390,4 +379,13 @@ F 3 "" H 7700 2200 50  0001 C CNN
 	1    7700 2200
 	0    1    1    0   
 $EndComp
+Text GLabel 7700 2900 0    50   Input ~ 0
+DI
+Text GLabel 4350 2500 1    50   Output ~ 0
+DI
+Wire Wire Line
+	4350 2500 4350 2700
+Connection ~ 4350 2700
+Wire Wire Line
+	4350 2700 4400 2700
 $EndSCHEMATC
