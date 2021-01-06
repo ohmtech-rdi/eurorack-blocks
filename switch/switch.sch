@@ -37,28 +37,6 @@ F 3 "" H 7900 4700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:PWR_FLAG #FLG0102
-U 1 1 5FC9450D
-P 8300 4700
-F 0 "#FLG0102" H 8300 4775 50  0001 C CNN
-F 1 "PWR_FLAG" H 8300 4874 50  0000 C CNN
-F 2 "" H 8300 4700 50  0001 C CNN
-F 3 "~" H 8300 4700 50  0001 C CNN
-	1    8300 4700
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:+3V3 #PWR0104
-U 1 1 5FCAE1B5
-P 8300 4700
-F 0 "#PWR0104" H 8300 4550 50  0001 C CNN
-F 1 "+3V3" H 8315 4873 50  0000 C CNN
-F 2 "" H 8300 4700 50  0001 C CNN
-F 3 "" H 8300 4700 50  0001 C CNN
-	1    8300 4700
-	-1   0    0    1   
-$EndComp
-$Comp
 L Connector_Generic:Conn_01x03 J1
 U 1 1 5FD25C62
 P 3700 4000
@@ -91,17 +69,6 @@ F 8 "609-3468-ND" H 6300 4000 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/amphenol-icc-fci/68001-103HLF/609-3468-ND/2023306" H 6300 4000 50  0001 C CNN "DistLink"
 	1    6300 4000
 	1    0    0    1   
-$EndComp
-$Comp
-L power:+3V3 #PWR0101
-U 1 1 5FD26234
-P 3900 4000
-F 0 "#PWR0101" H 3900 3850 50  0001 C CNN
-F 1 "+3V3" V 3915 4128 50  0000 L CNN
-F 2 "" H 3900 4000 50  0001 C CNN
-F 3 "" H 3900 4000 50  0001 C CNN
-	1    3900 4000
-	0    1    1    0   
 $EndComp
 $Comp
 L power:GND #PWR0102
@@ -157,19 +124,30 @@ F 9 "https://www.thonk.co.uk/shop/sub-mini-toggle-switches/" H 5000 4000 50  000
 	1    5000 4000
 	1    0    0    -1  
 $EndComp
-$Comp
-L power:+3V3 #PWR0107
-U 1 1 5FD25A40
-P 4800 4000
-F 0 "#PWR0107" H 4800 3850 50  0001 C CNN
-F 1 "+3V3" V 4815 4128 50  0000 L CNN
-F 2 "" H 4800 4000 50  0001 C CNN
-F 3 "" H 4800 4000 50  0001 C CNN
-	1    4800 4000
-	0    -1   -1   0   
-$EndComp
 Text GLabel 5200 4100 2    50   Output ~ 0
 OUT0
 Text GLabel 5200 3900 2    50   Output ~ 0
 OUT1
+$Comp
+L power:GND #PWR?
+U 1 1 5FF6361E
+P 3900 4000
+F 0 "#PWR?" H 3900 3750 50  0001 C CNN
+F 1 "GND" V 3900 3800 50  0000 C CNN
+F 2 "" H 3900 4000 50  0001 C CNN
+F 3 "" H 3900 4000 50  0001 C CNN
+	1    3900 4000
+	0    -1   -1   0   
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 5FF6362F
+P 4800 4000
+F 0 "#PWR?" H 4800 3750 50  0001 C CNN
+F 1 "GND" V 4800 3800 50  0000 C CNN
+F 2 "" H 4800 4000 50  0001 C CNN
+F 3 "" H 4800 4000 50  0001 C CNN
+	1    4800 4000
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC
