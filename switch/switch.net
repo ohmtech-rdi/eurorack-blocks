@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/switch/switch.sch)
-    (date "2020 December 13, Sunday 14:13:40")
+    (date "2021 January 06, Wednesday 22:26:52")
     (tool "Eeschema (5.0.0-3-g5ebb6b6)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -48,7 +48,7 @@
       (footprint Switch_Thonk:SW_SPDT_Dailywell)
       (datasheet https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf)
       (fields
-        (field (name Description) "Switch SPDT ON-OFF-ON")
+        (field (name Description) "DW2 - SPDT ON-OFF-ON - Dailywell Sub-mini Toggle Switch")
         (field (name Device) "Toggle Switch")
         (field (name Dist) Thonk)
         (field (name DistLink) https://www.thonk.co.uk/shop/sub-mini-toggle-switches/)
@@ -94,7 +94,7 @@
       (node (ref SW1) (pin 2)))
     (net (code 3) (name OUT0)
       (node (ref J2) (pin 1))
-      (node (ref SW1) (pin 1)))
+      (node (ref SW1) (pin 3)))
     (net (code 4) (name OUT1)
       (node (ref J2) (pin 3))
-      (node (ref SW1) (pin 3)))))
+      (node (ref SW1) (pin 1)))))
