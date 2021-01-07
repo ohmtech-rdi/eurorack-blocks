@@ -17,18 +17,18 @@ $EndDescr
 $Comp
 L Connector:AudioJack2_Ground_Switch J1
 U 1 1 5FC82E98
-P 3900 2700
-F 0 "J1" H 3904 3042 50  0000 C CNN
-F 1 "IN" H 3904 2951 50  0000 C CNN
-F 2 "Connector_Thonk:ThonkiconnJack" H 3900 2700 50  0001 C CNN
-F 3 "~" H 3900 2700 50  0001 C CNN
-F 4 "Jack Connector" H 3900 2700 50  0001 C CNN "Device"
-F 5 "Thonkiconn – 3.5mm Jack Sockets" H 3900 2700 50  0001 C CNN "Description"
-F 6 "No" H 3900 2700 50  0001 C CNN "Place"
-F 7 "Thonk" H 3900 2700 50  0001 C CNN "Dist"
-F 8 "PJ398SM" H 3900 2700 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.thonk.co.uk/shop/thonkiconn/" H 3900 2700 50  0001 C CNN "DistLink"
-	1    3900 2700
+P 3600 2700
+F 0 "J1" H 3604 3042 50  0000 C CNN
+F 1 "IN" H 3604 2951 50  0000 C CNN
+F 2 "Connector_Thonk:ThonkiconnJack" H 3600 2700 50  0001 C CNN
+F 3 "~" H 3600 2700 50  0001 C CNN
+F 4 "Jack Connector" H 3600 2700 50  0001 C CNN "Device"
+F 5 "Thonkiconn – 3.5mm Jack Sockets" H 3600 2700 50  0001 C CNN "Description"
+F 6 "No" H 3600 2700 50  0001 C CNN "Place"
+F 7 "Thonk" H 3600 2700 50  0001 C CNN "Dist"
+F 8 "PJ398SM" H 3600 2700 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.thonk.co.uk/shop/thonkiconn/" H 3600 2700 50  0001 C CNN "DistLink"
+	1    3600 2700
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -376,8 +376,6 @@ F 9 "https://www.digikey.de/product-detail/en/avx-corporation/06035A561GAT2A/478
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	4100 2700 4200 2700
-Wire Wire Line
 	4500 2700 4600 2700
 Wire Wire Line
 	4700 2900 4600 2900
@@ -446,18 +444,18 @@ Wire Wire Line
 $Comp
 L power:GND #PWR0115
 U 1 1 5FC9AC4F
-P 4200 2500
-F 0 "#PWR0115" H 4200 2250 50  0001 C CNN
-F 1 "GND" H 4205 2327 50  0000 C CNN
-F 2 "" H 4200 2500 50  0001 C CNN
-F 3 "" H 4200 2500 50  0001 C CNN
-	1    4200 2500
+P 3900 2500
+F 0 "#PWR0115" H 3900 2250 50  0001 C CNN
+F 1 "GND" H 3905 2327 50  0000 C CNN
+F 2 "" H 3900 2500 50  0001 C CNN
+F 3 "" H 3900 2500 50  0001 C CNN
+	1    3900 2500
 	-1   0    0    1   
 $EndComp
 Wire Wire Line
-	4100 2600 4200 2600
+	3800 2600 3900 2600
 Wire Wire Line
-	4200 2600 4200 2500
+	3900 2600 3900 2500
 $Comp
 L power:GND #PWR?
 U 1 1 5FCA3B5D
@@ -552,21 +550,10 @@ Text GLabel 7300 2900 2    50   Output ~ 0
 OUT
 Text GLabel 7700 1800 0    50   Input ~ 0
 OUT
-Text GLabel 7700 1900 0    50   Output ~ 0
+Text GLabel 7700 2000 0    50   Output ~ 0
 NOP
-Text GLabel 4100 2800 2    50   Input ~ 0
+Text GLabel 3800 2800 2    50   Input ~ 0
 NOP
-$Comp
-L power:GND #PWR?
-U 1 1 5FE0F15E
-P 7700 2000
-F 0 "#PWR?" H 7700 1750 50  0001 C CNN
-F 1 "GND" V 7700 1800 50  0000 C CNN
-F 2 "" H 7700 2000 50  0001 C CNN
-F 3 "" H 7700 2000 50  0001 C CNN
-	1    7700 2000
-	0    1    1    0   
-$EndComp
 $Comp
 L power:GND #PWR?
 U 1 1 5FE0F187
@@ -600,4 +587,15 @@ F 3 "" H 7700 2300 50  0001 C CNN
 	1    7700 2300
 	0    1    1    0   
 $EndComp
+Text GLabel 4100 2600 1    50   Output ~ 0
+DI
+Wire Wire Line
+	3800 2700 4100 2700
+Wire Wire Line
+	4100 2600 4100 2700
+Connection ~ 4100 2700
+Wire Wire Line
+	4100 2700 4200 2700
+Text GLabel 7700 1900 0    50   Input ~ 0
+DI
 $EndSCHEMATC
