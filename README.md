@@ -44,7 +44,7 @@ sure to update the submodules, as described below.
 
 Producing the PCBs gerbers requires:
 
-- [Kicad 5](http://kicad-pcb.org/download/)
+- [Kicad 5.1.9](http://kicad-pcb.org/download/)
 
 
 ## Cloning
