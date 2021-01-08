@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:audio-out-daisy-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -15,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:AudioJack2_Ground_Switch J2
+L Connector:AudioJack2_SwitchT J2
 U 1 1 5FC82E98
 P 7500 2900
 F 0 "J2" H 7504 3242 50  0000 C CNN
