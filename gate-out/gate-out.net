@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/gate-out/gate-out.sch)
-    (date "2020 December 13, Sunday 14:25:15")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:02:56")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -26,7 +26,7 @@
         (field (name DistLink) https://www.thonk.co.uk/shop/thonkiconn/)
         (field (name DistPartNumber) PJ398SM)
         (field (name Place) No))
-      (libsource (lib Connector) (part AudioJack2_Ground_Switch) (description "Audio Jack, 2 Poles (Mono / TS), Switched Pole (Normalling)"))
+      (libsource (lib Connector) (part AudioJack2_SwitchT) (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FC82E98))
     (comp (ref R2)
@@ -114,12 +114,14 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD29F91)))
   (libparts
-    (libpart (lib Connector) (part AudioJack2_Ground_Switch)
-      (description "Audio Jack, 2 Poles (Mono / TS), Switched Pole (Normalling)")
+    (libpart (lib Connector) (part AudioJack2_SwitchT)
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
       (docs ~)
+      (footprints
+        (fp Jack*))
       (fields
         (field (name Reference) J)
-        (field (name Value) AudioJack2_Ground_Switch))
+        (field (name Value) AudioJack2_SwitchT))
       (pins
         (pin (num S) (name ~) (type passive))
         (pin (num T) (name ~) (type passive))
@@ -153,6 +155,7 @@
     (libpart (lib Transistor_BJT) (part BC817)
       (aliases
         (alias BC818)
+        (alias BC846)
         (alias BC847)
         (alias BC848)
         (alias BC849)
@@ -161,7 +164,7 @@
         (alias MMBT5550L)
         (alias MMBT5551L))
       (description "0.8A Ic, 45V Vce, NPN Transistor, SOT-23")
-      (docs http://www.fairchildsemi.com/ds/BC/BC817.pdf)
+      (docs https://www.onsemi.com/pub/Collateral/BC818-D.pdf)
       (footprints
         (fp SOT?23*))
       (fields
