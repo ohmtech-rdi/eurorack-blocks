@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/gate-in/gate-in.sch)
-    (date "2021 January 06, Wednesday 17:27:02")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:01:57")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -26,7 +26,7 @@
         (field (name DistLink) https://www.thonk.co.uk/shop/thonkiconn/)
         (field (name DistPartNumber) PJ398SM)
         (field (name Place) No))
-      (libsource (lib Connector) (part AudioJack2_Ground_Switch) (description "Audio Jack, 2 Poles (Mono / TS), Switched Pole (Normalling)"))
+      (libsource (lib Connector) (part AudioJack2_SwitchT) (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FC82E98))
     (comp (ref R1)
@@ -128,12 +128,14 @@
       (sheetpath (names /) (tstamps /))
       (tstamp 5FCAF962)))
   (libparts
-    (libpart (lib Connector) (part AudioJack2_Ground_Switch)
-      (description "Audio Jack, 2 Poles (Mono / TS), Switched Pole (Normalling)")
+    (libpart (lib Connector) (part AudioJack2_SwitchT)
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
       (docs ~)
+      (footprints
+        (fp Jack*))
       (fields
         (field (name Reference) J)
-        (field (name Value) AudioJack2_Ground_Switch))
+        (field (name Value) AudioJack2_SwitchT))
       (pins
         (pin (num S) (name ~) (type passive))
         (pin (num T) (name ~) (type passive))
@@ -183,7 +185,7 @@
         (alias BAW76)
         (alias BAY93))
       (description "100V 0.15A standard switching diode, DO-35")
-      (docs http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf)
+      (docs https://assets.nexperia.com/documents/data-sheet/1N4148_1N4448.pdf)
       (footprints
         (fp D*DO?35*))
       (fields
@@ -196,6 +198,7 @@
     (libpart (lib Transistor_BJT) (part BC817)
       (aliases
         (alias BC818)
+        (alias BC846)
         (alias BC847)
         (alias BC848)
         (alias BC849)
@@ -204,7 +207,7 @@
         (alias MMBT5550L)
         (alias MMBT5551L))
       (description "0.8A Ic, 45V Vce, NPN Transistor, SOT-23")
-      (docs http://www.fairchildsemi.com/ds/BC/BC817.pdf)
+      (docs https://www.onsemi.com/pub/Collateral/BC818-D.pdf)
       (footprints
         (fp SOT?23*))
       (fields

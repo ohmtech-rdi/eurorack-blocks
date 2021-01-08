@@ -1,6 +1,5 @@
 EESchema Schematic File Version 4
-LIBS:gate-in-cache
-EELAYER 26 0
+EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
@@ -15,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:AudioJack2_Ground_Switch J1
+L Connector:AudioJack2_SwitchT J1
 U 1 1 5FC82E98
 P 3900 2700
 F 0 "J1" H 3904 3042 50  0000 C CNN
