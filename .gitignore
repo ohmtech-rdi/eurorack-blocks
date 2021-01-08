@@ -5,6 +5,7 @@
 *.bak
 *.bck
 *.kicad_pcb-bak
+*.sch-bak
 *~
 _autosave-*
 *.tmp
@@ -12,6 +13,7 @@ _autosave-*
 *-rescue.lib
 *-save.pro
 *-save.kicad_pcb
+fp-info-cache
 
 # Don't ignore exported .net files to allow to build pcb production
 # file without launching Kicad
