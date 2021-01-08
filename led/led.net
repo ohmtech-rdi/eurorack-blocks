@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/led/led.sch)
-    (date "2020 December 13, Sunday 16:02:30")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:04:16")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -54,7 +54,7 @@
         (field (name DistLink) https://www.digikey.de/product-detail/en/kingbright/WP710A10GD/754-1603-ND/2769808)
         (field (name DistPartNumber) 754-1603-ND)
         (field (name Place) No))
-      (libsource (lib Device) (part LED) (description "LED generic"))
+      (libsource (lib Device) (part LED) (description "Light emitting diode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD62DCA))
     (comp (ref J2)
@@ -84,7 +84,7 @@
         (pin (num 1) (name Pin_1) (type passive))
         (pin (num 2) (name Pin_2) (type passive))))
     (libpart (lib Device) (part LED)
-      (description "LED generic")
+      (description "Light emitting diode")
       (docs ~)
       (footprints
         (fp LED*)
