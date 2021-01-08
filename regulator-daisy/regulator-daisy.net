@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/regulator-daisy/regulator-daisy.sch)
-    (date "2020 December 09, Wednesday 19:23:51")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:09:09")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -67,7 +67,7 @@
         (field (name DistLink) https://www.digikey.de/product-detail/en/tdk-corporation/MLZ2012M330WT000/445-6399-1-ND/2465725)
         (field (name DistPartNumber) 445-6399-1-ND)
         (field (name Place) Yes))
-      (libsource (lib pspice) (part INDUCTOR) (description ""))
+      (libsource (lib pspice) (part INDUCTOR) (description "Inductor symbol for simulation only"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD11C44))
     (comp (ref C3)
@@ -95,7 +95,7 @@
         (field (name DistLink) https://www.digikey.de/product-detail/en/nichicon/UUA1C100MCL1GS/493-6446-1-ND/3438960)
         (field (name DistPartNumber) 493-6446-1-ND)
         (field (name Place) Yes))
-      (libsource (lib Device) (part CP) (description "Polarised capacitor"))
+      (libsource (lib Device) (part CP) (description "Polarized capacitor"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD12A19))
     (comp (ref J1)
@@ -152,7 +152,7 @@
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
     (libpart (lib Device) (part CP)
-      (description "Polarised capacitor")
+      (description "Polarized capacitor")
       (docs ~)
       (footprints
         (fp CP_*))
@@ -201,6 +201,8 @@
         (pin (num 2) (name GND) (type power_in))
         (pin (num 3) (name OUT) (type power_out))))
     (libpart (lib pspice) (part INDUCTOR)
+      (description "Inductor symbol for simulation only")
+      (docs ~)
       (fields
         (field (name Reference) L)
         (field (name Value) INDUCTOR))
