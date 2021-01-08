@@ -154,8 +154,8 @@ void  Module::audio_callback (float ** in, float ** out, size_t size)
 
    _audio_callback (out, in, size);
 
-   // prevent the codec from clipping
-   constexpr float gain_out = 0.7f;
+   // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
+   constexpr float gain_out = 0.433f;
 
    for (size_t i = 0 ; i < size ; ++i)
    {
