@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/switch/switch.sch)
-    (date "2021 January 06, Wednesday 23:11:03")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:11:11")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -72,6 +72,7 @@
         (pin (num 3) (name Pin_3) (type passive))))
     (libpart (lib Switch) (part SW_SPDT)
       (description "Switch, single pole double throw")
+      (docs ~)
       (fields
         (field (name Reference) SW)
         (field (name Value) SW_SPDT))

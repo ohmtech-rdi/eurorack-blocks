@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/cv-in/cv-in.sch)
-    (date "2021 January 05, Tuesday 20:54:27")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:00:59")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -26,7 +26,7 @@
         (field (name DistLink) https://www.thonk.co.uk/shop/thonkiconn/)
         (field (name DistPartNumber) PJ398SM)
         (field (name Place) No))
-      (libsource (lib Connector) (part AudioJack2_Ground_Switch) (description "Audio Jack, 2 Poles (Mono / TS), Switched Pole (Normalling)"))
+      (libsource (lib Connector) (part AudioJack2_SwitchT) (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FC82E98))
     (comp (ref R1)
@@ -180,7 +180,7 @@
         (field (name DistLink) https://www.digikey.de/product-detail/en/epcos-tdk-electronics/B72500D0160H060/495-3420-1-ND/1589671)
         (field (name DistPartNumber) 495-3420-1-ND)
         (field (name Place) Yes))
-      (libsource (lib Device) (part D_TVS) (description "Bidirectional transient-voltage-suppression (TVS) diode"))
+      (libsource (lib Device) (part D_TVS) (description "Bidirectional transient-voltage-suppression diode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FCAD855))
     (comp (ref C3)
@@ -200,7 +200,7 @@
   (libparts
     (libpart (lib Amplifier_Operational) (part LMV321)
       (aliases
-        (alias MCP6561U)
+        (alias MCP6401UT-xOT)
         (alias MCP6001U)
         (alias OPA333xxDCK)
         (alias OPA376xxDCK)
@@ -219,12 +219,14 @@
         (pin (num 3) (name -) (type input))
         (pin (num 4) (name ~) (type output))
         (pin (num 5) (name V+) (type power_in))))
-    (libpart (lib Connector) (part AudioJack2_Ground_Switch)
-      (description "Audio Jack, 2 Poles (Mono / TS), Switched Pole (Normalling)")
+    (libpart (lib Connector) (part AudioJack2_SwitchT)
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
       (docs ~)
+      (footprints
+        (fp Jack*))
       (fields
         (field (name Reference) J)
-        (field (name Value) AudioJack2_Ground_Switch))
+        (field (name Value) AudioJack2_SwitchT))
       (pins
         (pin (num S) (name ~) (type passive))
         (pin (num T) (name ~) (type passive))
@@ -256,7 +258,7 @@
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
     (libpart (lib Device) (part D_TVS)
-      (description "Bidirectional transient-voltage-suppression (TVS) diode")
+      (description "Bidirectional transient-voltage-suppression diode")
       (docs ~)
       (footprints
         (fp TO-???*)
@@ -293,7 +295,7 @@
       (footprints
         (fp SOT?23*))
       (fields
-        (field (name Reference) D)
+        (field (name Reference) U)
         (field (name Value) LM4040DBZ-2.0)
         (field (name Footprint) Package_TO_SOT_SMD:SOT-23))
       (pins

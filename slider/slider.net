@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/slider/slider.sch)
-    (date "2020 December 13, Sunday 20:37:49")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:10:17")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -121,7 +121,7 @@
       (description "Generic connector, single row, 01x01, script generated (kicad-library-utils/schlib/autogen/connector/)")
       (docs ~)
       (footprints
-        (fp Connector*:*))
+        (fp Connector*:*_1x??_*))
       (fields
         (field (name Reference) J)
         (field (name Value) Conn_01x01))

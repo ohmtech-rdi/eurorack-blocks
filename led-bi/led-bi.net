@@ -1,8 +1,8 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/led-bi/led-bi.sch)
-    (date "2020 December 13, Sunday 16:47:57")
-    (tool "Eeschema (5.0.0-3-g5ebb6b6)")
+    (date "2021 January 08, Friday 21:05:14")
+    (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
         (title)
@@ -54,7 +54,7 @@
         (field (name DistLink) https://www.digikey.de/product-detail/en/kingbright/WP3VEGW/754-1221-ND/1747620)
         (field (name DistPartNumber) 754-1221-ND)
         (field (name Place) No))
-      (libsource (lib Device) (part LED_Dual_ACA) (description "LED dual, common cathode"))
+      (libsource (lib Device) (part LED_Dual_ACA) (description "Dual LED, common cathode on pin 2"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD639C8))
     (comp (ref R1)
@@ -99,7 +99,7 @@
         (pin (num 2) (name Pin_2) (type passive))
         (pin (num 3) (name Pin_3) (type passive))))
     (libpart (lib Device) (part LED_Dual_ACA)
-      (description "LED dual, common cathode")
+      (description "Dual LED, common cathode on pin 2")
       (docs ~)
       (footprints
         (fp LED*)
