@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Controls.cpp
+      ModuleListeners.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,9 +9,9 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Controls.h"
+#include "erb/ModuleListeners.h"
 
-#include "erb/Control.h"
+#include "erb/ModuleListener.h"
 
 
 
@@ -28,28 +28,45 @@ Name : add
 ==============================================================================
 */
 
-void  Controls::add (Control & control)
+void  ModuleListeners::add (ModuleListener & listener)
 {
-   auto & control_ptr = _controls [_nbr_control];
-   ++_nbr_control;
+   auto & listener_ptr = _listeners [_nbr_listener];
+   ++_nbr_listener;
 
-   control_ptr = &control;
+   listener_ptr = &listener;
 }
 
 
 
 /*
 ==============================================================================
-Name : process
+Name : notify_audio_buffer_start
 ==============================================================================
 */
 
-void  Controls::process ()
+void  ModuleListeners::notify_audio_buffer_start ()
 {
-   for (size_t i = 0 ; i < _nbr_control ; ++i)
+   for (size_t i = 0 ; i < _nbr_listener ; ++i)
    {
-      auto control_ptr = _controls [i];
-      control_ptr->impl_process ();
+      auto listener_ptr = _listeners [i];
+      listener_ptr->impl_notify_audio_buffer_start ();
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : notify_audio_buffer_end
+==============================================================================
+*/
+
+void  ModuleListeners::notify_audio_buffer_end ()
+{
+   for (size_t i = 0 ; i < _nbr_listener ; ++i)
+   {
+      auto listener_ptr = _listeners [i];
+      listener_ptr->impl_notify_audio_buffer_end ();
    }
 }
 

@@ -31,7 +31,7 @@ Name : run
 template <typename F>
 void  Module::run (F && f)
 {
-   _audio_callback = std::forward <F> (f);
+   _buffer_callback = std::forward <F> (f);
 
    do_run ();
 }

@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Controls.h
+      ModuleListeners.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -22,20 +22,21 @@ namespace erb
 
 
 
-class Control;
+class ModuleListener;
 
-class Controls
+class ModuleListeners
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Controls () = default;
-   virtual        ~Controls () = default;
+                  ModuleListeners () = default;
+   virtual        ~ModuleListeners () = default;
 
-   void           add (Control & control);
+   void           add (ModuleListener & control);
 
-   void           process ();
+   void           notify_audio_buffer_start ();
+   void           notify_audio_buffer_end ();
 
 
 
@@ -53,25 +54,27 @@ protected:
 
 private:
    enum {         NBR_MAX_GPIO = 31 };
-   std::array <Control *, NBR_MAX_GPIO>
-                  _controls = {};
-   size_t         _nbr_control = 0;
+   std::array <ModuleListener *, NBR_MAX_GPIO>
+                  _listeners = {};
+   size_t         _nbr_listener = 0;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Controls (const Controls & rhs) = delete;
-                  Controls (Controls && rhs) = delete;
-   Controls &     operator = (const Controls & rhs) = delete;
-   Controls &     operator = (Controls && rhs) = delete;
-   bool           operator == (const Controls & rhs) const = delete;
-   bool           operator != (const Controls & rhs) const = delete;
+                  ModuleListeners (const ModuleListeners & rhs) = delete;
+                  ModuleListeners (ModuleListeners && rhs) = delete;
+   ModuleListeners &
+                  operator = (const ModuleListeners & rhs) = delete;
+   ModuleListeners &
+                  operator = (ModuleListeners && rhs) = delete;
+   bool           operator == (const ModuleListeners & rhs) const = delete;
+   bool           operator != (const ModuleListeners & rhs) const = delete;
 
 
 
-}; // class Controls
+}; // class ModuleListeners
 
 
 

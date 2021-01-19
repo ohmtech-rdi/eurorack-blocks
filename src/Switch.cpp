@@ -56,14 +56,14 @@ Switch::operator Position () const
 
 /*
 ==============================================================================
-Name : impl_process
+Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  Switch::impl_process ()
+void  Switch::impl_notify_audio_buffer_start ()
 {
-   _gate_0.impl_process ();
-   _gate_1.impl_process ();
+   _gate_0.impl_notify_audio_buffer_start ();
+   _gate_1.impl_notify_audio_buffer_start ();
 
    if (_gate_0)
    {

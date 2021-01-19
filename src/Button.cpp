@@ -81,11 +81,11 @@ bool  Button::released () const
 
 /*
 ==============================================================================
-Name : impl_process
+Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  Button::impl_process ()
+void  Button::impl_notify_audio_buffer_start ()
 {
    _state = uint8_t (_state << 1) | dsy_gpio_read (&_gpio);
 }

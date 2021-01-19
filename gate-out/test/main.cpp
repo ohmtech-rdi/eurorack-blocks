@@ -26,21 +26,20 @@ int main ()
    using namespace erb;
 
    Module module;
+   AudioInDaisy audio_in (module);
+   AudioOutDaisy audio_out (module);
 
    // Pin is the same as the GATE OUT on Daisy Patch
    GateOut gate_out (module, Pin17);
 
    uint32_t phase = 0;
 
-   module.run ([&](auto out, auto in, auto size){
-      for (size_t i = 0 ; i < size ; ++i)
-      {
-         out [0][i] = in [0][i];
-         out [1][i] = in [1][i];
-      }
+   module.run ([&](){
+      audio_out [0] = audio_in [0];
+      audio_out [1] = audio_in [1];
 
       auto old_sec = phase / 48014;
-      phase += size;
+      phase += audio_in.size ();
       auto new_sec = phase / 48014;
 
       if (old_sec != new_sec)
