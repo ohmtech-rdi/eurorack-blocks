@@ -23,13 +23,14 @@ Name : main
 
 int main ()
 {
-   erb::Module module;
+   using namespace erb;
 
-   module.run ([&](auto out, auto in, auto size){
-      for (size_t i = 0 ; i < size ; ++i)
-      {
-         out [0][i] = in [0][i];
-         out [1][i] = in [1][i];
-      }
+   Module module;
+   AudioInDaisy audio_in (module);
+   AudioOutDaisy audio_out (module);
+
+   module.run ([&](){
+      audio_out.left = audio_in.left;
+      audio_out.right = audio_in.right;
    });
 }

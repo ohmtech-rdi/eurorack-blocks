@@ -31,11 +31,5 @@ int main ()
 
    led.blink ();
 
-   module.run ([&](auto out, auto in, auto size){
-      for (size_t i = 0 ; i < size ; ++i)
-      {
-         out [0][i] = in [0][i];
-         out [1][i] = in [1][i];
-      }
-   });
+   module.run ([&](){});
 }
