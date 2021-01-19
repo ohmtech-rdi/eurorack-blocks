@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Control.h
+      ModuleListener.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -20,21 +20,22 @@ namespace erb
 
 
 
-class Control
+class ModuleListener
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-                  Control () = default;
-   virtual        ~Control () = default;
+                  ModuleListener () = default;
+   virtual        ~ModuleListener () = default;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   virtual void   impl_process () = 0;
+   virtual void   impl_notify_audio_buffer_start () = 0;
+   virtual void   impl_notify_audio_buffer_end () {}
 
 
 
@@ -53,16 +54,18 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Control (const Control & rhs) = delete;
-                  Control (Control && rhs) = delete;
-   Control &      operator = (const Control & rhs) = delete;
-   Control &      operator = (Control && rhs) = delete;
-   bool           operator == (const Control & rhs) const = delete;
-   bool           operator != (const Control & rhs) const = delete;
+                  ModuleListener (const ModuleListener & rhs) = delete;
+                  ModuleListener (ModuleListener && rhs) = delete;
+   ModuleListener &
+                  operator = (const ModuleListener & rhs) = delete;
+   ModuleListener &
+                  operator = (ModuleListener && rhs) = delete;
+   bool           operator == (const ModuleListener & rhs) const = delete;
+   bool           operator != (const ModuleListener & rhs) const = delete;
 
 
 
-}; // class Control
+}; // class ModuleListener
 
 
 

@@ -63,11 +63,11 @@ void  AnalogControlBase::impl_bind (uint16_t * val_u16_ptr)
 
 /*
 ==============================================================================
-Name : impl_process
+Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  AnalogControlBase::impl_process ()
+void  AnalogControlBase::impl_notify_audio_buffer_start ()
 {
    constexpr float u16_to_norm = 1.f / 65535.f;
    _norm_val = 1.f - float (*_val_u16_ptr) * u16_to_norm;

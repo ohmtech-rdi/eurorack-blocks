@@ -118,11 +118,11 @@ void  Led::blink (std::chrono::milliseconds half_period)
 
 /*
 ==============================================================================
-Name : impl_process
+Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  Led::impl_process ()
+void  Led::impl_notify_audio_buffer_start ()
 {
    if (_mode == Mode::Pulse)
    {

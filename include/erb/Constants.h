@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      erb.h
+      Constants.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,20 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Constants.h"
-
-#include "erb/AudioInDaisy.h"
-#include "erb/AudioOutDaisy.h"
-#include "erb/Button.h"
-#include "erb/CvIn.h"
-#include "erb/GateIn.h"
-#include "erb/GateOut.h"
-#include "erb/Led.h"
-#include "erb/LedBi.h"
-#include "erb/Module.h"
-#include "erb/Pins.h"
-#include "erb/Pot.h"
-#include "erb/Switch.h"
+#include <cstddef>
 
 
 
@@ -35,7 +22,9 @@ namespace erb
 
 
 
-using Trim = Pot;
+static constexpr float sample_rate = 48014.f;
+static constexpr size_t buffer_size = 48;
+static constexpr size_t onboard_codec_nbr_channel = 2;
 
 
 

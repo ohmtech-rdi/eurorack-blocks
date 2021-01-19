@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Control.h"
+#include "erb/ModuleListener.h"
 #include "erb/Pins.h"
 
 #include <cstdint>
@@ -28,7 +28,7 @@ namespace erb
 class Module;
 
 class AnalogControlBase
-:  public Control
+:  public ModuleListener
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -46,8 +46,8 @@ public:
 
    void           impl_bind (uint16_t * val_u16_ptr);
 
-   // Control
-   virtual void   impl_process () override;
+   // ModuleListener
+   virtual void   impl_notify_audio_buffer_start () override;
 
 
 

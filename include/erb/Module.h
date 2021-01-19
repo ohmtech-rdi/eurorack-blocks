@@ -14,7 +14,8 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/AdcChannels.h"
-#include "erb/Controls.h"
+#include "erb/Constants.h"
+#include "erb/ModuleListeners.h"
 
 #if defined (__GNUC__)
    #pragma GCC diagnostic push
@@ -47,6 +48,9 @@ class Module
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   using Frame = std::array <float, buffer_size>;
+   using Buffer = std::array <Frame, onboard_codec_nbr_channel>;
+
                   Module ();
    virtual        ~Module () = default;
 
@@ -59,7 +63,10 @@ public:
 
    uint32_t       now_ms ();
    void           add (AnalogControlBase & control, const dsy_gpio_pin & pin);
-   void           add (Control & control);
+   void           add (ModuleListener & listener);
+
+   const Buffer & impl_onboard_codec_buffer_input () const;
+   Buffer &       impl_onboard_codec_buffer_output ();
 
 
 
@@ -72,9 +79,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   using AudioCallbackSignature = void (float * const /* out */ [], const float * const /* in */ [], size_t /* size */);
-
    void           enable_fz ();
 
    void           do_run ();
@@ -87,11 +91,15 @@ private:
 
    daisy::DaisySeed
                   _seed;
-   std::function <AudioCallbackSignature>
-                  _audio_callback;
+   std::function <void ()>
+                  _buffer_callback;
+
+   Buffer         _onboard_codec_buffer_input;
+   Buffer         _onboard_codec_buffer_output;
 
    AdcChannels    _adc_channels;
-   Controls       _controls;
+   ModuleListeners
+                  _listeners;
 
 
 

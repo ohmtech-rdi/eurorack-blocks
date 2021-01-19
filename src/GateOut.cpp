@@ -101,11 +101,11 @@ void  GateOut::trigger (std::chrono::milliseconds duration)
 
 /*
 ==============================================================================
-Name : impl_process
+Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  GateOut::impl_process ()
+void  GateOut::impl_notify_audio_buffer_start ()
 {
    if (_mode == Mode::Pulse)
    {

@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Control.h"
+#include "erb/ModuleListener.h"
 
 #include "daisy_core.h"
 #include "per/gpio.h"
@@ -34,7 +34,7 @@ using namespace std::chrono_literals;
 class Module;
 
 class GateOut
-:  public Control
+:  public ModuleListener
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -51,8 +51,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   // Control
-   virtual void   impl_process () override;
+   // ModuleListener
+   virtual void   impl_notify_audio_buffer_start () override;
 
 
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Button.h
+      AudioInDaisy.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,10 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Constants.h"
 #include "erb/ModuleListener.h"
 
-#include "daisy_core.h"
-#include "per/gpio.h"
+#include <array>
 
 
 
@@ -27,19 +27,24 @@ namespace erb
 
 class Module;
 
-class Button
+class AudioInDaisy
 :  public ModuleListener
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Button (Module & module, const dsy_gpio_pin & pin);
-   virtual        ~Button () override = default;
 
-   bool           pressed () const;
-   bool           held () const;
-   bool           released () const;
+   using Frame = std::array <float, buffer_size>;
+
+                  AudioInDaisy (Module & module);
+   virtual        ~AudioInDaisy () override = default;
+
+   size_t         size () const;
+   const Frame &  operator [] (size_t index) const;
+
+   Frame          left;
+   Frame          right;
 
 
 
@@ -60,29 +65,24 @@ protected:
 
 private:
 
-   static dsy_gpio
-                  to_gpio (const dsy_gpio_pin & pin);
-
-   const dsy_gpio _gpio;
-
-   uint8_t        _state = 0xff;
+   Module &       _module;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Button () = delete;
-                  Button (const Button & rhs) = delete;
-                  Button (Button && rhs) = delete;
-   Button &       operator = (const Button & rhs) = delete;
-   Button &       operator = (Button && rhs) = delete;
-   bool           operator == (const Button & rhs) const = delete;
-   bool           operator != (const Button & rhs) const = delete;
+                  AudioInDaisy () = delete;
+                  AudioInDaisy (const AudioInDaisy & rhs) = delete;
+                  AudioInDaisy (AudioInDaisy && rhs) = delete;
+   AudioInDaisy & operator = (const AudioInDaisy & rhs) = delete;
+   AudioInDaisy & operator = (AudioInDaisy && rhs) = delete;
+   bool           operator == (const AudioInDaisy & rhs) const = delete;
+   bool           operator != (const AudioInDaisy & rhs) const = delete;
 
 
 
-}; // class Button
+}; // class AudioInDaisy
 
 
 

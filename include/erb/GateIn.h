@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Control.h"
+#include "erb/ModuleListener.h"
 
 #include "daisy_core.h"
 #include "per/gpio.h"
@@ -28,7 +28,7 @@ namespace erb
 class Module;
 
 class GateIn
-:  public Control
+:  public ModuleListener
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -52,8 +52,8 @@ public:
 
                   GateIn (const dsy_gpio_pin & pin, Mode mode);
 
-   // Control
-   virtual void   impl_process () override;
+   // ModuleListener
+   virtual void   impl_notify_audio_buffer_start () override;
 
 
 

@@ -42,6 +42,8 @@ Module::Module ()
 
    _seed.Configure ();
    _seed.Init (boost);
+
+   for (auto & frame : _onboard_codec_buffer_output) frame.fill (0.f);
 }
 
 
@@ -70,7 +72,7 @@ Name : add
 void  Module::add (AnalogControlBase & control, const dsy_gpio_pin & pin)
 {
    _adc_channels.add (control, pin);
-   _controls.add (control);
+   _listeners.add (control);
 }
 
 
@@ -81,9 +83,35 @@ Name : add
 ==============================================================================
 */
 
-void  Module::add (Control & control)
+void  Module::add (ModuleListener & listener)
 {
-   _controls.add (control);
+   _listeners.add (listener);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_onboard_codec_buffer_input
+==============================================================================
+*/
+
+const Module::Buffer &  Module::impl_onboard_codec_buffer_input () const
+{
+   return _onboard_codec_buffer_input;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_onboard_codec_buffer_output
+==============================================================================
+*/
+
+Module::Buffer &  Module::impl_onboard_codec_buffer_output ()
+{
+   return _onboard_codec_buffer_output;
 }
 
 
@@ -148,19 +176,41 @@ Name : audio_callback
 ==============================================================================
 */
 
-void  Module::audio_callback (float ** in, float ** out, size_t size)
+void  Module::audio_callback (float ** in, float ** out, size_t /* size */)
 {
-   _controls.process ();
+   // Map eurorack audio level (-5V, 5V) to (-1.f, 1.f)
+   constexpr float gain_in = 2.3f;
 
-   _audio_callback (out, in, size);
+   for (size_t i = 0 ; i < onboard_codec_nbr_channel ; ++i)
+   {
+      auto & frame = _onboard_codec_buffer_input [i];
+      const auto & in_arr = in [i];
+
+      for (size_t j = 0 ; j < buffer_size ; ++j)
+      {
+         frame [j] = gain_in * in_arr [j];
+      }
+   }
+
+   _listeners.notify_audio_buffer_start ();
+
+   _buffer_callback ();
+
+   _listeners.notify_audio_buffer_end ();
 
    // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
+   // 10V / (0.7 x 3.3V x 10) = 0.433
    constexpr float gain_out = 0.433f;
 
-   for (size_t i = 0 ; i < size ; ++i)
+   for (size_t i = 0 ; i < onboard_codec_nbr_channel ; ++i)
    {
-      out [0][i] *= gain_out;
-      out [1][i] *= gain_out;
+      auto & out_arr = out [i];
+      const auto & frame = _onboard_codec_buffer_output [i];
+
+      for (size_t j = 0 ; j < buffer_size ; ++j)
+      {
+         out_arr [j] = gain_out * frame [j];
+      }
    }
 }
 

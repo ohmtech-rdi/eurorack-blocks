@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Control.h"
+#include "erb/ModuleListener.h"
 #include "erb/GateIn.h"
 
 
@@ -26,7 +26,7 @@ namespace erb
 class Module;
 
 class Switch
-:  public Control
+:  public ModuleListener
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -47,8 +47,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   // Control
-   virtual void   impl_process () override;
+   // ModuleListener
+   virtual void   impl_notify_audio_buffer_start () override;
 
 
 

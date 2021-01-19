@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      GateIn.cpp
+      AudioInDaisy.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/GateIn.h"
+#include "erb/AudioInDaisy.h"
 
 #include "erb/Module.h"
 
@@ -30,9 +30,8 @@ Name : ctor
 ==============================================================================
 */
 
-GateIn::GateIn (Module & module, const dsy_gpio_pin & pin, Mode mode)
-:  _gpio (to_gpio (pin))
-,  _mode (mode)
+AudioInDaisy::AudioInDaisy (Module & module)
+:  _module (module)
 {
    module.add (*this);
 }
@@ -41,37 +40,33 @@ GateIn::GateIn (Module & module, const dsy_gpio_pin & pin, Mode mode)
 
 /*
 ==============================================================================
-Name : set_mode
+Name : size
 ==============================================================================
 */
 
-void  GateIn::set_mode (Mode mode)
+size_t   AudioInDaisy::size () const
 {
-   _mode = mode;
+   return buffer_size;
 }
 
 
 
 /*
 ==============================================================================
-Name : operator bool
+Name : operator []
 ==============================================================================
 */
 
-GateIn::operator bool () const
+const AudioInDaisy::Frame &   AudioInDaisy::operator [] (size_t index) const
 {
-   switch (_mode)
+   switch (index)
    {
-   case Mode::Trigger:
-      return _current && !_previous;
-
-   case Mode::Gate:
-      return _current;
-
-#if defined (__GNUC__) && ! defined (__clang__)
+   case 0:
    default:
-      return false;
-#endif
+      return left;
+
+   case 1:
+      return right;
    }
 }
 
@@ -81,49 +76,16 @@ GateIn::operator bool () const
 
 /*
 ==============================================================================
-Name : ctor
-==============================================================================
-*/
-
-GateIn::GateIn (const dsy_gpio_pin & pin, Mode mode)
-:  _gpio (to_gpio (pin))
-,  _mode (mode)
-{
-}
-
-
-
-/*
-==============================================================================
 Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  GateIn::impl_notify_audio_buffer_start ()
+void  AudioInDaisy::impl_notify_audio_buffer_start ()
 {
-   _previous = _current;
+   const auto & buffer = _module.impl_onboard_codec_buffer_input ();
 
-   _current = ! dsy_gpio_read (&_gpio);
-}
-
-
-
-/*
-==============================================================================
-Name : to_gpio
-==============================================================================
-*/
-
-dsy_gpio GateIn::to_gpio (const dsy_gpio_pin & pin)
-{
-   dsy_gpio gpio;
-   gpio.pin = pin;
-   gpio.mode = DSY_GPIO_MODE_INPUT;
-   gpio.pull = DSY_GPIO_NOPULL;
-
-   dsy_gpio_init (&gpio);
-
-   return gpio;
+   left = buffer [0];
+   right = buffer [1];
 }
 
 
