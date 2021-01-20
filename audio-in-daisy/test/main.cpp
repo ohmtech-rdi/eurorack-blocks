@@ -27,11 +27,11 @@ int main ()
 
    Module module;
 
-   AudioInDaisy audio_in_left (module, AudioInDaisy::Pin::Left);
-   AudioInDaisy audio_in_right (module, AudioInDaisy::Pin::Right);
+   AudioInDaisy audio_in_left (module, AudioInDaisyPinLeft);
+   AudioInDaisy audio_in_right (module, AudioInDaisyPinRight);
 
-   AudioOutDaisy audio_out_left (module, AudioOutDaisy::Pin::Left);
-   AudioOutDaisy audio_out_right (module, AudioOutDaisy::Pin::Right);
+   AudioOutDaisy audio_out_left (module, AudioOutDaisyPinLeft);
+   AudioOutDaisy audio_out_right (module, AudioOutDaisyPinRight);
 
    module.run ([&](){
       audio_out_left = audio_in_left;
