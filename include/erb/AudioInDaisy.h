@@ -50,7 +50,7 @@ public:
                   operator Buffer () const;
 
    size_t         size () const;
-   float          operator [] (size_t index);
+   const float &  operator [] (size_t index);
 
 
 
