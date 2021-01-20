@@ -71,7 +71,7 @@ Name : operator []
 ==============================================================================
 */
 
-float AudioInDaisy::operator [] (size_t index)
+const float &  AudioInDaisy::operator [] (size_t index)
 {
    return _buffer [index];
 }
