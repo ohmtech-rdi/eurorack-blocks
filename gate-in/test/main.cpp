@@ -26,7 +26,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out (module);
+   AudioOutDaisy audio_out0 (module, AudioOutDaisy::Pin::Channel0);
+   AudioOutDaisy audio_out1 (module, AudioOutDaisy::Pin::Channel1);
 
    // Pins are the same as the GATE IN 1/2 on Daisy Patch
    GateIn gate_in_1 (module, Pin20);
@@ -35,7 +36,7 @@ int main ()
    module.run ([&](){
       auto out_val = (gate_in_1 || gate_in_2) ? 1.f : 0.f;
 
-      audio_out [0].fill (out_val);
-      audio_out [1].fill (out_val);
+      audio_out0.fill (out_val);
+      audio_out1.fill (out_val);
    });
 }

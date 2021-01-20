@@ -28,7 +28,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out (module);
+   AudioOutDaisy audio_out0 (module, AudioOutDaisy::Pin::Channel0);
+   AudioOutDaisy audio_out1 (module, AudioOutDaisy::Pin::Channel1);
    Switch switch_ (module, Pin19, Pin20);
 
    constexpr float pim2 = 2.f * float (M_PI);
@@ -40,7 +41,7 @@ int main ()
    float pos_sin = 0.f;
 
    module.run ([&](){
-      for (size_t i = 0 ; i < audio_out.size () ; ++i)
+      for (size_t i = 0 ; i < audio_out0.size () ; ++i)
       {
          const float old_cos = pos_cos;
          const float old_sin = pos_sin;
@@ -64,8 +65,8 @@ int main ()
             break;
          }
 
-         audio_out [0][i] = out_val;
-         audio_out [1][i] = out_val;
+         audio_out0 [i] = out_val;
+         audio_out1 [i] = out_val;
       }
    });
 }
