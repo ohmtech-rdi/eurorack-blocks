@@ -15,6 +15,7 @@
 
 #include "erb/Constants.h"
 #include "erb/ModuleListener.h"
+#include "erb/Pins.h"
 
 #include <array>
 
@@ -34,17 +35,9 @@ class AudioInDaisy
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   enum class Pin
-   {
-                  Left,
-                  Right,
-                  Channel0,   // alias to 'Left'
-                  Channel1,   // alias to 'Right'
-   };
-
    using Buffer = std::array <float, buffer_size>;
 
-                  AudioInDaisy (Module & module, Pin pin);
+                  AudioInDaisy (Module & module, AudioInDaisyPin pin);
    virtual        ~AudioInDaisy () override = default;
 
                   operator Buffer () const;
@@ -70,7 +63,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   static size_t  to_channel (Pin pin);
 
    Module &       _module;
    const size_t   _channel;

@@ -28,8 +28,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out0 (module, AudioOutDaisy::Pin::Channel0);
-   AudioOutDaisy audio_out1 (module, AudioOutDaisy::Pin::Channel1);
+   AudioOutDaisy audio_out0 (module, AudioOutDaisyPin0);
+   AudioOutDaisy audio_out1 (module, AudioOutDaisyPin1);
    Switch switch_ (module, Pin19, Pin20);
 
    constexpr float pim2 = 2.f * float (M_PI);

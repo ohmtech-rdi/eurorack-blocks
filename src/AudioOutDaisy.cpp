@@ -30,9 +30,9 @@ Name : ctor
 ==============================================================================
 */
 
-AudioOutDaisy::AudioOutDaisy (Module & module, Pin pin)
+AudioOutDaisy::AudioOutDaisy (Module & module, AudioOutDaisyPin pin)
 :  _module (module)
-,  _channel (to_channel (pin))
+,  _channel (pin.pin)
 {
    module.add (*this);
 }
@@ -128,28 +128,6 @@ void  AudioOutDaisy::impl_notify_audio_buffer_end ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : to_channel
-==============================================================================
-*/
-
-size_t   AudioOutDaisy::to_channel (Pin pin)
-{
-   switch (pin)
-   {
-   case Pin::Left:
-   case Pin::Channel0:
-      return 0;
-
-   case Pin::Right:
-   case Pin::Channel1:
-      return 1;
-   }
-
-   __builtin_unreachable ();
-}
 
 
 

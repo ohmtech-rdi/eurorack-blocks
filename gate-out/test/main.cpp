@@ -26,10 +26,10 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioInDaisy audio_in0 (module, AudioInDaisy::Pin::Channel0);
-   AudioInDaisy audio_in1 (module, AudioInDaisy::Pin::Channel1);
-   AudioOutDaisy audio_out0 (module, AudioOutDaisy::Pin::Channel0);
-   AudioOutDaisy audio_out1 (module, AudioOutDaisy::Pin::Channel1);
+   AudioInDaisy audio_in0 (module, AudioInDaisyPin0);
+   AudioInDaisy audio_in1 (module, AudioInDaisyPin1);
+   AudioOutDaisy audio_out0 (module, AudioOutDaisyPin0);
+   AudioOutDaisy audio_out1 (module, AudioOutDaisyPin1);
 
    // Pin is the same as the GATE OUT on Daisy Patch
    GateOut gate_out (module, Pin17);

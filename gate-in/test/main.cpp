@@ -26,8 +26,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out0 (module, AudioOutDaisy::Pin::Channel0);
-   AudioOutDaisy audio_out1 (module, AudioOutDaisy::Pin::Channel1);
+   AudioOutDaisy audio_out0 (module, AudioOutDaisyPin0);
+   AudioOutDaisy audio_out1 (module, AudioOutDaisyPin1);
 
    // Pins are the same as the GATE IN 1/2 on Daisy Patch
    GateIn gate_in_1 (module, Pin20);
