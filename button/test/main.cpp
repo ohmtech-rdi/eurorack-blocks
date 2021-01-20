@@ -26,7 +26,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out (module);
+   AudioOutDaisy audio_out_left (module, AudioOutDaisy::Pin::Left);
+   AudioOutDaisy audio_out_right (module, AudioOutDaisy::Pin::Right);
 
    // Pins are the same as the GATE IN 1/2 on Daisy Patch
    Button button_1 (module, Pin20);
@@ -36,7 +37,7 @@ int main ()
       bool out_b = button_1.pressed () || button_2.released ();
       auto out_val = out_b ? 1.f : 0.f;
 
-      audio_out.left.fill (out_val);
-      audio_out.right.fill (out_val);
+      audio_out_left.fill (out_val);
+      audio_out_right.fill (out_val);
    });
 }

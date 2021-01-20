@@ -62,7 +62,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out (module);
+   AudioOutDaisy audio_out0 (module, AudioOutDaisy::Pin::Channel0);
+   AudioOutDaisy audio_out1 (module, AudioOutDaisy::Pin::Channel1);
 
    // Pins are the same as the CTRL 1..4 on Daisy Patch
    Pot ctrl_1 (module, AdcPin0); // osc1 amplitude
@@ -73,7 +74,7 @@ int main ()
    OscSin osc1, osc2;
 
    module.run ([&](){
-      for (size_t i = 0 ; i < audio_out.size () ; ++i)
+      for (size_t i = 0 ; i < audio_out0.size () ; ++i)
       {
          osc1.set_freq (20.f * std::pow (500.f, ctrl_2));
          auto out_val = osc1.process () * ctrl_1;
@@ -81,8 +82,8 @@ int main ()
          osc2.set_freq (20.f * std::pow (500.f, ctrl_4));
          out_val += osc2.process () * ctrl_3;
 
-         audio_out [0][i] = out_val;
-         audio_out [1][i] = out_val;
+         audio_out0 [i] = out_val;
+         audio_out1 [i] = out_val;
       }
    });
 }

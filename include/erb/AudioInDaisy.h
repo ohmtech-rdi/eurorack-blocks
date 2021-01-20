@@ -34,17 +34,23 @@ class AudioInDaisy
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   enum class Pin
+   {
+                  Left,
+                  Right,
+                  Channel0,   // alias to 'Left'
+                  Channel1,   // alias to 'Right'
+   };
 
-   using Frame = std::array <float, buffer_size>;
+   using Buffer = std::array <float, buffer_size>;
 
-                  AudioInDaisy (Module & module);
+                  AudioInDaisy (Module & module, Pin pin);
    virtual        ~AudioInDaisy () override = default;
 
-   size_t         size () const;
-   const Frame &  operator [] (size_t index) const;
+                  operator Buffer () const;
 
-   Frame          left;
-   Frame          right;
+   size_t         size () const;
+   float          operator [] (size_t index);
 
 
 
@@ -64,8 +70,12 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+   static size_t  to_channel (Pin pin);
 
    Module &       _module;
+   const size_t   _channel;
+
+   Buffer         _buffer;
 
 
 

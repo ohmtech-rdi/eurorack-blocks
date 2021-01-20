@@ -30,10 +30,26 @@ Name : ctor
 ==============================================================================
 */
 
-AudioOutDaisy::AudioOutDaisy (Module & module)
+AudioOutDaisy::AudioOutDaisy (Module & module, Pin pin)
 :  _module (module)
+,  _channel (to_channel (pin))
 {
    module.add (*this);
+}
+
+
+
+/*
+==============================================================================
+Name : operator =
+==============================================================================
+*/
+
+AudioOutDaisy &   AudioOutDaisy::operator = (const Buffer & buffer)
+{
+   _buffer = buffer;
+
+   return *this;
 }
 
 
@@ -46,7 +62,7 @@ Name : size
 
 size_t   AudioOutDaisy::size () const
 {
-   return buffer_size;
+   return _buffer.size ();
 }
 
 
@@ -57,17 +73,22 @@ Name : operator []
 ==============================================================================
 */
 
-AudioOutDaisy::Frame &   AudioOutDaisy::operator [] (size_t index)
+float &  AudioOutDaisy::operator [] (size_t index)
 {
-   switch (index)
-   {
-   case 0:
-   default:
-      return left;
+   return _buffer [index];
+}
 
-   case 1:
-      return right;
-   }
+
+
+/*
+==============================================================================
+Name : fill
+==============================================================================
+*/
+
+void  AudioOutDaisy::fill (float val)
+{
+   _buffer.fill (val);
 }
 
 
@@ -97,8 +118,7 @@ void  AudioOutDaisy::impl_notify_audio_buffer_end ()
 {
    auto & buffer = _module.impl_onboard_codec_buffer_output ();
 
-   buffer [0] = left;
-   buffer [1] = right;
+   buffer [_channel] = _buffer;
 }
 
 
@@ -108,6 +128,28 @@ void  AudioOutDaisy::impl_notify_audio_buffer_end ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : to_channel
+==============================================================================
+*/
+
+size_t   AudioOutDaisy::to_channel (Pin pin)
+{
+   switch (pin)
+   {
+   case Pin::Left:
+   case Pin::Channel0:
+      return 0;
+
+   case Pin::Right:
+   case Pin::Channel1:
+      return 1;
+   }
+
+   __builtin_unreachable ();
+}
 
 
 
