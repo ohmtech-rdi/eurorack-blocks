@@ -79,6 +79,30 @@ static constexpr AdcPin AdcPin11 = {Pin28};
 
 
 
+struct AudioInDaisyPin
+{
+   size_t pin;
+};
+
+static constexpr AudioInDaisyPin AudioInDaisyPinLeft =  {0};
+static constexpr AudioInDaisyPin AudioInDaisyPinRight = {1};
+static constexpr AudioInDaisyPin AudioInDaisyPin0 =     {0};
+static constexpr AudioInDaisyPin AudioInDaisyPin1 =     {1};
+
+
+
+struct AudioOutDaisyPin
+{
+   size_t pin;
+};
+
+static constexpr AudioOutDaisyPin AudioOutDaisyPinLeft =  {0};
+static constexpr AudioOutDaisyPin AudioOutDaisyPinRight = {1};
+static constexpr AudioOutDaisyPin AudioOutDaisyPin0 =     {0};
+static constexpr AudioOutDaisyPin AudioOutDaisyPin1 =     {1};
+
+
+
 }  // namespace erb
 
 
