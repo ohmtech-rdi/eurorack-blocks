@@ -38,7 +38,7 @@ public:
       Out0, Center, Out1
    };
 
-                  Switch (Module & module, const dsy_gpio_pin & pin_0, const dsy_gpio_pin & pin_1);
+                  Switch (Module & module, const Pin & pin_0, const Pin & pin_1);
    virtual        ~Switch () override = default;
 
                   operator Position () const;

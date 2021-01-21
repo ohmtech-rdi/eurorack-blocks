@@ -14,8 +14,8 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/ModuleListener.h"
+#include "erb/Pins.h"
 
-#include "daisy_core.h"
 #include "per/gpio.h"
 
 
@@ -40,7 +40,7 @@ public:
       Trigger, Gate
    };
 
-                  GateIn (Module & module, const dsy_gpio_pin & pin, Mode mode = Mode::Trigger);
+                  GateIn (Module & module, const Pin & pin, Mode mode = Mode::Trigger);
    virtual        ~GateIn () override = default;
 
    void           set_mode (Mode mode);
@@ -50,7 +50,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-                  GateIn (const dsy_gpio_pin & pin, Mode mode);
+                  GateIn (const Pin & pin, Mode mode);
 
    // ModuleListener
    virtual void   impl_notify_audio_buffer_start () override;
@@ -68,7 +68,7 @@ protected:
 private:
 
    static dsy_gpio
-                  to_gpio (const dsy_gpio_pin & pin);
+                  to_gpio (const Pin & pin);
 
    const dsy_gpio _gpio;
 
