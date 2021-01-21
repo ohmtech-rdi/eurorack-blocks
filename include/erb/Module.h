@@ -62,7 +62,7 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    uint32_t       now_ms ();
-   void           add (AnalogControlBase & control, const dsy_gpio_pin & pin);
+   void           add (AnalogControlBase & control, const Pin & pin);
    void           add (ModuleListener & listener);
 
    const Buffer & impl_onboard_codec_buffer_input () const;

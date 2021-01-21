@@ -22,40 +22,42 @@ namespace erb
 
 
 
-static constexpr dsy_gpio_pin Pin0 =  {DSY_GPIOB, 12};
-static constexpr dsy_gpio_pin Pin1 =  {DSY_GPIOC, 11};
-static constexpr dsy_gpio_pin Pin2 =  {DSY_GPIOC, 10};
-static constexpr dsy_gpio_pin Pin3 =  {DSY_GPIOC, 9};
-static constexpr dsy_gpio_pin Pin4 =  {DSY_GPIOC, 8};
-static constexpr dsy_gpio_pin Pin5 =  {DSY_GPIOD, 2};
-static constexpr dsy_gpio_pin Pin6 =  {DSY_GPIOC, 12};
+using Pin = dsy_gpio_pin;
 
-static constexpr dsy_gpio_pin Pin7 =  {DSY_GPIOG, 10};
-static constexpr dsy_gpio_pin Pin8 =  {DSY_GPIOG, 11};
-static constexpr dsy_gpio_pin Pin9 =  {DSY_GPIOB, 4};
-static constexpr dsy_gpio_pin Pin10 = {DSY_GPIOB, 5};
-static constexpr dsy_gpio_pin Pin11 = {DSY_GPIOB, 8};
-static constexpr dsy_gpio_pin Pin12 = {DSY_GPIOB, 9};
-static constexpr dsy_gpio_pin Pin13 = {DSY_GPIOB, 6};
-static constexpr dsy_gpio_pin Pin14 = {DSY_GPIOB, 7};
+static constexpr Pin Pin0 =  {DSY_GPIOB, 12};
+static constexpr Pin Pin1 =  {DSY_GPIOC, 11};
+static constexpr Pin Pin2 =  {DSY_GPIOC, 10};
+static constexpr Pin Pin3 =  {DSY_GPIOC, 9};
+static constexpr Pin Pin4 =  {DSY_GPIOC, 8};
+static constexpr Pin Pin5 =  {DSY_GPIOD, 2};
+static constexpr Pin Pin6 =  {DSY_GPIOC, 12};
 
-static constexpr dsy_gpio_pin Pin15 = {DSY_GPIOC, 0};
-static constexpr dsy_gpio_pin Pin16 = {DSY_GPIOA, 3};
-static constexpr dsy_gpio_pin Pin17 = {DSY_GPIOB, 1};
-static constexpr dsy_gpio_pin Pin18 = {DSY_GPIOA, 7};
-static constexpr dsy_gpio_pin Pin19 = {DSY_GPIOA, 6};
-static constexpr dsy_gpio_pin Pin20 = {DSY_GPIOC, 1};
-static constexpr dsy_gpio_pin Pin21 = {DSY_GPIOC, 4};
-static constexpr dsy_gpio_pin Pin22 = {DSY_GPIOA, 5};
+static constexpr Pin Pin7 =  {DSY_GPIOG, 10};
+static constexpr Pin Pin8 =  {DSY_GPIOG, 11};
+static constexpr Pin Pin9 =  {DSY_GPIOB, 4};
+static constexpr Pin Pin10 = {DSY_GPIOB, 5};
+static constexpr Pin Pin11 = {DSY_GPIOB, 8};
+static constexpr Pin Pin12 = {DSY_GPIOB, 9};
+static constexpr Pin Pin13 = {DSY_GPIOB, 6};
+static constexpr Pin Pin14 = {DSY_GPIOB, 7};
 
-static constexpr dsy_gpio_pin Pin23 = {DSY_GPIOA, 4};
-static constexpr dsy_gpio_pin Pin24 = {DSY_GPIOA, 1};
-static constexpr dsy_gpio_pin Pin25 = {DSY_GPIOA, 0};
-static constexpr dsy_gpio_pin Pin26 = {DSY_GPIOD, 11};
-static constexpr dsy_gpio_pin Pin27 = {DSY_GPIOG, 9};
-static constexpr dsy_gpio_pin Pin28 = {DSY_GPIOA, 2};
-static constexpr dsy_gpio_pin Pin29 = {DSY_GPIOB, 14};
-static constexpr dsy_gpio_pin Pin30 = {DSY_GPIOB, 15};
+static constexpr Pin Pin15 = {DSY_GPIOC, 0};
+static constexpr Pin Pin16 = {DSY_GPIOA, 3};
+static constexpr Pin Pin17 = {DSY_GPIOB, 1};
+static constexpr Pin Pin18 = {DSY_GPIOA, 7};
+static constexpr Pin Pin19 = {DSY_GPIOA, 6};
+static constexpr Pin Pin20 = {DSY_GPIOC, 1};
+static constexpr Pin Pin21 = {DSY_GPIOC, 4};
+static constexpr Pin Pin22 = {DSY_GPIOA, 5};
+
+static constexpr Pin Pin23 = {DSY_GPIOA, 4};
+static constexpr Pin Pin24 = {DSY_GPIOA, 1};
+static constexpr Pin Pin25 = {DSY_GPIOA, 0};
+static constexpr Pin Pin26 = {DSY_GPIOD, 11};
+static constexpr Pin Pin27 = {DSY_GPIOG, 9};
+static constexpr Pin Pin28 = {DSY_GPIOA, 2};
+static constexpr Pin Pin29 = {DSY_GPIOB, 14};
+static constexpr Pin Pin30 = {DSY_GPIOB, 15};
 
 
 

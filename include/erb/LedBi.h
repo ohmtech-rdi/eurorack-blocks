@@ -39,7 +39,7 @@ public:
       Red, Yellow, Green
    };
 
-                  LedBi (Module & module, const dsy_gpio_pin & pin_r, const dsy_gpio_pin & pin_g);
+                  LedBi (Module & module, const Pin & pin_r, const Pin & pin_g);
    virtual        ~LedBi () = default;
 
    void           on (Color color);

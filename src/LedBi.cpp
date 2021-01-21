@@ -41,7 +41,7 @@ Name : ctor
 ==============================================================================
 */
 
-LedBi::LedBi (Module & module, const dsy_gpio_pin & pin_r, const dsy_gpio_pin & pin_g)
+LedBi::LedBi (Module & module, const Pin & pin_r, const Pin & pin_g)
 :  _led_red (module, pin_r)
 ,  _led_green (module, pin_g)
 {
