@@ -41,7 +41,7 @@ Name : ctor
 ==============================================================================
 */
 
-Led::Led (Module & module, const Pin & pin)
+Led::Led (Module & module, const dsy_gpio_pin & pin)
 :  _module (module)
 ,  _gpio (to_gpio (pin))
 {
@@ -148,7 +148,7 @@ Name : to_gpio
 ==============================================================================
 */
 
-dsy_gpio Led::to_gpio (const Pin & pin)
+dsy_gpio Led::to_gpio (const dsy_gpio_pin & pin)
 {
    dsy_gpio gpio;
    gpio.pin = pin;

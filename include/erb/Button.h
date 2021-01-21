@@ -14,8 +14,8 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/ModuleListener.h"
-#include "erb/Pins.h"
 
+#include "daisy_core.h"
 #include "per/gpio.h"
 
 
@@ -34,7 +34,7 @@ class Button
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Button (Module & module, const Pin & pin);
+                  Button (Module & module, const dsy_gpio_pin & pin);
    virtual        ~Button () override = default;
 
    bool           pressed () const;
@@ -61,7 +61,7 @@ protected:
 private:
 
    static dsy_gpio
-                  to_gpio (const Pin & pin);
+                  to_gpio (const dsy_gpio_pin & pin);
 
    const dsy_gpio _gpio;
 

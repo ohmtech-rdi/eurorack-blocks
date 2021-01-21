@@ -30,7 +30,7 @@ Name : ctor
 ==============================================================================
 */
 
-Button::Button (Module & module, const Pin & pin)
+Button::Button (Module & module, const dsy_gpio_pin & pin)
 :  _gpio (to_gpio (pin))
 {
    module.add (*this);
@@ -98,7 +98,7 @@ Name : to_gpio
 ==============================================================================
 */
 
-dsy_gpio Button::to_gpio (const Pin & pin)
+dsy_gpio Button::to_gpio (const dsy_gpio_pin & pin)
 {
    dsy_gpio gpio;
    gpio.pin = pin;

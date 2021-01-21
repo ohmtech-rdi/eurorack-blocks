@@ -41,7 +41,7 @@ Name : ctor
 ==============================================================================
 */
 
-GateOut::GateOut (Module & module, const Pin & pin)
+GateOut::GateOut (Module & module, const dsy_gpio_pin & pin)
 :  _module (module)
 ,  _gpio (to_gpio (pin))
 {
@@ -125,7 +125,7 @@ Name : to_gpio
 ==============================================================================
 */
 
-dsy_gpio GateOut::to_gpio (const Pin & pin)
+dsy_gpio GateOut::to_gpio (const dsy_gpio_pin & pin)
 {
    dsy_gpio gpio;
    gpio.pin = pin;
