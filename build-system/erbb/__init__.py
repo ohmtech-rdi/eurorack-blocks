@@ -98,7 +98,6 @@ def build (name, path):
    cmd = [
       'ninja',
       '-C', os.path.join (path_artifacts, 'out', configuration),
-      name,
    ]
 
    subprocess.check_call (cmd)
