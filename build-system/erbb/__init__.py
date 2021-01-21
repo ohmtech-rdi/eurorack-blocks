@@ -102,7 +102,19 @@ def build (name, path):
 
    subprocess.check_call (cmd)
 
-   print 'OBJCOPY'
+
+
+"""
+==============================================================================
+Name : objcopy
+==============================================================================
+"""
+
+def objcopy (name, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+   configuration = 'Release'
+
+   print 'OBJCOPY %s' % name
 
    file_elf = os.path.join (path_artifacts, 'out', configuration, name)
    file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
