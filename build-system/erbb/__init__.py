@@ -7,6 +7,7 @@
 
 import fileinput
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -27,18 +28,18 @@ Name: configure
 """
 
 def configure (name, path):
-   configure_xcode (name, path)
+   configure_native (name, path)
    configure_daisy (name, path)
 
 
 
 """
 ==============================================================================
-Name: configure_xcode
+Name: configure_native
 ==============================================================================
 """
 
-def configure_xcode (name, path):
+def configure_native (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
 
    gyp_args = [
@@ -48,13 +49,14 @@ def configure_xcode (name, path):
 
    gyp.main (gyp_args + ['%s.gyp' % name])
 
-   file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
+   if platform.system () == 'Darwin':
+      file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
 
-   for line in fileinput.input (file, inplace = 1):
-      print line,
+      for line in fileinput.input (file, inplace = 1):
+         print line,
 
-      if 'BuildIndependentTargetsInParallel' in line:
-         print '\t\t\t\tLastUpgradeCheck = 1000;'
+         if 'BuildIndependentTargetsInParallel' in line:
+            print '\t\t\t\tLastUpgradeCheck = 1000;'
 
 
 
