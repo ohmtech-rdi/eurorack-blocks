@@ -1,0 +1,93 @@
+name: Check
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  check_hardware_ubuntu_20_04:
+    name: Hardware Ubuntu 20.04
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo apt-get install kicad
+      - run: python audio-in-daisy/build.py
+      - run: python audio-out-daisy/build.py
+      - run: python button/build.py
+      - run: python cv-in/build.py
+      - run: python gate-in/build.py
+      - run: python gate-out/build.py
+      - run: python led/build.py
+      - run: python led-bi/build.py
+      - run: python multiplexer/build.py
+      - run: python pot/build.py
+      - run: python power-bus/build.py
+      - run: python regulator-daisy/build.py
+      - run: python slider/build.py
+      - run: python switch/build.py
+      - run: python trim/build.py
+      - run: python kits/stats.py
+      - run: python kits/build.py
+
+  check_hardware_ubuntu_18_04:
+    name: Hardware Ubuntu 18.04
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo add-apt-repository ppa:js-reynaud/kicad-5
+      - run: sudo apt-get install kicad
+      - run: pip install future
+      - run: python audio-in-daisy/build.py
+      - run: python audio-out-daisy/build.py
+      - run: python button/build.py
+      - run: python cv-in/build.py
+      - run: python gate-in/build.py
+      - run: python gate-out/build.py
+      - run: python led/build.py
+      - run: python led-bi/build.py
+      - run: python multiplexer/build.py
+      - run: python pot/build.py
+      - run: python power-bus/build.py
+      - run: python regulator-daisy/build.py
+      - run: python slider/build.py
+      - run: python switch/build.py
+      - run: python trim/build.py
+      - run: python kits/stats.py
+      - run: python kits/build.py
+
+  check_software_ubuntu_20_04:
+    name: Software Ubuntu 20.04
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo apt-get install gcc-arm-none-eabi
+      - run: sudo apt-get install -y ninja-build
+      - run: python test/configure.py
+      - run: python test/build.py
+
+  check_software_ubuntu_20_04_py2:
+    name: Software Ubuntu 20.04 Python 2
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-add-repository universe
+      - run: sudo apt-get update
+      - run: sudo apt install python2
+      - run: curl https://bootstrap.pypa.io/get-pip.py --output get-pip.py
+      - run: sudo python2 get-pip.py
+      - run: pip2 install future
+      - run: sudo apt-get install gcc-arm-none-eabi
+      - run: sudo apt-get install -y ninja-build
+      - run: python2 test/configure.py
+      - run: python2 test/build.py
