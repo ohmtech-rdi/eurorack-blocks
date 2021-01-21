@@ -128,6 +128,10 @@ Name : deploy
 
 def deploy (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
+   file_bin = os.path.join (path_artifacts, 'out', 'Release', '%s.bin' % name)
+
+   if not os.path.exists (file_bin):
+      sys.exit ('Unknown target %s' % name)
 
    print 'Enter the system bootloader by holding the BOOT button down,'
    print 'and then pressing, and releasing the RESET button.'
@@ -135,8 +139,6 @@ def deploy (name, path):
    raw_input ("Press Enter to continue...")
 
    print 'Flashing...'
-
-   file_bin = os.path.join (path_artifacts, 'out', 'Release', '%s.bin' % name)
 
    cmd = [
       'dfu-util',
