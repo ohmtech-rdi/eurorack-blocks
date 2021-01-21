@@ -54,7 +54,7 @@ Name : add
 ==============================================================================
 */
 
-void  AdcChannels::add (AnalogControlBase & control, const dsy_gpio_pin & pin)
+void  AdcChannels::add (AnalogControlBase & control, const Pin & pin)
 {
    auto & channel = _channels [_nbr_adc_channel];
    ++_nbr_adc_channel;
