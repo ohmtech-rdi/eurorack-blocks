@@ -14,8 +14,8 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/ModuleListener.h"
+#include "erb/Pins.h"
 
-#include "daisy_core.h"
 #include "per/gpio.h"
 
 #include <chrono>
@@ -40,7 +40,7 @@ class Led
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Led (Module & module, const dsy_gpio_pin & pin);
+                  Led (Module & module, const Pin & pin);
    virtual        ~Led () = default;
 
    void           on (bool state = true);
@@ -73,7 +73,7 @@ private:
    };
 
    static dsy_gpio
-                  to_gpio (const dsy_gpio_pin & pin);
+                  to_gpio (const Pin & pin);
 
    Module &       _module;
    const dsy_gpio _gpio;

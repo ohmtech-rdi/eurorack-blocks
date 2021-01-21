@@ -30,7 +30,7 @@ Name : ctor
 ==============================================================================
 */
 
-GateIn::GateIn (Module & module, const dsy_gpio_pin & pin, Mode mode)
+GateIn::GateIn (Module & module, const Pin & pin, Mode mode)
 :  _gpio (to_gpio (pin))
 ,  _mode (mode)
 {
@@ -85,7 +85,7 @@ Name : ctor
 ==============================================================================
 */
 
-GateIn::GateIn (const dsy_gpio_pin & pin, Mode mode)
+GateIn::GateIn (const Pin & pin, Mode mode)
 :  _gpio (to_gpio (pin))
 ,  _mode (mode)
 {
@@ -114,7 +114,7 @@ Name : to_gpio
 ==============================================================================
 */
 
-dsy_gpio GateIn::to_gpio (const dsy_gpio_pin & pin)
+dsy_gpio GateIn::to_gpio (const Pin & pin)
 {
    dsy_gpio gpio;
    gpio.pin = pin;

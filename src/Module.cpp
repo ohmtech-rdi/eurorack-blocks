@@ -69,7 +69,7 @@ Name : add
 ==============================================================================
 */
 
-void  Module::add (AnalogControlBase & control, const dsy_gpio_pin & pin)
+void  Module::add (AnalogControlBase & control, const Pin & pin)
 {
    _adc_channels.add (control, pin);
    _listeners.add (control);
