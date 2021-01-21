@@ -30,7 +30,7 @@ Name : ctor
 ==============================================================================
 */
 
-Switch::Switch (Module & module, const Pin & pin_0, const Pin & pin_1)
+Switch::Switch (Module & module, const dsy_gpio_pin & pin_0, const dsy_gpio_pin & pin_1)
 :  _gate_0 (pin_0, GateIn::Mode::Gate)
 ,  _gate_1 (pin_1, GateIn::Mode::Gate)
 {

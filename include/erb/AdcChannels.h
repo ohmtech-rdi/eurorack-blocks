@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Pins.h"
+#include "per/adc.h"
 
 #include <array>
 
@@ -42,7 +42,7 @@ public:
                   AdcChannels (daisy::DaisySeed & seed);
    virtual        ~AdcChannels () = default;
 
-   void           add (AnalogControlBase & control, const Pin & pin);
+   void           add (AnalogControlBase & control, const dsy_gpio_pin & pin);
 
    void           init ();
 

@@ -2,65 +2,58 @@
 
 ## Description
 
-This block is a simple analog audio input for the
+This block is a simple analog audio input active buffer and filter for the
 [Daisy Seed](https://www.electro-smith.com/daisy/daisy) onboard codec.
-Its design is detailed [here](./documentation/design.md).
+
+It is adapted from the [Daisy Patch schematics](https://github.com/electro-smith/Hardware/tree/master/reference/daisy_patch).
 
 
-## Connecting
+## Usage
 
-<p align="center"><img src="./documentation/connecting.png" width="100%"></p>
+This block provides a standard eurorack jack connector that is used for eurorack analog
+audio input ±5V signals.
 
-- This block needs its `GND` to be connected to the ground. All `GND` pins are connected
-   internally,
-- This block needs its `-12` to be connected to the `-12V` of the `power-bus`,
-- This block needs its `+12` to be connected to the `+12V` of the `power-bus`,
-- The `NOP` pin can be either connected to:
-   - `GND` to send (slightly noisy) zeros to the software implementation,
-   - Cascading the `DI` signal from another `audio-in-daisy` block,
-   - A pseudo-random predefined signal to detect a jack connection
-      as explained on the Mutable Instruments forums
-      [here](https://forum.mutable-instruments.net/t/plaits-normalization-probe/14358/2)
-      and implemented
-      [here](https://github.com/pichenettes/eurorack/blob/master/plaits/ui.cc#L368).
-- The signal `OUT` is the audio input signal. It should be connected to either Pin 16 or Pin 17.
-   See [Daisy Seed pinout](https://images.squarespace-cdn.com/content/v1/58d03fdc1b10e3bf442567b8/1591827747342-HCXMM2NNR26SP5F4U2CJ/ke17ZwdGBToddI8pDm48kN5PbQBGNYbW-5Hm1pf8hRF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0kLp48N9LluBiCpBrPZntaz462IffsVrAff3VJkwKncM1HZuDnV98dfxM9yHlqFkUQ/DaisyPinoutRev4%404x.png?format=500w) for details.
+### Power
 
-If only one audio input is connected, the other unused pin should be connected to `GND`.
+This modules needs to be connected to the `+12V`, `–12V` and `GND` lines from the eurorack
+power bus connector.
 
-The `DI` pin is the signal coming out directly from the jack connector and should be left floating
-if not used.
+All `GND` pins are internally connected in the block.
 
-The pseudo-random predefined signal jack detection method allows,
-from a user experience point of view, to dissociate a non-connected
+### Signal
+
+The signal `OUT` is the audio input signal filtered and adapted for the Daisy Seed onboard
+audio codec. It should be connected to either:
+- `Audio In 1` (pin 16),
+- or `Audio In 2` (pin 17).
+
+See [Daisy Seed pinout](https://images.squarespace-cdn.com/content/v1/58d03fdc1b10e3bf442567b8/1591827747342-HCXMM2NNR26SP5F4U2CJ/ke17ZwdGBToddI8pDm48kN5PbQBGNYbW-5Hm1pf8hRF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0kLp48N9LluBiCpBrPZntaz462IffsVrAff3VJkwKncM1HZuDnV98dfxM9yHlqFkUQ/DaisyPinoutRev4%404x.png?format=500w)
+for details.
+
+### Normalisation pin
+
+When the jack is connected, the signal send on `NOP` will flow through the components
+and reach `OUT`. This can be used to:
+- Use another input signal, typically duplicating a mono signal to a stereo signal,
+- Detect if a jack is present.
+
+The latter is used often in Mutable Instruments modules and is explained
+[here](https://forum.mutable-instruments.net/t/plaits-normalization-probe/14358/2).
+Its implementation can be found
+[here](https://github.com/pichenettes/eurorack/blob/master/plaits/ui.cc#L368).
+
+Jack detection allows, from a user experience point of view, to dissociate a non-connected
 jack from a connected jack at `GND` level.
 
+If this feature is not required, connect `NOP` to `GND`.
 
-## Using
 
-```c++
-int main ()
-{
-   using namespace erb;
-   
-   Module module;
-   AudioInDaisy audio_in_left (module, AudioInDaisyPinLeft);   // 1.
-   AudioInDaisy audio_in_right (module, AudioInDaisyPinRight); // 2.
+## Design
 
-   module.run ([&](){
-      for (size_t i = 0 ; i < audio_in_left.size () ; ++i)     // 3.
-      {
-         float left  = audio_in_left [i];                      // 4.
-         float right = audio_in_right [i];                     // 5.
-      }
-   });
-}
-```
+The daisy seed board has already a 10µF capacitor at the codec input as recommended by the
+[AK4556 codec datasheet system design](https://www.akm.com/content/dam/documents/products/audio/audio-codec/ak4556vt/ak4556vt-en-datasheet.pdf)
+in Figure 10, page 19.
 
-1. Attach the audio input to the module with the onboard codec left pin (Pin 16),
-2. Attach the audio input to the module with the onboard codec right pin (Pin 17),
-2. Loop through all the samples in the buffer. `erb::buffer_size` can be used instead,
-3. Retrieve the audio input value on codec left pin,
-4. Retrieve the audio input value on codec right pin.
+<img src="./documentation/top.svg" width="490"> <img src="./documentation/bottom.svg" width="490">
 
-The `AudioInDaisy` class reference is available [here](./documentation/reference.md).
+> Gerber renders made with [tracespace view](https://tracespace.io/view/).
