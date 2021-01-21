@@ -65,12 +65,12 @@ def check_kits ():
 
 """
 ==============================================================================
-Name: check_test
+Name: check_block_test
 ==============================================================================
 """
 
-def check_test ():
-   test_path = os.path.join (PATH_THIS, 'test')
+def check_block_test (name):
+   test_path = os.path.join (PATH_THIS, name, 'test')
    call_script (test_path, 'configure.py')
    call_script (test_path, 'build.py')
 
@@ -101,7 +101,19 @@ def check ():
 
    check_kits ()
 
-   check_test ()
+   check_block_test ('audio-in-daisy')
+   check_block_test ('audio-out-daisy')
+   check_block_test ('button')
+   check_block_test ('cv-in')
+   check_block_test ('gate-in')
+   check_block_test ('gate-out')
+   check_block_test ('led')
+   check_block_test ('led-bi')
+   #check_block_test ('multiplexer')
+   check_block_test ('pot')
+   #check_block_test ('slider')
+   check_block_test ('switch')
+   #check_block_test ('trim')
 
 
 

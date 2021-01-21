@@ -87,7 +87,7 @@
 
          '--specs=nano.specs',
          '--specs=nosys.specs',
-         '-T<(erbb_flash_lds)',
+         '-T../../../../../submodules/libDaisy/core/STM32H750IB_flash.lds',
 
          '-lc',
          '-lm',
