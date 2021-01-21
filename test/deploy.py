@@ -13,7 +13,10 @@ import os
 import subprocess
 import sys
 
-sys.path.insert(0, "../build-system/")
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (PATH_THIS))
+
+sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbb
 
 
@@ -23,8 +26,6 @@ import erbb
 if sys.version_info < (2, 7):
    print >>sys.stderr, 'This script requires python 2.7 or greater.'
    sys.exit (1)
-
-PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 
 
 
