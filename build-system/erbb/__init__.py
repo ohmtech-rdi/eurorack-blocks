@@ -12,12 +12,11 @@ import shutil
 import subprocess
 import sys
 
-sys.path.insert(0, "../submodules/gyp/pylib/")
-import gyp
-
-
-
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+
+sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp', 'pylib'))
+import gyp
 
 
 
