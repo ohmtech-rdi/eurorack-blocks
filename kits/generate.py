@@ -14,10 +14,10 @@ import os
 import subprocess
 import sys
 
-sys.path.insert(0, "/Applications/Kicad/kicad.app/Contents/Frameworks/python/site-packages/")
-import pcbnew
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (PATH_THIS))
 
-sys.path.insert(0, "../submodules/kcgen/")
+sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'kcgen'))
 import kcgen
 
 
@@ -27,9 +27,6 @@ import kcgen
 if sys.version_info < (2, 7):
    print >>sys.stderr, 'This script requires python 2.7 or greater.'
    sys.exit (1)
-
-PATH_THIS = os.path.abspath (os.path.dirname (__file__))
-PATH_ROOT = os.path.abspath (os.path.dirname (PATH_THIS))
 
 
 
