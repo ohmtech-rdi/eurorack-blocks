@@ -98,12 +98,23 @@ def build (name, path):
    cmd = [
       'ninja',
       '-C', os.path.join (path_artifacts, 'out', configuration),
-      name,
    ]
 
    subprocess.check_call (cmd)
 
-   print 'OBJCOPY'
+
+
+"""
+==============================================================================
+Name : objcopy
+==============================================================================
+"""
+
+def objcopy (name, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+   configuration = 'Release'
+
+   print 'OBJCOPY %s' % name
 
    file_elf = os.path.join (path_artifacts, 'out', configuration, name)
    file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
@@ -128,6 +139,10 @@ Name : deploy
 
 def deploy (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
+   file_bin = os.path.join (path_artifacts, 'out', 'Release', '%s.bin' % name)
+
+   if not os.path.exists (file_bin):
+      sys.exit ('Unknown target %s' % name)
 
    print 'Enter the system bootloader by holding the BOOT button down,'
    print 'and then pressing, and releasing the RESET button.'
@@ -135,8 +150,6 @@ def deploy (name, path):
    raw_input ("Press Enter to continue...")
 
    print 'Flashing...'
-
-   file_bin = os.path.join (path_artifacts, 'out', 'Release', '%s.bin' % name)
 
    cmd = [
       'dfu-util',

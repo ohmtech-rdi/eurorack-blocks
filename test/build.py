@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #
-#     configure.py
+#     build.py
 #     Copyright (c) 2020 Raphael Dinge
 #
 #Tab=3########################################################################
@@ -12,7 +12,7 @@ import os
 import subprocess
 import sys
 
-sys.path.insert(0, "../../build-system/")
+sys.path.insert(0, "../build-system/")
 import erbb
 
 
@@ -31,7 +31,18 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 
 if __name__ == '__main__':
    try:
-      erbb.configure ('test', PATH_THIS)
+      erbb.build ('test', PATH_THIS)
+
+      erbb.objcopy ('audio-in-daisy', PATH_THIS)
+      erbb.objcopy ('audio-out-daisy', PATH_THIS)
+      erbb.objcopy ('button', PATH_THIS)
+      erbb.objcopy ('cv-in', PATH_THIS)
+      erbb.objcopy ('gate-in', PATH_THIS)
+      erbb.objcopy ('gate-out', PATH_THIS)
+      erbb.objcopy ('led-bi', PATH_THIS)
+      erbb.objcopy ('led', PATH_THIS)
+      erbb.objcopy ('pot', PATH_THIS)
+      erbb.objcopy ('switch', PATH_THIS)
 
    except subprocess.CalledProcessError as error:
       print >>sys.stderr, 'Run command exited with %d' % error.returncode

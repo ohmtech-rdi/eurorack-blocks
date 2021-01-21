@@ -12,7 +12,7 @@ import os
 import subprocess
 import sys
 
-sys.path.insert(0, "../../build-system/")
+sys.path.insert(0, "../build-system/")
 import erbb
 
 
