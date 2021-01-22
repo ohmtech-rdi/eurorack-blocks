@@ -1,6 +1,7 @@
 # eurorack-blocks
 
-[![License: CC BY-SA 4.0](https://licensebuttons.net/l/by-sa/4.0/80x15.png)](https://creativecommons.org/licenses/by-sa/4.0/)
+[![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
+[<!--lint ignore no-dead-urls-->![GitHub Actions status | ohmtech-rdi/eurorack-blocks](https://github.com/ohmtech-rdi/eurorack-blocks/workflows/Check/badge.svg)](https://github.com/ohmtech-rdi/eurorack-blocks/actions?workflow=Check)
 
 This repository contains all the build material to manufacture "eurorack blocks": small PCBs
 that can be used on a breadboard, and provide atomic typical digital eurorack features such
