@@ -7,16 +7,16 @@
 
 import fileinput
 import os
+import platform
 import shutil
 import subprocess
 import sys
 
-sys.path.insert(0, "../submodules/gyp/pylib/")
-import gyp
-
-
-
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+
+sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp', 'pylib'))
+import gyp
 
 
 
@@ -27,18 +27,18 @@ Name: configure
 """
 
 def configure (name, path):
-   configure_xcode (name, path)
+   configure_native (name, path)
    configure_daisy (name, path)
 
 
 
 """
 ==============================================================================
-Name: configure_xcode
+Name: configure_native
 ==============================================================================
 """
 
-def configure_xcode (name, path):
+def configure_native (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
 
    gyp_args = [
@@ -46,15 +46,16 @@ def configure_xcode (name, path):
       '--generator-output=%s' % path_artifacts,
    ]
 
-   gyp.main (gyp_args + ['%s.gyp' % name])
+   gyp.main (gyp_args + [os.path.join (path, '%s.gyp' % name)])
 
-   file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
+   if platform.system () == 'Darwin':
+      file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
 
-   for line in fileinput.input (file, inplace = 1):
-      print line,
+      for line in fileinput.input (file, inplace = 1):
+         print line,
 
-      if 'BuildIndependentTargetsInParallel' in line:
-         print '\t\t\t\tLastUpgradeCheck = 1000;'
+         if 'BuildIndependentTargetsInParallel' in line:
+            print '\t\t\t\tLastUpgradeCheck = 1000;'
 
 
 
@@ -81,7 +82,7 @@ def configure_daisy (name, path):
       'AR': 'arm-none-eabi-ar',
    })
 
-   gyp.main (gyp_args + ['%s.gyp' % name])
+   gyp.main (gyp_args + [os.path.join (path, '%s.gyp' % name)])
 
 
 
