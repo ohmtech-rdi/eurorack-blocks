@@ -8,6 +8,7 @@
 
 ##### IMPORT #################################################################
 
+from __future__ import print_function
 import logging
 import os
 import platform
@@ -21,7 +22,7 @@ import zipfile
 ##############################################################################
 
 if sys.version_info < (2, 7):
-   print >>sys.stderr, 'This script requires python 2.7 or greater.'
+   print ('This script requires python 2.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -99,5 +100,5 @@ if __name__ == '__main__':
       sys.exit (build ())
 
    except subprocess.CalledProcessError as error:
-      print >>sys.stderr, 'Build command exited with %d' % error.returncode
+      print ('Build command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit(1)

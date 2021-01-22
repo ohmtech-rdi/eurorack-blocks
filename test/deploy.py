@@ -8,6 +8,7 @@
 
 ##### IMPORT #################################################################
 
+from __future__ import print_function
 import argparse
 import os
 import subprocess
@@ -24,7 +25,7 @@ import erbb
 ##############################################################################
 
 if sys.version_info < (2, 7):
-   print >>sys.stderr, 'This script requires python 2.7 or greater.'
+   print ('This script requires python 2.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 
@@ -57,5 +58,5 @@ if __name__ == '__main__':
       erbb.deploy (args.target, PATH_THIS)
 
    except subprocess.CalledProcessError as error:
-      print >>sys.stderr, 'Run command exited with %d' % error.returncode
+      print ('Deploy command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)

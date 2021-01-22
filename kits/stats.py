@@ -8,6 +8,8 @@
 
 ##### IMPORT #################################################################
 
+from __future__ import print_function
+from builtins import range
 from collections import Counter
 import csv
 import logging
@@ -20,7 +22,7 @@ import subprocess
 ##############################################################################
 
 if sys.version_info < (2, 7):
-   print >>sys.stderr, 'This script requires python 2.7 or greater.'
+   print ('This script requires python 2.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -52,7 +54,7 @@ Name : compute_coverage
 """
 
 def compute_coverage (distribution, target):
-   for feature, target_nbr in target.iteritems ():
+   for feature, target_nbr in target.items ():
       dist_feature = distribution [feature]
       partial_arr = [dist_feature [i] for i in dist_feature if i <= target_nbr]
       partial = float (sum (partial_arr))
@@ -62,7 +64,7 @@ def compute_coverage (distribution, target):
          percent = 100.0
       else:
          percent = 100.0 * partial / total
-      print '%s: %f%%' % (feature, percent)
+      print ('%s: %f%%' % (feature, percent))
 
 
 
@@ -96,14 +98,14 @@ def stats ():
             feature_dist = distribution [header]
             feature_dist [int (value)] += 1
 
-   for i in xrange (1, 4):
+   for i in range (1, 4):
       target = make_target ()
       for elem in target:
          target [elem] *= i
 
-      print 'Panel x%s' % i
+      print ('Panel x%s' % i)
       compute_coverage (distribution, target)
-      print ''
+      print ('')
 
 
 
@@ -118,5 +120,5 @@ if __name__ == '__main__':
       sys.exit (stats ())
 
    except subprocess.CalledProcessError as error:
-      print >>sys.stderr, 'Stats command exited with %d' % error.returncode
+      print ('Stats command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit(1)

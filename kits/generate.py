@@ -8,6 +8,7 @@
 
 ##### IMPORT #################################################################
 
+from __future__ import print_function
 from collections import Counter
 import logging
 import os
@@ -25,7 +26,7 @@ import kcgen
 ##############################################################################
 
 if sys.version_info < (2, 7):
-   print >>sys.stderr, 'This script requires python 2.7 or greater.'
+   print ('This script requires python 2.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 
@@ -164,5 +165,5 @@ if __name__ == '__main__':
       sys.exit (generate ())
 
    except subprocess.CalledProcessError as error:
-      print >>sys.stderr, 'Build command exited with %d' % error.returncode
+      print ('Build command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit(1)
