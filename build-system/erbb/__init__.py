@@ -5,6 +5,8 @@
 #
 #Tab=3########################################################################
 
+from __future__ import print_function
+from builtins import input
 import fileinput
 import os
 import platform
@@ -55,10 +57,10 @@ def configure_native (name, path):
       file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
 
       for line in fileinput.input (file, inplace = 1):
-         print line,
+         print (line, end = '')
 
          if 'BuildIndependentTargetsInParallel' in line:
-            print '\t\t\t\tLastUpgradeCheck = 1000;'
+            print ('\t\t\t\tLastUpgradeCheck = 1000;')
 
 
 
@@ -121,7 +123,7 @@ def objcopy (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
    configuration = 'Release'
 
-   print 'OBJCOPY %s' % name
+   print ('OBJCOPY %s' % name)
 
    file_elf = os.path.join (path_artifacts, 'out', configuration, name)
    file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
@@ -151,12 +153,12 @@ def deploy (name, path):
    if not os.path.exists (file_bin):
       sys.exit ('Unknown target %s' % name)
 
-   print 'Enter the system bootloader by holding the BOOT button down,'
-   print 'and then pressing, and releasing the RESET button.'
+   print ('Enter the system bootloader by holding the BOOT button down,')
+   print ('and then pressing, and releasing the RESET button.')
 
-   raw_input ("Press Enter to continue...")
+   input ("Press Enter to continue...")
 
-   print 'Flashing...'
+   print ('Flashing...')
 
    cmd = [
       'dfu-util',
@@ -169,4 +171,4 @@ def deploy (name, path):
 
    subprocess.check_call (cmd)
 
-   print 'OK.'
+   print ('OK.')
