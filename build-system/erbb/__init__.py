@@ -46,7 +46,10 @@ def configure_native (name, path):
       '--generator-output=%s' % path_artifacts,
    ]
 
-   gyp.main (gyp_args + [os.path.join (path, '%s.gyp' % name)])
+   cwd = os.getcwd ()
+   os.chdir (path)
+   gyp.main (gyp_args + ['%s.gyp' % name])
+   os.chdir (cwd)
 
    if platform.system () == 'Darwin':
       file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
@@ -82,7 +85,10 @@ def configure_daisy (name, path):
       'AR': 'arm-none-eabi-ar',
    })
 
-   gyp.main (gyp_args + [os.path.join (path, '%s.gyp' % name)])
+   cwd = os.getcwd ()
+   os.chdir (path)
+   gyp.main (gyp_args + ['%s.gyp' % name])
+   os.chdir (cwd)
 
 
 
