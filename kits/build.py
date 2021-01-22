@@ -10,6 +10,7 @@
 
 import logging
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -66,17 +67,20 @@ def compress_gerber ():
 Name : build
 Description :
    The python executable bundled in Kicad 5.1.9 was not compiled with zlib.
-   Therefore we need to separate into two scripts to be able to conmpress
+   Therefore we need to separate into two scripts to be able to compress
    the gerber directory.
 ==============================================================================
 """
 
 def build ():
-   kicad_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+   if platform.system () == 'Darwin':
+      kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+   else:
+      kicad_python_path = 'python'
 
    subprocess.check_call (
       [
-         kicad_path,
+         kicad_python_path,
          os.path.join (PATH_THIS, 'generate.py'),
       ],
       cwd = PATH_THIS
