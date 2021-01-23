@@ -1,0 +1,58 @@
+name: macOS 10.15
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  hardware:
+    name: Hardware
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: pip2 install future
+      - run: brew install --cask kicad
+      - run: ./audio-in-daisy/build.py
+      - run: ./audio-out-daisy/build.py
+      - run: ./button/build.py
+      - run: ./cv-in/build.py
+      - run: ./gate-in/build.py
+      - run: ./gate-out/build.py
+      - run: ./led/build.py
+      - run: ./led-bi/build.py
+      - run: ./multiplexer/build.py
+      - run: ./pot/build.py
+      - run: ./power-bus/build.py
+      - run: ./regulator-daisy/build.py
+      - run: ./slider/build.py
+      - run: ./switch/build.py
+      - run: ./trim/build.py
+      - run: ./kits/stats.py
+      - run: ./kits/build.py
+
+  software:
+    name: Software
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install armmbed/formulae/arm-none-eabi-gcc
+      - run: brew install ninja
+      - run: python3 test/configure.py
+      - run: python3 test/build.py
+
+  software_py2:
+    name: Software (Python 2 Compat)
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: pip2 install future
+      - run: brew install armmbed/formulae/arm-none-eabi-gcc
+      - run: brew install ninja
+      - run: python2 test/configure.py
+      - run: python2 test/build.py
