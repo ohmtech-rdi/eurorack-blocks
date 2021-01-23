@@ -64,7 +64,24 @@ very similar to the screenshot above.
 This panel uses two distributors.
 
 - Digikey: Load the `panel-daisy-bom-digikey.csv` into their
-   [BOM manager](https://www.digikey.de/en/help/features-updates/bom-manager-tour),
-   and map the `Diki-Key Part Number` and `Quantity` headers.
+   [BOM manager](https://www.digikey.de/en/help/features-updates/bom-manager-tour).
+   After logged-in, this is available [here](https://www.digikey.de/bom):
+   - Click the "Upload BOM",
+   - Choose the `panel-daisy-bom-digikey.csv` located in the `kits/artifacts` folder
+      (remember to first `build.py` the kits),
+   - The BOM should display and be correctly mapped, and starting on row 2,
+   - Click "Add to BOM",
+   - Check **the entire list** for unavailable components at that time, and report any components
+      missing. **Only if every components are available, go the next step**, or use the
+      [`replace-bom-parts.py`](../util/) script.
+   - Click "Add to Cart",
+   - Select "New Cart" unless you want to continue your current "Existing Cart",
+   - Select the number of "assemblies": this is the number of panels you which to produce,
+   - Click "Add to Cart",
+   - Check **the entire list** again for backordered components. It is indeed possible for the
+      BOM manager to have components available but which are already sold on the shop side.
+      **Only if every components are available, go the next step**, or use the
+      [`replace-bom-parts.py`](../util/) script.
+   - Finalize your order
 - Thonk: Thonk can't automatically process BOMs. However the `panel-daisy-bom-thonk.csv`
    file provides links to their shop. Make sure to order the correct part in the correct quantity.
