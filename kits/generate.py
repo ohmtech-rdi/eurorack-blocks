@@ -90,7 +90,7 @@ def generate_bom_digikey ():
 
    output_dir = os.path.join (PATH_THIS, 'artifacts')
    with open (os.path.join (output_dir, 'panel-daisy-bom-digikey.csv'), 'w') as output:
-      output.write ('Diki-Key Part Number;Device;Value;Description;Quantity\n')
+      output.write ('"Diki-Key Part Number","Quantity"\n')
       for part in sorted (distributor_parts):
          device = components_metadata [part].device
          value = components_metadata [part].value
@@ -98,7 +98,7 @@ def generate_bom_digikey ():
             value = ''
          description = components_metadata [part].description
          quantity = distributor_parts [part]
-         output.write ('%s;%s;%s;%s;%d\n' % (part, device, value, description, quantity))
+         output.write ('"%s","%d"\n' % (part, quantity))
 
 
 
@@ -130,7 +130,7 @@ def generate_bom_thonk ():
 
    output_dir = os.path.join (PATH_THIS, 'artifacts')
    with open (os.path.join (output_dir, 'panel-daisy-bom-thonk.csv'), 'w') as output:
-      output.write ('Thonk link;Device;Value;Description;Quantity\n')
+      output.write ('"Thonk link","Device","Value","Description","Quantity"\n')
       for part in sorted (distributor_parts):
          link = components_metadata [part].distributor_link
          device = components_metadata [part].device
@@ -139,7 +139,7 @@ def generate_bom_thonk ():
             value = ''
          description = components_metadata [part].description
          quantity = distributor_parts [part]
-         output.write ('%s;%s;%s;%s;%d\n' % (link, device, value, description, quantity))
+         output.write ('"%s","%s","%s","%s","%d"\n' % (link, device, value, description, quantity))
 
 
 
