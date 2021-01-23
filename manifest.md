@@ -103,3 +103,38 @@ power bus connector. In particular the +5V, CV and Gate lines are not used.
 
 Because a prototype module will sit on a breadboard, the system is not
 convenient for usability field testing.
+
+
+## Timeline
+
+### Design Check
+
+- Audience:
+   - DIY Hobbyist
+      - Has SMD soldering equipment, and comfortable with SMD soldering
+      - Can order PCB, BOM and assemble the full product themselves
+- Goals:
+   - Validate design
+      - Making sure each design is working appropriately
+      - Provides a testbed for new block design development
+
+### Minimum Viable Product
+
+- Audience:
+   - Software Developer
+- Goals:
+   - Prevent mistakes that could fry the board
+      - Route all ±12V and 5V power supplies and making not available for patching
+      - Separate clearly all eurorack signal voltages from the 3V3 patching bay
+   - Allow software functional testing
+      - Supporting VCV Rack plug-in architecture
+   - Allow field functional testing
+      - Make a plug-n-play combo that contains all blocks: power bus, regular, Daisy Seed, 10 CVs, 16 pots, 2 multiplexer, etc.
+      - The combo only exposes basic routing on the PCB so that absolutely no hardware skills
+         are necessary
+      - Box can be put at the back of the modular system with no possibility of shortages with the
+         rest of the system
+      - Connectors are used to connect from the board to the front panel. Each interface design
+         (CV/gate, pot/trim, led, button) needs to have a connector with the front panel element
+         on one side, and a male pin header on the other side, and the appropriate cable in-between 
+      - The combo can be produced by a PCBA service
