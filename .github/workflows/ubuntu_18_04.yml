@@ -1,0 +1,35 @@
+name: Ubuntu 18.04
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  hardware:
+    name: Hardware
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo add-apt-repository ppa:js-reynaud/kicad-5
+      - run: sudo apt-get install kicad
+      - run: pip install future
+      - run: python audio-in-daisy/build.py
+      - run: python audio-out-daisy/build.py
+      - run: python button/build.py
+      - run: python cv-in/build.py
+      - run: python gate-in/build.py
+      - run: python gate-out/build.py
+      - run: python led/build.py
+      - run: python led-bi/build.py
+      - run: python multiplexer/build.py
+      - run: python pot/build.py
+      - run: python power-bus/build.py
+      - run: python regulator-daisy/build.py
+      - run: python slider/build.py
+      - run: python switch/build.py
+      - run: python trim/build.py
+      - run: python kits/stats.py
+      - run: python kits/build.py
