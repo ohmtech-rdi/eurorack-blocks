@@ -171,8 +171,8 @@ F 4 "Resistor" H 4550 3600 50  0001 C CNN "Device"
 F 5 "RES SMD 10K OHM 1% 1/10W 0603" H 4550 3600 50  0001 C CNN "Description"
 F 6 "Yes" H 4550 3600 50  0001 C CNN "Place"
 F 7 "Digikey" H 4550 3600 50  0001 C CNN "Dist"
-F 8 "P10.0KHCT-ND" H 4550 3600 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1002V/P10-0KHCT-ND/198102" H 4550 3600 50  0001 C CNN "DistLink"
+F 8 "311-10KLDCT-ND" H 4550 3600 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-0710KL/311-10KLDCT-ND/2828135" H 4550 3600 50  0001 C CNN "DistLink"
 	1    4550 3600
 	0    1    1    0   
 $EndComp
