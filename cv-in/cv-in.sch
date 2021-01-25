@@ -399,11 +399,11 @@ F 1 "1u" H 5000 4100 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 5238 3900 50  0001 C CNN
 F 3 "~" H 5200 4050 50  0001 C CNN
 F 4 "Ceramic Capacitor" H 5200 4050 50  0001 C CNN "Device"
-F 5 "CAP CER 1UF 25V X7R 0603" H 5200 4050 50  0001 C CNN "Description"
+F 5 "CAP CER 1UF 35V X7R 0603" H 5200 4050 50  0001 C CNN "Description"
 F 6 "Yes" H 5200 4050 50  0001 C CNN "Place"
 F 7 "Digikey" H 5200 4050 50  0001 C CNN "Dist"
-F 8 "445-5956-1-ND" H 5200 4050 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/tdk-corporation/C1608X7R1E105K080AB/445-5956-1-ND/2443997" H 5200 4050 50  0001 C CNN "DistLink"
+F 8 "445-7414-1-ND" H 5200 4050 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/tdk-corporation/C1608X7R1V105K080AC/445-7414-1-ND/2733486" H 5200 4050 50  0001 C CNN "DistLink"
 	1    5200 4050
 	-1   0    0    1   
 $EndComp
