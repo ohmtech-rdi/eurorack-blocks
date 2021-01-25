@@ -64,8 +64,8 @@ F 4 "Ceramic Capacitor" H 3900 4150 50  0001 C CNN "Device"
 F 5 "CAP CER 22UF 25V X5R 1206" H 3900 4150 50  0001 C CNN "Description"
 F 6 "Yes" H 3900 4150 50  0001 C CNN "Place"
 F 7 "Digikey" H 3900 4150 50  0001 C CNN "Dist"
-F 8 "490-10755-1-ND" H 3900 4150 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/murata-electronics/GRM31CR61E226ME15L/490-10755-1-ND/5251344" H 3900 4150 50  0001 C CNN "DistLink"
+F 8 "478-10040-1-ND" H 3900 4150 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/avx-corporation/12063D226MAT2A/478-10040-1-ND/6207305" H 3900 4150 50  0001 C CNN "DistLink"
 	1    3900 4150
 	1    0    0    -1  
 $EndComp
@@ -81,8 +81,8 @@ F 4 "Ceramic Capacitor" H 4800 4150 50  0001 C CNN "Device"
 F 5 "CAP CER 22UF 25V X5R 1206" H 4800 4150 50  0001 C CNN "Description"
 F 6 "Yes" H 4800 4150 50  0001 C CNN "Place"
 F 7 "Digikey" H 4800 4150 50  0001 C CNN "Dist"
-F 8 "490-10755-1-ND" H 4800 4150 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/murata-electronics/GRM31CR61E226ME15L/490-10755-1-ND/5251344" H 4800 4150 50  0001 C CNN "DistLink"
+F 8 "478-10040-1-ND" H 4800 4150 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/avx-corporation/12063D226MAT2A/478-10040-1-ND/6207305" H 4800 4150 50  0001 C CNN "DistLink"
 	1    4800 4150
 	1    0    0    -1  
 $EndComp
