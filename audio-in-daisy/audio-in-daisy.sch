@@ -159,8 +159,8 @@ F 4 "Resistor" H 6950 2900 50  0001 C CNN "Device"
 F 5 "RES SMD 1K OHM 1% 1/10W 0603" H 6950 2900 50  0001 C CNN "Description"
 F 6 "Yes" H 6950 2900 50  0001 C CNN "Place"
 F 7 "Digikey" H 6950 2900 50  0001 C CNN "Dist"
-F 8 "P1.00KHCT-ND" H 6950 2900 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1001V/P1-00KHCT-ND/198071" H 6950 2900 50  0001 C CNN "DistLink"
+F 8 "541-1.00KHCT-ND" H 6950 2900 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW06031K00FKEA/541-1-00KHCT-ND/1179809" H 6950 2900 50  0001 C CNN "DistLink"
 	1    6950 2900
 	0    1    1    0   
 $EndComp
