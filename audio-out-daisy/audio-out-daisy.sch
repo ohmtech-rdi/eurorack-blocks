@@ -103,8 +103,8 @@ F 4 "Resistor" H 6250 2400 50  0001 C CNN "Device"
 F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 6250 2400 50  0001 C CNN "Description"
 F 6 "Yes" H 6250 2400 50  0001 C CNN "Place"
 F 7 "Digikey" H 6250 2400 50  0001 C CNN "Dist"
-F 8 "P100KHCT-ND" H 6250 2400 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1003V/P100KHCT-ND/198110" H 6250 2400 50  0001 C CNN "DistLink"
+F 8 "541-100KHCT-ND" H 6250 2400 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 6250 2400 50  0001 C CNN "DistLink"
 	1    6250 2400
 	0    1    1    0   
 $EndComp
@@ -509,8 +509,8 @@ F 4 "Resistor" H 4950 2300 50  0001 C CNN "Device"
 F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 4950 2300 50  0001 C CNN "Description"
 F 6 "Yes" H 4950 2300 50  0001 C CNN "Place"
 F 7 "Digikey" H 4950 2300 50  0001 C CNN "Dist"
-F 8 "P100KHCT-ND" H 4950 2300 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1003V/P100KHCT-ND/198110" H 4950 2300 50  0001 C CNN "DistLink"
+F 8 "541-100KHCT-ND" H 4950 2300 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 4950 2300 50  0001 C CNN "DistLink"
 	1    4950 2300
 	0    1    1    0   
 $EndComp
@@ -526,8 +526,8 @@ F 4 "Resistor" H 5650 2800 50  0001 C CNN "Device"
 F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 5650 2800 50  0001 C CNN "Description"
 F 6 "Yes" H 5650 2800 50  0001 C CNN "Place"
 F 7 "Digikey" H 5650 2800 50  0001 C CNN "Dist"
-F 8 "P100KHCT-ND" H 5650 2800 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1003V/P100KHCT-ND/198110" H 5650 2800 50  0001 C CNN "DistLink"
+F 8 "541-100KHCT-ND" H 5650 2800 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 5650 2800 50  0001 C CNN "DistLink"
 	1    5650 2800
 	0    1    1    0   
 $EndComp
