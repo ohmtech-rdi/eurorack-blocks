@@ -208,11 +208,11 @@ F 1 "22u" H 6718 4505 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_4x5.8" H 6638 4400 50  0001 C CNN
 F 3 "~" H 6600 4550 50  0001 C CNN
 F 4 "Aluminum Electrolytic Capacitor" H 6600 4550 50  0001 C CNN "Device"
-F 5 "CAP ALUM 22UF 20% 35V SMD" H 6600 4550 50  0001 C CNN "Description"
+F 5 "CAP ALUM 22UF 20% 25V SMD" H 6600 4550 50  0001 C CNN "Description"
 F 6 "Yes" H 6600 4550 50  0001 C CNN "Place"
 F 7 "Digikey" H 6600 4550 50  0001 C CNN "Dist"
-F 8 "493-14929-1-ND" H 6600 4550 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/nichicon/UCM1V220MCL1GS/493-14929-1-ND/6555934" H 6600 4550 50  0001 C CNN "DistLink"
+F 8 "493-17473-1-ND" H 6600 4550 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/nichicon/UCM1E220MCL1GS/493-17473-1-ND/8582465" H 6600 4550 50  0001 C CNN "DistLink"
 	1    6600 4550
 	1    0    0    -1  
 $EndComp
@@ -324,11 +324,11 @@ F 1 "22u" H 6718 5005 50  0000 L CNN
 F 2 "Capacitor_SMD:CP_Elec_4x5.8" H 6638 4900 50  0001 C CNN
 F 3 "~" H 6600 5050 50  0001 C CNN
 F 4 "Aluminum Electrolytic Capacitor" H 6600 5050 50  0001 C CNN "Device"
-F 5 "CAP ALUM 22UF 20% 35V SMD" H 6600 5050 50  0001 C CNN "Description"
+F 5 "CAP ALUM 22UF 20% 25V SMD" H 6600 5050 50  0001 C CNN "Description"
 F 6 "Yes" H 6600 5050 50  0001 C CNN "Place"
 F 7 "Digikey" H 6600 5050 50  0001 C CNN "Dist"
-F 8 "493-14929-1-ND" H 6600 5050 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/nichicon/UCM1V220MCL1GS/493-14929-1-ND/6555934" H 6600 5050 50  0001 C CNN "DistLink"
+F 8 "493-17473-1-ND" H 6600 5050 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/nichicon/UCM1E220MCL1GS/493-17473-1-ND/8582465" H 6600 5050 50  0001 C CNN "DistLink"
 	1    6600 5050
 	1    0    0    -1  
 $EndComp
