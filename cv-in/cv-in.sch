@@ -64,8 +64,8 @@ F 4 "Resistor" H 4150 2700 50  0001 C CNN "Device"
 F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 4150 2700 50  0001 C CNN "Description"
 F 6 "Yes" H 4150 2700 50  0001 C CNN "Place"
 F 7 "Digikey" H 4150 2700 50  0001 C CNN "Dist"
-F 8 "P100KHCT-ND" H 4150 2700 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF1003V/P100KHCT-ND/198110" H 4150 2700 50  0001 C CNN "DistLink"
+F 8 "541-100KHCT-ND" H 4150 2700 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 4150 2700 50  0001 C CNN "DistLink"
 	1    4150 2700
 	0    1    1    0   
 $EndComp
@@ -211,8 +211,8 @@ F 4 "Resistor" H 4950 2300 50  0001 C CNN "Device"
 F 5 "RES SMD 20K OHM 1% 1/10W 0603" H 4950 2300 50  0001 C CNN "Description"
 F 6 "Yes" H 4950 2300 50  0001 C CNN "Place"
 F 7 "Digikey" H 4950 2300 50  0001 C CNN "Dist"
-F 8 "P20.0KHCT-ND" H 4950 2300 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/panasonic-electronic-components/ERJ-3EKF2002V/P20-0KHCT-ND/198237" H 4950 2300 50  0001 C CNN "DistLink"
+F 8 "311-20.0KHRCT-ND" H 4950 2300 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/yageo/RC0603FR-0720KL/311-20-0KHRCT-ND/729987" H 4950 2300 50  0001 C CNN "DistLink"
 	1    4950 2300
 	0    1    1    0   
 $EndComp
@@ -399,11 +399,11 @@ F 1 "1u" H 5000 4100 50  0000 C CNN
 F 2 "Capacitor_SMD:C_0603_1608Metric" H 5238 3900 50  0001 C CNN
 F 3 "~" H 5200 4050 50  0001 C CNN
 F 4 "Ceramic Capacitor" H 5200 4050 50  0001 C CNN "Device"
-F 5 "CAP CER 1UF 25V X7R 0603" H 5200 4050 50  0001 C CNN "Description"
+F 5 "CAP CER 1UF 35V X7R 0603" H 5200 4050 50  0001 C CNN "Description"
 F 6 "Yes" H 5200 4050 50  0001 C CNN "Place"
 F 7 "Digikey" H 5200 4050 50  0001 C CNN "Dist"
-F 8 "445-5956-1-ND" H 5200 4050 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/tdk-corporation/C1608X7R1E105K080AB/445-5956-1-ND/2443997" H 5200 4050 50  0001 C CNN "DistLink"
+F 8 "445-7414-1-ND" H 5200 4050 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/tdk-corporation/C1608X7R1V105K080AC/445-7414-1-ND/2733486" H 5200 4050 50  0001 C CNN "DistLink"
 	1    5200 4050
 	-1   0    0    1   
 $EndComp
