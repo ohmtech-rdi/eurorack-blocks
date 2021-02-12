@@ -121,11 +121,11 @@ F 1 "MMBT3904" H 5291 3555 50  0000 L CNN
 F 2 "Package_TO_SOT_SMD:SOT-23" H 5300 3525 50  0001 L CIN
 F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 5100 3600 50  0001 L CNN
 F 4 "Bipolar Transistor" H 5100 3600 50  0001 C CNN "Device"
-F 5 "TRANS NPN 40V 200MA SOT23-3" H 5100 3600 50  0001 C CNN "Description"
+F 5 "TRANS NPN 40V 0.2A SOT23" H 5100 3600 50  0001 C CNN "Description"
 F 6 "Yes" H 5100 3600 50  0001 C CNN "Place"
 F 7 "Digikey" H 5100 3600 50  0001 C CNN "Dist"
-F 8 "MMBT3904LT1GOSCT-ND" H 5100 3600 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/MMBT3904LT1G/MMBT3904LT1GOSCT-ND/1139813" H 5100 3600 50  0001 C CNN "DistLink"
+F 8 "MMBT3904LT3GOSCT-ND" H 5100 3600 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/MMBT3904LT3G/MMBT3904LT3GOSCT-ND/1139814" H 5100 3600 50  0001 C CNN "DistLink"
 	1    5100 3600
 	1    0    0    -1  
 $EndComp
