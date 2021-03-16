@@ -11,6 +11,7 @@
 from __future__ import print_function
 from collections import Counter
 import logging
+import math
 import os
 import subprocess
 import sys
@@ -97,7 +98,7 @@ def generate_bom_digikey ():
          if components_metadata [part].reference.startswith ('J'):
             value = ''
          description = components_metadata [part].description
-         quantity = distributor_parts [part]
+         quantity = math.ceil (distributor_parts [part] * 1.1) # 10% more components
          output.write ('"%s","%d"\n' % (part, quantity))
 
 
