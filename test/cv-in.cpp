@@ -17,34 +17,34 @@
 
 /*\\\ CLASSES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-constexpr float pim2 = 2.f * float (M_PI);
+constexpr double pim2 = 2.f * M_PI;
 
 class OscSin
 {
 public:
    void           set_freq (float freq)
    {
-      const float phase_step = pim2 * freq / erb::sample_rate;
+      const double phase_step = pim2 * freq / erb::sample_rate;
       _step_cos = std::cos (phase_step);
       _step_sin = std::sin (phase_step);
    }
 
    float          process ()
    {
-      const float old_cos = _pos_cos;
-      const float old_sin = _pos_sin;
+      const double old_cos = _pos_cos;
+      const double old_sin = _pos_sin;
       _pos_cos = old_cos * _step_cos - old_sin * _step_sin;
       _pos_sin = old_cos * _step_sin + old_sin * _step_cos;
 
-      return _pos_sin;
+      return float (_pos_sin);
    }
 
 private:
-   float          _step_cos = 1.f;
-   float          _step_sin = 0.f;
+   double         _step_cos = 1.f;
+   double         _step_sin = 0.f;
 
-   float          _pos_cos = 1.f;
-   float          _pos_sin = 0.f;
+   double         _pos_cos = 1.f;
+   double         _pos_sin = 0.f;
 };
 
 
