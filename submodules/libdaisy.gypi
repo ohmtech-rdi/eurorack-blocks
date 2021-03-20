@@ -293,6 +293,7 @@
 
          'cflags_c': [
             '-Wno-old-style-declaration',
+            '-Wno-stringop-overflow',
          ],
 
          'cflags_cc': [
