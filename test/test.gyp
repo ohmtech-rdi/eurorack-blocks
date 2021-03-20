@@ -46,6 +46,13 @@
       },
 
       {
+         'target_name': 'cv-in2',
+         'type': 'executable',
+         'dependencies': [ 'erb' ],
+         'sources': [ 'cv-in2.cpp' ],
+      },
+
+      {
          'target_name': 'gate-in',
          'type': 'executable',
          'dependencies': [ 'erb' ],
