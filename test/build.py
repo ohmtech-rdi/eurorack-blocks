@@ -39,6 +39,7 @@ if __name__ == '__main__':
       erbb.objcopy ('audio-out-daisy', PATH_THIS)
       erbb.objcopy ('button', PATH_THIS)
       erbb.objcopy ('cv-in', PATH_THIS)
+      erbb.objcopy ('cv-in2', PATH_THIS)
       erbb.objcopy ('gate-in', PATH_THIS)
       erbb.objcopy ('gate-out', PATH_THIS)
       erbb.objcopy ('led-bi', PATH_THIS)
