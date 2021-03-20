@@ -25,8 +25,13 @@ Multiple `multiplexer` can be used, for example for a module with 8 parameters,
 one `multiplexer` for the 8 `pot`, and another for the 8 attenuverter `trim`.
 In that case, note that the same 3 GPIO outputs address can be reused for both multiplexers.
 
+Conversely, not all pins of the multiplexer needs to be read if not needed. If less than 4 pots
+are needed, then just the A and B part of the address can be used.
+
 
 ## Connecting
+
+<p align="center"><img src="./documentation/connecting.png" width="100%"></p>
 
 - This block needs its `GND` to be connected to the ground. All `GND` pins are connected
    internally,
@@ -34,7 +39,7 @@ In that case, note that the same 3 GPIO outputs address can be reused for both m
 - The signal `OUT` is the multiplexer output. It should be connected to any Analog GPIO of the
    target MCU. See [Daisy Seed pinout](https://images.squarespace-cdn.com/content/v1/58d03fdc1b10e3bf442567b8/1591827747342-HCXMM2NNR26SP5F4U2CJ/ke17ZwdGBToddI8pDm48kN5PbQBGNYbW-5Hm1pf8hRF7gQa3H78H3Y0txjaiv_0fDoOvxcdMmMKkDsyUqMSsMWxHk725yiiHCCLfrh8O1z4YTzHvnKhyp6Da-NYroOW3ZGjoBKy3azqku80C789l0kLp48N9LluBiCpBrPZntaz462IffsVrAff3VJkwKncM1HZuDnV98dfxM9yHlqFkUQ/DaisyPinoutRev4%404x.png?format=500w) for details.
 - The signals from `IN0` to `IN7` are the inputs signals which would typically be connected to
-   a `pot` or `trim` block `OUT`.
+   a `pot` or `trim` block `OUT`. If not used, they should be connected to `GND`.
 
 
 ## Using
@@ -45,16 +50,19 @@ int main ()
    using namespace erb;
    
    Module module;
-   Multiplexer mux (
-      module, AdcPin6,              // 1.
-      Pin23, Pin24, Pin25           // 2.
+   Multiplexer multiplexer (
+      module, AdcPin0,                       // 1.
+      Pin23, Pin24, Pin25                    // 2.
    );
    
+   Pot pot1 (multiplexer, MultiplexerPin0);  // 3.
+   ...
+   Pot pot8 (multiplexer, MultiplexerPin7);
+
    module.run ([&](){
-      for (size_t i = 0 ; i < 8 ; ++i)
-      {
-         float pot_value = mux [i]; // 3.
-      }
+      float pot1_value = pot1;               // 4.
+      ...
+      float pot8_value = pot8;
    });
 }
 ```
@@ -62,7 +70,9 @@ int main ()
 1. Attach the multiplexer to the module and specify the same analog pin
    as the one used for connecting,
 2. And specify the same digitals pins as the one used for connecting,
-3. Retrieve the normalized (in the `0.f` to `1.f` range) floating-point pot value
-   for input `IN` number `i`.
+3. Attach the pot to the multiplexer and specify the same analog pin
+   as the one used for connecting,
+4. Retrieve the normalised (in the  `0.f` to `1.f` range) or bipolar (in the `-1.f` to `1.f` range)
+   floating-point pot value.
 
 The `Multiplexer` class reference is available [here](./documentation/reference.md).
