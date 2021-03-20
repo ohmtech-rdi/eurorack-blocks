@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      AnalogControlBase.cpp
+      Multiplexer.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,10 +9,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/AnalogControlBase.h"
+#include "erb/Multiplexer.h"
 
 #include "erb/Module.h"
-#include "erb/Multiplexer.h"
+
+
 
 namespace erb
 {
@@ -27,9 +28,9 @@ Name : ctor
 ==============================================================================
 */
 
-AnalogControlBase::AnalogControlBase (Module & module, const AdcPin & pin)
+Multiplexer::Multiplexer (Module & module, const AdcPin & pin, const Pin & pin_a)
 {
-   module.add (*this, pin.pin);
+   module.add (*this, pin.pin, MultiplexerAddressPins { pin_a, PinNC, PinNC });
 }
 
 
@@ -40,22 +41,22 @@ Name : ctor
 ==============================================================================
 */
 
-AnalogControlBase::AnalogControlBase (Multiplexer & multiplexer, const MultiplexerPin & pin)
+Multiplexer::Multiplexer (Module & module, const AdcPin & pin, const Pin & pin_a, const Pin & pin_b)
 {
-   multiplexer.impl_bind (*this, pin.pin);
+   module.add (*this, pin.pin, { pin_a, pin_b, PinNC });
 }
 
 
 
 /*
 ==============================================================================
-Name : norm_val
+Name : ctor
 ==============================================================================
 */
 
-float AnalogControlBase::norm_val () const
+Multiplexer::Multiplexer (Module & module, const AdcPin & pin, const Pin & pin_a, const Pin & pin_b, const Pin & pin_c)
 {
-   return _norm_val;
+   module.add (*this, pin.pin, { pin_a, pin_b, pin_c });
 }
 
 
@@ -68,9 +69,30 @@ Name : impl_bind
 ==============================================================================
 */
 
-void  AnalogControlBase::impl_bind (uint16_t * val_u16_ptr)
+void  Multiplexer::impl_bind (AnalogControlBase & control, size_t idx)
 {
-   _val_u16_ptr = val_u16_ptr;
+   _controls [idx] = &control;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+void  Multiplexer::impl_bind (uint16_t * val_u16_ptr)
+{
+   for (size_t i = 0 ; i < _controls.size () ; ++i)
+   {
+      auto * control_ptr = _controls [i];
+
+      if (control_ptr != nullptr)
+      {
+         control_ptr->impl_bind (&val_u16_ptr [i]);
+      }
+   }
 }
 
 
@@ -81,10 +103,15 @@ Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  AnalogControlBase::impl_notify_audio_buffer_start ()
+void  Multiplexer::impl_notify_audio_buffer_start ()
 {
-   constexpr float u16_to_norm = 1.f / 65535.f;
-   _norm_val = 1.f - float (*_val_u16_ptr) * u16_to_norm;
+   for (auto * control_ptr : _controls)
+   {
+      if (control_ptr != nullptr)
+      {
+         control_ptr->impl_notify_audio_buffer_start ();
+      }
+   }
 }
 
 

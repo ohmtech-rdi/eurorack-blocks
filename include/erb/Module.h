@@ -41,6 +41,7 @@ namespace erb
 
 
 class AnalogControlBase;
+class Multiplexer;
 
 class Module
 {
@@ -63,6 +64,7 @@ public:
 
    uint32_t       now_ms ();
    void           add (AnalogControlBase & control, const Pin & pin);
+   void           add (Multiplexer & multiplexer, const Pin & pin, const MultiplexerAddressPins & address_pins);
    void           add (ModuleListener & listener);
 
    const Buffer & impl_onboard_codec_buffer_input () const;

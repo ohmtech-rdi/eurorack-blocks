@@ -59,6 +59,13 @@ static constexpr Pin Pin28 = {DSY_GPIOA, 2};
 static constexpr Pin Pin29 = {DSY_GPIOB, 14};
 static constexpr Pin Pin30 = {DSY_GPIOB, 15};
 
+static constexpr Pin PinNC = {DSY_GPIOX, 0}; // internal
+
+inline bool      operator == (const Pin & lhs, const Pin & rhs)
+{
+   return lhs.port == rhs.port && lhs.pin == rhs.pin;
+}
+
 
 
 struct AdcPin
@@ -78,6 +85,31 @@ static constexpr AdcPin AdcPin8 =  {Pin23};
 static constexpr AdcPin AdcPin9 =  {Pin24};
 static constexpr AdcPin AdcPin10 = {Pin25};
 static constexpr AdcPin AdcPin11 = {Pin28};
+
+
+
+struct MultiplexerPin
+{
+   size_t pin;
+};
+
+static constexpr MultiplexerPin MultiplexerPin0 =  {0};
+static constexpr MultiplexerPin MultiplexerPin1 =  {1};
+static constexpr MultiplexerPin MultiplexerPin2 =  {2};
+static constexpr MultiplexerPin MultiplexerPin3 =  {3};
+static constexpr MultiplexerPin MultiplexerPin4 =  {4};
+static constexpr MultiplexerPin MultiplexerPin5 =  {5};
+static constexpr MultiplexerPin MultiplexerPin6 =  {6};
+static constexpr MultiplexerPin MultiplexerPin7 =  {7};
+
+
+
+struct MultiplexerAddressPins
+{
+   dsy_gpio_pin pin_a;
+   dsy_gpio_pin pin_b;
+   dsy_gpio_pin pin_c;
+};
 
 
 

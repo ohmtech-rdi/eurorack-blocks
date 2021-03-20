@@ -26,6 +26,7 @@ namespace erb
 
 
 class Module;
+class Multiplexer;
 
 class AnalogControlBase
 :  public ModuleListener
@@ -36,6 +37,7 @@ class AnalogControlBase
 public:
 
                   AnalogControlBase (Module & module, const AdcPin & pin);
+                  AnalogControlBase (Multiplexer & multiplexer, const MultiplexerPin & pin);
    virtual        ~AnalogControlBase () override = default;
 
    float          norm_val () const;

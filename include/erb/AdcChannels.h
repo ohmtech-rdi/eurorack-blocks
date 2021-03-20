@@ -32,6 +32,7 @@ namespace erb
 
 
 class AnalogControlBase;
+class Multiplexer;
 
 class AdcChannels
 {
@@ -43,6 +44,7 @@ public:
    virtual        ~AdcChannels () = default;
 
    void           add (AnalogControlBase & control, const Pin & pin);
+   void           add (Multiplexer & multiplexer, const Pin & pin, const MultiplexerAddressPins & address_pins);
 
    void           init ();
 
@@ -63,10 +65,18 @@ protected:
 private:
    struct Channel
    {
-      AnalogControlBase *
-                  control_ptr = nullptr;
       dsy_gpio_pin
                   pin;
+
+      // Single
+      AnalogControlBase *
+                  control_ptr = nullptr;
+
+      // Multiplexer
+      Multiplexer *
+                  multiplexer_ptr = nullptr;
+      MultiplexerAddressPins
+                  address_pins;
    };
 
    enum {         NBR_MAX_ADC_CHANNELS = 12 };

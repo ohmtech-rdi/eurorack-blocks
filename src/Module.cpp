@@ -11,10 +11,8 @@
 
 #include "erb/Module.h"
 
-#include "erb/CvIn.h"
-#include "erb/GateIn.h"
-#include "erb/GateOut.h"
-#include "erb/Led.h"
+#include "erb/AnalogControlBase.h"
+#include "erb/Multiplexer.h"
 
 
 
@@ -73,6 +71,20 @@ void  Module::add (AnalogControlBase & control, const Pin & pin)
 {
    _adc_channels.add (control, pin);
    _listeners.add (control);
+}
+
+
+
+/*
+==============================================================================
+Name : add
+==============================================================================
+*/
+
+void  Module::add (Multiplexer & multiplexer, const Pin & pin, const MultiplexerAddressPins & address_pins)
+{
+   _adc_channels.add (multiplexer, pin, address_pins);
+   _listeners.add (multiplexer);
 }
 
 

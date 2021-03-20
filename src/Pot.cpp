@@ -36,6 +36,21 @@ Pot::Pot (Module & module, const AdcPin & pin, Mode mode)
 
 /*
 ==============================================================================
+Name : ctor
+Note : Multiplexer version
+==============================================================================
+*/
+
+Pot::Pot (Multiplexer & multiplexer, const MultiplexerPin & pin, Mode mode)
+:  AnalogControlBase (multiplexer, pin)
+,  _mode (mode)
+{
+}
+
+
+
+/*
+==============================================================================
 Name : set_mode
 ==============================================================================
 */
