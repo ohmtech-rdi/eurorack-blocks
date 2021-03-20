@@ -81,6 +81,13 @@
       },
 
       {
+         'target_name': 'multiplexer',
+         'type': 'executable',
+         'dependencies': [ 'erb' ],
+         'sources': [ 'multiplexer.cpp' ],
+      },
+
+      {
          'target_name': 'pot',
          'type': 'executable',
          'dependencies': [ 'erb' ],
