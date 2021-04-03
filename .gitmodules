@@ -10,3 +10,6 @@
 [submodule "submodules/libDaisy"]
 	path = submodules/libDaisy
 	url = git@github.com:electro-smith/libDaisy.git
+[submodule "submodules/vcv-rack-sdk"]
+	path = submodules/vcv-rack-sdk
+	url = git@github.com:ohmtech-rdi/vcv-rack-sdk.git
