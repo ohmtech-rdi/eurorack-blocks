@@ -12,19 +12,11 @@
 #include "erb/Led.h"
 
 #include "erb/Module.h"
+#include "erb/def.h"
 
-#if defined (__GNUC__)
-   #pragma GCC diagnostic push
-   #pragma GCC diagnostic ignored "-Wpedantic"
-   #pragma GCC diagnostic ignored "-Wignored-qualifiers"
-   #pragma GCC diagnostic ignored "-Wunused-parameter"
-#endif
-
+erb_DISABLE_WARNINGS_DAISY
 #include "daisy_seed.h"
-
-#if defined (__GNUC__)
-   #pragma GCC diagnostic pop
-#endif
+erb_RESTORE_WARNINGS
 
 
 
