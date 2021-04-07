@@ -44,6 +44,7 @@ if __name__ == '__main__':
       erbb.objcopy ('gate-out', PATH_THIS)
       erbb.objcopy ('led-bi', PATH_THIS)
       erbb.objcopy ('led', PATH_THIS)
+      erbb.objcopy ('multiplexer', PATH_THIS)
       erbb.objcopy ('pot', PATH_THIS)
       erbb.objcopy ('switch', PATH_THIS)
 

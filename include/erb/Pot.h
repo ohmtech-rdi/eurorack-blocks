@@ -26,6 +26,7 @@ namespace erb
 
 
 class Module;
+class Multiplexer;
 
 class Pot
 :  public AnalogControlBase
@@ -41,6 +42,7 @@ public:
    };
 
                   Pot (Module & module, const AdcPin & pin, Mode mode = Mode::Normalized);
+                  Pot (Multiplexer & multiplexer, const MultiplexerPin & pin, Mode mode = Mode::Normalized);
    virtual        ~Pot () override = default;
 
    void           set_mode (Mode mode);

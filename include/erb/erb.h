@@ -24,6 +24,7 @@
 #include "erb/Led.h"
 #include "erb/LedBi.h"
 #include "erb/Module.h"
+#include "erb/Multiplexer.h"
 #include "erb/Pins.h"
 #include "erb/Pot.h"
 #include "erb/Switch.h"

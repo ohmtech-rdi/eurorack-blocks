@@ -12,6 +12,7 @@
 #include "erb/AnalogControlBase.h"
 
 #include "erb/Module.h"
+#include "erb/Multiplexer.h"
 
 namespace erb
 {
@@ -29,6 +30,19 @@ Name : ctor
 AnalogControlBase::AnalogControlBase (Module & module, const AdcPin & pin)
 {
    module.add (*this, pin.pin);
+}
+
+
+
+/*
+==============================================================================
+Name : ctor
+==============================================================================
+*/
+
+AnalogControlBase::AnalogControlBase (Multiplexer & multiplexer, const MultiplexerPin & pin)
+{
+   multiplexer.impl_bind (*this, pin.pin);
 }
 
 

@@ -26,10 +26,12 @@ class Pot;
 ### Constructor
 
 ```c++
-Pot (Module & module, const AdcPin & pin, Mode mode = Mode::Normalized);
+Pot (Module & module, const AdcPin & pin, Mode mode = Mode::Normalized); // 1.
+Pot (Multiplexer & multiplexer, const MultiplexerPin & pin, Mode mode = Mode::Normalized); // 2.
 ```
 
-Constructs the `Pot` with `pin` and attach it to its `module` with `mode`.
+1. Constructs the `Pot` with `pin` and attach it to its `module` with `mode`.
+2. Constructs the `Pot` with `pin` and attach it to its `multiplexer` with `mode`.
 
 `mode` is one of the following:
 - `Pot::Mode::Normalized` to return a value between `0.f` and `1.f`,

@@ -17,7 +17,6 @@ class Multiplexer;
 | - | - |
 | [Constructor](#constructor) | Constructs the `Multiplexer` |
 | [Destructor](#destructor) | Destructs the `Multiplexer` |
-| [`operator [](size_t idx)`](#operator-size_t-idx) | Returns the bipolar CV value at index |
 
 
 ## Member Functions
@@ -26,6 +25,8 @@ class Multiplexer;
 
 ```c++
 Multiplexer (Module & module, const AdcPin & pin, const Pin & pin_a, const Pin & pin_b, const Pin & pin_c);
+Multiplexer (Module & module, const AdcPin & pin, const Pin & pin_a, const Pin & pin_b);
+Multiplexer (Module & module, const AdcPin & pin, const Pin & pin_a);
 ```
 
 Constructs the `Multiplexer` with the pins and attach it to its `module`.
@@ -39,12 +40,3 @@ Constructs the `Multiplexer` with the pins and attach it to its `module`.
 ```
 
 Destructs the `Multiplexer`.
-
-### `operator [](size_t idx)`
-
-```c++
-float operator [](size_t idx) const;
-```
-
-Returns the normalized pot value in the `0.f` to `1.f` range at input number `idx`.
-`idx` must be a number between 0 and 7.
