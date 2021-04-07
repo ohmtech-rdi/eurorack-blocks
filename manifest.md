@@ -16,93 +16,53 @@ a full functional prototype for their module, as they will be limited by
 the design choices (_eg._ number of Gates, CV, etc.) of those prototyping modules.
 
 
+## Story/Workflow
+
+Alex has a new great idea for a eurorack module. They first make the DSP for it.
+
+Eurorack-blocks allows from a simple configuration file to have the UI working in software in
+a simulated eurorack environment (VCV Rack). Once they are satisfied with the result, the same
+configuration file allows the automatic production of the front aluminimum panel, the PCB
+gerbers and BOM for the UI elements connected to the front panel.
+
+They select the right back panel which contains the electronics and connection to Daisy Seed
+depending on their module width in HP and order it already assembled through a PCBA service.
+
+When they receive everything, they just need to solder the THT components of the UI PCB,
+and the routing with wires on front panel.
+
+Then, they plug the front panel to the back panel, and they now have a full module they can
+use in their Eurorack case to play and make music with.
+
+
 ## Value Proposition
 
 This project fills the gap between a slick but limited prototyping platform
 and a full finished product, by providing atomic blocks such as audio in/out, CV,
 gates, knobs and LEDs and supporting-infrastructure like power or
-CV-multiplexer blocks, to allow full functional test of the module.
+CV-multiplexer blocks, to allow full functional test and field test of the module.
 
-To do so, this projects provides the files to manufacture small "breakout"
-PCBs: each PCB represents an atomic function such as gate, CV or pot, that
-can plug on standard [breadboards](https://en.wikipedia.org/wiki/Breadboard)
-and provides eurorack-compatible connectors, such as power bus and 3.5mm mono jack
-connectors.
+To do so, this project provides automation so that the software developer can focus entirely
+on making their module, with close to zero hardware electronics knowledge.
 
-The PCBs have been cost-optimised to provide standard configurations of
-module "blocks". Soldering has been made convenient by regrouping sets of blocks
-on a single panel when using hot-air soldering or reflow ovens.
+Given the DSP code and a GUI configuration file that indicates placements for the eurorack
+UI elements, scripts generate automatically production files for the front aluminimum panel,
+the PCB holding all the UI elements screwed to the front aluminimum panel.
 
-Videos are provided to show everything needed to do manual hot-air
-soldering for SMD components, and reducing the fear associated with
-this soldering technic.
+The latter PCB then plugs to a back PCB whichs contains all the electronics and can be
+produced by a PCBA service. This back PCB can be reused from projects to projects and
+is available in a collection of different popular HP width.
 
-Finally each block was heavily inspired by eurorack open-hardware projects,
-with probably [Mutable Instruments](https://github.com/pichenettes/eurorack)
-by pichennettes/Emilie Gillet,
-and [Electrosmith Daisy Patch](https://github.com/electro-smith/Hardware/tree/master/reference/daisy_patch)
-as the most influential ones.
+Finally the configuration of the UI is done using standard wire, and using a common soldering
+iron.
 
+The configuration can also be used to completely test the module in a
+[Eurorack virtual environment](https://vcvrack.com)
+before the hardware is produced, allowing the software
+developer to develop and debug their module in the comfort of their familiar day-to-day IDE.
 
-## Design Choices
-
-### SMD
-
-We believe that SMD soldering is easy and efficient when using the right tools. We also think
-that those tools are not much more expensive than "traditional" conduction-based
-soldering, and should be part of the hobbyist tool set.
-
-We believe that the fear around SMD soldering can be annihilated by providing the right
-directions.
-
-### Only 3V3
-
-Most MCUs and codecs used in the eurorack world are 3V3. Therefore our blocks
-only supports 3V3. They wouldn't support most of the Arduino's boards
-for example, as most of them are 5V.
-
-### CV/Pots/Attenuverter Separation
-
-It is not uncommon to find CV and associated pot and potential
-attenuverter in the same hardware design block in well-known eurorack modules.
-
-In our design, this is intentionnally left as separate blocks, for the following reasons:
-
-- We believe that having connectors at the bottom of the module and
-  pots on the upper part of the module is a good design choice. Having
-  the different connectors and pots on the same op-amp means layout
-  is more difficult as long traces need to go through the whole PCB,
-- We believe that having the CV-offset controlled by a pot or the
-   CV-amplitude controller by another pot in a linear fashion is
-   sub-optimal in many cases, for the pots reaction to follow users
-   expectations while going through the whole range. Making CV pot modulation
-   in software solves this problem.
-
-### CV Fixed Range
-
-CVs can have all kind of ranges of parameter in practice:
-
-- LFO CVs are supposed to be in the ±2.5V range but it is not
-  uncommon to find CVs that are done with the same swing as for the
-  audio range (±5V),
-- ADSR CVs are supposed to be in the 0-8V range.
-
-For this reason, the original design takes all values from ±8V even
-with the associated loss of dynamic.
-
-However one could use different resistors when assembling the related
-blocks. Those adaptations can be infered by following each block documentation.
-
-### Bus Connector
-
-The power block only draws current from the ±12V lines of the eurorack
-power bus connector. In particular the +5V, CV and Gate lines are not used.
-
-
-## Functional Limitations
-
-Because a prototype module will sit on a breadboard, the system is not
-convenient for usability field testing.
+Finally because the layout of a module can be a difficult task, a series of configuration
+templates are available to start hacking with.
 
 
 ## Timeline
@@ -123,18 +83,7 @@ convenient for usability field testing.
 - Audience:
    - Software Developer
 - Goals:
-   - Prevent mistakes that could fry the board
-      - Route all ±12V and 5V power supplies and making not available for patching
-      - Separate clearly all eurorack signal voltages from the 3V3 patching bay
-   - Allow software functional testing
-      - Supporting VCV Rack plug-in architecture
-   - Allow field functional testing
-      - Make a plug-n-play combo that contains all blocks: power bus, regular, Daisy Seed, 10 CVs, 16 pots, 2 multiplexer, etc.
-      - The combo only exposes basic routing on the PCB so that absolutely no hardware skills
-         are necessary
-      - Box can be put at the back of the modular system with no possibility of shortages with the
-         rest of the system
-      - Connectors are used to connect from the board to the front panel. Each interface design
-         (CV/gate, pot/trim, led, button) needs to have a connector with the front panel element
-         on one side, and a male pin header on the other side, and the appropriate cable in-between 
-      - The combo can be produced by a PCBA service
+   - Provide automations to develop and debug in a Eurorack virtual environment
+   - Provide automations to generate all production files to build the module
+   - Allow module to be assembled with very minimal electronics skills
+   - Allow full field functional testing
