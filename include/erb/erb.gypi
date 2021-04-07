@@ -17,6 +17,7 @@
 
          'sources': [
             # headers
+            'def.h',
             'erb.h',
             'AdcChannels.h',
             'AnalogControlBase.h',
