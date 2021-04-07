@@ -32,7 +32,7 @@ if sys.version_info < (2, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.build ('drop', PATH_THIS)
+      erbb.build_target ('drop', 'drop', PATH_THIS)
       erbb.objcopy ('drop', PATH_THIS)
 
    except subprocess.CalledProcessError as error:
