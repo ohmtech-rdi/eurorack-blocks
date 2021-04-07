@@ -15,6 +15,7 @@ jobs:
       - run: sudo apt-get update
       - run: sudo add-apt-repository ppa:js-reynaud/kicad-5
       - run: sudo apt-get install kicad
+      - run: sudo apt-get install python-setuptools
       - run: pip install future
       - run: python audio-in-daisy/build.py
       - run: python audio-out-daisy/build.py
