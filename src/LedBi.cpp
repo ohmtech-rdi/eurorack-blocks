@@ -12,6 +12,7 @@
 #include "erb/LedBi.h"
 
 #include "erb/Module.h"
+#include "erb/def.h"
 
 #if defined (__GNUC__)
    #pragma GCC diagnostic push
@@ -162,7 +163,7 @@ LedBi::State   LedBi::to_state (Color color)
    case Color::Green:
       return { false, true };
 
-#if defined (__GNUC__)
+#if erb_GNUC_SWITCH_COVERAGE_FIX
    default:
       return { false, false };
 #endif

@@ -12,6 +12,7 @@
 #include "erb/GateIn.h"
 
 #include "erb/Module.h"
+#include "erb/def.h"
 
 #include "per/gpio.h"
 
@@ -68,7 +69,7 @@ GateIn::operator bool () const
    case Mode::Gate:
       return _current;
 
-#if defined (__GNUC__) && ! defined (__clang__)
+#if erb_GNUC_SWITCH_COVERAGE_FIX
    default:
       return false;
 #endif
