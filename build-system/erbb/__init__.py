@@ -115,6 +115,26 @@ def build (name, path):
 
 """
 ==============================================================================
+Name : build_target
+==============================================================================
+"""
+
+def build_target (name, target, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+   configuration = 'Release'
+
+   cmd = [
+      'ninja',
+      '-C', os.path.join (path_artifacts, 'out', configuration),
+      target
+   ]
+
+   subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
 Name : objcopy
 ==============================================================================
 """
