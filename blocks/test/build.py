@@ -14,7 +14,7 @@ import subprocess
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
-PATH_ROOT = os.path.abspath (os.path.dirname (PATH_THIS))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbb

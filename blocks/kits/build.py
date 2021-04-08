@@ -26,7 +26,7 @@ if sys.version_info < (2, 7):
    sys.exit (1)
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
-PATH_ROOT = os.path.abspath (os.path.dirname (PATH_THIS))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 
 
