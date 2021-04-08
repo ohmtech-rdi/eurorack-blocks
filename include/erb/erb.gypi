@@ -39,6 +39,8 @@
             'Pot.h',
             'Switch.h',
 
+            'detail/Debounce.h',
+
             # sources
             '../../src/erb.cpp',
             '../../src/AdcChannels.cpp',
@@ -56,6 +58,8 @@
             '../../src/Multiplexer.cpp',
             '../../src/Pot.cpp',
             '../../src/Switch.cpp',
+
+            '../../src/detail/Debounce.cpp',
          ],
 
          'include_dirs': [
