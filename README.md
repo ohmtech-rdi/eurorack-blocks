@@ -22,42 +22,42 @@ The full manifest can be read [here](manifest.md).
 
 ### Audio Signals
 
-- [`audio-in-daisy`](./audio-in-daisy/) is an audio input block,
-- [`audio-out-daisy`](./audio-out-daisy/) is an audio output block.
+- [`audio-in-daisy`](./blocks/audio-in-daisy/) is an audio input block,
+- [`audio-out-daisy`](./blocks/audio-out-daisy/) is an audio output block.
 
 ### Control Voltages
 
-- [`cv-in`](./cv-in/) is a CV input block.
+- [`cv-in`](./blocks/cv-in/) is a CV input block.
 
 ### Trigger, Gate and Clock Signals
 
-- [`gate-in`](./gate-in/) is a gate input block,
-- [`gate-out`](./gate-out/) is a gate output block.
+- [`gate-in`](./blocks/gate-in/) is a gate input block,
+- [`gate-out`](./blocks/gate-out/) is a gate output block.
 
 ### HID
 
-- [`button`](./button/) is a trigger button,
-- [`led`](./led/) is a monochromatic LED,
-- [`led-bi`](./led-bi/) is a dichromatic LED,
-- [`pot`](./pot/) is a potentiometer block,
-- [`slider`](./slider/) is a slider potentiometer block,
-- [`switch`](./switch/) is a 2 or 3 positions toggle switch,
-- [`trim`](./trim/) is a trim potentiometer block.
+- [`button`](./blocks/button/) is a trigger button,
+- [`led`](./blocks/led/) is a monochromatic LED,
+- [`led-bi`](./blocks/led-bi/) is a dichromatic LED,
+- [`pot`](./blocks/pot/) is a potentiometer block,
+- [`slider`](./blocks/slider/) is a slider potentiometer block,
+- [`switch`](./blocks/switch/) is a 2 or 3 positions toggle switch,
+- [`trim`](./blocks/trim/) is a trim potentiometer block.
 
 ### Power
 
-- [`power-bus`](./power-bus/) is a eurorack compatible power bus.
-- [`regulator-daisy`](./regulator-daisy/) is a voltage regulator compatible with the Daisy Seed.
+- [`power-bus`](./blocks/power-bus/) is a eurorack compatible power bus.
+- [`regulator-daisy`](./blocks/regulator-daisy/) is a voltage regulator compatible with the Daisy Seed.
 
 ### Utility
 
-- [`multiplexer`](./multiplexer/) is a signal multiplexer block.
+- [`multiplexer`](./blocks/multiplexer/) is a signal multiplexer block.
 
 
 ## Kits
 
 Blocks are packed into panels called "kits".
-[`kits`](./kits/) contains panelized blocks standard kits.
+[`kits`](./blocks/kits/) contains panelized blocks standard kits.
 
 
 ## Requirements
@@ -104,29 +104,30 @@ This repository contains submodules:
 
 ```
 eurorack-blocks/
-   audio-in-daisy/
-   audio-out-daisy/
+   blocks/
+      audio-in-daisy/
+      audio-out-daisy/
+      button/
+      cv-in/
+      gate-in/
+      gate-out/
+      kits/
+      multiplexer/
+      led/
+      led-bi/
+      pot/
+      power-bus/
+      regulator-daisy/
+      slider/
+      switch/
+      trim/
    build-system/
-   button/
-   cv-in/
-   gate-in/
-   gate-out/
    include/
-   kits/
-   multiplexer/
-   led/
-   led-bi/
-   pot/
-   power-bus/
-   regulator-daisy/
-   slider/
    src/
    submodules/
       kcgen/
       kicad-libs/
       libDaisy/
-   switch/
-   trim/
 ```
 
 - All blocks have their own directory,
