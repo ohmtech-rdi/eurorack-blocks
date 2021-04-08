@@ -10,7 +10,7 @@
 {
    'targets' : [
       {
-         'target_name': 'erb',
+         'target_name': 'erb-daisy',
          'type': 'static_library',
 
          'dependencies': [ 'libdaisy' ],
