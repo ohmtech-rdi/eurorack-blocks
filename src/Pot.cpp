@@ -12,6 +12,9 @@
 #include "erb/Pot.h"
 
 #include "erb/Module.h"
+#include "erb/def.h"
+
+
 
 namespace erb
 {
@@ -73,7 +76,7 @@ Pot::operator float () const
    switch (_mode)
    {
    case Mode::Normalized:
-#if defined (__GNUC__) && ! defined (__clang__)
+#if erb_GNUC_SWITCH_COVERAGE_FIX
    default:
 #endif
       return norm_val ();
