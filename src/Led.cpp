@@ -82,7 +82,7 @@ void  Led::pulse (std::chrono::milliseconds duration)
 {
    _mode = Mode::Pulse;
    _start = _module.now_ms ();
-   _duration = uint32_t (duration.count ());
+   _duration = uint64_t (duration.count ());
 
    _current = true;
 }
@@ -99,7 +99,7 @@ void  Led::blink (std::chrono::milliseconds half_period)
 {
    _mode = Mode::Blink;
    _start = _module.now_ms ();
-   _duration = uint32_t (half_period.count ());
+   _duration = uint64_t (half_period.count ());
 
    _current = true;
 }

@@ -82,7 +82,7 @@ void  GateOut::trigger (std::chrono::milliseconds duration)
 {
    _mode = Mode::Pulse;
    _start = _module.now_ms ();
-   _duration = uint32_t (duration.count ());
+   _duration = uint64_t (duration.count ());
 
    _current = true;
 }
