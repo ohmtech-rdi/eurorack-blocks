@@ -9,6 +9,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "TestDebounce.h"
+
 #include <iostream>
 
 
@@ -24,6 +26,9 @@ Name : main
 int main ()
 {
    std::cout << "Running Unit Tests" << std::endl;
+
+   std::cout << "   Running TestDebounce..." << std::endl;
+   { TestDebounce test; test.run (); }
 
    std::cout << "OK" << std::endl;
 }
