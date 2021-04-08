@@ -44,3 +44,16 @@ jobs:
       - run: sudo apt-get install -y ninja-build
       - run: python blocks/test/configure.py
       - run: python blocks/test/build.py
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y ninja-build
+      - run: python test/configure.py
+      - run: python test/build.py
+      - run: python test/run.py

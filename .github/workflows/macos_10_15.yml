@@ -56,3 +56,29 @@ jobs:
       - run: brew install ninja
       - run: python2 blocks/test/configure.py
       - run: python2 blocks/test/build.py
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install ninja
+      - run: python3 test/configure.py
+      - run: python3 test/build.py
+      - run: python3 test/run.py
+
+  unit_tests_py2:
+    name: Unit Tests (Python 2 Compat)
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: pip2 install future
+      - run: brew install ninja
+      - run: python2 test/configure.py
+      - run: python2 test/build.py
+      - run: python2 test/run.py
+
