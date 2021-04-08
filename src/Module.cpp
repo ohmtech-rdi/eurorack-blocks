@@ -54,9 +54,9 @@ Name : now_ms
 ==============================================================================
 */
 
-uint32_t Module::now_ms ()
+uint64_t Module::now_ms ()
 {
-   return _seed.system.GetNow ();
+   return _now_ms;
 }
 
 
@@ -190,6 +190,9 @@ Name : audio_callback
 
 void  Module::audio_callback (float ** in, float ** out, size_t /* size */)
 {
+   constexpr uint64_t sample_rate_ull = uint64_t (sample_rate);
+   constexpr uint64_t buffer_size_ull = buffer_size;
+
    // Map eurorack audio level (-5V, 5V) to (-1.f, 1.f)
    constexpr float gain_in = 2.3f;
 
@@ -203,6 +206,9 @@ void  Module::audio_callback (float ** in, float ** out, size_t /* size */)
          frame [j] = gain_in * in_arr [j];
       }
    }
+
+   _now_ms = (_now_spl * 1000) / sample_rate_ull;
+   _now_spl += buffer_size_ull;
 
    _listeners.notify_audio_buffer_start ();
 

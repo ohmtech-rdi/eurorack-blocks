@@ -80,8 +80,8 @@ private:
 
    Mode           _mode;
    bool           _current = false;
-   uint32_t       _start = 0;
-   uint32_t       _duration = 0;
+   uint64_t       _start = 0;
+   uint64_t       _duration = 0;
 
 
 

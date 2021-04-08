@@ -54,7 +54,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   uint32_t       now_ms ();
+   uint64_t       now_ms ();
    void           add (AnalogControlBase & control, const Pin & pin);
    void           add (Multiplexer & multiplexer, const Pin & pin, const MultiplexerAddressPins & address_pins);
    void           add (ModuleListener & listener);
@@ -87,6 +87,9 @@ private:
                   _seed;
    std::function <void ()>
                   _buffer_callback;
+
+   uint64_t       _now_spl = 0ull;
+   uint64_t       _now_ms = 0ull;
 
    Buffer         _onboard_codec_buffer_input;
    Buffer         _onboard_codec_buffer_output;
