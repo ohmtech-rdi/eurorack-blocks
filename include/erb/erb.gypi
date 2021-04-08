@@ -15,6 +15,10 @@
 
          'dependencies': [ 'libdaisy' ],
 
+         'defines': [
+            'erb_TARGET_DAISY',
+         ],
+
          'sources': [
             # headers
             'def.h',
@@ -67,6 +71,10 @@
          ],
 
          'direct_dependent_settings': {
+            'defines': [
+               'erb_TARGET_DAISY',
+            ],
+
             'include_dirs': [
                '..',
             ],
