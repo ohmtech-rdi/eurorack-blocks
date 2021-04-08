@@ -76,8 +76,8 @@ def generate_bom_digikey ():
 
    for block in blocks:
       quantity = blocks [block]
-      block_net = os.path.join (PATH_ROOT, block, '%s.net' % block)
-      block_pcb = os.path.join (PATH_ROOT, block, '%s.kicad_pcb' % block)
+      block_net = os.path.join (PATH_ROOT, 'blocks', block, '%s.net' % block)
+      block_pcb = os.path.join (PATH_ROOT, 'blocks', block, '%s.kicad_pcb' % block)
       design = kcgen.read_design (block_net, block_pcb)
       parts = Counter ()
       for reference in design.components:
@@ -116,8 +116,8 @@ def generate_bom_thonk ():
 
    for block in blocks:
       quantity = blocks [block]
-      block_net = os.path.join (PATH_ROOT, block, '%s.net' % block)
-      block_pcb = os.path.join (PATH_ROOT, block, '%s.kicad_pcb' % block)
+      block_net = os.path.join (PATH_ROOT, 'blocks', block, '%s.net' % block)
+      block_pcb = os.path.join (PATH_ROOT, 'blocks', block, '%s.kicad_pcb' % block)
       design = kcgen.read_design (block_net, block_pcb)
       parts = Counter ()
       for reference in design.components:
