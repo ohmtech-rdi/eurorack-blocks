@@ -43,6 +43,8 @@ jobs:
       - run: brew install ninja
       - run: python3 blocks/test/configure.py
       - run: python3 blocks/test/build.py
+      - run: python3 samples/drop/configure.py
+      - run: python3 samples/drop/build.py
 
   software_py2:
     name: Software (Python 2 Compat)
@@ -56,6 +58,8 @@ jobs:
       - run: brew install ninja
       - run: python2 blocks/test/configure.py
       - run: python2 blocks/test/build.py
+      - run: python2 samples/drop/configure.py
+      - run: python2 samples/drop/build.py
 
   unit_tests:
     name: Unit Tests
