@@ -33,20 +33,24 @@ if sys.version_info < (2, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.build ('test', PATH_THIS)
+      targets = [
+         'audio-in-daisy',
+         'audio-out-daisy',
+         'button',
+         'cv-in',
+         'cv-in2',
+         'gate-in',
+         'gate-out',
+         'led-bi',
+         'led',
+         'multiplexer',
+         'pot',
+         'switch',
+      ]
 
-      erbb.objcopy ('audio-in-daisy', PATH_THIS)
-      erbb.objcopy ('audio-out-daisy', PATH_THIS)
-      erbb.objcopy ('button', PATH_THIS)
-      erbb.objcopy ('cv-in', PATH_THIS)
-      erbb.objcopy ('cv-in2', PATH_THIS)
-      erbb.objcopy ('gate-in', PATH_THIS)
-      erbb.objcopy ('gate-out', PATH_THIS)
-      erbb.objcopy ('led-bi', PATH_THIS)
-      erbb.objcopy ('led', PATH_THIS)
-      erbb.objcopy ('multiplexer', PATH_THIS)
-      erbb.objcopy ('pot', PATH_THIS)
-      erbb.objcopy ('switch', PATH_THIS)
+      for target in targets:
+         erbb.build_target ('test', target, PATH_THIS)
+         erbb.objcopy (target, PATH_THIS)
 
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)
