@@ -33,8 +33,8 @@ if sys.version_info < (2, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.build_target ('drop', 'drop', PATH_THIS)
-      erbb.objcopy ('drop', PATH_THIS)
+      erbb.build_target ('drop', 'drop-daisy', PATH_THIS)
+      erbb.objcopy ('drop-daisy', PATH_THIS)
 
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)
