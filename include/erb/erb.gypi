@@ -10,54 +10,58 @@
 {
    'targets' : [
       {
-         'target_name': 'erb',
+         'target_name': 'erb-daisy',
          'type': 'static_library',
 
          'dependencies': [ 'libdaisy' ],
+
+         'defines': [
+            'erb_TARGET_DAISY',
+         ],
 
          'sources': [
             # headers
             'def.h',
             'erb.h',
-            'AdcChannels.h',
-            'AnalogControlBase.h',
-            'AudioInDaisy.h',
-            'AudioOutDaisy.h',
-            'Button.h',
-            'Constants.h',
-            'CvIn.h',
-            'GateIn.h',
-            'GateOut.h',
-            'Led.h',
-            'LedBi.h',
-            'Module.h',
-            'Module.hpp',
-            'ModuleListener.h',
-            'ModuleListeners.h',
-            'Multiplexer.h',
-            'Pins.h',
-            'Pot.h',
-            'Switch.h',
+
+            'daisy/DaisyAdcChannels.h',
+            'daisy/DaisyAnalogControlBase.h',
+            'daisy/DaisyAudioInDaisy.h',
+            'daisy/DaisyAudioOutDaisy.h',
+            'daisy/DaisyButton.h',
+            'daisy/DaisyConstants.h',
+            'daisy/DaisyCvIn.h',
+            'daisy/DaisyGateIn.h',
+            'daisy/DaisyGateOut.h',
+            'daisy/DaisyLed.h',
+            'daisy/DaisyLedBi.h',
+            'daisy/DaisyModule.h',
+            'daisy/DaisyModule.hpp',
+            'daisy/DaisyModuleListener.h',
+            'daisy/DaisyModuleListeners.h',
+            'daisy/DaisyMultiplexer.h',
+            'daisy/DaisyPins.h',
+            'daisy/DaisyPot.h',
+            'daisy/DaisySwitch.h',
 
             'detail/Debounce.h',
 
             # sources
-            '../../src/erb.cpp',
-            '../../src/AdcChannels.cpp',
-            '../../src/AnalogControlBase.cpp',
-            '../../src/AudioInDaisy.cpp',
-            '../../src/AudioOutDaisy.cpp',
-            '../../src/Button.cpp',
-            '../../src/CvIn.cpp',
-            '../../src/GateIn.cpp',
-            '../../src/GateOut.cpp',
-            '../../src/Led.cpp',
-            '../../src/LedBi.cpp',
-            '../../src/Module.cpp',
-            '../../src/ModuleListeners.cpp',
-            '../../src/Multiplexer.cpp',
-            '../../src/Pot.cpp',
-            '../../src/Switch.cpp',
+            '../../src/daisy/DaisyAdcChannels.cpp',
+            '../../src/daisy/DaisyAnalogControlBase.cpp',
+            '../../src/daisy/DaisyAudioInDaisy.cpp',
+            '../../src/daisy/DaisyAudioOutDaisy.cpp',
+            '../../src/daisy/DaisyButton.cpp',
+            '../../src/daisy/DaisyCvIn.cpp',
+            '../../src/daisy/DaisyGateIn.cpp',
+            '../../src/daisy/DaisyGateOut.cpp',
+            '../../src/daisy/DaisyLed.cpp',
+            '../../src/daisy/DaisyLedBi.cpp',
+            '../../src/daisy/DaisyModule.cpp',
+            '../../src/daisy/DaisyModuleListeners.cpp',
+            '../../src/daisy/DaisyMultiplexer.cpp',
+            '../../src/daisy/DaisyPot.cpp',
+            '../../src/daisy/DaisySwitch.cpp',
 
             '../../src/detail/Debounce.cpp',
          ],
@@ -67,6 +71,10 @@
          ],
 
          'direct_dependent_settings': {
+            'defines': [
+               'erb_TARGET_DAISY',
+            ],
+
             'include_dirs': [
                '..',
             ],

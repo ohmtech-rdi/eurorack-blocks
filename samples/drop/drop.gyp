@@ -21,7 +21,7 @@
          'target_name': 'drop',
          'type': 'executable',
 
-         'dependencies': [ 'erb' ],
+         'dependencies': [ 'erb-daisy' ],
 
          'sources': [
             'main.cpp',
