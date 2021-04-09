@@ -45,6 +45,7 @@ jobs:
       - run: python3 blocks/test/build.py
       - run: python3 samples/drop/configure.py
       - run: python3 samples/drop/build.py
+      - run: python3 samples/drop/build.py --erb-target vcvrack
 
   software_py2:
     name: Software (Python 2 Compat)
@@ -60,6 +61,7 @@ jobs:
       - run: python2 blocks/test/build.py
       - run: python2 samples/drop/configure.py
       - run: python2 samples/drop/build.py
+      - run: python2 samples/drop/build.py --erb-target vcvrack
 
   unit_tests:
     name: Unit Tests
