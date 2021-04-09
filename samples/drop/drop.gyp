@@ -18,7 +18,7 @@
 
    'targets' : [
       {
-         'target_name': 'drop',
+         'target_name': 'drop-daisy',
          'type': 'executable',
 
          'dependencies': [ 'erb-daisy' ],
@@ -34,14 +34,43 @@
       },
 
       {
-         'target_name': 'test',
-         'type': 'executable',
+         'target_name': 'drop-vcvrack',
+         'type': 'shared_library',
+
+         'dependencies': [ 'erb-vcvrack' ],
 
          'sources': [
-            'test.cpp',
+            'DropPluginVcv.cpp',
+            'DropPluginVcv.h',
 
             'DropDsp.cpp',
             'DropDsp.h',
+            'DropModule.cpp',
+            'DropModule.h',
+         ],
+
+         'copies': [
+            {
+               'destination': '<(PRODUCT_DIR)',
+               'files': [
+                  'plugin.json',
+               ],
+            },
+            {
+               'destination': '<(PRODUCT_DIR)/res',
+               'files': [
+                  'DropGuiVcv.svg',
+               ],
+            },
+         ],
+
+         'postbuilds': [
+            {
+               'postbuild_name': 'Copy to VCV Rack plug-ins folder',
+               'action': [
+                  'python', 'deploy-vcv.py'
+               ],
+            },
          ],
       },
    ],
