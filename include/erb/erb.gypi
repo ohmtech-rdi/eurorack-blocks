@@ -84,5 +84,149 @@
             'libdaisy',
          ],
       },
+      {
+         'target_name': 'erb-vcvrack',
+         'type': 'static_library',
+
+         'defines': [
+            'erb_TARGET_VCV_RACK',
+         ],
+
+         'sources': [
+            # headers
+            'def.h',
+            'erb.h',
+
+            'vcvrack/VcvAudioInDaisy.h',
+            'vcvrack/VcvAudioOutDaisy.h',
+            'vcvrack/VcvButton.h',
+            'vcvrack/VcvConstants.h',
+            'vcvrack/VcvCvIn.h',
+            'vcvrack/VcvGateIn.h',
+            'vcvrack/VcvGateOut.h',
+            'vcvrack/VcvInputBase.h',
+            'vcvrack/VcvLed.h',
+            'vcvrack/VcvLedBi.h',
+            'vcvrack/VcvLightBase.h',
+            'vcvrack/VcvModule.h',
+            'vcvrack/VcvModule.hpp',
+            'vcvrack/VcvModuleListener.h',
+            'vcvrack/VcvModuleListeners.h',
+            'vcvrack/VcvMultiplexer.h',
+            'vcvrack/VcvOutputBase.h',
+            'vcvrack/VcvParamBase.h',
+            'vcvrack/VcvPins.h',
+            'vcvrack/VcvPot.h',
+            'vcvrack/VcvSwitch.h',
+
+            'detail/Debounce.h',
+
+            # sources
+            '../../src/vcvrack/VcvAudioInDaisy.cpp',
+            '../../src/vcvrack/VcvAudioOutDaisy.cpp',
+            '../../src/vcvrack/VcvButton.cpp',
+            '../../src/vcvrack/VcvCvIn.cpp',
+            '../../src/vcvrack/VcvGateIn.cpp',
+            '../../src/vcvrack/VcvGateOut.cpp',
+            '../../src/vcvrack/VcvInputBase.cpp',
+            '../../src/vcvrack/VcvLed.cpp',
+            '../../src/vcvrack/VcvLedBi.cpp',
+            '../../src/vcvrack/VcvLightBase.cpp',
+            '../../src/vcvrack/VcvModule.cpp',
+            '../../src/vcvrack/VcvModuleListeners.cpp',
+            '../../src/vcvrack/VcvMultiplexer.cpp',
+            '../../src/vcvrack/VcvOutputBase.cpp',
+            '../../src/vcvrack/VcvParamBase.cpp',
+            '../../src/vcvrack/VcvPot.cpp',
+            '../../src/vcvrack/VcvSwitch.cpp',
+
+            '../../src/detail/Debounce.cpp',
+         ],
+
+         'xcode_settings':
+         {
+            'WARNING_CFLAGS': [
+               '-Wno-shadow-field-in-constructor',
+               '-Wno-float-conversion',
+               '-Wno-documentation-unknown-command',
+               '-Wno-documentation',
+               '-Wno-old-style-cast',
+               '-Wno-zero-as-null-pointer-constant',
+               '-Wno-reserved-id-macro',
+               '-Wno-gnu-anonymous-struct',
+               '-Wno-nested-anon-types',
+               '-Wno-double-promotion',
+               '-Wno-shadow',
+               '-Wno-conversion',
+               '-Wno-unused-parameter',
+               '-Wno-inconsistent-missing-destructor-override',
+               '-Wno-global-constructors',
+               '-Wno-cast-align',
+               '-Wno-cast-qual',
+               '-Wno-vla',
+               '-Wno-vla-extension',
+               '-Wno-header-hygiene',
+            ],
+         },
+
+         'cflags': [
+            '-fPIC',
+         ],
+
+         'include_dirs': [
+            '..',
+            '../../submodules/vcv-rack-sdk/include',
+            '../../submodules/vcv-rack-sdk/dep/include',
+         ],
+
+         'direct_dependent_settings': {
+            'defines': [
+               'erb_TARGET_VCV_RACK',
+            ],
+
+            'xcode_settings':
+            {
+               'WARNING_CFLAGS': [
+                  '-Wno-shadow-field-in-constructor',
+                  '-Wno-float-conversion',
+                  '-Wno-documentation-unknown-command',
+                  '-Wno-documentation',
+                  '-Wno-old-style-cast',
+                  '-Wno-zero-as-null-pointer-constant',
+                  '-Wno-reserved-id-macro',
+                  '-Wno-gnu-anonymous-struct',
+                  '-Wno-nested-anon-types',
+                  '-Wno-double-promotion',
+                  '-Wno-shadow',
+                  '-Wno-conversion',
+                  '-Wno-unused-parameter',
+                  '-Wno-inconsistent-missing-destructor-override',
+                  '-Wno-global-constructors',
+                  '-Wno-cast-align',
+                  '-Wno-cast-qual',
+                  '-Wno-vla',
+                  '-Wno-vla-extension',
+                  '-Wno-header-hygiene',
+               ],
+
+               'OTHER_LDFLAGS': [
+                  '-undefined dynamic_lookup',
+               ],
+
+               'EXECUTABLE_PREFIX': '',
+               'PRODUCT_NAME': 'plugin',
+            },
+
+            'cflags': [
+               '-fPIC',
+            ],
+
+            'include_dirs': [
+               '..',
+               '../../submodules/vcv-rack-sdk/include',
+               '../../submodules/vcv-rack-sdk/dep/include',
+            ],
+         },
+      },
    ],
 }
