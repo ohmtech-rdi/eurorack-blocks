@@ -8,6 +8,7 @@
 from __future__ import print_function
 from builtins import input
 import fileinput
+import multiprocessing
 import os
 import platform
 import shutil
@@ -130,6 +131,53 @@ def build_target (name, target, path):
    ]
 
    subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
+Name : build_native_target
+==============================================================================
+"""
+
+def build_native_target (name, target, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+   configuration = 'Release'
+
+   if platform.system () == 'Darwin':
+      conf_dir = os.path.join (path_artifacts, 'build', configuration)
+
+      if not os.path.exists (conf_dir):
+         os.makedirs (conf_dir)
+
+      xcodebuild_path = '/Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild'
+
+      if not os.path.exists (xcodebuild_path):
+         # fallback to selected Xcode
+         developer_path = subprocess.check_output (['xcode-select', '-p']).decode ('utf-8').rstrip ()
+         xcodebuild_path = developer_path + '/usr/bin/xcodebuild'
+
+      cmd = [
+         xcodebuild_path,
+         '-project', os.path.join (path_artifacts, '%s.xcodeproj' % name),
+         '-configuration', configuration,
+         '-target', target,
+         '-parallelizeTargets',
+         'SYMROOT=%s' % os.path.join (path_artifacts, 'build')
+      ]
+
+      subprocess.check_call (cmd)
+
+   elif platform.system () == 'Linux':
+      cmd = [
+         'make',
+         '-k',
+         '-C', path_artifacts,
+         '-j', '%d' % multiprocessing.cpu_count (),
+         target
+      ]
+
+      subprocess.check_call (cmd)
 
 
 

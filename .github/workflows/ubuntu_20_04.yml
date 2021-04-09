@@ -42,10 +42,12 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install gcc-arm-none-eabi
       - run: sudo apt-get install -y ninja-build
+      - run: sudo apt-get install libglu1-mesa-dev
       - run: python blocks/test/configure.py
       - run: python blocks/test/build.py
       - run: python samples/drop/configure.py
       - run: python samples/drop/build.py
+      - run: python samples/drop/build.py --erb-target vcvrack
 
   unit_tests:
     name: Unit Tests

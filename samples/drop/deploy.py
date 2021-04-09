@@ -33,7 +33,7 @@ if sys.version_info < (2, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.deploy ('drop', PATH_THIS)
+      erbb.deploy ('drop-daisy', PATH_THIS)
 
    except subprocess.CalledProcessError as error:
       print ('Deploy command exited with %d' % error.returncode, file = sys.stderr)
