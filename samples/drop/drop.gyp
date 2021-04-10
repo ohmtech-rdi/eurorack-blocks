@@ -68,7 +68,7 @@
             {
                'postbuild_name': 'Copy to VCV Rack plug-ins folder',
                'action': [
-                  'python', 'deploy-vcv.py'
+                  'python3', 'deploy-vcv.py'
                ],
             },
          ],

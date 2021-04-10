@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 #     deploy.py
 #     Copyright (c) 2020 Raphael Dinge
@@ -30,8 +30,8 @@ TARGET_BUILD_DIR = os.environ ['TARGET_BUILD_DIR']
 
 ##############################################################################
 
-if sys.version_info < (2, 7):
-   print >>sys.stderr, 'This script requires python 2.7 or greater.'
+if sys.version_info < (3, 7):
+   print ('This script requires python 3.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 
@@ -62,5 +62,5 @@ if __name__ == '__main__':
       )
 
    except subprocess.CalledProcessError as error:
-      print >>sys.stderr, 'Run command exited with %d' % error.returncode
+      print ('Deploy command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)

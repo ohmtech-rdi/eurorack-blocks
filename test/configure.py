@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 #     configure.py
 #     Copyright (c) 2020 Raphael DINGE
@@ -25,8 +25,8 @@ import gyp
 
 ##############################################################################
 
-if sys.version_info < (2, 7):
-   print ('This script requires python 2.7 or greater.', file = sys.stderr)
+if sys.version_info < (3, 7):
+   print ('This script requires python 3.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 
