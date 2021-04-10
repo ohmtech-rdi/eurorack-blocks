@@ -41,7 +41,6 @@
 
          'sources': [
             'DropPluginVcv.cpp',
-            'DropPluginVcv.h',
 
             'DropDsp.cpp',
             'DropDsp.h',

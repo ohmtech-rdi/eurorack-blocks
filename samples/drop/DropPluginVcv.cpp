@@ -9,16 +9,42 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "DropPluginVcv.h"
+#include "DropModule.h"
 
-#include <cmath>
+#include <rack.hpp>
+
+
+
+/*\\\ CLASSES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+struct DropVcv
+:  rack::engine::Module
+{
+                  DropVcv ();
+   void           process (const ProcessArgs & /* args */) override;
+
+   DropModule     module;
+
+}; // struct DropDsp
+
+
+
+struct DropWidgetVcv
+:  rack::ModuleWidget
+{
+                  DropWidgetVcv (DropVcv * module);
+
+}; // struct DropDsp
 
 
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-rack::Plugin * pluginInstance;
-rack::Model * modelDrop = rack::createModel <DropVcv, DropWidgetVcv> ("Drop");
+extern rack::Plugin * plugin_instance;
+extern rack::Model * model_drop;
+
+rack::Plugin * plugin_instance = nullptr;
+rack::Model * model_drop = rack::createModel <DropVcv, DropWidgetVcv> ("Drop");
 
 
 
@@ -28,10 +54,10 @@ Name : init
 ==============================================================================
 */
 
-void init (rack::Plugin * p)
+void  init (rack::Plugin * p)
 {
-   pluginInstance = p;
-   p->addModel(modelDrop);
+   plugin_instance = p;
+   p->addModel (model_drop);
 }
 
 
@@ -113,7 +139,7 @@ DropWidgetVcv::DropWidgetVcv (DropVcv * module_)
    // panel
 
    setPanel (APP->window->loadSvg (
-      asset::plugin (pluginInstance, "res/DropGuiVcv.svg"))
+      asset::plugin (plugin_instance, "res/DropGuiVcv.svg"))
    );
 
    // screws
