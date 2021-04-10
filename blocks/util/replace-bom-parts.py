@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 #     build.py
 #
@@ -8,6 +8,7 @@
 
 ##### IMPORT #################################################################
 
+from __future__ import print_function
 import argparse
 import ast
 import logging
@@ -22,8 +23,8 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 ##############################################################################
 
-if sys.version_info < (2, 7):
-   print >>sys.stderr, 'This script requires python 2.7 or greater.'
+if sys.version_info < (3, 7):
+   print ('This script requires python 3.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 
@@ -267,5 +268,5 @@ if __name__ == '__main__':
       sys.exit (replace (parse_args ()))
 
    except subprocess.CalledProcessError as error:
-      print >>sys.stderr, 'Build command exited with %d' % error.returncode
+      print ('Replace command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit(1)

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 #
 #     run.py
 #     Copyright (c) 2020 Raphael DINGE
@@ -18,8 +18,8 @@ import sys
 
 ##############################################################################
 
-if sys.version_info < (2, 7):
-   print ('This script requires python 2.7 or greater.', file = sys.stderr)
+if sys.version_info < (3, 7):
+   print ('This script requires python 3.7 or greater.', file = sys.stderr)
    sys.exit (1)
 
 PATH_THIS = os.path.dirname (__file__)
@@ -66,5 +66,5 @@ if __name__ == '__main__':
       sys.exit (run (parse_args ()))
 
    except subprocess.CalledProcessError as error:
-      print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
+      print ('Run command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit(1)
