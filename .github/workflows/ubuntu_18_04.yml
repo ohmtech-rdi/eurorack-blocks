@@ -34,3 +34,21 @@ jobs:
       - run: python blocks/trim/build.py
       - run: python blocks/kits/stats.py
       - run: python blocks/kits/build.py
+
+  software:
+    name: Software
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo apt-get install python3
+      - run: sudo apt-get install gcc-arm-none-eabi
+      - run: sudo apt-get install -y ninja-build
+      - run: sudo apt-get install libglu1-mesa-dev
+      - run: python3 blocks/test/configure.py
+      - run: python3 blocks/test/build.py
+      - run: python3 samples/drop/configure.py
+      - run: python3 samples/drop/build.py
+      - run: python3 samples/drop/build.py --erb-target vcvrack
