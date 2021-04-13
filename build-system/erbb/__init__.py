@@ -15,6 +15,9 @@ import shutil
 import subprocess
 import sys
 
+from . import ast
+from .parser import Parser
+
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
@@ -92,6 +95,23 @@ def configure_daisy (name, path):
    os.chdir (path)
    gyp.main (gyp_args + ['%s.gyp' % name])
    os.chdir (cwd)
+
+
+
+"""
+==============================================================================
+Name: parse_ui
+==============================================================================
+"""
+
+def parse_ui (name, path):
+   filepath = os.path.join (path, name)
+
+   with open (filepath, "r") as data:
+      input_text = data.read ()
+
+   parser = Parser ()
+   return parser.parse (input_text, filepath)
 
 
 
