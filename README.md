@@ -140,3 +140,11 @@ eurorack-blocks/
    containing components like the standard Thonk jack connector,
 - [`libDaisy`](https://github.com/electro-smith/libDaisy) is a hardware library
    for the Daisy audio platform.
+
+
+## License
+
+All files in this repository are provided with the CC BY-SA 4.0 license, **except**:
+
+- The [D-DIN Font](./include/erb/vcvrack/design/d-din),
+   under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt).
