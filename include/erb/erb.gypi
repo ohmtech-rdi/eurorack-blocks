@@ -185,6 +185,10 @@
                'erb_TARGET_VCV_RACK',
             ],
 
+            'sources': [
+               '<!(echo artifacts/plugin_vcvrack.cpp)',
+            ],
+
             'xcode_settings':
             {
                'WARNING_CFLAGS': [
