@@ -41,10 +41,7 @@ Name : operator float
 
 VcvCvIn::operator float () const
 {
-   // maybe emulate the same scaling effect as
-   // having a specific number of bits of ADC precision?
-
-   return norm_val () * 2.f - 1.f;
+   return norm_val ();
 }
 
 
