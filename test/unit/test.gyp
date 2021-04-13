@@ -29,15 +29,15 @@
 
          'include_dirs': [
             '.',
-            '../include',
+            '../../include',
          ],
 
          'sources': [
             'main.cpp',
             'test.h',
 
-            '../include/erb/detail/Debounce.h',
-            '../src/detail/Debounce.cpp',
+            '../../include/erb/detail/Debounce.h',
+            '../../src/detail/Debounce.cpp',
 
             'TestDebounce.cpp',
             'TestDebounce.h',
