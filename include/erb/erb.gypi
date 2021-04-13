@@ -257,6 +257,14 @@
                },
             ],
 
+            'postbuilds': [
+               {
+                  'postbuild_name': 'Copy to VCV Rack plug-ins folder',
+                  'action': [
+                     'python3', 'artifacts/deploy_vcvrack.py'
+                  ],
+               },
+            ],
          },
       },
    ],
