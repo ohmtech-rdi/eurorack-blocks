@@ -66,6 +66,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - run: brew install cairo pkg-config
+      - run: pip3 install pycairo
       - run: pip3 install coverage
       - run: python3 build-system/test.py
       - run: python3 build-system/cover.py
