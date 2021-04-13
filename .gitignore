@@ -24,6 +24,12 @@ fp-info-cache
 *.py[cod]
 
 
+# Python coverage files
+
+.coverage
+htmlcov/
+
+
 # Build temporary files
 
 artifacts/

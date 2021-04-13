@@ -58,3 +58,14 @@ jobs:
       - run: python3 test/unit/configure.py
       - run: python3 test/unit/build.py
       - run: python3 test/unit/run.py
+
+  erbb_tests:
+    name: Erbb Tests
+    runs-on: macos-10.15
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: pip3 install coverage
+      - run: python3 build-system/test.py
+      - run: python3 build-system/cover.py
