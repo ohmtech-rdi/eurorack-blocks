@@ -58,6 +58,6 @@ jobs:
           submodules: recursive
       - run: sudo apt-get update
       - run: sudo apt-get install -y ninja-build
-      - run: python test/configure.py
-      - run: python test/build.py
-      - run: python test/run.py
+      - run: python test/unit/configure.py
+      - run: python test/unit/build.py
+      - run: python test/unit/run.py

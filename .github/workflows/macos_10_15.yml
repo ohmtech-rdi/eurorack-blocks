@@ -55,6 +55,6 @@ jobs:
         with:
           submodules: recursive
       - run: brew install ninja
-      - run: python3 test/configure.py
-      - run: python3 test/build.py
-      - run: python3 test/run.py
+      - run: python3 test/unit/configure.py
+      - run: python3 test/unit/build.py
+      - run: python3 test/unit/run.py
