@@ -65,6 +65,7 @@ Blocks are packed into panels called "kits".
 
 Building and deploying the tests requires:
 
+- The `python3` interpreter with minimum version 3.7,
 - The `gcc` ARM toolchain,
 - The `dfu-util` firmware downloader,
 - The `ninja` build system.
