@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DropModule.h
+      Drop.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -19,7 +19,7 @@
 
 using namespace erb;
 
-struct DropModule
+struct Drop
 {
    DropDsp drop_dsp { sample_rate };
 

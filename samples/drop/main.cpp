@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "DropModule.h"
+#include "Drop.h"
 
 
 
@@ -23,7 +23,7 @@ Name : main
 
 int main ()
 {
-   DropModule drop;
+   Drop drop;
 
    drop.module.run ([&](){
       drop.process ();

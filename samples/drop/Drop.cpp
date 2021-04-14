@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DropModule.cpp
+      Drop.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "DropModule.h"
+#include "Drop.h"
 
 #include <cmath>
 
@@ -21,7 +21,7 @@ Name : process
 ==============================================================================
 */
 
-void  DropModule::process ()
+void  Drop::process ()
 {
    if (arm_button.pressed () || arm_gate)
    {

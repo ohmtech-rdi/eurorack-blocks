@@ -23,12 +23,12 @@
 
          'direct_dependent_settings': {
             'sources': [
+               'Drop.cpp',
+               'Drop.h',
                'DropDsp.cpp',
                'DropDsp.h',
                'DropGui.py',
                'DropGui.erbui',
-               'DropModule.cpp',
-               'DropModule.h',
             ],
          },
       },
