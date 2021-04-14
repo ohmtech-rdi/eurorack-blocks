@@ -41,6 +41,8 @@ jobs:
           submodules: recursive
       - run: brew install armmbed/formulae/arm-none-eabi-gcc
       - run: brew install ninja
+      - run: brew install cairo pkg-config
+      - run: pip3 install pycairo
       - run: python3 blocks/test/configure.py
       - run: python3 blocks/test/build.py
       - run: python3 samples/drop/configure.py
@@ -71,3 +73,5 @@ jobs:
       - run: pip3 install coverage
       - run: python3 build-system/test.py
       - run: python3 build-system/cover.py
+      - run: python3 test/vcvrack/configure.py
+      - run: python3 test/vcvrack/build.py
