@@ -18,18 +18,29 @@
 
    'targets' : [
       {
+         'target_name': 'drop',
+         'type': 'none',
+
+         'direct_dependent_settings': {
+            'sources': [
+               'DropDsp.cpp',
+               'DropDsp.h',
+               'DropGui.py',
+               'DropGui.erbui',
+               'DropModule.cpp',
+               'DropModule.h',
+            ],
+         },
+      },
+
+      {
          'target_name': 'drop-daisy',
          'type': 'executable',
 
-         'dependencies': [ 'erb-daisy' ],
+         'dependencies': [ 'drop', 'erb-daisy' ],
 
          'sources': [
             'main.cpp',
-
-            'DropDsp.cpp',
-            'DropDsp.h',
-            'DropModule.cpp',
-            'DropModule.h',
          ],
       },
 
@@ -37,25 +48,7 @@
          'target_name': 'drop-vcvrack',
          'type': 'shared_library',
 
-         'dependencies': [ 'erb-vcvrack' ],
-
-         'sources': [
-            'DropPluginVcv.cpp',
-
-            'DropDsp.cpp',
-            'DropDsp.h',
-            'DropModule.cpp',
-            'DropModule.h',
-         ],
-
-         'copies': [
-            {
-               'destination': '<(PRODUCT_DIR)/res',
-               'files': [
-                  'DropGuiVcv.svg',
-               ],
-            },
-         ],
+         'dependencies': [ 'drop', 'erb-vcvrack' ],
       },
    ],
 }
