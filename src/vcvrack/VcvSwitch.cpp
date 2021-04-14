@@ -58,11 +58,13 @@ void  VcvSwitch::impl_notify_audio_buffer_start ()
 {
    VcvParamBase::impl_notify_audio_buffer_start ();
 
-   if (norm_val () < 0.5f)
+   float val = _position_mult * norm_val ();
+
+   if (val < 0.25f)
    {
       _position = Position::Out0;
    }
-   else if (norm_val () > 0.5f)
+   else if (val > 0.75f)
    {
       _position = Position::Out1;
    }
@@ -70,6 +72,19 @@ void  VcvSwitch::impl_notify_audio_buffer_start ()
    {
       _position = Position::Center;
    }
+}
+
+
+
+/*
+==============================================================================
+Name : set_3_position
+==============================================================================
+*/
+
+void  VcvSwitch::set_3_position ()
+{
+   _position_mult = 0.5f;
 }
 
 
