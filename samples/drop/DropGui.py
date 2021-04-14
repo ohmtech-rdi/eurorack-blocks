@@ -42,8 +42,8 @@
                'style': 'dailywell.2ms1',
                'rotation': '90°CCW',
                'labels': [
-                  { 'text': 'HP', 'positioning': 'left' },
-                  { 'text': 'MUTE', 'positioning': 'right' },
+                  { 'text': 'MUTE', 'positioning': 'left' },
+                  { 'text': 'HP', 'positioning': 'right' },
                ],
             },
             {
