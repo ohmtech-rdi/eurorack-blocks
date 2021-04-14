@@ -50,12 +50,6 @@
 
          'copies': [
             {
-               'destination': '<(PRODUCT_DIR)',
-               'files': [
-                  'plugin.json',
-               ],
-            },
-            {
                'destination': '<(PRODUCT_DIR)/res',
                'files': [
                   'DropGuiVcv.svg',
