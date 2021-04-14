@@ -33,7 +33,13 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
+      ast = erbb.parse_ui ('DropGui.py', PATH_THIS)
+
       erbb.configure ('drop', PATH_THIS)
+      erbb.generate_vcvrack_panel ('drop', PATH_THIS, ast)
+      erbb.generate_vcvrack_manifest ('drop', PATH_THIS, ast)
+      erbb.generate_vcvrack_code ('drop', PATH_THIS, ast)
+      erbb.generate_vcvrack_deploy ('drop', PATH_THIS, ast)
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
