@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#     configure.py
+#     build.py
 #     Copyright (c) 2020 Raphael Dinge
 #
 #Tab=3########################################################################
@@ -9,6 +9,7 @@
 ##### IMPORT #################################################################
 
 from __future__ import print_function
+import argparse
 import os
 import subprocess
 import sys
@@ -33,14 +34,8 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbb.parse_ui ('DropGui.py', PATH_THIS)
-
-      erbb.configure ('drop', PATH_THIS)
-      erbb.generate_vcvrack_panel ('drop', PATH_THIS, ast)
-      erbb.generate_vcvrack_manifest ('drop', PATH_THIS, ast)
-      erbb.generate_vcvrack_code ('drop', PATH_THIS, ast)
-      erbb.generate_vcvrack_deploy ('drop', PATH_THIS, ast)
+      erbb.build_native_target ('vcvrack', 'vcvrack', PATH_THIS)
 
    except subprocess.CalledProcessError as error:
-      print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
+      print ('Build command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)

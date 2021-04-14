@@ -50,6 +50,8 @@ public:
    // VcvModuleListener
    virtual void   impl_notify_audio_buffer_start () override;
 
+   void           set_3_position ();
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -63,6 +65,7 @@ protected:
 private:
 
    Position       _position = Position::Center;
+   float          _position_mult = 1.f;
 
 
 

@@ -17,6 +17,10 @@ import sys
 
 from . import ast
 from .parser import Parser
+from .generators.vcvrack.panel import Panel as vcvrackPanel
+from .generators.vcvrack.manifest import Manifest as vcvrackManifest
+from .generators.vcvrack.code import Code as vcvrackCode
+from .generators.vcvrack.deploy import Deploy as vcvrackDeploy
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
@@ -112,6 +116,54 @@ def parse_ui (name, path):
 
    parser = Parser ()
    return parser.parse (input_text, filepath)
+
+
+
+"""
+==============================================================================
+Name: generate_vcvrack_panel
+==============================================================================
+"""
+
+def generate_vcvrack_panel (name, path, module):
+   generator = vcvrackPanel ()
+   generator.generate (name, path, module)
+
+
+
+"""
+==============================================================================
+Name: generate_vcvrack_manifest
+==============================================================================
+"""
+
+def generate_vcvrack_manifest (name, path, module):
+   generator = vcvrackManifest ()
+   generator.generate (name, path, module)
+
+
+
+"""
+==============================================================================
+Name: generate_vcvrack_code
+==============================================================================
+"""
+
+def generate_vcvrack_code (name, path, module):
+   generator = vcvrackCode ()
+   generator.generate (name, path, module)
+
+
+
+"""
+==============================================================================
+Name: generate_vcvrack_deploy
+==============================================================================
+"""
+
+def generate_vcvrack_deploy (name, path, module):
+   generator = vcvrackDeploy ()
+   generator.generate (name, path, module)
 
 
 

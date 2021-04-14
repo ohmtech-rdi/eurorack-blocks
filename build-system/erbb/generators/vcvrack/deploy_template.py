@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#     deploy.py
+#     deploy_vcvrack.py
 #     Copyright (c) 2020 Raphael Dinge
 #
 #Tab=3########################################################################
@@ -23,7 +23,7 @@ if platform.system () == 'Darwin':
 elif platform.system () == 'Linux':
    PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), '.Rack', 'plugins-v1'))
 
-PATH_VCV_PLUGIN = os.path.abspath (os.path.join (PATH_VCV_PLUGINS, 'Drop'))
+PATH_VCV_PLUGIN = os.path.abspath (os.path.join (PATH_VCV_PLUGINS, '%module.name%'))
 PATH_VCV_PLUGIN_RES = os.path.abspath (os.path.join (PATH_VCV_PLUGIN, 'res'))
 TARGET_BUILD_DIR = os.environ ['TARGET_BUILD_DIR']
 

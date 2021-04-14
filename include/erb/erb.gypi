@@ -118,6 +118,7 @@
             'vcvrack/VcvPins.h',
             'vcvrack/VcvPot.h',
             'vcvrack/VcvSwitch.h',
+            'vcvrack/VcvWidgets.h',
 
             'detail/Debounce.h',
 
@@ -184,6 +185,10 @@
                'erb_TARGET_VCV_RACK',
             ],
 
+            'sources': [
+               '<!(echo artifacts/plugin_vcvrack.cpp)',
+            ],
+
             'xcode_settings':
             {
                'WARNING_CFLAGS': [
@@ -225,6 +230,40 @@
                '..',
                '../../submodules/vcv-rack-sdk/include',
                '../../submodules/vcv-rack-sdk/dep/include',
+            ],
+
+            'copies': [
+               {
+                  'destination': '<(PRODUCT_DIR)',
+                  'files': [
+                     '<!(echo artifacts/plugin.json)',
+                  ],
+               },
+               {
+                  'destination': '<(PRODUCT_DIR)/res',
+                  'files': [
+                     'vcvrack/resource/rogan.6ps.svg',
+                     'vcvrack/resource/rogan.5ps.svg',
+                     'vcvrack/resource/rogan.3ps.svg',
+                     'vcvrack/resource/rogan.2ps.svg',
+                     'vcvrack/resource/rogan.1ps.svg',
+                     'vcvrack/resource/songhuei.9mm.svg',
+                     'vcvrack/resource/thonk.pj398sm.knurled.svg',
+                     'vcvrack/resource/thonk.pj398sm.hex.svg',
+                     'vcvrack/resource/dailywell.2ms.1.svg',
+                     'vcvrack/resource/dailywell.2ms.2.svg',
+                     'vcvrack/resource/dailywell.2ms.3.svg',
+                  ],
+               },
+            ],
+
+            'postbuilds': [
+               {
+                  'postbuild_name': 'Copy to VCV Rack plug-ins folder',
+                  'action': [
+                     'python3', 'artifacts/deploy_vcvrack.py'
+                  ],
+               },
             ],
          },
       },

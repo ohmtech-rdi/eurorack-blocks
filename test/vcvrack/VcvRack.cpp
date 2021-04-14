@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      main.cpp
+      VcvRack.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,23 +9,27 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "Drop.h"
+#include "VcvRack.h"
+
+#include <cmath>
 
 
-
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
-Name : main
+Name : process
 ==============================================================================
 */
 
-int main ()
+void  VcvRack::process ()
 {
-   Drop drop;
+   if (first_flag)
+   {
+      first_flag = false;
 
-   drop.module.run ([&](){
-      drop.process ();
-   });
+      led_3mm_red.blink ();
+      led_3mm_green.blink ();
+      led_3mm_yellow.blink ();
+      led_3mm_green_red.blink (LedBi::Color::Yellow);
+   }
 }

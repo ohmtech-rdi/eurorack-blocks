@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DropModule.cpp
+      Drop.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "DropModule.h"
+#include "Drop.h"
 
 #include <cmath>
 
@@ -21,7 +21,7 @@ Name : process
 ==============================================================================
 */
 
-void  DropModule::process ()
+void  Drop::process ()
 {
    if (arm_button.pressed () || arm_gate)
    {
@@ -29,7 +29,7 @@ void  DropModule::process ()
       arm_led.pulse ();
    }
 
-   if (sync_gate)
+   if (sync_button.pressed () || sync_gate)
    {
       drop_dsp.sync ();
       sync_led.pulse ();
@@ -41,7 +41,11 @@ void  DropModule::process ()
       : DropDsp::Mode::HighPass;
 
    drop_dsp.set_mode (mode);
-   float freq_hz = 20.f * std::pow (1000.f, freq);
+   float freq_norm = float (freq_pot) + float (freq_cv) * float (freq_trim);
+   if (freq_norm > 1.f) freq_norm = 1.f;
+   if (freq_norm < 0.f) freq_norm = 0.f;
+
+   float freq_hz = 20.f * std::pow (1000.f, freq_norm);
    drop_dsp.set_highpass_freq (freq_hz);
 
    const float * const in [] = {
@@ -60,6 +64,11 @@ void  DropModule::process ()
    if (_old_state != state)
    {
       _old_state = state;
+
+      if ((state == DropDsp::State::Off) | (state == DropDsp::State::Active))
+      {
+         state_gate.trigger ();
+      }
 
       switch (state)
       {

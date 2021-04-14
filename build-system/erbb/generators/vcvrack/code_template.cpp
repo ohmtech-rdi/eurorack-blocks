@@ -1,50 +1,58 @@
 /*****************************************************************************
 
-      DropPluginVcv.cpp
+      plugin_vcvrack.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
 
 
 
+// !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
+
+
+
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "DropModule.h"
+#include "../%module.name%.h"
+
+#include "erb/vcvrack/VcvWidgets.h"
 
 #include <rack.hpp>
+
+#include <type_traits>
 
 
 
 /*\\\ CLASSES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-struct DropVcv
+struct ErbModule
 :  rack::engine::Module
 {
-                  DropVcv ();
+                  ErbModule ();
    void           process (const ProcessArgs & /* args */) override;
 
-   DropModule     module;
+   %module.name% module;
 
-}; // struct DropDsp
+}; // struct ErbModule
 
 
 
-struct DropWidgetVcv
+struct ErbWidget
 :  rack::ModuleWidget
 {
-                  DropWidgetVcv (DropVcv * module);
+                  ErbWidget (ErbModule * module);
 
-}; // struct DropDsp
+}; // struct ErbWidget
 
 
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 extern rack::Plugin * plugin_instance;
-extern rack::Model * model_drop;
+extern rack::Model * model;
 
 rack::Plugin * plugin_instance = nullptr;
-rack::Model * model_drop = rack::createModel <DropVcv, DropWidgetVcv> ("Drop");
+rack::Model * model = rack::createModel <ErbModule, ErbWidget> ("%module.name%");
 
 
 
@@ -57,18 +65,18 @@ Name : init
 void  init (rack::Plugin * p)
 {
    plugin_instance = p;
-   p->addModel (model_drop);
+   p->addModel (model);
 }
 
 
 
 /*
 ==============================================================================
-Name : DropVcv::ctor
+Name : ErbModule::ctor
 ==============================================================================
 */
 
-DropVcv::DropVcv ()
+ErbModule::ErbModule ()
 {
    config (
       module.module.nbr_params (),
@@ -76,11 +84,6 @@ DropVcv::DropVcv ()
       module.module.nbr_outputs (),
       module.module.nbr_lights ()
    );
-
-   for (int i = 0 ; i < int (module.module.nbr_params ()) ; ++i)
-   {
-      configParam (i, 0.f, 1.f, 0.f);
-   }
 
    // bind
 
@@ -104,6 +107,16 @@ DropVcv::DropVcv ()
       module.module.impl_bind (i, lights [i]);
    }
 
+   // configure params values
+
+   for (size_t i = 0 ; i < module.module.nbr_params () ; ++i)
+   {
+      float max_value = 1.f;
+
+%controls_config%
+      configParam (int (i), 0.f, max_value, 0.f);
+   }
+
    module.module.bind_process ([&](){
       module.process ();
    });
@@ -113,11 +126,11 @@ DropVcv::DropVcv ()
 
 /*
 ==============================================================================
-Name : DropVcv::process
+Name : ErbModule::process
 ==============================================================================
 */
 
-void  DropVcv::process (const ProcessArgs & /* args */)
+void  ErbModule::process (const ProcessArgs & /* args */)
 {
    module.module.impl_process ();
 }
@@ -126,11 +139,11 @@ void  DropVcv::process (const ProcessArgs & /* args */)
 
 /*
 ==============================================================================
-Name : DropWidgetVcv::ctor
+Name : ErbWidget::ctor
 ==============================================================================
 */
 
-DropWidgetVcv::DropWidgetVcv (DropVcv * module_)
+ErbWidget::ErbWidget (ErbModule * module_)
 {
    using namespace rack;
 
@@ -139,7 +152,7 @@ DropWidgetVcv::DropWidgetVcv (DropVcv * module_)
    // panel
 
    setPanel (APP->window->loadSvg (
-      asset::plugin (plugin_instance, "res/DropGuiVcv.svg"))
+      asset::plugin (plugin_instance, "res/%name%.svg"))
    );
 
    // screws
@@ -162,65 +175,7 @@ DropWidgetVcv::DropWidgetVcv (DropVcv * module_)
 
    // controls
 
-   // freq
-   addParam (createParamCentered <Rogan5PSGray> (
-      mm2px (Vec (20.32, 21.8)), module_, module_->module.freq.index ())
-   );
-
-   // HP/mute
-   addParam (createParamCentered <CKSS> (
-      mm2px (Vec (20.32, 46.7)), module_, module_->module.mute_hp.index ())
-   );
-
-   // State LED
-   addChild (createLightCentered <MediumLight <GreenRedLight>> (
-      mm2px (Vec (12.7, 63.1)), module_, module_->module.state_led.index ())
-   );
-
-   // Arm button
-   addParam (createParamCentered <CKD6> (
-      mm2px (Vec (27.94, 63.1)), module_, module_->module.arm_button.index ())
-   );
-
-   // Sync LED
-   addChild (createLightCentered <MediumLight <RedLight>> (
-      mm2px (Vec (12.7, 73.7)), module_, module_->module.sync_led.index ())
-   );
-
-   // Arm LED
-   addChild (createLightCentered <MediumLight <RedLight>> (
-      mm2px (Vec (27.94, 73.7)), module_, module_->module.arm_led.index ())
-   );
-
-   // Sync input
-   addInput (createInputCentered <PJ301MPort> (
-      mm2px (Vec (12.7, 84.25)), module_, module_->module.sync_gate.index ())
-   );
-
-   // Arm input
-   addInput (createInputCentered <PJ301MPort> (
-      mm2px (Vec (27.94, 84.25)), module_, module_->module.arm_gate.index ())
-   );
-
-   // Left input
-   addInput (createInputCentered <PJ301MPort> (
-      mm2px (Vec (12.7, 100.125)), module_, module_->module.audio_in_left.index ())
-   );
-
-   // Right input
-   addInput (createInputCentered <PJ301MPort> (
-      mm2px (Vec (27.94, 100.125)), module_, module_->module.audio_in_right.index ())
-   );
-
-   // Left output
-   addOutput (createOutputCentered <PJ301MPort> (
-      mm2px (Vec (12.7, 116)), module_, module_->module.audio_out_left.index ())
-   );
-
-   // Right output
-   addOutput (createOutputCentered <PJ301MPort> (
-      mm2px (Vec (27.94, 116)), module_, module_->module.audio_out_right.index ())
-   );
+%controls%
 }
 
 
