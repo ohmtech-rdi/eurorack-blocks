@@ -93,6 +93,14 @@ class Style:
       self.value = None
 
    @property
+   def is_alpha_9mm (self):
+      return self.is_rogan
+
+   @property
+   def is_rogan (self):
+      return self.is_rogan_6ps or self.is_rogan_5ps or self.is_rogan_3ps or self.is_rogan_2ps or self.is_rogan_1ps
+
+   @property
    def is_rogan_6ps (self):
       return self.value == 'rogan.6ps'
 
@@ -167,6 +175,10 @@ class Style:
    @property
    def is_tl1105 (self):
       return self.value == 'tl1105'
+
+   @property
+   def is_ck_d6 (self):
+      return self.is_ck_d6_black
 
    @property
    def is_ck_d6_black (self):
