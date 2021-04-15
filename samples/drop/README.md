@@ -23,7 +23,8 @@ Typically, the `SYNC` gate input would be connected to a clock divider with appr
 
 - [Python 3](https://www.python.org/downloads/), with minimum version 3.7,
 - [Gcc GNU ARM toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads),
-- [pycairo](https://pycairo.readthedocs.io/en/latest/getting_started.html),
+- [cairocffi](https://cairocffi.readthedocs.io/en/stable/overview.html#installing-cffi),
+- [cairosvg](https://cairosvg.org/documentation/),
 - [ezdxf](https://ezdxf.mozman.at),
 - [ninja](https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages),
 - [VCV Rack](https://vcvrack.com/Rack),
@@ -42,8 +43,8 @@ Provided that [Homebrew](https://brew.sh) is already installed and up-to-date,
 that Xcode is already installed as well,
 then all dependencies can be installed by running:
 
-    $ brew install armmbed/formulae/arm-none-eabi-gcc dfu-util ninja pycairo
-    $ pip3 install pycairo ezdxf
+    $ brew install armmbed/formulae/arm-none-eabi-gcc dfu-util ninja cairo libffi
+    $ pip3 install cairosvg cairocffi ezdxf
 
 The D-DIN Font must be installed on the system to render panel labels properly.
 This font and its permissive SIL Open Font License
