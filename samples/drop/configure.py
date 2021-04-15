@@ -41,6 +41,9 @@ if __name__ == '__main__':
       erbb.generate_vcvrack_code ('drop', PATH_THIS, ast)
       erbb.generate_vcvrack_deploy ('drop', PATH_THIS, ast)
 
+      erbb.generate_front_panel_milling ('drop', PATH_THIS, ast)
+      erbb.generate_front_panel_printing ('drop', PATH_THIS, ast)
+
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)

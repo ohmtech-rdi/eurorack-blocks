@@ -45,6 +45,7 @@ jobs:
       - run: sudo apt-get install libglu1-mesa-dev
       - run: sudo apt install libcairo2-dev pkg-config python3-dev
       - run: pip install pycairo
+      - run: pip install ezdxf
       - run: python blocks/test/configure.py
       - run: python blocks/test/build.py
       - run: python samples/drop/configure.py
@@ -75,6 +76,7 @@ jobs:
       - run: sudo apt-get install libglu1-mesa-dev
       - run: sudo apt install libcairo2-dev pkg-config python3-dev
       - run: pip install pycairo
+      - run: pip install ezdxf
       - run: pip install coverage
       - run: python build-system/test.py
       - run: python build-system/cover.py
