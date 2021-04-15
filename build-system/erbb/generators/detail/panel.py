@@ -7,7 +7,7 @@
 
 
 
-import cairo
+import cairocffi
 import math
 import os
 
@@ -40,7 +40,7 @@ class Panel:
 
    def generate_module (self, context, module, render_back=False):
 
-      context.set_fill_rule (cairo.FILL_RULE_EVEN_ODD)
+      context.set_fill_rule (cairocffi.FILL_RULE_EVEN_ODD)
 
       self.width = module.width
       self.footer_center_y += self.height
@@ -242,7 +242,7 @@ class Panel:
          font_size = label.font.size
 
       context.select_font_face (
-         font_family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL
+         font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL
       )
       context.set_font_size (font_size)
 
@@ -346,6 +346,6 @@ class Panel:
 
       context.set_source_rgb (line_gray, line_gray, line_gray)
       context.set_line_width (0.7)
-      context.set_line_join (cairo.LineJoin.ROUND)
-      context.set_line_cap (cairo.LineCap.BUTT)
+      context.set_line_join (cairocffi.LINE_JOIN_ROUND)
+      context.set_line_cap (cairocffi.LINE_CAP_BUTT)
       context.stroke ()
