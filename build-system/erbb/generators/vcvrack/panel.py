@@ -7,7 +7,7 @@
 
 
 
-import cairo
+import cairocffi
 import math
 import os
 
@@ -36,11 +36,13 @@ class Panel:
       path_svg_pp = os.path.join (path_artifacts, '%s-preprocess.svg' % name)
       path_svg = os.path.join (path_artifacts, '%s.svg' % name)
 
-      with cairo.SVGSurface (path_svg_pp, module.width * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT) as surface:
-         context = cairo.Context (surface)
+      surface = cairocffi.SVGSurface (path_svg_pp, module.width * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+      context = cairocffi.Context (surface)
 
-         panel = detailPanel ()
-         panel.generate_module (context, module, render_back=True)
+      panel = detailPanel ()
+      panel.generate_module (context, module, render_back=True)
+
+      surface.finish ()
 
       self.post_process (path_svg_pp, path_svg)
 

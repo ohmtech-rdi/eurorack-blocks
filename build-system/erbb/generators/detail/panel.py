@@ -7,7 +7,8 @@
 
 
 
-import cairo
+import cairocffi
+import cairosvg
 import math
 import os
 
@@ -40,7 +41,7 @@ class Panel:
 
    def generate_module (self, context, module, render_back=False):
 
-      context.set_fill_rule (cairo.FILL_RULE_EVEN_ODD)
+      context.set_fill_rule (cairocffi.FILL_RULE_EVEN_ODD)
 
       self.width = module.width
       self.footer_center_y += self.height
@@ -242,7 +243,7 @@ class Panel:
          font_size = label.font.size
 
       context.select_font_face (
-         font_family, cairo.FONT_SLANT_NORMAL, cairo.FONT_WEIGHT_NORMAL
+         font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL
       )
       context.set_font_size (font_size)
 
@@ -346,6 +347,57 @@ class Panel:
 
       context.set_source_rgb (line_gray, line_gray, line_gray)
       context.set_line_width (0.7)
-      context.set_line_join (cairo.LineJoin.ROUND)
-      context.set_line_cap (cairo.LineCap.BUTT)
+      context.set_line_join (cairocffi.LINE_JOIN_ROUND)
+      context.set_line_cap (cairocffi.LINE_CAP_BUTT)
       context.stroke ()
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_image (self, context, module, image):
+      tree = cairosvg.parser.Tree (file_obj=open (image.file))
+      surface = ContextOnlySurface (tree, context)
+
+      width_pt = surface.context_width * 0.75
+      height_pt = surface.context_height * 0.75
+
+      position_x_pt = self.current_position_x * MM_TO_PT - width_pt * 0.5
+      position_y_pt = self.current_position_y * MM_TO_PT - height_pt * 0.5
+
+      with context:
+         context.translate (position_x_pt, position_y_pt)
+         context.scale (0.75)
+
+         surface.draw (tree)
+
+
+#-----------------------------------------------------------------------------
+
+class ContextOnlySurface (cairosvg.surface.Surface):
+   def __init__ (self, tree, context):
+       self.context = context
+
+       # cache stuff
+       self.markers = {}
+       self.gradients = {}
+       self.patterns = {}
+       self.masks = {}
+       self.paths = {}
+       self.filters = {}
+       self.images = {}
+       self.tree_cache = {(tree.url, tree.get('id')): tree}
+
+       self.dpi = 96 # used in `size` for pt units
+
+       # state stuff
+       self.context_width, self.context_height, viewbox = cairosvg.helpers.node_format (self, tree) # used in `size` for % units
+
+       self.font_size = cairosvg.helpers.size(self, '12pt')
+       self.cursor_position = [0, 0]
+       self.cursor_d_position = [0, 0]
+       self.text_path_width = 0
+       self._old_parent_node = self.parent_node = None
+       self.stroke_and_fill = True
+
+       self.map_rgba = None
+       self.map_image = None

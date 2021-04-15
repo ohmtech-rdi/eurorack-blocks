@@ -16,10 +16,9 @@
          'header': {
             'labels': [{ 'text': 'DROP' }],
          },
-         'footer': {
-            #'images': [{ 'file': 'LogoErb.svg' }],
-            'labels': [{ 'text': 'Erb' }],
-         },
+         #'footer': {
+         #   'labels': [{ 'text': 'Erb' }],
+         #},
 
          'lines': [
             [{ 'x': '43.4mm', 'y': '83.7mm' }, { 'x': '43.4mm', 'y': '88.1mm' }],

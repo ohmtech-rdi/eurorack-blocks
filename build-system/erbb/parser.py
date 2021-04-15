@@ -7,7 +7,11 @@
 
 
 
+import os
+
 from . import ast
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 
 
 
@@ -118,6 +122,9 @@ class Parser:
       node = ast.Footer ()
 
       if not dict:
+         image = ast.Image ()
+         image.file = os.path.join (PATH_THIS, 'erb.footer.svg')
+         node.images.append (image)
          return node # return default
 
       node.labels = self.parse_labels (dict.get ('labels'))
