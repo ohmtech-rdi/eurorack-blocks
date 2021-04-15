@@ -40,6 +40,8 @@ class Panel:
 
    def generate_module (self, context, module):
 
+      context.set_fill_rule (cairo.FILL_RULE_EVEN_ODD)
+
       self.width = module.width
       self.footer_center_y += self.height
 
@@ -154,46 +156,13 @@ class Panel:
 
       self.current_box = box
 
-      if control.is_type_out:
-         self.generate_back_out (context, module, control)
-
       for label in control.labels:
-         invert = control.is_type_out
-         self.generate_label (context, module, label, invert)
+         self.generate_label (context, module, label, control)
 
       self.current_box = None
       self.current_font_height = old_current_font_height
       self.current_position_x = old_current_position_x
       self.current_position_y = old_current_position_y
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_back_out (self, context, module, control):
-
-      left = (control.position.x - 5.4) * MM_TO_PT
-      right = (control.position.x + 5.4) * MM_TO_PT
-      top = (control.position.y - 8.4) * MM_TO_PT
-      bottom = (control.position.y + 5.4) * MM_TO_PT
-      radius = 2.0 * MM_TO_PT
-      degrees = math.pi / 180.0
-
-      context.new_sub_path ()
-      context.arc (right - radius, top + radius, radius, -90 * degrees, 0 * degrees)
-      context.arc (right - radius, bottom - radius, radius, 0 * degrees, 90 * degrees)
-      context.arc (left + radius, bottom - radius, radius, 90 * degrees, 180 * degrees)
-      context.arc (left + radius, top + radius, radius, 180 * degrees, 270 * degrees)
-      context.close_path ()
-
-      material = module.material
-
-      if material.is_aluminum_natural or material.is_brushed_aluminum_natural or material.is_aluminum_coated_white:
-         gray = 0.3
-         context.set_source_rgb (gray, gray, gray)
-         context.fill()
-
-      else:
-         pass # nothing displayed on a black panel
 
 
    #--------------------------------------------------------------------------
@@ -262,7 +231,7 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate_label (self, context, module, label, invert=False):
+   def generate_label (self, context, module, label, control=None):
       font_family = self.font_family
       font_size = self.current_font_height
 
@@ -316,22 +285,44 @@ class Panel:
       material = module.material
 
       if material.is_aluminum_natural or material.is_brushed_aluminum_natural or material.is_aluminum_coated_white:
-         if invert:
-            text_gray = 0.9
+         if control is not None and control.is_type_out:
+            fill_gray = 0.3
          else:
-            text_gray = 0.0
+            fill_gray = 0.0
       elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black:
-         text_gray = 1.0
+         fill_gray = 1.0
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
+
+      if control is not None and control.is_type_out:
+         self.generate_back_out_path (context, module, control)
 
       context.move_to (
          position_x * MM_TO_PT - width_pt * align_x,
          position_y * MM_TO_PT + height_pt * align_y
       )
       context.text_path (label.text)
-      context.set_source_rgb (text_gray, text_gray, text_gray)
+      context.set_source_rgb (fill_gray, fill_gray, fill_gray)
       context.fill ()
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_back_out_path (self, context, module, control):
+
+      left = (control.position.x - 5.4) * MM_TO_PT
+      right = (control.position.x + 5.4) * MM_TO_PT
+      top = (control.position.y - 8.4) * MM_TO_PT
+      bottom = (control.position.y + 5.4) * MM_TO_PT
+      radius = 2.0 * MM_TO_PT
+      degrees = math.pi / 180.0
+
+      context.new_sub_path ()
+      context.arc (right - radius, top + radius, radius, -90 * degrees, 0 * degrees)
+      context.arc (right - radius, bottom - radius, radius, 0 * degrees, 90 * degrees)
+      context.arc (left + radius, bottom - radius, radius, 90 * degrees, 180 * degrees)
+      context.arc (left + radius, top + radius, radius, 180 * degrees, 270 * degrees)
+      context.close_path ()
 
 
    #--------------------------------------------------------------------------
