@@ -40,7 +40,7 @@ class Panel:
          context = cairo.Context (surface)
 
          panel = detailPanel ()
-         panel.generate_module (context, module)
+         panel.generate_module (context, module, render_back=True)
 
       self.post_process (path_svg_pp, path_svg)
 

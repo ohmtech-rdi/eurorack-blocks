@@ -38,7 +38,7 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, context, module):
+   def generate_module (self, context, module, render_back=False):
 
       context.set_fill_rule (cairo.FILL_RULE_EVEN_ODD)
 
@@ -49,7 +49,9 @@ class Panel:
       self.current_position_x = self.width * 0.5
       self.current_position_y = self.height * 0.5
 
-      self.generate_back (context, module)
+      if render_back:
+         self.generate_back (context, module)
+
       self.generate_header (context, module, module.header)
       self.generate_footer (context, module, module.footer)
 
