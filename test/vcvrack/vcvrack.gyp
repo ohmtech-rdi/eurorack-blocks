@@ -24,9 +24,9 @@
          'dependencies': [ 'erb-vcvrack' ],
 
          'sources': [
-            'VcvRackUi.py',
             'VcvRack.cpp',
             'VcvRack.h',
+            'VcvRack.erbui',
          ],
 
          'copies': [{

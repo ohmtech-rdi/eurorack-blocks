@@ -12,6 +12,7 @@ import unittest
 import traceback
 
 from .. import ast
+from . import mock
 
 from ..generators.vcvrack.panel import Panel as vcvrackPanel
 from ..generators.vcvrack.manifest import Manifest as vcvrackManifest
@@ -33,170 +34,228 @@ class TestGenerators (unittest.TestCase):
          os.makedirs (PATH_ARTIFACTS)
 
    def make_ast_001 (self):
-      root = ast.Root ()
+      global_namespace = ast.GlobalNamespace ()
 
-      module = ast.Module ()
-      module.name = 'Test'
-      module.width = 10 * 5.08 # 10hp
-      module.material = ast.Material ()
+      module = ast.Module (mock.identifier ('Test'))
+      module.entities.append (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
+      module.entities.append (ast.Material (mock.keyword ('aluminum'), None))
 
-      module.header = ast.Header ()
-      label = ast.Label ()
-      label.text = 'Test Header'
-      module.header.labels.append (label)
+      header = ast.Header ()
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Header')))
+      header.entities.append (label)
+      module.entities.append (header)
 
-      module.footer = ast.Footer ()
-      label = ast.Label ()
-      label.text = 'Test Footer'
-      module.footer.labels.append (label)
+      footer = ast.Footer ()
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Footer')))
+      footer.entities.append (label)
+      module.entities.append (footer)
 
-      label = ast.Label ()
-      label.text = 'Test Module Center'
-      label.positioning.value = 'center'
-      module.labels.append (label)
-
-      line = ast.Line ()
-      position = ast.Position ()
-      position.x = 0
-      position.y = 1
-      line.points.append (position)
-      position = ast.Position ()
-      position.x = 2
-      position.y = 3
-      line.points.append (position)
-      module.lines.append (line)
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Module Center')))
+      positioning = ast.Positioning (mock.keyword ('center'))
+      label.entities.append (positioning)
+      module.entities.append (label)
 
       line = ast.Line ()
-      position = ast.Position ()
-      position.x = 4.5
-      position.y = 5.6
-      line.points.append (position)
-      position = ast.Position ()
-      position.x = 5.08
-      position.y = -8.0
-      line.points.append (position)
-      module.lines.append (line)
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('0mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('1mm'), 'mm'),
+      )
+      line.entities.append (position)
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('2mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('3mm'), 'mm'),
+      )
+      line.entities.append (position)
+      module.entities.append (line)
 
-      control = ast.Control ()
-      control.type = 'Pot'
-      control.property = 'test'
-      control.position = ast.Position ()
-      control.position.x = 10.2
-      control.position.y = 10.3
-      control.style.value = 'rogan.6ps'
-      label = ast.Label ()
-      label.text = 'Test Center'
-      label.positioning.value = 'center'
-      control.labels.append (label)
-      label = ast.Label ()
-      label.text = 'Test Left'
-      label.positioning.value = 'left'
-      control.labels.append (label)
-      label = ast.Label ()
-      label.text = 'Test Top'
-      label.positioning.value = 'top'
-      control.labels.append (label)
-      label = ast.Label ()
-      label.text = 'Test Right'
-      label.positioning.value = 'right'
-      control.labels.append (label)
-      label = ast.Label ()
-      label.text = 'Test Bottom'
-      label.positioning.value = 'bottom'
-      control.labels.append (label)
-      module.controls.append (control)
+      line = ast.Line ()
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('4.5mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('5.6mm'), 'mm'),
+      )
+      line.entities.append (position)
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('1hp'), 'hp'),
+         ast.DistanceLiteral (mock.literal ('-8.0mm'), 'mm'),
+      )
+      line.entities.append (position)
+      module.entities.append (line)
 
-      control = ast.Control ()
-      control.type = 'Switch'
-      control.property = 'switch1'
-      control.position = ast.Position ()
-      control.position.x = 1.0
-      control.position.y = 2.0
-      control.style.value = 'dailywell.2ms1'
-      control.rotation = 90
-      module.controls.append (control)
+      control = ast.Control (
+         mock.identifier ('test'),
+         mock.keyword ('Pot')
+      )
 
-      control = ast.Control ()
-      control.type = 'Switch'
-      control.property = 'switch2'
-      control.position = ast.Position ()
-      control.position.x = 3.0
-      control.position.y = 4.0
-      control.style.value = 'dailywell.2ms3'
-      control.rotation = -90
-      module.controls.append (control)
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('10.2mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('10.3mm'), 'mm'),
+      )
+      control.entities.append (position)
 
-      control = ast.Control ()
-      control.type = 'Switch'
-      control.property = 'switch3'
-      control.position = ast.Position ()
-      control.position.x = 5.0
-      control.position.y = 5.08
-      control.style.value = 'dailywell.2ms1'
-      control.rotation = 180
-      module.controls.append (control)
+      style = ast.Style (mock.keyword ('rogan.6ps'))
+      control.entities.append (style)
 
-      control = ast.Control ()
-      control.type = 'GateOut'
-      control.property = 'gate_out'
-      control.position = ast.Position ()
-      control.position.x = 10.0
-      control.position.y = 50.01
-      control.style.value = 'thonk.pj398sm.knurled'
-      label = ast.Label ()
-      label.text = 'OUT'
-      label.positioning.value = 'top'
-      control.labels.append (label)
-      module.controls.append (control)
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Center')))
+      positioning = ast.Positioning (mock.keyword ('center'))
+      label.entities.append (positioning)
+      control.entities.append (label)
 
-      root.modules.append (module)
-      return root
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Left')))
+      positioning = ast.Positioning (mock.keyword ('left'))
+      label.entities.append (positioning)
+      control.entities.append (label)
+
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Top')))
+      positioning = ast.Positioning (mock.keyword ('top'))
+      label.entities.append (positioning)
+      control.entities.append (label)
+
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Right')))
+      positioning = ast.Positioning (mock.keyword ('right'))
+      label.entities.append (positioning)
+      control.entities.append (label)
+
+      label = ast.Label (ast.StringLiteral (mock.literal ('Test Bottom')))
+      positioning = ast.Positioning (mock.keyword ('bottom'))
+      label.entities.append (positioning)
+      control.entities.append (label)
+
+      module.entities.append (control)
+
+      control = ast.Control (
+         mock.identifier ('switch1'),
+         mock.keyword ('Switch')
+      )
+
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('1.0mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('2.0mm'), 'mm'),
+      )
+      control.entities.append (position)
+
+      style = ast.Style (mock.keyword ('dailywell.2ms1'))
+      control.entities.append (style)
+
+      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°CCW'), '°CCW'))
+      control.entities.append (rotation)
+
+      module.entities.append (control)
+
+      control = ast.Control (
+         mock.identifier ('switch2'),
+         mock.keyword ('Switch')
+      )
+
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('3.0mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('4.0mm'), 'mm'),
+      )
+      control.entities.append (position)
+
+      style = ast.Style (mock.keyword ('dailywell.2ms3'))
+      control.entities.append (style)
+
+      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°CW'), '°CW'))
+      control.entities.append (rotation)
+
+      module.entities.append (control)
+
+      control = ast.Control (
+         mock.identifier ('switch3'),
+         mock.keyword ('Switch')
+      )
+
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('5.0mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('1hp'), 'hp'),
+      )
+      control.entities.append (position)
+
+      style = ast.Style (mock.keyword ('dailywell.2ms3'))
+      control.entities.append (style)
+
+      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('180°CCW'), '°CCW'))
+      control.entities.append (rotation)
+
+      module.entities.append (control)
+
+      control = ast.Control (
+         mock.identifier ('gate_out'),
+         mock.keyword ('GateOut')
+      )
+
+      position = ast.Position (
+         ast.DistanceLiteral (mock.literal ('10.00mm'), 'mm'),
+         ast.DistanceLiteral (mock.literal ('50.01mm'), 'mm'),
+      )
+      control.entities.append (position)
+
+      style = ast.Style (mock.keyword ('thonk.pj398sm.knurled'))
+      control.entities.append (style)
+
+      label = ast.Label (ast.StringLiteral (mock.literal ('OUT')))
+      positioning = ast.Positioning (mock.keyword ('top'))
+      label.entities.append (positioning)
+      control.entities.append (label)
+
+      module.entities.append (control)
+
+      global_namespace.entities.append (module)
+      return global_namespace
 
 
    def make_ast_002 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].material.color = 'black'
-      return root
+      global_namespace = self.make_ast_001 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_material]
+      entities.append (ast.Material (mock.keyword ('aluminum'), mock.keyword ('black')))
+      return global_namespace
 
 
    def make_ast_003 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].material.name = 'brushed_aluminum'
-      return root
+      global_namespace = self.make_ast_001 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_material]
+      entities.append (ast.Material (mock.keyword ('brushed_aluminum'), None))
+      return global_namespace
 
 
    def make_ast_004 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].material.name = 'brushed_aluminum'
-      root.modules [0].material.color = 'black'
-      return root
+      global_namespace = self.make_ast_001 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_material]
+      entities.append (ast.Material (mock.keyword ('brushed_aluminum'), mock.keyword ('black')))
+      return global_namespace
 
 
    def make_ast_005 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].material.name = 'aluminum_coated'
-      root.modules [0].material.color = 'white'
-      return root
+      global_namespace = self.make_ast_001 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_material]
+      entities.append (ast.Material (mock.keyword ('aluminum_coated'), mock.keyword ('white')))
+      return global_namespace
 
 
    def make_ast_006 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].material.name = 'aluminum_coated'
-      root.modules [0].material.color = 'black'
-      return root
+      global_namespace = self.make_ast_001 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_material]
+      entities.append (ast.Material (mock.keyword ('aluminum_coated'), mock.keyword ('black')))
+      return global_namespace
 
 
    def make_ast_007 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].footer = None
-      return root
+      global_namespace = self.make_ast_001 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_footer]
+      return global_namespace
 
 
    def make_ast_008 (self):
-      root = self.make_ast_001 ()
-      root.modules [0].material.color = 'black'
-      root.modules [0].footer = None
-      return root
+      global_namespace = self.make_ast_002 ()
+      entities = global_namespace.modules [0].entities
+      entities = [entity for entity in entities if not entity.is_footer]
+      return global_namespace
 
 
    def test_generators_001 (self):

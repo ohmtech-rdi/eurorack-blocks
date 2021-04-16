@@ -34,7 +34,7 @@ class Milling:
       doc = ezdxf.new (units=ezdxf.units.MM)
       msp = doc.modelspace ()
 
-      width_hp = round (module.width / HP_TO_MM)
+      width_hp = round (module.width.mm / HP_TO_MM)
       final_width = self.get_final_width (width_hp)
 
       msp.add_line ((0, 0), (final_width, 0))
@@ -65,7 +65,7 @@ class Milling:
       msp.add_circle ((left, edge_v), hole_radius)
       msp.add_circle ((left, PANEL_HEIGHT - edge_v), hole_radius)
 
-      width_hp = round (module.width / HP_TO_MM)
+      width_hp = round (module.width.mm / HP_TO_MM)
 
       if width_hp >= 10:
          right = left + (width_hp - 3) * HP_TO_MM
@@ -80,7 +80,7 @@ class Milling:
       drill_size = self.get_drill_size (control.style)
       drill_radius = drill_size / 2
 
-      msp.add_circle ((control.position.x, PANEL_HEIGHT - control.position.y), drill_radius)
+      msp.add_circle ((control.position.x.mm, PANEL_HEIGHT - control.position.y.mm), drill_radius)
 
 
    #--------------------------------------------------------------------------

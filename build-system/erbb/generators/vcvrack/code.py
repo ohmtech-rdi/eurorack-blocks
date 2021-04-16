@@ -65,7 +65,7 @@ class Code:
       source_code = ''
 
       if control.style.is_dailywell_2ms3:
-         source_code = '      if (i == module.%s.index ()) { max_value = 2.f; }\n' % control.property
+         source_code = '      if (i == module.%s.index ()) { max_value = 2.f; }\n' % control.name
 
       return source_code
 
@@ -99,7 +99,7 @@ class Code:
          'Trim': 'Param',
       }
 
-      func_category = type_func_category_map [control.type]
+      func_category = type_func_category_map [control.kind]
 
       type_category_map = {
          'AudioInDaisy': 'Input',
@@ -115,7 +115,7 @@ class Code:
          'Trim': 'Param',
       }
 
-      category = type_category_map [control.type]
+      category = type_category_map [control.kind]
 
       style_widget_map = {
          'rogan.6ps': 'erb::Rogan6Ps',
@@ -137,21 +137,25 @@ class Code:
          'tl1105': 'TL1105',
       }
 
-      widget = style_widget_map [control.style.value]
+      widget = style_widget_map [control.style.name]
 
       if control.style.is_dailywell_2ms:
-         widget += ' <%d>' % (360 - control.rotation)
+         if control.rotation is None:
+            rotation = 0
+         else:
+            rotation = control.rotation.degree_top_down % 360
+         widget += ' <%d>' % rotation
 
       source_code = ''
       source_code += '   // Type mismatch between module and gui code\n'
       source_code += '   static_assert (std::is_same <decltype (module_->module.%s), erb::%s>::value, "");\n' % (
-         control.property, control.type
+         control.name, control.kind
       )
       source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.%s.index ()));\n' % (
-         func_category, category, widget, control.position.x, control.position.y, control.property
+         func_category, category, widget, control.position.x.mm, control.position.y.mm, control.name
       )
       if control.style.is_dailywell_2ms3:
-         source_code += '   module_->module.%s.set_3_position ();\n' % control.property
+         source_code += '   module_->module.%s.set_3_position ();\n' % control.name
       source_code += '\n'
 
       return source_code
