@@ -51,7 +51,7 @@ def collect (module_name):
 #-- report ----------------------------------------------------------------
 
 def report ():
-   EXCLUDED_PATHS = '*/gyp/*'
+   EXCLUDED_PATHS = '*/gyp/*,*/arpeggio/*'
 
    subprocess.check_call (
       [COVERAGE, 'report', '--omit', EXCLUDED_PATHS]
