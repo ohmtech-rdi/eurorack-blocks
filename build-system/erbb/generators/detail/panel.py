@@ -12,6 +12,10 @@ import cairosvg
 import math
 import os
 
+from ... import ast
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+
 
 
 MM_TO_PT = 72.0 / 25.4
@@ -110,10 +114,20 @@ class Panel:
       old_current_position_y = self.current_position_y
       self.current_position_y = self.footer_center_y
 
-      for label in footer.labels:
-         self.generate_label (context, module, label)
+      if footer:
+         for label in footer.labels:
+            self.generate_label (context, module, label)
 
-      for image in footer.images:
+         for image in footer.images:
+            self.generate_image (context, module, image)
+
+      else:
+         image = ast.Image ()
+         if module.material.is_light:
+            image.file = os.path.join (PATH_THIS, 'erb.footer.black.svg')
+         elif module.material.is_dark:
+            image.file = os.path.join (PATH_THIS, 'erb.footer.white.svg')
+
          self.generate_image (context, module, image)
 
       self.current_position_y = old_current_position_y
@@ -287,17 +301,17 @@ class Panel:
 
       material = module.material
 
-      if material.is_aluminum_natural or material.is_brushed_aluminum_natural or material.is_aluminum_coated_white:
+      if material.is_light:
          if control is not None and control.is_type_out:
             fill_gray = 0.3
          else:
             fill_gray = 0.0
-      elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black:
+      elif material.is_dark:
          fill_gray = 1.0
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
 
-      if control is not None and control.is_type_out:
+      if control is not None and control.is_type_out and not material.is_dark:
          self.generate_back_out_path (context, module, control)
 
       context.move_to (
@@ -355,20 +369,21 @@ class Panel:
    #--------------------------------------------------------------------------
 
    def generate_image (self, context, module, image):
-      tree = cairosvg.parser.Tree (file_obj=open (image.file))
-      surface = ContextOnlySurface (tree, context)
+      with open (image.file) as file:
+         tree = cairosvg.parser.Tree (file_obj=file)
+         surface = ContextOnlySurface (tree, context)
 
-      width_pt = surface.context_width * 0.75
-      height_pt = surface.context_height * 0.75
+         width_pt = surface.context_width * 0.75
+         height_pt = surface.context_height * 0.75
 
-      position_x_pt = self.current_position_x * MM_TO_PT - width_pt * 0.5
-      position_y_pt = self.current_position_y * MM_TO_PT - height_pt * 0.5
+         position_x_pt = self.current_position_x * MM_TO_PT - width_pt * 0.5
+         position_y_pt = self.current_position_y * MM_TO_PT - height_pt * 0.5
 
-      with context:
-         context.translate (position_x_pt, position_y_pt)
-         context.scale (0.75)
+         with context:
+            context.translate (position_x_pt, position_y_pt)
+            context.scale (0.75)
 
-         surface.draw (tree)
+            surface.draw (tree)
 
 
 #-----------------------------------------------------------------------------

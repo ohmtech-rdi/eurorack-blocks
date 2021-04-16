@@ -71,6 +71,7 @@ def main ():
    erase_coverage_data ()
 
    collect ('erbb.tests.test_parser')
+   collect ('erbb.tests.test_generators')
 
    report ()
 

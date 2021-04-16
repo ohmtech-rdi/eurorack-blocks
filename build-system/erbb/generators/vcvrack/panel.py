@@ -60,5 +60,6 @@ class Panel:
                line = line.replace ('rgb(90%,90%,90%)', '#e6e6e6')
                line = line.replace ('rgb(30%,30%,30%)', '#4d4d4d')
                line = line.replace ('rgb(10%,10%,10%)', '#191919')
+               line = line.replace ('rgb(10.196078%,10.196078%,10.196078%)', '#191919')
                line = line.replace ('rgb(0%,0%,0%)', '#000000')
                file.write (line)

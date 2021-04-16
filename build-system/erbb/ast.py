@@ -27,15 +27,19 @@ class Module:
       self.lines = []
       self.controls = []
 
-   @property
-   def is_material_aluminum_natural (self):
-      return self.material == 'aluminum.natural'
-
 
 class Material:
    def __init__ (self):
-      self.name = 'aluminum.natural'
+      self.name = 'aluminum'
       self.color = None
+
+   @property
+   def is_light (self):
+      return self.is_aluminum_natural or self.is_brushed_aluminum_natural or self.is_aluminum_coated_white
+
+   @property
+   def is_dark (self):
+      return self.is_aluminum_black or self.is_brushed_aluminum_black or self.is_aluminum_coated_black
 
    @property
    def is_aluminum_natural (self):
