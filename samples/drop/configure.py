@@ -33,7 +33,7 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbb.parse_ui ('DropGui.py', PATH_THIS)
+      ast = erbb.parse_ui ('Drop.erbui', PATH_THIS)
 
       erbb.configure ('drop', PATH_THIS)
       erbb.generate_vcvrack_panel ('drop', PATH_THIS, ast)
