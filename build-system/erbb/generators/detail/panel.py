@@ -287,17 +287,17 @@ class Panel:
 
       material = module.material
 
-      if material.is_aluminum_natural or material.is_brushed_aluminum_natural or material.is_aluminum_coated_white:
+      if material.is_light:
          if control is not None and control.is_type_out:
             fill_gray = 0.3
          else:
             fill_gray = 0.0
-      elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black:
+      elif material.is_dark:
          fill_gray = 1.0
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
 
-      if control is not None and control.is_type_out:
+      if control is not None and control.is_type_out and not material.is_dark:
          self.generate_back_out_path (context, module, control)
 
       context.move_to (
