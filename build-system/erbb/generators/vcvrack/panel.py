@@ -36,7 +36,7 @@ class Panel:
       path_svg_pp = os.path.join (path_artifacts, '%s-preprocess.svg' % name)
       path_svg = os.path.join (path_artifacts, '%s.svg' % name)
 
-      surface = cairocffi.SVGSurface (path_svg_pp, module.width * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+      surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
       context = cairocffi.Context (surface)
 
       panel = detailPanel ()

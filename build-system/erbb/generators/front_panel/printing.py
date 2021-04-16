@@ -35,7 +35,7 @@ class Printing:
       path_artifacts = os.path.join (path, 'artifacts')
       path_pdf = os.path.join (path_artifacts, '%s.pdf' % name)
 
-      surface = cairocffi.PDFSurface (path_pdf, module.width * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+      surface = cairocffi.PDFSurface (path_pdf, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
       context = cairocffi.Context (surface)
 
       panel = detailPanel ()

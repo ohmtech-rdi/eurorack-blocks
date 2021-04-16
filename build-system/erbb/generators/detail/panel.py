@@ -13,6 +13,7 @@ import math
 import os
 
 from ... import ast
+from ... import adapter
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 
@@ -47,7 +48,7 @@ class Panel:
 
       context.set_fill_rule (cairocffi.FILL_RULE_EVEN_ODD)
 
-      self.width = module.width
+      self.width = module.width.mm
       self.footer_center_y += self.height
 
       self.current_font_height = 14.0#pt
@@ -122,11 +123,12 @@ class Panel:
             self.generate_image (context, module, image)
 
       else:
-         image = ast.Image ()
          if module.material.is_light:
-            image.file = os.path.join (PATH_THIS, 'erb.footer.black.svg')
+            filepath = os.path.join (PATH_THIS, 'erb.footer.black.svg')
          elif module.material.is_dark:
-            image.file = os.path.join (PATH_THIS, 'erb.footer.white.svg')
+            filepath = os.path.join (PATH_THIS, 'erb.footer.white.svg')
+
+         image = ast.Image (filepath)
 
          self.generate_image (context, module, image)
 
@@ -137,32 +139,35 @@ class Panel:
 
    def generate_control (self, context, module, control):
       old_current_position_x = self.current_position_x
-      self.current_position_x = control.position.x
+      self.current_position_x = control.position.x.mm
 
       old_current_position_y = self.current_position_y
-      self.current_position_y = control.position.y
+      self.current_position_y = control.position.y.mm
 
       old_current_font_height = self.current_font_height
       self.current_font_height = 8.5#pt
 
       box = self.get_style_box (control.style)
 
-      control.rotation = (control.rotation + 360) % 360
+      if control.rotation:
+         rotation = (control.rotation.degree_top_down + 360) % 360
+      else:
+         rotation = 0
 
-      if control.rotation == 0:
+      if rotation == 0:
          pass # nothing
 
-      elif control.rotation == 90:
+      elif rotation == 90:
          box.top = box.right
          box.right = box.bottom
          box.bottom = box.left
          box.left = box.top
 
-      elif control.rotation == 180:
+      elif rotation == 180:
          box.top, box.bottom = box.top, box.bottom
          box.left, box.right = box.left, box.right
 
-      elif control.rotation == 270:
+      elif rotation == 270:
          box.left = box.bottom
          box.bottom = box.right
          box.right = box.top
@@ -252,10 +257,6 @@ class Panel:
       font_family = self.font_family
       font_size = self.current_font_height
 
-      if label.font: # override
-         font_family = label.font.family
-         font_size = label.font.size
-
       context.select_font_face (
          font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL
       )
@@ -265,8 +266,22 @@ class Panel:
       position_y = self.current_position_y
 
       if label.position: # override
-         position_x = label.position.x
-         position_y = label.position.y
+         position_x = label.position.x.mm
+         position_y = label.position.y.mm
+
+      elif control is None: # center
+         align_x = 0.5
+         align_y = 0.5
+
+      elif label.positioning is None:
+         if control.style.is_thonk_pj398sm: # top
+            position_y -= self.current_box.top + self.positioning_margin
+            align_x = 0.5
+            align_y = 0
+         else: # bottom
+            position_y += self.current_box.bottom + self.positioning_margin
+            align_x = 0.5
+            align_y = 1
 
       elif label.positioning.is_center:
          align_x = 0.5
@@ -302,7 +317,7 @@ class Panel:
       material = module.material
 
       if material.is_light:
-         if control is not None and control.is_type_out:
+         if control is not None and control.is_kind_out:
             fill_gray = 0.3
          else:
             fill_gray = 0.0
@@ -311,7 +326,7 @@ class Panel:
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
 
-      if control is not None and control.is_type_out and not material.is_dark:
+      if control is not None and control.is_kind_out and not material.is_dark:
          self.generate_back_out_path (context, module, control)
 
       context.move_to (
@@ -327,10 +342,10 @@ class Panel:
 
    def generate_back_out_path (self, context, module, control):
 
-      left = (control.position.x - 5.4) * MM_TO_PT
-      right = (control.position.x + 5.4) * MM_TO_PT
-      top = (control.position.y - 8.4) * MM_TO_PT
-      bottom = (control.position.y + 5.4) * MM_TO_PT
+      left = (control.position.x.mm - 5.4) * MM_TO_PT
+      right = (control.position.x.mm + 5.4) * MM_TO_PT
+      top = (control.position.y.mm - 8.4) * MM_TO_PT
+      bottom = (control.position.y.mm + 5.4) * MM_TO_PT
       radius = 2.0 * MM_TO_PT
       degrees = math.pi / 180.0
 
@@ -347,9 +362,9 @@ class Panel:
    def generate_line (self, context, module, line):
       for index, position in enumerate (line.points):
          if index == 0:
-            context.move_to (position.x * MM_TO_PT, position.y * MM_TO_PT)
+            context.move_to (position.x.pt, position.y.pt)
          else:
-            context.line_to (position.x * MM_TO_PT, position.y * MM_TO_PT)
+            context.line_to (position.x.pt, position.y.pt)
 
       material = module.material
 
