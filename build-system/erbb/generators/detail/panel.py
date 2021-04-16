@@ -369,20 +369,21 @@ class Panel:
    #--------------------------------------------------------------------------
 
    def generate_image (self, context, module, image):
-      tree = cairosvg.parser.Tree (file_obj=open (image.file))
-      surface = ContextOnlySurface (tree, context)
+      with open (image.file) as file:
+         tree = cairosvg.parser.Tree (file_obj=file)
+         surface = ContextOnlySurface (tree, context)
 
-      width_pt = surface.context_width * 0.75
-      height_pt = surface.context_height * 0.75
+         width_pt = surface.context_width * 0.75
+         height_pt = surface.context_height * 0.75
 
-      position_x_pt = self.current_position_x * MM_TO_PT - width_pt * 0.5
-      position_y_pt = self.current_position_y * MM_TO_PT - height_pt * 0.5
+         position_x_pt = self.current_position_x * MM_TO_PT - width_pt * 0.5
+         position_y_pt = self.current_position_y * MM_TO_PT - height_pt * 0.5
 
-      with context:
-         context.translate (position_x_pt, position_y_pt)
-         context.scale (0.75)
+         with context:
+            context.translate (position_x_pt, position_y_pt)
+            context.scale (0.75)
 
-         surface.draw (tree)
+            surface.draw (tree)
 
 
 #-----------------------------------------------------------------------------
