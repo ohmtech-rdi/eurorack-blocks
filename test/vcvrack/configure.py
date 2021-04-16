@@ -33,7 +33,7 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbb.parse_ui ('VcvRackUi.py', PATH_THIS)
+      ast = erbb.parse_ui ('VcvRack.erbui', PATH_THIS)
 
       erbb.configure ('vcvrack', PATH_THIS)
       erbb.generate_vcvrack_panel ('vcvrack', PATH_THIS, ast)
