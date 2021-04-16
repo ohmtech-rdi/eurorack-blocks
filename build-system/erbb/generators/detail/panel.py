@@ -12,6 +12,10 @@ import cairosvg
 import math
 import os
 
+from ... import ast
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+
 
 
 MM_TO_PT = 72.0 / 25.4
@@ -110,10 +114,20 @@ class Panel:
       old_current_position_y = self.current_position_y
       self.current_position_y = self.footer_center_y
 
-      for label in footer.labels:
-         self.generate_label (context, module, label)
+      if footer:
+         for label in footer.labels:
+            self.generate_label (context, module, label)
 
-      for image in footer.images:
+         for image in footer.images:
+            self.generate_image (context, module, image)
+
+      else:
+         image = ast.Image ()
+         if module.material.is_light:
+            image.file = os.path.join (PATH_THIS, 'erb.footer.black.svg')
+         elif module.material.is_dark:
+            image.file = os.path.join (PATH_THIS, 'erb.footer.white.svg')
+
          self.generate_image (context, module, image)
 
       self.current_position_y = old_current_position_y
