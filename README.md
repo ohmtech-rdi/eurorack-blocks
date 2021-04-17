@@ -4,92 +4,140 @@
 [<!--lint ignore no-dead-urls-->![GitHub Actions status | ohmtech-rdi/eurorack-blocks](https://github.com/ohmtech-rdi/eurorack-blocks/workflows/Ubuntu%2020.04/badge.svg)](https://github.com/ohmtech-rdi/eurorack-blocks/actions?workflow=Ubuntu%2020.04)
 [<!--lint ignore no-dead-urls-->![GitHub Actions status | ohmtech-rdi/eurorack-blocks](https://github.com/ohmtech-rdi/eurorack-blocks/workflows/macOS%2010.15/badge.svg)](https://github.com/ohmtech-rdi/eurorack-blocks/actions?workflow=macOS%2010.15)
 
-This repository contains all the build material to manufacture "eurorack blocks": small PCBs
-that can be used on a breadboard, and provide atomic typical digital eurorack features such
-as power, CV, gates, pots and leds.
+<img align="left" width="30%" src="./erb-logo.svg">
+
+The `eurorack-blocks` project allows to develop your own custom Eurorack module for either
+protoyping or fun in the comfort of your day-to-day IDE and debugging in a
+[virtual Eurorack environment](https://vcvrack.com),
+and when ready, to auto-magically generate all the needed files to manufacture
+the eurorack module for you to use in a real Eurorack modular system.
+
+`eurorack-blocks` is using [`Daisy Seed`](https://www.electro-smith.com/daisy/daisy),
+an embedded platform for music, which uses
+a 480 MHz ARM Cortex-M7 MCU, a High fidelity AKM stereo audio codec, 64MB of SDRAM,
+and 8MB of flash memory.
+
+The full project's manifest can be read [here](manifest.md).
 
 
-## Manifest
+```cpp
+// Bypass.h
 
-This project aims at simplifying digital eurorack development by providing atomic building blocks
-for each eurorack basic features.
+#include "erb/erb.h"
 
-The full manifest can be read [here](manifest.md).
+using namespace erb;
+
+struct Bypass {
+   Module module;
+   AudioInDaisy audio_in { module, AudioInDaisyPinLeft };
+   AudioOutDaisy audio_out { module, AudioOutDaisyPinLeft };
+
+   void process () {
+      audio_out = audio_in;
+   }
+};
+```
+
+<img align="right" width="15%" src="./samples/bypass/screenshot.png">
+
+```erb
+// Bypass.erbui
+
+module Bypass {
+   width 8hp
+   material aluminum black
+   header { label "BYPASS" }
+
+   control audio_in AudioInDaisy {
+      position 4hp, 40mm
+      style thonk.pj398sm.knurled
+      label "IN"
+   }
+
+   control audio_out AudioOutDaisy {
+      position 4hp, 80mm
+      style thonk.pj398sm.knurled
+      label "OUT"
+   }
+}
+```
+
+```console
+raf:bypass$ ./configure.py 👈 Generate IDE project and hardware files
+raf:bypass$ ls artifacts/
+-rw-r--r--  1 raf  staff  36914 Apr 17 09:03 bypass-preprocess.svg
+-rw-r--r--  1 raf  staff  17228 Apr 17 09:03 bypass.dxf
+-rw-r--r--  1 raf  staff   9066 Apr 17 09:03 bypass.pdf
+-rw-r--r--  1 raf  staff  36560 Apr 17 09:03 bypass.svg
+drwxr-xr-x  3 raf  staff     96 Apr 17 09:03 bypass.xcodeproj 👈 Xcode Project
+-rw-r--r--  1 raf  staff   2009 Apr 17 09:03 deploy_vcvrack.py
+drwxr-xr-x  4 raf  staff    128 Apr 17 09:03 out
+-rw-r--r--  1 raf  staff    635 Apr 17 09:03 plugin.json
+-rw-r--r--  1 raf  staff   8756 Apr 17 09:03 plugin_vcvrack.cpp
+raf:bypass$ ./build.py 👈 Build the firmware
+ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/out/Release'
+[185/185] LINK bypass-daisy
+OBJCOPY bypass-daisy
+raf:bypass$ ./deploy.py 👈 Upload the firmware to your Daisy Seed
+Enter the system bootloader by holding the BOOT button down,
+and then pressing, and releasing the RESET button.
+Press Enter to continue...
+...
+raf:bypass$
+```
 
 
 ## Blocks
 
 ### Audio Signals
 
-- [`audio-in-daisy`](./blocks/audio-in-daisy/) is an audio input block,
-- [`audio-out-daisy`](./blocks/audio-out-daisy/) is an audio output block.
+- [`audio-in-daisy`](./blocks/audio-in-daisy/documentation/) is an audio input block,
+- [`audio-out-daisy`](./blocks/audio-out-daisy/documentation/) is an audio output block.
 
 ### Control Voltages
 
-- [`cv-in`](./blocks/cv-in/) is a CV input block.
+- [`cv-in`](./blocks/cv-in/documentation/) is a CV input block.
 
 ### Trigger, Gate and Clock Signals
 
-- [`gate-in`](./blocks/gate-in/) is a gate input block,
+- [`gate-in`](./blocks/gate-in/documentation/) is a gate input block,
 - [`gate-out`](./blocks/gate-out/) is a gate output block.
 
 ### HID
 
-- [`button`](./blocks/button/) is a trigger button,
-- [`led`](./blocks/led/) is a monochromatic LED,
-- [`led-bi`](./blocks/led-bi/) is a dichromatic LED,
-- [`pot`](./blocks/pot/) is a potentiometer block,
+- [`button`](./blocks/button/documentation/) is a trigger button,
+- [`led`](./blocks/led/documentation/) is a monochromatic LED,
+- [`led-bi`](./blocks/led-bi/documentation/) is a dichromatic LED,
+- [`pot`](./blocks/pot/documentation/) is a potentiometer block,
 - [`slider`](./blocks/slider/) is a slider potentiometer block,
-- [`switch`](./blocks/switch/) is a 2 or 3 positions toggle switch,
-- [`trim`](./blocks/trim/) is a trim potentiometer block.
-
-### Power
-
-- [`power-bus`](./blocks/power-bus/) is a eurorack compatible power bus.
-- [`regulator-daisy`](./blocks/regulator-daisy/) is a voltage regulator compatible with the Daisy Seed.
+- [`switch`](./blocks/switch/documentation/) is a 2 or 3 positions toggle switch,
+- [`trim`](./blocks/trim/documentation/) is a trim potentiometer block.
 
 ### Utility
 
-- [`multiplexer`](./blocks/multiplexer/) is a signal multiplexer block.
+- [`multiplexer`](./blocks/multiplexer/documentation/) is a signal multiplexer block.
 
 
-## Kits
+## Setting up
 
-Blocks are packed into panels called "kits".
-[`kits`](./blocks/kits/) contains panelized blocks standard kits.
-
-
-## Requirements
-
-### Software
-
-Building and deploying the tests requires:
+The eurorack-block project requires the following to be installed:
 
 - The `python3` interpreter with minimum version 3.7,
-- The `gcc` ARM toolchain,
-- The `dfu-util` firmware downloader,
-- The `ninja` build system.
+- The `pip3` python package manager,
+- [Kicad 5.1.9](http://kicad-pcb.org/download/),
+- The [D-DIN Font](./include/erb/vcvrack/design/d-din) must be installed on the system.
 
-To do so, follow the instructions from the Daisy wiki:
+> Note: Python 2 is not supported.
 
-- [Installing on macOS](https://github.com/electro-smith/DaisyWiki/wiki/1b.-Installing-the-Toolchain-on-Mac)
-- [Installing on Windows](https://github.com/electro-smith/DaisyWiki/wiki/1c.-Installing-the-Toolchain-on-Windows)
-- [Installing on Linux](https://github.com/electro-smith/DaisyWiki/wiki/1d.-Installing-the-Toolchain-on-Linux)
+### macOS
 
-> Note: Installing `make` on macOS might not be required if Xcode is installed. If `brew` returns
-> an error, try `brew install armmbed/formulae/arm-none-eabi-gcc dfu-util` instead.
+- [Homebrew](https://brew.sh), up-to-date,
+- [Xcode](https://developer.apple.com/xcode/), with minimum version 10 on macOS,
+- [All the package dependencies](https://github.com/ohmtech-rdi/eurorack-blocks/blob/main/.github/workflows/macos_10_15.yml#L42-L47).
 
-A pre-built package of `ninja` can be installed with your favorite package manager by
-following the directions described [here](https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages).
+### Debian/Ubuntu
 
-Every other build dependencies can be found in the submodules of this repository, so make
-sure to update the submodules, as described below.
-
-### Hardware
-
-Producing the PCBs gerbers requires:
-
-- [Kicad 5.1.9](http://kicad-pcb.org/download/)
+- [All the package dependencies](https://github.com/ohmtech-rdi/eurorack-blocks/blob/main/.github/workflows/ubuntu_20_04.yml#L42-L49).
 
 
 ## Cloning
@@ -100,46 +148,31 @@ This repository contains submodules:
     git submodule update --init --recursive
 
 
+## Sample Projects
+
+Sample projects are a good place to start learning:
+
+- [`bypass`](./samples/bypass/) is the example used above,
+- [`drop`](./samples/drop/) shows the usage of almost every blocks.
+
+
 ## Structure
 
 ```
 eurorack-blocks/
    blocks/
-      audio-in-daisy/
-      audio-out-daisy/
-      button/
-      cv-in/
-      gate-in/
-      gate-out/
-      kits/
-      multiplexer/
-      led/
-      led-bi/
-      pot/
-      power-bus/
-      regulator-daisy/
-      slider/
-      switch/
-      trim/
    build-system/
    include/
    src/
    submodules/
-      kcgen/
-      kicad-libs/
-      libDaisy/
 ```
 
-- All blocks have their own directory,
+- [`blocks`](./blocks/) contains all the atomic blocks hardware for design validation, software tests and documentation,
 - [`build-system`](./build-system/) contains the build system used to build and deploy
    the tests and samples,
 - [`include`](./include/) contains the software implementation of the blocks,
 - [`src`](./src/) contains the software implementation of the blocks,
-- [`kcgen`](https://github.com/ohmtech/kcgen) is a Kicad gerber and BOM automatic generator,
-- [`kicad-libs`](https://github.com/ohmtech/kicad-libs) is a symbol and footprint library for Kicad,
-   containing components like the standard Thonk jack connector,
-- [`libDaisy`](https://github.com/electro-smith/libDaisy) is a hardware library
-   for the Daisy audio platform.
+- [`submodules`](./submodules/) contains the software dependencies as submodules.
 
 
 ## License
