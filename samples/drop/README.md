@@ -18,20 +18,13 @@ The transition from passive to active or active to passive is armed with the `AR
 
 Typically, the `SYNC` gate input would be connected to a clock divider with appropriate reset, so that the `SYNC` is triggered only on beats or bars.
 
+<img align="center" width="100%" src="./screenshot-debugging.png">
+
 
 ## Requirements
 
-- [Python 3](https://www.python.org/downloads/), with minimum version 3.7,
-- [Gcc GNU ARM toolchain](https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-rm/downloads),
-- [cairocffi](https://cairocffi.readthedocs.io/en/stable/overview.html#installing-cffi),
-- [cairosvg](https://cairosvg.org/documentation/),
-- [ezdxf](https://ezdxf.mozman.at),
-- [ninja](https://github.com/ninja-build/ninja/wiki/Pre-built-Ninja-packages),
-- [VCV Rack](https://vcvrack.com/Rack),
-- [Xcode](https://developer.apple.com/xcode/), with minimum version 10 on macOS,
-- [dfu-util](http://dfu-util.sourceforge.net),
-- [D-DIN Font](https://www.datto.com/fonts/d-din),
-- make on Linux.
+Make sure to first [set-up](https://github.com/ohmtech-rdi/eurorack-blocks/tree/main#setting-up)
+your development environment.
 
 > In the following sections, it is assumed that `python` is an alias to Python 3. If this is not the
 > case on your platform, use `python3` instead. Alternatively, if your shell supports shebang,
