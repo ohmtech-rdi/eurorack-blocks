@@ -1,24 +1,9 @@
-# Drop
+# Bypass
 
-`Drop` is a sample to illustrate a simple module, yet using quite some different eurorack blocks features.
+`Bypass` is a sample to illustrate the most simplest module as features on the repository front page.
 
 It can generate builds to both run on VCV Rack and on the hardware Daisy platform, with the
 same source code.
-
-
-## Overview
-
-This module allows to make a typical "techno drop".
-
-When active, the stereo input is either muted or goes through a high-pass filter. The latter cutoff frequency can be controlled with the `FREQ` pot, and can be used to selectively remove the drum kick frequencies.
-
-When passive, it is just a bypass.
-
-The transition from passive to active or active to passive is armed with the `ARM` button or gate. The actual transition only happens when the transition is armed and a `SYNC` trigger is received.
-
-Typically, the `SYNC` gate input would be connected to a clock divider with appropriate reset, so that the `SYNC` is triggered only on beats or bars.
-
-<img align="center" width="100%" src="./screenshot-debugging.png">
 
 
 ## Requirements
@@ -59,13 +44,13 @@ This will create an `artifacts` folder with everything needed to build for Daisy
 Open the generated project file into your IDE. Building will automatically copy the files to
 the VCV Rack plug-in folder.
 
-> In Xcode, make sure to select the `Product > Scheme > drop-vcvrack` scheme before building.
+> In Xcode, make sure to select the `Product > Scheme > bypass-vcvrack` scheme before building.
 
 
 ## Debugging on Xcode
 
 To debug on Xcode, the following configuration must be first done:
-- Select the `Product > Scheme > drop-vcvrack` scheme,
+- Select the `Product > Scheme > bypass-vcvrack` scheme,
 - Go to `Product > Scheme > Edit Scheme...`,
 - Select `Run` on the left column,
 - In the `Info` tab:
@@ -85,12 +70,12 @@ started manually.
 ## Building for Daisy
 
     $ python build.py
-    ninja: Entering directory `/Users/raf/dev/eurorack-blocks/samples/drop/artifacts/out/Release'
-    [10/10] LINK drop-daisy
-    OBJCOPY drop-daisy
+    ninja: Entering directory `/Users/raf/dev/eurorack-blocks/samples/bypass/artifacts/out/Release'
+    [10/10] LINK bypass-daisy
+    OBJCOPY bypass-daisy
     ...
 
-This will create a binary file to upload to the Daisy seed. It is the `drop-daisy.bin` file
+This will create a binary file to upload to the Daisy seed. It is the `bypass-daisy.bin` file
 output in the `artifacts/out/Release` build directory.
 
 
@@ -110,7 +95,7 @@ output in the `artifacts/out/Release` build directory.
     dfu-util: Error during download get_status
     Run command exited with 74
 
-Follow the onscreen instructions and this will download the `drop-daisy.bin` firmware to the
+Follow the onscreen instructions and this will download the `bypass-daisy.bin` firmware to the
 Daisy Seed when it is connected to USB.
 
 The error 74 reported from `dfu-util` can be safely

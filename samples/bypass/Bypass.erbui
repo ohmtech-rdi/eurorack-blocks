@@ -1,0 +1,26 @@
+/*****************************************************************************
+
+      Bypass.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Bypass {
+   width 8hp
+   material aluminum black
+   header { label "BYPASS" }
+
+   control audio_in AudioInDaisy {
+      position 4hp, 40mm
+      style thonk.pj398sm.knurled
+      label "IN"
+   }
+
+   control audio_out AudioOutDaisy {
+      position 4hp, 80mm
+      style thonk.pj398sm.knurled
+      label "OUT"
+   }
+}

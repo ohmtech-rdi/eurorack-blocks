@@ -42,6 +42,7 @@ jobs:
       - run: brew install armmbed/formulae/arm-none-eabi-gcc
       - run: brew install ninja
       - run: brew install cairo libffi
+      - run: brew install dfu-util
       - run: pip3 install cairosvg cairocffi
       - run: pip3 install ezdxf
       - run: python3 blocks/test/configure.py
