@@ -147,4 +147,5 @@ eurorack-blocks/
 All files in this repository are provided with the CC BY-SA 4.0 license, **except**:
 
 - The [D-DIN Font](./include/erb/vcvrack/design/d-din),
-   under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt).
+   under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
+- The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/).
