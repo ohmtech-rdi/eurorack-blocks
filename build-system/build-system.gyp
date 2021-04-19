@@ -43,6 +43,9 @@
             'erbui/generators/front_panel/milling.py',
             'erbui/generators/front_panel/printing.py',
 
+            # generators/front_pcb
+            'erbui/generators/front_pcb/s_expression.py',
+
             # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
