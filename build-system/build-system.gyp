@@ -62,6 +62,7 @@
             'erbui/tests/mock.py',
             'erbui/tests/test_generators.py',
             'erbui/tests/test_parser.py',
+            'erbui/tests/test_s_expression.py',
          ],
       },
    ],
