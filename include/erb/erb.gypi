@@ -78,6 +78,10 @@
             'include_dirs': [
                '..',
             ],
+
+            'sources': [
+               '<!(echo artifacts/main_daisy.cpp)',
+            ],
          },
 
          'export_dependent_settings': [

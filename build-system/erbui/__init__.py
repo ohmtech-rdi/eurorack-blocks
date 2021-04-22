@@ -15,6 +15,7 @@ from .generators.vcvrack.panel import Panel as vcvrackPanel
 from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
 from .generators.vcvrack.deploy import Deploy as vcvrackDeploy
+from .generators.daisy.code import Code as daisyCode
 from .generators.front_panel.milling import Milling as front_panelMilling
 from .generators.front_panel.printing import Printing as front_panelPrinting
 
@@ -97,6 +98,29 @@ Name: generate_vcvrack_deploy
 def generate_vcvrack_deploy (path, ast):
    generator = vcvrackDeploy ()
    generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_daisy
+==============================================================================
+"""
+
+def generate_daisy (path, ast):
+   generate_daisy_code (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_daisy_code
+==============================================================================
+"""
+
+def generate_daisy_code (path, module):
+   generator = daisyCode ()
+   generator.generate (path, module)
 
 
 
