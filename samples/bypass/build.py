@@ -59,7 +59,7 @@ if __name__ == '__main__':
       args = parse_args ()
 
       if args.erb_target == 'daisy':
-         ast = erbui.parse_ui (os.path.join (PATH_THIS, 'Bypass.erbui'))
+         ast = erbui.parse (os.path.join (PATH_THIS, 'Bypass.erbui'))
          erbui.generate_front_panel (PATH_ARTIFACTS, ast)
 
          erbb.build_target ('bypass', 'bypass-daisy', PATH_THIS)
