@@ -7,7 +7,7 @@
 <img align="left" width="30%" src="./erb-logo.svg">
 
 The `eurorack-blocks` project allows to develop your own custom Eurorack module for either
-protoyping or fun in the comfort of your day-to-day IDE and debugging in a
+prototyping or fun in the comfort of your day-to-day IDE and debugging in a
 [virtual Eurorack environment](https://vcvrack.com),
 and when ready, to auto-magically generate all the needed files to manufacture
 the eurorack module for you to use in a real Eurorack modular system.
