@@ -516,12 +516,12 @@ class Style (Scope):
       return self.name == 'tl1105'
 
    @property
-   def is_ck_d6 (self):
-      return self.is_ck_d6_black
+   def is_ck_d6r (self):
+      return self.is_ck_d6r_black
 
    @property
-   def is_ck_d6_black (self):
-      return self.name == 'ck.d6.black'
+   def is_ck_d6r_black (self):
+      return self.name == 'ck.d6r.black'
 
 
 

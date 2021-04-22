@@ -138,7 +138,7 @@ class Milling:
       elif style.is_thonk_pj398sm:
          return 6.5
 
-      elif style.is_ck_d6:
+      elif style.is_ck_d6r:
          return 9.6
 
       elif style.is_tl1105:

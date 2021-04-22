@@ -133,7 +133,7 @@ class Code:
          'led.3mm.green_red': 'MediumLight <GreenRedLight>',
          'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
          'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6.black': 'CKD6',
+         'ck.d6r.black': 'CKD6',
          'tl1105': 'TL1105',
       }
 
