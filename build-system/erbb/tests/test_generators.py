@@ -136,7 +136,7 @@ class TestGenerators (unittest.TestCase):
       style = ast.Style (mock.keyword ('dailywell.2ms1'))
       control.entities.append (style)
 
-      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°CCW'), '°CCW'))
+      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°ccw'), '°ccw'))
       control.entities.append (rotation)
 
       module.entities.append (control)
@@ -155,7 +155,7 @@ class TestGenerators (unittest.TestCase):
       style = ast.Style (mock.keyword ('dailywell.2ms3'))
       control.entities.append (style)
 
-      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°CW'), '°CW'))
+      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°cw'), '°cw'))
       control.entities.append (rotation)
 
       module.entities.append (control)
@@ -174,7 +174,7 @@ class TestGenerators (unittest.TestCase):
       style = ast.Style (mock.keyword ('dailywell.2ms3'))
       control.entities.append (style)
 
-      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('180°CCW'), '°CCW'))
+      rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('180°'), '°'))
       control.entities.append (rotation)
 
       module.entities.append (control)
