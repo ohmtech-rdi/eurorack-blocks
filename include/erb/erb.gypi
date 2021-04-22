@@ -232,6 +232,20 @@
                '../../submodules/vcv-rack-sdk/dep/include',
             ],
 
+            'rules': [
+               {
+                  'rule_name': 'Transpile Erbui',
+                  'extension': 'erbui',
+                  'outputs': [
+                     '<!(echo artifacts/deploy_vcvrack.py)',
+                     '<!(echo artifacts/panel_vcvrack.svg)',
+                     '<!(echo artifacts/plugin_vcvrack.cpp)',
+                     '<!(echo artifacts/plugin.json)',
+                  ],
+                  'action': [ 'python3', 'artifacts/generate_vcvrack.py', '<(RULE_INPUT_PATH)' ],
+               },
+            ],
+
             'copies': [
                {
                   'destination': '<(PRODUCT_DIR)',
