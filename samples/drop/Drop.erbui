@@ -47,12 +47,12 @@ module Drop {
 
    control sync_button Button {
       position 7.11mm, 75.3mm
-      style ck.d6.black
+      style ck.d6r.black
    }
 
    control arm_button Button {
       position 19.2mm, 75.3mm
-      style ck.d6.black
+      style ck.d6r.black
    }
 
    control sync_led Led {
