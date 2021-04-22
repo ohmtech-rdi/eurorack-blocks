@@ -25,11 +25,11 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 """
 ==============================================================================
-Name: parse_ui
+Name: parse
 ==============================================================================
 """
 
-def parse_ui (filepath):
+def parse (filepath):
    with open (filepath, "r") as data:
       input_text = data.read ()
 
