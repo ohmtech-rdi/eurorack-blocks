@@ -33,22 +33,15 @@ class VcvGateIn
 
 public:
 
-   enum class Mode
-   {
-      Trigger, Gate
-   };
-
-                  VcvGateIn (VcvModule & module, const VcvPin & pin, Mode mode = Mode::Trigger);
+                  VcvGateIn (VcvModule & module, const VcvPin & pin);
    virtual        ~VcvGateIn () override = default;
 
-   void           set_mode (Mode mode);
+   bool           triggered () const;
                   operator bool () const;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-   /*               VcvGateIn (const VcvPin & pin, Mode mode);*/
 
    // VcvModuleListener
    virtual void   impl_notify_audio_buffer_start () override;
@@ -65,7 +58,6 @@ protected:
 
 private:
 
-   Mode           _mode;
    bool           _previous = false;
    bool           _current = false;
 

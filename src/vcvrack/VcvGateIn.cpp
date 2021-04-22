@@ -28,9 +28,8 @@ Name : ctor
 ==============================================================================
 */
 
-VcvGateIn::VcvGateIn (VcvModule & module, const VcvPin & /* pin */, Mode mode)
+VcvGateIn::VcvGateIn (VcvModule & module, const VcvPin & /* pin */)
 :  VcvInputBase (module)
-,  _mode (mode)
 {
 }
 
@@ -38,13 +37,13 @@ VcvGateIn::VcvGateIn (VcvModule & module, const VcvPin & /* pin */, Mode mode)
 
 /*
 ==============================================================================
-Name : set_mode
+Name : triggered
 ==============================================================================
 */
 
-void  VcvGateIn::set_mode (Mode mode)
+bool  VcvGateIn::triggered () const
 {
-   _mode = mode;
+   return _current && !_previous;
 }
 
 
@@ -57,37 +56,12 @@ Name : operator bool
 
 VcvGateIn::operator bool () const
 {
-   switch (_mode)
-   {
-   case Mode::Trigger:
-      return _current && !_previous;
-
-   case Mode::Gate:
-      return _current;
-
-#if defined (__GNUC__) && ! defined (__clang__)
-   default:
-      return false;
-#endif
-   }
+   return _current;
 }
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : ctor
-==============================================================================
-*/
-
-/*VcvGateIn::VcvGateIn (const VcvPin & pin, Mode mode)
-:  _mode (mode)
-{
-}*/
-
-
 
 /*
 ==============================================================================

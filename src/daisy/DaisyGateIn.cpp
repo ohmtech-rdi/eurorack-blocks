@@ -31,9 +31,8 @@ Name : ctor
 ==============================================================================
 */
 
-DaisyGateIn::DaisyGateIn (DaisyModule & module, const Pin & pin, Mode mode)
+DaisyGateIn::DaisyGateIn (DaisyModule & module, const Pin & pin)
 :  _gpio (to_gpio (pin))
-,  _mode (mode)
 {
    module.add (*this);
 }
@@ -42,13 +41,13 @@ DaisyGateIn::DaisyGateIn (DaisyModule & module, const Pin & pin, Mode mode)
 
 /*
 ==============================================================================
-Name : set_mode
+Name : triggered
 ==============================================================================
 */
 
-void  DaisyGateIn::set_mode (Mode mode)
+bool  DaisyGateIn::triggered () const
 {
-   _mode = mode;
+   return _current && !_previous;
 }
 
 
@@ -61,19 +60,7 @@ Name : operator bool
 
 DaisyGateIn::operator bool () const
 {
-   switch (_mode)
-   {
-   case Mode::Trigger:
-      return _current && !_previous;
-
-   case Mode::Gate:
-      return _current;
-
-#if erb_GNUC_SWITCH_COVERAGE_FIX
-   default:
-      return false;
-#endif
-   }
+   return _current;
 }
 
 
@@ -86,9 +73,8 @@ Name : ctor
 ==============================================================================
 */
 
-DaisyGateIn::DaisyGateIn (const Pin & pin, Mode mode)
+DaisyGateIn::DaisyGateIn (const Pin & pin)
 :  _gpio (to_gpio (pin))
-,  _mode (mode)
 {
 }
 

@@ -62,8 +62,8 @@ protected:
 
 private:
 
-   DaisyGateIn         _gate_0;
-   DaisyGateIn         _gate_1;
+   DaisyGateIn    _gate_0;
+   DaisyGateIn    _gate_1;
    Position       _position = Position::Center;
 
 
