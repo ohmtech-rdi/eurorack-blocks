@@ -46,11 +46,6 @@
          'type': 'shared_library',
 
          'dependencies': [ 'bypass', 'erb-vcvrack' ],
-
-         'copies': [{
-            'destination': '<(PRODUCT_DIR)/res',
-            'files': [ 'artifacts/bypass.svg' ],
-         }],
       },
    ],
 }

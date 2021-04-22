@@ -48,11 +48,6 @@
          'type': 'shared_library',
 
          'dependencies': [ 'drop', 'erb-vcvrack' ],
-
-         'copies': [{
-            'destination': '<(PRODUCT_DIR)/res',
-            'files': [ 'artifacts/drop.svg' ],
-         }],
       },
    ],
 }
