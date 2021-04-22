@@ -36,7 +36,7 @@ if __name__ == '__main__':
       filepath = sys.argv [1]
       output_path = os.path.abspath (os.path.join (os.path.dirname (filepath), 'artifacts'))
 
-      ast = erbui.parse_ui (filepath)
+      ast = erbui.parse (filepath)
       erbui.generate_vcvrack (output_path, ast)
 
    except subprocess.CalledProcessError as error:
