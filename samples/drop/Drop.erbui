@@ -34,7 +34,7 @@ module Drop {
    control mute_hp Switch {
       position 25.3mm, 62mm
       style dailywell.2ms1
-      rotation 90°CCW
+      rotation 90°ccw
       label "MUTE" { positioning left }
       label "HP" { positioning right }
    }
