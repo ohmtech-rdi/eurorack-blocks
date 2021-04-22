@@ -35,6 +35,10 @@ if __name__ == '__main__':
    try:
       erbb.configure ('test', PATH_THIS)
 
+      # create dummy file to be compatible with erb-daisy
+      with open (os.path.join (PATH_THIS, 'artifacts', 'main_daisy.cpp'), 'wb') as f:
+         pass
+
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)
