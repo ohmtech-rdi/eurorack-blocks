@@ -1,3 +1,3 @@
 (sym_lib_table
-  (lib (name Bourns)(type Legacy)(uri "$(KIPRJMOD)/../submodules/kicad-libs/symbols/Bourns.lib")(options "")(descr ""))
+  (lib (name Bourns)(type Legacy)(uri "$(KIPRJMOD)/../../submodules/kicad-libs/symbols/Bourns.lib")(options "")(descr ""))
 )
