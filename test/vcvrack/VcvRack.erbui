@@ -213,8 +213,8 @@ module VcvRack {
 
    control ck_d6_black Button {
       position 110mm, 85mm
-      style ck.d6.black
-      label "ck.d6.black" { positioning bottom }
+      style ck.d6r.black
+      label "ck.d6r.black" { positioning bottom }
    }
 
    control dailywell_2ms1_90ccw Switch {

@@ -239,7 +239,7 @@ class Panel:
          radius = 8.0 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
-      elif style.is_ck_d6_black:
+      elif style.is_ck_d6r_black:
          radius = 9.0 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
