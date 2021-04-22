@@ -11,7 +11,8 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 
 KEYWORDS = (
-   'module', 'width', 'material', 'header', 'footer', 'line', 'control', 'label', 'image',
+   'module', 'width', 'material', 'header', 'footer', 'line',
+   'control', 'label', 'image', 'pin', 'pins', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
@@ -51,6 +52,11 @@ def angle_declaration ():              return [float_deg_ccw_literal, float_deg_
 def positioning_name ():               return ['center', 'left', 'top', 'right', 'bottom']
 def positioning_declaration ():        return 'positioning', positioning_name
 
+# Pin & Pins
+def pin_name ():                       return name
+def pin_declaration ():                return 'pin', pin_name
+def pins_declaration ():               return 'pins', pin_name, ZeroOrMore (',', pin_name)
+
 # Image
 def image_declaration ():              return 'image', string_literal
 
@@ -77,12 +83,22 @@ def line_declaration ():               return 'line', line_body
 def style_name ():                     return list (CONTROL_STYLES)
 def style_declaration ():              return 'style', style_name
 
+# Mode
+def mode_value ():                     return ['normalized', 'bipolar']
+def mode_declaration ():               return 'mode', mode_value
+
 # Control
-def control_entities ():               return ZeroOrMore ([position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration])
+def control_entities ():               return ZeroOrMore ([mode_declaration, position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration, pins_declaration, pin_declaration])
 def control_body ():                   return '{', control_entities, '}'
 def control_kind ():                   return list (CONTROL_KINDS)
 def control_name ():                   return name
 def control_declaration ():            return 'control', control_name, control_kind, control_body
+
+# Multiplexer
+def multiplexer_entities ():           return ZeroOrMore ([control_declaration, pins_declaration])
+def multiplexer_body ():               return '{', multiplexer_entities, '}'
+def multiplexer_name ():               return name
+def multiplexer_declaration ():        return 'multiplexer', multiplexer_name, multiplexer_body
 
 # Footer
 def footer_entities ():                return ZeroOrMore ([label_declaration, image_declaration])
@@ -103,7 +119,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, image_declaration, control_declaration])
+def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, image_declaration, control_declaration, multiplexer_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body, EOF
