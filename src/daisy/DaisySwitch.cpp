@@ -31,8 +31,8 @@ Name : ctor
 */
 
 DaisySwitch::DaisySwitch (DaisyModule & module, const Pin & pin_0, const Pin & pin_1)
-:  _gate_0 (pin_0, DaisyGateIn::Mode::Gate)
-,  _gate_1 (pin_1, DaisyGateIn::Mode::Gate)
+:  _gate_0 (pin_0)
+,  _gate_1 (pin_1)
 {
    module.add (*this);
 }

@@ -35,22 +35,17 @@ class DaisyGateIn
 
 public:
 
-   enum class Mode
-   {
-      Trigger, Gate
-   };
-
-                  DaisyGateIn (DaisyModule & module, const Pin & pin, Mode mode = Mode::Trigger);
+                  DaisyGateIn (DaisyModule & module, const Pin & pin);
    virtual        ~DaisyGateIn () override = default;
 
-   void           set_mode (Mode mode);
+   bool           triggered () const;
                   operator bool () const;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-                  DaisyGateIn (const Pin & pin, Mode mode);
+                  DaisyGateIn (const Pin & pin);
 
    // DaisyModuleListener
    virtual void   impl_notify_audio_buffer_start () override;
@@ -72,7 +67,6 @@ private:
 
    const dsy_gpio _gpio;
 
-   Mode           _mode;
    bool           _previous = false;
    bool           _current = false;
 
