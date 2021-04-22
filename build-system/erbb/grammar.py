@@ -39,12 +39,13 @@ def string_literal ():                 return _(r'\".*\"')
 def float_mm_literal ():               return _(r'[0-9\.]+mm')
 def float_cm_literal ():               return _(r'[0-9\.]+cm')
 def float_hp_literal ():               return _(r'[0-9\.]+hp')
-def float_deg_ccw_literal ():          return _(r'[0-9\.]+°CCW')
-def float_deg_cw_literal ():           return _(r'[0-9\.]+°CW')
+def float_deg_literal ():              return _(r'[0-9\.]+°')
+def float_deg_ccw_literal ():          return _(r'[0-9\.]+°ccw')
+def float_deg_cw_literal ():           return _(r'[0-9\.]+°cw')
 
 # Metrics
 def distance_declaration ():           return [float_mm_literal, float_cm_literal, float_hp_literal]
-def angle_declaration ():              return [float_deg_ccw_literal, float_deg_cw_literal]
+def angle_declaration ():              return [float_deg_ccw_literal, float_deg_cw_literal, float_deg_literal]
 
 # Positioning
 def positioning_name ():               return ['center', 'left', 'top', 'right', 'bottom']

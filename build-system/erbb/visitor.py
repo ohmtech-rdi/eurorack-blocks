@@ -56,11 +56,14 @@ class Visitor (PTNodeVisitor):
    def visit_float_hp_literal (self, node, children):
       return ast.DistanceLiteral (self.to_literal (node), 'hp')
 
+   def visit_float_deg_literal (self, node, children):
+      return ast.RotationLiteral (self.to_literal (node), '°')
+
    def visit_float_deg_ccw_literal (self, node, children):
-      return ast.RotationLiteral (self.to_literal (node), '°CCW')
+      return ast.RotationLiteral (self.to_literal (node), '°ccw')
 
    def visit_float_deg_cw_literal (self, node, children):
-      return ast.RotationLiteral (self.to_literal (node), '°CW')
+      return ast.RotationLiteral (self.to_literal (node), '°cw')
 
 
    #-- Module ----------------------------------------------------------------

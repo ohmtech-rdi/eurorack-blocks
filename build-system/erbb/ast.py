@@ -172,21 +172,18 @@ class RotationLiteral (Literal):
 
    @property
    def value (self):
-      if self.unit == '°CCW':
+      if self.unit == '°':
+         return -float (self.literal.value [:-1])
+      elif self.unit == '°ccw':
          return float (self.literal.value [:-4])
-      elif self.unit == '°CW':
+      elif self.unit == '°cw':
          return -float (self.literal.value [:-3])
       else:
          assert (False)
 
    @property
    def degree (self):
-      if self.unit == '°CCW':
-         return self.value
-      elif self.unit == '°CW':
-         return self.value
-      else:
-         assert (False)
+      return self.value
 
    @property
    def degree_top_down (self):
