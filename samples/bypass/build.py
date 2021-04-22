@@ -15,10 +15,12 @@ import subprocess
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ARTIFACTS = os.path.join (PATH_THIS, 'artifacts')
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbb
+import erbui
 
 
 
@@ -55,7 +57,11 @@ def parse_args ():
 if __name__ == '__main__':
    try:
       args = parse_args ()
+
       if args.erb_target == 'daisy':
+         ast = erbui.parse_ui (os.path.join (PATH_THIS, 'Bypass.erbui'))
+         erbui.generate_front_panel (PATH_ARTIFACTS, ast)
+
          erbb.build_target ('bypass', 'bypass-daisy', PATH_THIS)
          erbb.objcopy ('bypass-daisy', PATH_THIS)
 
