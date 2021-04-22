@@ -14,11 +14,9 @@ import subprocess
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
-PATH_ARTIFACTS = os.path.join (PATH_THIS, 'artifacts')
-PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
-import erbb
 import erbui
 
 
@@ -35,10 +33,11 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbui.parse_ui (os.path.join (PATH_THIS, 'Bypass.erbui'))
+      filepath = sys.argv [1]
+      output_path = os.path.abspath (os.path.join (os.path.dirname (filepath), 'artifacts'))
 
-      erbb.configure ('bypass', PATH_THIS)
-      erbui.generate_vcvrack (PATH_ARTIFACTS, ast)
+      ast = erbui.parse_ui (filepath)
+      erbui.generate_vcvrack (output_path, ast)
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)

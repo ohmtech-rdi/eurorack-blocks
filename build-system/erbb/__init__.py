@@ -63,6 +63,11 @@ def configure_native (name, path):
          if 'BuildIndependentTargetsInParallel' in line:
             print ('\t\t\t\tLastUpgradeCheck = 1000;')
 
+   shutil.copyfile (
+      os.path.join (PATH_THIS, 'generate_vcvrack.py'),
+      os.path.join (path_artifacts, 'generate_vcvrack.py')
+   )
+
 
 
 """

@@ -39,7 +39,6 @@ if __name__ == '__main__':
 
       erbb.configure ('drop', PATH_THIS)
       erbui.generate_vcvrack (PATH_ARTIFACTS, ast)
-      erbui.generate_front_panel (PATH_ARTIFACTS, ast)
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
