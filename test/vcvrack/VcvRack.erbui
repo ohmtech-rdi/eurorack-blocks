@@ -220,21 +220,21 @@ module VcvRack {
    control dailywell_2ms1_90ccw Switch {
       position 10mm, 110mm
       style dailywell.2ms1
-      rotation 90°CCW
+      rotation 90°ccw
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
-      label "90°CCW" { positioning bottom }
+      label "90°ccw" { positioning bottom }
    }
 
    control dailywell_2ms1_m90cw Switch {
       position 30mm, 110mm
       style dailywell.2ms1
-      rotation 90°CW
+      rotation 90°
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
-      label "90°CW" { positioning bottom }
+      label "90°" { positioning bottom }
    }
 
    control thonk_pj398sm_knurled CvIn {
