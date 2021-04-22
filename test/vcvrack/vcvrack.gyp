@@ -28,11 +28,6 @@
             'VcvRack.h',
             'VcvRack.erbui',
          ],
-
-         'copies': [{
-            'destination': '<(PRODUCT_DIR)/res',
-            'files': [ 'artifacts/vcvrack.svg' ],
-         }],
       },
    ],
 }

@@ -253,6 +253,8 @@
                      'vcvrack/resource/dailywell.2ms.1.svg',
                      'vcvrack/resource/dailywell.2ms.2.svg',
                      'vcvrack/resource/dailywell.2ms.3.svg',
+
+                     '<!(echo artifacts/panel_vcvrack.svg)',
                   ],
                },
             ],
