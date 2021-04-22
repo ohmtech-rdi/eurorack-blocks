@@ -14,10 +14,12 @@ import subprocess
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ARTIFACTS = os.path.join (PATH_THIS, 'artifacts')
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbb
+import erbui
 
 
 
@@ -33,13 +35,10 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbb.parse_ui ('VcvRack.erbui', PATH_THIS)
+      ast = erbui.parse_ui (os.path.join (PATH_THIS, 'VcvRack.erbui'))
 
       erbb.configure ('vcvrack', PATH_THIS)
-      erbb.generate_vcvrack_panel ('vcvrack', PATH_THIS, ast)
-      erbb.generate_vcvrack_manifest ('vcvrack', PATH_THIS, ast)
-      erbb.generate_vcvrack_code ('vcvrack', PATH_THIS, ast)
-      erbb.generate_vcvrack_deploy ('vcvrack', PATH_THIS, ast)
+      erbui.generate_vcvrack (PATH_ARTIFACTS, ast)
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
