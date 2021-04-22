@@ -20,22 +20,20 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate (self, name, path, root):
+   def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (name, path, module)
+         self.generate_module (path, module)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, name, path, module):
-      path_artifacts = os.path.join (path, 'artifacts')
+   def generate_module (self, path, module):
       path_template = os.path.join (PATH_THIS, 'code_template.cpp')
-      path_cpp = os.path.join (path_artifacts, 'plugin_vcvrack.cpp')
+      path_cpp = os.path.join (path, 'plugin_vcvrack.cpp')
 
       with open (path_template, 'r') as file:
          template = file.read ()
 
-      template = template.replace ('%name%', name)
       template = template.replace ('%module.name%', module.name)
 
       controls_content = self.generate_controls (module.controls)

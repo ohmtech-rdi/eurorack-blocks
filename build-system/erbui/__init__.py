@@ -29,9 +29,7 @@ Name: parse_ui
 ==============================================================================
 """
 
-def parse_ui (name, path):
-   filepath = os.path.join (path, name)
-
+def parse_ui (filepath):
    with open (filepath, "r") as data:
       input_text = data.read ()
 
@@ -42,13 +40,27 @@ def parse_ui (name, path):
 
 """
 ==============================================================================
+Name: generate_vcvrack
+==============================================================================
+"""
+
+def generate_vcvrack (path, ast):
+   generate_vcvrack_panel (path, ast)
+   generate_vcvrack_manifest (path, ast)
+   generate_vcvrack_code (path, ast)
+   generate_vcvrack_deploy (path, ast)
+
+
+
+"""
+==============================================================================
 Name: generate_vcvrack_panel
 ==============================================================================
 """
 
-def generate_vcvrack_panel (name, path, module):
+def generate_vcvrack_panel (path, ast):
    generator = vcvrackPanel ()
-   generator.generate (name, path, module)
+   generator.generate (path, ast)
 
 
 
@@ -58,9 +70,9 @@ Name: generate_vcvrack_manifest
 ==============================================================================
 """
 
-def generate_vcvrack_manifest (name, path, module):
+def generate_vcvrack_manifest (path, ast):
    generator = vcvrackManifest ()
-   generator.generate (name, path, module)
+   generator.generate (path, ast)
 
 
 
@@ -70,9 +82,9 @@ Name: generate_vcvrack_code
 ==============================================================================
 """
 
-def generate_vcvrack_code (name, path, module):
+def generate_vcvrack_code (path, ast):
    generator = vcvrackCode ()
-   generator.generate (name, path, module)
+   generator.generate (path, ast)
 
 
 
@@ -82,9 +94,21 @@ Name: generate_vcvrack_deploy
 ==============================================================================
 """
 
-def generate_vcvrack_deploy (name, path, module):
+def generate_vcvrack_deploy (path, ast):
    generator = vcvrackDeploy ()
-   generator.generate (name, path, module)
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_panel
+==============================================================================
+"""
+
+def generate_front_panel (path, ast):
+   generate_front_panel_milling (path, ast)
+   generate_front_panel_printing (path, ast)
 
 
 
@@ -94,9 +118,9 @@ Name: generate_front_panel_milling
 ==============================================================================
 """
 
-def generate_front_panel_milling (name, path, module):
+def generate_front_panel_milling (path, module):
    generator = front_panelMilling ()
-   generator.generate (name, path, module)
+   generator.generate (path, module)
 
 
 
@@ -106,6 +130,6 @@ Name: generate_front_panel_printing
 ==============================================================================
 """
 
-def generate_front_panel_printing (name, path, module):
+def generate_front_panel_printing (path, ast):
    generator = front_panelPrinting ()
-   generator.generate (name, path, module)
+   generator.generate (path, ast)

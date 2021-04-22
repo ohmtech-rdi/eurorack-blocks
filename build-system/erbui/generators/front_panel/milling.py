@@ -20,16 +20,15 @@ class Milling:
 
    #--------------------------------------------------------------------------
 
-   def generate (self, name, path, root):
+   def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (name, path, module)
+         self.generate_module (path, module)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, name, path, module):
-      path_artifacts = os.path.join (path, 'artifacts')
-      path_dxf = os.path.join (path_artifacts, '%s.dxf' % name)
+   def generate_module (self, path, module):
+      path_dxf = os.path.join (path, '%s.dxf' % module.name)
 
       doc = ezdxf.new (units=ezdxf.units.MM)
       msp = doc.modelspace ()

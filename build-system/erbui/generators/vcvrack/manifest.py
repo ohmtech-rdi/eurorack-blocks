@@ -18,9 +18,8 @@ class Manifest:
 
    #--------------------------------------------------------------------------
 
-   def generate (self, name, path, root):
-      path_artifacts = os.path.join (path, 'artifacts')
-      path_json = os.path.join (path_artifacts, 'plugin.json')
+   def generate (self, path, root):
+      path_json = os.path.join (path, 'plugin.json')
 
       with open (path_json, 'w') as file:
          file.write ('{\n')
