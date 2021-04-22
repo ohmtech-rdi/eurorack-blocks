@@ -35,10 +35,6 @@
          'type': 'executable',
 
          'dependencies': [ 'bypass', 'erb-daisy' ],
-
-         'sources': [
-            'main.cpp',
-         ],
       },
 
       {

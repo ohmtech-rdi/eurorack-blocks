@@ -37,10 +37,6 @@
          'type': 'executable',
 
          'dependencies': [ 'drop', 'erb-daisy' ],
-
-         'sources': [
-            'main.cpp',
-         ],
       },
 
       {

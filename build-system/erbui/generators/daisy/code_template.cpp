@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      main.cpp
+      main_daisy.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "Bypass.h"
+#include "../%module.name%.h"
 
 
 
@@ -23,9 +23,9 @@ Name : main
 
 int main ()
 {
-   Bypass bypass;
+   %module.name% module;
 
-   bypass.module.run ([&](){
-      bypass.process ();
+   module.module.run ([&](){
+      module.process ();
    });
 }
