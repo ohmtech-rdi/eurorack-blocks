@@ -35,7 +35,7 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbui.parse_ui (os.path.join (PATH_THIS, 'Bypass.erbui'))
+      ast = erbui.parse (os.path.join (PATH_THIS, 'Bypass.erbui'))
 
       erbb.configure ('bypass', PATH_THIS)
       erbui.generate_vcvrack (PATH_ARTIFACTS, ast)
