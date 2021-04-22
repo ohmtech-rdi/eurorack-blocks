@@ -23,13 +23,13 @@ Name : process
 
 void  Drop::process ()
 {
-   if (arm_button.pressed () || arm_gate)
+   if (arm_button.pressed () || arm_gate.triggered ())
    {
       drop_dsp.toggle_arm ();
       arm_led.pulse ();
    }
 
-   if (sync_button.pressed () || sync_gate)
+   if (sync_button.pressed () || sync_gate.triggered ())
    {
       drop_dsp.sync ();
       sync_led.pulse ();
