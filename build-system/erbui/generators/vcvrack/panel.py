@@ -24,17 +24,16 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate (self, name, path, root):
+   def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (name, path, module)
+         self.generate_module (path, module)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, name, path, module):
-      path_artifacts = os.path.join (path, 'artifacts')
-      path_svg_pp = os.path.join (path_artifacts, 'panel_vcvrack-preprocess.svg')
-      path_svg = os.path.join (path_artifacts, 'panel_vcvrack.svg')
+   def generate_module (self, path, module):
+      path_svg_pp = os.path.join (path, 'panel_vcvrack-preprocess.svg')
+      path_svg = os.path.join (path, 'panel_vcvrack.svg')
 
       surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
       context = cairocffi.Context (surface)

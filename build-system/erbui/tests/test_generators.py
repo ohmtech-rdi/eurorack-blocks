@@ -283,7 +283,13 @@ class TestGenerators (unittest.TestCase):
       for generator_name, generator in generators:
          for root_name, root in roots:
             try:
-               generator.generate ('test_generators_%s_%s' % (generator_name, root_name), PATH_THIS, root)
+               test_name = 'test_generators_%s_%s' % (generator_name, root_name)
+               output_path = os.path.join (PATH_ARTIFACTS, test_name)
+
+               if not os.path.exists (output_path):
+                  os.makedirs (output_path)
+
+               generator.generate (output_path, root)
             except:                                # pragma: no cover
                self.fail (traceback.format_exc ()) # pragma: no cover
 

@@ -24,16 +24,15 @@ class Printing:
 
    #--------------------------------------------------------------------------
 
-   def generate (self, name, path, root):
+   def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (name, path, module)
+         self.generate_module (path, module)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, name, path, module):
-      path_artifacts = os.path.join (path, 'artifacts')
-      path_pdf = os.path.join (path_artifacts, '%s.pdf' % name)
+   def generate_module (self, path, module):
+      path_pdf = os.path.join (path, '%s.pdf' % module.name)
 
       surface = cairocffi.PDFSurface (path_pdf, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
       context = cairocffi.Context (surface)
