@@ -152,7 +152,7 @@ ErbWidget::ErbWidget (ErbModule * module_)
    // panel
 
    setPanel (APP->window->loadSvg (
-      asset::plugin (plugin_instance, "res/%name%.svg"))
+      asset::plugin (plugin_instance, "res/panel_vcvrack.svg"))
    );
 
    // screws

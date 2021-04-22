@@ -33,8 +33,8 @@ class Panel:
 
    def generate_module (self, name, path, module):
       path_artifacts = os.path.join (path, 'artifacts')
-      path_svg_pp = os.path.join (path_artifacts, '%s-preprocess.svg' % name)
-      path_svg = os.path.join (path_artifacts, '%s.svg' % name)
+      path_svg_pp = os.path.join (path_artifacts, 'panel_vcvrack-preprocess.svg')
+      path_svg = os.path.join (path_artifacts, 'panel_vcvrack.svg')
 
       surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
       context = cairocffi.Context (surface)
