@@ -11,7 +11,7 @@
 
 #include "VcvRack.h"
 
-#include <cmath>
+#include "erb/erb.h"
 
 
 
@@ -27,9 +27,9 @@ void  VcvRack::process ()
    {
       first_flag = false;
 
-      led_3mm_red.blink ();
-      led_3mm_green.blink ();
-      led_3mm_yellow.blink ();
-      led_3mm_green_red.blink (LedBi::Color::Yellow);
+      ui.led_3mm_red.blink ();
+      ui.led_3mm_green.blink ();
+      ui.led_3mm_yellow.blink ();
+      ui.led_3mm_green_red.blink (erb::LedBi::Color::Yellow);
    }
 }
