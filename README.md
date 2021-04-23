@@ -23,17 +23,13 @@ The full project's manifest can be read [here](manifest.md).
 ```cpp
 // Bypass.h
 
-#include "erb/erb.h"
-
-using namespace erb;
+#include "artifacts/BypassUi.h"
 
 struct Bypass {
-   Module module;
-   AudioInDaisy audio_in { module, AudioInDaisyPinLeft };
-   AudioOutDaisy audio_out { module, AudioOutDaisyPinLeft };
+   BypassUi ui;
 
    void process () {
-      audio_out = audio_in;
+      ui.audio_out = ui.audio_in;
    }
 };
 ```
@@ -52,12 +48,14 @@ module Bypass {
       position 4hp, 40mm
       style thonk.pj398sm.knurled
       label "IN"
+      pin AudioInDaisyPin0
    }
 
    control audio_out AudioOutDaisy {
       position 4hp, 80mm
       style thonk.pj398sm.knurled
       label "OUT"
+      pin AudioOutDaisyPin0
    }
 }
 ```
@@ -65,15 +63,16 @@ module Bypass {
 ```console
 raf:bypass$ ./configure.py 👈 Generate IDE project and hardware files
 raf:bypass$ ls artifacts/
--rw-r--r--  1 raf  staff  36914 Apr 17 09:03 bypass-preprocess.svg
--rw-r--r--  1 raf  staff  17228 Apr 17 09:03 bypass.dxf
--rw-r--r--  1 raf  staff   9066 Apr 17 09:03 bypass.pdf
--rw-r--r--  1 raf  staff  36560 Apr 17 09:03 bypass.svg
-drwxr-xr-x  3 raf  staff     96 Apr 17 09:03 bypass.xcodeproj 👈 Xcode Project
--rw-r--r--  1 raf  staff   2009 Apr 17 09:03 deploy_vcvrack.py
-drwxr-xr-x  4 raf  staff    128 Apr 17 09:03 out
--rw-r--r--  1 raf  staff    635 Apr 17 09:03 plugin.json
--rw-r--r--  1 raf  staff   8756 Apr 17 09:03 plugin_vcvrack.cpp
+-rw-r--r--  1 raf  staff    582 Apr 23 18:14 BypassUi.h
+drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 bypass.xcodeproj 👈 Xcode Project
+-rw-r--r--  1 raf  staff   2011 Apr 23 18:14 deploy_vcvrack.py
+-rw-r--r--  1 raf  staff   1281 Apr 23 18:14 generate_vcvrack.py
+-rw-r--r--  1 raf  staff    685 Apr 23 18:14 main_daisy.cpp
+drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 out
+-rw-r--r--  1 raf  staff  17412 Apr 23 18:14 panel_vcvrack-preprocess.svg
+-rw-r--r--  1 raf  staff  17271 Apr 23 18:14 panel_vcvrack.svg
+-rw-r--r--  1 raf  staff    641 Apr 23 18:14 plugin.json
+-rw-r--r--  1 raf  staff   4806 Apr 23 18:14 plugin_vcvrack.cpp
 raf:bypass$ ./build.py 👈 Build the firmware
 ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/out/Release'
 [185/185] LINK bypass-daisy
