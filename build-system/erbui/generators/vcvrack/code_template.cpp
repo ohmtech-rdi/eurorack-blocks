@@ -79,37 +79,37 @@ Name : ErbModule::ctor
 ErbModule::ErbModule ()
 {
    config (
-      module.module.nbr_params (),
-      module.module.nbr_inputs (),
-      module.module.nbr_outputs (),
-      module.module.nbr_lights ()
+      module.ui.module.nbr_params (),
+      module.ui.module.nbr_inputs (),
+      module.ui.module.nbr_outputs (),
+      module.ui.module.nbr_lights ()
    );
 
    // bind
 
-   for (size_t i = 0 ; i < module.module.nbr_params () ; ++i)
+   for (size_t i = 0 ; i < module.ui.module.nbr_params () ; ++i)
    {
-      module.module.impl_bind (i, params [i]);
+      module.ui.module.impl_bind (i, params [i]);
    }
 
-   for (size_t i = 0 ; i < module.module.nbr_inputs () ; ++i)
+   for (size_t i = 0 ; i < module.ui.module.nbr_inputs () ; ++i)
    {
-      module.module.impl_bind (i, inputs [i]);
+      module.ui.module.impl_bind (i, inputs [i]);
    }
 
-   for (size_t i = 0 ; i < module.module.nbr_outputs () ; ++i)
+   for (size_t i = 0 ; i < module.ui.module.nbr_outputs () ; ++i)
    {
-      module.module.impl_bind (i, outputs [i]);
+      module.ui.module.impl_bind (i, outputs [i]);
    }
 
-   for (size_t i = 0 ; i < module.module.nbr_lights () ; ++i)
+   for (size_t i = 0 ; i < module.ui.module.nbr_lights () ; ++i)
    {
-      module.module.impl_bind (i, lights [i]);
+      module.ui.module.impl_bind (i, lights [i]);
    }
 
    // configure params values
 
-   for (size_t i = 0 ; i < module.module.nbr_params () ; ++i)
+   for (size_t i = 0 ; i < module.ui.module.nbr_params () ; ++i)
    {
       float max_value = 1.f;
 
@@ -117,7 +117,7 @@ ErbModule::ErbModule ()
       configParam (int (i), 0.f, max_value, 0.f);
    }
 
-   module.module.bind_process ([&](){
+   module.ui.module.bind_process ([&](){
       module.process ();
    });
 }
@@ -132,7 +132,7 @@ Name : ErbModule::process
 
 void  ErbModule::process (const ProcessArgs & /* args */)
 {
-   module.module.impl_process ();
+   module.ui.module.impl_process ();
 }
 
 
