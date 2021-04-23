@@ -11,8 +11,6 @@
 
 #include "Bypass.h"
 
-#include <cmath>
-
 
 
 /*
@@ -23,5 +21,5 @@ Name : process
 
 void  Bypass::process ()
 {
-   audio_out = audio_in;
+   ui.audio_out = ui.audio_in;
 }

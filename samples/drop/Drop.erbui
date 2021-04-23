@@ -29,6 +29,7 @@ module Drop {
       position 25.3mm, 34mm
       style rogan.6ps
       label "FREQ"
+      pin AdcPin0
    }
 
    control mute_hp Switch {
@@ -37,84 +38,100 @@ module Drop {
       rotation 90°ccw
       label "MUTE" { positioning left }
       label "HP" { positioning right }
+      pins Pin12, Pin11
    }
 
    control freq_trim Trim {
+      mode bipolar
       position 43.4mm, 75.3mm
       style songhuei.9mm
       label "–/+"
+      pin AdcPin2
    }
 
    control sync_button Button {
       position 7.11mm, 75.3mm
       style ck.d6r.black
+      pin Pin5
    }
 
    control arm_button Button {
       position 19.2mm, 75.3mm
       style ck.d6r.black
+      pin Pin10
    }
 
    control sync_led Led {
       position 7.11mm, 85mm
       style led.3mm.red
+      pin Pin13
    }
 
    control sync_gate GateIn {
       position 7.11mm, 96.5mm
       style thonk.pj398sm.knurled
       label "SYNC"
+      pin Pin14
    }
 
    control arm_led Led {
       position 19.2mm, 85mm
       style led.3mm.red
+      pin Pin8
    }
 
    control arm_gate GateIn {
       position 19.2mm, 96.5mm
       style thonk.pj398sm.knurled
       label "ARM"
+      pin Pin9
    }
 
    control state_led LedBi {
       position 31.3mm, 85mm
       style led.3mm.green_red
+      pins Pin7, Pin6
    }
 
    control state_gate GateOut {
       position 31.3mm, 96.5mm
       style thonk.pj398sm.knurled
       label "STATE"
+      pin Pin4
    }
 
    control freq_cv CvIn {
       position 43.4mm, 96.5mm
       style thonk.pj398sm.knurled
       label "FREQ"
+      pin AdcPin1
    }
 
    control audio_in_left AudioInDaisy {
       position 7.11mm, 111mm
       style thonk.pj398sm.knurled
       label "IN L"
+      pin AudioInDaisyPinLeft
    }
 
    control audio_in_right AudioInDaisy {
       position 19.2mm, 111mm
       style thonk.pj398sm.knurled
       label "IN R"
+      pin AudioInDaisyPinRight
    }
 
    control audio_out_left AudioOutDaisy {
       position 31.3mm, 111mm
       style thonk.pj398sm.knurled
       label "OUT L"
+      pin AudioOutDaisyPinLeft
    }
 
    control audio_out_right AudioOutDaisy {
       position 43.4mm, 111mm
       style thonk.pj398sm.knurled
       label "OUT R"
+      pin AudioOutDaisyPinRight
    }
 }

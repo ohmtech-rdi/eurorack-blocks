@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/erb.h"
+#include "artifacts/BypassUi.h"
 
 
 
@@ -18,9 +18,7 @@
 using namespace erb;
 
 struct Bypass {
-   Module module;
-   AudioInDaisy audio_in { module, AudioInDaisyPinLeft };
-   AudioOutDaisy audio_out { module, AudioOutDaisyPinLeft };
+   BypassUi ui;
 
    void process ();
 };
