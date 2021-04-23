@@ -25,7 +25,7 @@ int main ()
 {
    %module.name% module;
 
-   module.module.run ([&](){
+   module.ui.module.run ([&](){
       module.process ();
    });
 }
