@@ -16,11 +16,13 @@ module Bypass {
       position 4hp, 40mm
       style thonk.pj398sm.knurled
       label "IN"
+      pin AudioInDaisyPin0
    }
 
    control audio_out AudioOutDaisy {
       position 4hp, 80mm
       style thonk.pj398sm.knurled
       label "OUT"
+      pin AudioOutDaisyPin0
    }
 }

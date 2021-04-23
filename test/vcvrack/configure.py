@@ -38,6 +38,7 @@ if __name__ == '__main__':
       ast = erbui.parse (os.path.join (PATH_THIS, 'VcvRack.erbui'))
 
       erbb.configure ('vcvrack', PATH_THIS)
+      erbui.generate_ui (PATH_ARTIFACTS, ast)
       erbui.generate_vcvrack (PATH_ARTIFACTS, ast)
 
    except subprocess.CalledProcessError as error:

@@ -72,6 +72,8 @@ static constexpr VcvPin Pin28 = {DSY_GPIOA, 2};
 static constexpr VcvPin Pin29 = {DSY_GPIOB, 14};
 static constexpr VcvPin Pin30 = {DSY_GPIOB, 15};
 
+static constexpr VcvPin PinNC = {DSY_GPIOX, 0}; // internal
+
 
 
 struct VcvAdcPin
@@ -92,6 +94,8 @@ static constexpr VcvAdcPin AdcPin9 =  {Pin24};
 static constexpr VcvAdcPin AdcPin10 = {Pin25};
 static constexpr VcvAdcPin AdcPin11 = {Pin28};
 
+static constexpr VcvAdcPin AdcPinNC = {PinNC}; // internal
+
 
 
 struct VcvMultiplexerPin
@@ -108,6 +112,8 @@ static constexpr VcvMultiplexerPin MultiplexerPin5 =  {5};
 static constexpr VcvMultiplexerPin MultiplexerPin6 =  {6};
 static constexpr VcvMultiplexerPin MultiplexerPin7 =  {7};
 
+static constexpr VcvMultiplexerPin MultiplexerPinNC =  {size_t (-1)};
+
 
 
 struct VcvAudioInDaisyPin
@@ -120,6 +126,7 @@ static constexpr VcvAudioInDaisyPin AudioInDaisyPinRight = {1};
 static constexpr VcvAudioInDaisyPin AudioInDaisyPin0 =     {0};
 static constexpr VcvAudioInDaisyPin AudioInDaisyPin1 =     {1};
 
+static constexpr VcvAudioInDaisyPin AudioInDaisyPinNC =     {size_t (-1)};
 
 
 struct VcvAudioOutDaisyPin
@@ -131,6 +138,8 @@ static constexpr VcvAudioOutDaisyPin AudioOutDaisyPinLeft =  {0};
 static constexpr VcvAudioOutDaisyPin AudioOutDaisyPinRight = {1};
 static constexpr VcvAudioOutDaisyPin AudioOutDaisyPin0 =     {0};
 static constexpr VcvAudioOutDaisyPin AudioOutDaisyPin1 =     {1};
+
+static constexpr VcvAudioOutDaisyPin AudioOutDaisyPinNC =     {size_t (-1)};
 
 
 

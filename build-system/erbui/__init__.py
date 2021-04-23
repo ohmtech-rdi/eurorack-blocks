@@ -11,6 +11,7 @@ import os
 
 from . import ast
 from .parser import Parser
+from .generators.ui.code import Code as uiCode
 from .generators.vcvrack.panel import Panel as vcvrackPanel
 from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
@@ -36,6 +37,29 @@ def parse (filepath):
 
    parser = Parser ()
    return parser.parse (input_text, filepath)
+
+
+
+"""
+==============================================================================
+Name: generate_ui
+==============================================================================
+"""
+
+def generate_ui (path, ast):
+   generate_ui_code (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_ui_code
+==============================================================================
+"""
+
+def generate_ui_code (path, ast):
+   generator = uiCode ()
+   generator.generate (path, ast)
 
 
 

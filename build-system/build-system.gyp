@@ -43,6 +43,10 @@
             'erbui/generators/front_panel/milling.py',
             'erbui/generators/front_panel/printing.py',
 
+            # generators/ui
+            'erbui/generators/ui/code_template.h',
+            'erbui/generators/ui/code.py',
+
             # generators/vcvrack
             'erbui/generators/vcvrack/code_template.cpp',
             'erbui/generators/vcvrack/code.py',

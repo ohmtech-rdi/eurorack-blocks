@@ -53,6 +53,24 @@ class Keyword (Token):
    pass
 
 
+#-- BuiltIn -----------------------------------------------------------------
+#
+#  BuiltIn is a kind of Keyword which represents a declaration
+#  for which there is no source file context,
+#  as the declaration is implicitly built in the language itself
+#  Examples: 'Bool', 'Int'
+
+class BuiltIn (Keyword):
+   def __init__ (self, value):
+      node = lambda: None
+      node.value = value
+      node.position = 0
+      parser = lambda: None
+      parser.input = value
+      parser.file_name = None
+      super (BuiltIn, self).__init__ (parser, node)
+
+
 #-- Symbol ------------------------------------------------------------------
 #
 #  Symbol is a kind of Token representing punctuation characters and

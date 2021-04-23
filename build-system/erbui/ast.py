@@ -64,10 +64,22 @@ class Node:
    def is_control (self): return isinstance (self, Control)
 
    @property
+   def is_multiplexer (self): return isinstance (self, Multiplexer)
+
+   @property
+   def is_mode (self): return isinstance (self, Mode)
+
+   @property
    def is_style (self): return isinstance (self, Style)
 
    @property
    def is_label (self): return isinstance (self, Label)
+
+   @property
+   def is_pin (self): return isinstance (self, Pin)
+
+   @property
+   def is_pin_array (self): return isinstance (self, Pins)
 
    @property
    def is_positioning (self): return isinstance (self, Positioning)
@@ -212,6 +224,9 @@ class Module (Scope):
       super (Module, self).__init__ ()
       self.identifier = identifier
 
+   @staticmethod
+   def typename (): return 'module'
+
    @property
    def name (self): return self.identifier.name
 
@@ -272,6 +287,11 @@ class Module (Scope):
       entities = [e for e in self.entities if e.is_control]
       return entities
 
+   @property
+   def multiplexers (self):
+      entities = [e for e in self.entities if e.is_multiplexer]
+      return entities
+
 
 # -- Material ----------------------------------------------------------------
 
@@ -283,6 +303,9 @@ class Material (Node):
       super (Material, self).__init__ ()
       self.keyword_type = keyword_type
       self.keyword_color = keyword_color
+
+   @staticmethod
+   def typename (): return 'material'
 
    @property
    def type (self): return self.keyword_type.value
@@ -329,6 +352,9 @@ class Header (Scope):
    def __init__ (self):
       super (Header, self).__init__ ()
 
+   @staticmethod
+   def typename (): return 'header'
+
    @property
    def labels (self):
       entities = [e for e in self.entities if e.is_label]
@@ -346,6 +372,9 @@ class Footer (Scope):
    def __init__ (self):
       super (Footer, self).__init__ ()
 
+   @staticmethod
+   def typename (): return 'footer'
+
    @property
    def labels (self):
       entities = [e for e in self.entities if e.is_label]
@@ -357,6 +386,42 @@ class Footer (Scope):
       return entities
 
 
+# -- Multiplexer -------------------------------------------------------------
+
+class Multiplexer (Scope):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (Multiplexer, self).__init__ ()
+      self.identifier = identifier
+
+   @staticmethod
+   def typename (): return 'multiplexer'
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (Multiplexer, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def controls (self):
+      entities = [e for e in self.entities if e.is_control]
+      return entities
+
+   @property
+   def pins (self):
+      entities = [e for e in self.entities if e.is_pin_array]
+      assert (len (entities) == 1)
+      return entities [0]
+
+
 # -- Control -----------------------------------------------------------------
 
 class Control (Scope):
@@ -366,6 +431,9 @@ class Control (Scope):
       super (Control, self).__init__ ()
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
+
+   @staticmethod
+   def typename (): return 'control'
 
    @property
    def name (self): return self.identifier_name.name
@@ -385,6 +453,15 @@ class Control (Scope):
          return adapter.SourceContext.from_token (self.identifier_kind)
 
       return super (Control, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def mode (self):
+      entities = [e for e in self.entities if e.is_mode]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
 
    @property
    def position (self):
@@ -413,8 +490,58 @@ class Control (Scope):
       return entities
 
    @property
+   def is_pin_single (self):
+      return not self.is_pin_multiple
+
+   @property
+   def pin (self):
+      entities = [e for e in self.entities if e.is_pin]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def is_pin_multiple (self):
+      return self.kind == 'Switch' or self.kind == 'LedBi'
+
+   @property
+   def pins (self):
+      entities = [e for e in self.entities if e.is_pin_array]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def nbr_pins (self):
+      if self.kind == 'Switch':
+         return 2
+      elif self.kind == 'LedBi':
+         return 2
+      else:
+         return 1
+
+   @property
    def is_kind_out (self):
       return self.kind == 'AudioOutDaisy' or self.kind == 'GateOut'
+
+
+# -- Mode --------------------------------------------------------------------
+
+class Mode (Node):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (Mode, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @staticmethod
+   def typename (): return 'mode'
+
+   @property
+   def name (self): return self.keyword_name.value
+
+   @property
+   def is_normalized (self): return self.name == 'normalized'
+
+   @property
+   def is_bipolar (self): return self.name == 'bipolar'
 
 
 # -- Style -------------------------------------------------------------------
@@ -424,6 +551,9 @@ class Style (Scope):
       assert isinstance (keyword_name, adapter.Keyword)
       super (Style, self).__init__ ()
       self.keyword_name = keyword_name
+
+   @staticmethod
+   def typename (): return 'style'
 
    @property
    def name (self): return self.keyword_name.value
@@ -530,6 +660,9 @@ class Label (Scope):
       super (Label, self).__init__ ()
       self.literal = literal
 
+   @staticmethod
+   def typename (): return 'label'
+
    @property
    def text (self):
       return self.literal.value
@@ -563,6 +696,49 @@ class Label (Scope):
 
 
 
+# -- Pin ---------------------------------------------------------------------
+
+class Pin (Node):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (Pin, self).__init__ ()
+      self.identifier = identifier
+
+   @staticmethod
+   def typename (): return 'pin'
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (Pin, self).source_context_part (part) # pragma: no cover
+
+
+
+# -- Pins --------------------------------------------------------------------
+
+class Pins (Node):
+   def __init__ (self, identifiers):
+      assert isinstance (identifiers, list)
+      super (Pins, self).__init__ ()
+      self.identifiers = identifiers
+      self.pins = [ Pin (ident) for ident in identifiers]
+
+   @staticmethod
+   def typename (): return 'pins'
+
+   @property
+   def names (self): return [ ident.name for ident in self.identifiers ]
+
+
+
 # -- Width ------------------------------------------------------------------
 
 class Width (Node):
@@ -570,6 +746,9 @@ class Width (Node):
       assert isinstance (literal, DistanceLiteral)
       super (Width, self).__init__ ()
       self.literal = literal
+
+   @staticmethod
+   def typename (): return 'width'
 
    @property
    def mm (self):
@@ -588,6 +767,9 @@ class Positioning (Node):
       assert isinstance (keyword_positioning, adapter.Keyword)
       super (Positioning, self).__init__ ()
       self.keyword_positioning = keyword_positioning
+
+   @staticmethod
+   def typename (): return 'positioning'
 
    @property
    def is_center (self):
@@ -621,6 +803,9 @@ class Position (Node):
       self.literal_x = literal_x
       self.literal_y = literal_y
 
+   @staticmethod
+   def typename (): return 'position'
+
    @property
    def x (self):
       return self.literal_x
@@ -641,6 +826,9 @@ class Offset (Node):
       self.literal_x = literal_x
       self.literal_y = literal_y
 
+   @staticmethod
+   def typename (): return 'offset'
+
    @property
    def x (self):
       return self.literal_x
@@ -658,6 +846,9 @@ class Rotation (Node):
       assert isinstance (literal, RotationLiteral)
       super (Rotation, self).__init__ ()
       self.literal = literal
+
+   @staticmethod
+   def typename (): return 'rotation'
 
    @property
    def degree (self):
@@ -677,6 +868,9 @@ class Image (Node):
       super (Image, self).__init__ ()
       self.filepath = filepath
 
+   @staticmethod
+   def typename (): return 'image'
+
    @property
    def file (self):
       if isinstance (self.filepath, StringLiteral):
@@ -691,6 +885,9 @@ class Image (Node):
 class Line (Scope):
    def __init__ (self):
       super (Line, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'line'
 
    @property
    def points (self):

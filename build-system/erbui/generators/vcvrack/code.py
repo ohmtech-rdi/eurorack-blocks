@@ -36,10 +36,10 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
-      controls_content = self.generate_controls (module.controls)
+      controls_content = self.generate_controls (module.entities)
       template = template.replace ('%controls%', controls_content)
 
-      controls_config = self.generate_controls_config (module.controls)
+      controls_config = self.generate_controls_config (module.entities)
       template = template.replace ('%controls_config%', controls_config)
 
       with open (path_cpp, 'w') as file:
@@ -48,11 +48,15 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_controls_config (self, controls):
+   def generate_controls_config (self, entities):
       content = ''
 
-      for control in controls:
-         content += self.generate_control_config (control)
+      for entity in entities:
+         if entity.is_control:
+            content += self.generate_control_config (entity)
+         elif entity.is_multiplexer:
+            for control in entity.controls:
+               content += self.generate_control_config (control)
 
       return content
 
@@ -63,18 +67,22 @@ class Code:
       source_code = ''
 
       if control.style.is_dailywell_2ms3:
-         source_code = '      if (i == module.%s.index ()) { max_value = 2.f; }\n' % control.name
+         source_code = '      if (i == module.ui.%s.index ()) { max_value = 2.f; }\n' % control.name
 
       return source_code
 
 
    #--------------------------------------------------------------------------
 
-   def generate_controls (self, controls):
+   def generate_controls (self, entities):
       content = ''
 
-      for control in controls:
-         content += self.generate_control (control)
+      for entity in entities:
+         if entity.is_control:
+            content += self.generate_control (entity)
+         elif entity.is_multiplexer:
+            for control in entity.controls:
+               content += self.generate_control (control)
 
       return content
 
@@ -146,14 +154,14 @@ class Code:
 
       source_code = ''
       source_code += '   // Type mismatch between module and gui code\n'
-      source_code += '   static_assert (std::is_same <decltype (module_->module.%s), erb::%s>::value, "");\n' % (
+      source_code += '   static_assert (std::is_same <decltype (module_->module.ui.%s), erb::%s>::value, "");\n' % (
          control.name, control.kind
       )
-      source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.%s.index ()));\n' % (
+      source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.ui.%s.index ()));\n' % (
          func_category, category, widget, control.position.x.mm, control.position.y.mm, control.name
       )
       if control.style.is_dailywell_2ms3:
-         source_code += '   module_->module.%s.set_3_position ();\n' % control.name
+         source_code += '   module_->module.ui.%s.set_3_position ();\n' % control.name
       source_code += '\n'
 
       return source_code

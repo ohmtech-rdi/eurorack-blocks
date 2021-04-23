@@ -6,6 +6,7 @@
 #Tab=3########################################################################
 
 import os
+from difflib import get_close_matches
 
 from .arpeggio import EndOfFile, Match
 from . import adapter
@@ -127,25 +128,99 @@ class Error (Exception):
 
 
 
-#-- multiple_definition ----------------------------------------------------------
+#-- unknown_pin --------------------------------------------------------------
 #
-#  Build a multiple definition error for properties that are just meant to be
-#  defined once.
+#  Build an unknown pin error.
+#  - 'pin': the pin which name is not known
+#  - 'pin_names' a list pin names that are potential candidates for correction.
+
+def unknown_pin (pin, pin_names):
+   assert isinstance (pin, ast.Pin)
+
+   err = Error ()
+   pin_name = pin.source_context_part ('name')
+   err.add_error ("Unknown pin '%s'" % pin_name, pin_name)
+   err.add_context (pin_name)
+
+   matches = get_close_matches (pin.name, pin_names)
+
+   if matches:
+      builtin = adapter.BuiltIn (matches [0])
+      pin_name = pin.source_context_part ('name')
+      sc = adapter.SourceContext.from_token (builtin)
+      err.add_note ("did you mean '%s'?" % sc, sc)
+      err.add_context_fixit (pin_name, "%s" % sc)
+
+   return err
+
+
+
+#-- already_used_pin ---------------------------------------------------------
+#
+#  Build an already used pin error.
+#  - 'pin': the pin for which hardware pin has already been used
+#  - 'previous_pin': the previous declaration
+
+def already_used_pin (pin, previous_pin):
+   assert isinstance (pin, ast.Pin)
+   assert isinstance (previous_pin, ast.Pin)
+
+   name = pin.source_context_part ('name')
+   previous_name = previous_pin.source_context_part ('name')
+
+   err = Error ()
+   err.add_error ("'%s' already used" % name, name)
+   err.add_context (name)
+   err.add_note ("previously used here:", previous_name)
+   err.add_context (previous_name)
+
+   return err
+
+
+
+#-- missing_required ---------------------------------------------------------
+#
+#  Build a missing required error for properties that are just to be defined
+#  exactly once.
 #  - 'declaration': the declaration for which name has already been declared
 #  - 'previous_declaration': the previous declaration
 
-def multiple_definition (declaration, previous_declaration):
-   assert isinstance (declaration, ast.Node)
-   assert isinstance (previous_declaration, ast.Node)
+def missing_required (parent, type):
+   assert isinstance (parent, ast.Node)
+   assert issubclass (type, ast.Node)
 
-   name = declaration.source_context_part ('name')
-   previous_name = previous_declaration.source_context_part ('name')
+   parent_name = parent.source_context_part ('name')
+   type_name = type.typename ()
 
    err = Error ()
-   err.add_error ("'%s' already defined" % name, name)
-   err.add_context (name)
-   err.add_note ("previously defined here:", previous_name)
-   err.add_context (previous_name)
+   err.add_error ("No '%s' defined in '%s'" % (type_name, parent.name), parent_name)
+   err.add_context (parent_name)
+   return err
+
+
+
+#-- multiple_definition ------------------------------------------------------
+#
+#  Build a multiple definition error for properties that are just meant to be
+#  defined once.
+#  - 'parent': the parent node where multiple definitions occured
+#  - 'nodes': the list of multiple nodes
+
+def multiple_definition (parent, nodes):
+   assert isinstance (parent, ast.Node)
+   assert isinstance (nodes, list)
+
+   parent_name = parent.source_context_part ('name')
+
+   kind = nodes [0].typename ()
+
+   err = Error ()
+   err.add_error ("'%s' defined multiple times in '%s'" % (kind, parent.name), parent_name)
+   err.add_context (parent_name)
+   for node in nodes:
+      name = node.source_context_part ('name')
+      err.add_note ("defined here:", name)
+      err.add_context (name)
    return err
 
 
