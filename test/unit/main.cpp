@@ -9,6 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "TestAnimation.h"
 #include "TestDebounce.h"
 
 #include <iostream>
@@ -29,6 +30,9 @@ int main ()
 
    std::cout << "   Running TestDebounce..." << std::endl;
    { TestDebounce test; test.run (); }
+
+   std::cout << "   Running TestAnimation..." << std::endl;
+   { TestAnimation test; test.run (); }
 
    std::cout << "OK" << std::endl;
 }
