@@ -238,6 +238,13 @@ module VcvRack {
       pins PinNC, PinNC
    }
 
+   control led_3mm_rgb LedRgb {
+      position 110mm, 100mm
+      style led.3mm.rgb
+      label "led.3mm.rgb" { positioning bottom }
+      pins PinNC, PinNC, PinNC
+   }
+
    control tl1105 Button {
       position 95mm, 85mm
       style tl1105
