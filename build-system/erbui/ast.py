@@ -67,6 +67,9 @@ class Node:
    def is_multiplexer (self): return isinstance (self, Multiplexer)
 
    @property
+   def is_alias (self): return isinstance (self, Alias)
+
+   @property
    def is_mode (self): return isinstance (self, Mode)
 
    @property
@@ -292,6 +295,11 @@ class Module (Scope):
       entities = [e for e in self.entities if e.is_multiplexer]
       return entities
 
+   @property
+   def aliases (self):
+      entities = [e for e in self.entities if e.is_alias]
+      return entities
+
 
 # -- Material ----------------------------------------------------------------
 
@@ -420,6 +428,36 @@ class Multiplexer (Scope):
       entities = [e for e in self.entities if e.is_pin_array]
       assert (len (entities) == 1)
       return entities [0]
+
+
+# -- Alias -------------------------------------------------------------------
+
+class Alias (Node):
+   def __init__ (self, name, reference):
+      assert isinstance (name, adapter.Identifier)
+      assert isinstance (reference, adapter.Identifier)
+      super (Alias, self).__init__ ()
+      self.identifier_name = name
+      self.identifier_reference = reference
+      self.reference = None
+
+   @staticmethod
+   def typename (): return 'alias'
+
+   @property
+   def name (self): return self.identifier_name.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier_name)
+      elif part == 'reference':
+         return adapter.SourceContext.from_token (self.identifier_reference)
+
+      return super (Alias, self).source_context_part (part) # pragma: no cover
 
 
 # -- Control -----------------------------------------------------------------
