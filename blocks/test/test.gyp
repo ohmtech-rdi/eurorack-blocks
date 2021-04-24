@@ -67,6 +67,13 @@
       },
 
       {
+         'target_name': 'led-rgb',
+         'type': 'executable',
+         'dependencies': [ 'erb-daisy' ],
+         'sources': [ 'led-rgb.cpp' ],
+      },
+
+      {
          'target_name': 'led-bi',
          'type': 'executable',
          'dependencies': [ 'erb-daisy' ],
