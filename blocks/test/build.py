@@ -41,6 +41,7 @@ if __name__ == '__main__':
          'cv-in2',
          'gate-in',
          'gate-out',
+         'led-rgb',
          'led-bi',
          'led',
          'multiplexer',

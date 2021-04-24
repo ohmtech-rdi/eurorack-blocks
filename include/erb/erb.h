@@ -23,6 +23,7 @@
    #include "erb/daisy/DaisyGateOut.h"
    #include "erb/daisy/DaisyLed.h"
    #include "erb/daisy/DaisyLedBi.h"
+   #include "erb/daisy/DaisyLedRgb.h"
    #include "erb/daisy/DaisyModule.h"
    #include "erb/daisy/DaisyMultiplexer.h"
    #include "erb/daisy/DaisyPins.h"
@@ -39,6 +40,7 @@
       using GateOut = DaisyGateOut;
       using Led = DaisyLed;
       using LedBi = DaisyLedBi;
+      using LedRgb = DaisyLedRgb;
       using Module = DaisyModule;
       using Multiplexer = DaisyMultiplexer;
       using Pot = DaisyPot;
@@ -56,6 +58,7 @@
    #include "erb/vcvrack/VcvGateOut.h"
    #include "erb/vcvrack/VcvLed.h"
    #include "erb/vcvrack/VcvLedBi.h"
+   #include "erb/vcvrack/VcvLedRgb.h"
    #include "erb/vcvrack/VcvModule.h"
    #include "erb/vcvrack/VcvMultiplexer.h"
    #include "erb/vcvrack/VcvPins.h"
@@ -72,6 +75,7 @@
       using GateOut = VcvGateOut;
       using Led = VcvLed;
       using LedBi = VcvLedBi;
+      using LedRgb = VcvLedRgb;
       using Module = VcvModule;
       using Multiplexer = VcvMultiplexer;
       using Pot = VcvPot;
