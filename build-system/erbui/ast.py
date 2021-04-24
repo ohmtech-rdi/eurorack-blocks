@@ -539,7 +539,7 @@ class Control (Scope):
 
    @property
    def is_pin_multiple (self):
-      return self.kind == 'Switch' or self.kind == 'LedBi'
+      return self.kind == 'Switch' or self.kind == 'LedBi' or self.kind == 'LedRgb'
 
    @property
    def pins (self):
@@ -553,6 +553,8 @@ class Control (Scope):
          return 2
       elif self.kind == 'LedBi':
          return 2
+      elif self.kind == 'LedRgb':
+         return 3
       else:
          return 1
 
@@ -642,7 +644,7 @@ class Style (Scope):
 
    @property
    def is_led_3mm (self):
-      return self.is_led_3mm_red or self.is_led_3mm_green or self.is_led_3mm_yellow or self.is_led_3mm_orange or self.is_led_3mm_green_red
+      return self.is_led_3mm_red or self.is_led_3mm_green or self.is_led_3mm_yellow or self.is_led_3mm_orange or self.is_led_3mm_green_red or self.is_led_3mm_rgb
 
    @property
    def is_led_3mm_red (self):
@@ -663,6 +665,10 @@ class Style (Scope):
    @property
    def is_led_3mm_green_red (self):
       return self.name == 'led.3mm.green_red'
+
+   @property
+   def is_led_3mm_rgb (self):
+      return self.name == 'led.3mm.rgb'
 
    @property
    def is_thonk_pj398sm (self):
