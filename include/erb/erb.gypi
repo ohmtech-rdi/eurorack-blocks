@@ -44,6 +44,8 @@
             'daisy/DaisyPot.h',
             'daisy/DaisySwitch.h',
 
+            'detail/Animation.h',
+            'detail/Animation.hpp',
             'detail/Debounce.h',
 
             # sources
@@ -63,6 +65,7 @@
             '../../src/daisy/DaisyPot.cpp',
             '../../src/daisy/DaisySwitch.cpp',
 
+            '../../src/detail/Animation.cpp',
             '../../src/detail/Debounce.cpp',
          ],
 
@@ -124,6 +127,8 @@
             'vcvrack/VcvSwitch.h',
             'vcvrack/VcvWidgets.h',
 
+            'detail/Animation.h',
+            'detail/Animation.hpp',
             'detail/Debounce.h',
 
             # sources
@@ -145,6 +150,7 @@
             '../../src/vcvrack/VcvPot.cpp',
             '../../src/vcvrack/VcvSwitch.cpp',
 
+            '../../src/detail/Animation.cpp',
             '../../src/detail/Debounce.cpp',
          ],
 

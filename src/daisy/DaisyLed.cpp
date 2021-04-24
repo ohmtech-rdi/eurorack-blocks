@@ -44,15 +44,26 @@ DaisyLed::DaisyLed (DaisyModule & module, const Pin & pin)
 
 /*
 ==============================================================================
+Name : set_brightness
+==============================================================================
+*/
+
+void  DaisyLed::set_brightness (float perceptual_brightness)
+{
+   _brightness = perceptual_brightness;
+}
+
+
+
+/*
+==============================================================================
 Name : on
 ==============================================================================
 */
 
 void  DaisyLed::on (bool state)
 {
-   _mode = Mode::Constant;
-
-   _current = state;
+   _animation.set (state ? 1.f : 0.f);
 }
 
 
@@ -65,9 +76,7 @@ Name : off
 
 void  DaisyLed::off ()
 {
-   _mode = Mode::Constant;
-
-   _current = false;
+   _animation.set (0.f);
 }
 
 
@@ -78,13 +87,44 @@ Name : pulse
 ==============================================================================
 */
 
-void  DaisyLed::pulse (std::chrono::milliseconds duration)
+void  DaisyLed::pulse (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
 {
-   _mode = Mode::Pulse;
-   _start = _module.now_ms ();
-   _duration = uint64_t (duration.count ());
+   _animation.pulse (
+      _module.now_ms (), duration, transition_function,
+      brightness, 0.f
+   );
+}
 
-   _current = true;
+
+
+/*
+==============================================================================
+Name : pulse_twice
+==============================================================================
+*/
+
+void  DaisyLed::pulse_twice (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
+{
+   _animation.pulse_twice (
+      _module.now_ms (), duration, transition_function,
+      brightness, 0.f
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : pulse_thrice
+==============================================================================
+*/
+
+void  DaisyLed::pulse_thrice (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
+{
+   _animation.pulse_thrice (
+      _module.now_ms (), duration, transition_function,
+      brightness, 0.f
+   );
 }
 
 
@@ -95,13 +135,25 @@ Name : blink
 ==============================================================================
 */
 
-void  DaisyLed::blink (std::chrono::milliseconds half_period)
+void  DaisyLed::blink (float brightness, std::chrono::milliseconds period, TransitionFunction transition_function)
 {
-   _mode = Mode::Blink;
-   _start = _module.now_ms ();
-   _duration = uint64_t (half_period.count ());
+   _animation.blink (
+      _module.now_ms (), period, transition_function,
+      brightness, 0.f
+   );
+}
 
-   _current = true;
+
+
+/*
+==============================================================================
+Name : animation
+==============================================================================
+*/
+
+Animation <float, 8> &  DaisyLed::animation ()
+{
+   return _animation;
 }
 
 
@@ -116,20 +168,17 @@ Name : impl_notify_audio_buffer_start
 
 void  DaisyLed::impl_notify_audio_buffer_start ()
 {
-   if (_mode == Mode::Pulse)
-   {
-      auto now = _module.now_ms ();
-      auto elapsed = now - _start;
-      _current = elapsed < _duration;
-   }
-   else if (_mode == Mode::Blink)
-   {
-      auto now = _module.now_ms ();
-      auto elapsed = now - _start;
-      _current = ((elapsed / _duration) % 2) == 1;
-   }
+   float value_per = _animation.get (_module.now_ms ()) * _brightness;
+   float value_lin = value_per * value_per * value_per;
 
-   dsy_gpio_write (&_gpio, _current);
+   _pwm_active = size_t (std::lround (value_lin * float (_pwm_period)));
+
+   uint8_t bit = _pwm_cur < _pwm_active;
+
+   dsy_gpio_write (&_gpio, bit);
+
+   ++_pwm_cur;
+   if (_pwm_cur >= _pwm_period) _pwm_cur = 0;
 }
 
 

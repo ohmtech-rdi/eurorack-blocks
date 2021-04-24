@@ -24,6 +24,58 @@ namespace erb
 
 /*
 ==============================================================================
+Name : Color::none
+==============================================================================
+*/
+
+VcvLedBi::Color   VcvLedBi::Color::none ()
+{
+   return { 0.f, 0.f };
+}
+
+
+
+/*
+==============================================================================
+Name : Color::red
+==============================================================================
+*/
+
+VcvLedBi::Color   VcvLedBi::Color::red ()
+{
+   return { 1.f, 0.f };
+}
+
+
+
+/*
+==============================================================================
+Name : Color::green
+==============================================================================
+*/
+
+VcvLedBi::Color   VcvLedBi::Color::green ()
+{
+   return { 0.f, 1.f };
+}
+
+
+
+/*
+==============================================================================
+Name : Color::yellow
+==============================================================================
+*/
+
+VcvLedBi::Color   VcvLedBi::Color::yellow ()
+{
+   return { 1.f, 1.f };
+}
+
+
+
+/*
+==============================================================================
 Name : ctor
 ==============================================================================
 */
@@ -51,16 +103,28 @@ size_t   VcvLedBi::index () const
 
 /*
 ==============================================================================
+Name : set_brightness
+==============================================================================
+*/
+
+void  VcvLedBi::set_brightness (float perceptual_brightness)
+{
+   _led_red.set_brightness (perceptual_brightness);
+   _led_green.set_brightness (perceptual_brightness);
+}
+
+
+
+/*
+==============================================================================
 Name : on
 ==============================================================================
 */
 
 void  VcvLedBi::on (Color color)
 {
-   auto state = to_state (color);
-
-   _led_red.on (state.red);
-   _led_green.on (state.green);
+   _led_red.on (color.r);
+   _led_green.on (color.g);
 }
 
 
@@ -85,27 +149,38 @@ Name : pulse
 ==============================================================================
 */
 
-void  VcvLedBi::pulse (Color color, std::chrono::milliseconds duration)
+void  VcvLedBi::pulse (Color color, std::chrono::milliseconds duration, TransitionFunction transition_function)
 {
-   auto state = to_state (color);
+   _led_red.pulse (color.r, duration, transition_function);
+   _led_green.pulse (color.g, duration, transition_function);
+}
 
-   if (state.red)
-   {
-      _led_red.pulse (duration);
-   }
-   else
-   {
-      _led_red.off ();
-   }
 
-   if (state.green)
-   {
-      _led_green.pulse (duration);
-   }
-   else
-   {
-      _led_green.off ();
-   }
+
+/*
+==============================================================================
+Name : pulse_twice
+==============================================================================
+*/
+
+void  VcvLedBi::pulse_twice (Color color, std::chrono::milliseconds duration, TransitionFunction transition_function)
+{
+   _led_red.pulse_twice (color.r, duration, transition_function);
+   _led_green.pulse_twice (color.g, duration, transition_function);
+}
+
+
+
+/*
+==============================================================================
+Name : pulse_thrice
+==============================================================================
+*/
+
+void  VcvLedBi::pulse_thrice (Color color, std::chrono::milliseconds duration, TransitionFunction transition_function)
+{
+   _led_red.pulse_thrice (color.r, duration, transition_function);
+   _led_green.pulse_thrice (color.g, duration, transition_function);
 }
 
 
@@ -116,58 +191,15 @@ Name : blink
 ==============================================================================
 */
 
-void  VcvLedBi::blink (Color color, std::chrono::milliseconds half_period)
+void  VcvLedBi::blink (Color color, std::chrono::milliseconds period, TransitionFunction transition_function)
 {
-   auto state = to_state (color);
-
-   if (state.red)
-   {
-      _led_red.blink (half_period);
-   }
-   else
-   {
-      _led_red.off ();
-   }
-
-   if (state.green)
-   {
-      _led_green.blink (half_period);
-   }
-   else
-   {
-      _led_green.off ();
-   }
+   _led_red.blink (color.r, period, transition_function);
+   _led_green.blink (color.g, period, transition_function);
 }
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : to_state
-==============================================================================
-*/
-
-VcvLedBi::State   VcvLedBi::to_state (Color color)
-{
-   switch (color)
-   {
-   case Color::Red:
-      return { true, false };
-
-   case Color::Yellow:
-      return { true, true };
-
-   case Color::Green:
-      return { false, true };
-
-#if defined (__GNUC__) && ! defined (__clang__)
-   default:
-      return { false, false };
-#endif
-   }
-}
 
 
 

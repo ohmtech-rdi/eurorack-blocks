@@ -38,15 +38,26 @@ VcvLed::VcvLed (VcvModule & module, const VcvPin & /* pin */)
 
 /*
 ==============================================================================
+Name : set_brightness
+==============================================================================
+*/
+
+void  VcvLed::set_brightness (float perceptual_brightness)
+{
+   _brightness = perceptual_brightness;
+}
+
+
+
+/*
+==============================================================================
 Name : on
 ==============================================================================
 */
 
 void  VcvLed::on (bool state)
 {
-   _mode = Mode::Constant;
-
-   _current = state;
+   _animation.set (state ? 1.f : 0.f);
 }
 
 
@@ -59,9 +70,7 @@ Name : off
 
 void  VcvLed::off ()
 {
-   _mode = Mode::Constant;
-
-   _current = false;
+   _animation.set (0.f);
 }
 
 
@@ -72,13 +81,44 @@ Name : pulse
 ==============================================================================
 */
 
-void  VcvLed::pulse (std::chrono::milliseconds duration)
+void  VcvLed::pulse (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
 {
-   _mode = Mode::Pulse;
-   _start = _module.now_ms ();
-   _duration = uint64_t (duration.count ());
+   _animation.pulse (
+      _module.now_ms (), duration, transition_function,
+      brightness, 0.f
+   );
+}
 
-   _current = true;
+
+
+/*
+==============================================================================
+Name : pulse_twice
+==============================================================================
+*/
+
+void  VcvLed::pulse_twice (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
+{
+   _animation.pulse_twice (
+      _module.now_ms (), duration, transition_function,
+      brightness, 0.f
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : pulse_thrice
+==============================================================================
+*/
+
+void  VcvLed::pulse_thrice (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
+{
+   _animation.pulse_thrice (
+      _module.now_ms (), duration, transition_function,
+      brightness, 0.f
+   );
 }
 
 
@@ -89,13 +129,25 @@ Name : blink
 ==============================================================================
 */
 
-void  VcvLed::blink (std::chrono::milliseconds half_period)
+void  VcvLed::blink (float brightness, std::chrono::milliseconds period, TransitionFunction transition_function)
 {
-   _mode = Mode::Blink;
-   _start = _module.now_ms ();
-   _duration = uint64_t (half_period.count ());
+   _animation.blink (
+      _module.now_ms (), period, transition_function,
+      brightness, 0.f
+   );
+}
 
-   _current = true;
+
+
+/*
+==============================================================================
+Name : animation
+==============================================================================
+*/
+
+Animation <float, 8> &  VcvLed::animation ()
+{
+   return _animation;
 }
 
 
@@ -110,20 +162,9 @@ Name : impl_notify_audio_buffer_start
 
 void  VcvLed::impl_notify_audio_buffer_start ()
 {
-   if (_mode == Mode::Pulse)
-   {
-      auto now = _module.now_ms ();
-      auto elapsed = now - _start;
-      _current = elapsed < _duration;
-   }
-   else if (_mode == Mode::Blink)
-   {
-      auto now = _module.now_ms ();
-      auto elapsed = now - _start;
-      _current = ((elapsed / _duration) % 2) == 1;
-   }
+   float value = _animation.get (_module.now_ms ());
 
-   set_norm_val (float (_current));
+   set_norm_val (_brightness * value);
 }
 
 

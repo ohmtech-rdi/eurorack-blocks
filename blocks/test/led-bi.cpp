@@ -29,7 +29,7 @@ int main ()
 
    LedBi led (module, Pin19, Pin20);
 
-   led.blink (LedBi::Color::Yellow);
+   led.blink (LedBi::Color::yellow ());
 
    module.run ([&](){});
 }

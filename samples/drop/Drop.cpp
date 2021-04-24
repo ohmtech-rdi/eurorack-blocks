@@ -75,9 +75,9 @@ void  Drop::process ()
       switch (state)
       {
       case DropDsp::State::None:   ui.state_led.off (); break;
-      case DropDsp::State::Off:    ui.state_led.on (erb::LedBi::Color::Green); break;
-      case DropDsp::State::Armed:  ui.state_led.blink (erb::LedBi::Color::Yellow); break;
-      case DropDsp::State::Active: ui.state_led.on (erb::LedBi::Color::Red); break;
+      case DropDsp::State::Off:    ui.state_led.on (erb::LedBi::Color::green ()); break;
+      case DropDsp::State::Armed:  ui.state_led.blink (erb::LedBi::Color::yellow ()); break;
+      case DropDsp::State::Active: ui.state_led.on (erb::LedBi::Color::red ()); break;
       }
    }
 }
