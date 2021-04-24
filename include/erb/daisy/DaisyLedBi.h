@@ -34,18 +34,27 @@ class DaisyLedBi
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   enum class Color
+   struct Color
    {
-      Red, Yellow, Green
+      float r, g;
+
+      static Color none ();
+      static Color red ();
+      static Color green ();
+      static Color yellow ();
    };
 
                   DaisyLedBi (DaisyModule & module, const Pin & pin_r, const Pin & pin_g);
    virtual        ~DaisyLedBi () = default;
 
+   void           set_brightness (float perceptual_brightness);
+
    void           on (Color color);
    void           off ();
-   void           pulse (Color color, std::chrono::milliseconds duration = 200ms);
-   void           blink (Color color, std::chrono::milliseconds half_period = 500ms);
+   void           pulse (Color color, std::chrono::milliseconds duration = 100ms, TransitionFunction transition_function = step);
+   void           pulse_twice (Color color, std::chrono::milliseconds duration = 400ms, TransitionFunction transition_function = step);
+   void           pulse_thrice (Color color, std::chrono::milliseconds duration = 700ms, TransitionFunction transition_function = step);
+   void           blink (Color color, std::chrono::milliseconds period = 800ms, TransitionFunction transition_function = step);
 
 
 
@@ -63,16 +72,8 @@ protected:
 
 private:
 
-   struct State
-   {
-      bool        red;
-      bool        green;
-   };
-
-   State          to_state (Color color);
-
-   DaisyLed            _led_red;
-   DaisyLed            _led_green;
+   DaisyLed       _led_red;
+   DaisyLed       _led_green;
 
 
 
