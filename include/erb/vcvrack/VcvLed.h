@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/detail/Animation.h"
 #include "erb/vcvrack/VcvLightBase.h"
 #include "erb/vcvrack/VcvPins.h"
 
@@ -41,10 +42,17 @@ public:
                   VcvLed (VcvModule & module, const VcvPin & pin);
    virtual        ~VcvLed () override = default;
 
+   void           set_brightness (float perceptual_brightness);
+
    void           on (bool state = true);
    void           off ();
-   void           pulse (std::chrono::milliseconds duration = 200ms);
-   void           blink (std::chrono::milliseconds half_period = 500ms);
+   void           pulse (float brightness = 1.f, std::chrono::milliseconds duration = 100ms, TransitionFunction transition_function = step);
+   void           pulse_twice (float brightness = 1.f, std::chrono::milliseconds duration = 400ms, TransitionFunction transition_function = step);
+   void           pulse_thrice (float brightness = 1.f, std::chrono::milliseconds duration = 700ms, TransitionFunction transition_function = step);
+   void           blink (float brightness = 1.f, std::chrono::milliseconds period = 800ms, TransitionFunction transition_function = step);
+
+   Animation <float, 8> &
+                  animation ();
 
 
 
@@ -65,17 +73,11 @@ protected:
 
 private:
 
-   enum class Mode
-   {
-      Constant, Pulse, Blink,
-   };
-
    VcvModule &    _module;
 
-   Mode           _mode;
-   bool           _current = false;
-   uint64_t       _start = 0;
-   uint64_t       _duration = 0;
+   float          _brightness = 1.f;
+   Animation <float, 8>
+                  _animation;
 
 
 

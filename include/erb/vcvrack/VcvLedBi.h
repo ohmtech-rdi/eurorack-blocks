@@ -34,9 +34,14 @@ class VcvLedBi
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   enum class Color
+   struct Color
    {
-      Red, Yellow, Green
+      float r, g;
+
+      static Color none ();
+      static Color red ();
+      static Color green ();
+      static Color yellow ();
    };
 
                   VcvLedBi (VcvModule & module, const VcvPin & pin_r, const VcvPin & pin_g);
@@ -44,10 +49,14 @@ public:
 
    size_t         index () const;
 
+   void           set_brightness (float perceptual_brightness);
+
    void           on (Color color);
    void           off ();
-   void           pulse (Color color, std::chrono::milliseconds duration = 200ms);
-   void           blink (Color color, std::chrono::milliseconds half_period = 500ms);
+   void           pulse (Color color, std::chrono::milliseconds duration = 100ms, TransitionFunction transition_function = step);
+   void           pulse_twice (Color color, std::chrono::milliseconds duration = 400ms, TransitionFunction transition_function = step);
+   void           pulse_thrice (Color color, std::chrono::milliseconds duration = 700ms, TransitionFunction transition_function = step);
+   void           blink (Color color, std::chrono::milliseconds period = 800ms, TransitionFunction transition_function = step);
 
 
 
@@ -64,14 +73,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   struct State
-   {
-      bool        red;
-      bool        green;
-   };
-
-   State          to_state (Color color);
 
    VcvLed         _led_green;
    VcvLed         _led_red;
