@@ -53,7 +53,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   enum {         NBR_MAX_GPIO = 31 };
+   enum {         NBR_MAX_GPIO = 128 };
    std::array <VcvModuleListener *, NBR_MAX_GPIO>
                   _listeners = {};
    size_t         _nbr_listener = 0;
