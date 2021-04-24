@@ -128,6 +128,29 @@ class Error (Exception):
 
 
 
+#-- undefined_reference ------------------------------------------------------
+#
+#  Build an undefined reference error.
+#  - 'reference': the reference that can not be resolved
+#  - 'fixit_declarations_sc' a list of source contexts for declarations
+#  that are potential candidates for correction.
+
+def undefined_reference (alias, fixit_declarations_sc):
+   assert isinstance (alias, ast.Alias)
+
+   err = Error ()
+   context = alias.source_context_part ('reference')
+   err.add_error ("Undefined reference to '%s'" % context, context)
+   err.add_context (context)
+
+   for declaration_sc in fixit_declarations_sc:
+      err.add_note ("did you mean '%s'?" % declaration_sc, declaration_sc)
+      err.add_context (declaration_sc)
+
+   return err
+
+
+
 #-- unknown_pin --------------------------------------------------------------
 #
 #  Build an unknown pin error.

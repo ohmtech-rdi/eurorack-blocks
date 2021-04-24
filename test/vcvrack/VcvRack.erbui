@@ -31,6 +31,11 @@ module VcvRack {
       position 10mm, 30mm
    }
 
+   alias audio_in_alias audio_in
+   alias audio_out_alias audio_out
+   alias button_alias button
+   alias led_alias led
+
    control audio_in AudioInDaisy {
       position 10mm, 20mm
       style thonk.pj398sm.knurled

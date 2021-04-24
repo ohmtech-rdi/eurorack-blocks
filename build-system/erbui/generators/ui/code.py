@@ -54,6 +54,10 @@ class Code:
          elif entity.is_multiplexer:
             content += self.generate_multiplexer (entity)
 
+      for entity in entities:
+         if entity.is_alias:
+            content += self.generate_alias (entity)
+
       return content
 
 
@@ -89,5 +93,14 @@ class Code:
 
       for control in multiplexer.controls:
          source_code += self.generate_control (control)
+
+      return source_code
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_alias (self, alias):
+
+      source_code = '   erb::%s & %s { %s };\n' % (alias.reference.kind, alias.name, alias.reference.name)
 
       return source_code
