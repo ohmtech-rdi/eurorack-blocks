@@ -18,12 +18,12 @@ KEYWORDS = (
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
 )
 UNITS = ('mm', 'cm', 'hp', '°CCW', '°CW')
-CONTROL_KINDS = ('AudioInDaisy', 'AudioOutDaisy', 'Button', 'CvIn', 'GateIn', 'GateOut', 'Led', 'LedBi', 'Pot', 'Switch', 'Trim')
+CONTROL_KINDS = ('AudioInDaisy', 'AudioOutDaisy', 'Button', 'CvIn', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
 CONTROL_STYLES = (
    'rogan.6ps', 'rogan.5ps', 'rogan.3ps', 'rogan.2ps', 'rogan.1ps',
    'songhuei.9mm',
    'dailywell.2ms1', 'dailywell.2ms3',
-   'led.3mm.green_red', 'led.3mm.red', 'led.3mm.green', 'led.3mm.yellow', 'led.3mm.orange',
+   'led.3mm.green_red', 'led.3mm.rgb', 'led.3mm.red', 'led.3mm.green', 'led.3mm.yellow', 'led.3mm.orange',
    'thonk.pj398sm.knurled', 'thonk.pj398sm.hex',
    'tl1105', 'ck.d6r.black',
 )
