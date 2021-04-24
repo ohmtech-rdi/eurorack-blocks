@@ -1,0 +1,80 @@
+name: Windows 2019
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  hardware:
+    name: Hardware
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: choco install kicad
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/audio-in-daisy/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/audio-out-daisy/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/button/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/cv-in/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/gate-in/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/gate-out/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/led/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/led-bi/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/multiplexer/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/pot/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/power-bus/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/regulator-daisy/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/slider/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/switch/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/trim/build.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/kits/stats.py
+      - run: /c/Program\ Files/KiCad/bin/python.exe blocks/kits/build.py
+
+  software:
+    name: Software
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: choco install gcc-arm-embedded
+      - run: choco install ninja
+      - run: pip install pycairo
+      - run: python3 blocks/test/configure.py
+      - run: python3 blocks/test/build.py
+      - run: python3 samples/drop/configure.py
+      - run: python3 samples/drop/build.py
+      - run: python3 samples/drop/build.py --erb-target vcvrack
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: choco install ninja
+      - run: python3 test/unit/configure.py
+      - run: python3 test/unit/build.py
+      - run: python3 test/unit/run.py
+
+  erbb_tests:
+    name: Erbb Tests
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: pip install pycairo
+      - run: pip install coverage
+      - run: python3 build-system/test.py
+      - run: python3 build-system/cover.py
+      - run: python3 test/vcvrack/configure.py
+      - run: python3 test/vcvrack/build.py
