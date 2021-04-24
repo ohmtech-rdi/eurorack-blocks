@@ -100,6 +100,7 @@ class Code:
          'GateOut': 'Output',
          'Led': 'Child',
          'LedBi': 'Child',
+         'LedRgb': 'Child',
          'Pot': 'Param',
          'Switch': 'Param',
          'Trim': 'Param',
@@ -116,6 +117,7 @@ class Code:
          'GateOut': 'Output',
          'Led': 'Light',
          'LedBi': 'Light',
+         'LedRgb': 'Light',
          'Pot': 'Param',
          'Switch': 'Param',
          'Trim': 'Param',
@@ -137,6 +139,7 @@ class Code:
          'led.3mm.yellow': 'MediumLight <YellowLight>',
          'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
          'led.3mm.green_red': 'MediumLight <GreenRedLight>',
+         'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
          'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
          'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
          'ck.d6r.black': 'CKD6',
