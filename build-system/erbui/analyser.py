@@ -11,6 +11,8 @@ from . import adapter
 from . import ast
 from . import error
 
+from difflib import get_close_matches
+
 
 
 class Analyser:
@@ -41,6 +43,9 @@ class Analyser:
 
       for multiplexer in module.multiplexers:
          self.analyse_multiplexer (module, multiplexer)
+
+      for alias in module.aliases:
+         self.resolve_alias (module, alias)
 
    #--------------------------------------------------------------------------
 
@@ -116,6 +121,43 @@ class Analyser:
    def analyse_pins (self, module, control, pin_array):
       for pin in pin_array.pins:
          self.analyse_pin (module, control, pin)
+
+
+   #--------------------------------------------------------------------------
+
+   def resolve_alias (self, module, alias):
+      control = None
+
+      for entity in module.entities:
+         if entity.is_control:
+            if alias.identifier_reference.name == entity.name:
+               control = entity
+         elif entity.is_multiplexer:
+            for subcontrol in entity.controls:
+               if alias.identifier_reference.name == subcontrol.name:
+                  control = subcontrol
+
+      if control is None:
+         possible_tokens = []
+         for entity in module.entities:
+            if entity.is_control:
+               possible_tokens.append (entity.identifier_name)
+            elif entity.is_multiplexer:
+               for control in entity.controls:
+                  possible_tokens.append (control.identifier_name)
+
+         def make_dict (fun, iterable):
+            return dict (zip (map (fun, iterable), iterable))
+
+         possible_names = make_dict (lambda x: x.value, possible_tokens)
+         matches = get_close_matches (alias.identifier_reference.name, possible_names.keys ())
+
+         fixit_decl_tokens = [possible_names [match_name] for match_name in matches]
+         fixit_decls_sc = [adapter.SourceContext.from_token (f) for f in fixit_decl_tokens]
+
+         raise error.undefined_reference (alias, fixit_decls_sc)
+
+      alias.reference = control
 
 
    #--------------------------------------------------------------------------
