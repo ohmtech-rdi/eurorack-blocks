@@ -225,6 +225,22 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Alias -----------------------------------------------------------------
+
+   def visit_alias_declaration (self, node, children):
+      alias_name = children.alias_name [0]
+      alias_reference = children.alias_reference [0]
+      alias = ast.Alias (alias_name, alias_reference)
+
+      return alias
+
+   def visit_alias_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_alias_reference (self, node, children):
+      return self.visit_identifier (node, children)
+
+
    #-- Mode ------------------------------------------------------------------
 
    def visit_mode_declaration (self, node, children):
