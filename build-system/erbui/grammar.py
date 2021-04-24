@@ -87,6 +87,11 @@ def style_declaration ():              return 'style', style_name
 def mode_value ():                     return ['normalized', 'bipolar']
 def mode_declaration ():               return 'mode', mode_value
 
+# Alias
+def alias_name ():                     return name
+def alias_reference ():                return name
+def alias_declaration ():              return 'alias', alias_name, alias_reference
+
 # Control
 def control_entities ():               return ZeroOrMore ([mode_declaration, position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration, pins_declaration, pin_declaration])
 def control_body ():                   return '{', control_entities, '}'
@@ -119,7 +124,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, image_declaration, control_declaration, multiplexer_declaration])
+def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, image_declaration, control_declaration, alias_declaration, multiplexer_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body, EOF
