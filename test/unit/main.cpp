@@ -11,6 +11,7 @@
 
 #include "TestAnimation.h"
 #include "TestDebounce.h"
+#include "TestSdramObject.h"
 
 #include <iostream>
 
@@ -33,6 +34,9 @@ int main ()
 
    std::cout << "   Running TestAnimation..." << std::endl;
    { TestAnimation test; test.run (); }
+
+   std::cout << "   Running TestSdramObject..." << std::endl;
+   { TestSdramObject test; test.run (); }
 
    std::cout << "OK" << std::endl;
 }

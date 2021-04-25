@@ -21,6 +21,8 @@
 
          'sources': [
             # headers
+            'SdramObject.h',
+            'SdramObject.hpp',
             'def.h',
             'erb.h',
             'module_init.h',
@@ -104,6 +106,8 @@
 
          'sources': [
             # headers
+            'SdramObject.h',
+            'SdramObject.hpp',
             'def.h',
             'erb.h',
             'module_init.h',

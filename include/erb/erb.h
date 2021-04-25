@@ -13,6 +13,9 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/SdramObject.h"
+
+
 #if defined (erb_TARGET_DAISY)
    #include "erb/daisy/DaisyAudioInDaisy.h"
    #include "erb/daisy/DaisyAudioOutDaisy.h"
