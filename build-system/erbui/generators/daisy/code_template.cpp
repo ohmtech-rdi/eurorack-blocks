@@ -11,6 +11,8 @@
 
 #include "../%module.name%.h"
 
+#include "erb/module_init.h"
+
 
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -24,6 +26,8 @@ Name : main
 int main ()
 {
    %module.name% module;
+
+   erb::module_init (module);
 
    module.ui.module.run ([&](){
       module.process ();

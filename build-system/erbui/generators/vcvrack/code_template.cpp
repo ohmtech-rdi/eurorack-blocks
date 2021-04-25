@@ -15,6 +15,7 @@
 
 #include "../%module.name%.h"
 
+#include "erb/module_init.h"
 #include "erb/vcvrack/VcvWidgets.h"
 
 #include <rack.hpp>
@@ -116,6 +117,8 @@ ErbModule::ErbModule ()
 %controls_config%
       configParam (int (i), 0.f, max_value, 0.f);
    }
+
+   erb::module_init (module);
 
    module.ui.module.bind_process ([&](){
       module.process ();
