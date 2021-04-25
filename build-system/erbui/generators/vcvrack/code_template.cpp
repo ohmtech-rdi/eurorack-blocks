@@ -79,6 +79,24 @@ Name : ErbModule::ctor
 
 ErbModule::ErbModule ()
 {
+   // The Daisy Seed stack, sitting on SRAM is 512K only.
+   // When more memory is needed, move the big buffers like
+   // delay lines or samples to the SDRAM, which is 64M.
+   // Since we have some heap allocations, we keep a bit of margin
+   // and complain when we reach 384K of stack space.
+
+   static_assert (sizeof (module) < 384 * 1024 /* 384K */, "");
+
+   // The SDRAM is compararively slow compared to the SRAM,
+   // So try to keep all memory that is accessed often in SRAM.
+
+   // Check 'erb::make_sdram_object' to put your buffers in
+   // SDRAM.
+
+   // We know this is not the Daisy target, but we complain
+   // now so that you don't have a bad surprise when you build
+   // for the Daisy target.
+
    config (
       module.ui.module.nbr_params (),
       module.ui.module.nbr_inputs (),
