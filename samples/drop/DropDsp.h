@@ -13,6 +13,9 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "dsp/Filter2Poles.h"
+#include "dsp/GainRamp.h"
+
 #include <array>
 #include <cstddef>
 
@@ -35,11 +38,8 @@ public:
       Off, Armed, Active
    };
 
-                  DropDsp (float sample_rate);
-                  DropDsp (DropDsp && rhs) = default;
+                  DropDsp (float sample_freq);
    /*virtual*/    ~DropDsp () = default;
-
-   DropDsp &      operator = (DropDsp && rhs) = default;
 
    void           toggle_arm ();
    void           sync ();
@@ -68,43 +68,11 @@ private:
 
    enum {         NBR_CHANNELS = 2 };
 
-   class GainRamp
-   {
-   public:
-      GainRamp &  operator = (float val);
-                  operator float () const;
-
-      void        process ();
-
-      float       target = 0.f;
-
-   private:
-      float       cur = 0.f;
-   };
-
-   class Filter
-   {
-   public:
-      void        set_sample_freq (float sample_freq);
-      void        set_cutoff_freq (float freq);
-      float       process (float x);
-
-   private:
-      float       _sample_freq;
-
-      float       _z_eq_b [3];   // Direct, order z^(-n)
-      float       _z_eq_a [3];   // Recursive
-
-      float       _mem_x [2];    // Input memory, order z^(-n)
-      float       _mem_y [2];    // Output memory
-      int         _mem_pos = 0;  // 0 or 1
-   };
-
-   using Filters = std::array <Filter, NBR_CHANNELS>;
+   using Filters = std::array <dsp::Filter2Poles, NBR_CHANNELS>;
 
    bool           _arm_active = false;
-   GainRamp       _active;
-   GainRamp       _mode;
+   dsp::GainRamp  _active;
+   dsp::GainRamp  _mode;
    Filters        _filters;
 
 
@@ -114,7 +82,9 @@ private:
 private:
                   DropDsp () = delete;
                   DropDsp (const DropDsp & rhs) = delete;
+                  DropDsp (DropDsp && rhs) = delete;
    DropDsp &      operator = (const DropDsp & rhs) = delete;
+   DropDsp &      operator = (DropDsp && rhs) = delete;
    bool           operator == (const DropDsp & rhs) const = delete;
    bool           operator != (const DropDsp & rhs) const = delete;
 
