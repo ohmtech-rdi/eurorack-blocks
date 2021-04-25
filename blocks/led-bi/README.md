@@ -24,13 +24,13 @@ int main ()
    using namespace erb;
    
    Module module;
-   LedBi led (module, Pin23, Pin24);      // 1.
+   LedBi led (module, Pin23, Pin24);       // 1.
    
    module.run ([&](){
-      led.on (LedBi::Color::Red);         // 2.
-      led.off ();                         // 3.
-      led.pulse (LedBi::Color::Yellow);   // 4.
-      led.blink (LedBi::Color::Green);    // 5.
+      led.on (LedBi::Color::red ());       // 2.
+      led.off ();                          // 3.
+      led.pulse (LedBi::Color::yellow ()); // 4.
+      led.blink (LedBi::Color::green ());  // 5.
    });
 }
 ```

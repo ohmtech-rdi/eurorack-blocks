@@ -107,6 +107,7 @@ raf:bypass$
 - [`button`](./blocks/button/documentation/) is a trigger button,
 - [`led`](./blocks/led/documentation/) is a monochromatic LED,
 - [`led-bi`](./blocks/led-bi/documentation/) is a dichromatic LED,
+- [`led-rgb`](./blocks/led-rgb/documentation/) is a RGB LED,
 - [`pot`](./blocks/pot/documentation/) is a potentiometer block,
 - [`slider`](./blocks/slider/) is a slider potentiometer block,
 - [`switch`](./blocks/switch/documentation/) is a 2 or 3 positions toggle switch,
