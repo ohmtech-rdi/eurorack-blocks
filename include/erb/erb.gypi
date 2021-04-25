@@ -23,6 +23,7 @@
             # headers
             'def.h',
             'erb.h',
+            'module_init.h',
 
             'daisy/DaisyAdcChannels.h',
             'daisy/DaisyAnalogControlBase.h',
@@ -105,6 +106,7 @@
             # headers
             'def.h',
             'erb.h',
+            'module_init.h',
 
             'vcvrack/VcvAudioInDaisy.h',
             'vcvrack/VcvAudioOutDaisy.h',
