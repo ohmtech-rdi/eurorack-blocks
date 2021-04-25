@@ -28,6 +28,17 @@
                'DropDsp.cpp',
                'DropDsp.h',
                'Drop.erbui',
+
+               '../dsp/Filter2Poles.cpp',
+               '../dsp/Filter2Poles.h',
+               '../dsp/Filter2Poles.hpp',
+               '../dsp/GainRamp.cpp',
+               '../dsp/GainRamp.h',
+               '../dsp/GainRamp.hpp',
+            ],
+
+            'include_dirs': [
+               '..',
             ],
          },
       },
