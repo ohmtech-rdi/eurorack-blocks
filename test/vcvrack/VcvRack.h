@@ -19,7 +19,6 @@ struct VcvRack
 {
    VcvRackUi ui;
 
-   bool first_flag = true;
-
+   void  init ();
    void  process ();
 };
