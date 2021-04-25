@@ -153,7 +153,8 @@ This repository contains submodules:
 Sample projects are a good place to start learning:
 
 - [`bypass`](./samples/bypass/) is the example used above,
-- [`drop`](./samples/drop/) shows the usage of almost every blocks.
+- [`drop`](./samples/drop/) shows the usage of almost every blocks,
+- [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory.
 
 
 ## Structure
