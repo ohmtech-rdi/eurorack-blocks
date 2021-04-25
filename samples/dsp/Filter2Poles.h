@@ -28,7 +28,7 @@ class Filter2Poles
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Filter2Poles () = default;
+                  Filter2Poles ();
    /*virtual*/    ~Filter2Poles () = default;
 
    void           set_sample_freq (float fs);
@@ -42,6 +42,8 @@ public:
    void           set_q (float q);
 
    void           update ();
+
+   void           reset ();
 
    void           process (float * dst_ptr, const float * src_ptr, size_t nbr_spl);
    inline float   process (float x);
