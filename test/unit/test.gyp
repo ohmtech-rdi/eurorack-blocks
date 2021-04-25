@@ -36,9 +36,12 @@
             'main.cpp',
             'test.h',
 
+            '../../include/erb/SdramObject.h',
+            '../../include/erb/SdramObject.hpp',
             '../../include/erb/detail/Animation.h',
             '../../include/erb/detail/Animation.hpp',
             '../../include/erb/detail/Debounce.h',
+
             '../../src/detail/Animation.cpp',
             '../../src/detail/Debounce.cpp',
 
@@ -46,6 +49,8 @@
             'TestAnimation.h',
             'TestDebounce.cpp',
             'TestDebounce.h',
+            'TestSdramObject.cpp',
+            'TestSdramObject.h',
          ],
       },
    ],
