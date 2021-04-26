@@ -12,7 +12,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 KEYWORDS = (
    'module', 'width', 'material', 'header', 'footer', 'line',
-   'control', 'label', 'image', 'pin', 'pins', 'mode', 'normalized', 'bipolar',
+   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
@@ -64,6 +64,11 @@ def image_declaration ():              return 'image', string_literal
 def label_entities ():                 return ZeroOrMore ([position_declaration, positioning_declaration, offset_declaration])
 def label_body ():                     return '{', label_entities, '}'
 def label_declaration ():              return 'label', string_literal, Optional (label_body)
+
+# Sticker
+def sticker_entities ():                 return ZeroOrMore ([position_declaration, positioning_declaration, offset_declaration])
+def sticker_body ():                     return '{', sticker_entities, '}'
+def sticker_declaration ():              return 'sticker', string_literal, Optional (sticker_body)
 
 # Position
 def position_declaration ():           return 'position', distance_declaration, ',', distance_declaration
@@ -124,7 +129,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, image_declaration, control_declaration, alias_declaration, multiplexer_declaration])
+def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, multiplexer_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body, EOF
