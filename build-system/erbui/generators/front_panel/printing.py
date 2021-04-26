@@ -38,6 +38,6 @@ class Printing:
       context = cairocffi.Context (surface)
 
       panel = detailPanel ()
-      panel.generate_module (context, module, render_back=False)
+      panel.generate_module (context, module)
 
       surface.finish ()

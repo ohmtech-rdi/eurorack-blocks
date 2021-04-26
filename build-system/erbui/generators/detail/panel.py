@@ -11,6 +11,7 @@ import cairocffi
 import cairosvg
 import math
 import os
+import random
 
 from ... import ast
 from ... import adapter
@@ -44,7 +45,7 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, context, module, render_back=False):
+   def generate_module (self, context, module, simulated=False):
 
       context.set_fill_rule (cairocffi.FILL_RULE_EVEN_ODD)
 
@@ -55,7 +56,7 @@ class Panel:
       self.current_position_x = self.width * 0.5
       self.current_position_y = self.height * 0.5
 
-      if render_back:
+      if simulated:
          self.generate_back (context, module)
 
       self.generate_header (context, module, module.header)
@@ -76,6 +77,10 @@ class Panel:
       for multiplexer in module.multiplexers:
          for control in multiplexer.controls:
             self.generate_control (context, module, control)
+
+      if simulated:
+         for sticker in module.stickers:
+            self.generate_sticker (context, module, sticker)
 
 
    #--------------------------------------------------------------------------
@@ -152,34 +157,9 @@ class Panel:
       self.current_font_height = 8.5#pt
 
       box = self.get_style_box (control.style)
+      rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
 
-      if control.rotation:
-         rotation = (control.rotation.degree_top_down + 360) % 360
-      else:
-         rotation = 0
-
-      if rotation == 0:
-         pass # nothing
-
-      elif rotation == 90:
-         box.top = box.right
-         box.right = box.bottom
-         box.bottom = box.left
-         box.left = box.top
-
-      elif rotation == 180:
-         box.top, box.bottom = box.top, box.bottom
-         box.left, box.right = box.left, box.right
-
-      elif rotation == 270:
-         box.left = box.bottom
-         box.bottom = box.right
-         box.right = box.top
-         box.top = box.left
-
-      else:
-         raise Exception ('unsupported angle value %d', control.rotation)
-
+      box.rotate (rotation)
       self.current_box = box
 
       for label in control.labels:
@@ -200,6 +180,34 @@ class Panel:
          self.top = top
          self.right = right
          self.bottom = bottom
+
+      #-----------------------------------------------------------------------
+
+      def rotate (self, rotation):
+         if rotation == 0:
+            pass # nothing
+
+         elif rotation == 90:
+            self.top = self.right
+            self.right = self.bottom
+            self.bottom = self.left
+            self.left = self.top
+
+         elif rotation == 180:
+            self.top, self.bottom = self.top, self.bottom
+            self.left, self.right = self.left, self.right
+
+         elif rotation == 270:
+            self.left = self.bottom
+            self.bottom = self.right
+            self.right = self.top
+            self.top = self.left
+
+         else:
+            raise Exception ('unsupported angle value %d', rotation)
+
+
+   #--------------------------------------------------------------------------
 
    # Reference:
    # Rogan: https://rogancorp.com/product/pt-series-pointer-control-knobs/
@@ -258,14 +266,80 @@ class Panel:
    #--------------------------------------------------------------------------
 
    def generate_label (self, context, module, label, control=None):
-      font_family = self.font_family
-      font_size = self.current_font_height
+      position_x, position_y, align_x, align_y = self.process_label_position (label, control)
 
-      context.select_font_face (
-         font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL
-      )
-      context.set_font_size (font_size)
+      if module.material.is_light:
+         if control is not None and control.is_kind_out:
+            fill_gray = 0.3
+         else:
+            fill_gray = 0.0
+      elif module.material.is_dark:
+         fill_gray = 1.0
 
+      context.select_font_face (self.font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
+      context.set_font_size (self.current_font_height)
+
+      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
+
+      if control is not None and control.is_kind_out and not module.material.is_dark:
+         self.generate_back_out_path (context, module, control)
+
+      position_x_pt = position_x * MM_TO_PT - width_pt * align_x
+      position_y_pt = position_y * MM_TO_PT + height_pt * align_y
+
+      context.move_to (position_x_pt, position_y_pt)
+      context.text_path (label.text)
+      context.set_source_rgb (fill_gray, fill_gray, fill_gray)
+      context.fill ()
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_sticker (self, context, module, sticker):
+      position_x = sticker.position.x.mm
+      position_y = sticker.position.y.mm
+      align_x = 0.5
+      align_y = 0.5
+
+      context.select_font_face ('IndieFlower', cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
+      context.set_font_size (10)
+
+      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (sticker.text)
+
+      position_x_cpt = position_x * MM_TO_PT
+      position_y_cpt = position_y * MM_TO_PT
+      position_x_pt = position_x_cpt - width_pt * align_x
+      position_y_pt = position_y_cpt + height_pt * align_y
+
+      angle = random.uniform (-0.05, 0.05)
+
+      with context:
+         context.translate (position_x_cpt, position_y_cpt + 0.25)
+         context.rotate (angle)
+         context.translate (-position_x_cpt, -position_y_cpt - 0.25)
+
+         context.rectangle (position_x_pt - 3, position_y_pt + 0.25 - height_pt - 3, width_pt + 6, height_pt + 6)
+         context.set_source_rgb (0.3, 0.3, 0.3)
+         context.fill ()
+
+      with context:
+         context.translate (position_x_cpt, position_y_cpt)
+         context.rotate (angle)
+         context.translate (-position_x_cpt, -position_y_cpt)
+
+         context.rectangle (position_x_pt - 3, position_y_pt - height_pt - 3, width_pt + 6, height_pt + 6)
+         context.set_source_rgb (1.0, 1.0, 1.0)
+         context.fill ()
+
+         context.move_to (position_x_pt, position_y_pt)
+         context.text_path (sticker.text)
+         context.set_source_rgb (0.1, 0.1, 0.1)
+         context.fill ()
+
+
+   #--------------------------------------------------------------------------
+
+   def process_label_position (self, label, control):
       position_x = self.current_position_x
       position_y = self.current_position_y
 
@@ -318,28 +392,7 @@ class Panel:
          position_x += label.offset.x
          position_y += label.offset.y
 
-      material = module.material
-
-      if material.is_light:
-         if control is not None and control.is_kind_out:
-            fill_gray = 0.3
-         else:
-            fill_gray = 0.0
-      elif material.is_dark:
-         fill_gray = 1.0
-
-      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
-
-      if control is not None and control.is_kind_out and not material.is_dark:
-         self.generate_back_out_path (context, module, control)
-
-      context.move_to (
-         position_x * MM_TO_PT - width_pt * align_x,
-         position_y * MM_TO_PT + height_pt * align_y
-      )
-      context.text_path (label.text)
-      context.set_source_rgb (fill_gray, fill_gray, fill_gray)
-      context.fill ()
+      return position_x, position_y, align_x, align_y
 
 
    #--------------------------------------------------------------------------
