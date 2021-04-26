@@ -182,4 +182,6 @@ All files in this repository are provided with the CC BY-SA 4.0 license, **excep
 
 - The [D-DIN Font](./include/erb/vcvrack/design/d-din),
    under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
+- The [Indie Flower Font](./include/erb/vcvrack/design/indie-flower),
+   under [SIL Open Font License](./include/erb/vcvrack/design/indie-flower/OFL.txt),
 - The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/).
