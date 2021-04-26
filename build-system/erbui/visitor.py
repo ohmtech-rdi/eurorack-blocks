@@ -176,6 +176,25 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Sticker ---------------------------------------------------------------
+
+   def visit_sticker_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      sticker = ast.Sticker (string_literal)
+
+      if children.sticker_body:
+         entities = children.sticker_body [0]
+         sticker.add (entities)
+
+      return sticker
+
+   def visit_sticker_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_sticker_entities (self, node, children):
+      return list (children)
+
+
    #-- Multiplexer -----------------------------------------------------------
 
    def visit_multiplexer_declaration (self, node, children):
