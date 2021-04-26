@@ -47,6 +47,9 @@ jobs:
       - run: sudo apt install dfu-util
       - run: pip install cairosvg cairocffi
       - run: pip install ezdxf
+      - run: mkdir -p ~/.local/share/fonts/
+      - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
+      - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
       - run: python blocks/test/configure.py
       - run: python blocks/test/build.py
       - run: python samples/drop/configure.py
@@ -79,6 +82,9 @@ jobs:
       - run: pip install cairosvg cairocffi
       - run: pip install ezdxf
       - run: pip install coverage
+      - run: mkdir -p ~/.local/share/fonts/
+      - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
+      - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
       - run: python build-system/test.py
       - run: python build-system/cover.py
       - run: python test/vcvrack/configure.py
