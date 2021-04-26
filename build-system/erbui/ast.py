@@ -79,6 +79,9 @@ class Node:
    def is_label (self): return isinstance (self, Label)
 
    @property
+   def is_sticker (self): return isinstance (self, Sticker)
+
+   @property
    def is_pin (self): return isinstance (self, Pin)
 
    @property
@@ -281,6 +284,11 @@ class Module (Scope):
       return entities
 
    @property
+   def stickers (self):
+      entities = [e for e in self.entities if e.is_sticker]
+      return entities
+
+   @property
    def lines (self):
       entities = [e for e in self.entities if e.is_line]
       return entities
@@ -369,6 +377,11 @@ class Header (Scope):
       return entities
 
    @property
+   def stickers (self):
+      entities = [e for e in self.entities if e.is_sticker]
+      return entities
+
+   @property
    def images (self):
       entities = [e for e in self.entities if e.is_image]
       return entities
@@ -386,6 +399,11 @@ class Footer (Scope):
    @property
    def labels (self):
       entities = [e for e in self.entities if e.is_label]
+      return entities
+
+   @property
+   def stickers (self):
+      entities = [e for e in self.entities if e.is_sticker]
       return entities
 
    @property
@@ -525,6 +543,11 @@ class Control (Scope):
    @property
    def labels (self):
       entities = [e for e in self.entities if e.is_label]
+      return entities
+
+   @property
+   def stickers (self):
+      entities = [e for e in self.entities if e.is_sticker]
       return entities
 
    @property
@@ -706,6 +729,50 @@ class Label (Scope):
 
    @staticmethod
    def typename (): return 'label'
+
+   @property
+   def text (self):
+      return self.literal.value
+
+   @property
+   def positioning (self):
+      entities = [e for e in self.entities if e.is_positioning]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def position (self):
+      entities = [e for e in self.entities if e.is_position]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def offset (self):
+      entities = [e for e in self.entities if e.is_offset]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+
+
+# -- Sticker -------------------------------------------------------------------
+
+class Sticker (Scope):
+   def __init__ (self, literal):
+      assert isinstance (literal, StringLiteral)
+      super (Sticker, self).__init__ ()
+      self.literal = literal
+
+   @staticmethod
+   def typename (): return 'sticker'
 
    @property
    def text (self):
