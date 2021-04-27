@@ -18,6 +18,14 @@ module VcvRack {
       label "Erb Tests"
    }
 
+   sticker "STICKER L" {
+      position 6hp, 5mm
+   }
+
+   sticker "STICKER R" {
+      position 18hp, 5mm
+   }
+
    line {
       position 0mm, 0mm
       position 12hp, 10mm

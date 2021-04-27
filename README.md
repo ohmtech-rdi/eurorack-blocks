@@ -125,7 +125,6 @@ The eurorack-block project requires the following to be installed:
 - The `python3` interpreter with minimum version 3.7,
 - The `pip3` python package manager,
 - [Kicad 5.1.9](http://kicad-pcb.org/download/),
-- The [D-DIN Font](./include/erb/vcvrack/design/d-din) must be installed on the system.
 
 > Note: Python 2 is not supported.
 
@@ -133,11 +132,11 @@ The eurorack-block project requires the following to be installed:
 
 - [Homebrew](https://brew.sh), up-to-date,
 - [Xcode](https://developer.apple.com/xcode/), with minimum version 10 on macOS,
-- [All the package dependencies](https://github.com/ohmtech-rdi/eurorack-blocks/blob/main/.github/workflows/macos_10_15.yml#L42-L47).
+- [All the package dependencies](https://github.com/ohmtech-rdi/eurorack-blocks/blob/main/.github/workflows/macos_10_15.yml#L42-L49).
 
 ### Debian/Ubuntu
 
-- [All the package dependencies](https://github.com/ohmtech-rdi/eurorack-blocks/blob/main/.github/workflows/ubuntu_20_04.yml#L42-L49).
+- [All the package dependencies](https://github.com/ohmtech-rdi/eurorack-blocks/blob/main/.github/workflows/ubuntu_20_04.yml#L42-L51).
 
 
 ## Cloning
@@ -182,4 +181,6 @@ All files in this repository are provided with the CC BY-SA 4.0 license, **excep
 
 - The [D-DIN Font](./include/erb/vcvrack/design/d-din),
    under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
+- The [Indie Flower Font](./include/erb/vcvrack/design/indie-flower),
+   under [SIL Open Font License](./include/erb/vcvrack/design/indie-flower/OFL.txt),
 - The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/).
