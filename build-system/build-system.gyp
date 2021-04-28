@@ -45,6 +45,7 @@
 
             # generators/front_pcb
             'erbui/generators/front_pcb/s_expression.py',
+            'erbui/generators/front_pcb/alpha.9mm/alpha.9mm.kicad_pcb',
 
             # generators/ui
             'erbui/generators/ui/code_template.h',
