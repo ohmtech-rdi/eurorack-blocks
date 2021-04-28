@@ -1,0 +1,54 @@
+(export (version D)
+  (design
+    (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/songhuei.9mm/songhuei.9mm.sch)
+    (date "2021 April 28, Wednesday 23:35:00")
+    (tool "Eeschema (5.1.9-0-10_14)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source songhuei.9mm.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref RV1)
+      (value 100k)
+      (footprint Potentiometer_Thonk:SongHueiTallTrim9)
+      (datasheet ~)
+      (fields
+        (field (name Description) "B100K - Song Huei TALL Trimmer Potentiometer")
+        (field (name Device) Potentiometer)
+        (field (name Dist) Thonk)
+        (field (name DistLink) https://www.thonk.co.uk/shop/ttpots/)
+        (field (name DistPartNumber) R0904N-B100K)
+        (field (name Place) No))
+      (libsource (lib Device) (part R_POT) (description Potentiometer))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5FCAE65B)))
+  (libparts
+    (libpart (lib Device) (part R_POT)
+      (description Potentiometer)
+      (docs ~)
+      (footprints
+        (fp Potentiometer*))
+      (fields
+        (field (name Reference) RV)
+        (field (name Value) R_POT))
+      (pins
+        (pin (num 1) (name 1) (type passive))
+        (pin (num 2) (name 2) (type passive))
+        (pin (num 3) (name 3) (type passive)))))
+  (libraries
+    (library (logical Device)
+      (uri "/Library/Application Support/kicad/library/Device.lib")))
+  (nets
+    (net (code 1) (name "Net-(RV1-Pad1)")
+      (node (ref RV1) (pin 1)))
+    (net (code 2) (name "Net-(RV1-Pad2)")
+      (node (ref RV1) (pin 2)))
+    (net (code 3) (name "Net-(RV1-Pad3)")
+      (node (ref RV1) (pin 3)))))
