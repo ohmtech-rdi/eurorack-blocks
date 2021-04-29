@@ -1,0 +1,52 @@
+(export (version D)
+  (design
+    (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/dailywell.2ms/dailywell.2ms.sch)
+    (date "2021 April 29, Thursday 17:06:31")
+    (tool "Eeschema (5.1.9-0-10_14)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source dailywell.2ms.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref SW1)
+      (value SW_SPDT)
+      (footprint Switch_Thonk:SW_SPDT_Dailywell)
+      (datasheet https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf)
+      (fields
+        (field (name Description) "DW2 - SPDT ON-OFF-ON - Dailywell Sub-mini Toggle Switch")
+        (field (name Device) "Toggle Switch")
+        (field (name Dist) Thonk)
+        (field (name DistLink) https://www.thonk.co.uk/shop/sub-mini-toggle-switches/)
+        (field (name DistPartNumber) DW2)
+        (field (name Place) No))
+      (libsource (lib Switch) (part SW_SPDT) (description "Switch, single pole double throw"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5FD259E4)))
+  (libparts
+    (libpart (lib Switch) (part SW_SPDT)
+      (description "Switch, single pole double throw")
+      (docs ~)
+      (fields
+        (field (name Reference) SW)
+        (field (name Value) SW_SPDT))
+      (pins
+        (pin (num 1) (name A) (type passive))
+        (pin (num 2) (name B) (type passive))
+        (pin (num 3) (name C) (type passive)))))
+  (libraries
+    (library (logical Switch)
+      (uri "/Library/Application Support/kicad/library/Switch.lib")))
+  (nets
+    (net (code 1) (name "Net-(SW1-Pad1)")
+      (node (ref SW1) (pin 1)))
+    (net (code 2) (name "Net-(SW1-Pad2)")
+      (node (ref SW1) (pin 2)))
+    (net (code 3) (name "Net-(SW1-Pad3)")
+      (node (ref SW1) (pin 3)))))
