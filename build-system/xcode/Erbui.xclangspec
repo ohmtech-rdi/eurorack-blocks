@@ -1,0 +1,130 @@
+// Erbui Model Notation language specs
+
+(
+
+/****************************************************************************/
+// MARK: Keywords
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui.keyword";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Words = (
+                "module", "width", "material", "header", "footer", "line", "multiplexer", "alias",
+                "control", "label", "positioning", "sticker", "image", "pin", "pins", "mode",
+                "position", "rotation", "offset", "style",
+
+
+            );
+            Type = "xcode.syntax.keyword";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Erbui Control Types and Styles
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui.property";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.";
+            Words = (
+                "AudioInDaisy", "AudioOutDaisy", "Button", "CvIn", "GateIn", "GateOut", "Led", "LedBi", "LedRgb", "Pot", "Switch", "Trim",
+                "aluminum", "brushed_aluminum", "aluminum_coated", "natural", "white", "black",
+                "center", "left", "top", "right", "bottom",
+                "normalized", "bipolar",
+                "rogan.6ps", "rogan.5ps", "rogan.3ps", "rogan.2ps", "rogan.1ps",
+                "songhuei.9mm",
+                "dailywell.2ms1", "dailywell.2ms3",
+                "led.3mm.green_red", "led.3mm.rgb", "led.3mm.red", "led.3mm.green", "led.3mm.yellow", "led.3mm.orange",
+                "thonk.pj398sm.knurled", "thonk.pj398sm.hex",
+                "tl1105", "ck.d6r.black",
+            );
+            Type = "xcode.syntax.identifier.type.system";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Pin Types
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui.pin";
+        Syntax = {
+            StartChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Match = ("^(.*)(Pin)(.*)");
+            Type = "xcode.syntax.identifier.type.system";
+        };
+    },
+
+/****************************************************************************/
+// MARK: User module
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui.module";
+        Syntax = {
+            StartChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Type = "xcode.syntax.identifier.type";
+        };
+    },
+
+/****************************************************************************/
+// MARK: User controls
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui.control";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyz";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Type = "xcode.syntax.identifier.variable";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Units
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui.distance";
+        Syntax = {
+            StartChars = "1234567890";
+            Chars = "0123456789.abcdefghijklmnopqrstuvwxyz°";
+            Match = ("^[0-9.]*(mm|hp)");
+            Type = "xcode.syntax.number";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Simple Syntax Coloring
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbui";
+        Description = "Erbui Model Coloring";
+        BasedOn = "xcode.lang.simpleColoring";
+        IncludeInMenu = YES;
+        Name = "Erbui";
+        Syntax = {
+            IncludeRules = (
+                "xcode.lang.comment",
+                "xcode.lang.comment.singleline",
+                "xcode.lang.string",
+                "xcode.lang.erbui.distance",
+                "xcode.lang.number",
+                "xcode.lang.erbui.keyword",
+                "xcode.lang.erbui.property",
+                "xcode.lang.erbui.pin",
+                "xcode.lang.erbui.module",
+                "xcode.lang.erbui.control",
+            );
+            Type = "xcode.syntax.plain";
+        };
+    },
+)
