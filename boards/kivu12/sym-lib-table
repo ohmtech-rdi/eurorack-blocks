@@ -1,0 +1,3 @@
+(sym_lib_table
+  (lib (name DaisySeed)(type Legacy)(uri "$(KIPRJMOD)/../../submodules/kicad-libs/symbols/DaisySeed.lib")(options "")(descr ""))
+)
