@@ -49,6 +49,9 @@ class Node:
    def is_module (self): return isinstance (self, Module)
 
    @property
+   def is_board (self): return isinstance (self, Board)
+
+   @property
    def is_width (self): return isinstance (self, Width)
 
    @property
@@ -248,7 +251,12 @@ class Module (Scope):
 
    @property
    def board (self):
-      return None
+      entities = [e for e in self.entities if e.is_board]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
 
    @property
    def width (self):
@@ -311,6 +319,18 @@ class Module (Scope):
    def aliases (self):
       entities = [e for e in self.entities if e.is_alias]
       return entities
+
+
+# -- Board -------------------------------------------------------------------
+
+class Board (Node):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (Board, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @property
+   def name (self): return self.keyword_name.value
 
 
 # -- Material ----------------------------------------------------------------
