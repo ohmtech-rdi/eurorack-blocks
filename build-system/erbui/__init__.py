@@ -19,6 +19,7 @@ from .generators.vcvrack.deploy import Deploy as vcvrackDeploy
 from .generators.daisy.code import Code as daisyCode
 from .generators.front_panel.milling import Milling as front_panelMilling
 from .generators.front_panel.printing import Printing as front_panelPrinting
+from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
@@ -181,3 +182,32 @@ Name: generate_front_panel_printing
 def generate_front_panel_printing (path, ast):
    generator = front_panelPrinting ()
    generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_pcb
+==============================================================================
+"""
+
+def generate_front_pcb (path, ast):
+   generate_front_pcb_kicad_pcb (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_pcb_kicad_pcb
+==============================================================================
+"""
+
+def generate_front_pcb_kicad_pcb (path, ast):
+   generator = kicad_pcbKicadPcb ()
+   generator.generate (path, ast)
+
+
+
+
+
+

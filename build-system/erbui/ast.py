@@ -247,6 +247,10 @@ class Module (Scope):
       return super (Module, self).source_context_part (part) # pragma: no cover
 
    @property
+   def board (self):
+      return None
+
+   @property
    def width (self):
       entities = [e for e in self.entities if e.is_width]
       assert (len (entities) == 1)
