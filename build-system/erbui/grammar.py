@@ -11,7 +11,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 
 KEYWORDS = (
-   'module', 'width', 'material', 'header', 'footer', 'line',
+   'module', 'board', 'width', 'material', 'header', 'footer', 'line',
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'center', 'left', 'top', 'right', 'bottom',
@@ -123,13 +123,17 @@ def header_declaration ():             return 'header', header_body
 # Module Width
 def width_declaration ():              return 'width', distance_declaration
 
+# Module Board
+def board_name ():                     return []
+def board_declaration ():              return 'board', board_name
+
 # Module Material
 def material_color ():                 return ['natural', 'black', 'white']
 def material_name ():                  return ['aluminum', 'brushed_aluminum', 'aluminum_coated']
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, multiplexer_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, multiplexer_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body, EOF
