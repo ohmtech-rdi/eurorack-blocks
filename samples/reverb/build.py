@@ -61,6 +61,7 @@ if __name__ == '__main__':
       if args.erb_target == 'daisy':
          ast = erbui.parse (os.path.join (PATH_THIS, 'Reverb.erbui'))
          erbui.generate_front_panel (PATH_ARTIFACTS, ast)
+         erbui.generate_front_pcb (PATH_ARTIFACTS, ast)
 
          erbb.build_target ('reverb', 'reverb-daisy', PATH_THIS)
          erbb.objcopy ('reverb-daisy', PATH_THIS)
