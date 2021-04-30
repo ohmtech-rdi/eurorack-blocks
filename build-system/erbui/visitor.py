@@ -92,6 +92,20 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Board -----------------------------------------------------------------
+
+   def visit_board_declaration (self, node, children):
+      board_name = children.board_name [0]
+
+      board = ast.Board (board_name)
+
+      return board
+
+   def visit_board_name (self, node, children):
+      return self.to_keyword (node)
+
+
+
    #-- Width -----------------------------------------------------------------
 
    def visit_width_declaration (self, node, children):
