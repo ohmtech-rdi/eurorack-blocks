@@ -8,123 +8,124 @@
 
 
 module Reverb {
-   width 10hp
+   board kivu12
+   width 12hp
    material aluminum
    header { label "REVERB" }
 
    control low_pass_freq_pot Pot {
-      position 7.33hp, 28mm
+      position 8.66hp, 28mm
       style rogan.2ps
       label "LP FREQ"
-      pin AdcPin8
+      pin P1
    }
 
    control high_pass_freq_pot Pot {
-      position 2.66hp, 28mm
+      position 3.33hp, 28mm
       style rogan.2ps
       label "HP FREQ"
-      pin AdcPin9
+      pin P2
    }
 
    control feedback_pot Pot {
-      position 2.66hp, 54mm
+      position 3.33hp, 54mm
       style rogan.2ps
       label "FEEDBACK"
-      pin AdcPin10
+      pin P3
    }
 
    control wet_pot Pot {
-      position 7.33hp, 54mm
+      position 8.66hp, 54mm
       style rogan.2ps
       label "DRY/WET"
-      pin AdcPin11
+      pin P4
    }
 
    control low_pass_freq_trim Trim {
       mode bipolar
-      position 19.2mm, 82.8mm
+      position 4.66hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin4
+      pin P5
    }
 
    control high_pass_freq_trim Trim {
       mode bipolar
-      position 7.11mm, 82.8mm
+      position 2hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin5
+      pin P6
    }
 
    control feedback_trim Trim {
       mode bipolar
-      position 31.3mm, 82.8mm
+      position 7.33hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin6
+      pin P7
    }
 
    control wet_trim Trim {
       mode bipolar
-      position 43.4mm, 82.8mm
+      position 10hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin7
+      pin P8
    }
 
    control low_pass_freq_cv CvIn {
-      position 19.2mm, 96.5mm
+      position 4.66hp, 96.5mm
       style thonk.pj398sm.knurled
       label "LP"
-      pin AdcPin0
+      pin CI1
    }
 
    control high_pass_freq_cv CvIn {
-      position 7.11mm, 96.5mm
+      position 2hp, 96.5mm
       style thonk.pj398sm.knurled
       label "HP"
-      pin AdcPin1
+      pin CI2
    }
 
    control feedback_cv CvIn {
-      position 31.3mm, 96.5mm
+      position 7.33hp, 96.5mm
       style thonk.pj398sm.knurled
       label "FDBK"
-      pin AdcPin2
+      pin CI3
    }
 
    control wet_cv CvIn {
-      position 43.4mm, 96.5mm
+      position 10hp, 96.5mm
       style thonk.pj398sm.knurled
       label "DRY/WET"
-      pin AdcPin3
+      pin CI4
    }
 
    control audio_in_left AudioIn {
-      position 7.11mm, 111mm
+      position 2hp, 111mm
       style thonk.pj398sm.knurled
       label "IN L"
-      pin AudioInPinLeft
+      pin AI1
    }
 
    control audio_in_right AudioIn {
-      position 19.2mm, 111mm
+      position 4.66hp, 111mm
       style thonk.pj398sm.knurled
       label "IN R"
-      pin AudioInPinRight
+      pin AI2
    }
 
    control audio_out_left AudioOut {
-      position 31.3mm, 111mm
+      position 7.33hp, 111mm
       style thonk.pj398sm.knurled
       label "OUT L"
-      pin AudioOutPinLeft
+      pin AO1
    }
 
    control audio_out_right AudioOut {
-      position 43.4mm, 111mm
+      position 10hp, 111mm
       style thonk.pj398sm.knurled
       label "OUT R"
-      pin AudioOutPinRight
+      pin AO2
    }
 }
