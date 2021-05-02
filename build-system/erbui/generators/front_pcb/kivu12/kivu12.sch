@@ -83,37 +83,37 @@ F 3 "~" H 4600 4700 50  0001 C CNN
 	1    4600 4700
 	0    -1   1    0   
 $EndComp
-Text GLabel 3600 4500 1    50   Input ~ 0
+Text GLabel 4800 4500 1    50   Input ~ 0
 AI1
-Text GLabel 3700 4500 1    50   Input ~ 0
+Text GLabel 4900 4500 1    50   Input ~ 0
 AI2
-Text GLabel 3800 4500 1    50   Output ~ 0
-AO1
-Text GLabel 3900 4500 1    50   Output ~ 0
-AO2
-Text GLabel 4000 4500 1    50   Input ~ 0
-CI1
-Text GLabel 4100 4500 1    50   Input ~ 0
-CI2
-Text GLabel 4200 4500 1    50   Input ~ 0
-CI3
-Text GLabel 4300 4500 1    50   Input ~ 0
-CI4
-Text GLabel 4400 4500 1    50   Input ~ 0
-CI5
-Text GLabel 4500 4500 1    50   Input ~ 0
-CI6
-Text GLabel 4600 4500 1    50   Input ~ 0
-CI7
-Text GLabel 4700 4500 1    50   Input ~ 0
-CI8
-Text GLabel 4800 4500 1    50   Output ~ 0
-CO1
-Text GLabel 4900 4500 1    50   Output ~ 0
-CO2
 Text GLabel 5000 4500 1    50   Output ~ 0
-GO1
+AO1
 Text GLabel 5100 4500 1    50   Output ~ 0
+AO2
+Text GLabel 3600 4500 1    50   Input ~ 0
+CI1
+Text GLabel 3700 4500 1    50   Input ~ 0
+CI2
+Text GLabel 3800 4500 1    50   Input ~ 0
+CI3
+Text GLabel 3900 4500 1    50   Input ~ 0
+CI4
+Text GLabel 4000 4500 1    50   Input ~ 0
+CI5
+Text GLabel 4100 4500 1    50   Input ~ 0
+CI6
+Text GLabel 4200 4500 1    50   Input ~ 0
+CI7
+Text GLabel 4300 4500 1    50   Input ~ 0
+CI8
+Text GLabel 4400 4500 1    50   Output ~ 0
+CO1
+Text GLabel 4500 4500 1    50   Output ~ 0
+CO2
+Text GLabel 4600 4500 1    50   Output ~ 0
+GO1
+Text GLabel 4700 4500 1    50   Output ~ 0
 GO2
 Text GLabel 5300 4500 1    50   Input ~ 0
 MIR
@@ -138,17 +138,17 @@ Text GLabel 6350 2700 0    50   Input ~ 0
 B7
 Text GLabel 6350 2800 0    50   Input ~ 0
 B8
-Text GLabel 6350 2900 0    50   Input ~ 0
+Text GLabel 6350 3300 0    50   Input ~ 0
 B9
-Text GLabel 6350 3000 0    50   Input ~ 0
+Text GLabel 6350 3400 0    50   Input ~ 0
 B10
 Text GLabel 6350 3500 0    50   Input ~ 0
 B11
 Text GLabel 6350 3600 0    50   Input ~ 0
 B12
-Text GLabel 6350 3100 0    50   Output ~ 0
+Text GLabel 6350 2900 0    50   Output ~ 0
 VB
-Text GLabel 6350 3300 0    50   Output ~ 0
+Text GLabel 6350 3100 0    50   Output ~ 0
 GND
 Text GLabel 6350 3700 0    50   Input ~ 0
 B13
@@ -233,8 +233,8 @@ Text GLabel 5600 4500 1    50   Output ~ 0
 MOT
 Text GLabel 5200 4500 1    50   Output ~ 0
 GND
-Text GLabel 6350 3200 0    50   Output ~ 0
+Text GLabel 6350 3000 0    50   Output ~ 0
 VB
-Text GLabel 6350 3400 0    50   Output ~ 0
+Text GLabel 6350 3200 0    50   Output ~ 0
 GND
 $EndSCHEMATC
