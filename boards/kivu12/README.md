@@ -9,8 +9,8 @@ The `kivu12` is designed to host 3 lines of jacks or trim at the bottom and the 
 top. The use of headers on the left and right side doesn't allow to place small UI controls too
 close to the border.
 
-<img width="50%" src="./render.png">
-<img width="50%" src="./xray.png">
+<img width="45%" src="./render.png">
+<img width="45%" src="./xray.png">
 
 
 ## Specifications
