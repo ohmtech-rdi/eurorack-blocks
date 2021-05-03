@@ -5,7 +5,7 @@
 
 ## Overview
 
-<img align="right" width="15%" src="./render.png">
+<img align="right" width="12%" src="./render.png">
 
 The 12HP `kivu12` board is designed to host, at the bottom of the module, 12 standard Eurorack 3.5mm jacks 
 connectors, and/or trimmer potentiometers typically used to represent attenuverters,
@@ -20,7 +20,7 @@ Some predefined [template](#templates) designs are available below.
 
 ## Specifications
 
-<img align="right" width="20%" src="./xray.png">
+<img align="right" width="16%" src="./xray.png">
 
 The Board provide the following features:
 
