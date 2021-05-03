@@ -35,12 +35,12 @@ Some predefined [template](#templates) designs are available below.
 The Board provide the following features:
 
 - 12 HP,
-- Up to 12 Pots/Trims/Sliders `P1..P12`,
-- Up to 20 Led pins `L1..L20`,
+- 12 Pots/Trims/Sliders `P1..P12`,
+- 20 Led pins `L1..L20`,
 - SD or "emulated eMMC" selectable with jumpers:
    - Either a regular front panel SD card connector,
    - Or a SD card connector on the back board, acting as if it was a eMMC, but easier to reprogram
-- Up to 20 Buttons/Gates In/Switches pins `B1..L20`,
+- 20 Buttons/Gates In/Switches pins `B1..L20`,
 - 1 MIDI In  `MIR` (ring) `MIT` (tip), with TRS Type A or B selectable with jumpers,
 - 1 MIDI Out   `MOR` (ting) `MOT` (tip),
 - 2 Gate Out `GO1..GO2`,
