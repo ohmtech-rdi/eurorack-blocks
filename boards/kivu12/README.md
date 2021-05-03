@@ -5,31 +5,41 @@
 
 ## Overview
 
-<img align="right" width="12%" src="./render.png">
+<img align="right" width="20%" src="./render.png">
 
-The 12HP `kivu12` board is designed to host, at the bottom of the module, 12 standard Eurorack 3.5mm jacks 
-connectors, and/or trimmer potentiometers typically used to represent attenuverters,
-distributed into 3 rows. 
+The 12HP `kivu12` board is designed to host, at the bottom of the module,
+12 standard Eurorack 3.5mm jacks  connectors, and/or trimmer potentiometers typically used
+to represent attenuverters, distributed into 3 rows.
 
 The rest of the module UI then goes at the top. The pin headers layout on the left and right side
 don't allow to place small UI controls too close to the border. The pin header on the top doesn't
 allow to place connectors like typically used in sequencers.
+
+It also provides a SD card slot to emulate a
+[eMMC](https://en.wikipedia.org/wiki/MultiMediaCard#eMMC), typically used to store
+factory samples.
+Yet one can also put a SD card slot on the front of the module. A set of jumpers select which
+SD (front board or back board) is used.
+
+All it's CV inputs are made for common CV levels, but for pitch or ADSR, it is possible to
+adapt to those specific Eurorack levels. 2 jumpers allow to select which mode to use for the
+first two CV inputs.
 
 Some predefined [template](#templates) designs are available below.
 
 
 ## Specifications
 
-<img align="right" width="16%" src="./xray.png">
+<img align="right" width="20%" src="./xray.png">
 
 The Board provide the following features:
 
 - 12 HP,
 - Up to 12 Pots/Trims/Sliders `P1..P12`,
 - Up to 20 Led pins `L1..L20`,
-- SD or "emulated MMC" selectable with jumpers:
+- SD or "emulated eMMC" selectable with jumpers:
    - Either a regular front panel SD card connector,
-   - Or a SD card connector on the back board, acting as if it was a MMC, but easier to reprogram
+   - Or a SD card connector on the back board, acting as if it was a eMMC, but easier to reprogram
 - Up to 20 Buttons/Gates In/Switches pins `B1..L20`,
 - 1 MIDI In  `MIR` (ring) `MIT` (tip), with TRS Type A or B selectable with jumpers,
 - 1 MIDI Out   `MOR` (ting) `MOT` (tip),
