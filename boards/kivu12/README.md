@@ -5,16 +5,20 @@
 
 ## Overview
 
-<img align="right" width="30%" src="./render.png">
+<img align="right" width="20%" src="./render.png">
 
-The `kivu12` is designed to host 3 lines of jacks or trim at the bottom and the module UI on the
-top. The use of headers on the left and right side doesn't allow to place small UI controls too
-close to the border.
+The 12HP `kivu12` board is designed to host 3 lines of jacks or trim at the bottom of the module
+and the module UI on the top.
+
+The use of headers on the left and right side doesn't allow to place small UI controls too close
+to the border.
+
+Some predefined [template](#templates) designs are available below.
 
 
 ## Specifications
 
-<img align="right" width="30%" src="./xray.png">
+<img align="right" width="20%" src="./xray.png">
 
 The Board provide the following features:
 
