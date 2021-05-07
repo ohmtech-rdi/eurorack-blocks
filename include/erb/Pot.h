@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyPot.h
+      Pot.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,11 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/DaisyAnalogControlBase.h"
-#include "erb/daisy/DaisyPins.h"
-
-#include <cstdint>
-
 
 
 namespace erb
@@ -25,11 +20,7 @@ namespace erb
 
 
 
-class DaisyModule;
-class DaisyMultiplexer;
-
-class DaisyPot
-:  public DaisyAnalogControlBase
+class Pot
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -41,9 +32,8 @@ public:
       Normalized, Bipolar
    };
 
-                  DaisyPot (DaisyModule & module, const AdcPin & pin, Mode mode = Mode::Normalized);
-                  DaisyPot (DaisyMultiplexer & multiplexer, const MultiplexerPin & pin, Mode mode = Mode::Normalized);
-   virtual        ~DaisyPot () override = default;
+                  Pot (Mode mode = Mode::Normalized);
+   virtual        ~Pot () override = default;
 
    void           set_mode (Mode mode);
                   operator float () const;
@@ -51,6 +41,8 @@ public:
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+   void           impl_bind (float & norm_val);
 
 
 
@@ -65,23 +57,24 @@ protected:
 private:
 
    Mode           _mode;
+   float *        _norm_val_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  DaisyPot () = delete;
-                  DaisyPot (const DaisyPot & rhs) = delete;
-                  DaisyPot (DaisyPot && rhs) = delete;
-   DaisyPot &     operator = (const DaisyPot & rhs) = delete;
-   DaisyPot &     operator = (DaisyPot && rhs) = delete;
-   bool           operator == (const DaisyPot & rhs) const = delete;
-   bool           operator != (const DaisyPot & rhs) const = delete;
+                  Pot () = delete;
+                  Pot (const Pot & rhs) = delete;
+                  Pot (Pot && rhs) = delete;
+   Pot &          operator = (const Pot & rhs) = delete;
+   Pot &          operator = (Pot && rhs) = delete;
+   bool           operator == (const Pot & rhs) const = delete;
+   bool           operator != (const Pot & rhs) const = delete;
 
 
 
-}; // class DaisyPot
+}; // class Pot
 
 
 

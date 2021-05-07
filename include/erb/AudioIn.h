@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Button.h
+      AudioIn.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/detail/Debounce.h"
+#include "erb/Buffer.h"
 
 
 
@@ -22,26 +22,27 @@ namespace erb
 
 
 
-class Button
+class AudioIn
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Button () = default;
-   virtual        ~Button () = default;
+   using Buffer = std::array <float, erb_BUFFER_SIZE>;
 
-   bool           idle () const;
-   bool           pressed () const;
-   bool           held () const;
-   bool           released () const;
+                  AudioIn () = default;
+   virtual        ~AudioIn () = default;
+
+                  operator Buffer () const;
+
+   size_t         size () const;
+   const float &  operator [] (size_t index);
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (uint8_t & val);
-   void           impl_notify_audio_buffer_start ();
+   void           impl_bind (Buffer & buffer);
 
 
 
@@ -54,26 +55,23 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   Debounce       _debounce;
-   uint8_t *      _val_ptr = nullptr;
+   Buffer *      _buffer_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Button () = delete;
-                  Button (const Button & rhs) = delete;
-                  Button (Button && rhs) = delete;
-   Button &       operator = (const Button & rhs) = delete;
-   Button &       operator = (Button && rhs) = delete;
-   bool           operator == (const Button & rhs) const = delete;
-   bool           operator != (const Button & rhs) const = delete;
+                  AudioIn (const AudioIn & rhs) = delete;
+                  AudioIn (AudioIn && rhs) = delete;
+   AudioIn &      operator = (const AudioIn & rhs) = delete;
+   AudioIn &      operator = (AudioIn && rhs) = delete;
+   bool           operator == (const AudioIn & rhs) const = delete;
+   bool           operator != (const AudioIn & rhs) const = delete;
 
 
 
-}; // class Button
+}; // class AudioIn
 
 
 

@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyLed.h
+      Led.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -14,10 +14,6 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/detail/Animation.h"
-#include "erb/daisy/DaisyModuleListener.h"
-#include "erb/daisy/DaisyPins.h"
-
-#include "per/gpio.h"
 
 #include <chrono>
 
@@ -32,17 +28,14 @@ namespace erb
 
 using namespace std::chrono_literals;
 
-class DaisyModule;
-
-class DaisyLed
-:  public DaisyModuleListener
+class Led
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  DaisyLed (DaisyModule & module, const Pin & pin);
-   virtual        ~DaisyLed () = default;
+                  Led () = default;
+   virtual        ~Led () = default;
 
    void           set_brightness (float perceptual_brightness);
 
@@ -60,8 +53,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   // DaisyModuleListener
-   virtual void   impl_notify_audio_buffer_start () override;
+   void           impl_bind (float & val, uint64_t & now_ms);
+   void           impl_notify_audio_buffer_start ();
 
 
 
@@ -75,37 +68,27 @@ protected:
 
 private:
 
-   static dsy_gpio
-                  to_gpio (const Pin & pin);
-
-   DaisyModule &  _module;
-   const dsy_gpio _gpio;
-
    float          _brightness = 1.f;
    Animation <float, 8>
                   _animation;
-
-   static constexpr size_t
-                  _pwm_period = 32;
-   size_t         _pwm_active = 0;
-   size_t         _pwm_cur = 0;
+   float *        _val_ptr = nullptr;
+   uint64_t *     _now_ms_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  DaisyLed () = delete;
-                  DaisyLed (const DaisyLed & rhs) = delete;
-                  DaisyLed (DaisyLed && rhs) = delete;
-   DaisyLed &     operator = (const DaisyLed & rhs) = delete;
-   DaisyLed &     operator = (DaisyLed && rhs) = delete;
-   bool           operator == (const DaisyLed & rhs) const = delete;
-   bool           operator != (const DaisyLed & rhs) const = delete;
+                  Led (const Led & rhs) = delete;
+                  Led (Led && rhs) = delete;
+   Led &          operator = (const Led & rhs) = delete;
+   Led &          operator = (Led && rhs) = delete;
+   bool           operator == (const Led & rhs) const = delete;
+   bool           operator != (const Led & rhs) const = delete;
 
 
 
-}; // class DaisyLed
+}; // class Led
 
 
 

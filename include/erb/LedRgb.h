@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyLedRgb.h
+      LedRgb.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,9 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/DaisyLed.h"
-
-#include <chrono>
+#include "erb/daisy/Led.h"
 
 
 
@@ -26,9 +24,7 @@ namespace erb
 
 using namespace std::chrono_literals;
 
-class DaisyModule;
-
-class DaisyLedRgb
+class LedRgb
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -44,8 +40,8 @@ public:
       static Color blue ();
    };
 
-                  DaisyLedRgb (DaisyModule & module, const Pin & pin_r, const Pin & pin_g, const Pin & pin_b);
-   virtual        ~DaisyLedRgb () = default;
+                  LedRgb () = default;
+   virtual        ~LedRgb () = default;
 
    void           set_brightness (float perceptual_brightness);
 
@@ -55,6 +51,11 @@ public:
    void           pulse_twice (Color color, std::chrono::milliseconds duration = 400ms, TransitionFunction transition_function = step);
    void           pulse_thrice (Color color, std::chrono::milliseconds duration = 700ms, TransitionFunction transition_function = step);
    void           blink (Color color, std::chrono::milliseconds period = 800ms, TransitionFunction transition_function = step);
+
+
+   Led            r;
+   Led            g;
+   Led            b;
 
 
 
@@ -72,26 +73,21 @@ protected:
 
 private:
 
-   DaisyLed       _led_red;
-   DaisyLed       _led_green;
-   DaisyLed       _led_blue;
-
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  DaisyLedRgb () = delete;
-                  DaisyLedRgb (const DaisyLedRgb & rhs) = delete;
-                  DaisyLedRgb (DaisyLedRgb && rhs) = delete;
-   DaisyLedRgb &  operator = (const DaisyLedRgb & rhs) = delete;
-   DaisyLedRgb &  operator = (DaisyLedRgb && rhs) = delete;
-   bool           operator == (const DaisyLedRgb & rhs) const = delete;
-   bool           operator != (const DaisyLedRgb & rhs) const = delete;
+                  LedRgb (const LedRgb & rhs) = delete;
+                  LedRgb (LedRgb && rhs) = delete;
+   LedRgb &       operator = (const LedRgb & rhs) = delete;
+   LedRgb &       operator = (LedRgb && rhs) = delete;
+   bool           operator == (const LedRgb & rhs) const = delete;
+   bool           operator != (const LedRgb & rhs) const = delete;
 
 
 
-}; // class DaisyLedRgb
+}; // class LedRgb
 
 
 

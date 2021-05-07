@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      AudioIn.h
+      AudioOut.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include <array>
+#include "erb/Buffer.h"
 
 
 
@@ -22,28 +22,29 @@ namespace erb
 
 
 
-template <typename Pin>
-class AudioIn
+class AudioOut
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   using Buffer = std::array <float, buffer_size>;
+   using Buffer = std::array <float, erb_BUFFER_SIZE>;
 
-                  AudioIn () = default;
-   virtual        ~AudioIn () override = default;
+                  AudioOut () = default;
+   virtual        ~AudioOut () = default;
 
-                  operator Buffer () const;
+   AudioOut &
+                  operator = (const Buffer & buffer);
 
    size_t         size () const;
-   const float &  operator [] (size_t index);
+   float &        operator [] (size_t index);
+   void           fill (float val);
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_notify_audio_buffer_start ();
+   void           impl_bind (Buffer & buffer);
 
 
 
@@ -56,23 +57,23 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   Buffer         _buffer;
+   Buffer *      _buffer_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  AudioIn (const AudioIn & rhs) = delete;
-                  AudioIn (AudioIn && rhs) = delete;
-   AudioIn &      operator = (const AudioIn & rhs) = delete;
-   AudioIn &      operator = (AudioIn && rhs) = delete;
-   bool           operator == (const AudioIn & rhs) const = delete;
-   bool           operator != (const AudioIn & rhs) const = delete;
+                  AudioOut (const AudioOut & rhs) = delete;
+                  AudioOut (AudioOut && rhs) = delete;
+   AudioOut &     operator = (const AudioOut & rhs) = delete;
+   AudioOut &     operator = (AudioOut && rhs) = delete;
+   bool           operator == (const AudioOut & rhs) const = delete;
+   bool           operator != (const AudioOut & rhs) const = delete;
 
 
 
-}; // class AudioIn
+}; // class AudioOut
 
 
 

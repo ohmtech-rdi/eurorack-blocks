@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyModule.h
+      Board.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -15,10 +15,12 @@
 
 #include "erb/daisy/DaisyAdcChannels.h"
 #include "erb/daisy/DaisyConstants.h"
-#include "erb/daisy/DaisyModuleListeners.h"
+#include "erb/daisy/BoardListeners.h"
 #include "erb/def.h"
 
 erb_DISABLE_WARNINGS_DAISY
+// going to be probably "daisy_patch_sm.h" or something
+// for now let's use Daisy Seed
 #include "daisy_seed.h"
 erb_RESTORE_WARNINGS
 
@@ -32,32 +34,37 @@ namespace erb
 
 
 
-class DaisyAnalogControlBase;
-class DaisyMultiplexer;
 
-class DaisyModule
+struct L1 : TagLed {};
+
+// or BoardKivu12?
+class Board
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   enum { NBR_AUDIO_CHANNELS = 2 };
    using Frame = std::array <float, buffer_size>;
-   using Buffer = std::array <Frame, onboard_codec_nbr_channel>;
+   using Buffer = std::array <Frame, NBR_AUDIO_CHANNELS>;
 
-                  DaisyModule ();
-   virtual        ~DaisyModule () = default;
+                  Board ();
+   virtual        ~Board () = default;
 
    template <typename F>
    void           run (F && f);
+
+   template <typename Pin, Control>
+   void           bind (Control & control);
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   uint64_t       now_ms ();
+   uint64_t       now_ms (); // can be a common implementation
    void           add (DaisyAnalogControlBase & control, const Pin & pin);
    void           add (DaisyMultiplexer & multiplexer, const Pin & pin, const DaisyMultiplexerAddressPins & address_pins);
-   void           add (DaisyModuleListener & listener);
+   void           add (BoardListener & listener);
 
    const Buffer & impl_onboard_codec_buffer_input () const;
    Buffer &       impl_onboard_codec_buffer_output ();
@@ -80,7 +87,7 @@ private:
    static void    audio_callback_proc (float ** in, float ** out, size_t size);
    void           audio_callback (float ** in, float ** out, size_t size);
 
-   static DaisyModule *
+   static Board *
                   _this_ptr;
 
    daisy::DaisySeed
@@ -95,7 +102,7 @@ private:
    Buffer         _onboard_codec_buffer_output;
 
    DaisyAdcChannels    _adc_channels;
-   DaisyModuleListeners
+   BoardListeners
                   _listeners;
 
 
@@ -103,16 +110,16 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  DaisyModule (const DaisyModule & rhs) = delete;
-                  DaisyModule (DaisyModule && rhs) = delete;
-   DaisyModule &  operator = (const DaisyModule & rhs) = delete;
-   DaisyModule &  operator = (DaisyModule && rhs) = delete;
-   bool           operator == (const DaisyModule & rhs) const = delete;
-   bool           operator != (const DaisyModule & rhs) const = delete;
+                  Board (const Board & rhs) = delete;
+                  Board (Board && rhs) = delete;
+   Board &  operator = (const Board & rhs) = delete;
+   Board &  operator = (Board && rhs) = delete;
+   bool           operator == (const Board & rhs) const = delete;
+   bool           operator != (const Board & rhs) const = delete;
 
 
 
-}; // class DaisyModule
+}; // class Board
 
 
 
@@ -120,7 +127,7 @@ private:
 
 
 
-#include "erb/daisy/DaisyModule.hpp"
+#include "erb/daisy/Board.hpp"
 
 
 

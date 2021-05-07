@@ -10,6 +10,52 @@
 {
    'targets' : [
       {
+         'target_name': 'erb',
+         'type': 'static_library',
+
+         'defines': [
+            'erb_BUFFER_SIZE=48',
+            'erb_SAMPLE_RATE=48014',
+         ],
+
+         'sources': [
+            'AudioIn.h',
+            'AudioOut.h',
+            'Button.h',
+            'CvIn.h',
+            'GateIn.h',
+            'GateOut.h',
+            'Led.h',
+            'LedBi.h',
+            'LedRgb.h',
+            'Pot.h',
+            'SdramObject.h',
+            'SdramObject.hpp',
+            'Switch.h',
+
+            'def.h',
+            'erb.h',
+            'module_init.h',
+
+            '../../src/AudioIn.cpp',
+            '../../src/AudioOut.cpp',
+            '../../src/Button.cpp',
+            '../../src/CvIn.cpp',
+            '../../src/GateIn.cpp',
+            '../../src/GateOut.cpp',
+            '../../src/Led.cpp',
+            '../../src/LedBi.cpp',
+            '../../src/LedRgb.cpp',
+            '../../src/Pot.cpp',
+            '../../src/Switch.cpp',
+         ],
+
+         'include_dirs': [
+            '..',
+         ],
+      },
+
+      {
          'target_name': 'erb-daisy',
          'type': 'static_library',
 

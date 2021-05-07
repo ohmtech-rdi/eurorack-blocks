@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisySwitch.h
+      Switch.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,8 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/DaisyModuleListener.h"
-#include "erb/daisy/DaisyGateIn.h"
+#include "erb/Button.h"
 
 
 
@@ -23,10 +22,7 @@ namespace erb
 
 
 
-class DaisyModule;
-
-class DaisySwitch
-:  public DaisyModuleListener
+class Switch
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -38,8 +34,8 @@ public:
       Out0, Center, Out1
    };
 
-                  DaisySwitch (DaisyModule & module, const Pin & pin_0, const Pin & pin_1);
-   virtual        ~DaisySwitch () override = default;
+                  Switch () = default;
+   virtual        ~Switch () = default;
 
                   operator Position () const;
 
@@ -47,8 +43,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   // DaisyModuleListener
-   virtual void   impl_notify_audio_buffer_start () override;
+   void           impl_bind (uint8_t & val_0, uint8_t & val_1);
+   void           impl_notify_audio_buffer_start ();
 
 
 
@@ -62,8 +58,8 @@ protected:
 
 private:
 
-   DaisyGateIn    _gate_0;
-   DaisyGateIn    _gate_1;
+   Button         _button_0;
+   Button         _button_1;
    Position       _position = Position::Center;
 
 
@@ -71,17 +67,17 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  DaisySwitch () = delete;
-                  DaisySwitch (const DaisySwitch & rhs) = delete;
-                  DaisySwitch (DaisySwitch && rhs) = delete;
-   DaisySwitch &  operator = (const DaisySwitch & rhs) = delete;
-   DaisySwitch &  operator = (DaisySwitch && rhs) = delete;
-   bool           operator == (const DaisySwitch & rhs) const = delete;
-   bool           operator != (const DaisySwitch & rhs) const = delete;
+                  Switch () = delete;
+                  Switch (const Switch & rhs) = delete;
+                  Switch (Switch && rhs) = delete;
+   Switch &       operator = (const Switch & rhs) = delete;
+   Switch &       operator = (Switch && rhs) = delete;
+   bool           operator == (const Switch & rhs) const = delete;
+   bool           operator != (const Switch & rhs) const = delete;
 
 
 
-}; // class DaisySwitch
+}; // class Switch
 
 
 
