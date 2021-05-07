@@ -67,7 +67,6 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Switch () = delete;
                   Switch (const Switch & rhs) = delete;
                   Switch (Switch && rhs) = delete;
    Switch &       operator = (const Switch & rhs) = delete;
