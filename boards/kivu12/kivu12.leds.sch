@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 6 7
+Sheet 5 8
 Title ""
 Date ""
 Rev ""
@@ -579,6 +579,54 @@ F 7 "Digikey" H 8300 3400 50  0001 C CNN "Dist"
 F 8 "311-1KLDCT-ND" H 8300 3400 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-071KL/311-1KLDCT-ND/2828140" H 8300 3400 50  0001 C CNN "DistLink"
 	1    8300 3400
+	0    1    1    0   
+$EndComp
+Text HLabel 5500 2150 0    50   Input ~ 0
+SCL
+Text HLabel 5800 2150 2    50   Input ~ 0
+3V3
+$Comp
+L Device:R R79
+U 1 1 609B5BB9
+P 5650 2150
+F 0 "R79" V 5443 2150 50  0000 C CNN
+F 1 "4.7k" V 5534 2150 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5580 2150 50  0001 C CNN
+F 3 "~" H 5650 2150 50  0001 C CNN
+F 4 "Resistor" H 5650 2150 50  0001 C CNN "Device"
+F 5 "RES SMD 4.7K OHM 1% 1/10W 0603" H 5650 2150 50  0001 C CNN "Description"
+F 6 "Yes" H 5650 2150 50  0001 C CNN "Place"
+F 7 "Digikey" H 5650 2150 50  0001 C CNN "Dist"
+F 8 "311-4.70KHRCT-ND" H 5650 2150 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/yageo/RC0603FR-074K7L/311-4-70KHRCT-ND/730159" H 5650 2150 50  0001 C CNN "DistLink"
+	1    5650 2150
+	0    1    1    0   
+$EndComp
+Text HLabel 5500 2550 0    50   Input ~ 0
+SDA
+Text HLabel 5800 2550 2    50   Input ~ 0
+3V3
+Text Notes 8200 2600 0    50   ~ 0
+Close to\nU7 pin 28
+Text Notes 4200 2600 0    50   ~ 0
+Close to\nU6 pin 28
+Text Notes 5850 2350 0    50   ~ 0
+Pull-up resistors
+$Comp
+L Device:R R80
+U 1 1 609BC047
+P 5650 2550
+F 0 "R80" V 5443 2550 50  0000 C CNN
+F 1 "4.7k" V 5534 2550 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 5580 2550 50  0001 C CNN
+F 3 "~" H 5650 2550 50  0001 C CNN
+F 4 "Resistor" H 5650 2550 50  0001 C CNN "Device"
+F 5 "RES SMD 4.7K OHM 1% 1/10W 0603" H 5650 2550 50  0001 C CNN "Description"
+F 6 "Yes" H 5650 2550 50  0001 C CNN "Place"
+F 7 "Digikey" H 5650 2550 50  0001 C CNN "Dist"
+F 8 "311-4.70KHRCT-ND" H 5650 2550 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/yageo/RC0603FR-074K7L/311-4-70KHRCT-ND/730159" H 5650 2550 50  0001 C CNN "DistLink"
+	1    5650 2550
 	0    1    1    0   
 $EndComp
 $EndSCHEMATC

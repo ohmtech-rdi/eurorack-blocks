@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 7 7
+Sheet 6 8
 Title ""
 Date ""
 Rev ""
@@ -400,4 +400,6 @@ Text HLabel 7300 5150 3    50   Input ~ 0
 GND
 Text HLabel 8100 5150 3    50   Input ~ 0
 GND
+Text Notes 4050 4050 0    50   ~ 0
+OUT1 = (IN1+VREFm5)/2 * (1 + R71/R70)\n      = IN1 + VREFm5
 $EndSCHEMATC
