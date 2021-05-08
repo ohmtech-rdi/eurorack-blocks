@@ -66,12 +66,13 @@ private:
 
    void           map (const float & val, ControlInputNormFloat * control_ptr);
 
+   // ADCs
    std::array <uint16_t *, NBR_ADC_CHANNELS>
-                  _adcs_u16;
+                  _adcs_u16 = {};
    std::array <float, NBR_ADC_CHANNELS>
-                  _adcs;
+                  _adcs = {};
    std::array <ControlInputNormFloat *, NBR_ADC_CHANNELS>
-                  _cifs;
+                  _cis = {};
 
 
 

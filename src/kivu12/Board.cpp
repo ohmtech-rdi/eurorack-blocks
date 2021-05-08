@@ -96,7 +96,7 @@ void  Board::init_adc_channels ()
 
    for (size_t i = 0 ; i < NBR_ADC_CHANNELS ; ++i)
    {
-      map (_adcs [i], _cifs [i]);
+      map (_adcs [i], _cis [i]);
    }
 }
 
