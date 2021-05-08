@@ -42,7 +42,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind_data (const float & bipolar_val);
+   void           impl_bind_data (const float & norm_val);
 
 
 
@@ -56,7 +56,7 @@ protected:
 
 private:
    Mode           _mode;
-   const float *  _bipolar_val_ptr = nullptr;
+   const float *  _norm_val_ptr = nullptr;
 
 
 

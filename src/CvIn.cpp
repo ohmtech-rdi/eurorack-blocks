@@ -49,10 +49,10 @@ CvIn::operator float () const
 #if erb_GNUC_SWITCH_COVERAGE_FIX
    default:
 #endif
-      return (*_bipolar_val_ptr + 1.f) * 0.5f;
+      return *_norm_val_ptr;
 
    case Mode::Bipolar:
-      return *_bipolar_val_ptr;
+      return *_norm_val_ptr * 2.f - 1.f;
    }
 }
 
@@ -66,9 +66,9 @@ Name : impl_bind_data
 ==============================================================================
 */
 
-void  CvIn::impl_bind_data (const float & bipolar_val)
+void  CvIn::impl_bind_data (const float & norm_val)
 {
-   _bipolar_val_ptr = &bipolar_val;
+   _norm_val_ptr = &norm_val;
 }
 
 

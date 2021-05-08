@@ -75,11 +75,11 @@ Pot::operator float () const
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_data
 ==============================================================================
 */
 
-void  Pot::impl_bind (float & norm_val)
+void  Pot::impl_bind_data (float & norm_val)
 {
    _norm_val_ptr = &norm_val;
 }

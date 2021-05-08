@@ -19,12 +19,15 @@
 
 namespace erb
 {
+
+
+
+class ControlInputFloat;
+
 namespace kivu12
 {
 
 
-
-struct L1 : TagLed {};
 
 class Board
 :  daisy::BoardBase
@@ -58,6 +61,15 @@ protected:
 
 private:
    void           init_adc_channels ();
+
+   void           map (float & val, ControlInputFloat * control_ptr);
+
+   std::array <uint16_t *, 24>
+                  _adcs_u16;
+   std::array <float, 20>
+                  _adcs;
+   std::array <ControlInputFloat *, 20>
+                  _cifs;
 
 
 
