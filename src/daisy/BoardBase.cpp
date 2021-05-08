@@ -49,6 +49,30 @@ BoardBase::BoardBase ()
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : do_init_audio_in
+==============================================================================
+*/
+
+std::array <const Buffer *, BoardBase::NBR_AUDIO_CHANNELS>  BoardBase::do_init_audio_in ()
+{
+   return {&_buffer_inputs [0], &_buffer_inputs [1]};
+}
+
+
+
+/*
+==============================================================================
+Name : do_init_audio_out
+==============================================================================
+*/
+
+std::array <Buffer *, BoardBase::NBR_AUDIO_CHANNELS>  BoardBase::do_init_audio_out ()
+{
+   return {&_buffer_outputs [0], &_buffer_outputs [1]};
+}
+
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
