@@ -33,6 +33,7 @@ Name : ctor
 Board::Board ()
 {
    init_adc_channels ();
+   init_audio ();
 }
 
 
@@ -97,6 +98,21 @@ void  Board::init_adc_channels ()
    for (size_t i = 0 ; i < NBR_ADC_CHANNELS ; ++i)
    {
       map (_adcs [i], _cis [i]);
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : init_audio
+==============================================================================
+*/
+
+void  Board::init_audio ()
+{
+   for (size_t i = 0 ; i < NBR_AUDIO_INPUTS ; ++i)
+   {
    }
 }
 

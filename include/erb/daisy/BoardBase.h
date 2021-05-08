@@ -13,11 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Buffer.h"
 #include "erb/daisy/DaisyPins.h"
 
 #include "erb/def.h"
-
-
 
 erb_DISABLE_WARNINGS_DAISY
 #include "daisy_seed.h"
@@ -67,6 +66,8 @@ protected:
       Pin         pin_c = PinNC;
    };
 
+   enum { NBR_AUDIO_CHANNELS = 2 };
+
    virtual void   do_notify_audio_buffer_start () = 0;
    virtual void   do_notify_audio_buffer_end () = 0;
 
@@ -74,14 +75,18 @@ protected:
    std::array <uint16_t *, MaxNbrChannels>
                   do_init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
 
+   std::array <const Buffer *, NBR_AUDIO_CHANNELS>
+                  do_init_audio_in ();
+   std::array <Buffer *, NBR_AUDIO_CHANNELS>
+                  do_init_audio_out ();
+
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   enum { NBR_AUDIO_CHANNELS = 2 };
-   using Frame = std::array <float, erb_BUFFER_SIZE>;
-   using Buffer = std::array <Frame, NBR_AUDIO_CHANNELS>;
+   using BufferInputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
+   using BufferOutputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
 
    void           enable_fz ();
 
@@ -89,6 +94,9 @@ private:
 
    static void    audio_callback_proc (float ** in, float ** out, size_t size);
    void           audio_callback (float ** in, float ** out, size_t size);
+
+   void           process_inputs (BufferInputs & buffer_inputs, float ** in);
+   void           process_outputs (float ** out, BufferOutputs & buffer_outputs);
 
    static BoardBase *
                   _this_ptr;
@@ -98,14 +106,11 @@ private:
    std::function <void ()>
                   _buffer_callback;
 
-   uint64_t       _now_spl = 0ull;
-   uint64_t       _now_ms = 0ull;
+   uint64_t       _clock_spl = 0ull;
+   uint64_t       _clock_ms = 0ull;
 
-   Buffer         _onboard_codec_buffer_input;
-   Buffer         _onboard_codec_buffer_output;
-
-   DaisyAdcChannels
-                  _adc_channels;
+   BufferInputs   _buffer_inputs;
+   BufferOutputs  _buffer_outputs;
 
 
 

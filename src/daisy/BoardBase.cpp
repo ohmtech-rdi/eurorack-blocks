@@ -29,7 +29,6 @@ Name : ctor
 */
 
 BoardBase::BoardBase ()
-:  _adc_channels (_seed)
 {
    enable_fz ();
 
@@ -38,73 +37,13 @@ BoardBase::BoardBase ()
    _seed.Configure ();
    _seed.Init (true /* boost */);
 
-   for (auto & frame : _onboard_codec_buffer_output) frame.fill (0.f);
+   for (auto & buffer : _buffer_inputs) buffer.fill (0.f);
+   for (auto & buffer : _buffer_outputs) buffer.fill (0.f);
 }
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : do_init_adc_channels
-==============================================================================
-*/
-
-BoardBase::AdcChannelsData BoardBase::do_init_adc_channels (std::initializer_list <AdcChannel> adc_channels)
-{
-   std::array <daisy::AdcChannelConfig, NBR_MAX_ADC_CHANNELS> configs;
-
-   size_t config_nbr = 0;
-   for (auto && adc_channel : adc_channels)
-   {
-      auto & config = configs [config_nbr];
-      ++config_nbr;
-
-      if (adc_channel.nbr_channels == 1)
-      {
-         config.InitSingle (adc_channel.pin);
-      }
-      else
-      {
-         config.InitMux (
-            adc_channel.pin,
-            adc_channel.nbr_channels,
-            adc_channel.pin_a,
-            adc_channel.pin_b,
-            adc_channel.pin_c
-         );
-      }
-   }
-
-   _seed.adc.Init (&configs [0], configs.size ());
-
-   AdcChannelsData adc_channels_data;
-
-   config_nbr = 0;
-   size_t channel_nbr = 0;
-   for (auto && adc_channel : adc_channels)
-   {
-      if (adc_channel.nbr_channels == 1)
-      {
-         adc_channels_data [channel_nbr] = _seed.adc.GetPtr (uint8_t (config_nbr));
-         ++channel_nbr;
-      }
-      else
-      {
-         for (size_t i = 0 ; i < adc_channel.nbr_channels ; ++i)
-         {
-            adc_channels_data [channel_nbr]
-               = _seed.adc.GetMuxPtr (uint8_t (config_nbr), i);
-            ++channel_nbr;
-         }
-      }
-
-      ++config_nbr;
-   }
-
-   return adc_channels_data;
-}
 
 
 
@@ -139,8 +78,6 @@ Name : do_run
 
 void  BoardBase::do_run ()
 {
-   _adc_channels.init ();
-
    _seed.adc.Start ();
    _seed.StartAudio (audio_callback_proc);
 
@@ -170,25 +107,10 @@ Name : audio_callback
 
 void  BoardBase::audio_callback (float ** in, float ** out, size_t /* size */)
 {
-   constexpr uint64_t sample_rate_ull = uint64_t (erb_SAMPLE_RATE);
-   constexpr uint64_t buffer_size_ull = erb_BUFFER_SIZE;
+   process_inputs (_buffer_inputs, in);
 
-   // Map eurorack audio level (-5V, 5V) to (-1.f, 1.f)
-   constexpr float gain_in = 2.3f;
-
-   for (size_t i = 0 ; i < NBR_AUDIO_CHANNELS ; ++i)
-   {
-      auto & frame = _onboard_codec_buffer_input [i];
-      const auto & in_arr = in [i];
-
-      for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
-      {
-         frame [j] = gain_in * in_arr [j];
-      }
-   }
-
-   _now_ms = (_now_spl * 1000) / sample_rate_ull;
-   _now_spl += buffer_size_ull;
+   _clock_ms = (_clock_spl * 1000) / uint64_t (erb_SAMPLE_RATE);
+   _clock_spl += uint64_t (erb_BUFFER_SIZE);
 
    do_notify_audio_buffer_start ();
 
@@ -196,18 +118,58 @@ void  BoardBase::audio_callback (float ** in, float ** out, size_t /* size */)
 
    do_notify_audio_buffer_end ();
 
-   // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
-   // 10V / (0.7 x 3.3V x 10) = 0.433
+   process_outputs (out, _buffer_outputs);
+}
+
+
+
+/*
+==============================================================================
+Name : process_inputs
+Description :
+   Map eurorack audio level (-5V, 5V) to (-1.f, 1.f)
+==============================================================================
+*/
+
+void  BoardBase::process_inputs (BufferInputs & buffer_inputs, float ** in)
+{
+   constexpr float gain_in = 2.3f;
+
+   for (size_t i = 0 ; i < NBR_AUDIO_CHANNELS ; ++i)
+   {
+      auto & buffer = buffer_inputs [i];
+      const auto & in_arr = in [i];
+
+      for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
+      {
+         buffer [j] = gain_in * in_arr [j];
+      }
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : process_outputs
+Description :
+   Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
+   10V / (0.7 x 3.3V x 10) = 0.433
+==============================================================================
+*/
+
+void  BoardBase::process_outputs (float ** out, BufferOutputs & buffer_outputs)
+{
    constexpr float gain_out = 0.433f;
 
    for (size_t i = 0 ; i < NBR_AUDIO_CHANNELS ; ++i)
    {
       auto & out_arr = out [i];
-      const auto & frame = _onboard_codec_buffer_output [i];
+      const auto & buffer = buffer_outputs [i];
 
       for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
       {
-         out_arr [j] = gain_out * frame [j];
+         out_arr [j] = gain_out * buffer [j];
       }
    }
 }

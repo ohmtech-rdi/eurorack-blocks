@@ -22,6 +22,8 @@ namespace erb
 
 
 
+class AudioIn;
+class AudioOut;
 class ControlInputNormFloat;
 
 namespace kivu12
@@ -61,10 +63,15 @@ protected:
 
 private:
    enum {         NBR_ADC_CHANNELS = 20 };
+   enum {         NBR_AUDIO_INPUTS = 2 };
+   enum {         NBR_AUDIO_OUTPUTS = 2 };
 
    void           init_adc_channels ();
+   void           init_audio ();
 
    void           map (const float & val, ControlInputNormFloat * control_ptr);
+   void           map (const Buffer & val, AudioInput * control_ptr);
+   void           map (Buffer & val, AudioOutput * control_ptr);
 
    // ADCs
    std::array <uint16_t *, NBR_ADC_CHANNELS>
@@ -73,6 +80,12 @@ private:
                   _adcs = {};
    std::array <ControlInputNormFloat *, NBR_ADC_CHANNELS>
                   _cis = {};
+
+   // Audio
+   std::array <AudioIn *, NBR_AUDIO_INPUTS>
+                  _audio_ins;
+   std::array <AudioOut *, NBR_AUDIO_OUTPUTS>
+                  _audio_ins;
 
 
 
