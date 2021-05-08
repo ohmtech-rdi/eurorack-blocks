@@ -21,6 +21,7 @@
          'sources': [
             'AudioIn.h',
             'AudioOut.h',
+            'Buffer.h',
             'Button.h',
             'CvIn.h',
             'GateIn.h',
@@ -32,10 +33,13 @@
             'SdramObject.h',
             'SdramObject.hpp',
             'Switch.h',
-
             'def.h',
             'erb.h',
             'module_init.h',
+
+            'daisy/BoardBase.h',
+            'daisy/BoardBase.hpp',
+            'kivu12/Board.h',
 
             '../../src/AudioIn.cpp',
             '../../src/AudioOut.cpp',
@@ -48,6 +52,9 @@
             '../../src/LedRgb.cpp',
             '../../src/Pot.cpp',
             '../../src/Switch.cpp',
+
+            '../../src/daisy/BoardBase.cpp',
+            '../../src/kivu12/Board.cpp',
          ],
 
          'include_dirs': [

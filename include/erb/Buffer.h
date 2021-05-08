@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Board.h
+      AudioIn.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,71 +13,68 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/BoardBase.h"
+#include "erb/Buffer.h"
 
 
 
 namespace erb
 {
-namespace kivu12
-{
 
 
 
-struct L1 : TagLed {};
-
-class Board
-:  daisy::BoardBase
+class AudioIn
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Board ();
-   virtual        ~Board () = default;
+   using Buffer = std::array <float, erb_BUFFER_SIZE>;
 
-   template <typename Pin, Control>
-   void           bind (Control & control);
+                  AudioIn () = default;
+   virtual        ~AudioIn () = default;
+
+                  operator Buffer () const;
+
+   size_t         size () const;
+   const float &  operator [] (size_t index);
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+   void           impl_bind (Buffer & buffer);
 
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
-   // daisy::BoardBase
-   virtual void   do_notify_audio_buffer_start () override;
-   virtual void   do_notify_audio_buffer_end () override;
 
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   void           init_adc_channels ();
+   Buffer *      _buffer_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Board (const Board & rhs) = delete;
-                  Board (Board && rhs) = delete;
-   Board &        operator = (const Board & rhs) = delete;
-   Board &        operator = (Board && rhs) = delete;
-   bool           operator == (const Board & rhs) const = delete;
-   bool           operator != (const Board & rhs) const = delete;
+                  AudioIn (const AudioIn & rhs) = delete;
+                  AudioIn (AudioIn && rhs) = delete;
+   AudioIn &      operator = (const AudioIn & rhs) = delete;
+   AudioIn &      operator = (AudioIn && rhs) = delete;
+   bool           operator == (const AudioIn & rhs) const = delete;
+   bool           operator != (const AudioIn & rhs) const = delete;
 
 
 
-}; // class Board
+}; // class AudioIn
 
 
 
-}  // namespace kivu12
 }  // namespace erb
 
 
