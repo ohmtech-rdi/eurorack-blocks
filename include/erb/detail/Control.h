@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Pot.h
+      Control.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/detail/ControlInputNormFloat.h"
+#include <cstdint>
 
 
 
@@ -22,36 +22,27 @@ namespace erb
 
 
 
-class Pot
-:  public ControlInputNormFloat
+class Control
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-   enum class Mode
-   {
-      Normalized, Bipolar
-   };
-
-                  Pot (Mode mode = Mode::Normalized);
-   virtual        ~Pot () override = default;
-
-   void           set_mode (Mode mode);
-                  operator float () const;
+   virtual        ~Control () = default;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   virtual void   impl_bind_data (const float & norm_val) override;
+   virtual void   impl_bind_clock (const uint64_t & clock_ms) {}
 
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
+                  Control () = default;
 
 
 
@@ -59,25 +50,21 @@ protected:
 
 private:
 
-   Mode           _mode;
-   const float *  _norm_val_ptr = nullptr;
-
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Pot () = delete;
-                  Pot (const Pot & rhs) = delete;
-                  Pot (Pot && rhs) = delete;
-   Pot &          operator = (const Pot & rhs) = delete;
-   Pot &          operator = (Pot && rhs) = delete;
-   bool           operator == (const Pot & rhs) const = delete;
-   bool           operator != (const Pot & rhs) const = delete;
+                  Control (const Control & rhs) = delete;
+                  Control (Control && rhs) = delete;
+   Control &      operator = (const Control & rhs) = delete;
+   Control &      operator = (Control && rhs) = delete;
+   bool           operator == (const Control & rhs) const = delete;
+   bool           operator != (const Control & rhs) const = delete;
 
 
 
-}; // class Pot
+}; // class Control
 
 
 

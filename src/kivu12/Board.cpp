@@ -11,6 +11,8 @@
 
 #include "erb/kivu12/Board.h"
 
+#include "erb/detail/ControlInputNormFloat.h"
+
 
 
 namespace erb
@@ -50,6 +52,12 @@ Name : do_notify_audio_buffer_start
 void  Board::do_notify_audio_buffer_start ()
 {
    // convert all platform inputs to control inputs
+
+   for (size_t i = 0 ; i < _adcs.size () ; ++i)
+   {
+      constexpr float scale = 1.f / 65535.f;
+      _adcs [i] = *_adcs_u16 [i] * scale;
+   }
 }
 
 
@@ -77,12 +85,16 @@ Name : init_adc_channels
 
 void  Board::init_adc_channels ()
 {
-   _adcs = do_init_adc_channels ({
-      {AdcPin1},
-      {AdcPin9, Pin19, Pin20, Pin21},
+   _adcs_u16 = do_init_adc_channels <NBR_ADC_CHANNELS> ({
+      // 8 CVs
+      {AdcPin1}, {AdcPin2}, {AdcPin3}, {AdcPin4},
+      {AdcPin5}, {AdcPin6}, {AdcPin7}, {AdcPin8},
+      // 12 Pots
+      {AdcPin9, 8, Pin19, Pin20, Pin21},
+      {AdcPin10, 8, Pin19, Pin20, Pin21} // 4 last ones ignored
    });
 
-   for (size_t i = 0 ; i < 24 ; ++i)
+   for (size_t i = 0 ; i < NBR_ADC_CHANNELS ; ++i)
    {
       map (_adcs [i], _cifs [i]);
    }
@@ -96,7 +108,7 @@ Name : map
 ==============================================================================
 */
 
-void  Board::map (const float & val, ControlInputFloat * control_ptr)
+void  Board::map (const float & val, ControlInputNormFloat * control_ptr)
 {
    if (control_ptr != nullptr)
    {

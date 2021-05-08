@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Pot.h
+      ControlInputNormFloat.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/detail/ControlInputNormFloat.h"
+#include <cstdint>
 
 
 
@@ -22,36 +22,26 @@ namespace erb
 
 
 
-class Pot
-:  public ControlInputNormFloat
+class ControlInputNormFloat
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-
-   enum class Mode
-   {
-      Normalized, Bipolar
-   };
-
-                  Pot (Mode mode = Mode::Normalized);
-   virtual        ~Pot () override = default;
-
-   void           set_mode (Mode mode);
-                  operator float () const;
+   virtual        ~ControlInputNormFloat () = default;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   virtual void   impl_bind_data (const float & norm_val) override;
+   virtual void   impl_bind_data (const float & norm_val) = 0;
 
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
+                  ControlInputNormFloat () = default;
 
 
 
@@ -59,25 +49,23 @@ protected:
 
 private:
 
-   Mode           _mode;
-   const float *  _norm_val_ptr = nullptr;
-
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Pot () = delete;
-                  Pot (const Pot & rhs) = delete;
-                  Pot (Pot && rhs) = delete;
-   Pot &          operator = (const Pot & rhs) = delete;
-   Pot &          operator = (Pot && rhs) = delete;
-   bool           operator == (const Pot & rhs) const = delete;
-   bool           operator != (const Pot & rhs) const = delete;
+                  ControlInputNormFloat (const ControlInputNormFloat & rhs) = delete;
+                  ControlInputNormFloat (ControlInputNormFloat && rhs) = delete;
+   ControlInputNormFloat &
+                  operator = (const ControlInputNormFloat & rhs) = delete;
+   ControlInputNormFloat &
+                  operator = (ControlInputNormFloat && rhs) = delete;
+   bool           operator == (const ControlInputNormFloat & rhs) const = delete;
+   bool           operator != (const ControlInputNormFloat & rhs) const = delete;
 
 
 
-}; // class Pot
+}; // class ControlInputNormFloat
 
 
 

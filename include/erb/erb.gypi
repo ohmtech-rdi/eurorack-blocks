@@ -39,6 +39,8 @@
 
             'daisy/BoardBase.h',
             'daisy/BoardBase.hpp',
+            'detail/Control.h',
+            'detail/ControlInputNormFloat.h',
             'kivu12/Board.h',
 
             '../../src/AudioIn.cpp',

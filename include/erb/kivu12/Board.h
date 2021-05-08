@@ -22,7 +22,7 @@ namespace erb
 
 
 
-class ControlInputFloat;
+class ControlInputNormFloat;
 
 namespace kivu12
 {
@@ -39,8 +39,8 @@ public:
                   Board ();
    virtual        ~Board () = default;
 
-   template <typename Pin, Control>
-   void           bind (Control & control);
+   void           bind (PinCi pin, ControlInputNormFloat & control);
+   void           bind (PinP pin, ControlInputNormFloat & control);
 
 
 
@@ -60,15 +60,17 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+   enum {         NBR_ADC_CHANNELS = 20 };
+
    void           init_adc_channels ();
 
-   void           map (float & val, ControlInputFloat * control_ptr);
+   void           map (const float & val, ControlInputNormFloat * control_ptr);
 
-   std::array <uint16_t *, 24>
+   std::array <uint16_t *, NBR_ADC_CHANNELS>
                   _adcs_u16;
-   std::array <float, 20>
+   std::array <float, NBR_ADC_CHANNELS>
                   _adcs;
-   std::array <ControlInputFloat *, 20>
+   std::array <ControlInputNormFloat *, NBR_ADC_CHANNELS>
                   _cifs;
 
 

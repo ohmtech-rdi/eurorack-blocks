@@ -13,7 +13,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/daisy/DaisyPins.h"
+
 #include "erb/def.h"
+
+
 
 erb_DISABLE_WARNINGS_DAISY
 #include "daisy_seed.h"
@@ -21,6 +25,7 @@ erb_RESTORE_WARNINGS
 
 #include <array>
 #include <functional>
+#include <initializer_list>
 
 
 
@@ -53,8 +58,21 @@ public:
 
 protected:
 
+   struct AdcChannel
+   {
+      AdcPin      pin;
+      size_t      nbr_channels = 1;
+      Pin         pin_a = PinNC;
+      Pin         pin_b = PinNC;
+      Pin         pin_c = PinNC;
+   };
+
    virtual void   do_notify_audio_buffer_start () = 0;
    virtual void   do_notify_audio_buffer_end () = 0;
+
+   template <size_t MaxNbrChannels>
+   std::array <uint16_t *, MaxNbrChannels>
+                  do_init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
 
 
 

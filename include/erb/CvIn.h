@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/detail/ControlInputNormFloat.h"
+
 
 
 namespace erb
@@ -21,6 +23,7 @@ namespace erb
 
 
 class CvIn
+:  public ControlInputNormFloat
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -33,7 +36,7 @@ public:
    };
 
                   CvIn (Mode mode = Mode::Bipolar);
-   virtual        ~CvIn () = default;
+   virtual        ~CvIn () override = default;
 
    void           set_mode (Mode mode);
                   operator float () const;
@@ -42,7 +45,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind_data (const float & norm_val);
+   virtual void   impl_bind_data (const float & norm_val) override;
 
 
 
@@ -55,6 +58,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+
    Mode           _mode;
    const float *  _norm_val_ptr = nullptr;
 
