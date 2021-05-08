@@ -28,51 +28,23 @@ Name : operator Position
 
 Switch::operator Position () const
 {
-   return _position;
+   if (_0.held ())
+   {
+      return Position::Out0;
+   }
+   else if (_1.held ())
+   {
+      return Position::Out1;
+   }
+   else
+   {
+      return Position::Center;
+   }
 }
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-void  Switch::impl_bind (uint8_t & val_0, uint8_t & val_1)
-{
-   _button_0.impl_bind (val_0);
-   _button_1.impl_bind (val_1);
-}
-
-
-
-/*
-==============================================================================
-Name : impl_notify_audio_buffer_start
-==============================================================================
-*/
-
-void  Switch::impl_notify_audio_buffer_start ()
-{
-   _button_0.impl_notify_audio_buffer_start ();
-   _button_1.impl_notify_audio_buffer_start ();
-
-   if (_button_0.held ())
-   {
-      _position = Position::Out0;
-   }
-   else if (_button_1.held ())
-   {
-      _position = Position::Out1;
-   }
-   else
-   {
-      _position = Position::Center;
-   }
-}
 
 
 

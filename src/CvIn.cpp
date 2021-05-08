@@ -11,6 +11,8 @@
 
 #include "erb/CvIn.h"
 
+#include "erb/def.h"
+
 
 
 namespace erb
@@ -22,13 +24,36 @@ namespace erb
 
 /*
 ==============================================================================
+Name : set_mode
+==============================================================================
+*/
+
+void  CvIn::set_mode (Mode mode)
+{
+   _mode = mode;
+}
+
+
+
+/*
+==============================================================================
 Name : operator float
 ==============================================================================
 */
 
 CvIn::operator float () const
 {
-   return *_norm_val_ptr * 2.f - 1.f;
+   switch (_mode)
+   {
+   case Mode::Normalized:
+#if erb_GNUC_SWITCH_COVERAGE_FIX
+   default:
+#endif
+      return (*_bipolar_val_ptr + 1.f) * 0.5f;
+
+   case Mode::Bipolar:
+      return *_bipolar_val_ptr;
+   }
 }
 
 
@@ -37,13 +62,13 @@ CvIn::operator float () const
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_data
 ==============================================================================
 */
 
-void  CvIn::impl_bind (float & norm_val)
+void  CvIn::impl_bind_data (const float & bipolar_val)
 {
-   _norm_val_ptr = &norm_val;
+   _bipolar_val_ptr = &bipolar_val;
 }
 
 

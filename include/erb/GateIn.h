@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include <cstdint>
+
 
 
 namespace erb
@@ -37,7 +39,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (uint8_t & val);
+   void           impl_bind_data (const uint8_t & val);
    void           impl_notify_audio_buffer_start ();
 
 
@@ -54,7 +56,7 @@ private:
 
    bool           _previous = false;
    bool           _current = false;
-   uint8_t *      _current_ptr = nullptr;
+   const uint8_t *_current_ptr = nullptr;
 
 
 

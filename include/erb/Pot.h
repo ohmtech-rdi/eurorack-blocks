@@ -33,7 +33,7 @@ public:
    };
 
                   Pot (Mode mode = Mode::Normalized);
-   virtual        ~Pot () override = default;
+   virtual        ~Pot () = default;
 
    void           set_mode (Mode mode);
                   operator float () const;
@@ -42,7 +42,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (float & norm_val);
+   void           impl_bind_data (const float & norm_val);
 
 
 
@@ -57,7 +57,7 @@ protected:
 private:
 
    Mode           _mode;
-   float *        _norm_val_ptr = nullptr;
+   const float *  _norm_val_ptr = nullptr;
 
 
 

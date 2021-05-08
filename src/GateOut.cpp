@@ -71,14 +71,26 @@ void  GateOut::trigger (std::chrono::milliseconds duration)
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_data
 ==============================================================================
 */
 
-void  GateOut::impl_bind (uint8_t & val, uint64_t & now_ms)
+void  GateOut::impl_bind_data (uint8_t & val)
 {
    _val_ptr = &val;
-   _now_ms_ptr = &now_ms;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind_clock
+==============================================================================
+*/
+
+void  GateOut::impl_bind_clock (const uint64_t & clock_ms)
+{
+   _clock_ms_ptr = &clock_ms;
 }
 
 
@@ -93,7 +105,7 @@ void  GateOut::impl_notify_audio_buffer_start ()
 {
    if (_mode == Mode::Pulse)
    {
-      auto elapsed = *_now_ms_ptr - _start;
+      auto elapsed = *_clock_ms_ptr - _start;
       _current = elapsed < _duration;
    }
 

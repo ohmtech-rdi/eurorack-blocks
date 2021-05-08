@@ -43,8 +43,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (uint8_t & val_0, uint8_t & val_1);
-   void           impl_notify_audio_buffer_start ();
+   Button         _0;
+   Button         _1;
 
 
 
@@ -57,10 +57,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   Button         _button_0;
-   Button         _button_1;
-   Position       _position = Position::Center;
 
 
 

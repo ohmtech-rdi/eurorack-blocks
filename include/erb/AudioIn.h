@@ -28,8 +28,6 @@ class AudioIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   using Buffer = std::array <float, erb_BUFFER_SIZE>;
-
                   AudioIn () = default;
    virtual        ~AudioIn () = default;
 
@@ -42,7 +40,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (Buffer & buffer);
+   void           impl_bind_data (const Buffer & buffer);
 
 
 
@@ -55,7 +53,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   Buffer *      _buffer_ptr = nullptr;
+   const Buffer * _buffer_ptr = nullptr;
 
 
 

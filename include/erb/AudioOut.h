@@ -28,13 +28,10 @@ class AudioOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   using Buffer = std::array <float, erb_BUFFER_SIZE>;
-
                   AudioOut () = default;
    virtual        ~AudioOut () = default;
 
-   AudioOut &
-                  operator = (const Buffer & buffer);
+   AudioOut &     operator = (const Buffer & buffer);
 
    size_t         size () const;
    float &        operator [] (size_t index);
@@ -44,7 +41,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (Buffer & buffer);
+   void           impl_bind_data (Buffer & buffer);
 
 
 

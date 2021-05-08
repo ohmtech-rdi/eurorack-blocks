@@ -76,11 +76,11 @@ bool  Button::released () const
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_data
 ==============================================================================
 */
 
-void  Button::impl_bind (uint8_t & val)
+void  Button::impl_bind_data (const uint8_t & val)
 {
    _val_ptr = &val;
 }

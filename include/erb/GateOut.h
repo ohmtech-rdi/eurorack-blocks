@@ -43,7 +43,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (uint8_t & val, uint64_t & now_ms);
+   void           impl_bind_data (uint8_t & val);
+   void           impl_bind_clock (const uint64_t & clock_ms);
    void           impl_notify_audio_buffer_start ();
 
 
@@ -68,7 +69,8 @@ private:
    uint64_t       _start = 0;
    uint64_t       _duration = 0;
    uint8_t *      _val_ptr = nullptr;
-   uint64_t *     _now_ms_ptr = nullptr;
+   const uint64_t *
+                  _clock_ms_ptr = nullptr;
 
 
 

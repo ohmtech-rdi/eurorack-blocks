@@ -78,11 +78,11 @@ void  AudioOut::fill (float val)
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_data
 ==============================================================================
 */
 
-void  AudioOut::impl_bind (Buffer & buffer)
+void  AudioOut::impl_bind_data (Buffer & buffer)
 {
    _buffer_ptr = &buffer;
 }

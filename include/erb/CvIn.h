@@ -27,16 +27,22 @@ class CvIn
 
 public:
 
-                  CvIn () = default;
+   enum class Mode
+   {
+      Normalized, Bipolar
+   };
+
+                  CvIn (Mode mode = Mode::Bipolar);
    virtual        ~CvIn () = default;
 
+   void           set_mode (Mode mode);
                   operator float () const;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (float & norm_val);
+   void           impl_bind_data (const float & bipolar_val);
 
 
 
@@ -49,13 +55,15 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   float *        _norm_val_ptr = nullptr;
+   Mode           _mode;
+   const float *  _bipolar_val_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  CvIn () = delete;
                   CvIn (const CvIn & rhs) = delete;
                   CvIn (CvIn && rhs) = delete;
    CvIn &         operator = (const CvIn & rhs) = delete;

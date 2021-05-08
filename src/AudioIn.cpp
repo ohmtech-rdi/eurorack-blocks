@@ -63,11 +63,11 @@ const float &  AudioIn::operator [] (size_t index)
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_data
 ==============================================================================
 */
 
-void  AudioIn::impl_bind (Buffer & buffer)
+void  AudioIn::impl_bind_data (const Buffer & buffer)
 {
    _buffer_ptr = buffer_ptr;
 }

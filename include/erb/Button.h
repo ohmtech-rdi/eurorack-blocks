@@ -40,7 +40,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind (uint8_t & val);
+   void           impl_bind_data (const uint8_t & val);
    void           impl_notify_audio_buffer_start ();
 
 
@@ -56,14 +56,13 @@ protected:
 private:
 
    Debounce       _debounce;
-   uint8_t *      _val_ptr = nullptr;
+   const uint8_t *_val_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Button () = delete;
                   Button (const Button & rhs) = delete;
                   Button (Button && rhs) = delete;
    Button &       operator = (const Button & rhs) = delete;
