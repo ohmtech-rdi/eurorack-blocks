@@ -132,47 +132,46 @@ $EndComp
 $Comp
 L Device:D_Schottky D24
 U 1 1 5FCFF182
-P 6250 4050
-F 0 "D24" H 6250 4266 50  0000 C CNN
-F 1 "D_Schottky" H 6250 4175 50  0000 C CNN
-F 2 "Diode_SMD:D_SOD-123" H 6250 4050 50  0001 C CNN
-F 3 "~" H 6250 4050 50  0001 C CNN
-F 4 "Rectifier Diode" H 6250 4050 50  0001 C CNN "Device"
-F 5 "DIODE SCHOTTKY 40V 1A SOD123" H 6250 4050 50  0001 C CNN "Description"
-F 6 "Yes" H 6250 4050 50  0001 C CNN "Place"
-F 7 "Digikey" H 6250 4050 50  0001 C CNN "Dist"
-F 8 "1N5819HW-FDICT-ND" H 6250 4050 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/diodes-incorporated/1N5819HW-7-F/1N5819HW-FDICT-ND/815283" H 6250 4050 50  0001 C CNN "DistLink"
-	1    6250 4050
+P 6250 4350
+F 0 "D24" H 6250 4566 50  0000 C CNN
+F 1 "D_Schottky" H 6250 4475 50  0000 C CNN
+F 2 "Diode_SMD:D_SOD-123" H 6250 4350 50  0001 C CNN
+F 3 "~" H 6250 4350 50  0001 C CNN
+F 4 "Rectifier Diode" H 6250 4350 50  0001 C CNN "Device"
+F 5 "DIODE SCHOTTKY 40V 1A SOD123" H 6250 4350 50  0001 C CNN "Description"
+F 6 "Yes" H 6250 4350 50  0001 C CNN "Place"
+F 7 "Digikey" H 6250 4350 50  0001 C CNN "Dist"
+F 8 "1N5819HW-FDICT-ND" H 6250 4350 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/diodes-incorporated/1N5819HW-7-F/1N5819HW-FDICT-ND/815283" H 6250 4350 50  0001 C CNN "DistLink"
+	1    6250 4350
 	1    0    0    -1  
 $EndComp
 $Comp
 L Device:Ferrite_Bead L2
 U 1 1 5FCFF328
-P 6750 4050
-F 0 "L2" V 6476 4050 50  0000 C CNN
-F 1 "Ferrite_Bead" V 6567 4050 50  0000 C CNN
-F 2 "Inductor_SMD:L_0603_1608Metric" V 6680 4050 50  0001 C CNN
-F 3 "~" H 6750 4050 50  0001 C CNN
-F 4 "Ferrite Bead" H 6750 4050 50  0001 C CNN "Device"
-F 5 "FERRITE BEAD 1 KOHM 0603 1LN" H 6750 4050 50  0001 C CNN "Description"
-F 6 "Yes" H 6750 4050 50  0001 C CNN "Place"
-F 7 "Digikey" H 6750 4050 50  0001 C CNN "Dist"
-F 8 "732-1586-1-ND" H 6750 4050 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/würth-elektronik/742792664/732-1586-1-ND/1639530" H 6750 4050 50  0001 C CNN "DistLink"
-	1    6750 4050
+P 6750 4350
+F 0 "L2" V 6476 4350 50  0000 C CNN
+F 1 "Ferrite_Bead" V 6567 4350 50  0000 C CNN
+F 2 "Inductor_SMD:L_0603_1608Metric" V 6680 4350 50  0001 C CNN
+F 3 "~" H 6750 4350 50  0001 C CNN
+F 4 "Ferrite Bead" H 6750 4350 50  0001 C CNN "Device"
+F 5 "FERRITE BEAD 1 KOHM 0603 1LN" H 6750 4350 50  0001 C CNN "Description"
+F 6 "Yes" H 6750 4350 50  0001 C CNN "Place"
+F 7 "Digikey" H 6750 4350 50  0001 C CNN "Dist"
+F 8 "732-1586-1-ND" H 6750 4350 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/würth-elektronik/742792664/732-1586-1-ND/1639530" H 6750 4350 50  0001 C CNN "DistLink"
+	1    6750 4350
 	0    1    1    0   
 $EndComp
 Wire Wire Line
-	6400 4050 6600 4050
+	6400 4350 6600 4350
 Wire Wire Line
 	6900 3550 7200 3550
 Wire Wire Line
-	6900 4050 7200 4050
+	6900 4350 7200 4350
 Wire Wire Line
 	6400 3550 6600 3550
 Connection ~ 7200 3550
-Connection ~ 7200 4050
 Text Label 5000 4200 0    50   ~ 0
 +12E
 Text Label 4500 4200 2    50   ~ 0
@@ -183,6 +182,7 @@ Text Label 4500 3800 2    50   ~ 0
 -12E
 Text Label 6100 3550 2    50   ~ 0
 +12E
-Text Label 6100 4050 2    50   ~ 0
+Text Label 6100 4350 2    50   ~ 0
 -12E
+Connection ~ 7200 4350
 $EndSCHEMATC
