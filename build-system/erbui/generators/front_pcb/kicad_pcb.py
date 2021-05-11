@@ -9,6 +9,9 @@
 
 import math
 import os
+import platform
+import subprocess
+import zipfile
 from . import s_expression
 
 
@@ -38,6 +41,41 @@ class KicadPcb:
 
       writer = s_expression.Writer ()
       writer.write (self.base, path_pcb)
+
+      self.generate_module_gerber (path, module)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_module_gerber (self, path, module):
+      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+
+      if platform.system () == 'Darwin':
+         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      else:
+         kicad_python_path = 'python'
+
+      subprocess.check_call (
+         [
+            kicad_python_path,
+            os.path.join (PATH_THIS, 'generate_gerber.py'),
+            path, path_pcb
+         ],
+         cwd = PATH_THIS
+      )
+
+      def zipdir (path, zip_file):
+         for root, dirs, files in os.walk (path):
+            for file in files:
+               zip_file.write (os.path.join (root, file))
+
+      path_zip = os.path.join (path, '%s.gerber.zip' % module.name)
+      zip_file = zipfile.ZipFile (path_zip, 'w', zipfile.ZIP_DEFLATED)
+      gerber_dir = os.path.join (path, 'gerber')
+      zipdir (gerber_dir, zip_file)
+      zip_file.close ()
+
+
 
 
    #--------------------------------------------------------------------------
