@@ -115,7 +115,7 @@
   (module Potentiometer_Thonk:AlphaPot9ShaftD (layer F.Cu) (tedit 5AD9EDBF) (tstamp 6089D0FA)
     (at 0 0)
     (path /5FCAE65B)
-    (fp_text reference RV1 (at 0 4.7) (layer F.SilkS)
+    (fp_text reference RV1 (at 0 4.7) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value 100k (at 0 10.1) (layer F.Fab)
@@ -143,10 +143,10 @@
     (pad "" thru_hole rect (at -5.7 0) (size 2.5 2.5) (drill 1.5) (layers *.Cu *.Mask))
   )
 
-  (gr_text VA (at 2.54 9.525) (layer F.SilkS) (tstamp 6089D158)
+  (gr_text VP (at 2.54 9.525) (layer F.SilkS) (tstamp 6089D158)
     (effects (font (size 1 0.7) (thickness 0.15)))
   )
-  (gr_text O (at 0 9.525) (layer F.SilkS) (tstamp 6089D155)
+  (gr_text P (at 0 9.525) (layer F.SilkS) (tstamp 6089D155)
     (effects (font (size 1 0.7) (thickness 0.15)))
   )
   (gr_text GND (at -2.54 9.525) (layer F.SilkS)
