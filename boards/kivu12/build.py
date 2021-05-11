@@ -59,7 +59,7 @@ def compress_gerber ():
    gerber_dir = os.path.join (output_dir, 'gerber')
    zipdir (gerber_dir, zip_file)
    zip_file.close ()
-   shutil.rmtree (gerber_dir)
+   #shutil.rmtree (gerber_dir)
 
 
 
