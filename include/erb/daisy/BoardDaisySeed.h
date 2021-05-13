@@ -150,8 +150,8 @@ private:
    static void    audio_callback_proc (float ** in, float ** out, size_t size);
    void           audio_callback (float ** in, float ** out, size_t size);
 
-   void           process_inputs (BufferInputs & buffer_inputs, float ** in);
-   void           process_outputs (float ** out, BufferOutputs & buffer_outputs);
+   void           process_audio_inputs (AudioBufferInputs & buffer_inputs, float ** in);
+   void           process_audio_outputs (float ** out, AudioBufferOutputs & buffer_outputs);
 
    static BoardDaisySeed *
                   _this_ptr;

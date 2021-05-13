@@ -35,8 +35,8 @@ BoardDaisySeed::BoardDaisySeed ()
    _seed.Configure ();
    _seed.Init (true /* boost */);
 
-   for (auto & buffer : _buffer_inputs) buffer.fill (0.f);
-   for (auto & buffer : _buffer_outputs) buffer.fill (0.f);
+   for (auto & buffer : _audio_buffer_inputs) buffer.fill (0.f);
+   for (auto & buffer : _audio_buffer_outputs) buffer.fill (0.f);
 }
 
 
@@ -105,7 +105,7 @@ Name : audio_callback
 
 void  BoardDaisySeed::audio_callback (float ** in, float ** out, size_t /* size */)
 {
-   process_inputs (_buffer_inputs, in);
+   process_audio_inputs (_audio_buffer_inputs, in);
 
    _clock_ms = (_clock_spl * 1000) / uint64_t (erb_SAMPLE_RATE);
    _clock_spl += uint64_t (erb_BUFFER_SIZE);
@@ -116,20 +116,20 @@ void  BoardDaisySeed::audio_callback (float ** in, float ** out, size_t /* size 
 
    do_notify_audio_buffer_end ();
 
-   process_outputs (out, _buffer_outputs);
+   process_audio_outputs (out, _audio_buffer_outputs);
 }
 
 
 
 /*
 ==============================================================================
-Name : process_inputs
+Name : process_audio_inputs
 Description :
    Map eurorack audio level (-5V, 5V) to (-1.f, 1.f)
 ==============================================================================
 */
 
-void  BoardDaisySeed::process_inputs (BufferInputs & buffer_inputs, float ** in)
+void  BoardDaisySeed::process_audio_inputs (AudioBufferInputs & buffer_inputs, float ** in)
 {
    constexpr float gain_in = 2.3f;
 
@@ -149,14 +149,14 @@ void  BoardDaisySeed::process_inputs (BufferInputs & buffer_inputs, float ** in)
 
 /*
 ==============================================================================
-Name : process_outputs
+Name : process_audio_outputs
 Description :
    Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
    10V / (0.7 x 3.3V x 10) = 0.433
 ==============================================================================
 */
 
-void  BoardDaisySeed::process_outputs (float ** out, BufferOutputs & buffer_outputs)
+void  BoardDaisySeed::process_audio_outputs (float ** out, AudioBufferOutputs & buffer_outputs)
 {
    constexpr float gain_out = 0.433f;
 
