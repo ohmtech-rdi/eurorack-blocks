@@ -118,22 +118,6 @@ void  Board::init_audio ()
 
 
 
-/*
-==============================================================================
-Name : map
-==============================================================================
-*/
-
-void  Board::map (const float & val, ControlInputNormFloat * control_ptr)
-{
-   if (control_ptr != nullptr)
-   {
-      control_ptr->impl_bind_data (val);
-   }
-}
-
-
-
 }  // namespace kivu12
 }  // namespace erb
 
