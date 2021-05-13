@@ -18,6 +18,13 @@
             'erb_SAMPLE_RATE=48014',
          ],
 
+         'all_dependent_settings': {
+            'defines': [
+               'erb_BUFFER_SIZE=48',
+               'erb_SAMPLE_RATE=48014',
+            ],
+         },
+
          'sources': [
             'AudioIn.h',
             'AudioOut.h',
@@ -39,8 +46,6 @@
 
             'daisy/BoardBase.h',
             'daisy/BoardBase.hpp',
-            'detail/Control.h',
-            'detail/ControlInputNormFloat.h',
             'kivu12/Board.h',
 
             '../../src/AudioIn.cpp',
@@ -68,7 +73,7 @@
          'target_name': 'erb-daisy',
          'type': 'static_library',
 
-         'dependencies': [ 'libdaisy' ],
+         'dependencies': [ 'erb', 'libdaisy' ],
 
          'defines': [
             'erb_TARGET_DAISY',
@@ -154,6 +159,8 @@
       {
          'target_name': 'erb-vcvrack',
          'type': 'static_library',
+
+         'dependencies': [ 'erb' ],
 
          'defines': [
             'erb_TARGET_VCV_RACK',

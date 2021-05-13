@@ -13,7 +13,9 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/detail/ControlInputNormFloat.h"
+#include "erb/FloatRange.h"
+
+#include <cstdint>
 
 
 
@@ -22,30 +24,18 @@ namespace erb
 
 
 
+template <FloatRange Range>
 class CvIn
-:  public ControlInputNormFloat
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-   enum class Mode
-   {
-      Normalized, Bipolar
-   };
+                  CvIn (const std::uint16_t & data);
+   virtual        ~CvIn () = default;
 
-                  CvIn (Mode mode = Mode::Bipolar);
-   virtual        ~CvIn () override = default;
-
-   void           set_mode (Mode mode);
                   operator float () const;
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-   virtual void   impl_bind_data (const float & norm_val) override;
 
 
 
@@ -59,8 +49,8 @@ protected:
 
 private:
 
-   Mode           _mode;
-   const float *  _norm_val_ptr = nullptr;
+   const float * const
+                  _data_ptr = nullptr;
 
 
 

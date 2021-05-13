@@ -28,20 +28,14 @@ class AudioOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  AudioOut () = default;
+                  AudioOut (Buffer & buffer);
    virtual        ~AudioOut () = default;
 
    AudioOut &     operator = (const Buffer & buffer);
 
-   size_t         size () const;
-   float &        operator [] (size_t index);
+   std::size_t    size () const;
+   float &        operator [] (std::size_t index);
    void           fill (float val);
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-   void           impl_bind_data (Buffer & buffer);
 
 
 
@@ -54,13 +48,14 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   Buffer *      _buffer_ptr = nullptr;
+   Buffer * const _buffer_ptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  AudioOut () = delete;
                   AudioOut (const AudioOut & rhs) = delete;
                   AudioOut (AudioOut && rhs) = delete;
    AudioOut &     operator = (const AudioOut & rhs) = delete;

@@ -28,19 +28,13 @@ class AudioIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  AudioIn () = default;
+                  AudioIn (const Buffer & buffer);
    virtual        ~AudioIn () = default;
 
                   operator Buffer () const;
 
-   size_t         size () const;
-   const float &  operator [] (size_t index);
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-   void           impl_bind_data (const Buffer & buffer);
+   std::size_t    size () const;
+   const float &  operator [] (std::size_t index);
 
 
 
@@ -53,13 +47,15 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   const Buffer * _buffer_ptr = nullptr;
+   const Buffer * const
+                  _buffer_ptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  AudioIn () = delete;
                   AudioIn (const AudioIn & rhs) = delete;
                   AudioIn (AudioIn && rhs) = delete;
    AudioIn &      operator = (const AudioIn & rhs) = delete;
