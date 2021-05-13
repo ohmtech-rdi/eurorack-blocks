@@ -42,12 +42,12 @@ void  BoardBase::run (F && f)
 
 /*
 ==============================================================================
-Name : do_init_adc_channels
+Name : init_adc_channels
 ==============================================================================
 */
 
 template <size_t MaxNbrChannels>
-std::array <uint16_t *, MaxNbrChannels>   BoardBase::do_init_adc_channels (std::initializer_list <AdcChannel> adc_channels)
+std::array <uint16_t *, MaxNbrChannels>   BoardBase::init_adc_channels (std::initializer_list <AdcChannel> adc_channels)
 {
    std::array <daisy::AdcChannelConfig, NBR_MAX_ADC_CHANNELS> configs;
 

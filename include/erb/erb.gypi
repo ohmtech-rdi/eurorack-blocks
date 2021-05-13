@@ -51,9 +51,14 @@
             'erb.h',
             'module_init.h',
 
-            'daisy/BoardBase.h',
-            'daisy/BoardBase.hpp',
-            'kivu12/Board.h',
+            'detail/Animation.h',
+            'detail/Animation.hpp',
+            'detail/Debounce.h',
+
+            'daisy/BoardDaisySeed.h',
+            'daisy/BoardDaisySeed.hpp',
+
+            'kivu12/BoardKivu12.h',
 
             '../../src/Button.cpp',
             '../../src/GateOut.cpp',
@@ -61,8 +66,8 @@
             '../../src/LedBi.cpp',
             '../../src/LedRgb.cpp',
 
-            '../../src/daisy/BoardBase.cpp',
-            '../../src/kivu12/Board.cpp',
+            '../../src/daisy/BoardDaisySeed.cpp',
+            '../../src/kivu12/BoardKivu12.cpp',
          ],
 
          'include_dirs': [
@@ -81,58 +86,6 @@
          ],
 
          'sources': [
-            # headers
-            'SdramObject.h',
-            'SdramObject.hpp',
-            'def.h',
-            'erb.h',
-            'module_init.h',
-
-            'daisy/DaisyAdcChannels.h',
-            'daisy/DaisyAnalogControlBase.h',
-            'daisy/DaisyAudioInDaisy.h',
-            'daisy/DaisyAudioOutDaisy.h',
-            'daisy/DaisyButton.h',
-            'daisy/DaisyConstants.h',
-            'daisy/DaisyCvIn.h',
-            'daisy/DaisyGateIn.h',
-            'daisy/DaisyGateOut.h',
-            'daisy/DaisyLed.h',
-            'daisy/DaisyLedBi.h',
-            'daisy/DaisyLedRgb.h',
-            'daisy/DaisyModule.h',
-            'daisy/DaisyModule.hpp',
-            'daisy/DaisyModuleListener.h',
-            'daisy/DaisyModuleListeners.h',
-            'daisy/DaisyMultiplexer.h',
-            'daisy/DaisyPins.h',
-            'daisy/DaisyPot.h',
-            'daisy/DaisySwitch.h',
-
-            'detail/Animation.h',
-            'detail/Animation.hpp',
-            'detail/Debounce.h',
-
-            # sources
-            '../../src/daisy/DaisyAdcChannels.cpp',
-            '../../src/daisy/DaisyAnalogControlBase.cpp',
-            '../../src/daisy/DaisyAudioInDaisy.cpp',
-            '../../src/daisy/DaisyAudioOutDaisy.cpp',
-            '../../src/daisy/DaisyButton.cpp',
-            '../../src/daisy/DaisyCvIn.cpp',
-            '../../src/daisy/DaisyGateIn.cpp',
-            '../../src/daisy/DaisyGateOut.cpp',
-            '../../src/daisy/DaisyLed.cpp',
-            '../../src/daisy/DaisyLedBi.cpp',
-            '../../src/daisy/DaisyLedRgb.cpp',
-            '../../src/daisy/DaisyModule.cpp',
-            '../../src/daisy/DaisyModuleListeners.cpp',
-            '../../src/daisy/DaisyMultiplexer.cpp',
-            '../../src/daisy/DaisyPot.cpp',
-            '../../src/daisy/DaisySwitch.cpp',
-
-            '../../src/detail/Animation.cpp',
-            '../../src/detail/Debounce.cpp',
          ],
 
          'include_dirs': [

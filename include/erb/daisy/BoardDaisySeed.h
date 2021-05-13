@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      BoardBase.h
+      BoardDaisySeed.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -30,19 +30,17 @@ erb_RESTORE_WARNINGS
 
 namespace erb
 {
-namespace daisy
-{
 
 
 
-class BoardBase
+class BoardDaisySeed
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardBase ();
-   virtual        ~BoardBase () = default;
+                  BoardDaisySeed ();
+   virtual        ~BoardDaisySeed () = default;
 
    template <typename F>
    void           run (F && f);
@@ -68,25 +66,26 @@ protected:
 
    enum { NBR_AUDIO_CHANNELS = 2 };
 
+   using AudioBufferInputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
+   using AudioBufferOutputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
+
    virtual void   do_notify_audio_buffer_start () = 0;
    virtual void   do_notify_audio_buffer_end () = 0;
 
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
-                  do_init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
+                  init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
 
-   std::array <const Buffer *, NBR_AUDIO_CHANNELS>
-                  do_init_audio_in ();
-   std::array <Buffer *, NBR_AUDIO_CHANNELS>
-                  do_init_audio_out ();
+   AudioBufferInputs
+                  _audio_buffer_inputs;
+   AudioBufferOutputs
+                  _audio_buffer_outputs;
 
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   using BufferInputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
-   using BufferOutputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
 
    void           enable_fz ();
 
@@ -98,7 +97,7 @@ private:
    void           process_inputs (BufferInputs & buffer_inputs, float ** in);
    void           process_outputs (float ** out, BufferOutputs & buffer_outputs);
 
-   static BoardBase *
+   static BoardDaisySeed *
                   _this_ptr;
 
    daisy::DaisySeed
@@ -109,28 +108,26 @@ private:
    uint64_t       _clock_spl = 0ull;
    uint64_t       _clock_ms = 0ull;
 
-   BufferInputs   _buffer_inputs;
-   BufferOutputs  _buffer_outputs;
-
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  BoardBase (const BoardBase & rhs) = delete;
-                  BoardBase (BoardBase && rhs) = delete;
-   BoardBase &    operator = (const BoardBase & rhs) = delete;
-   BoardBase &    operator = (BoardBase && rhs) = delete;
-   bool           operator == (const BoardBase & rhs) const = delete;
-   bool           operator != (const BoardBase & rhs) const = delete;
+                  BoardDaisySeed (const BoardDaisySeed & rhs) = delete;
+                  BoardDaisySeed (BoardDaisySeed && rhs) = delete;
+   BoardDaisySeed &
+                  operator = (const BoardDaisySeed & rhs) = delete;
+   BoardDaisySeed &
+                  operator = (BoardDaisySeed && rhs) = delete;
+   bool           operator == (const BoardDaisySeed & rhs) const = delete;
+   bool           operator != (const BoardDaisySeed & rhs) const = delete;
 
 
 
-}; // class BoardBase
+}; // class BoardDaisySeed
 
 
 
-}  // namespace daisy
 }  // namespace erb
 
 

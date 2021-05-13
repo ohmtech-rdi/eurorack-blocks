@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      BoardBase.cpp
+      BoardDaisySeed.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,13 +9,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/BoardBase.h"
+#include "erb/daisy/BoardDaisySeed.h"
 
 
 
 namespace erb
-{
-namespace daisy
 {
 
 
@@ -28,7 +26,7 @@ Name : ctor
 ==============================================================================
 */
 
-BoardBase::BoardBase ()
+BoardDaisySeed::BoardDaisySeed ()
 {
    enable_fz ();
 
@@ -49,30 +47,6 @@ BoardBase::BoardBase ()
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-/*
-==============================================================================
-Name : do_init_audio_in
-==============================================================================
-*/
-
-std::array <const Buffer *, BoardBase::NBR_AUDIO_CHANNELS>  BoardBase::do_init_audio_in ()
-{
-   return {&_buffer_inputs [0], &_buffer_inputs [1]};
-}
-
-
-
-/*
-==============================================================================
-Name : do_init_audio_out
-==============================================================================
-*/
-
-std::array <Buffer *, BoardBase::NBR_AUDIO_CHANNELS>  BoardBase::do_init_audio_out ()
-{
-   return {&_buffer_outputs [0], &_buffer_outputs [1]};
-}
-
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -85,7 +59,7 @@ Description :
 ==============================================================================
 */
 
-void  BoardBase::enable_fz ()
+void  BoardDaisySeed::enable_fz ()
 {
    uint32_t fpscr = __get_FPSCR ();
    fpscr |= 0x01000000; // FZ bit
@@ -100,7 +74,7 @@ Name : do_run
 ==============================================================================
 */
 
-void  BoardBase::do_run ()
+void  BoardDaisySeed::do_run ()
 {
    _seed.adc.Start ();
    _seed.StartAudio (audio_callback_proc);
@@ -116,7 +90,7 @@ Name : audio_callback_proc
 ==============================================================================
 */
 
-void  BoardBase::audio_callback_proc (float ** in, float ** out, size_t size)
+void  BoardDaisySeed::audio_callback_proc (float ** in, float ** out, size_t size)
 {
    _this_ptr->audio_callback (in, out, size);
 }
@@ -129,7 +103,7 @@ Name : audio_callback
 ==============================================================================
 */
 
-void  BoardBase::audio_callback (float ** in, float ** out, size_t /* size */)
+void  BoardDaisySeed::audio_callback (float ** in, float ** out, size_t /* size */)
 {
    process_inputs (_buffer_inputs, in);
 
@@ -155,7 +129,7 @@ Description :
 ==============================================================================
 */
 
-void  BoardBase::process_inputs (BufferInputs & buffer_inputs, float ** in)
+void  BoardDaisySeed::process_inputs (BufferInputs & buffer_inputs, float ** in)
 {
    constexpr float gain_in = 2.3f;
 
@@ -182,7 +156,7 @@ Description :
 ==============================================================================
 */
 
-void  BoardBase::process_outputs (float ** out, BufferOutputs & buffer_outputs)
+void  BoardDaisySeed::process_outputs (float ** out, BufferOutputs & buffer_outputs)
 {
    constexpr float gain_out = 0.433f;
 
@@ -200,11 +174,10 @@ void  BoardBase::process_outputs (float ** out, BufferOutputs & buffer_outputs)
 
 
 
-BoardBase * BoardBase::_this_ptr = nullptr;
+BoardDaisySeed * BoardDaisySeed::_this_ptr = nullptr;
 
 
 
-}  // namespace daisy
 }  // namespace erb
 
 

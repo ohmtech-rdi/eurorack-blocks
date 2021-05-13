@@ -49,8 +49,8 @@ Name : operator float
 template <FloatRange Range>
 Pot::operator float () const
 {
-   constexpr scale = 1.f / 65535.f;
-   float norm_val = float (*_data_ptr) * scale;
+   constexpr float u16_to_norm = 1.f / 65535.f;
+   float norm_val = float (*_data_ptr) * u16_to_norm;
 
    if constexpr (Range == FloatRange::Normalized)
    {
