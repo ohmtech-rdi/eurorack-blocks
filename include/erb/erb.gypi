@@ -55,9 +55,6 @@
             'detail/Animation.hpp',
             'detail/Debounce.h',
 
-            'daisy/BoardDaisySeed.h',
-            'daisy/BoardDaisySeed.hpp',
-
             'kivu12/BoardKivu12.h',
 
             '../../src/Button.cpp',
@@ -67,7 +64,6 @@
             '../../src/LedRgb.cpp',
 
             '../../src/daisy/BoardDaisySeed.cpp',
-            '../../src/kivu12/BoardKivu12.cpp',
          ],
 
          'include_dirs': [
@@ -86,6 +82,10 @@
          ],
 
          'sources': [
+            'daisy/BoardDaisySeed.h',
+            'daisy/BoardDaisySeed.hpp',
+
+            '../../src/kivu12/BoardKivu12.DaisySeed.cpp',
          ],
 
          'include_dirs': [
@@ -122,62 +122,9 @@
 
          'sources': [
             # headers
-            'SdramObject.h',
-            'SdramObject.hpp',
-            'def.h',
-            'erb.h',
-            'module_init.h',
-
-            'vcvrack/VcvAudioInDaisy.h',
-            'vcvrack/VcvAudioOutDaisy.h',
-            'vcvrack/VcvButton.h',
-            'vcvrack/VcvConstants.h',
-            'vcvrack/VcvCvIn.h',
-            'vcvrack/VcvGateIn.h',
-            'vcvrack/VcvGateOut.h',
-            'vcvrack/VcvInputBase.h',
-            'vcvrack/VcvLed.h',
-            'vcvrack/VcvLedBi.h',
-            'vcvrack/VcvLedRgb.h',
-            'vcvrack/VcvLightBase.h',
-            'vcvrack/VcvModule.h',
-            'vcvrack/VcvModule.hpp',
-            'vcvrack/VcvModuleListener.h',
-            'vcvrack/VcvModuleListeners.h',
-            'vcvrack/VcvMultiplexer.h',
-            'vcvrack/VcvOutputBase.h',
-            'vcvrack/VcvParamBase.h',
-            'vcvrack/VcvPins.h',
-            'vcvrack/VcvPot.h',
-            'vcvrack/VcvSwitch.h',
-            'vcvrack/VcvWidgets.h',
-
-            'detail/Animation.h',
-            'detail/Animation.hpp',
-            'detail/Debounce.h',
 
             # sources
-            '../../src/vcvrack/VcvAudioInDaisy.cpp',
-            '../../src/vcvrack/VcvAudioOutDaisy.cpp',
-            '../../src/vcvrack/VcvButton.cpp',
-            '../../src/vcvrack/VcvCvIn.cpp',
-            '../../src/vcvrack/VcvGateIn.cpp',
-            '../../src/vcvrack/VcvGateOut.cpp',
-            '../../src/vcvrack/VcvInputBase.cpp',
-            '../../src/vcvrack/VcvLed.cpp',
-            '../../src/vcvrack/VcvLedBi.cpp',
-            '../../src/vcvrack/VcvLedRgb.cpp',
-            '../../src/vcvrack/VcvLightBase.cpp',
-            '../../src/vcvrack/VcvModule.cpp',
-            '../../src/vcvrack/VcvModuleListeners.cpp',
-            '../../src/vcvrack/VcvMultiplexer.cpp',
-            '../../src/vcvrack/VcvOutputBase.cpp',
-            '../../src/vcvrack/VcvParamBase.cpp',
-            '../../src/vcvrack/VcvPot.cpp',
-            '../../src/vcvrack/VcvSwitch.cpp',
-
-            '../../src/detail/Animation.cpp',
-            '../../src/detail/Debounce.cpp',
+            '../../src/kivu12/BoardKivu12.VcvRack.cpp',
          ],
 
          'xcode_settings':
