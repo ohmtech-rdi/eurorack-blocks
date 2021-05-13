@@ -62,10 +62,9 @@ private:
       Constant, Pulse
    };
 
-   uint8_t * const
-                  _val_ptr;
-   const uint64_t *
-                  _clock_ms_ptr;
+   uint8_t &      _data;
+   const uint64_t &
+                  _clock_ms;
    Mode           _mode;
    bool           _current = false;
    uint64_t       _start = 0;

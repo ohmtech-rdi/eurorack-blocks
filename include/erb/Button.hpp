@@ -13,8 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Button.h"
-
 
 
 namespace erb
@@ -30,8 +28,8 @@ Name : ctor
 ==============================================================================
 */
 
-Button::Button (const uint8_t & val)
-:  _val_ptr (&val)
+Button::Button (const std::uint8_t & data)
+:  _data (data)
 {
 }
 
@@ -90,17 +88,6 @@ bool  Button::released () const
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : impl_notify_audio_buffer_start
-==============================================================================
-*/
-
-void  Button::impl_notify_audio_buffer_start ()
-{
-   _debounce.process (*_val_ptr != 0);
-}
 
 
 

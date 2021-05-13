@@ -13,10 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Pot.h"
-
-#include "erb/def.h"
-
 
 
 namespace erb
@@ -33,8 +29,8 @@ Name : ctor
 */
 
 template <FloatRange Range>
-Pot::Pot (const std::uint16_t & data)
-:  _data_ptr (&data)
+Pot <Range>::Pot (const std::uint16_t & data)
+:  _data (data)
 {
 }
 
@@ -47,14 +43,14 @@ Name : operator float
 */
 
 template <FloatRange Range>
-Pot::operator float () const
+Pot <Range>::operator float () const
 {
    constexpr float u16_to_norm = 1.f / 65535.f;
-   float norm_val = float (*_data_ptr) * u16_to_norm;
+   float norm_val = float (_data) * u16_to_norm;
 
    if constexpr (Range == FloatRange::Normalized)
    {
-      return norm_val
+      return norm_val;
    }
    else if constexpr (Range == FloatRange::Bipolar)
    {

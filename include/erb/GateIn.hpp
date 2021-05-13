@@ -13,8 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/GateIn.h"
-
 
 
 namespace erb
@@ -30,8 +28,8 @@ Name : ctor
 ==============================================================================
 */
 
-GateIn::GateIn (const uint8_t & data)
-:  _data_ptr (&data)
+GateIn::GateIn (const std::uint8_t & data)
+:  _data (data)
 {
 }
 
@@ -74,7 +72,7 @@ Name : impl_notify_audio_buffer_start
 void  GateIn::impl_notify_audio_buffer_start ()
 {
    _previous = _current;
-   _current = *_data_ptr != 0;
+   _current = _data != 0;
 }
 
 

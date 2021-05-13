@@ -47,7 +47,8 @@ protected:
 
 private:
 
-   const float *  _data_ptr = nullptr;
+   const std::uint16_t &
+                  _data;
 
 
 

@@ -28,7 +28,7 @@ class AudioIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         AudioIn (const Buffer & buffer);
+   inline         AudioIn (const Buffer & data);
    virtual        ~AudioIn () = default;
 
    inline         operator Buffer () const;
@@ -49,8 +49,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   const Buffer * const
-                  _buffer_ptr;
+   const Buffer & _data;
 
 
 

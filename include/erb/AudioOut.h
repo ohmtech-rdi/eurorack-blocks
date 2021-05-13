@@ -28,7 +28,7 @@ class AudioOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         AudioOut (Buffer & buffer);
+   inline         AudioOut (Buffer & data);
    virtual        ~AudioOut () = default;
 
    inline AudioOut &
@@ -50,7 +50,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   Buffer * const _buffer_ptr;
+   Buffer &       _data;
 
 
 

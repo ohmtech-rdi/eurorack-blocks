@@ -54,8 +54,8 @@ protected:
 
 private:
 
-   const std::uint8_t * const
-                  _val_ptr;
+   const std::uint8_t &
+                  _data;
    Debounce       _debounce;
 
 

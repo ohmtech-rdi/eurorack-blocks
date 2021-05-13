@@ -13,8 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/AudioIn.h"
-
 
 
 namespace erb
@@ -31,7 +29,7 @@ Name : ctor
 */
 
 AudioIn::AudioIn (const Buffer & buffer)
-:  _buffer_ptr (&buffer)
+:  _data (buffer)
 {
 }
 
@@ -45,7 +43,7 @@ Name : size
 
 AudioIn::operator Buffer () const
 {
-   return *_buffer_ptr;
+   return _data;
 }
 
 
@@ -58,7 +56,7 @@ Name : size
 
 std::size_t AudioIn::size () const
 {
-   return _buffer_ptr->size ();
+   return _data.size ();
 }
 
 
@@ -71,7 +69,7 @@ Name : operator []
 
 const float &  AudioIn::operator [] (std::size_t index)
 {
-   return (*_buffer_ptr) [index];
+   return _data [index];
 }
 
 

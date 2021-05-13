@@ -34,7 +34,7 @@ class Led
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Led () = default;
+                  Led (float & data, const uint64_t & clock_ms);
    virtual        ~Led () = default;
 
    void           set_brightness (float perceptual_brightness);
@@ -53,8 +53,6 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind_data (float & val);
-   void           impl_bind_clock (uint64_t & clock_ms);
    void           impl_notify_audio_buffer_start ();
 
 
@@ -69,17 +67,20 @@ protected:
 
 private:
 
+   const float &  _data;
+   const std::uint64_t &
+                  _clock_ms;
+
    float          _brightness = 1.f;
    Animation <float, 8>
                   _animation;
-   float *        _val_ptr = nullptr;
-   uint64_t *     _clock_ms_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  Led () = delete;
                   Led (const Led & rhs) = delete;
                   Led (Led && rhs) = delete;
    Led &          operator = (const Led & rhs) = delete;

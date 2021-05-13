@@ -53,8 +53,7 @@ protected:
 
 private:
 
-   const uint8_t * const
-                  _data_ptr;
+   const uint8_t &_data;
    bool           _previous = false;
    bool           _current = false;
 

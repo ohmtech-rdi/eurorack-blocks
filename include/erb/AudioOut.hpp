@@ -13,8 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/AudioOut.h"
-
 
 
 namespace erb
@@ -31,7 +29,7 @@ Name : ctor
 */
 
 AudioOut::AudioOut (Buffer & buffer)
-:  _buffer_ptr (&buffer)
+:  _data (buffer)
 {
 }
 
@@ -45,7 +43,7 @@ Name : operator =
 
 AudioOut &   AudioOut::operator = (const Buffer & buffer)
 {
-   *_buffer_ptr = buffer;
+   _data = buffer;
 
    return *this;
 }
@@ -60,7 +58,7 @@ Name : size
 
 size_t   AudioOut::size () const
 {
-   return _buffer_ptr->size ();
+   return _data.size ();
 }
 
 
@@ -73,7 +71,7 @@ Name : operator []
 
 float &  AudioOut::operator [] (size_t index)
 {
-   return (*_buffer_ptr) [index];
+   return _data [index];
 }
 
 
@@ -86,7 +84,7 @@ Name : fill
 
 void  AudioOut::fill (float val)
 {
-   _buffer_ptr->fill (val);
+   _data.fill (val);
 }
 
 
