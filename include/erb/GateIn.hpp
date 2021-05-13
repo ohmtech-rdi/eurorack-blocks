@@ -1,15 +1,19 @@
 /*****************************************************************************
 
-      AudioIn.cpp
+      GateIn.hpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
 
 
 
+#pragma once
+
+
+
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/AudioIn.h"
+#include "erb/GateIn.h"
 
 
 
@@ -22,52 +26,42 @@ namespace erb
 
 /*
 ==============================================================================
-Name : ctor
+Name : triggered
 ==============================================================================
 */
 
-AudioIn::AudioIn (const Buffer & buffer)
-:  _buffer_ptr (&buffer)
+bool  GateIn::triggered () const
 {
+   return _current && !_previous;
 }
 
 
 
 /*
 ==============================================================================
-Name : size
+Name : operator bool
 ==============================================================================
 */
 
-AudioIn::operator Buffer () const
+GateIn::operator bool () const
 {
-   return *_buffer_ptr;
+   return _current;
 }
 
 
 
-/*
-==============================================================================
-Name : size
-==============================================================================
-*/
-
-std::size_t AudioIn::size () const
-{
-   return _buffer_ptr->size ();
-}
-
-
+/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
-Name : operator []
+Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-const float &  AudioIn::operator [] (std::size_t index)
+void  GateIn::impl_notify_audio_buffer_start ()
 {
-   return (*_buffer_ptr) [index];
+   _previous = _current;
+   _current = *_current_ptr != 0;
 }
 
 
