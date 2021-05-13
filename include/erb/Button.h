@@ -28,13 +28,13 @@ class Button
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  Button (const std::uint8_t & data);
+   inline         Button (const std::uint8_t & data);
    virtual        ~Button () = default;
 
-   bool           idle () const;
-   bool           pressed () const;
-   bool           held () const;
-   bool           released () const;
+   inline bool    idle () const;
+   inline bool    pressed () const;
+   inline bool    held () const;
+   inline bool    released () const;
 
 
 

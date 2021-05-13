@@ -56,7 +56,6 @@
             'kivu12/Board.h',
 
             '../../src/Button.cpp',
-            '../../src/GateIn.cpp',
             '../../src/GateOut.cpp',
             '../../src/Led.cpp',
             '../../src/LedBi.cpp',

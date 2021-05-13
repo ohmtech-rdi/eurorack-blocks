@@ -34,10 +34,10 @@ public:
       Out0, Center, Out1
    };
 
-                  Switch () = default;
+   inline         Switch (const std::uint8_t & data_0, const std::uint8_t & data_1);
    virtual        ~Switch () = default;
 
-                  operator Position () const;
+   inline         operator Position () const;
 
 
 

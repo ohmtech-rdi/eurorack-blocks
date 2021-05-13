@@ -28,13 +28,15 @@ class AudioIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  AudioIn (const Buffer & buffer);
+   inline         AudioIn (const Buffer & buffer);
    virtual        ~AudioIn () = default;
 
-                  operator Buffer () const;
+   inline         operator Buffer () const;
 
-   std::size_t    size () const;
-   const float &  operator [] (std::size_t index);
+   inline std::size_t
+                  size () const;
+   inline const float &
+                  operator [] (std::size_t index);
 
 
 

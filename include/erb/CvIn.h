@@ -32,10 +32,10 @@ class CvIn
 
 public:
 
-                  CvIn (const std::uint16_t & data);
+   inline         CvIn (const std::uint16_t & data);
    virtual        ~CvIn () = default;
 
-                  operator float () const;
+   inline         operator float () const;
 
 
 

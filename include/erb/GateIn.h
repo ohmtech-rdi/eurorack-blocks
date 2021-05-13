@@ -29,18 +29,17 @@ class GateIn
 
 public:
 
-                  GateIn () = default;
+   inline         GateIn (const uint8_t & data);
    virtual        ~GateIn () = default;
 
-   bool           triggered () const;
-                  operator bool () const;
+   inline bool    triggered () const;
+   inline         operator bool () const;
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind_data (const uint8_t & val);
-   void           impl_notify_audio_buffer_start ();
+   inline void    impl_notify_audio_buffer_start ();
 
 
 
@@ -54,15 +53,17 @@ protected:
 
 private:
 
+   const uint8_t * const
+                  _data_ptr;
    bool           _previous = false;
    bool           _current = false;
-   const uint8_t *_current_ptr = nullptr;
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  GateIn () = delete;
                   GateIn (const GateIn & rhs) = delete;
                   GateIn (GateIn && rhs) = delete;
    GateIn &       operator = (const GateIn & rhs) = delete;

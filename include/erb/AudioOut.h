@@ -28,14 +28,16 @@ class AudioOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  AudioOut (Buffer & buffer);
+   inline         AudioOut (Buffer & buffer);
    virtual        ~AudioOut () = default;
 
-   AudioOut &     operator = (const Buffer & buffer);
+   inline AudioOut &
+                  operator = (const Buffer & buffer);
 
-   std::size_t    size () const;
-   float &        operator [] (std::size_t index);
-   void           fill (float val);
+   inline std::size_t
+                  size () const;
+   inline float & operator [] (std::size_t index);
+   inline void    fill (float val);
 
 
 

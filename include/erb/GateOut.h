@@ -32,7 +32,7 @@ class GateOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  GateOut () = default;
+                  GateOut (uint8_t & data, const uint64_t & clock_ms);
    virtual        ~GateOut () = default;
 
    void           on ();
@@ -43,8 +43,6 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_bind_data (uint8_t & val);
-   void           impl_bind_clock (const uint64_t & clock_ms);
    void           impl_notify_audio_buffer_start ();
 
 
@@ -64,13 +62,14 @@ private:
       Constant, Pulse
    };
 
+   uint8_t * const
+                  _val_ptr;
+   const uint64_t *
+                  _clock_ms_ptr;
    Mode           _mode;
    bool           _current = false;
    uint64_t       _start = 0;
    uint64_t       _duration = 0;
-   uint8_t *      _val_ptr = nullptr;
-   const uint64_t *
-                  _clock_ms_ptr = nullptr;
 
 
 

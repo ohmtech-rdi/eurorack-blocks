@@ -32,22 +32,10 @@ Name : ctor
 ==============================================================================
 */
 
-Pot::Pot (Mode mode)
-:  _mode (mode)
+template <FloatRange Range>
+Pot::Pot (const std::uint16_t & data)
+:  _data_ptr (&data)
 {
-}
-
-
-
-/*
-==============================================================================
-Name : set_mode
-==============================================================================
-*/
-
-void  Pot::set_mode (Mode mode)
-{
-   _mode = mode;
 }
 
 
@@ -58,34 +46,20 @@ Name : operator float
 ==============================================================================
 */
 
+template <FloatRange Range>
 Pot::operator float () const
 {
-   switch (_mode)
+   constexpr scale = 1.f / 65535.f;
+   float norm_val = float (*_data_ptr) * scale;
+
+   if constexpr (Range == FloatRange::Normalized)
    {
-   case Mode::Normalized:
-#if erb_GNUC_SWITCH_COVERAGE_FIX
-   default:
-#endif
-      return *_norm_val_ptr;
-
-   case Mode::Bipolar:
-      return *_norm_val_ptr * 2.f - 1.f;
+      return norm_val
    }
-}
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : impl_bind_data
-==============================================================================
-*/
-
-void  Pot::impl_bind_data (float & norm_val)
-{
-   _norm_val_ptr = &norm_val;
+   else if constexpr (Range == FloatRange::Bipolar)
+   {
+      return norm_val * 2.f - 1.f;
+   }
 }
 
 

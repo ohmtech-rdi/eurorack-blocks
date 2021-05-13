@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/detail/ControlInputNormFloat.h"
+#include "erb/FloatRange.h"
 
 
 
@@ -22,30 +22,18 @@ namespace erb
 
 
 
+template <FloatRange Range>
 class Pot
-:  public ControlInputNormFloat
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
 
-   enum class Mode
-   {
-      Normalized, Bipolar
-   };
-
-                  Pot (Mode mode = Mode::Normalized);
+   inline         Pot (const std::uint16_t & data);
    virtual        ~Pot () override = default;
 
-   void           set_mode (Mode mode);
-                  operator float () const;
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-   virtual void   impl_bind_data (const float & norm_val) override;
+   inline         operator float () const;
 
 
 
@@ -59,8 +47,7 @@ protected:
 
 private:
 
-   Mode           _mode;
-   const float *  _norm_val_ptr = nullptr;
+   const float *  _data_ptr = nullptr;
 
 
 
