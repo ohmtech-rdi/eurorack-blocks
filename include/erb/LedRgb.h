@@ -40,7 +40,7 @@ public:
       static Color blue ();
    };
 
-                  LedRgb () = default;
+                  LedRgb (float & data_r, float & data_g, float & data_b, const uint64_t & clock_ms);
    virtual        ~LedRgb () = default;
 
    void           set_brightness (float perceptual_brightness);
@@ -78,6 +78,7 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  LedRgb () = delete;
                   LedRgb (const LedRgb & rhs) = delete;
                   LedRgb (LedRgb && rhs) = delete;
    LedRgb &       operator = (const LedRgb & rhs) = delete;

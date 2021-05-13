@@ -30,7 +30,7 @@ Name : ctor
 
 Switch::Switch (const std::uint8_t & data_0, const std::uint8_t & data_1)
 :  _0 (data_0)
-:  _1 (data_1)
+,  _1 (data_1)
 {
 }
 

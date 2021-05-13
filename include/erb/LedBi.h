@@ -40,7 +40,7 @@ public:
       static Color yellow ();
    };
 
-                  LedBi () = default;
+                  LedBi (float & data_r, float & data_g, const uint64_t & clock_ms);
    virtual        ~LedBi () = default;
 
    void           set_brightness (float perceptual_brightness);
@@ -77,6 +77,7 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  LedBi () = delete;
                   LedBi (const LedBi & rhs) = delete;
                   LedBi (LedBi && rhs) = delete;
    LedBi &        operator = (const LedBi & rhs) = delete;

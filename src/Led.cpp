@@ -22,6 +22,20 @@ namespace erb
 
 /*
 ==============================================================================
+Name : ctor
+==============================================================================
+*/
+
+Led::Led (float & data, const uint64_t & clock_ms)
+:  _data (data)
+,  _clock_ms (clock_ms)
+{
+}
+
+
+
+/*
+==============================================================================
 Name : set_brightness
 ==============================================================================
 */
@@ -39,9 +53,9 @@ Name : on
 ==============================================================================
 */
 
-void  Led::on (bool state)
+void  Led::on (float brightness)
 {
-   _animation.set (state ? 1.f : 0.f);
+   _animation.set (brightness);
 }
 
 
@@ -68,7 +82,7 @@ Name : pulse
 void  Led::pulse (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
 {
    _animation.pulse (
-      *_now_ms_ptr, duration, transition_function,
+      _clock_ms, duration, transition_function,
       brightness, 0.f
    );
 }
@@ -84,7 +98,7 @@ Name : pulse_twice
 void  Led::pulse_twice (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
 {
    _animation.pulse_twice (
-      *_now_ms_ptr, duration, transition_function,
+      _clock_ms, duration, transition_function,
       brightness, 0.f
    );
 }
@@ -100,7 +114,7 @@ Name : pulse_thrice
 void  Led::pulse_thrice (float brightness, std::chrono::milliseconds duration, TransitionFunction transition_function)
 {
    _animation.pulse_thrice (
-      *_now_ms_ptr, duration, transition_function,
+      _clock_ms, duration, transition_function,
       brightness, 0.f
    );
 }
@@ -116,7 +130,7 @@ Name : blink
 void  Led::blink (float brightness, std::chrono::milliseconds period, TransitionFunction transition_function)
 {
    _animation.blink (
-      *_now_ms_ptr, period, transition_function,
+      _clock_ms, period, transition_function,
       brightness, 0.f
    );
 }
@@ -140,27 +154,13 @@ Animation <float, 8> &  Led::animation ()
 
 /*
 ==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-void  Led::impl_bind (float & val, uint64_t & now_ms)
-{
-   _val_ptr = &val;
-   _now_ms_ptr = &now_ms;
-}
-
-
-
-/*
-==============================================================================
 Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
 void  Led::impl_notify_audio_buffer_start ()
 {
-   *_val_ptr = _animation.get (*_now_ms_ptr) * _brightness;
+   _data = _animation.get (_clock_ms) * _brightness;
 }
 
 

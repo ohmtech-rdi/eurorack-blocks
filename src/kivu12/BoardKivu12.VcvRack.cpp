@@ -75,14 +75,6 @@ Name : init_adc_channels
 
 void  BoardKivu12::init_adc_channels ()
 {
-   _adcs_u16 = BoardDaisySeed::init_adc_channels <NBR_ADC_CHANNELS> ({
-      // 8 CVs
-      {AdcPin1}, {AdcPin2}, {AdcPin3}, {AdcPin4},
-      {AdcPin5}, {AdcPin6}, {AdcPin7}, {AdcPin8},
-      // 12 Pots
-      {AdcPin9, 8, Pin19, Pin20, Pin21},
-      {AdcPin10, 8, Pin19, Pin20, Pin21} // 4 last ones ignored
-   });
 }
 
 
@@ -95,9 +87,6 @@ Name : init_audio
 
 void  BoardKivu12::init_audio ()
 {
-   for (size_t i = 0 ; i < NBR_AUDIO_INPUTS ; ++i)
-   {
-   }
 }
 
 

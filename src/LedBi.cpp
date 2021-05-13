@@ -78,9 +78,9 @@ Name : ctor
 ==============================================================================
 */
 
-LedBi::LedBi (DaisyModule & module, const Pin & pin_r, const Pin & pin_g)
-:  r (module, pin_r)
-,  g (module, pin_g)
+LedBi::LedBi (float & data_r, float & data_g, const uint64_t & clock_ms)
+:  r (data_r, clock_ms)
+,  g (data_g, clock_ms)
 {
 }
 

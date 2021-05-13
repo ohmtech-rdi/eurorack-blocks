@@ -39,7 +39,7 @@ public:
 
    void           set_brightness (float perceptual_brightness);
 
-   void           on (bool state = true);
+   void           on (float brightness = 1.f);
    void           off ();
    void           pulse (float brightness = 1.f, std::chrono::milliseconds duration = 100ms, TransitionFunction transition_function = step);
    void           pulse_twice (float brightness = 1.f, std::chrono::milliseconds duration = 400ms, TransitionFunction transition_function = step);
@@ -67,7 +67,7 @@ protected:
 
 private:
 
-   const float &  _data;
+   float &        _data;
    const std::uint64_t &
                   _clock_ms;
 

@@ -22,6 +22,23 @@ namespace erb
 
 /*
 ==============================================================================
+Name : ctor
+==============================================================================
+*/
+
+GateOut::GateOut (uint8_t & data, const uint64_t & clock_ms)
+:  _data (data)
+,  _clock_ms (clock_ms)
+{
+   _mode = Mode::Constant;
+
+   _current = true;
+}
+
+
+
+/*
+==============================================================================
 Name : on
 ==============================================================================
 */
@@ -59,7 +76,7 @@ Name : trigger
 void  GateOut::trigger (std::chrono::milliseconds duration)
 {
    _mode = Mode::Pulse;
-   _start = *_now_ms_ptr;
+   _start = _clock_ms;
    _duration = uint64_t (duration.count ());
 
    _current = true;
@@ -71,32 +88,6 @@ void  GateOut::trigger (std::chrono::milliseconds duration)
 
 /*
 ==============================================================================
-Name : impl_bind_data
-==============================================================================
-*/
-
-void  GateOut::impl_bind_data (uint8_t & val)
-{
-   _val_ptr = &val;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind_clock
-==============================================================================
-*/
-
-void  GateOut::impl_bind_clock (const uint64_t & clock_ms)
-{
-   _clock_ms_ptr = &clock_ms;
-}
-
-
-
-/*
-==============================================================================
 Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
@@ -105,11 +96,11 @@ void  GateOut::impl_notify_audio_buffer_start ()
 {
    if (_mode == Mode::Pulse)
    {
-      auto elapsed = *_clock_ms_ptr - _start;
+      auto elapsed = _clock_ms - _start;
       _current = elapsed < _duration;
    }
 
-   *_val_ptr = _current ? 1 : 0;
+   _data = _current ? 1 : 0;
 }
 
 
