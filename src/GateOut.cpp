@@ -29,10 +29,21 @@ Name : ctor
 GateOut::GateOut (uint8_t & data, const uint64_t & clock_ms)
 :  _data (data)
 ,  _clock_ms (clock_ms)
+,  _generator ()
 {
-   _mode = Mode::Constant;
+}
 
-   _current = true;
+
+
+/*
+==============================================================================
+Name : set
+==============================================================================
+*/
+
+void  GateOut::set (bool val)
+{
+   _generator.set (val);
 }
 
 
@@ -45,9 +56,7 @@ Name : on
 
 void  GateOut::on ()
 {
-   _mode = Mode::Constant;
-
-   _current = true;
+   _generator.set (true);
 }
 
 
@@ -60,9 +69,7 @@ Name : off
 
 void  GateOut::off ()
 {
-   _mode = Mode::Constant;
-
-   _current = false;
+   _generator.set (false);
 }
 
 
@@ -75,11 +82,7 @@ Name : trigger
 
 void  GateOut::trigger (std::chrono::milliseconds duration)
 {
-   _mode = Mode::Pulse;
-   _start = _clock_ms;
-   _duration = uint64_t (duration.count ());
-
-   _current = true;
+   _generator.pulse (_clock_ms, duration);
 }
 
 
@@ -94,13 +97,7 @@ Name : impl_notify_audio_buffer_start
 
 void  GateOut::impl_notify_audio_buffer_start ()
 {
-   if (_mode == Mode::Pulse)
-   {
-      auto elapsed = _clock_ms - _start;
-      _current = elapsed < _duration;
-   }
-
-   _data = _current ? 1 : 0;
+   _data = _generator.process (_clock_ms) ? 1 : 0;
 }
 
 

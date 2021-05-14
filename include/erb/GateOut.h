@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/detail/GateGenerator.h"
+
 #include <chrono>
 
 #include <cstdint>
@@ -35,6 +37,7 @@ public:
                   GateOut (uint8_t & data, const uint64_t & clock_ms);
    virtual        ~GateOut () = default;
 
+   void           set (bool val);
    void           on ();
    void           off ();
    void           trigger (std::chrono::milliseconds duration = 6ms);
@@ -57,18 +60,11 @@ protected:
 
 private:
 
-   enum class Mode
-   {
-      Constant, Pulse
-   };
-
    uint8_t &      _data;
    const uint64_t &
                   _clock_ms;
-   Mode           _mode;
-   bool           _current = false;
-   uint64_t       _start = 0;
-   uint64_t       _duration = 0;
+
+   GateGenerator  _generator;
 
 
 
