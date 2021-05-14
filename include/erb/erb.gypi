@@ -124,6 +124,7 @@
          'sources': [
             # headers
             'vcvrack/BoardKivu12.h',
+            'vcvrack/BoardKivu12.hpp',
 
             # sources
             '../../src/vcvrack/BoardKivu12.cpp',

@@ -32,6 +32,64 @@ Name : ctor
 
 BoardKivu12::BoardKivu12 ()
 {
+   {
+      size_t o = 0;
+
+      for (size_t i = 0 ; i < NBR_POTS ; ++i, ++o)
+      {
+         _to_vcv_index [&_adc16_channels [o]] = i;
+      }
+
+      for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i)
+      {
+         _to_vcv_index [&_adc16_channels [o]] = i;
+      }
+   }
+
+   {
+      size_t o = 0;
+
+      for (size_t i = NBR_POTS ; i < NBR_PARAMS ; ++i, ++o)
+      {
+         _to_vcv_index [&_buttons [o]] = i;
+      }
+   }
+
+   {
+      size_t o = 0;
+
+      for (size_t i = 0 ; i < NBR_GATE_OUTPUTS ; ++i, ++o)
+      {
+         _to_vcv_index [&_outputs [o]] = i;
+      }
+   }
+
+   {
+      size_t o = 0;
+
+      for (size_t i = 0 ; i < NBR_LEDS ; ++i, ++o)
+      {
+         _to_vcv_index [&_lights [o]] = i;
+      }
+   }
+
+   {
+      size_t o = 0;
+
+      for (size_t i = NBR_CV_INPUTS ; i < NBR_INPUTS ; ++i, ++o)
+      {
+         _to_vcv_index [&_audio_buffer_inputs [o]] = i;
+      }
+   }
+
+   {
+      size_t o = 0;
+
+      for (size_t i = NBR_GATE_OUTPUTS ; i < NBR_OUTPUTS ; ++i, ++o)
+      {
+         _to_vcv_index [&_audio_buffer_outputs [o]] = i;
+      }
+   }
 }
 
 
@@ -142,9 +200,18 @@ void  BoardKivu12::impl_bind (size_t idx, rack::engine::Light & light)
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : impl_to_vcv_index
+==============================================================================
+*/
+
+size_t   BoardKivu12::impl_to_vcv_index (const void * data) const
+{
+   return _to_vcv_index.at (data);
+}
 
 
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
@@ -154,6 +221,25 @@ Name : impl_process
 
 void  BoardKivu12::impl_process ()
 {
+   constexpr uint64_t sample_rate_ull = uint64_t (erb_SAMPLE_RATE);
+   constexpr uint64_t buffer_size_ull = erb_BUFFER_SIZE;
+
+   for (auto input_ptr : _audio_inputs) input_ptr->impl_pull_sample ();
+
+   auto buffer_phase = _now_spl % buffer_size_ull;
+
+   if (buffer_phase == 0)
+   {
+      _now_ms = (_now_spl * 1000) / sample_rate_ull;
+
+      _listeners.notify_audio_buffer_start ();
+      _buffer_callback ();
+      _listeners.notify_audio_buffer_end ();
+   }
+
+   ++_now_spl;
+
+   for (auto output_ptr : _audio_outputs) output_ptr->impl_push_sample ();
 }
 
 
@@ -183,6 +269,10 @@ void  BoardKivu12::impl_notify_audio_buffer_end ()
    convert_from_gate_outputs ();
    convert_from_leds ();
 }
+
+
+
+/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
 

@@ -165,30 +165,46 @@ class Analyser:
    def make_pin_names (self, module):
       self._pin_names = []
 
-      for i in range (0, 31):
-         self._pin_names.append ('Pin%d' % i)
+      if module.board is None:
+         for i in range (0, 31):
+            self._pin_names.append ('Pin%d' % i)
 
-      for i in range (0, 12):
-         self._pin_names.append ('AdcPin%d' % i)
+         for i in range (0, 12):
+            self._pin_names.append ('AdcPin%d' % i)
 
-      for i in range (0, 8):
-         self._pin_names.append ('MultiplexerPin%d' % i)
+         for i in range (0, 8):
+            self._pin_names.append ('MultiplexerPin%d' % i)
 
-      self._pin_names.append ('AudioInPinLeft')
-      self._pin_names.append ('AudioInPinRight')
-      self._pin_names.append ('AudioInPin0')
-      self._pin_names.append ('AudioInPin1')
+         self._pin_names.append ('AudioInPinLeft')
+         self._pin_names.append ('AudioInPinRight')
+         self._pin_names.append ('AudioInPin0')
+         self._pin_names.append ('AudioInPin1')
 
-      self._pin_names.append ('AudioOutPinLeft')
-      self._pin_names.append ('AudioOutPinRight')
-      self._pin_names.append ('AudioOutPin0')
-      self._pin_names.append ('AudioOutPin1')
+         self._pin_names.append ('AudioOutPinLeft')
+         self._pin_names.append ('AudioOutPinRight')
+         self._pin_names.append ('AudioOutPin0')
+         self._pin_names.append ('AudioOutPin1')
 
-      self._pin_names.append ('PinNC')
-      self._pin_names.append ('AdcPinNC')
-      self._pin_names.append ('MultiplexerPinNC')
-      self._pin_names.append ('AudioInPinNC')
-      self._pin_names.append ('AudioOutPinNC')
+         self._pin_names.append ('PinNC')
+         self._pin_names.append ('AdcPinNC')
+         self._pin_names.append ('MultiplexerPinNC')
+         self._pin_names.append ('AudioInPinNC')
+         self._pin_names.append ('AudioOutPinNC')
+
+      elif module.board.name == 'kivu12':
+         for i in range (1, 12 + 1):
+            self._pin_names.append ('P%d' % i)
+         for i in range (1, 20 + 1):
+            self._pin_names.append ('L%d' % i)
+         for i in range (1, 20 + 1):
+            self._pin_names.append ('B%d' % i)
+         for i in range (1, 8 + 1):
+            self._pin_names.append ('CI%d' % i)
+         for i in range (1, 2 + 1):
+            self._pin_names.append ('CO%d' % i)
+            self._pin_names.append ('GO%d' % i)
+            self._pin_names.append ('AI%d' % i)
+            self._pin_names.append ('AO%d' % i)
 
    #--------------------------------------------------------------------------
 

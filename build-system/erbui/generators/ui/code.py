@@ -72,7 +72,7 @@ class Code:
 
    def generate_control (self, control):
 
-      if control.kind == 'Pot' or control.kind == 'Trim':
+      if control.kind == 'Pot' or control.kind == 'Trim' or control.kind == 'CvIn':
          if control.mode is None or control.mode.is_normalized:
             control_type = '%s <erb::FloatRange::Normalized>' % control.kind
          elif control.mode.is_bipolar:

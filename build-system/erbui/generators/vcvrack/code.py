@@ -156,7 +156,7 @@ class Code:
          widget += ' <%d>' % rotation
 
       source_code = ''
-      source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.ui.%s.index ()));\n' % (
+      source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.ui.board.impl_to_vcv_index (module_->module.ui.%s.impl_data ())));\n' % (
          func_category, category, widget, control.position.x.mm, control.position.y.mm, control.name
       )
       if control.style.is_dailywell_2ms3:

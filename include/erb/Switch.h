@@ -43,6 +43,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   const void *   impl_data () const { return _0.impl_data (); }
+
    Button         _0;
    Button         _1;
 

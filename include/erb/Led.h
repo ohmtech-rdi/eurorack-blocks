@@ -53,6 +53,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   const void *   impl_data () const { return &_data; }
    void           impl_notify_audio_buffer_start ();
 
 

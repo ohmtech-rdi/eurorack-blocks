@@ -16,6 +16,8 @@
 #include "erb/Buffer.h"
 
 #include <array>
+#include <functional>
+#include <map>
 
 
 
@@ -117,6 +119,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   size_t         impl_to_vcv_index (const void * data) const;
    void           impl_process ();
    void           impl_notify_audio_buffer_start ();
    void           impl_notify_audio_buffer_end ();
@@ -156,13 +159,13 @@ private:
    void           convert_from_leds ();
 
    std::array <rack::engine::Param *, NBR_PARAMS>
-                  _params;                         // Pots | Buttons
+                  _params = {};                       // Pots | Buttons
    std::array <rack::engine::Input *, NBR_INPUTS>
-                  _inputs;                         // Cv | Audio Input
+                  _inputs = {};                       // Cv | Audio Input
    std::array <rack::engine::Output *, NBR_OUTPUTS>
-                  _outputs;                        // Gate | Audio Output
+                  _outputs = {};                      // Gate | Audio Output
    std::array <rack::engine::Light *, NBR_LIGHTS>
-                  _lights;                         // Led
+                  _lights = {};                       // Led
 
    std::array <uint16_t, NBR_ADC_CHANNELS>
                   _adc16_channels = {};   // PX | CIX
@@ -174,9 +177,18 @@ private:
                   _leds = {};             // LX
 
    std::array <Buffer, NBR_AUDIO_INPUTS>
-                  _audio_buffer_inputs;
+                  _audio_buffer_inputs = {};
    std::array <Buffer, NBR_AUDIO_OUTPUTS>
-                  _audio_buffer_outputs;
+                  _audio_buffer_outputs = {};
+
+   std::map <const void * /* data */, size_t /* vcv index relative to type */>
+                  _to_vcv_index;
+
+   std::function <void ()>
+                  _buffer_callback;
+
+   uint64_t       _now_spl = 0ull;
+   uint64_t       _now_ms = 0ull;
 
 
 
@@ -197,6 +209,10 @@ private:
 
 
 }  // namespace erb
+
+
+
+#include "erb/vcvrack/BoardKivu12.hpp"
 
 
 
