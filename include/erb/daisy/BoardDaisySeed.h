@@ -77,7 +77,7 @@ public:
 
    struct AdcPin
    {
-      dsy_gpio_pin pin;
+      Pin pin;
    };
 
    static constexpr AdcPin AdcPin0 =  {Pin15};

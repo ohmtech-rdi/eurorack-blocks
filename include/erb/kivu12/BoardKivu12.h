@@ -126,8 +126,8 @@ private:
 private:
                   BoardKivu12 (const BoardKivu12 & rhs) = delete;
                   BoardKivu12 (BoardKivu12 && rhs) = delete;
-   BoardKivu12 &        operator = (const BoardKivu12 & rhs) = delete;
-   BoardKivu12 &        operator = (BoardKivu12 && rhs) = delete;
+   BoardKivu12 &  operator = (const BoardKivu12 & rhs) = delete;
+   BoardKivu12 &  operator = (BoardKivu12 && rhs) = delete;
    bool           operator == (const BoardKivu12 & rhs) const = delete;
    bool           operator != (const BoardKivu12 & rhs) const = delete;
 
