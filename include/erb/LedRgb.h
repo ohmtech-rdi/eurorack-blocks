@@ -62,6 +62,8 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    const void *   impl_data () const { return r.impl_data (); }
+   inline void    impl_preprocess () {}
+   void           impl_postprocess ();
 
 
 

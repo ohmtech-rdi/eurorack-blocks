@@ -41,7 +41,8 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    const void *   impl_data () const { return &_data; }
-   void           impl_notify_audio_buffer_start ();
+   void           impl_preprocess ();
+   inline void    impl_postprocess () {}
 
 
 

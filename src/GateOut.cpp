@@ -91,11 +91,11 @@ void  GateOut::trigger (std::chrono::milliseconds duration)
 
 /*
 ==============================================================================
-Name : impl_notify_audio_buffer_start
+Name : impl_postprocess
 ==============================================================================
 */
 
-void  GateOut::impl_notify_audio_buffer_start ()
+void  GateOut::impl_postprocess ()
 {
    _data = _generator.process (_clock_ms) ? 1 : 0;
 }

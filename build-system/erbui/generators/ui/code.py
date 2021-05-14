@@ -85,6 +85,8 @@ class Code:
       elif control.is_pin_multiple:
          args = ', '.join (map (lambda name: 'board.%s ()' % name.lower (), control.pins.names))
 
+      if control.kind == 'GateOut' or control.kind.startswith ('Led'):
+         args += ', board.clock ()'
 
       source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 

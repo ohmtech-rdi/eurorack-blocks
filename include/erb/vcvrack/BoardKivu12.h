@@ -122,7 +122,7 @@ public:
 
    size_t         impl_to_vcv_index (const void * data) const;
 
-   void           impl_pull_audio_inputs ();
+   bool           impl_pull_audio_inputs ();
    void           impl_push_audio_outputs ();
 
    void           impl_preprocess ();

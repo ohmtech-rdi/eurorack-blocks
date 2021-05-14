@@ -154,11 +154,11 @@ Animation <float, 8> &  Led::animation ()
 
 /*
 ==============================================================================
-Name : impl_notify_audio_buffer_start
+Name : impl_postprocess
 ==============================================================================
 */
 
-void  Led::impl_notify_audio_buffer_start ()
+void  Led::impl_postprocess ()
 {
    _data = _animation.get (_clock_ms) * _brightness;
 }

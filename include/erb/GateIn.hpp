@@ -65,11 +65,11 @@ GateIn::operator bool () const
 
 /*
 ==============================================================================
-Name : impl_notify_audio_buffer_start
+Name : impl_preprocess
 ==============================================================================
 */
 
-void  GateIn::impl_notify_audio_buffer_start ()
+void  GateIn::impl_preprocess ()
 {
    _previous = _current;
    _current = _data != 0;

@@ -44,6 +44,8 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    const void *   impl_data () const { return _0.impl_data (); }
+   void           impl_preprocess ();
+   inline void    impl_postprocess () {}
 
    Button         _0;
    Button         _1;

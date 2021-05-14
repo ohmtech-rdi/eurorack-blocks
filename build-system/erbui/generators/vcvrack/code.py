@@ -39,6 +39,12 @@ class Code:
       controls_content = self.generate_controls (module.entities)
       template = template.replace ('%controls%', controls_content)
 
+      controls_preprocess = self.generate_controls_preprocess (module.entities)
+      template = template.replace ('%controls_preprocess%', controls_preprocess)
+
+      controls_postprocess = self.generate_controls_postprocess (module.entities)
+      template = template.replace ('%controls_postprocess%', controls_postprocess)
+
       controls_config = self.generate_controls_config (module.entities)
       template = template.replace ('%controls_config%', controls_config)
 
@@ -70,6 +76,42 @@ class Code:
          source_code = '      if (i == module.ui.%s.index ()) { max_value = 2.f; }\n' % control.name
 
       return source_code
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_controls_preprocess (self, entities):
+      content = ''
+
+      def generate_line (control):
+         return '      module.ui.%s.impl_preprocess ();\n' % control.name
+
+      for entity in entities:
+         if entity.is_control:
+            content += generate_line (entity)
+         elif entity.is_multiplexer:
+            for control in entity.controls:
+               content += generate_line (control)
+
+      return content
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_controls_postprocess (self, entities):
+      content = ''
+
+      def generate_line (control):
+         return '      module.ui.%s.impl_postprocess ();\n' % control.name
+
+      for entity in entities:
+         if entity.is_control:
+            content += generate_line (entity)
+         elif entity.is_multiplexer:
+            for control in entity.controls:
+               content += generate_line (control)
+
+      return content
 
 
    #--------------------------------------------------------------------------

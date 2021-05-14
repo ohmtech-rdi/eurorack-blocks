@@ -26,11 +26,11 @@ namespace erb
 
 /*
 ==============================================================================
-Name : impl_notify_audio_buffer_start
+Name : impl_preprocess
 ==============================================================================
 */
 
-void  Button::impl_notify_audio_buffer_start ()
+void  Button::impl_preprocess ()
 {
    _debounce.process (_data != 0);
 }

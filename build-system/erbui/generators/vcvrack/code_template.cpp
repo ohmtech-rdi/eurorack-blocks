@@ -153,7 +153,22 @@ Name : ErbModule::process
 
 void  ErbModule::process (const ProcessArgs & /* args */)
 {
-   module.ui.board.impl_process ();
+   bool process_flag = module.ui.board.impl_pull_audio_inputs ();
+
+   if (process_flag)
+   {
+      module.ui.board.impl_preprocess ();
+
+%controls_preprocess%
+
+      module.ui.board.impl_process ();
+
+%controls_postprocess%
+
+      module.ui.board.impl_postprocess ();
+   }
+
+   module.ui.board.impl_push_audio_outputs ();
 }
 
 
