@@ -40,7 +40,7 @@ BoardKivu12::BoardKivu12 ()
          _to_vcv_index [&_adc16_channels [o]] = i;
       }
 
-      for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i)
+      for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i, ++o)
       {
          _to_vcv_index [&_adc16_channels [o]] = i;
       }
@@ -258,7 +258,7 @@ void  BoardKivu12::impl_push_audio_outputs ()
    for (size_t i = 0 ; i < NBR_AUDIO_OUTPUTS ; ++i)
    {
       auto & double_buffer = _audio_buffer_outputs [i];
-      auto & audio_output = *_inputs [NBR_GATE_OUTPUTS + i];
+      auto & audio_output = *_outputs [NBR_GATE_OUTPUTS + i];
 
       float sample = double_buffer.pull ();
 
@@ -335,7 +335,7 @@ void  BoardKivu12::convert_to_adc16_channels ()
       _adc16_channels [o] = uint16_t (norm_val * float_to_u16);
    }
 
-   for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i)
+   for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i, ++o)
    {
       auto norm_val = _inputs [i]->getVoltage () * 0.1f + 0.5f;
       norm_val = std::clamp (norm_val, 0.f, 1.f);
