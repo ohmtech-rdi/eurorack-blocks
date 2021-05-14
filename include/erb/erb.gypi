@@ -54,6 +54,8 @@
 
             'detail/Animation.h',
             'detail/Animation.hpp',
+            'detail/Clock.h',
+            'detail/Clock.hpp',
             'detail/Debounce.h',
             'detail/GateGenerator.h',
             'detail/GateGenerator.hpp',

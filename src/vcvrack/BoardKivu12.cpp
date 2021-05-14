@@ -215,42 +215,11 @@ size_t   BoardKivu12::impl_to_vcv_index (const void * data) const
 
 /*
 ==============================================================================
-Name : impl_process
+Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_process ()
-{
-   constexpr uint64_t sample_rate_ull = uint64_t (erb_SAMPLE_RATE);
-   constexpr uint64_t buffer_size_ull = erb_BUFFER_SIZE;
-
-   for (auto input_ptr : _audio_inputs) input_ptr->impl_pull_sample ();
-
-   auto buffer_phase = _now_spl % buffer_size_ull;
-
-   if (buffer_phase == 0)
-   {
-      _now_ms = (_now_spl * 1000) / sample_rate_ull;
-
-      _listeners.notify_audio_buffer_start ();
-      _buffer_callback ();
-      _listeners.notify_audio_buffer_end ();
-   }
-
-   ++_now_spl;
-
-   for (auto output_ptr : _audio_outputs) output_ptr->impl_push_sample ();
-}
-
-
-
-/*
-==============================================================================
-Name : impl_notify_audio_buffer_start
-==============================================================================
-*/
-
-void  BoardKivu12::impl_notify_audio_buffer_start ()
+void  BoardKivu12::impl_preprocess ()
 {
    convert_to_adc16_channels ();
    convert_to_buttons ();
@@ -260,14 +229,28 @@ void  BoardKivu12::impl_notify_audio_buffer_start ()
 
 /*
 ==============================================================================
-Name : impl_notify_audio_buffer_end
+Name : impl_process
 ==============================================================================
 */
 
-void  BoardKivu12::impl_notify_audio_buffer_end ()
+void  BoardKivu12::impl_process ()
+{
+   _buffer_callback ();
+}
+
+
+
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+void  BoardKivu12::impl_postprocess ()
 {
    convert_from_gate_outputs ();
    convert_from_leds ();
+   _clock.tick ();
 }
 
 

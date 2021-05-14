@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/Buffer.h"
+#include "erb/detail/Clock.h"
 
 #include <array>
 #include <functional>
@@ -120,9 +121,13 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    size_t         impl_to_vcv_index (const void * data) const;
+
+   void           impl_pull_audio_inputs ();
+   void           impl_push_audio_outputs ();
+
+   void           impl_preprocess ();
    void           impl_process ();
-   void           impl_notify_audio_buffer_start ();
-   void           impl_notify_audio_buffer_end ();
+   void           impl_postprocess ();
 
 
 
@@ -158,6 +163,8 @@ private:
    void           convert_from_gate_outputs ();
    void           convert_from_leds ();
 
+   Clock          _clock;
+
    std::array <rack::engine::Param *, NBR_PARAMS>
                   _params = {};                       // Pots | Buttons
    std::array <rack::engine::Input *, NBR_INPUTS>
@@ -186,9 +193,6 @@ private:
 
    std::function <void ()>
                   _buffer_callback;
-
-   uint64_t       _now_spl = 0ull;
-   uint64_t       _now_ms = 0ull;
 
 
 
