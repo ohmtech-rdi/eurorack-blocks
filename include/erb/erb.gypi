@@ -57,6 +57,8 @@
             'detail/Clock.h',
             'detail/Clock.hpp',
             'detail/Debounce.h',
+            'detail/DoubleBuffer.h',
+            'detail/DoubleBuffer.hpp',
             'detail/GateGenerator.h',
             'detail/GateGenerator.hpp',
 
