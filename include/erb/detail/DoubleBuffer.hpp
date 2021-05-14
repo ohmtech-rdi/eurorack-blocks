@@ -28,7 +28,20 @@ Name : operator Buffer
 ==============================================================================
 */
 
-DoubleBuffer::operator Buffer () const
+DoubleBuffer::operator Buffer & ()
+{
+   return _buffers [_cur_buf];
+}
+
+
+
+/*
+==============================================================================
+Name : operator Buffer
+==============================================================================
+*/
+
+DoubleBuffer::operator const Buffer & () const
 {
    return _buffers [_cur_buf];
 }
@@ -90,6 +103,19 @@ const float &  DoubleBuffer::operator [] (size_t index) const
 
 /*
 ==============================================================================
+Name : tell
+==============================================================================
+*/
+
+size_t  DoubleBuffer::tell () const
+{
+   return _cur_index;
+}
+
+
+
+/*
+==============================================================================
 Name : push
 ==============================================================================
 */
@@ -98,6 +124,8 @@ void  DoubleBuffer::push (float spl)
 {
    _buffers [1 - _cur_buf][_cur_index] = spl;
    ++_cur_index;
+
+   if (_cur_index == erb_BUFFER_SIZE) swap ();
 }
 
 
@@ -108,15 +136,23 @@ Name : pull
 ==============================================================================
 */
 
-float VcvAudioOutDaisy::pull ()
+float DoubleBuffer::pull ()
 {
    float spl = _buffers [1 - _cur_buf][_cur_index];
    ++_cur_index;
+
+   if (_cur_index == erb_BUFFER_SIZE) swap ();
 
    return spl;
 }
 
 
+
+/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+
+
+/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
@@ -129,14 +165,6 @@ void  DoubleBuffer::swap ()
    _cur_buf = 1 - _cur_buf;
    _cur_index = 0;
 }
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
 

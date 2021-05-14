@@ -31,7 +31,8 @@ public:
                   DoubleBuffer () = default;
    virtual        ~DoubleBuffer () = default;
 
-   inline         operator Buffer () const;
+   inline         operator Buffer & ();
+   inline         operator const Buffer & () const;
    inline DoubleBuffer &
                   operator = (const Buffer & buffer);
 
@@ -40,10 +41,9 @@ public:
    inline const float &
                   operator [] (size_t index) const;
 
+   inline size_t  tell () const;
    inline void    push (float spl);
    inline float   pull ();
-
-   inline void    swap ();
 
 
 
@@ -56,6 +56,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+   inline void    swap ();
 
    std::array <Buffer, 2>
                   _buffers = {};

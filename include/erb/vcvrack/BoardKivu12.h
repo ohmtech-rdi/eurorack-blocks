@@ -13,8 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Buffer.h"
 #include "erb/detail/Clock.h"
+#include "erb/detail/DoubleBuffer.h"
 
 #include <array>
 #include <functional>
@@ -105,15 +105,15 @@ public:
                   ci8 () { return _adc16_channels [7]; }
 
    // Audio Inputs
-   inline const Buffer &
+   inline const DoubleBuffer &
                   ai1 () { return _audio_buffer_inputs [0]; }
-   inline const Buffer &
+   inline const DoubleBuffer &
                   ai2 () { return _audio_buffer_inputs [1]; }
 
    // Audio Outputs
-   inline Buffer &
+   inline DoubleBuffer &
                   ao1 () { return _audio_buffer_outputs [0]; }
-   inline Buffer &
+   inline DoubleBuffer &
                   ao2 () { return _audio_buffer_outputs [1]; }
 
 
@@ -122,7 +122,8 @@ public:
 
    size_t         impl_to_vcv_index (const void * data) const;
 
-   bool           impl_pull_audio_inputs ();
+   bool           impl_need_process ();
+   void           impl_pull_audio_inputs ();
    void           impl_push_audio_outputs ();
 
    void           impl_preprocess ();
@@ -183,9 +184,9 @@ private:
    std::array <float, NBR_LEDS>
                   _leds = {};             // LX
 
-   std::array <Buffer, NBR_AUDIO_INPUTS>
+   std::array <DoubleBuffer, NBR_AUDIO_INPUTS>
                   _audio_buffer_inputs = {};
-   std::array <Buffer, NBR_AUDIO_OUTPUTS>
+   std::array <DoubleBuffer, NBR_AUDIO_OUTPUTS>
                   _audio_buffer_outputs = {};
 
    std::map <const void * /* data */, size_t /* vcv index relative to type */>

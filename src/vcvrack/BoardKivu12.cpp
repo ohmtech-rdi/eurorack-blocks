@@ -215,6 +215,61 @@ size_t   BoardKivu12::impl_to_vcv_index (const void * data) const
 
 /*
 ==============================================================================
+Name : impl_to_vcv_index
+==============================================================================
+*/
+
+bool  BoardKivu12::impl_need_process ()
+{
+   return _audio_buffer_inputs [0].tell () == 0;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_pull_audio_inputs
+==============================================================================
+*/
+
+void  BoardKivu12::impl_pull_audio_inputs ()
+{
+   for (size_t i = 0 ; i < NBR_AUDIO_INPUTS ; ++i)
+   {
+      auto & double_buffer = _audio_buffer_inputs [i];
+      auto & audio_input = *_inputs [NBR_CV_INPUTS + i];
+
+      float sample = audio_input.getVoltage () * 0.2f;
+
+      double_buffer.push (sample);
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : impl_push_audio_outputs
+==============================================================================
+*/
+
+void  BoardKivu12::impl_push_audio_outputs ()
+{
+   for (size_t i = 0 ; i < NBR_AUDIO_OUTPUTS ; ++i)
+   {
+      auto & double_buffer = _audio_buffer_outputs [i];
+      auto & audio_output = *_inputs [NBR_GATE_OUTPUTS + i];
+
+      float sample = double_buffer.pull ();
+
+      audio_output.setVoltage (sample * 5.f);
+   }
+}
+
+
+
+/*
+==============================================================================
 Name : impl_preprocess
 ==============================================================================
 */
