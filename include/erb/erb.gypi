@@ -57,15 +57,11 @@
             'detail/GateGenerator.h',
             'detail/GateGenerator.hpp',
 
-            'kivu12/BoardKivu12.h',
-
             '../../src/Button.cpp',
             '../../src/GateOut.cpp',
             '../../src/Led.cpp',
             '../../src/LedBi.cpp',
             '../../src/LedRgb.cpp',
-
-            '../../src/daisy/BoardDaisySeed.cpp',
          ],
 
          'include_dirs': [
@@ -86,8 +82,10 @@
          'sources': [
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
+            'daisy/BoardKivu12.h',
 
-            '../../src/kivu12/BoardKivu12.DaisySeed.cpp',
+            '../../src/daisy/BoardDaisySeed.cpp',
+            '../../src/daisy/BoardKivu12.cpp',
          ],
 
          'include_dirs': [
@@ -124,9 +122,10 @@
 
          'sources': [
             # headers
+            'vcvrack/BoardKivu12.h',
 
             # sources
-            '../../src/kivu12/BoardKivu12.VcvRack.cpp',
+            '../../src/vcvrack/BoardKivu12.cpp',
          ],
 
          'xcode_settings':

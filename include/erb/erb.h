@@ -26,6 +26,16 @@
 #include "erb/SdramObject.h"
 #include "erb/Switch.h"
 
+#if defined (erb_TARGET_DAISY)
+   #include "erb/daisy/BoardKivu12.h"
+
+#elif defined (erb_TARGET_VCV_RACK)
+   #include "erb/vcvrack/BoardKivu12.h"
+
+#else
+   #error Unknown erb target
+#endif
+
 
 
 /*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
