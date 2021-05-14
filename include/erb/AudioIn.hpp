@@ -28,7 +28,7 @@ Name : ctor
 ==============================================================================
 */
 
-AudioIn::AudioIn (const Buffer & buffer)
+AudioIn::AudioIn (const DoubleBuffer & buffer)
 :  _data (buffer)
 {
 }

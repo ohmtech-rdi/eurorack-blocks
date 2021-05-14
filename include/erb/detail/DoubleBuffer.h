@@ -40,6 +40,7 @@ public:
    inline float & operator [] (size_t index);
    inline const float &
                   operator [] (size_t index) const;
+   inline void    fill (float val);
 
    inline size_t  tell () const;
    inline void    push (float spl);

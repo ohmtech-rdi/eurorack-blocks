@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Buffer.h"
+#include "erb/detail/DoubleBuffer.h"
 
 
 
@@ -28,7 +28,7 @@ class AudioOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         AudioOut (Buffer & data);
+   inline         AudioOut (DoubleBuffer & data);
    virtual        ~AudioOut () = default;
 
    inline AudioOut &
@@ -58,7 +58,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   Buffer &       _data;
+   DoubleBuffer & _data;
 
 
 

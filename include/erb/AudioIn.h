@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Buffer.h"
+#include "erb/detail/DoubleBuffer.h"
 
 
 
@@ -28,7 +28,7 @@ class AudioIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         AudioIn (const Buffer & data);
+   inline         AudioIn (const DoubleBuffer & data);
    virtual        ~AudioIn () = default;
 
    inline         operator Buffer () const;
@@ -57,7 +57,8 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   const Buffer & _data;
+   const DoubleBuffer &
+                  _data;
 
 
 
