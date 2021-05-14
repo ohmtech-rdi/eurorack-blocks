@@ -35,6 +35,7 @@
             'Button.hpp',
             'CvIn.h',
             'CvIn.hpp',
+            'FloatRange.h',
             'GateIn.h',
             'GateIn.hpp',
             'GateOut.h',

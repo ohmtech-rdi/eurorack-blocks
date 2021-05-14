@@ -92,8 +92,8 @@ class Code:
    def generate_control (self, control):
 
       type_func_category_map = {
-         'AudioInDaisy': 'Input',
-         'AudioOutDaisy': 'Output',
+         'AudioIn': 'Input',
+         'AudioOut': 'Output',
          'Button': 'Param',
          'CvIn': 'Input',
          'GateIn': 'Input',
@@ -109,8 +109,8 @@ class Code:
       func_category = type_func_category_map [control.kind]
 
       type_category_map = {
-         'AudioInDaisy': 'Input',
-         'AudioOutDaisy': 'Output',
+         'AudioIn': 'Input',
+         'AudioOut': 'Output',
          'Button': 'Param',
          'CvIn': 'Input',
          'GateIn': 'Input',
@@ -156,10 +156,6 @@ class Code:
          widget += ' <%d>' % rotation
 
       source_code = ''
-      source_code += '   // Type mismatch between module and gui code\n'
-      source_code += '   static_assert (std::is_same <decltype (module_->module.ui.%s), erb::%s>::value, "");\n' % (
-         control.name, control.kind
-      )
       source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.ui.%s.index ()));\n' % (
          func_category, category, widget, control.position.x.mm, control.position.y.mm, control.name
       )

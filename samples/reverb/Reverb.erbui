@@ -17,28 +17,28 @@ module Reverb {
       position 8.66hp, 28mm
       style rogan.2ps
       label "LP FREQ"
-      pin AdcPin8
+      pin P1
    }
 
    control high_pass_freq_pot Pot {
       position 3.33hp, 28mm
       style rogan.2ps
       label "HP FREQ"
-      pin AdcPin9
+      pin P2
    }
 
    control feedback_pot Pot {
       position 3.33hp, 54mm
       style rogan.2ps
       label "FEEDBACK"
-      pin AdcPin10
+      pin P3
    }
 
    control wet_pot Pot {
       position 8.66hp, 54mm
       style rogan.2ps
       label "DRY/WET"
-      pin AdcPin11
+      pin P4
    }
 
    control low_pass_freq_trim Trim {
@@ -46,7 +46,7 @@ module Reverb {
       position 4.66hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin4
+      pin P5
    }
 
    control high_pass_freq_trim Trim {
@@ -54,7 +54,7 @@ module Reverb {
       position 2hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin5
+      pin P6
    }
 
    control feedback_trim Trim {
@@ -62,7 +62,7 @@ module Reverb {
       position 7.33hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin6
+      pin P7
    }
 
    control wet_trim Trim {
@@ -70,62 +70,62 @@ module Reverb {
       position 10hp, 80.8mm
       style songhuei.9mm
       label "–/+" { positioning top }
-      pin AdcPin7
+      pin P8
    }
 
    control low_pass_freq_cv CvIn {
       position 4.66hp, 96.5mm
       style thonk.pj398sm.knurled
       label "LP"
-      pin AdcPin0
+      pin CI1
    }
 
    control high_pass_freq_cv CvIn {
       position 2hp, 96.5mm
       style thonk.pj398sm.knurled
       label "HP"
-      pin AdcPin1
+      pin CI2
    }
 
    control feedback_cv CvIn {
       position 7.33hp, 96.5mm
       style thonk.pj398sm.knurled
       label "FDBK"
-      pin AdcPin2
+      pin CI3
    }
 
    control wet_cv CvIn {
       position 10hp, 96.5mm
       style thonk.pj398sm.knurled
       label "DRY/WET"
-      pin AdcPin3
+      pin CI4
    }
 
-   control audio_in_left AudioInDaisy {
+   control audio_in_left AudioIn {
       position 2hp, 111mm
       style thonk.pj398sm.knurled
       label "IN L"
-      pin AudioInDaisyPinLeft
+      pin AI1
    }
 
-   control audio_in_right AudioInDaisy {
+   control audio_in_right AudioIn {
       position 4.66hp, 111mm
       style thonk.pj398sm.knurled
       label "IN R"
-      pin AudioInDaisyPinRight
+      pin AI2
    }
 
-   control audio_out_left AudioOutDaisy {
+   control audio_out_left AudioOut {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled
       label "OUT L"
-      pin AudioOutDaisyPinLeft
+      pin AO1
    }
 
-   control audio_out_right AudioOutDaisy {
+   control audio_out_right AudioOut {
       position 10hp, 111mm
       style thonk.pj398sm.knurled
       label "OUT R"
-      pin AudioOutDaisyPinRight
+      pin AO2
    }
 }

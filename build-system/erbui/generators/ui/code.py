@@ -34,7 +34,14 @@ class Code:
       with open (path_template, 'r') as file:
          template = file.read ()
 
+      board_to_class = {
+         'kivu12': 'BoardKivu12',
+      }
+
+      board_class = board_to_class [module.board.name]
+
       template = template.replace ('%module.name%', module.name)
+      template = template.replace ('%type(module.board)%', board_class)
 
       entities_content = self.generate_entities (module.entities)
       template = template.replace ('%entities%', entities_content)
@@ -65,20 +72,21 @@ class Code:
 
    def generate_control (self, control):
 
-      source_code = '   erb::%s %s { module' % (control.kind, control.name)
-
-      if control.is_pin_single:
-         source_code += ', erb::' + control.pin.name
-      elif control.is_pin_multiple:
-         source_code += ', erb::' + ', erb::'.join (control.pins.names)
-
       if control.kind == 'Pot' or control.kind == 'Trim':
          if control.mode is None or control.mode.is_normalized:
-            source_code += ', erb::%s::Mode::Normalized' % control.kind
+            control_type = '%s <erb::FloatRange::Normalized>' % control.kind
          elif control.mode.is_bipolar:
-            source_code += ', erb::%s::Mode::Bipolar' % control.kind
+            control_type = '%s <erb::FloatRange::Bipolar>' % control.kind
+      else:
+         control_type = control.kind
 
-      source_code += ' };\n'
+      if control.is_pin_single:
+         args =  'board.%s ()' % control.pin.name.lower ()
+      elif control.is_pin_multiple:
+         args = ', '.join (map (lambda name: 'board.%s ()' % name.lower (), control.pins.names))
+
+
+      source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 
       return source_code
 

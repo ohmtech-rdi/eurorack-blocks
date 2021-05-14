@@ -148,9 +148,19 @@ void  BoardKivu12::impl_bind (size_t idx, rack::engine::Light & light)
 
 /*
 ==============================================================================
+Name : impl_process
+==============================================================================
+*/
+
+void  BoardKivu12::impl_process ()
+{
+}
+
+
+
+/*
+==============================================================================
 Name : impl_notify_audio_buffer_start
-Description :
-   Gather inputs and fills our internal structures.
 ==============================================================================
 */
 
@@ -165,8 +175,6 @@ void  BoardKivu12::impl_notify_audio_buffer_start ()
 /*
 ==============================================================================
 Name : impl_notify_audio_buffer_end
-Description :
-   Fill outputs from out internal structures.
 ==============================================================================
 */
 

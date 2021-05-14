@@ -17,6 +17,7 @@
 #include "erb/AudioOut.h"
 #include "erb/Button.h"
 #include "erb/CvIn.h"
+#include "erb/FloatRange.h"
 #include "erb/GateIn.h"
 #include "erb/GateOut.h"
 #include "erb/Led.h"
@@ -35,6 +36,20 @@
 #else
    #error Unknown erb target
 #endif
+
+
+
+namespace erb
+{
+
+
+
+template <FloatRange Range>
+using Trim = Pot <Range>;
+
+
+
+}
 
 
 

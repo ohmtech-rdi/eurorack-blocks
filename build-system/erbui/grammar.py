@@ -18,7 +18,7 @@ KEYWORDS = (
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
 )
 UNITS = ('mm', 'cm', 'hp', '°CCW', '°CW')
-CONTROL_KINDS = ('AudioInDaisy', 'AudioOutDaisy', 'Button', 'CvIn', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
+CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
 CONTROL_STYLES = (
    'rogan.6ps', 'rogan.5ps', 'rogan.3ps', 'rogan.2ps', 'rogan.1ps',
    'songhuei.9mm',

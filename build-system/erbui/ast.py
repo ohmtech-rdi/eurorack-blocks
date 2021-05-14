@@ -607,7 +607,7 @@ class Control (Scope):
 
    @property
    def is_kind_out (self):
-      return self.kind == 'AudioOutDaisy' or self.kind == 'GateOut'
+      return self.kind == 'AudioOut' or self.kind == 'GateOut'
 
 
 # -- Mode --------------------------------------------------------------------

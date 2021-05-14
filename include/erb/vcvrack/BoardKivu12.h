@@ -117,6 +117,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   void           impl_process ();
    void           impl_notify_audio_buffer_start ();
    void           impl_notify_audio_buffer_end ();
 

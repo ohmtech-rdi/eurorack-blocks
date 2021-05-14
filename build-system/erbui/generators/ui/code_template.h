@@ -17,7 +17,7 @@
 
 struct %module.name%Ui
 {
-   erb::Module module;
+   erb::%type(module.board)% board;
 
 %entities%
 };

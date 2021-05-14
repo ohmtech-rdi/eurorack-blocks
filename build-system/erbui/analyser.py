@@ -174,21 +174,21 @@ class Analyser:
       for i in range (0, 8):
          self._pin_names.append ('MultiplexerPin%d' % i)
 
-      self._pin_names.append ('AudioInDaisyPinLeft')
-      self._pin_names.append ('AudioInDaisyPinRight')
-      self._pin_names.append ('AudioInDaisyPin0')
-      self._pin_names.append ('AudioInDaisyPin1')
+      self._pin_names.append ('AudioInPinLeft')
+      self._pin_names.append ('AudioInPinRight')
+      self._pin_names.append ('AudioInPin0')
+      self._pin_names.append ('AudioInPin1')
 
-      self._pin_names.append ('AudioOutDaisyPinLeft')
-      self._pin_names.append ('AudioOutDaisyPinRight')
-      self._pin_names.append ('AudioOutDaisyPin0')
-      self._pin_names.append ('AudioOutDaisyPin1')
+      self._pin_names.append ('AudioOutPinLeft')
+      self._pin_names.append ('AudioOutPinRight')
+      self._pin_names.append ('AudioOutPin0')
+      self._pin_names.append ('AudioOutPin1')
 
       self._pin_names.append ('PinNC')
       self._pin_names.append ('AdcPinNC')
       self._pin_names.append ('MultiplexerPinNC')
-      self._pin_names.append ('AudioInDaisyPinNC')
-      self._pin_names.append ('AudioOutDaisyPinNC')
+      self._pin_names.append ('AudioInPinNC')
+      self._pin_names.append ('AudioOutPinNC')
 
    #--------------------------------------------------------------------------
 
@@ -198,15 +198,15 @@ class Analyser:
       for i in range (0, 15):
          self._pin_out ['Pin%d' % i] = i + 1
 
-      self._pin_out ['AudioInDaisyPinLeft'] = 16
-      self._pin_out ['AudioInDaisyPin0'] = 16
-      self._pin_out ['AudioInDaisyPinRight'] = 17
-      self._pin_out ['AudioInDaisyPin1'] = 17
+      self._pin_out ['AudioInPinLeft'] = 16
+      self._pin_out ['AudioInPin0'] = 16
+      self._pin_out ['AudioInPinRight'] = 17
+      self._pin_out ['AudioInPin1'] = 17
 
-      self._pin_out ['AudioOutDaisyPinLeft'] = 18
-      self._pin_out ['AudioOutDaisyPin0'] = 18
-      self._pin_out ['AudioOutDaisyPinRight'] = 19
-      self._pin_out ['AudioOutDaisyPin1'] = 19
+      self._pin_out ['AudioOutPinLeft'] = 18
+      self._pin_out ['AudioOutPin0'] = 18
+      self._pin_out ['AudioOutPinRight'] = 19
+      self._pin_out ['AudioOutPin1'] = 19
 
       for i in range (15, 31):
          self._pin_out ['Pin%d' % i] = i + 7
