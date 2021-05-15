@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include <initializer_list>
+#include <vector>
 
 
 
@@ -40,8 +41,8 @@ public:
    T &            operator [] (size_t global_index);
    const T &      operator [] (size_t global_index) const;
 
-   T &            operator [] (size_t row, size_t index);
-   const T &      operator [] (size_t row, size_t index) const;
+   T &            operator () (size_t row, size_t index);
+   const T &      operator () (size_t row, size_t index) const;
 
 
 

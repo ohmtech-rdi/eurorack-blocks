@@ -29,7 +29,7 @@ Name : resize
 */
 
 template <typename T>
-void  JaggedArray::resize (std::initializer_list <size_t> row_sizes, const T & value)
+void  JaggedArray <T>::resize (std::initializer_list <size_t> row_sizes, const T & value)
 {
    size_t start_index = 0;
 
@@ -53,7 +53,7 @@ Name : size
 */
 
 template <typename T>
-size_t   JaggedArray::size () const
+size_t   JaggedArray <T>::size () const
 {
    return _data.size ();
 }
@@ -67,7 +67,7 @@ Name : size
 */
 
 template <typename T>
-size_t   JaggedArray::size (size_t row) const
+size_t   JaggedArray <T>::size (size_t row) const
 {
    return _row_start_indexes [row + 1] - _row_start_indexes [row];
 }
@@ -81,7 +81,7 @@ Name : operator []
 */
 
 template <typename T>
-T &   JaggedArray::operator [] (size_t global_index)
+T &   JaggedArray <T>::operator [] (size_t global_index)
 {
    return _data [global_index];
 }
@@ -95,7 +95,7 @@ Name : operator []
 */
 
 template <typename T>
-const T &   JaggedArray::operator [] (size_t global_index) const
+const T &   JaggedArray <T>::operator [] (size_t global_index) const
 {
    return _data [global_index];
 }
@@ -104,12 +104,12 @@ const T &   JaggedArray::operator [] (size_t global_index) const
 
 /*
 ==============================================================================
-Name : operator []
+Name : operator ()
 ==============================================================================
 */
 
 template <typename T>
-T &   JaggedArray::operator [] (size_t row, size_t index)
+T &   JaggedArray <T>::operator () (size_t row, size_t index)
 {
    return _data [_row_start_indexes [row] + index];
 }
@@ -118,12 +118,12 @@ T &   JaggedArray::operator [] (size_t row, size_t index)
 
 /*
 ==============================================================================
-Name : operator []
+Name : operator ()
 ==============================================================================
 */
 
 template <typename T>
-const T &   JaggedArray::operator [] (size_t row, size_t index) const
+const T &   JaggedArray <T>::operator () (size_t row, size_t index) const
 {
    return _data [_row_start_indexes [row] + index];
 }

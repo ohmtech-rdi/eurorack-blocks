@@ -129,10 +129,13 @@
 
          'sources': [
             # headers
+            'vcvrack/BoardGeneric.h',
+            'vcvrack/BoardGeneric.hpp',
             'vcvrack/BoardKivu12.h',
             'vcvrack/BoardKivu12.hpp',
 
             # sources
+            '../../src/vcvrack/BoardGeneric.cpp',
             '../../src/vcvrack/BoardKivu12.cpp',
          ],
 
