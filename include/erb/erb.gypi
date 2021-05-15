@@ -61,6 +61,8 @@
             'detail/DoubleBuffer.hpp',
             'detail/GateGenerator.h',
             'detail/GateGenerator.hpp',
+            'detail/JaggedArray.h',
+            'detail/JaggedArray.hpp',
 
             '../../src/Button.cpp',
             '../../src/GateOut.cpp',
