@@ -44,14 +44,15 @@ Name : setup_hw_representation
 ==============================================================================
 */
 
-template <typename T>
-void  BoardGeneric::setup_hw_representation (T & arr, size_t size)
+template <typename T, typename U>
+void  BoardGeneric::setup_hw_representation (T & hw, size_t hw_row, U & vcv, size_t vcv_row)
 {
-   arr.resize (size);
-
-   for (size_t i = 0 ; i < arr.size () ; ++i)
+   for (size_t i = 0 ; i < hw.size (hw_row) ; ++i)
    {
-      _to_vcv_index [&arr [i]] = i;
+      auto & val = hw (hw_row, i);
+      auto index = vcv.global_index (vcv_row, i);
+
+      _to_vcv_index [&val] = index;
    }
 }
 

@@ -90,6 +90,20 @@ T &   JaggedArray <T>::operator [] (size_t global_index)
 
 /*
 ==============================================================================
+Name : global_index
+==============================================================================
+*/
+
+template <typename T>
+size_t   JaggedArray <T>::global_index (size_t row, size_t index)
+{
+   return _row_start_indexes [row] + index;
+}
+
+
+
+/*
+==============================================================================
 Name : operator []
 ==============================================================================
 */
@@ -111,7 +125,7 @@ Name : operator ()
 template <typename T>
 T &   JaggedArray <T>::operator () (size_t row, size_t index)
 {
-   return _data [_row_start_indexes [row] + index];
+   return _data [global_index (row, index)];
 }
 
 
@@ -125,7 +139,7 @@ Name : operator ()
 template <typename T>
 const T &   JaggedArray <T>::operator () (size_t row, size_t index) const
 {
-   return _data [_row_start_indexes [row] + index];
+   return _data [global_index (row, index)];
 }
 
 

@@ -368,26 +368,136 @@ Name : init
 
 void  BoardGeneric::init ()
 {
+   init_digital_inputs ();
+   init_analog_inputs ();
+   init_audio_inputs ();
+
+   init_digital_outputs ();
+   init_analog_outputs ();
+   init_audio_outputs ();
+}
+
+
+
+/*
+==============================================================================
+Name : init_digital_inputs
+==============================================================================
+*/
+
+void  BoardGeneric::init_digital_inputs ()
+{
    _digital_inputs.resize ({_nbr_buttons, _nbr_gate_ins}, 0);
+
+   setup_hw_representation (
+      _digital_inputs, HW_ROW_BUTTON,
+      _params, VCV_ROW_BUTTON
+   );
+
+   setup_hw_representation (
+      _digital_inputs, HW_ROW_GATE_IN,
+      _inputs, VCV_ROW_GATE_IN
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : init_analog_inputs
+==============================================================================
+*/
+
+void  BoardGeneric::init_analog_inputs ()
+{
    _analog_inputs.resize ({_nbr_pots, _nbr_cv_ins}, 0);
+
+   setup_hw_representation (
+      _analog_inputs, HW_ROW_POTS,
+      _params, VCV_ROW_POT
+   );
+
+   setup_hw_representation (
+      _analog_inputs, HW_ROW_CV_IN,
+      _inputs, VCV_ROW_CV_IN
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : init_audio_inputs
+==============================================================================
+*/
+
+void  BoardGeneric::init_audio_inputs ()
+{
    _audio_inputs.resize ({_nbr_audio_ins}, Buffer {});
 
+   setup_hw_representation (
+      _audio_inputs, HW_ROW_AUDIO_IN,
+      _inputs, VCV_ROW_AUDIO_IN
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : init_digital_outputs
+==============================================================================
+*/
+
+void  BoardGeneric::init_digital_outputs ()
+{
    _digital_outputs.resize ({_nbr_gate_outs}, 0);
+
+   setup_hw_representation (
+      _digital_outputs, HW_ROW_GATE_OUT,
+      _outputs, VCV_ROW_GATE_OUT
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : init_analog_outputs
+==============================================================================
+*/
+
+void  BoardGeneric::init_analog_outputs ()
+{
    _analog_outputs.resize ({_nbr_cv_outs, _nbr_leds}, 0);
+
+   setup_hw_representation (
+      _analog_outputs, HW_ROW_CV_OUT,
+      _outputs, VCV_ROW_CV_OUT
+   );
+
+   setup_hw_representation (
+      _analog_outputs, HW_ROW_LED,
+      _lights, VCV_ROW_LED
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : init_audio_outputs
+==============================================================================
+*/
+
+void  BoardGeneric::init_audio_outputs ()
+{
    _audio_outputs.resize ({_nbr_audio_outs}, Buffer {});
 
-   setup_hw_representation (_buttons, _params.size (ROW_BUTTON));
-   setup_hw_representation (_pots, _params.size (ROW_POT));
-
-   setup_hw_representation (_gate_inputs, _inputs.size (ROW_GATE_IN));
-   setup_hw_representation (_cv_inputs, _inputs.size (ROW_CV_IN));
-   setup_hw_representation (_audio_inputs, _inputs.size (ROW_AUDIO_IN));
-
-   setup_hw_representation (_gate_outputs, _outputs.size (ROW_GATE_OUT));
-   setup_hw_representation (_cv_outputs, _outputs.size (ROW_CV_OUT));
-   setup_hw_representation (_audio_outputs, _outputs.size (ROW_AUDIO_OUT));
-
-   setup_hw_representation (_leds, _lights.size (ROW_LED));
+   setup_hw_representation (
+      _audio_outputs, HW_ROW_AUDIO_OUT,
+      _outputs, VCV_ROW_AUDIO_OUT
+   );
 }
 
 

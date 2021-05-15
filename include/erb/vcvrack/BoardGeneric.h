@@ -151,8 +151,16 @@ private:
 
    void           init ();
 
-   template <typename T>
-   void           setup_hw_representation (T & arr, size_t size);
+   void           init_digital_inputs ();
+   void           init_analog_inputs ();
+   void           init_audio_inputs ();
+
+   void           init_digital_outputs ();
+   void           init_analog_outputs ();
+   void           init_audio_outputs ();
+
+   template <typename T, typename U>
+   void           setup_hw_representation (T & hw, size_t hw_row, U & vcv, size_t vcv_row);
 
    Clock          _clock;
 

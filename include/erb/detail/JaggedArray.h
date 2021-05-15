@@ -38,6 +38,8 @@ public:
    size_t         size () const;
    size_t         size (size_t row) const;
 
+   size_t         global_index (size_t row, size_t index);
+
    T &            operator [] (size_t global_index);
    const T &      operator [] (size_t global_index) const;
 
