@@ -28,7 +28,7 @@ Name : ctor
 ==============================================================================
 */
 
-GateIn::GateIn (const std::uint8_t & data)
+GateIn::GateIn (const uint8_t & data)
 :  _data (data)
 {
 }

@@ -28,7 +28,7 @@ Name : ctor
 ==============================================================================
 */
 
-Button::Button (const std::uint8_t & data)
+Button::Button (const uint8_t & data)
 :  _data (data)
 {
 }

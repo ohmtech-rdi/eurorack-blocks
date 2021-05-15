@@ -7,6 +7,10 @@
 
 
 
+// !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
+
+
+
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/erb.h"
@@ -17,7 +21,11 @@
 
 struct %module.name%Ui
 {
-   erb::%type(module.board)% board;
+   erb::Configuration configuration {
+%configuration%
+   };
+
+   erb::%type(module.board)% board { configuration };
 
 %entities%
 };

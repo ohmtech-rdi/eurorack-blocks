@@ -28,7 +28,7 @@ class Button
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         Button (const std::uint8_t & data);
+   inline         Button (const uint8_t & data);
    virtual        ~Button () = default;
 
    inline bool    idle () const;
@@ -56,7 +56,7 @@ protected:
 
 private:
 
-   const std::uint8_t &
+   const uint8_t &
                   _data;
    Debounce       _debounce;
 

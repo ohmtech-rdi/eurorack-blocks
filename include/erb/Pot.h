@@ -30,7 +30,7 @@ class Pot
 
 public:
 
-   inline         Pot (const std::uint16_t & data);
+   inline         Pot (const float & data);
    virtual        ~Pot () = default;
 
    inline         operator float () const;
@@ -55,8 +55,7 @@ protected:
 
 private:
 
-   const std::uint16_t &
-                  _data;
+   const float &  _data;
 
 
 

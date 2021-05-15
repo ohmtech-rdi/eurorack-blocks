@@ -31,8 +31,6 @@ Name : bind_process
 template <typename F>
 void  BoardGeneric::bind_process (F && f)
 {
-   init ();
-
    _buffer_callback = std::forward <F> (f);
 }
 

@@ -29,7 +29,7 @@ Name : ctor
 */
 
 template <FloatRange Range>
-CvIn <Range>::CvIn (const std::uint16_t & data)
+CvIn <Range>::CvIn (const float & data)
 :  _data (data)
 {
 }
@@ -45,16 +45,13 @@ Name : operator float
 template <FloatRange Range>
 CvIn <Range>::operator float () const
 {
-   constexpr float u16_to_norm = 1.f / 65535.f;
-   float norm_val = float (_data) * u16_to_norm;
-
    if constexpr (Range == FloatRange::Normalized)
    {
-      return norm_val;
+      return _data;
    }
    else if constexpr (Range == FloatRange::Bipolar)
    {
-      return norm_val * 2.f - 1.f;
+      return _data * 2.f - 1.f;
    }
 }
 

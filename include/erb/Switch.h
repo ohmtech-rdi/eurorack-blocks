@@ -34,7 +34,7 @@ public:
       Out0, Center, Out1
    };
 
-   inline         Switch (const std::uint8_t & data_0, const std::uint8_t & data_1);
+   inline         Switch (const uint8_t & data_0, const uint8_t & data_1);
    virtual        ~Switch () = default;
 
    inline         operator Position () const;

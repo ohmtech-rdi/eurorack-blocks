@@ -101,6 +101,7 @@
 
             '-Wno-c++98-compat',
             '-Wno-c++98-compat-pedantic',
+            '-Wno-c99-extensions',
             '-Wno-padded',
             '-Wno-weak-vtables',
             '-Wno-float-equal',
