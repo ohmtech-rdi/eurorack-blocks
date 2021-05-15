@@ -300,70 +300,24 @@ void  BoardGeneric::impl_postprocess ()
 
 /*
 ==============================================================================
-Name : make_vcv_indexes
+Name : init
 ==============================================================================
 */
 
-void  BoardGeneric::make_vcv_indexes ()
+void  BoardGeneric::init ()
 {
-   {
-      size_t o = 0;
+   setup_hw_representation (_buttons, _params.size (ROW_BUTTON));
+   setup_hw_representation (_adc16_channels_pots, _params.size (ROW_POT));
 
-      for (size_t i = 0 ; i < NBR_POTS ; ++i, ++o)
-      {
-         _to_vcv_index [&_adc16_channels [o]] = i;
-      }
+   setup_hw_representation (_gate_inputs, _inputs.size (ROW_GATE_IN));
+   setup_hw_representation (_adc16_channels_cvins, _inputs.size (ROW_CV_IN));
+   setup_hw_representation (_audio_buffer_inputs, _inputs.size (ROW_AUDIO_IN));
 
-      for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i, ++o)
-      {
-         _to_vcv_index [&_adc16_channels [o]] = i;
-      }
-   }
+   setup_hw_representation (_gate_outputs, _outputs.size (ROW_GATE_OUT));
+   setup_hw_representation (_cv_outputs, _outputs.size (ROW_CV_OUT));
+   setup_hw_representation (_audio_buffer_outputs, _outputs.size (ROW_AUDIO_OUT));
 
-   {
-      size_t o = 0;
-
-      for (size_t i = NBR_POTS ; i < NBR_PARAMS ; ++i, ++o)
-      {
-         _to_vcv_index [&_buttons [o]] = i;
-      }
-   }
-
-   {
-      size_t o = 0;
-
-      for (size_t i = 0 ; i < NBR_GATE_OUTPUTS ; ++i, ++o)
-      {
-         _to_vcv_index [&_outputs [o]] = i;
-      }
-   }
-
-   {
-      size_t o = 0;
-
-      for (size_t i = 0 ; i < NBR_LEDS ; ++i, ++o)
-      {
-         _to_vcv_index [&_lights [o]] = i;
-      }
-   }
-
-   {
-      size_t o = 0;
-
-      for (size_t i = NBR_CV_INPUTS ; i < NBR_INPUTS ; ++i, ++o)
-      {
-         _to_vcv_index [&_audio_buffer_inputs [o]] = i;
-      }
-   }
-
-   {
-      size_t o = 0;
-
-      for (size_t i = NBR_GATE_OUTPUTS ; i < NBR_OUTPUTS ; ++i, ++o)
-      {
-         _to_vcv_index [&_audio_buffer_outputs [o]] = i;
-      }
-   }
+   setup_hw_representation (_leds, _lights.size (ROW_LED));
 }
 
 

@@ -36,6 +36,25 @@ void  BoardGeneric::bind_process (F && f)
 
 
 
+/*
+==============================================================================
+Name : setup_hw_representation
+==============================================================================
+*/
+
+template <typename T>
+void  BoardGeneric::setup_hw_representation (T & arr, size_t size)
+{
+   arr.resize (size);
+
+   for (size_t i = 0 ; i < arr.size () ; ++i)
+   {
+      _to_vcv_index [&arr [i]] = i;
+   }
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
