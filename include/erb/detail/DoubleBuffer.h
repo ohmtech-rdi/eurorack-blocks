@@ -29,6 +29,7 @@ class DoubleBuffer
 
 public:
                   DoubleBuffer () = default;
+                  DoubleBuffer (DoubleBuffer && rhs) = default;
    virtual        ~DoubleBuffer () = default;
 
    inline         operator Buffer & ();
@@ -70,7 +71,6 @@ private:
 
 private:
                   DoubleBuffer (const DoubleBuffer & rhs) = delete;
-                  DoubleBuffer (DoubleBuffer && rhs) = delete;
    DoubleBuffer & operator = (const DoubleBuffer & rhs) = delete;
    DoubleBuffer & operator = (DoubleBuffer && rhs) = delete;
    bool           operator == (const DoubleBuffer & rhs) const = delete;
