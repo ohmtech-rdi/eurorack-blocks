@@ -86,6 +86,27 @@ public:
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
+   std::vector <uint8_t>
+                  _buttons;
+   std::vector <uint16_t>
+                  _pots;
+
+   std::vector <uint8_t>
+                  _gate_inputs;
+   std::vector <uint16_t>
+                  _cv_inputs;
+   std::vector <DoubleBuffer>
+                  _audio_inputs;
+
+   std::vector <uint8_t>
+                  _gate_outputs;
+   std::vector <float>
+                  _cv_outputs;
+   std::vector <DoubleBuffer>
+                  _audio_outputs;
+
+   std::vector <float>
+                  _leds;
 
 
 
@@ -122,12 +143,6 @@ private:
    template <typename T>
    void           setup_hw_representation (T & arr, size_t size);
 
-   void           convert_to_adc16_channels ();
-   void           convert_to_buttons ();
-
-   void           convert_from_gate_outputs ();
-   void           convert_from_leds ();
-
    Clock          _clock;
 
    JaggedArray <rack::engine::Param *>
@@ -138,28 +153,6 @@ private:
                   _outputs;
    JaggedArray <rack::engine::Light *>
                   _lights;
-
-   std::vector <uint8_t>
-                  _buttons;
-   std::vector <uint16_t>
-                  _adc16_channels_pots;
-
-   std::vector <uint8_t>
-                  _gate_inputs;
-   std::vector <uint16_t>
-                  _adc16_channels_cvins;
-   std::vector <DoubleBuffer>
-                  _audio_buffer_inputs;
-
-   std::vector <uint8_t>
-                  _gate_outputs;
-   std::vector <float>
-                  _cv_outputs;
-   std::vector <DoubleBuffer>
-                  _audio_buffer_outputs;
-
-   std::vector <float>
-                  _leds;
 
    std::map <const void * /* data */, size_t /* vcv index relative to type */>
                   _to_vcv_index;

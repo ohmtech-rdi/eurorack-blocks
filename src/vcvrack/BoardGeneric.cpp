@@ -203,7 +203,7 @@ Name : impl_to_vcv_index
 
 bool  BoardGeneric::impl_need_process ()
 {
-   return _audio_buffer_inputs [0].tell () == 0;
+   return _audio_inputs [0].tell () == 0;
 }
 
 
@@ -216,9 +216,9 @@ Name : impl_pull_audio_inputs
 
 void  BoardGeneric::impl_pull_audio_inputs ()
 {
-   for (size_t i = 0 ; i < _audio_buffer_inputs.size () ; ++i)
+   for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
    {
-      auto & double_buffer = _audio_buffer_inputs [i];
+      auto & double_buffer = _audio_inputs [i];
       auto & audio_input = *_inputs (ROW_AUDIO_IN, i);
 
       float sample = audio_input.getVoltage () * 0.2f;
@@ -237,9 +237,9 @@ Name : impl_push_audio_outputs
 
 void  BoardGeneric::impl_push_audio_outputs ()
 {
-   for (size_t i = 0 ; i < _audio_buffer_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
    {
-      auto & double_buffer = _audio_buffer_outputs [i];
+      auto & double_buffer = _audio_outputs [i];
       auto & audio_output = *_outputs (ROW_AUDIO_OUT, i);
 
       float sample = double_buffer.pull ();
@@ -258,8 +258,35 @@ Name : impl_preprocess
 
 void  BoardGeneric::impl_preprocess ()
 {
-   convert_to_adc16_channels ();
-   convert_to_buttons ();
+   constexpr float float_to_u16 = 65535.f;
+
+   for (size_t i = 0 ; i < _buttons.size () ; ++i)
+   {
+      auto norm_val = _params (ROW_BUTTON, i)->getValue ();
+      _buttons [i] = norm_val != 0.f;
+   }
+
+   for (size_t i = 0 ; i < _pots.size () ; ++i)
+   {
+      auto norm_val = _params (ROW_POT, i)->getValue ();
+      norm_val = std::clamp (norm_val, 0.f, 1.f);
+      _pots [i] = uint16_t (norm_val * float_to_u16);
+   }
+
+   for (size_t i = 0 ; i < _gate_inputs.size () ; ++i)
+   {
+      auto norm_val = _inputs (ROW_GATE_IN, i)->getVoltage ();
+      _gate_inputs [i] = norm_val > 0.1f;
+   }
+
+   for (size_t i = 0 ; i < _cv_inputs.size () ; ++i)
+   {
+      auto norm_val = _inputs (ROW_CV_IN, i)->getVoltage () * 0.1f + 0.5f;
+      norm_val = std::clamp (norm_val, 0.f, 1.f);
+      _cv_inputs [i] = uint16_t (norm_val * float_to_u16);
+   }
+
+   // _audio_inputs is already processed
 }
 
 
@@ -285,8 +312,26 @@ Name : impl_postprocess
 
 void  BoardGeneric::impl_postprocess ()
 {
-   convert_from_gate_outputs ();
-   convert_from_leds ();
+   for (size_t i = 0 ; i < _gate_outputs.size () ; ++i)
+   {
+      auto val = _gate_outputs [i];
+      _outputs (ROW_BUTTON, i)->setVoltage (float (val) * 5.f);
+   }
+
+   for (size_t i = 0 ; i < _cv_outputs.size () ; ++i)
+   {
+      auto val = _cv_outputs [i];
+      _outputs (ROW_CV_OUT, i)->setVoltage (float (val) * 5.f);
+   }
+
+   // _audio_outputs is already processed
+
+   for (size_t i = 0 ; i < _leds.size () ; ++i)
+   {
+      auto val = _leds [i];
+      _lights (ROW_LED, i)->setBrightness (val);
+   }
+
    _clock.tick ();
 }
 
@@ -307,103 +352,17 @@ Name : init
 void  BoardGeneric::init ()
 {
    setup_hw_representation (_buttons, _params.size (ROW_BUTTON));
-   setup_hw_representation (_adc16_channels_pots, _params.size (ROW_POT));
+   setup_hw_representation (_pots, _params.size (ROW_POT));
 
    setup_hw_representation (_gate_inputs, _inputs.size (ROW_GATE_IN));
-   setup_hw_representation (_adc16_channels_cvins, _inputs.size (ROW_CV_IN));
-   setup_hw_representation (_audio_buffer_inputs, _inputs.size (ROW_AUDIO_IN));
+   setup_hw_representation (_cv_inputs, _inputs.size (ROW_CV_IN));
+   setup_hw_representation (_audio_inputs, _inputs.size (ROW_AUDIO_IN));
 
    setup_hw_representation (_gate_outputs, _outputs.size (ROW_GATE_OUT));
    setup_hw_representation (_cv_outputs, _outputs.size (ROW_CV_OUT));
-   setup_hw_representation (_audio_buffer_outputs, _outputs.size (ROW_AUDIO_OUT));
+   setup_hw_representation (_audio_outputs, _outputs.size (ROW_AUDIO_OUT));
 
    setup_hw_representation (_leds, _lights.size (ROW_LED));
-}
-
-
-
-/*
-==============================================================================
-Name : convert_to_adc16_channels
-==============================================================================
-*/
-
-void  BoardGeneric::convert_to_adc16_channels ()
-{
-   size_t o = 0;
-
-   constexpr float float_to_u16 = 65535.f;
-
-   for (size_t i = 0 ; i < NBR_POTS ; ++i, ++o)
-   {
-      auto norm_val = _params [i]->getValue ();
-      norm_val = std::clamp (norm_val, 0.f, 1.f);
-      _adc16_channels [o] = uint16_t (norm_val * float_to_u16);
-   }
-
-   for (size_t i = 0 ; i < NBR_CV_INPUTS ; ++i, ++o)
-   {
-      auto norm_val = _inputs [i]->getVoltage () * 0.1f + 0.5f;
-      norm_val = std::clamp (norm_val, 0.f, 1.f);
-      _adc16_channels [o] = uint16_t (norm_val * float_to_u16);
-   }
-}
-
-
-
-/*
-==============================================================================
-Name : convert_to_buttons
-==============================================================================
-*/
-
-void  BoardGeneric::convert_to_buttons ()
-{
-   size_t o = 0;
-
-   for (size_t i = NBR_POTS ; i < NBR_PARAMS ; ++i, ++o)
-   {
-      auto norm_val = _params [i]->getValue ();
-      _buttons [o] = norm_val > 0.1f ? 1 : 0;
-   }
-}
-
-
-
-/*
-==============================================================================
-Name : convert_from_gate_outputs
-==============================================================================
-*/
-
-void  BoardGeneric::convert_from_gate_outputs ()
-{
-   size_t o = 0;
-
-   for (size_t i = 0 ; i < NBR_GATE_OUTPUTS ; ++i, ++o)
-   {
-      auto val = _gate_outputs [i];
-      _outputs [o]->setVoltage (float (val) * 5.f);
-   }
-}
-
-
-
-/*
-==============================================================================
-Name : convert_from_leds
-==============================================================================
-*/
-
-void  BoardGeneric::convert_from_leds ()
-{
-   size_t o = 0;
-
-   for (size_t i = 0 ; i < NBR_LEDS ; ++i, ++o)
-   {
-      auto val = _leds [i];
-      _lights [o]->setBrightness (val);
-   }
 }
 
 
