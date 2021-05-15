@@ -312,15 +312,15 @@ Name : impl_postprocess
 
 void  BoardGeneric::impl_postprocess ()
 {
-   for (size_t i = 0 ; i < _gate_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _digital_outputs.size () ; ++i)
    {
-      auto val = _gate_outputs [i];
+      auto val = _digital_outputs [i];
       _outputs (ROW_BUTTON, i)->setVoltage (float (val) * 5.f);
    }
 
-   for (size_t i = 0 ; i < _cv_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _analog_outputs.size () ; ++i)
    {
-      auto val = _cv_outputs [i];
+      auto val = _analog_outputs [i];
       _outputs (ROW_CV_OUT, i)->setVoltage (float (val) * 5.f);
    }
 

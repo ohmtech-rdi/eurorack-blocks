@@ -87,26 +87,18 @@ public:
 
 protected:
    std::vector <uint8_t>
-                  _buttons;
-   std::vector <uint16_t>
-                  _pots;
-
-   std::vector <uint8_t>
-                  _gate_inputs;
-   std::vector <uint16_t>
-                  _cv_inputs;
+                  _digital_inputs;
+   std::vector <float>
+                  _analog_inputs;
    std::vector <DoubleBuffer>
                   _audio_inputs;
 
    std::vector <uint8_t>
-                  _gate_outputs;
+                  _digital_outputs;
    std::vector <float>
-                  _cv_outputs;
+                  _analog_outputs;
    std::vector <DoubleBuffer>
                   _audio_outputs;
-
-   std::vector <float>
-                  _leds;
 
 
 
