@@ -29,7 +29,7 @@ class BoardKivu12
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardKivu12 () = default;
+                  BoardKivu12 (const Configuration & configuration) : BoardGeneric (configuration) {}
    virtual        ~BoardKivu12 () = default;
 
    // Digital Inputs
@@ -151,22 +151,13 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   enum
-   {
-                  NBR_POTS = 12,          // Pot, Trim
-                  NBR_LEDS = 20,          // Led, LedBi, LedRgb
-                  NBR_BUTTONS = 20,       // Button, GateIn
-                  NBR_CV_INPUTS = 8,      // CvIn
-                  NBR_GATE_OUTPUTS = 2,   // GateOut
-                  NBR_AUDIO_INPUTS = 2,   // AudioIn
-                  NBR_AUDIO_OUTPUTS = 2,  // AudioOut
-   };
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+                  BoardKivu12 () = delete;
                   BoardKivu12 (const BoardKivu12 & rhs) = delete;
                   BoardKivu12 (BoardKivu12 && rhs) = delete;
    BoardKivu12 &  operator = (const BoardKivu12 & rhs) = delete;

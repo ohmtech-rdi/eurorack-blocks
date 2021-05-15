@@ -33,6 +33,7 @@
             'Buffer.h',
             'Button.h',
             'Button.hpp',
+            'Configuration.h',
             'CvIn.h',
             'CvIn.hpp',
             'FloatRange.h',

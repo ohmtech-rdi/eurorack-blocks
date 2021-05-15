@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Configuration.h"
 #include "erb/detail/Clock.h"
 #include "erb/detail/DoubleBuffer.h"
 #include "erb/detail/JaggedArray.h"
@@ -46,13 +47,8 @@ class BoardGeneric
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardGeneric () = default;
+                  BoardGeneric (const Configuration & configuration);
    virtual        ~BoardGeneric () = default;
-
-   void           resize_params (size_t nbr_buttons, size_t nbr_pots);
-   void           resize_inputs (size_t nbr_gate_ins, size_t nbr_cv_ins, size_t nbr_audio_ins);
-   void           resize_outputs (size_t nbr_gate_outs, size_t nbr_cv_outs, size_t nbr_audio_outs);
-   void           resize_lights (size_t nbr_leds);
 
    size_t         nbr_params () const;
    size_t         nbr_inputs () const;
@@ -149,6 +145,11 @@ private:
                   VCV_ROW_LED = 0,
    };
 
+   void           resize_params (size_t nbr_buttons, size_t nbr_pots);
+   void           resize_inputs (size_t nbr_gate_ins, size_t nbr_cv_ins, size_t nbr_audio_ins);
+   void           resize_outputs (size_t nbr_gate_outs, size_t nbr_cv_outs, size_t nbr_audio_outs);
+   void           resize_lights (size_t nbr_leds);
+
    void           init ();
 
    void           init_digital_inputs ();
@@ -162,17 +163,10 @@ private:
    template <typename T, typename U>
    void           setup_hw_representation (T & hw, size_t hw_row, U & vcv, size_t vcv_row);
 
-   Clock          _clock;
+   const Configuration
+                  _configuration;
 
-   size_t         _nbr_buttons = 0;
-   size_t         _nbr_pots = 0;
-   size_t         _nbr_gate_ins = 0;
-   size_t         _nbr_cv_ins = 0;
-   size_t         _nbr_audio_ins = 0;
-   size_t         _nbr_gate_outs = 0;
-   size_t         _nbr_cv_outs = 0;
-   size_t         _nbr_audio_outs = 0;
-   size_t         _nbr_leds = 0;
+   Clock          _clock;
 
    JaggedArray <rack::engine::Param *>
                   _params;

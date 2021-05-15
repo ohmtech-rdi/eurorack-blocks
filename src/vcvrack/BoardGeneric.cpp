@@ -24,67 +24,31 @@ namespace erb
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-/*
-==============================================================================
-Name : resize_params
-==============================================================================
-*/
-
-void  BoardGeneric::resize_params (size_t nbr_buttons, size_t nbr_pots)
+BoardGeneric::BoardGeneric (const Configuration & configuration)
+:  _configuration (configuration)
 {
-   _nbr_buttons = nbr_buttons;
-   _nbr_pots = nbr_pots;
+   resize_params (
+      _configuration.total_nbr_buttons (),
+      _configuration.total_nbr_pots ()
+   );
 
-   _params.resize ({nbr_buttons, nbr_pots}, nullptr);
-}
+   resize_inputs (
+      _configuration.nbr_gate_ins,
+      _configuration.nbr_cv_ins,
+      _configuration.nbr_audio_ins
+   );
 
+   resize_outputs (
+      _configuration.nbr_gate_outs,
+      _configuration.nbr_cv_outs,
+      _configuration.nbr_audio_outs
+   );
 
+   resize_lights (
+      _configuration.total_nbr_leds ()
+   );
 
-/*
-==============================================================================
-Name : resize_inputs
-==============================================================================
-*/
-
-void  BoardGeneric::resize_inputs (size_t nbr_gate_ins, size_t nbr_cv_ins, size_t nbr_audio_ins)
-{
-   _nbr_gate_ins = nbr_gate_ins;
-   _nbr_cv_ins = nbr_cv_ins;
-   _nbr_audio_ins = nbr_audio_ins;
-
-   _inputs.resize ({nbr_gate_ins, nbr_cv_ins, nbr_audio_ins}, nullptr);
-}
-
-
-
-/*
-==============================================================================
-Name : resize_outputs
-==============================================================================
-*/
-
-void  BoardGeneric::resize_outputs (size_t nbr_gate_outs, size_t nbr_cv_outs, size_t nbr_audio_outs)
-{
-   _nbr_gate_outs = nbr_gate_outs;
-   _nbr_cv_outs = nbr_cv_outs;
-   _nbr_audio_outs = nbr_audio_outs;
-
-   _outputs.resize ({nbr_gate_outs, nbr_cv_outs, nbr_audio_outs}, nullptr);
-}
-
-
-
-/*
-==============================================================================
-Name : resize_lights
-==============================================================================
-*/
-
-void  BoardGeneric::resize_lights (size_t nbr_leds)
-{
-   _nbr_leds = nbr_leds;
-
-   _outputs.resize ({nbr_leds}, nullptr);
+   init ();
 }
 
 
@@ -362,6 +326,58 @@ void  BoardGeneric::impl_postprocess ()
 
 /*
 ==============================================================================
+Name : resize_params
+==============================================================================
+*/
+
+void  BoardGeneric::resize_params (size_t nbr_buttons, size_t nbr_pots)
+{
+   _params.resize ({nbr_buttons, nbr_pots}, nullptr);
+}
+
+
+
+/*
+==============================================================================
+Name : resize_inputs
+==============================================================================
+*/
+
+void  BoardGeneric::resize_inputs (size_t nbr_gate_ins, size_t nbr_cv_ins, size_t nbr_audio_ins)
+{
+   _inputs.resize ({nbr_gate_ins, nbr_cv_ins, nbr_audio_ins}, nullptr);
+}
+
+
+
+/*
+==============================================================================
+Name : resize_outputs
+==============================================================================
+*/
+
+void  BoardGeneric::resize_outputs (size_t nbr_gate_outs, size_t nbr_cv_outs, size_t nbr_audio_outs)
+{
+   _outputs.resize ({nbr_gate_outs, nbr_cv_outs, nbr_audio_outs}, nullptr);
+}
+
+
+
+/*
+==============================================================================
+Name : resize_lights
+==============================================================================
+*/
+
+void  BoardGeneric::resize_lights (size_t nbr_leds)
+{
+   _outputs.resize ({nbr_leds}, nullptr);
+}
+
+
+
+/*
+==============================================================================
 Name : init
 ==============================================================================
 */
@@ -387,7 +403,12 @@ Name : init_digital_inputs
 
 void  BoardGeneric::init_digital_inputs ()
 {
-   _digital_inputs.resize ({_nbr_buttons, _nbr_gate_ins}, 0);
+   _digital_inputs.resize (
+      {
+         _configuration.total_nbr_buttons (),
+         _configuration.nbr_gate_ins
+      }, 0
+   );
 
    setup_hw_representation (
       _digital_inputs, HW_ROW_BUTTON,
@@ -410,7 +431,13 @@ Name : init_analog_inputs
 
 void  BoardGeneric::init_analog_inputs ()
 {
-   _analog_inputs.resize ({_nbr_pots, _nbr_cv_ins}, 0);
+   _analog_inputs.resize (
+      {
+         _configuration.total_nbr_pots (),
+         _configuration.nbr_cv_ins
+      },
+      0
+   );
 
    setup_hw_representation (
       _analog_inputs, HW_ROW_POTS,
@@ -433,7 +460,10 @@ Name : init_audio_inputs
 
 void  BoardGeneric::init_audio_inputs ()
 {
-   _audio_inputs.resize ({_nbr_audio_ins}, Buffer {});
+   _audio_inputs.resize (
+      { _configuration.nbr_audio_ins },
+      Buffer {}
+   );
 
    setup_hw_representation (
       _audio_inputs, HW_ROW_AUDIO_IN,
@@ -451,7 +481,10 @@ Name : init_digital_outputs
 
 void  BoardGeneric::init_digital_outputs ()
 {
-   _digital_outputs.resize ({_nbr_gate_outs}, 0);
+   _digital_outputs.resize (
+      { _configuration.nbr_gate_outs },
+      0
+   );
 
    setup_hw_representation (
       _digital_outputs, HW_ROW_GATE_OUT,
@@ -469,7 +502,13 @@ Name : init_analog_outputs
 
 void  BoardGeneric::init_analog_outputs ()
 {
-   _analog_outputs.resize ({_nbr_cv_outs, _nbr_leds}, 0);
+   _analog_outputs.resize (
+      {
+         _configuration.nbr_cv_outs,
+         _configuration.total_nbr_leds ()
+      },
+      0
+   );
 
    setup_hw_representation (
       _analog_outputs, HW_ROW_CV_OUT,
@@ -492,7 +531,10 @@ Name : init_audio_outputs
 
 void  BoardGeneric::init_audio_outputs ()
 {
-   _audio_outputs.resize ({_nbr_audio_outs}, Buffer {});
+   _audio_outputs.resize (
+      { _configuration.nbr_audio_outs },
+      Buffer {}
+   );
 
    setup_hw_representation (
       _audio_outputs, HW_ROW_AUDIO_OUT,
