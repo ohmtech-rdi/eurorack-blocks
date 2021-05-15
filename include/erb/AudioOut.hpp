@@ -28,7 +28,7 @@ Name : ctor
 ==============================================================================
 */
 
-AudioOut::AudioOut (DoubleBuffer & buffer)
+AudioOut::AudioOut (Buffer & buffer)
 :  _data (buffer)
 {
 }

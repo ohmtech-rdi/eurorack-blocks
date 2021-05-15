@@ -203,7 +203,7 @@ Name : impl_to_vcv_index
 
 bool  BoardGeneric::impl_need_process ()
 {
-   return _audio_inputs [0].tell () == 0;
+   return _audio_double_buffer_inputs [0].tell () == 0;
 }
 
 
@@ -218,7 +218,7 @@ void  BoardGeneric::impl_pull_audio_inputs ()
 {
    for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
    {
-      auto & double_buffer = _audio_inputs [i];
+      auto & double_buffer = _audio_double_buffer_inputs [i];
       auto & audio_input = *_inputs (ROW_AUDIO_IN, i);
 
       float sample = audio_input.getVoltage () * 0.2f;
@@ -239,7 +239,7 @@ void  BoardGeneric::impl_push_audio_outputs ()
 {
    for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
    {
-      auto & double_buffer = _audio_outputs [i];
+      auto & double_buffer = _audio_double_buffer_outputs [i];
       auto & audio_output = *_outputs (ROW_AUDIO_OUT, i);
 
       float sample = double_buffer.pull ();
@@ -286,7 +286,10 @@ void  BoardGeneric::impl_preprocess ()
       _cv_inputs [i] = uint16_t (norm_val * float_to_u16);
    }
 
-   // _audio_inputs is already processed
+   for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
+   {
+      _audio_inputs [i] = _audio_double_buffer_inputs [i];
+   }
 }
 
 
@@ -324,7 +327,10 @@ void  BoardGeneric::impl_postprocess ()
       _outputs (ROW_CV_OUT, i)->setVoltage (float (val) * 5.f);
    }
 
-   // _audio_outputs is already processed
+   for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
+   {
+      _audio_double_buffer_outputs [i] = _audio_outputs [i];
+   }
 
    for (size_t i = 0 ; i < _leds.size () ; ++i)
    {

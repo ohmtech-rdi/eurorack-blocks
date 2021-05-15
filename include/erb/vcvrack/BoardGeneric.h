@@ -90,14 +90,14 @@ protected:
                   _digital_inputs;
    std::vector <float>
                   _analog_inputs;
-   std::vector <DoubleBuffer>
+   std::vector <Buffer>
                   _audio_inputs;
 
    std::vector <uint8_t>
                   _digital_outputs;
    std::vector <float>
                   _analog_outputs;
-   std::vector <DoubleBuffer>
+   std::vector <Buffer>
                   _audio_outputs;
 
 
@@ -148,6 +148,12 @@ private:
 
    std::map <const void * /* data */, size_t /* vcv index relative to type */>
                   _to_vcv_index;
+
+   std::vector <DoubleBuffer>
+                  _audio_double_buffer_inputs;
+   std::vector <DoubleBuffer>
+                  _audio_double_buffer_outputs;
+
 
    std::function <void ()>
                   _buffer_callback;

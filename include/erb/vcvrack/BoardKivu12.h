@@ -129,15 +129,15 @@ public:
    inline float & co2 () { return _analog_outputs [1]; }
 
    // Audio Inputs
-   inline const DoubleBuffer &
+   inline const Buffer &
                   ai1 () { return _audio_inputs [0]; }
-   inline const DoubleBuffer &
+   inline const Buffer &
                   ai2 () { return _audio_inputs [1]; }
 
    // Audio Outputs
-   inline DoubleBuffer &
+   inline Buffer &
                   ao1 () { return _audio_outputs [0]; }
-   inline DoubleBuffer &
+   inline Buffer &
                   ao2 () { return _audio_outputs [1]; }
 
 
