@@ -32,6 +32,9 @@ Name : resize_params
 
 void  BoardGeneric::resize_params (size_t nbr_buttons, size_t nbr_pots)
 {
+   _nbr_buttons = nbr_buttons;
+   _nbr_pots = nbr_pots;
+
    _params.resize ({nbr_buttons, nbr_pots}, nullptr);
 }
 
@@ -45,6 +48,10 @@ Name : resize_inputs
 
 void  BoardGeneric::resize_inputs (size_t nbr_gate_ins, size_t nbr_cv_ins, size_t nbr_audio_ins)
 {
+   _nbr_gate_ins = nbr_gate_ins;
+   _nbr_cv_ins = nbr_cv_ins;
+   _nbr_audio_ins = nbr_audio_ins;
+
    _inputs.resize ({nbr_gate_ins, nbr_cv_ins, nbr_audio_ins}, nullptr);
 }
 
@@ -58,6 +65,10 @@ Name : resize_outputs
 
 void  BoardGeneric::resize_outputs (size_t nbr_gate_outs, size_t nbr_cv_outs, size_t nbr_audio_outs)
 {
+   _nbr_gate_outs = nbr_gate_outs;
+   _nbr_cv_outs = nbr_cv_outs;
+   _nbr_audio_outs = nbr_audio_outs;
+
    _outputs.resize ({nbr_gate_outs, nbr_cv_outs, nbr_audio_outs}, nullptr);
 }
 
@@ -71,6 +82,8 @@ Name : resize_lights
 
 void  BoardGeneric::resize_lights (size_t nbr_leds)
 {
+   _nbr_leds = nbr_leds;
+
    _outputs.resize ({nbr_leds}, nullptr);
 }
 
@@ -219,7 +232,7 @@ void  BoardGeneric::impl_pull_audio_inputs ()
    for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
    {
       auto & double_buffer = _audio_double_buffer_inputs [i];
-      auto & audio_input = *_inputs (ROW_AUDIO_IN, i);
+      auto & audio_input = *_inputs (VCV_ROW_AUDIO_IN, i);
 
       float sample = audio_input.getVoltage () * 0.2f;
 
@@ -240,7 +253,7 @@ void  BoardGeneric::impl_push_audio_outputs ()
    for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
    {
       auto & double_buffer = _audio_double_buffer_outputs [i];
-      auto & audio_output = *_outputs (ROW_AUDIO_OUT, i);
+      auto & audio_output = *_outputs (VCV_ROW_AUDIO_OUT, i);
 
       float sample = double_buffer.pull ();
 
@@ -258,37 +271,35 @@ Name : impl_preprocess
 
 void  BoardGeneric::impl_preprocess ()
 {
-   constexpr float float_to_u16 = 65535.f;
-
-   for (size_t i = 0 ; i < _buttons.size () ; ++i)
+   for (size_t i = 0 ; i < _digital_inputs.size (HW_ROW_BUTTON) ; ++i)
    {
-      auto norm_val = _params (ROW_BUTTON, i)->getValue ();
-      _buttons [i] = norm_val != 0.f;
+      auto norm_val = _params (VCV_ROW_BUTTON, i)->getValue ();
+      _digital_inputs (HW_ROW_BUTTON, i) = norm_val != 0.f;
    }
 
-   for (size_t i = 0 ; i < _pots.size () ; ++i)
+   for (size_t i = 0 ; i < _digital_inputs.size (HW_ROW_GATE_IN) ; ++i)
    {
-      auto norm_val = _params (ROW_POT, i)->getValue ();
+      auto norm_val = _inputs (VCV_ROW_GATE_IN, i)->getVoltage ();
+      _digital_inputs (HW_ROW_GATE_IN, i) = norm_val > 0.1f;
+   }
+
+   for (size_t i = 0 ; i < _analog_inputs.size (HW_ROW_POTS) ; ++i)
+   {
+      auto norm_val = _params (VCV_ROW_POT, i)->getValue ();
       norm_val = std::clamp (norm_val, 0.f, 1.f);
-      _pots [i] = uint16_t (norm_val * float_to_u16);
+      _analog_inputs (HW_ROW_POTS, i) = norm_val;
    }
 
-   for (size_t i = 0 ; i < _gate_inputs.size () ; ++i)
+   for (size_t i = 0 ; i < _analog_inputs.size (HW_ROW_CV_IN) ; ++i)
    {
-      auto norm_val = _inputs (ROW_GATE_IN, i)->getVoltage ();
-      _gate_inputs [i] = norm_val > 0.1f;
-   }
-
-   for (size_t i = 0 ; i < _cv_inputs.size () ; ++i)
-   {
-      auto norm_val = _inputs (ROW_CV_IN, i)->getVoltage () * 0.1f + 0.5f;
+      auto norm_val = _inputs (VCV_ROW_CV_IN, i)->getVoltage () * 0.1f + 0.5f;
       norm_val = std::clamp (norm_val, 0.f, 1.f);
-      _cv_inputs [i] = uint16_t (norm_val * float_to_u16);
+      _analog_inputs (HW_ROW_CV_IN, i) = norm_val;
    }
 
-   for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
+   for (size_t i = 0 ; i < _audio_inputs.size (HW_ROW_AUDIO_IN) ; ++i)
    {
-      _audio_inputs [i] = _audio_double_buffer_inputs [i];
+      _audio_inputs (HW_ROW_AUDIO_IN, i) = _audio_double_buffer_inputs [i];
    }
 }
 
@@ -315,27 +326,27 @@ Name : impl_postprocess
 
 void  BoardGeneric::impl_postprocess ()
 {
-   for (size_t i = 0 ; i < _digital_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _digital_outputs.size (HW_ROW_GATE_OUT) ; ++i)
    {
-      auto val = _digital_outputs [i];
-      _outputs (ROW_BUTTON, i)->setVoltage (float (val) * 5.f);
+      auto val = _digital_outputs (HW_ROW_GATE_OUT, i);
+      _outputs (VCV_ROW_GATE_OUT, i)->setVoltage (float (val) * 5.f);
    }
 
-   for (size_t i = 0 ; i < _analog_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _analog_outputs.size (HW_ROW_CV_OUT) ; ++i)
    {
-      auto val = _analog_outputs [i];
-      _outputs (ROW_CV_OUT, i)->setVoltage (float (val) * 5.f);
+      auto val = _analog_outputs (HW_ROW_CV_OUT, i);
+      _outputs (VCV_ROW_CV_OUT, i)->setVoltage (float (val) * 5.f);
    }
 
-   for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _analog_outputs.size (HW_ROW_LED) ; ++i)
    {
-      _audio_double_buffer_outputs [i] = _audio_outputs [i];
+      auto val = _analog_outputs (HW_ROW_LED, i);
+      _lights (VCV_ROW_LED, i)->setBrightness (val);
    }
 
-   for (size_t i = 0 ; i < _leds.size () ; ++i)
+   for (size_t i = 0 ; i < _audio_outputs.size (HW_ROW_AUDIO_OUT) ; ++i)
    {
-      auto val = _leds [i];
-      _lights (ROW_LED, i)->setBrightness (val);
+      _audio_double_buffer_outputs [i] = _audio_outputs (HW_ROW_AUDIO_OUT, i);
    }
 
    _clock.tick ();
@@ -357,6 +368,14 @@ Name : init
 
 void  BoardGeneric::init ()
 {
+   _digital_inputs.resize ({_nbr_buttons, _nbr_gate_ins}, 0);
+   _analog_inputs.resize ({_nbr_pots, _nbr_cv_ins}, 0);
+   _audio_inputs.resize ({_nbr_audio_ins}, Buffer {});
+
+   _digital_outputs.resize ({_nbr_gate_outs}, 0);
+   _analog_outputs.resize ({_nbr_cv_outs, _nbr_leds}, 0);
+   _audio_outputs.resize ({_nbr_audio_outs}, Buffer {});
+
    setup_hw_representation (_buttons, _params.size (ROW_BUTTON));
    setup_hw_representation (_pots, _params.size (ROW_POT));
 

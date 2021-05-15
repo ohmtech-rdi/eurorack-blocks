@@ -86,18 +86,42 @@ public:
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
-   std::vector <uint8_t>
+   enum : size_t
+   {
+                  // Digital Inputs
+                  HW_ROW_BUTTON = 0,
+                  HW_ROW_GATE_IN,
+
+                  // Analog Inputs
+                  HW_ROW_POTS = 0,
+                  HW_ROW_CV_IN,
+
+                  // Audio Inputs
+                  HW_ROW_AUDIO_IN = 0,
+
+                  // Digital Outputs
+                  HW_ROW_GATE_OUT = 0,
+
+                  // Analog Outputs
+                  HW_ROW_CV_OUT = 0,
+                  HW_ROW_LED,
+
+                  // Audio Outputs
+                  HW_ROW_AUDIO_OUT = 0,
+   };
+
+   JaggedArray <uint8_t>
                   _digital_inputs;
-   std::vector <float>
+   JaggedArray <float>
                   _analog_inputs;
-   std::vector <Buffer>
+   JaggedArray <Buffer>
                   _audio_inputs;
 
-   std::vector <uint8_t>
+   JaggedArray <uint8_t>
                   _digital_outputs;
-   std::vector <float>
+   JaggedArray <float>
                   _analog_outputs;
-   std::vector <Buffer>
+   JaggedArray <Buffer>
                   _audio_outputs;
 
 
@@ -105,29 +129,24 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   enum
+   enum : size_t
    {
-                  ROW_BUTTON = 0,
-                  ROW_POT,
-   };
+                  // Params
+                  VCV_ROW_BUTTON = 0,
+                  VCV_ROW_POT,
 
-   enum
-   {
-                  ROW_GATE_IN = 0,
-                  ROW_CV_IN,
-                  ROW_AUDIO_IN,
-   };
+                  // Inputs
+                  VCV_ROW_GATE_IN = 0,
+                  VCV_ROW_CV_IN,
+                  VCV_ROW_AUDIO_IN,
 
-   enum
-   {
-                  ROW_GATE_OUT = 0,
-                  ROW_CV_OUT,
-                  ROW_AUDIO_OUT,
-   };
+                  // Outputs
+                  VCV_ROW_GATE_OUT = 0,
+                  VCV_ROW_CV_OUT,
+                  VCV_ROW_AUDIO_OUT,
 
-   enum
-   {
-                  ROW_LED = 0,
+                  // Lights
+                  VCV_ROW_LED = 0,
    };
 
    void           init ();
@@ -136,6 +155,16 @@ private:
    void           setup_hw_representation (T & arr, size_t size);
 
    Clock          _clock;
+
+   size_t         _nbr_buttons = 0;
+   size_t         _nbr_pots = 0;
+   size_t         _nbr_gate_ins = 0;
+   size_t         _nbr_cv_ins = 0;
+   size_t         _nbr_audio_ins = 0;
+   size_t         _nbr_gate_outs = 0;
+   size_t         _nbr_cv_outs = 0;
+   size_t         _nbr_audio_outs = 0;
+   size_t         _nbr_leds = 0;
 
    JaggedArray <rack::engine::Param *>
                   _params;
