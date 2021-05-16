@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      BoardBase.hpp
+      BoardDaisySeed.hpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -29,7 +29,7 @@ Name : run
 */
 
 template <typename F>
-void  BoardBase::run (F && f)
+void  BoardDaisySeed::run (F && f)
 {
    _run = std::forward <F> (f);
 
@@ -47,7 +47,7 @@ Name : init_adc_channels
 */
 
 template <size_t MaxNbrChannels>
-std::array <uint16_t *, MaxNbrChannels>   BoardBase::init_adc_channels (std::initializer_list <AdcChannel> adc_channels)
+std::array <uint16_t *, MaxNbrChannels>   BoardDaisySeed::init_adc_channels (std::initializer_list <AdcChannel> adc_channels)
 {
    std::array <daisy::AdcChannelConfig, NBR_MAX_ADC_CHANNELS> configs;
 
@@ -59,12 +59,12 @@ std::array <uint16_t *, MaxNbrChannels>   BoardBase::init_adc_channels (std::ini
 
       if (adc_channel.nbr_channels == 1)
       {
-         config.InitSingle (adc_channel.pin);
+         config.InitSingle (adc_channel.pin.pin);
       }
       else
       {
          config.InitMux (
-            adc_channel.pin,
+            adc_channel.pin.pin,
             adc_channel.nbr_channels,
             adc_channel.pin_a,
             adc_channel.pin_b,

@@ -43,7 +43,7 @@ int main ()
 
    erb::module_init (module);
 
-   module.ui.module.run ([&](){
+   module.ui.board.run ([&](){
       module.ui.board.impl_preprocess ();
 
 %     controls_preprocess%

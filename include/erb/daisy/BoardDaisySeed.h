@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/Buffer.h"
+#include "erb/detail/Clock.h"
 
 #include "erb/def.h"
 
@@ -111,7 +112,7 @@ public:
 
 protected:
 
-   struct Adc16Channel
+   struct AdcChannel
    {
       AdcPin      pin;
       size_t      nbr_channels = 1;
@@ -121,13 +122,14 @@ protected:
    };
 
    enum { NBR_AUDIO_CHANNELS = 2 };
+   enum { NBR_MAX_ADC_CHANNELS = 12 };
 
    using AudioBufferInputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
    using AudioBufferOutputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
 
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
-                  init_adc16_channels (std::initializer_list <AdcChannel> adc_channels);
+                  init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
 
    AudioBufferInputs
                   _audio_buffer_inputs;
@@ -188,6 +190,10 @@ inline bool      operator == (const BoardDaisySeed::Pin & lhs, const BoardDaisyS
 
 
 }  // namespace erb
+
+
+
+#include "erb/daisy/BoardDaisySeed.hpp"
 
 
 

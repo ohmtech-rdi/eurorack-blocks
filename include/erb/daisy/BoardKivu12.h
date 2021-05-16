@@ -147,7 +147,6 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    void           impl_preprocess ();
-   void           impl_process ();
    void           impl_postprocess ();
 
 
@@ -172,25 +171,24 @@ private:
                   NBR_AUDIO_OUTPUTS = 2,
    };
 
-   std::array <uint8_t, 20>
+   std::array <uint8_t, NBR_DIGITAL_INPUTS>
                   _digital_inputs;
-   std::array <float, 20>
+   std::array <float, NBR_ANALOG_INPUTS>
                   _analog_inputs;
-   std::array <Buffer, 2>
+   std::array <Buffer, NBR_AUDIO_INPUTS>
                   _audio_inputs;
 
-   std::array <uint8_t, 2>
+   std::array <uint8_t, NBR_DIGITAL_OUTPUTS>
                   _digital_outputs;
-   std::array <float, 22>
+   std::array <float, NBR_ANALOG_OUTPUTS>
                   _analog_outputs;
-   std::array <Buffer, 2>
+   std::array <Buffer, NBR_AUDIO_OUTPUTS>
                   _audio_outputs;
 
    void           init_analog_channels ();
-   void           init_audio ();
 
    // ADCs
-   std::array <uint16_t *, NBR_ADC_CHANNELS>
+   std::array <uint16_t *, NBR_ANALOG_INPUTS>
                   _adc16_channels = {};
 
 

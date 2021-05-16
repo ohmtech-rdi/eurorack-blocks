@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/kivu12/BoardKivu12.h"
+#include "erb/daisy/BoardKivu12.h"
 
 
 
@@ -28,8 +28,7 @@ Name : ctor
 
 BoardKivu12::BoardKivu12 ()
 {
-   init_adc_channels ();
-   init_audio ();
+   init_analog_channels ();
 }
 
 
@@ -68,13 +67,13 @@ void  BoardKivu12::impl_postprocess ()
 
 /*
 ==============================================================================
-Name : init_adc_channels
+Name : init_analog_channels
 ==============================================================================
 */
 
-void  BoardKivu12::init_adc_channels ()
+void  BoardKivu12::init_analog_channels ()
 {
-   _adcs_u16 = BoardDaisySeed::init_adc_channels <NBR_ADC_CHANNELS> ({
+   _adc16_channels = BoardDaisySeed::init_adc_channels <NBR_ANALOG_INPUTS> ({
       // 8 CVs
       {AdcPin1}, {AdcPin2}, {AdcPin3}, {AdcPin4},
       {AdcPin5}, {AdcPin6}, {AdcPin7}, {AdcPin8},
@@ -82,21 +81,6 @@ void  BoardKivu12::init_adc_channels ()
       {AdcPin9, 8, Pin19, Pin20, Pin21},
       {AdcPin10, 8, Pin19, Pin20, Pin21} // 4 last ones ignored
    });
-}
-
-
-
-/*
-==============================================================================
-Name : init_audio
-==============================================================================
-*/
-
-void  BoardKivu12::init_audio ()
-{
-   for (size_t i = 0 ; i < NBR_AUDIO_INPUTS ; ++i)
-   {
-   }
 }
 
 
