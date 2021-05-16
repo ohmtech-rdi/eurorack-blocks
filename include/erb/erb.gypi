@@ -33,7 +33,6 @@
             'Buffer.h',
             'Button.h',
             'Button.hpp',
-            'Configuration.h',
             'CvIn.h',
             'CvIn.hpp',
             'FloatRange.h',
@@ -62,8 +61,6 @@
             'detail/DoubleBuffer.hpp',
             'detail/GateGenerator.h',
             'detail/GateGenerator.hpp',
-            'detail/JaggedArray.h',
-            'detail/JaggedArray.hpp',
 
             '../../src/Button.cpp',
             '../../src/GateOut.cpp',

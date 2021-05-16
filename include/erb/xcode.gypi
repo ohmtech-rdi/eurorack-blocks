@@ -33,7 +33,8 @@
       'xcode_settings':
       {
          'ARCHS': ['x86_64'],
-         'MACOSX_DEPLOYMENT_TARGET': '10.7',
+         'MACOSX_DEPLOYMENT_TARGET': '10.14',
+
 
          'CLANG_CXX_LANGUAGE_STANDARD': 'c++17',
          'CLANG_CXX_LIBRARY': 'libc++',

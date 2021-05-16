@@ -29,7 +29,7 @@ class BoardKivu12
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardKivu12 (const Configuration & configuration) : BoardGeneric (configuration) {}
+                  BoardKivu12 () : BoardGeneric (20, 20, 2, 2, 22, 2) {}
    virtual        ~BoardKivu12 () = default;
 
    // Digital Inputs
@@ -157,7 +157,6 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  BoardKivu12 () = delete;
                   BoardKivu12 (const BoardKivu12 & rhs) = delete;
                   BoardKivu12 (BoardKivu12 && rhs) = delete;
    BoardKivu12 &  operator = (const BoardKivu12 & rhs) = delete;

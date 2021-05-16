@@ -21,11 +21,7 @@
 
 struct %module.name%Ui
 {
-   erb::Configuration configuration {
-%configuration%
-   };
-
-   erb::%type(module.board)% board { configuration };
+   erb::%type(module.board)% board;
 
 %entities%
 };

@@ -11,6 +11,9 @@
 
 #include "erb/vcvrack/BoardGeneric.h"
 
+#include "erb/AudioIn.h"
+#include "erb/CvIn.h"
+
 #include <rack.hpp>
 
 #include <algorithm>
@@ -24,83 +27,17 @@ namespace erb
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-BoardGeneric::BoardGeneric (const Configuration & configuration)
-:  _configuration (configuration)
+BoardGeneric::BoardGeneric (size_t nbr_digital_inputs, size_t nbr_analog_inputs, size_t nbr_audio_inputs, size_t nbr_digital_outputs, size_t nbr_analog_outputs, size_t nbr_audio_outputs)
+:  _digital_inputs (nbr_digital_inputs, 0)
+,  _analog_inputs (nbr_analog_inputs, 0.f)
+,  _audio_inputs (nbr_audio_inputs, Buffer {})
+,  _digital_outputs (nbr_digital_outputs, 0)
+,  _analog_outputs (nbr_analog_outputs, 0.f)
+,  _audio_outputs (nbr_audio_outputs, Buffer {})
+
+,  _audio_double_buffer_inputs (nbr_audio_inputs)
+,  _audio_double_buffer_outputs (nbr_audio_outputs)
 {
-   resize_params (
-      _configuration.total_nbr_buttons (),
-      _configuration.total_nbr_pots ()
-   );
-
-   resize_inputs (
-      _configuration.nbr_gate_ins,
-      _configuration.nbr_cv_ins,
-      _configuration.nbr_audio_ins
-   );
-
-   resize_outputs (
-      _configuration.nbr_gate_outs,
-      _configuration.nbr_cv_outs,
-      _configuration.nbr_audio_outs
-   );
-
-   resize_lights (
-      _configuration.total_nbr_leds ()
-   );
-
-   init ();
-}
-
-
-
-/*
-==============================================================================
-Name : nbr_params
-==============================================================================
-*/
-
-size_t   BoardGeneric::nbr_params () const
-{
-   return _params.size ();
-}
-
-
-
-/*
-==============================================================================
-Name : nbr_inputs
-==============================================================================
-*/
-
-size_t   BoardGeneric::nbr_inputs () const
-{
-   return _inputs.size ();
-}
-
-
-
-/*
-==============================================================================
-Name : nbr_outputs
-==============================================================================
-*/
-
-size_t   BoardGeneric::nbr_outputs () const
-{
-   return _outputs.size ();
-}
-
-
-
-/*
-==============================================================================
-Name : nbr_lights
-==============================================================================
-*/
-
-size_t   BoardGeneric::nbr_lights () const
-{
-   return _lights.size ();
 }
 
 
@@ -111,9 +48,12 @@ Name : impl_bind
 ==============================================================================
 */
 
-void  BoardGeneric::impl_bind (size_t idx, rack::engine::Param & param)
+template <>
+void  BoardGeneric::impl_bind (AudioIn & control, DoubleBuffer & model)
 {
-   _params [idx] = &param;
+   _binding_inputs.push_back (BindingAudioIn {
+      control.impl_data (), &model
+   });
 }
 
 
@@ -124,35 +64,13 @@ Name : impl_bind
 ==============================================================================
 */
 
-void  BoardGeneric::impl_bind (size_t idx, rack::engine::Input & input)
+template <>
+void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, rack::engine::Input & model)
 {
-   _inputs [idx] = &input;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-void  BoardGeneric::impl_bind (size_t idx, rack::engine::Output & output)
-{
-   _outputs [idx] = &output;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-void  BoardGeneric::impl_bind (size_t idx, rack::engine::Light & light)
-{
-   _lights [idx] = &light;
+   _binding_inputs.push_back (BindingCvIn {
+      .data_ptr = &control.impl_data,
+      .input_ptr = &model
+   });
 }
 
 
@@ -161,20 +79,7 @@ void  BoardGeneric::impl_bind (size_t idx, rack::engine::Light & light)
 
 /*
 ==============================================================================
-Name : impl_to_vcv_index
-==============================================================================
-*/
-
-size_t   BoardGeneric::impl_to_vcv_index (const void * data) const
-{
-   return _to_vcv_index.at (data);
-}
-
-
-
-/*
-==============================================================================
-Name : impl_to_vcv_index
+Name : impl_need_process
 ==============================================================================
 */
 
@@ -235,7 +140,12 @@ Name : impl_preprocess
 
 void  BoardGeneric::impl_preprocess ()
 {
-   for (size_t i = 0 ; i < _digital_inputs.size (HW_ROW_BUTTON) ; ++i)
+   for (auto && binding : _binding_inputs)
+   {
+      std::visit ([](auto && arg){arg.process ();}, binding);
+   }
+
+   /*for (size_t i = 0 ; i < _digital_inputs.size (HW_ROW_BUTTON) ; ++i)
    {
       auto norm_val = _params (VCV_ROW_BUTTON, i)->getValue ();
       _digital_inputs (HW_ROW_BUTTON, i) = norm_val != 0.f;
@@ -264,7 +174,7 @@ void  BoardGeneric::impl_preprocess ()
    for (size_t i = 0 ; i < _audio_inputs.size (HW_ROW_AUDIO_IN) ; ++i)
    {
       _audio_inputs (HW_ROW_AUDIO_IN, i) = _audio_double_buffer_inputs [i];
-   }
+   }*/
 }
 
 
@@ -290,7 +200,12 @@ Name : impl_postprocess
 
 void  BoardGeneric::impl_postprocess ()
 {
-   for (size_t i = 0 ; i < _digital_outputs.size (HW_ROW_GATE_OUT) ; ++i)
+   for (auto && binding : _binding_outputs)
+   {
+      std::visit ([](auto && arg){arg.process ();}, binding);
+   }
+
+   /*for (size_t i = 0 ; i < _digital_outputs.size (HW_ROW_GATE_OUT) ; ++i)
    {
       auto val = _digital_outputs (HW_ROW_GATE_OUT, i);
       _outputs (VCV_ROW_GATE_OUT, i)->setVoltage (float (val) * 5.f);
@@ -311,7 +226,7 @@ void  BoardGeneric::impl_postprocess ()
    for (size_t i = 0 ; i < _audio_outputs.size (HW_ROW_AUDIO_OUT) ; ++i)
    {
       _audio_double_buffer_outputs [i] = _audio_outputs (HW_ROW_AUDIO_OUT, i);
-   }
+   }*/
 
    _clock.tick ();
 }
@@ -323,224 +238,6 @@ void  BoardGeneric::impl_postprocess ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : resize_params
-==============================================================================
-*/
-
-void  BoardGeneric::resize_params (size_t nbr_buttons, size_t nbr_pots)
-{
-   _params.resize ({nbr_buttons, nbr_pots}, nullptr);
-}
-
-
-
-/*
-==============================================================================
-Name : resize_inputs
-==============================================================================
-*/
-
-void  BoardGeneric::resize_inputs (size_t nbr_gate_ins, size_t nbr_cv_ins, size_t nbr_audio_ins)
-{
-   _inputs.resize ({nbr_gate_ins, nbr_cv_ins, nbr_audio_ins}, nullptr);
-}
-
-
-
-/*
-==============================================================================
-Name : resize_outputs
-==============================================================================
-*/
-
-void  BoardGeneric::resize_outputs (size_t nbr_gate_outs, size_t nbr_cv_outs, size_t nbr_audio_outs)
-{
-   _outputs.resize ({nbr_gate_outs, nbr_cv_outs, nbr_audio_outs}, nullptr);
-}
-
-
-
-/*
-==============================================================================
-Name : resize_lights
-==============================================================================
-*/
-
-void  BoardGeneric::resize_lights (size_t nbr_leds)
-{
-   _outputs.resize ({nbr_leds}, nullptr);
-}
-
-
-
-/*
-==============================================================================
-Name : init
-==============================================================================
-*/
-
-void  BoardGeneric::init ()
-{
-   init_digital_inputs ();
-   init_analog_inputs ();
-   init_audio_inputs ();
-
-   init_digital_outputs ();
-   init_analog_outputs ();
-   init_audio_outputs ();
-}
-
-
-
-/*
-==============================================================================
-Name : init_digital_inputs
-==============================================================================
-*/
-
-void  BoardGeneric::init_digital_inputs ()
-{
-   _digital_inputs.resize (
-      {
-         _configuration.total_nbr_buttons (),
-         _configuration.nbr_gate_ins
-      }, 0
-   );
-
-   setup_hw_representation (
-      _digital_inputs, HW_ROW_BUTTON,
-      _params, VCV_ROW_BUTTON
-   );
-
-   setup_hw_representation (
-      _digital_inputs, HW_ROW_GATE_IN,
-      _inputs, VCV_ROW_GATE_IN
-   );
-}
-
-
-
-/*
-==============================================================================
-Name : init_analog_inputs
-==============================================================================
-*/
-
-void  BoardGeneric::init_analog_inputs ()
-{
-   _analog_inputs.resize (
-      {
-         _configuration.total_nbr_pots (),
-         _configuration.nbr_cv_ins
-      },
-      0
-   );
-
-   setup_hw_representation (
-      _analog_inputs, HW_ROW_POTS,
-      _params, VCV_ROW_POT
-   );
-
-   setup_hw_representation (
-      _analog_inputs, HW_ROW_CV_IN,
-      _inputs, VCV_ROW_CV_IN
-   );
-}
-
-
-
-/*
-==============================================================================
-Name : init_audio_inputs
-==============================================================================
-*/
-
-void  BoardGeneric::init_audio_inputs ()
-{
-   _audio_inputs.resize (
-      { _configuration.nbr_audio_ins },
-      Buffer {}
-   );
-
-   setup_hw_representation (
-      _audio_inputs, HW_ROW_AUDIO_IN,
-      _inputs, VCV_ROW_AUDIO_IN
-   );
-}
-
-
-
-/*
-==============================================================================
-Name : init_digital_outputs
-==============================================================================
-*/
-
-void  BoardGeneric::init_digital_outputs ()
-{
-   _digital_outputs.resize (
-      { _configuration.nbr_gate_outs },
-      0
-   );
-
-   setup_hw_representation (
-      _digital_outputs, HW_ROW_GATE_OUT,
-      _outputs, VCV_ROW_GATE_OUT
-   );
-}
-
-
-
-/*
-==============================================================================
-Name : init_analog_outputs
-==============================================================================
-*/
-
-void  BoardGeneric::init_analog_outputs ()
-{
-   _analog_outputs.resize (
-      {
-         _configuration.nbr_cv_outs,
-         _configuration.total_nbr_leds ()
-      },
-      0
-   );
-
-   setup_hw_representation (
-      _analog_outputs, HW_ROW_CV_OUT,
-      _outputs, VCV_ROW_CV_OUT
-   );
-
-   setup_hw_representation (
-      _analog_outputs, HW_ROW_LED,
-      _lights, VCV_ROW_LED
-   );
-}
-
-
-
-/*
-==============================================================================
-Name : init_audio_outputs
-==============================================================================
-*/
-
-void  BoardGeneric::init_audio_outputs ()
-{
-   _audio_outputs.resize (
-      { _configuration.nbr_audio_outs },
-      Buffer {}
-   );
-
-   setup_hw_representation (
-      _audio_outputs, HW_ROW_AUDIO_OUT,
-      _outputs, VCV_ROW_AUDIO_OUT
-   );
-}
 
 
 

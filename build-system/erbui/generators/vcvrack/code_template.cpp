@@ -98,43 +98,17 @@ ErbModule::ErbModule ()
    // for the Daisy target.
 
    config (
-      module.ui.board.nbr_params (),
-      module.ui.board.nbr_inputs (),
-      module.ui.board.nbr_outputs (),
-      module.ui.board.nbr_lights ()
+      /* nbr_params  */ %module.nbr_params%,
+      /* nbr_inputs  */ %module.nbr_inputs%,
+      /* nbr_outputs */ %module.nbr_outputs%,
+      /* nbr_lights  */ %module.nbr_lights%
    );
 
    // bind
 
-   for (size_t i = 0 ; i < module.ui.board.nbr_params () ; ++i)
-   {
-      module.ui.board.impl_bind (i, params [i]);
-   }
+%  module.ui.board.impl_bind (module.ui.control, model [idx]);%
 
-   for (size_t i = 0 ; i < module.ui.board.nbr_inputs () ; ++i)
-   {
-      module.ui.board.impl_bind (i, inputs [i]);
-   }
-
-   for (size_t i = 0 ; i < module.ui.board.nbr_outputs () ; ++i)
-   {
-      module.ui.board.impl_bind (i, outputs [i]);
-   }
-
-   for (size_t i = 0 ; i < module.ui.board.nbr_lights () ; ++i)
-   {
-      module.ui.board.impl_bind (i, lights [i]);
-   }
-
-   // configure params values
-
-   for (size_t i = 0 ; i < module.ui.board.nbr_params () ; ++i)
-   {
-      float max_value = 1.f;
-
-%controls_config%
-      configParam (int (i), 0.f, max_value, 0.f);
-   }
+%  configParam (idx, min, max, default);%
 
    erb::module_init (module);
 
@@ -161,11 +135,11 @@ void  ErbModule::process (const ProcessArgs & /* args */)
    {
       module.ui.board.impl_preprocess ();
 
-%controls_preprocess%
+%     controls_preprocess%
 
       module.ui.board.impl_process ();
 
-%controls_postprocess%
+%     controls_postprocess%
 
       module.ui.board.impl_postprocess ();
    }
@@ -213,7 +187,7 @@ ErbWidget::ErbWidget (ErbModule * module_)
 
    // controls
 
-%controls%
+%  controls%
 }
 
 
