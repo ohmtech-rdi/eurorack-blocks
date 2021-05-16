@@ -106,9 +106,7 @@ ErbModule::ErbModule ()
 
    // bind
 
-%  module.ui.board.impl_bind (module.ui.control, model [idx]);%
-
-%  configParam (idx, min, max, default);%
+%  module.controls.bind+config%
 
    erb::module_init (module);
 

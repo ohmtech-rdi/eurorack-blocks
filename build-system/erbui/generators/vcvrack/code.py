@@ -36,20 +36,62 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
+      template = self.replace_config_controls_bind (module.entities);
+
       controls_content = self.generate_controls (module.entities)
-      template = template.replace ('%controls%', controls_content)
+      template = template.replace ('%  controls%', controls_content)
 
       controls_preprocess = self.generate_controls_preprocess (module.entities)
-      template = template.replace ('%controls_preprocess%', controls_preprocess)
+      template = template.replace ('%     controls_preprocess%', controls_preprocess)
 
       controls_postprocess = self.generate_controls_postprocess (module.entities)
-      template = template.replace ('%controls_postprocess%', controls_postprocess)
+      template = template.replace ('%     controls_postprocess%', controls_postprocess)
 
       controls_config = self.generate_controls_config (module.entities)
-      template = template.replace ('%controls_config%', controls_config)
+      template = template.replace ('%  controls_config%', controls_config)
 
       with open (path_cpp, 'w') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_config_controls_bind (self, entities):
+      nbr_params = 0
+      nbr_inputs = 0
+      nbr_outputs = 0
+      nbr_lights = 0
+
+      controls_bind_config = ''
+
+      for entity in entities:
+         if entity.is_control:
+            category = self.control_kind_to_vcv_category (control)
+
+            if category == 'Param':
+               min_val = -1.f if control.mode.is_bipolar else 0.f
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
+               controls_bind_config += '   configParam (%d, %f, 1.f, 0.f);\n' % (nbr_params, min_val)
+               nbr_params += 1
+
+            elif category == 'Input':
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
+               nbr_inputs += 1
+
+            elif category == 'Output':
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
+               nbr_outputs += 1
+
+            elif category == 'Light':
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
+               nbr_lights += 1
+
+      template = template.replace ('%module.nbr_params%', nbr_params)
+      template = template.replace ('%module.nbr_inputs%', nbr_inputs)
+      template = template.replace ('%module.nbr_outputs%', nbr_outputs)
+      template = template.replace ('%module.nbr_lights%', nbr_lights)
+
+      template = template.replace ('%  module.controls.bind+config%', controls_bind_config)
 
 
    #--------------------------------------------------------------------------
@@ -133,39 +175,11 @@ class Code:
 
    def generate_control (self, control):
 
-      type_func_category_map = {
-         'AudioIn': 'Input',
-         'AudioOut': 'Output',
-         'Button': 'Param',
-         'CvIn': 'Input',
-         'GateIn': 'Input',
-         'GateOut': 'Output',
-         'Led': 'Child',
-         'LedBi': 'Child',
-         'LedRgb': 'Child',
-         'Pot': 'Param',
-         'Switch': 'Param',
-         'Trim': 'Param',
-      }
+      category = self.control_kind_to_vcv_category (control)
 
-      func_category = type_func_category_map [control.kind]
-
-      type_category_map = {
-         'AudioIn': 'Input',
-         'AudioOut': 'Output',
-         'Button': 'Param',
-         'CvIn': 'Input',
-         'GateIn': 'Input',
-         'GateOut': 'Output',
-         'Led': 'Light',
-         'LedBi': 'Light',
-         'LedRgb': 'Light',
-         'Pot': 'Param',
-         'Switch': 'Param',
-         'Trim': 'Param',
-      }
-
-      category = type_category_map [control.kind]
+      func_category = category
+      if func_category == 'Light':
+         func_category = 'Child'
 
       style_widget_map = {
          'rogan.6ps': 'erb::Rogan6Ps',
@@ -206,5 +220,26 @@ class Code:
       source_code += '\n'
 
       return source_code
+
+
+   #--------------------------------------------------------------------------
+
+   def control_kind_to_vcv_category (self, control):
+      kind_category_map = {
+         'AudioIn': 'Input',
+         'AudioOut': 'Output',
+         'Button': 'Param',
+         'CvIn': 'Input',
+         'GateIn': 'Input',
+         'GateOut': 'Output',
+         'Led': 'Light',
+         'LedBi': 'Light',
+         'LedRgb': 'Light',
+         'Pot': 'Param',
+         'Switch': 'Param',
+         'Trim': 'Param',
+      }
+
+      return kind_category_map [control.kind]
 
 
