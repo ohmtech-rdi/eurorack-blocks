@@ -36,19 +36,10 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
-      template = self.replace_config_controls_bind (module.entities);
-
-      controls_content = self.generate_controls (module.entities)
-      template = template.replace ('%  controls%', controls_content)
-
-      controls_preprocess = self.generate_controls_preprocess (module.entities)
-      template = template.replace ('%     controls_preprocess%', controls_preprocess)
-
-      controls_postprocess = self.generate_controls_postprocess (module.entities)
-      template = template.replace ('%     controls_postprocess%', controls_postprocess)
-
-      controls_config = self.generate_controls_config (module.entities)
-      template = template.replace ('%  controls_config%', controls_config)
+      template = self.replace_config_controls_bind (template, module.entities);
+      template = self.replace_controls_preprocess (template, module.entities);
+      template = self.replace_controls_postprocess (template, module.entities);
+      template = self.replace_controls_widget (template, module.entities);
 
       with open (path_cpp, 'w') as file:
          file.write (template)
@@ -56,7 +47,7 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def replace_config_controls_bind (self, entities):
+   def replace_config_controls_bind (self, template, entities):
       nbr_params = 0
       nbr_inputs = 0
       nbr_outputs = 0
@@ -66,12 +57,19 @@ class Code:
 
       for entity in entities:
          if entity.is_control:
+            control = entity
             category = self.control_kind_to_vcv_category (control)
 
             if category == 'Param':
-               min_val = -1.f if control.mode.is_bipolar else 0.f
+               if control.mode is not None and control.mode.is_bipolar:
+                  min_val = -1
+               else:
+                  min_val = 0
+
+               max_val = 2 if control.style.is_dailywell_2ms3 else 1
+
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, %f, 1.f, 0.f);\n' % (nbr_params, min_val)
+               controls_bind_config += '   configParam (%d, %f, %f, 0.f);\n\n' % (nbr_params, min_val, max_val)
                nbr_params += 1
 
             elif category == 'Input':
@@ -86,140 +84,91 @@ class Code:
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
                nbr_lights += 1
 
-      template = template.replace ('%module.nbr_params%', nbr_params)
-      template = template.replace ('%module.nbr_inputs%', nbr_inputs)
-      template = template.replace ('%module.nbr_outputs%', nbr_outputs)
-      template = template.replace ('%module.nbr_lights%', nbr_lights)
+      template = template.replace ('%module.nbr_params%', str (nbr_params))
+      template = template.replace ('%module.nbr_inputs%', str (nbr_inputs))
+      template = template.replace ('%module.nbr_outputs%', str (nbr_outputs))
+      template = template.replace ('%module.nbr_lights%', str (nbr_lights))
 
       template = template.replace ('%  module.controls.bind+config%', controls_bind_config)
 
+      return template
+
 
    #--------------------------------------------------------------------------
 
-   def generate_controls_config (self, entities):
-      content = ''
+   def replace_controls_preprocess (self, template, entities):
+      lines = ''
 
       for entity in entities:
          if entity.is_control:
-            content += self.generate_control_config (entity)
-         elif entity.is_multiplexer:
-            for control in entity.controls:
-               content += self.generate_control_config (control)
+            lines += '      module.ui.%s.impl_preprocess ();\n' % entity.name
 
-      return content
+      return template.replace ('%     controls_preprocess%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control_config (self, control):
-      source_code = ''
-
-      if control.style.is_dailywell_2ms3:
-         source_code = '      if (i == module.ui.%s.index ()) { max_value = 2.f; }\n' % control.name
-
-      return source_code
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_controls_preprocess (self, entities):
-      content = ''
-
-      def generate_line (control):
-         return '      module.ui.%s.impl_preprocess ();\n' % control.name
+   def replace_controls_postprocess (self, template, entities):
+      lines = ''
 
       for entity in entities:
          if entity.is_control:
-            content += generate_line (entity)
-         elif entity.is_multiplexer:
-            for control in entity.controls:
-               content += generate_line (control)
+            lines += '      module.ui.%s.impl_postprocess ();\n' % entity.name
 
-      return content
+      return template.replace ('%     controls_postprocess%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_controls_postprocess (self, entities):
-      content = ''
-
-      def generate_line (control):
-         return '      module.ui.%s.impl_postprocess ();\n' % control.name
+   def replace_controls_widget (self, template, entities):
+      lines = ''
+      nbr_params = 0
+      nbr_inputs = 0
+      nbr_outputs = 0
+      nbr_lights = 0
 
       for entity in entities:
          if entity.is_control:
-            content += generate_line (entity)
-         elif entity.is_multiplexer:
-            for control in entity.controls:
-               content += generate_line (control)
+            control = entity
+            category = self.control_kind_to_vcv_category (control)
 
-      return content
+            func_category = category
+            if func_category == 'Light':
+               func_category = 'Child'
 
+            widget = self.control_style_to_widget (control)
 
-   #--------------------------------------------------------------------------
+            if control.style.is_dailywell_2ms:
+               if control.rotation is None:
+                  rotation = 0
+               else:
+                  rotation = control.rotation.degree_top_down % 360
+               widget += ' <%d>' % rotation
 
-   def generate_controls (self, entities):
-      content = ''
+            if category == 'Param':
+               index = nbr_params
+               nbr_params += 1
 
-      for entity in entities:
-         if entity.is_control:
-            content += self.generate_control (entity)
-         elif entity.is_multiplexer:
-            for control in entity.controls:
-               content += self.generate_control (control)
+            elif category == 'Input':
+               index = nbr_inputs
+               nbr_inputs += 1
 
-      return content
+            elif category == 'Output':
+               index = nbr_outputs
+               nbr_outputs += 1
 
+            elif category == 'Light':
+               index = nbr_lights
+               nbr_lights += 1
 
-   #--------------------------------------------------------------------------
+            lines += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, %d));\n' % (
+               func_category, category, widget, control.position.x.mm, control.position.y.mm, index
+            )
+            if control.style.is_dailywell_2ms3:
+               lines += '   module_->module.ui.%s.set_3_position ();\n' % control.name
+            lines += '\n'
 
-   def generate_control (self, control):
-
-      category = self.control_kind_to_vcv_category (control)
-
-      func_category = category
-      if func_category == 'Light':
-         func_category = 'Child'
-
-      style_widget_map = {
-         'rogan.6ps': 'erb::Rogan6Ps',
-         'rogan.5ps': 'erb::Rogan5Ps',
-         'rogan.3ps': 'erb::Rogan3Ps',
-         'rogan.2ps': 'erb::Rogan2Ps',
-         'rogan.1ps': 'erb::Rogan1Ps',
-         'songhuei.9mm': 'erb::SongHuei9',
-         'dailywell.2ms1': 'erb::Dailywell2Ms1',
-         'dailywell.2ms3': 'erb::Dailywell2Ms3',
-         'led.3mm.red': 'MediumLight <RedLight>',
-         'led.3mm.green': 'MediumLight <GreenLight>',
-         'led.3mm.yellow': 'MediumLight <YellowLight>',
-         'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
-         'led.3mm.green_red': 'MediumLight <GreenRedLight>',
-         'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
-         'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
-         'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6r.black': 'CKD6',
-         'tl1105': 'TL1105',
-      }
-
-      widget = style_widget_map [control.style.name]
-
-      if control.style.is_dailywell_2ms:
-         if control.rotation is None:
-            rotation = 0
-         else:
-            rotation = control.rotation.degree_top_down % 360
-         widget += ' <%d>' % rotation
-
-      source_code = ''
-      source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.ui.board.impl_to_vcv_index (module_->module.ui.%s.impl_data ())));\n' % (
-         func_category, category, widget, control.position.x.mm, control.position.y.mm, control.name
-      )
-      if control.style.is_dailywell_2ms3:
-         source_code += '   module_->module.ui.%s.set_3_position ();\n' % control.name
-      source_code += '\n'
-
-      return source_code
+      return template.replace ('%  controls_widget%', lines)
 
 
    #--------------------------------------------------------------------------
@@ -241,5 +190,32 @@ class Code:
       }
 
       return kind_category_map [control.kind]
+
+
+   #--------------------------------------------------------------------------
+
+   def control_style_to_widget (self, control):
+      style_widget_map = {
+         'rogan.6ps': 'erb::Rogan6Ps',
+         'rogan.5ps': 'erb::Rogan5Ps',
+         'rogan.3ps': 'erb::Rogan3Ps',
+         'rogan.2ps': 'erb::Rogan2Ps',
+         'rogan.1ps': 'erb::Rogan1Ps',
+         'songhuei.9mm': 'erb::SongHuei9',
+         'dailywell.2ms1': 'erb::Dailywell2Ms1',
+         'dailywell.2ms3': 'erb::Dailywell2Ms3',
+         'led.3mm.red': 'MediumLight <RedLight>',
+         'led.3mm.green': 'MediumLight <GreenLight>',
+         'led.3mm.yellow': 'MediumLight <YellowLight>',
+         'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
+         'led.3mm.green_red': 'MediumLight <GreenRedLight>',
+         'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
+         'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
+         'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
+         'ck.d6r.black': 'CKD6',
+         'tl1105': 'TL1105',
+      }
+
+      return style_widget_map [control.style.name]
 
 

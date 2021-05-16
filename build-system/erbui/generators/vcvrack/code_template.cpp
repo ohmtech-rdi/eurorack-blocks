@@ -185,7 +185,7 @@ ErbWidget::ErbWidget (ErbModule * module_)
 
    // controls
 
-%  controls%
+%  controls_widget%
 }
 
 
