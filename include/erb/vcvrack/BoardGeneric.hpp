@@ -15,8 +15,17 @@
 
 #include "erb/AudioIn.h"
 #include "erb/AudioOut.h"
+#include "erb/Button.h"
 #include "erb/CvIn.h"
+#include "erb/GateIn.h"
+#include "erb/GateOut.h"
+#include "erb/Led.h"
+#include "erb/LedBi.h"
+#include "erb/LedRgb.h"
 #include "erb/Pot.h"
+#include "erb/Switch.h"
+
+#include <rack.hpp>
 
 
 
@@ -80,6 +89,23 @@ Name : impl_bind
 */
 
 template <>
+inline void  BoardGeneric::impl_bind (Button & control, rack::engine::Param & model)
+{
+   _binding_inputs.push_back (BindingButton {
+      .data_ptr = const_cast <uint8_t *> (&control.impl_data),
+      .param_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
 inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, rack::engine::Input & model)
 {
    _binding_inputs.push_back (BindingCvIn {
@@ -114,6 +140,101 @@ Name : impl_bind
 */
 
 template <>
+inline void  BoardGeneric::impl_bind (GateIn & control, rack::engine::Input & model)
+{
+   _binding_inputs.push_back (BindingGateIn {
+      .data_ptr = const_cast <uint8_t *> (&control.impl_data),
+      .input_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (GateOut & control, rack::engine::Output & model)
+{
+   _binding_outputs.push_back (BindingGateOut {
+      .data_ptr = &control.impl_data,
+      .output_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (Led & control, rack::engine::Light & model)
+{
+   _binding_outputs.push_back (BindingLed {
+      .data_ptr = &control.impl_data,
+      .light_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (LedBi & control, rack::engine::Light & model)
+{
+   auto * model_ptr = &model;
+
+   _binding_outputs.push_back (BindingLedBi {
+      .data_r_ptr = &control.r.impl_data,
+      .data_g_ptr = &control.g.impl_data,
+      .light_r_ptr = &model_ptr [0],
+      .light_g_ptr = &model_ptr [1]
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (LedRgb & control, rack::engine::Light & model)
+{
+   auto * model_ptr = &model;
+
+   _binding_outputs.push_back (BindingLedRgb {
+      .data_r_ptr = &control.r.impl_data,
+      .data_g_ptr = &control.g.impl_data,
+      .data_b_ptr = &control.b.impl_data,
+      .light_r_ptr = &model_ptr [0],
+      .light_g_ptr = &model_ptr [1],
+      .light_b_ptr = &model_ptr [2]
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
 inline void  BoardGeneric::impl_bind (Pot <FloatRange::Normalized> & control, rack::engine::Param & model)
 {
    _binding_inputs.push_back (BindingPot {
@@ -135,6 +256,24 @@ inline void  BoardGeneric::impl_bind (Pot <FloatRange::Bipolar> & control, rack:
 {
    _binding_inputs.push_back (BindingPot {
       .data_ptr = const_cast <float *> (&control.impl_data),
+      .param_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (Switch & control, rack::engine::Param & model)
+{
+   _binding_inputs.push_back (BindingSwitch {
+      .data_0_ptr = const_cast <uint8_t *> (&control._0.impl_data),
+      .data_1_ptr = const_cast <uint8_t *> (&control._1.impl_data),
       .param_ptr = &model
    });
 }

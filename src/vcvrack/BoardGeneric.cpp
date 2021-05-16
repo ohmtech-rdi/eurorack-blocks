@@ -11,8 +11,6 @@
 
 #include "erb/vcvrack/BoardGeneric.h"
 
-#include <rack.hpp>
-
 #include <algorithm>
 
 
