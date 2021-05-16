@@ -11,11 +11,6 @@
 
 #include "erb/vcvrack/BoardGeneric.h"
 
-#include "erb/AudioIn.h"
-#include "erb/AudioOut.h"
-#include "erb/CvIn.h"
-#include "erb/Pot.h"
-
 #include <rack.hpp>
 
 #include <algorithm>
@@ -40,86 +35,6 @@ BoardGeneric::BoardGeneric (size_t nbr_digital_inputs, size_t nbr_analog_inputs,
 ,  _double_buffer_inputs (nbr_audio_inputs)
 ,  _double_buffer_outputs (nbr_audio_outputs)
 {
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-template <>
-void  BoardGeneric::impl_bind (AudioIn & control, rack::engine::Input & model)
-{
-   size_t audio_input_index = _rack_audio_inputs.size ();
-
-   auto & double_buffer = _double_buffer_inputs [audio_input_index];
-
-   _binding_inputs.push_back (BindingAudioIn {
-      .data_ptr = const_cast <Buffer *> (&control.impl_data),
-      .db_ptr = &double_buffer
-   });
-
-   _rack_audio_inputs.push_back (&model);
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-template <>
-void  BoardGeneric::impl_bind (AudioOut & control, rack::engine::Output & model)
-{
-   size_t audio_output_index = _rack_audio_outputs.size ();
-
-   auto & double_buffer = _double_buffer_outputs [audio_output_index];
-
-   _binding_outputs.push_back (BindingAudioOut {
-      .data_ptr = const_cast <Buffer *> (&control.impl_data),
-      .db_ptr = &double_buffer
-   });
-
-   _rack_audio_outputs.push_back (&model);
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-template <>
-void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, rack::engine::Input & model)
-{
-   _binding_inputs.push_back (BindingCvIn {
-      .data_ptr = const_cast <float *> (&control.impl_data),
-      .input_ptr = &model
-   });
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-template <>
-void  BoardGeneric::impl_bind (Pot <FloatRange::Normalized> & control, rack::engine::Param & model)
-{
-   _binding_inputs.push_back (BindingPot {
-      .data_ptr = const_cast <float *> (&control.impl_data),
-      .param_ptr = &model
-   });
 }
 
 
@@ -303,6 +218,19 @@ void  BoardGeneric::BindingAudioIn::process ()
 
 /*
 ==============================================================================
+Name : BindingAudioOut::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingAudioOut::process ()
+{
+   *db_ptr = *data_ptr;
+}
+
+
+
+/*
+==============================================================================
 Name : BindingCvIn::process
 ==============================================================================
 */
@@ -326,6 +254,22 @@ Name : BindingCvOut::process
 void  BoardGeneric::BindingCvOut::process ()
 {
    output_ptr->setVoltage (float (*data_ptr) * 5.f);
+}
+
+
+
+/*
+==============================================================================
+Name : BindingPot::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingPot::process ()
+{
+   *data_ptr = std::clamp (
+      param_ptr->getValue (),
+      0.f, 1.f
+   );
 }
 
 
