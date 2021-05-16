@@ -39,7 +39,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const void *   impl_data () const { return &_data; }
+   const float &  impl_data;
    inline void    impl_preprocess () {}
    inline void    impl_postprocess () {}
 
@@ -54,8 +54,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   const float &  _data;
 
 
 

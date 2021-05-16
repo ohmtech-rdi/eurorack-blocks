@@ -29,7 +29,7 @@ Name : ctor
 */
 
 GateIn::GateIn (const uint8_t & data)
-:  _data (data)
+:  impl_data (data)
 {
 }
 
@@ -72,7 +72,7 @@ Name : impl_preprocess
 void  GateIn::impl_preprocess ()
 {
    _previous = _current;
-   _current = _data != 0;
+   _current = impl_data != 0;
 }
 
 

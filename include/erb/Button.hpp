@@ -29,7 +29,7 @@ Name : ctor
 */
 
 Button::Button (const uint8_t & data)
-:  _data (data)
+:  impl_data (data)
 {
 }
 

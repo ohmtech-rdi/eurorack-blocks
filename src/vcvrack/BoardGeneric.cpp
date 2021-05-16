@@ -13,6 +13,7 @@
 
 #include "erb/AudioIn.h"
 #include "erb/CvIn.h"
+#include "erb/Pot.h"
 
 #include <rack.hpp>
 
@@ -35,8 +36,8 @@ BoardGeneric::BoardGeneric (size_t nbr_digital_inputs, size_t nbr_analog_inputs,
 ,  _analog_outputs (nbr_analog_outputs, 0.f)
 ,  _audio_outputs (nbr_audio_outputs, Buffer {})
 
-,  _audio_double_buffer_inputs (nbr_audio_inputs)
-,  _audio_double_buffer_outputs (nbr_audio_outputs)
+,  _double_buffer_inputs (nbr_audio_inputs)
+,  _double_buffer_outputs (nbr_audio_outputs)
 {
 }
 
@@ -49,11 +50,18 @@ Name : impl_bind
 */
 
 template <>
-void  BoardGeneric::impl_bind (AudioIn & control, DoubleBuffer & model)
+void  BoardGeneric::impl_bind (AudioIn & control, rack::engine::Input & model)
 {
+   size_t audio_input_index = _rack_audio_inputs.size ();
+
+   auto & double_buffer = _double_buffer_inputs [audio_input_index];
+
    _binding_inputs.push_back (BindingAudioIn {
-      control.impl_data (), &model
+      .data_ptr = const_cast <Buffer *> (&control.impl_data),
+      .db_ptr = &double_buffer
    });
+
+   _rack_audio_inputs.push_back (&model);
 }
 
 
@@ -75,6 +83,23 @@ void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, rack::en
 
 
 
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+void  BoardGeneric::impl_bind (Pot <FloatRange::Normalized> & control, rack::engine::Param & model)
+{
+   _binding_inputs.push_back (BindingPot {
+      .data_ptr = const_cast <float *> (&control.impl_data),
+      .param_ptr = &model
+   });
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
@@ -85,7 +110,7 @@ Name : impl_need_process
 
 bool  BoardGeneric::impl_need_process ()
 {
-   return _audio_double_buffer_inputs [0].tell () == 0;
+   return _double_buffer_inputs [0].tell () == 0;
 }
 
 
@@ -100,8 +125,8 @@ void  BoardGeneric::impl_pull_audio_inputs ()
 {
    for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
    {
-      auto & double_buffer = _audio_double_buffer_inputs [i];
-      auto & audio_input = *_inputs (VCV_ROW_AUDIO_IN, i);
+      auto & double_buffer = _double_buffer_inputs [i];
+      auto & audio_input = *_rack_audio_inputs [i];
 
       float sample = audio_input.getVoltage () * 0.2f;
 
@@ -121,8 +146,8 @@ void  BoardGeneric::impl_push_audio_outputs ()
 {
    for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
    {
-      auto & double_buffer = _audio_double_buffer_outputs [i];
-      auto & audio_output = *_outputs (VCV_ROW_AUDIO_OUT, i);
+      auto & double_buffer = _double_buffer_outputs [i];
+      auto & audio_output = *_rack_audio_outputs [i];
 
       float sample = double_buffer.pull ();
 

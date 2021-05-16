@@ -46,7 +46,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const void *   impl_data () const { return &_data; }
+   uint8_t &      impl_data;
    inline void    impl_preprocess () {}
    void           impl_postprocess ();
 
@@ -61,8 +61,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   uint8_t &      _data;
    const uint64_t &
                   _clock_ms;
 

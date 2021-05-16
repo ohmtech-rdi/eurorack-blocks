@@ -53,7 +53,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const void *   impl_data () const { return &_data; }
+   float &        impl_data;
    inline void    impl_preprocess () {}
    void           impl_postprocess ();
 
@@ -68,8 +68,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   float &        _data;
    const std::uint64_t &
                   _clock_ms;
 

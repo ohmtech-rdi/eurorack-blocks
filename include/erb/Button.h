@@ -40,7 +40,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const void *   impl_data () const { return &_data; }
+   const uint8_t &
+                  impl_data;
    void           impl_preprocess ();
    inline void    impl_postprocess () {}
 
@@ -55,9 +56,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   const uint8_t &
-                  _data;
    Debounce       _debounce;
 
 

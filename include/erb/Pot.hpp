@@ -30,7 +30,7 @@ Name : ctor
 
 template <FloatRange Range>
 Pot <Range>::Pot (const float & data)
-:  _data (data)
+:  impl_data (data)
 {
 }
 
@@ -47,11 +47,11 @@ Pot <Range>::operator float () const
 {
    if constexpr (Range == FloatRange::Normalized)
    {
-      return _data;
+      return impl_data;
    }
    else if constexpr (Range == FloatRange::Bipolar)
    {
-      return _data * 2.f - 1.f;
+      return impl_data * 2.f - 1.f;
    }
 }
 

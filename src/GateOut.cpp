@@ -27,7 +27,7 @@ Name : ctor
 */
 
 GateOut::GateOut (uint8_t & data, const uint64_t & clock_ms)
-:  _data (data)
+:  impl_data (data)
 ,  _clock_ms (clock_ms)
 ,  _generator ()
 {
@@ -97,7 +97,7 @@ Name : impl_postprocess
 
 void  GateOut::impl_postprocess ()
 {
-   _data = _generator.process (_clock_ms) ? 1 : 0;
+   impl_data = _generator.process (_clock_ms) ? 1 : 0;
 }
 
 

@@ -97,6 +97,15 @@ private:
    {
       void        process ();
       Buffer *    data_ptr;
+      const DoubleBuffer *
+                  db_ptr;
+   };
+
+   struct BindingAudioOut
+   {
+      void        process ();
+      const Buffer *
+                  data_ptr;
       DoubleBuffer *
                   db_ptr;
    };
@@ -118,12 +127,22 @@ private:
                   output_ptr;
    };
 
+   struct BindingPot
+   {
+      void        process ();
+      float *     data_ptr;
+      rack::engine::Param *
+                  param_ptr;
+   };
+
    using BindingInputs = std::vector <std::variant <
       BindingAudioIn,
-      BindingCvIn
+      BindingCvIn,
+      BindingPot
    >>;
 
    using BindingOutputs = std::vector <std::variant <
+      BindingAudioOut,
       BindingCvOut
    >>;
 
@@ -131,9 +150,14 @@ private:
    BindingOutputs _binding_outputs;
 
    std::vector <DoubleBuffer>
-                  _audio_double_buffer_inputs;
+                  _double_buffer_inputs;
+   std::vector <rack::engine::Input *>
+                  _rack_audio_inputs;
+
    std::vector <DoubleBuffer>
-                  _audio_double_buffer_outputs;
+                  _double_buffer_outputs;
+   std::vector <rack::engine::Output *>
+                  _rack_audio_outputs;
 
    std::function <void ()>
                   _buffer_callback;

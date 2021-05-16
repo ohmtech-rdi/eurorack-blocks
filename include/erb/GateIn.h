@@ -39,7 +39,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const void *   impl_data () const { return &_data; }
+   const uint8_t &
+                  impl_data;
    inline void    impl_preprocess ();
    inline void    impl_postprocess () {}
 
@@ -54,8 +55,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   const uint8_t &_data;
    bool           _previous = false;
    bool           _current = false;
 

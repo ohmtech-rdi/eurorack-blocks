@@ -32,7 +32,7 @@ Name : impl_preprocess
 
 void  Button::impl_preprocess ()
 {
-   _debounce.process (_data != 0);
+   _debounce.process (impl_data != 0);
 }
 
 

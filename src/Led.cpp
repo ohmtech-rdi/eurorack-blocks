@@ -27,7 +27,7 @@ Name : ctor
 */
 
 Led::Led (float & data, const uint64_t & clock_ms)
-:  _data (data)
+:  impl_data (data)
 ,  _clock_ms (clock_ms)
 {
 }
@@ -160,7 +160,7 @@ Name : impl_postprocess
 
 void  Led::impl_postprocess ()
 {
-   _data = _animation.get (_clock_ms) * _brightness;
+   impl_data = _animation.get (_clock_ms) * _brightness;
 }
 
 

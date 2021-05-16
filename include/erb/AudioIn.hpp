@@ -29,7 +29,7 @@ Name : ctor
 */
 
 AudioIn::AudioIn (const Buffer & buffer)
-:  _data (buffer)
+:  impl_data (buffer)
 {
 }
 
@@ -43,7 +43,7 @@ Name : operator Buffer
 
 AudioIn::operator Buffer () const
 {
-   return _data;
+   return impl_data;
 }
 
 
@@ -56,7 +56,7 @@ Name : size
 
 std::size_t AudioIn::size () const
 {
-   return _data.size ();
+   return impl_data.size ();
 }
 
 
@@ -69,7 +69,7 @@ Name : operator []
 
 const float &  AudioIn::operator [] (std::size_t index)
 {
-   return _data [index];
+   return impl_data [index];
 }
 
 

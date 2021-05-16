@@ -29,7 +29,7 @@ Name : ctor
 */
 
 AudioOut::AudioOut (Buffer & buffer)
-:  _data (buffer)
+:  impl_data (buffer)
 {
 }
 
@@ -43,7 +43,7 @@ Name : operator =
 
 AudioOut &   AudioOut::operator = (const Buffer & buffer)
 {
-   _data = buffer;
+   impl_data = buffer;
 
    return *this;
 }
@@ -58,7 +58,7 @@ Name : size
 
 size_t   AudioOut::size () const
 {
-   return _data.size ();
+   return impl_data.size ();
 }
 
 
@@ -71,7 +71,7 @@ Name : operator []
 
 float &  AudioOut::operator [] (size_t index)
 {
-   return _data [index];
+   return impl_data [index];
 }
 
 
@@ -84,7 +84,7 @@ Name : fill
 
 void  AudioOut::fill (float val)
 {
-   _data.fill (val);
+   impl_data.fill (val);
 }
 
 
