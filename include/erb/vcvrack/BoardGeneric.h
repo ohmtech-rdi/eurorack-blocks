@@ -96,8 +96,7 @@ private:
    struct BindingAudioIn
    {
       void        process ();
-      const Buffer *
-                  data_ptr;
+      Buffer *    data_ptr;
       DoubleBuffer *
                   db_ptr;
    };
@@ -105,8 +104,7 @@ private:
    struct BindingCvIn
    {
       void        process ();
-      const float *
-                  data_ptr;
+      float *     data_ptr;
       rack::engine::Input *
                   input_ptr;
    };
@@ -114,7 +112,8 @@ private:
    struct BindingCvOut
    {
       void        process ();
-      float *     data_ptr;
+      const float *
+                  data_ptr;
       rack::engine::Output *
                   output_ptr;
    };

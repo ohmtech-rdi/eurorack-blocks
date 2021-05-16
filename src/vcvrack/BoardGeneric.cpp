@@ -68,7 +68,7 @@ template <>
 void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, rack::engine::Input & model)
 {
    _binding_inputs.push_back (BindingCvIn {
-      .data_ptr = &control.impl_data,
+      .data_ptr = const_cast <float *> (&control.impl_data),
       .input_ptr = &model
    });
 }
@@ -238,6 +238,46 @@ void  BoardGeneric::impl_postprocess ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : BindingAudioIn::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingAudioIn::process ()
+{
+   *data_ptr = *db_ptr;
+}
+
+
+
+/*
+==============================================================================
+Name : BindingCvIn::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingCvIn::process ()
+{
+   *data_ptr = std::clamp (
+      input_ptr->getVoltage () * 0.1f + 0.5f,
+      0.f, 1.f
+   );
+}
+
+
+
+/*
+==============================================================================
+Name : BindingCvOut::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingCvOut::process ()
+{
+   output_ptr->setVoltage (float (*data_ptr) * 5.f);
+}
 
 
 

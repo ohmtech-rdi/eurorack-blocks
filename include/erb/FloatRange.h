@@ -22,7 +22,10 @@ namespace erb
 
 enum class FloatRange
 {
-   Normalized, Bipolar
+   Normalized,
+   Bipolar,
+   Pitch,
+   Adsr,
 };
 
 
