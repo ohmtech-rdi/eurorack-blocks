@@ -16,9 +16,7 @@
 #include "erb/detail/Clock.h"
 #include "erb/detail/DoubleBuffer.h"
 
-#include <array>
 #include <functional>
-#include <map>
 #include <variant>
 #include <vector>
 
@@ -110,6 +108,14 @@ private:
                   db_ptr;
    };
 
+   struct BindingButton
+   {
+      void        process ();
+      uint8_t *   data_ptr;
+      rack::engine::Param *
+                  param_ptr;
+   };
+
    struct BindingCvIn
    {
       void        process ();
@@ -127,6 +133,62 @@ private:
                   output_ptr;
    };
 
+   struct BindingGateIn
+   {
+      void        process ();
+      uint8_t *   data_ptr;
+      rack::engine::Input *
+                  input_ptr;
+   };
+
+   struct BindingGateOut
+   {
+      void        process ();
+      const uint8_t *
+                  data_ptr;
+      rack::engine::Output *
+                  output_ptr;
+   };
+
+   struct BindingLed
+   {
+      void        process ();
+      const float *
+                  data_ptr;
+      rack::engine::Light *
+                  light_ptr;
+   };
+
+   struct BindingLedBi
+   {
+      void        process ();
+      const float *
+                  data_r_ptr;
+      const float *
+                  data_g_ptr;
+      rack::engine::Light *
+                  light_r_ptr;
+      rack::engine::Light *
+                  light_g_ptr;
+   };
+
+   struct BindingLedRgb
+   {
+      void        process ();
+      const float *
+                  data_r_ptr;
+      const float *
+                  data_g_ptr;
+      const float *
+                  data_b_ptr;
+      rack::engine::Light *
+                  light_r_ptr;
+      rack::engine::Light *
+                  light_g_ptr;
+      rack::engine::Light *
+                  light_b_ptr;
+   };
+
    struct BindingPot
    {
       void        process ();
@@ -135,15 +197,31 @@ private:
                   param_ptr;
    };
 
+   struct BindingSwitch
+   {
+      void        process ();
+      uint8_t *   data_0_ptr;
+      uint8_t *   data_1_ptr;
+      rack::engine::Param *
+                  param_ptr;
+   };
+
    using BindingInputs = std::vector <std::variant <
       BindingAudioIn,
+      BindingButton,
       BindingCvIn,
-      BindingPot
+      BindingGateIn,
+      BindingPot,
+      BindingSwitch
    >>;
 
    using BindingOutputs = std::vector <std::variant <
       BindingAudioOut,
-      BindingCvOut
+      BindingCvOut,
+      BindingGateOut,
+      BindingLed,
+      BindingLedBi,
+      BindingLedRgb
    >>;
 
    BindingInputs  _binding_inputs;

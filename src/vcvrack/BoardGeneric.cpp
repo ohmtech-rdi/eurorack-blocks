@@ -106,39 +106,13 @@ void  BoardGeneric::impl_preprocess ()
 {
    for (auto && binding : _binding_inputs)
    {
-      std::visit ([](auto && arg){arg.process ();}, binding);
+      std::visit (
+         [](auto && arg){
+            arg.process ();
+         },
+         binding
+      );
    }
-
-   /*for (size_t i = 0 ; i < _digital_inputs.size (HW_ROW_BUTTON) ; ++i)
-   {
-      auto norm_val = _params (VCV_ROW_BUTTON, i)->getValue ();
-      _digital_inputs (HW_ROW_BUTTON, i) = norm_val != 0.f;
-   }
-
-   for (size_t i = 0 ; i < _digital_inputs.size (HW_ROW_GATE_IN) ; ++i)
-   {
-      auto norm_val = _inputs (VCV_ROW_GATE_IN, i)->getVoltage ();
-      _digital_inputs (HW_ROW_GATE_IN, i) = norm_val > 0.1f;
-   }
-
-   for (size_t i = 0 ; i < _analog_inputs.size (HW_ROW_POTS) ; ++i)
-   {
-      auto norm_val = _params (VCV_ROW_POT, i)->getValue ();
-      norm_val = std::clamp (norm_val, 0.f, 1.f);
-      _analog_inputs (HW_ROW_POTS, i) = norm_val;
-   }
-
-   for (size_t i = 0 ; i < _analog_inputs.size (HW_ROW_CV_IN) ; ++i)
-   {
-      auto norm_val = _inputs (VCV_ROW_CV_IN, i)->getVoltage () * 0.1f + 0.5f;
-      norm_val = std::clamp (norm_val, 0.f, 1.f);
-      _analog_inputs (HW_ROW_CV_IN, i) = norm_val;
-   }
-
-   for (size_t i = 0 ; i < _audio_inputs.size (HW_ROW_AUDIO_IN) ; ++i)
-   {
-      _audio_inputs (HW_ROW_AUDIO_IN, i) = _audio_double_buffer_inputs [i];
-   }*/
 }
 
 
@@ -166,31 +140,13 @@ void  BoardGeneric::impl_postprocess ()
 {
    for (auto && binding : _binding_outputs)
    {
-      std::visit ([](auto && arg){arg.process ();}, binding);
+      std::visit (
+         [](auto && arg){
+            arg.process ();
+         },
+         binding
+      );
    }
-
-   /*for (size_t i = 0 ; i < _digital_outputs.size (HW_ROW_GATE_OUT) ; ++i)
-   {
-      auto val = _digital_outputs (HW_ROW_GATE_OUT, i);
-      _outputs (VCV_ROW_GATE_OUT, i)->setVoltage (float (val) * 5.f);
-   }
-
-   for (size_t i = 0 ; i < _analog_outputs.size (HW_ROW_CV_OUT) ; ++i)
-   {
-      auto val = _analog_outputs (HW_ROW_CV_OUT, i);
-      _outputs (VCV_ROW_CV_OUT, i)->setVoltage (float (val) * 5.f);
-   }
-
-   for (size_t i = 0 ; i < _analog_outputs.size (HW_ROW_LED) ; ++i)
-   {
-      auto val = _analog_outputs (HW_ROW_LED, i);
-      _lights (VCV_ROW_LED, i)->setBrightness (val);
-   }
-
-   for (size_t i = 0 ; i < _audio_outputs.size (HW_ROW_AUDIO_OUT) ; ++i)
-   {
-      _audio_double_buffer_outputs [i] = _audio_outputs (HW_ROW_AUDIO_OUT, i);
-   }*/
 
    _clock.tick ();
 }
@@ -231,6 +187,19 @@ void  BoardGeneric::BindingAudioOut::process ()
 
 /*
 ==============================================================================
+Name : BindingButton::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingButton::process ()
+{
+   *data_ptr = param_ptr->getValue () != 0.f;
+}
+
+
+
+/*
+==============================================================================
 Name : BindingCvIn::process
 ==============================================================================
 */
@@ -260,6 +229,74 @@ void  BoardGeneric::BindingCvOut::process ()
 
 /*
 ==============================================================================
+Name : BindingGateIn::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingGateIn::process ()
+{
+   *data_ptr = input_ptr->getVoltage () > 0.1f;
+}
+
+
+
+/*
+==============================================================================
+Name : BindingGateOut::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingGateOut::process ()
+{
+   output_ptr->setVoltage (float (*data_ptr) * 5.f);
+}
+
+
+
+/*
+==============================================================================
+Name : BindingLed::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingLed::process ()
+{
+   light_ptr->setBrightness (*data_ptr);
+}
+
+
+
+/*
+==============================================================================
+Name : BindingLedBi::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingLedBi::process ()
+{
+   light_r_ptr->setBrightness (*data_r_ptr);
+   light_g_ptr->setBrightness (*data_g_ptr);
+}
+
+
+
+/*
+==============================================================================
+Name : BindingLedRgb::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingLedRgb::process ()
+{
+   light_r_ptr->setBrightness (*data_r_ptr);
+   light_g_ptr->setBrightness (*data_g_ptr);
+   light_b_ptr->setBrightness (*data_b_ptr);
+}
+
+
+
+/*
+==============================================================================
 Name : BindingPot::process
 ==============================================================================
 */
@@ -270,6 +307,22 @@ void  BoardGeneric::BindingPot::process ()
       param_ptr->getValue (),
       0.f, 1.f
    );
+}
+
+
+
+/*
+==============================================================================
+Name : BindingSwitch::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingSwitch::process ()
+{
+   auto val = param_ptr->getValue ();
+
+   *data_0_ptr = val < 0.25f;
+   *data_1_ptr = val > 0.75f;
 }
 
 
