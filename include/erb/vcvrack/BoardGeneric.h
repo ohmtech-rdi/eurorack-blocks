@@ -50,9 +50,6 @@ public:
    template <class Control, class VcvModel>
    void           impl_bind (Control & control, VcvModel & model);
 
-   template <typename F>
-   void           bind_process (F && f);
-
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -62,7 +59,6 @@ public:
    void           impl_push_audio_outputs ();
 
    void           impl_preprocess ();
-   void           impl_process ();
    void           impl_postprocess ();
 
 
@@ -236,9 +232,6 @@ private:
                   _double_buffer_outputs;
    std::vector <rack::engine::Output *>
                   _rack_audio_outputs;
-
-   std::function <void ()>
-                  _buffer_callback;
 
 
 

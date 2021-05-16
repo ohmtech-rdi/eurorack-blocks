@@ -125,9 +125,6 @@ protected:
    using AudioBufferInputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
    using AudioBufferOutputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
 
-   virtual void   do_notify_audio_buffer_start () = 0;
-   virtual void   do_notify_audio_buffer_end () = 0;
-
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
                   init_adc16_channels (std::initializer_list <AdcChannel> adc_channels);
@@ -156,13 +153,12 @@ private:
    static BoardDaisySeed *
                   _this_ptr;
 
+   Clock          _clock;
+
    daisy::DaisySeed
                   _seed;
    std::function <void ()>
-                  _buffer_callback;
-
-   uint64_t       _clock_spl = 0ull;
-   uint64_t       _clock_ms = 0ull;
+                  _run;
 
 
 

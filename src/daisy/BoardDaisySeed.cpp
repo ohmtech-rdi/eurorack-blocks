@@ -43,6 +43,45 @@ BoardDaisySeed::BoardDaisySeed ()
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : impl_preprocess
+==============================================================================
+*/
+
+void  BoardDaisySeed::impl_preprocess ()
+{
+
+}
+
+
+
+/*
+==============================================================================
+Name : impl_process
+==============================================================================
+*/
+
+void  BoardDaisySeed::impl_process ()
+{
+   _process ();
+}
+
+
+
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+void  BoardGeneric::impl_postprocess ()
+{
+   
+
+   _clock.tick ();
+}
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -107,14 +146,7 @@ void  BoardDaisySeed::audio_callback (float ** in, float ** out, size_t /* size 
 {
    process_audio_inputs (_audio_buffer_inputs, in);
 
-   _clock_ms = (_clock_spl * 1000) / uint64_t (erb_SAMPLE_RATE);
-   _clock_spl += uint64_t (erb_BUFFER_SIZE);
-
-   do_notify_audio_buffer_start ();
-
-   _buffer_callback ();
-
-   do_notify_audio_buffer_end ();
+   _run ();
 
    process_audio_outputs (out, _audio_buffer_outputs);
 }

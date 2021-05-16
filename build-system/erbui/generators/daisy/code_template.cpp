@@ -44,6 +44,12 @@ int main ()
    erb::module_init (module);
 
    module.ui.module.run ([&](){
+      module.ui.board.impl_preprocess ();
+
+%     controls_preprocess%
       module.process ();
+
+%     controls_postprocess%
+      module.ui.board.impl_postprocess ();
    });
 }

@@ -31,7 +31,7 @@ Name : run
 template <typename F>
 void  BoardBase::run (F && f)
 {
-   _buffer_callback = std::forward <F> (f);
+   _run = std::forward <F> (f);
 
    do_run ();
 }

@@ -35,6 +35,34 @@ class Code:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
+      template = self.replace_controls_preprocess (template, module.entities);
+      template = self.replace_controls_postprocess (template, module.entities);
 
       with open (path_cpp, 'w') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_controls_preprocess (self, template, entities):
+      lines = ''
+
+      for entity in entities:
+         if entity.is_control:
+            lines += '      module.ui.%s.impl_preprocess ();\n' % entity.name
+
+      return template.replace ('%     controls_preprocess%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_controls_postprocess (self, template, entities):
+      lines = ''
+
+      for entity in entities:
+         if entity.is_control:
+            lines += '      module.ui.%s.impl_postprocess ();\n' % entity.name
+
+      return template.replace ('%     controls_postprocess%', lines)
+
+

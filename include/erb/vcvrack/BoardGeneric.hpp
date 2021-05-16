@@ -280,20 +280,6 @@ inline void  BoardGeneric::impl_bind (Switch & control, rack::engine::Param & mo
 
 
 
-/*
-==============================================================================
-Name : bind_process
-==============================================================================
-*/
-
-template <typename F>
-void  BoardGeneric::bind_process (F && f)
-{
-   _buffer_callback = std::forward <F> (f);
-}
-
-
-
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

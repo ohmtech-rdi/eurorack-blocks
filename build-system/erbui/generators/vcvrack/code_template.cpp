@@ -107,12 +107,7 @@ ErbModule::ErbModule ()
    // bind
 
 %  module.controls.bind+config%
-
    erb::module_init (module);
-
-   module.ui.board.bind_process ([&](){
-      module.process ();
-   });
 }
 
 
@@ -134,11 +129,9 @@ void  ErbModule::process (const ProcessArgs & /* args */)
       module.ui.board.impl_preprocess ();
 
 %     controls_preprocess%
-
-      module.ui.board.impl_process ();
+      module.process ();
 
 %     controls_postprocess%
-
       module.ui.board.impl_postprocess ();
    }
 
@@ -171,17 +164,6 @@ ErbWidget::ErbWidget (ErbModule * module_)
    addChild (createWidget <ScrewSilver> (Vec (box.size.x - 2 * RACK_GRID_WIDTH, 0)));
    addChild (createWidget <ScrewSilver> (Vec (RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
    addChild (createWidget <ScrewSilver> (Vec (box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-
-   // VcvRack is expecting static enumeration of parameters, etc.
-   // But since we deduce them dynamically, we are just going to ignore
-   // this.
-   // In practice, when the module is loaded through the module browser
-   // the constructor is called with a `nullptr` module.
-   // We just skip this, so that the plug-in appears with only its
-   // back panel.
-   // This is probably fine for prototyping.
-
-   if (module == nullptr) return;
 
    // controls
 
