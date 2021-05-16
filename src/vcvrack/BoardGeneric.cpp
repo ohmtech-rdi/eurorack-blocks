@@ -12,6 +12,7 @@
 #include "erb/vcvrack/BoardGeneric.h"
 
 #include "erb/AudioIn.h"
+#include "erb/AudioOut.h"
 #include "erb/CvIn.h"
 #include "erb/Pot.h"
 
@@ -62,6 +63,29 @@ void  BoardGeneric::impl_bind (AudioIn & control, rack::engine::Input & model)
    });
 
    _rack_audio_inputs.push_back (&model);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+void  BoardGeneric::impl_bind (AudioOut & control, rack::engine::Output & model)
+{
+   size_t audio_output_index = _rack_audio_outputs.size ();
+
+   auto & double_buffer = _double_buffer_outputs [audio_output_index];
+
+   _binding_outputs.push_back (BindingAudioOut {
+      .data_ptr = const_cast <Buffer *> (&control.impl_data),
+      .db_ptr = &double_buffer
+   });
+
+   _rack_audio_outputs.push_back (&model);
 }
 
 
