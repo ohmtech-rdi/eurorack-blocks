@@ -29,7 +29,10 @@ class BoardKivu12
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         BoardKivu12 () : BoardGeneric (20, 20, 2, 2, 22, 2) {}
+   inline         BoardKivu12 () : BoardGeneric (
+      20, 20, 2,  // digital/analog/audio inputs
+      2, 22, 2    // digital/analog/audio outputs
+   ) {}
    virtual        ~BoardKivu12 () = default;
 
    // Digital Inputs
