@@ -97,6 +97,23 @@ Name : impl_bind
 */
 
 template <>
+inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Bipolar> & control, rack::engine::Input & model)
+{
+   _binding_inputs.push_back (BindingCvIn {
+      .data_ptr = const_cast <float *> (&control.impl_data),
+      .input_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
 inline void  BoardGeneric::impl_bind (Pot <FloatRange::Normalized> & control, rack::engine::Param & model)
 {
    _binding_inputs.push_back (BindingPot {
