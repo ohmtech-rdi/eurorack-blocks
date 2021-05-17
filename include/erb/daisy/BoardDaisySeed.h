@@ -112,13 +112,18 @@ public:
 
 protected:
 
+   struct MuxAddress
+   {
+      Pin         pin_a = PinNC;
+      Pin         pin_b = PinNC;
+      Pin         pin_c = PinNC;
+   };
+
    struct AdcChannel
    {
       AdcPin      pin;
       size_t      nbr_channels = 1;
-      Pin         pin_a = PinNC;
-      Pin         pin_b = PinNC;
-      Pin         pin_c = PinNC;
+      MuxAddress  address = MuxAddress {};
    };
 
    enum { NBR_AUDIO_CHANNELS = 2 };

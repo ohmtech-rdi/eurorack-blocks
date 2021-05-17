@@ -66,9 +66,9 @@ std::array <uint16_t *, MaxNbrChannels>   BoardDaisySeed::init_adc_channels (std
          config.InitMux (
             adc_channel.pin.pin,
             adc_channel.nbr_channels,
-            adc_channel.pin_a,
-            adc_channel.pin_b,
-            adc_channel.pin_c
+            adc_channel.address.pin_a,
+            adc_channel.address.pin_b,
+            adc_channel.address.pin_c
          );
       }
    }

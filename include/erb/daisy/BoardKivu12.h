@@ -185,7 +185,11 @@ private:
    std::array <Buffer, NBR_AUDIO_OUTPUTS>
                   _audio_outputs;
 
-   void           init_analog_channels ();
+   void           init_digital_inputs ();
+   void           init_analog_inputs ();
+
+   void           init_digital_outputs ();
+   void           init_analog_outputs ();
 
    // ADCs
    std::array <uint16_t *, NBR_ANALOG_INPUTS>
