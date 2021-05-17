@@ -79,12 +79,12 @@ void  BoardKivu12::impl_postprocess ()
    write_gpio (Pin30, _digital_outputs [0]);
    write_gpio (Pin7, _digital_outputs [1]);
 
-   seed.dac.WriteValue (
+   _seed.dac.WriteValue (
       daisy::DacHandle::Channel::ONE,
       norm_to_u16 (_analog_outputs [0])
    );
 
-   seed.dac.WriteValue (
+   _seed.dac.WriteValue (
       daisy::DacHandle::Channel::TWO,
       norm_to_u16 (_analog_outputs [1])
    );
@@ -194,9 +194,9 @@ void  BoardKivu12::init_analog_outputs ()
    // 4 on PCA9685 address 0x2
 
    daisy::I2CHandle::Config i2c_config = {
-      I2CHandle::Config::Peripheral::I2C_1,
+      daisy::I2CHandle::Config::Peripheral::I2C_1,
       {Pin11, Pin12},
-      I2CHandle::Config::Speed::I2C_1MHZ
+      daisy::I2CHandle::Config::Speed::I2C_1MHZ
    };
 
    uint8_t addr [2] = {0x0, 0x2};

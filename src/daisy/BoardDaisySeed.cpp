@@ -130,18 +130,18 @@ void  BoardDaisySeed::init_dac_channels (std::initializer_list <DacPin> dac_pins
       auto dac_pin = *dac_pins.begin ();
       if (dac_pin.pin == DacPin0.pin)
       {
-         channel = DacHandle::Channel::ONE;
+         channel = daisy::DacHandle::Channel::ONE;
       }
       else
       {
-         channel = DacHandle::Channel::TWO;
+         channel = daisy::DacHandle::Channel::TWO;
       }
    }
 
-   DacHandle::Config cfg;
-   cfg.bitdepth = DacHandle::BitDepth::BITS_12;
-   cfg.buff_state = DacHandle::BufferState::ENABLED;
-   cfg.mode = DacHandle::Mode::POLLING;
+   daisy::DacHandle::Config cfg;
+   cfg.bitdepth = daisy::DacHandle::BitDepth::BITS_12;
+   cfg.buff_state = daisy::DacHandle::BufferState::ENABLED;
+   cfg.mode = daisy::DacHandle::Mode::POLLING;
    cfg.chn = channel;
    _seed.dac.Init (cfg);
 }

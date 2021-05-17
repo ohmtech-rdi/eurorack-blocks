@@ -158,6 +158,9 @@ protected:
    static constexpr float
                   _gain_output_scaling = 0.433f;
 
+   daisy::DaisySeed
+                  _seed;
+
    float * const *_raw_audio_inputs = nullptr;
    float **       _raw_audio_outputs = nullptr;
 
@@ -178,9 +181,6 @@ private:
                   _this_ptr;
 
    Clock          _clock;
-
-   daisy::DaisySeed
-                  _seed;
    std::function <void ()>
                   _run;
 
