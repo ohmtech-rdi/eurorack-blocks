@@ -186,7 +186,7 @@
 
             './libDaisy/src/per/adc.cpp',
             './libDaisy/src/per/adc.h',
-            './libDaisy/src/per/dac.c',
+            './libDaisy/src/per/dac.cpp',
             './libDaisy/src/per/dac.h',
             './libDaisy/src/per/gpio.c',
             './libDaisy/src/per/gpio.h',
