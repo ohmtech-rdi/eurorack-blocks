@@ -61,6 +61,8 @@
             'detail/DoubleBuffer.hpp',
             'detail/GateGenerator.h',
             'detail/GateGenerator.hpp',
+            'detail/fnc.h',
+            'detail/fnc.hpp',
 
             '../../src/Button.cpp',
             '../../src/GateOut.cpp',

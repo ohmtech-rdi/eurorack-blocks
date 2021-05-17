@@ -169,21 +169,11 @@ private:
                   NBR_DIGITAL_OUTPUTS = 2,
                   NBR_ANALOG_OUTPUTS = 22,
                   NBR_AUDIO_OUTPUTS = 2,
+
+                  NBR_PCA9685_DRIVERS = 2,
    };
 
-   std::array <uint8_t, NBR_DIGITAL_INPUTS>
-                  _digital_inputs;
-   std::array <float, NBR_ANALOG_INPUTS>
-                  _analog_inputs;
-   std::array <Buffer, NBR_AUDIO_INPUTS>
-                  _audio_inputs;
-
-   std::array <uint8_t, NBR_DIGITAL_OUTPUTS>
-                  _digital_outputs;
-   std::array <float, NBR_ANALOG_OUTPUTS>
-                  _analog_outputs;
-   std::array <Buffer, NBR_AUDIO_OUTPUTS>
-                  _audio_outputs;
+   using LedDriver = daisy::LedDriverPca9685 <NBR_PCA9685_DRIVERS>;
 
    void           init_digital_inputs ();
    void           init_analog_inputs ();
@@ -191,9 +181,24 @@ private:
    void           init_digital_outputs ();
    void           init_analog_outputs ();
 
-   // ADCs
+   std::array <uint8_t, NBR_DIGITAL_INPUTS>
+                  _digital_inputs = {};
+   std::array <float, NBR_ANALOG_INPUTS>
+                  _analog_inputs = {};
+   std::array <Buffer, NBR_AUDIO_INPUTS>
+                  _audio_inputs = {};
+
+   std::array <uint8_t, NBR_DIGITAL_OUTPUTS>
+                  _digital_outputs = {};
+   std::array <float, NBR_ANALOG_OUTPUTS>
+                  _analog_outputs = {};
+   std::array <Buffer, NBR_AUDIO_OUTPUTS>
+                  _audio_outputs = {};
+
    std::array <uint16_t *, NBR_ANALOG_INPUTS>
                   _adc16_channels = {};
+
+   LedDriver      _led_driver;
 
 
 

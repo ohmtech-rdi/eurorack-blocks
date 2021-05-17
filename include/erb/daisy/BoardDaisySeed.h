@@ -94,6 +94,14 @@ public:
    static constexpr AdcPin AdcPin10 = {Pin25};
    static constexpr AdcPin AdcPin11 = {Pin28};
 
+   struct DacPin
+   {
+      Pin pin;
+   };
+
+   static constexpr DacPin DacPin0 =  {Pin23};
+   static constexpr DacPin DacPin1 =  {Pin22};
+
                   BoardDaisySeed ();
    virtual        ~BoardDaisySeed () = default;
 
@@ -126,20 +134,32 @@ protected:
       MuxAddress  address = MuxAddress {};
    };
 
-   enum { NBR_AUDIO_CHANNELS = 2 };
    enum { NBR_MAX_ADC_CHANNELS = 12 };
 
-   using AudioBufferInputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
-   using AudioBufferOutputs = std::array <Buffer, NBR_AUDIO_CHANNELS>;
+   void           init_gpio_input (Pin pin);
+   uint8_t        read_gpio (Pin pin);
+
+   void           init_gpio_output (Pin pin);
+   void           write_gpio (Pin pin, uint8_t val);
 
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
                   init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
+   void           init_dac_channels (std::initializer_list <DacPin> dac_pins);
 
-   AudioBufferInputs
-                  _audio_buffer_inputs;
-   AudioBufferOutputs
-                  _audio_buffer_outputs;
+   // Onboard Daisy Codec and associated gain stage
+   // eurorack audio level (-5V, 5V) to (-1.f, 1.f)
+   static constexpr float
+                  _gain_input_scaling = 2.3f;
+
+   // Onboard Daisy Codec and associated gain stage
+   // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
+   // 10V / (0.7 x 3.3V x 10) = 0.433
+   static constexpr float
+                  _gain_output_scaling = 0.433f;
+
+   float * const *_raw_audio_inputs = nullptr;
+   float **       _raw_audio_outputs = nullptr;
 
 
 
@@ -153,9 +173,6 @@ private:
 
    static void    audio_callback_proc (float ** in, float ** out, size_t size);
    void           audio_callback (float ** in, float ** out, size_t size);
-
-   void           process_audio_inputs (AudioBufferInputs & buffer_inputs, float ** in);
-   void           process_audio_outputs (float ** out, AudioBufferOutputs & buffer_outputs);
 
    static BoardDaisySeed *
                   _this_ptr;

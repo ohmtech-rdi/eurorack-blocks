@@ -34,9 +34,6 @@ BoardDaisySeed::BoardDaisySeed ()
 
    _seed.Configure ();
    _seed.Init (true /* boost */);
-
-   for (auto & buffer : _audio_buffer_inputs) buffer.fill (0.f);
-   for (auto & buffer : _audio_buffer_outputs) buffer.fill (0.f);
 }
 
 
@@ -46,6 +43,108 @@ BoardDaisySeed::BoardDaisySeed ()
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : init_gpio_input
+==============================================================================
+*/
+
+void  BoardDaisySeed::init_gpio_input (Pin pin)
+{
+   dsy_gpio gpio;
+   gpio.pin = pin;
+   gpio.mode = DSY_GPIO_MODE_INPUT;
+   gpio.pull = DSY_GPIO_PULLUP;
+
+   dsy_gpio_init (&gpio);
+}
+
+
+
+/*
+==============================================================================
+Name : read_gpio
+==============================================================================
+*/
+
+uint8_t  BoardDaisySeed::read_gpio (Pin pin)
+{
+   dsy_gpio gpio;
+   gpio.pin = pin;
+   // all the other fields are irrelevant
+
+   return dsy_gpio_read (&gpio);
+}
+
+
+
+/*
+==============================================================================
+Name : init_gpio_output
+==============================================================================
+*/
+
+void  BoardDaisySeed::init_gpio_output (Pin pin)
+{
+   dsy_gpio gpio;
+   gpio.pin = pin;
+   gpio.mode = DSY_GPIO_MODE_OUTPUT_PP;
+   gpio.pull = DSY_GPIO_NOPULL;
+
+   dsy_gpio_init (&gpio);
+}
+
+
+
+/*
+==============================================================================
+Name : write_gpio
+==============================================================================
+*/
+
+void  BoardDaisySeed::write_gpio (Pin pin, uint8_t val)
+{
+   dsy_gpio gpio;
+   gpio.pin = pin;
+   // all the other fields are irrelevant
+
+   dsy_gpio_write (&gpio, val);
+}
+
+
+
+/*
+==============================================================================
+Name : init_dac_channels
+==============================================================================
+*/
+
+void  BoardDaisySeed::init_dac_channels (std::initializer_list <DacPin> dac_pins)
+{
+   daisy::DacHandle::Channel channel
+      = daisy::DacHandle::Channel::BOTH;
+
+   if (dac_pins.size () == 1)
+   {
+      auto dac_pin = *dac_pins.begin ();
+      if (dac_pin.pin == DacPin0.pin)
+      {
+         channel = DacHandle::Channel::ONE;
+      }
+      else
+      {
+         channel = DacHandle::Channel::TWO;
+      }
+   }
+
+   DacHandle::Config cfg;
+   cfg.bitdepth = DacHandle::BitDepth::BITS_12;
+   cfg.buff_state = DacHandle::BufferState::ENABLED;
+   cfg.mode = DacHandle::Mode::POLLING;
+   cfg.chn = channel;
+   _seed.dac.Init (cfg);
+}
 
 
 
@@ -105,66 +204,12 @@ Name : audio_callback
 
 void  BoardDaisySeed::audio_callback (float ** in, float ** out, size_t /* size */)
 {
-   process_audio_inputs (_audio_buffer_inputs, in);
+   _raw_audio_inputs = in;
+   _raw_audio_outputs = out;
 
    _run ();
 
-   process_audio_outputs (out, _audio_buffer_outputs);
-
    _clock.tick ();
-}
-
-
-
-/*
-==============================================================================
-Name : process_audio_inputs
-Description :
-   Map eurorack audio level (-5V, 5V) to (-1.f, 1.f)
-==============================================================================
-*/
-
-void  BoardDaisySeed::process_audio_inputs (AudioBufferInputs & buffer_inputs, float ** in)
-{
-   constexpr float gain_in = 2.3f;
-
-   for (size_t i = 0 ; i < NBR_AUDIO_CHANNELS ; ++i)
-   {
-      auto & buffer = buffer_inputs [i];
-      const auto & in_arr = in [i];
-
-      for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
-      {
-         buffer [j] = gain_in * in_arr [j];
-      }
-   }
-}
-
-
-
-/*
-==============================================================================
-Name : process_audio_outputs
-Description :
-   Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
-   10V / (0.7 x 3.3V x 10) = 0.433
-==============================================================================
-*/
-
-void  BoardDaisySeed::process_audio_outputs (float ** out, AudioBufferOutputs & buffer_outputs)
-{
-   constexpr float gain_out = 0.433f;
-
-   for (size_t i = 0 ; i < NBR_AUDIO_CHANNELS ; ++i)
-   {
-      auto & out_arr = out [i];
-      const auto & buffer = buffer_outputs [i];
-
-      for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
-      {
-         out_arr [j] = gain_out * buffer [j];
-      }
-   }
 }
 
 
