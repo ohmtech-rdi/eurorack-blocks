@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 8 8
+Sheet 7 7
 Title ""
 Date ""
 Rev ""
@@ -13,128 +13,8 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-$Comp
-L 4xxx:4051 U?
-U 1 1 6095DE74
-P 9100 2150
-AR Path="/6095DE74" Ref="U?"  Part="1" 
-AR Path="/6093B89C/6095DE74" Ref="U?"  Part="1" 
-AR Path="/60958BFE/6095DE74" Ref="U3"  Part="1" 
-F 0 "U3" H 9500 1950 50  0000 L CNN
-F 1 "4051" H 9500 1850 50  0000 L CNN
-F 2 "Package_SO:TSSOP-16_4.4x5mm_P0.65mm" H 9100 2150 50  0001 C CNN
-F 3 "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4051bms-52bms-53bms.pdf" H 9100 2150 50  0001 C CNN
-F 4 "Multiplexer" H 9100 2150 50  0001 C CNN "Device"
-F 5 "IC MUX/DEMUX 8X1 16TSSOP" H 9100 2150 50  0001 C CNN "Description"
-F 6 "Yes" H 9100 2150 50  0001 C CNN "Place"
-F 7 "Digikey" H 9100 2150 50  0001 C CNN "Dist"
-F 8 "296-11993-1-ND" H 9100 2150 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/texas-instruments/CD4051BPWR/296-11993-1-ND/390442" H 9100 2150 50  0001 C CNN "DistLink"
-	1    9100 2150
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C?
-U 1 1 6095DE98
-P 9950 2650
-AR Path="/6095DE98" Ref="C?"  Part="1" 
-AR Path="/6093B89C/6095DE98" Ref="C?"  Part="1" 
-AR Path="/60958BFE/6095DE98" Ref="C5"  Part="1" 
-F 0 "C5" H 9750 2600 50  0000 C CNN
-F 1 "100n" H 9750 2700 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 9988 2500 50  0001 C CNN
-F 3 "~" H 9950 2650 50  0001 C CNN
-F 4 "Ceramic Capacitor" H 9950 2650 50  0001 C CNN "Device"
-F 5 "CAP CER 0.1UF 25V X7R 0603" H 9950 2650 50  0001 C CNN "Description"
-F 6 "Yes" H 9950 2650 50  0001 C CNN "Place"
-F 7 "Digikey" H 9950 2650 50  0001 C CNN "Dist"
-F 8 "478-7018-1-ND" H 9950 2650 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/kemet/C0603C102J5GACTU/399-3293-1-ND/608488" H 9950 2650 50  0001 C CNN "DistLink"
-	1    9950 2650
-	-1   0    0    1   
-$EndComp
 Text Notes 900  5300 0    50   ~ 0
 Inputs are potentially\nfrom -12V to 12V.\n\nAt the output of first stage,\nfrom 0V to 12V.
-Text HLabel 8600 2550 0    50   Input ~ 0
-A
-Text HLabel 8600 2650 0    50   Input ~ 0
-B
-Text HLabel 8600 2750 0    50   Input ~ 0
-C
-Text HLabel 10150 1350 2    50   Output ~ 0
-~OUT3~
-$Comp
-L Device:R R?
-U 1 1 6096182B
-P 10150 1200
-AR Path="/6096182B" Ref="R?"  Part="1" 
-AR Path="/60958BFE/6096182B" Ref="R1"  Part="1" 
-F 0 "R1" H 10300 1250 50  0000 C CNN
-F 1 "10k" H 10300 1150 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 10080 1200 50  0001 C CNN
-F 3 "~" H 10150 1200 50  0001 C CNN
-F 4 "Resistor" H 10150 1200 50  0001 C CNN "Device"
-F 5 "RES SMD 10K OHM 1% 1/10W 0603" H 10150 1200 50  0001 C CNN "Description"
-F 6 "Yes" H 10150 1200 50  0001 C CNN "Place"
-F 7 "Digikey" H 10150 1200 50  0001 C CNN "Dist"
-F 8 "311-10KLDCT-ND" H 10150 1200 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-0710KL/311-10KLDCT-ND/2828135" H 10150 1200 50  0001 C CNN "DistLink"
-	1    10150 1200
-	1    0    0    -1  
-$EndComp
-$Comp
-L Transistor_BJT:MMBT3904 Q?
-U 1 1 60961843
-P 10050 1550
-AR Path="/60961843" Ref="Q?"  Part="1" 
-AR Path="/60958BFE/60961843" Ref="Q1"  Part="1" 
-F 0 "Q1" H 10241 1596 50  0000 L CNN
-F 1 "MMBT3904" H 10241 1505 50  0000 L CNN
-F 2 "Package_TO_SOT_SMD:SOT-23" H 10250 1475 50  0001 L CIN
-F 3 "https://www.fairchildsemi.com/datasheets/2N/2N3904.pdf" H 10050 1550 50  0001 L CNN
-F 4 "Bipolar Transistor" H 10050 1550 50  0001 C CNN "Device"
-F 5 "TRANS NPN 40V 0.2A SOT23" H 10050 1550 50  0001 C CNN "Description"
-F 6 "Yes" H 10050 1550 50  0001 C CNN "Place"
-F 7 "Digikey" H 10050 1550 50  0001 C CNN "Dist"
-F 8 "MMBT3904LT3GOSCT-ND" H 10050 1550 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/MMBT3904LT3G/MMBT3904LT3GOSCT-ND/1139814" H 10050 1550 50  0001 C CNN "DistLink"
-	1    10050 1550
-	1    0    0    -1  
-$EndComp
-Text HLabel 9100 1250 1    50   Input ~ 0
-12V
-Text HLabel 9100 3050 3    50   Input ~ 0
-GND
-Text HLabel 9200 3050 3    50   Input ~ 0
-GND
-Text HLabel 8600 2450 0    50   Input ~ 0
-GND
-Text HLabel 10150 1750 3    50   Input ~ 0
-GND
-Text HLabel 9950 2500 1    50   Input ~ 0
-12V
-Text HLabel 10150 1050 1    50   Input ~ 0
-3V3
-Text Label 8600 1750 2    50   ~ 0
-IN1_POS
-Text HLabel 9950 2800 3    50   Input ~ 0
-GND
-Text Notes 10350 1900 0    50   ~ 0
-Output is inverted\nand from 0V to 3V3
-Text Label 8600 1650 2    50   ~ 0
-IN2_POS
-Text Label 8600 1550 2    50   ~ 0
-IN3_POS
-Text Label 8600 1850 2    50   ~ 0
-IN4_POS
-Text Label 8600 1950 2    50   ~ 0
-IN5_POS
-Text Label 8600 2150 2    50   ~ 0
-IN6_POS
-Text Label 8600 2250 2    50   ~ 0
-IN7_POS
-Text Label 8600 2050 2    50   ~ 0
-IN8_POS
 Text Label 1850 1000 2    50   ~ 0
 IN1_POS
 Connection ~ 1400 1000
@@ -160,25 +40,6 @@ F 8 "1N4148WTCT-ND" H 1400 1150 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/1N4148WT/1N4148WTCT-ND/2094398" H 1400 1150 50  0001 C CNN "DistLink"
 	1    1400 1150
 	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R?
-U 1 1 60961837
-P 9600 1700
-AR Path="/60961837" Ref="R?"  Part="1" 
-AR Path="/60958BFE/60961837" Ref="R9"  Part="1" 
-F 0 "R9" H 9450 1650 50  0000 C CNN
-F 1 "100k" H 9400 1750 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 9530 1700 50  0001 C CNN
-F 3 "~" H 9600 1700 50  0001 C CNN
-F 4 "Resistor" H 9600 1700 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 9600 1700 50  0001 C CNN "Description"
-F 6 "Yes" H 9600 1700 50  0001 C CNN "Place"
-F 7 "Digikey" H 9600 1700 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 9600 1700 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 9600 1700 50  0001 C CNN "DistLink"
-	1    9600 1700
-	-1   0    0    1   
 $EndComp
 $Comp
 L Device:R R?
@@ -906,194 +767,6 @@ F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-1
 $EndComp
 Text HLabel 1100 3850 0    50   Input ~ 0
 IN16
-Text Label 3150 3850 2    50   ~ 0
-IN17_POS
-Connection ~ 2700 3850
-Wire Wire Line
-	2700 3850 3150 3850
-Text HLabel 2700 4150 3    50   Input ~ 0
-GND
-$Comp
-L Diode:1N4148 D?
-U 1 1 609EEB9D
-P 2700 4000
-AR Path="/609EEB9D" Ref="D?"  Part="1" 
-AR Path="/60958BFE/609EEB9D" Ref="D17"  Part="1" 
-F 0 "D17" V 2654 4079 50  0000 L CNN
-F 1 "1N4148" V 2745 4079 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-523" H 2700 3825 50  0001 C CNN
-F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 2700 4000 50  0001 C CNN
-F 4 "Rectifier Diode" H 2700 4000 50  0001 C CNN "Device"
-F 5 "DIODE GEN PURP 75V 200MA SOD523F" H 2700 4000 50  0001 C CNN "Description"
-F 6 "Yes" H 2700 4000 50  0001 C CNN "Place"
-F 7 "Digikey" H 2700 4000 50  0001 C CNN "Dist"
-F 8 "1N4148WTCT-ND" H 2700 4000 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/1N4148WT/1N4148WTCT-ND/2094398" H 2700 4000 50  0001 C CNN "DistLink"
-	1    2700 4000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R?
-U 1 1 609EEBB5
-P 2550 3850
-AR Path="/609EEBB5" Ref="R?"  Part="1" 
-AR Path="/60958BFE/609EEBB5" Ref="R35"  Part="1" 
-F 0 "R35" V 2343 3850 50  0000 C CNN
-F 1 "100k" V 2434 3850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 2480 3850 50  0001 C CNN
-F 3 "~" H 2550 3850 50  0001 C CNN
-F 4 "Resistor" H 2550 3850 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 2550 3850 50  0001 C CNN "Description"
-F 6 "Yes" H 2550 3850 50  0001 C CNN "Place"
-F 7 "Digikey" H 2550 3850 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 2550 3850 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 2550 3850 50  0001 C CNN "DistLink"
-	1    2550 3850
-	0    1    1    0   
-$EndComp
-Text HLabel 2400 3850 0    50   Input ~ 0
-IN17
-Text Label 4450 3850 2    50   ~ 0
-IN18_POS
-Connection ~ 4000 3850
-Wire Wire Line
-	4000 3850 4450 3850
-Text HLabel 4000 4150 3    50   Input ~ 0
-GND
-$Comp
-L Diode:1N4148 D?
-U 1 1 609EEBC7
-P 4000 4000
-AR Path="/609EEBC7" Ref="D?"  Part="1" 
-AR Path="/60958BFE/609EEBC7" Ref="D18"  Part="1" 
-F 0 "D18" V 3954 4079 50  0000 L CNN
-F 1 "1N4148" V 4045 4079 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-523" H 4000 3825 50  0001 C CNN
-F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 4000 4000 50  0001 C CNN
-F 4 "Rectifier Diode" H 4000 4000 50  0001 C CNN "Device"
-F 5 "DIODE GEN PURP 75V 200MA SOD523F" H 4000 4000 50  0001 C CNN "Description"
-F 6 "Yes" H 4000 4000 50  0001 C CNN "Place"
-F 7 "Digikey" H 4000 4000 50  0001 C CNN "Dist"
-F 8 "1N4148WTCT-ND" H 4000 4000 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/1N4148WT/1N4148WTCT-ND/2094398" H 4000 4000 50  0001 C CNN "DistLink"
-	1    4000 4000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R?
-U 1 1 609EEBDF
-P 3850 3850
-AR Path="/609EEBDF" Ref="R?"  Part="1" 
-AR Path="/60958BFE/609EEBDF" Ref="R36"  Part="1" 
-F 0 "R36" V 3643 3850 50  0000 C CNN
-F 1 "100k" V 3734 3850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3780 3850 50  0001 C CNN
-F 3 "~" H 3850 3850 50  0001 C CNN
-F 4 "Resistor" H 3850 3850 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3850 3850 50  0001 C CNN "Description"
-F 6 "Yes" H 3850 3850 50  0001 C CNN "Place"
-F 7 "Digikey" H 3850 3850 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 3850 3850 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3850 3850 50  0001 C CNN "DistLink"
-	1    3850 3850
-	0    1    1    0   
-$EndComp
-Text HLabel 3700 3850 0    50   Input ~ 0
-IN18
-Text Label 5800 3850 2    50   ~ 0
-IN19_POS
-Connection ~ 5350 3850
-Wire Wire Line
-	5350 3850 5800 3850
-Text HLabel 5350 4150 3    50   Input ~ 0
-GND
-$Comp
-L Diode:1N4148 D?
-U 1 1 609EEBF1
-P 5350 4000
-AR Path="/609EEBF1" Ref="D?"  Part="1" 
-AR Path="/60958BFE/609EEBF1" Ref="D19"  Part="1" 
-F 0 "D19" V 5304 4079 50  0000 L CNN
-F 1 "1N4148" V 5395 4079 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-523" H 5350 3825 50  0001 C CNN
-F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 5350 4000 50  0001 C CNN
-F 4 "Rectifier Diode" H 5350 4000 50  0001 C CNN "Device"
-F 5 "DIODE GEN PURP 75V 200MA SOD523F" H 5350 4000 50  0001 C CNN "Description"
-F 6 "Yes" H 5350 4000 50  0001 C CNN "Place"
-F 7 "Digikey" H 5350 4000 50  0001 C CNN "Dist"
-F 8 "1N4148WTCT-ND" H 5350 4000 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/1N4148WT/1N4148WTCT-ND/2094398" H 5350 4000 50  0001 C CNN "DistLink"
-	1    5350 4000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R?
-U 1 1 609EEC09
-P 5200 3850
-AR Path="/609EEC09" Ref="R?"  Part="1" 
-AR Path="/60958BFE/609EEC09" Ref="R37"  Part="1" 
-F 0 "R37" V 4993 3850 50  0000 C CNN
-F 1 "100k" V 5084 3850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 5130 3850 50  0001 C CNN
-F 3 "~" H 5200 3850 50  0001 C CNN
-F 4 "Resistor" H 5200 3850 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 5200 3850 50  0001 C CNN "Description"
-F 6 "Yes" H 5200 3850 50  0001 C CNN "Place"
-F 7 "Digikey" H 5200 3850 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 5200 3850 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 5200 3850 50  0001 C CNN "DistLink"
-	1    5200 3850
-	0    1    1    0   
-$EndComp
-Text HLabel 5050 3850 0    50   Input ~ 0
-IN19
-Text Label 7150 3850 2    50   ~ 0
-IN20_POS
-Connection ~ 6700 3850
-Wire Wire Line
-	6700 3850 7150 3850
-Text HLabel 6700 4150 3    50   Input ~ 0
-GND
-$Comp
-L Diode:1N4148 D?
-U 1 1 609EEC1B
-P 6700 4000
-AR Path="/609EEC1B" Ref="D?"  Part="1" 
-AR Path="/60958BFE/609EEC1B" Ref="D20"  Part="1" 
-F 0 "D20" V 6654 4079 50  0000 L CNN
-F 1 "1N4148" V 6745 4079 50  0000 L CNN
-F 2 "Diode_SMD:D_SOD-523" H 6700 3825 50  0001 C CNN
-F 3 "http://www.nxp.com/documents/data_sheet/1N4148_1N4448.pdf" H 6700 4000 50  0001 C CNN
-F 4 "Rectifier Diode" H 6700 4000 50  0001 C CNN "Device"
-F 5 "DIODE GEN PURP 75V 200MA SOD523F" H 6700 4000 50  0001 C CNN "Description"
-F 6 "Yes" H 6700 4000 50  0001 C CNN "Place"
-F 7 "Digikey" H 6700 4000 50  0001 C CNN "Dist"
-F 8 "1N4148WTCT-ND" H 6700 4000 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/on-semiconductor/1N4148WT/1N4148WTCT-ND/2094398" H 6700 4000 50  0001 C CNN "DistLink"
-	1    6700 4000
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R R?
-U 1 1 609EEC33
-P 6550 3850
-AR Path="/609EEC33" Ref="R?"  Part="1" 
-AR Path="/60958BFE/609EEC33" Ref="R38"  Part="1" 
-F 0 "R38" V 6343 3850 50  0000 C CNN
-F 1 "100k" V 6434 3850 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 6480 3850 50  0001 C CNN
-F 3 "~" H 6550 3850 50  0001 C CNN
-F 4 "Resistor" H 6550 3850 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 6550 3850 50  0001 C CNN "Description"
-F 6 "Yes" H 6550 3850 50  0001 C CNN "Place"
-F 7 "Digikey" H 6550 3850 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 6550 3850 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 6550 3850 50  0001 C CNN "DistLink"
-	1    6550 3850
-	0    1    1    0   
-$EndComp
-Text HLabel 6400 3850 0    50   Input ~ 0
-IN20
 $Comp
 L 4xxx:4051 U?
 U 1 1 60A214CA
@@ -1141,7 +814,7 @@ B
 Text HLabel 8650 5300 0    50   Input ~ 0
 C
 Text HLabel 9650 4100 2    50   Output ~ 0
-OUT1
+OUT2
 Text HLabel 9150 3800 1    50   Input ~ 0
 12V
 Text HLabel 9150 5600 3    50   Input ~ 0
@@ -1170,87 +843,82 @@ Text Label 8650 4800 2    50   ~ 0
 IN15_POS
 Text Label 8650 4600 2    50   ~ 0
 IN16_POS
-$Comp
-L 4xxx:4051 U?
-U 1 1 60A25F8E
-P 4950 6100
-AR Path="/60A25F8E" Ref="U?"  Part="1" 
-AR Path="/6093B89C/60A25F8E" Ref="U?"  Part="1" 
-AR Path="/60958BFE/60A25F8E" Ref="U5"  Part="1" 
-F 0 "U5" H 5350 5900 50  0000 L CNN
-F 1 "4051" H 5350 5800 50  0000 L CNN
-F 2 "Package_SO:TSSOP-16_4.4x5mm_P0.65mm" H 4950 6100 50  0001 C CNN
-F 3 "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4051bms-52bms-53bms.pdf" H 4950 6100 50  0001 C CNN
-F 4 "Multiplexer" H 4950 6100 50  0001 C CNN "Device"
-F 5 "IC MUX/DEMUX 8X1 16TSSOP" H 4950 6100 50  0001 C CNN "Description"
-F 6 "Yes" H 4950 6100 50  0001 C CNN "Place"
-F 7 "Digikey" H 4950 6100 50  0001 C CNN "Dist"
-F 8 "296-11993-1-ND" H 4950 6100 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/texas-instruments/CD4051BPWR/296-11993-1-ND/390442" H 4950 6100 50  0001 C CNN "DistLink"
-	1    4950 6100
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C?
-U 1 1 60A25F9A
-P 5800 6600
-AR Path="/60A25F9A" Ref="C?"  Part="1" 
-AR Path="/6093B89C/60A25F9A" Ref="C?"  Part="1" 
-AR Path="/60958BFE/60A25F9A" Ref="C7"  Part="1" 
-F 0 "C7" H 5600 6550 50  0000 C CNN
-F 1 "100n" H 5600 6650 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 5838 6450 50  0001 C CNN
-F 3 "~" H 5800 6600 50  0001 C CNN
-F 4 "Ceramic Capacitor" H 5800 6600 50  0001 C CNN "Device"
-F 5 "CAP CER 0.1UF 25V X7R 0603" H 5800 6600 50  0001 C CNN "Description"
-F 6 "Yes" H 5800 6600 50  0001 C CNN "Place"
-F 7 "Digikey" H 5800 6600 50  0001 C CNN "Dist"
-F 8 "478-7018-1-ND" H 5800 6600 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/kemet/C0603C102J5GACTU/399-3293-1-ND/608488" H 5800 6600 50  0001 C CNN "DistLink"
-	1    5800 6600
-	-1   0    0    1   
-$EndComp
-Text HLabel 4450 6500 0    50   Input ~ 0
-A
-Text HLabel 4450 6600 0    50   Input ~ 0
-B
-Text HLabel 4450 6700 0    50   Input ~ 0
-C
-Text HLabel 5450 5500 2    50   Output ~ 0
-OUT2
-Text HLabel 4950 5200 1    50   Input ~ 0
-12V
-Text HLabel 4950 7000 3    50   Input ~ 0
-GND
-Text HLabel 5050 7000 3    50   Input ~ 0
-GND
-Text HLabel 4450 6400 0    50   Input ~ 0
-GND
-Text HLabel 5800 6450 1    50   Input ~ 0
-12V
-Text Label 4450 5700 2    50   ~ 0
-IN17_POS
-Text HLabel 5800 6750 3    50   Input ~ 0
-GND
-Text Label 4450 5600 2    50   ~ 0
-IN18_POS
-Text Label 4450 5500 2    50   ~ 0
-IN19_POS
-Text Label 4450 5800 2    50   ~ 0
-IN20_POS
-Text HLabel 4450 5900 0    50   Input ~ 0
-GND
-Text HLabel 4450 6000 0    50   Input ~ 0
-GND
-Text HLabel 4450 6100 0    50   Input ~ 0
-GND
-Text HLabel 4450 6200 0    50   Input ~ 0
-GND
 Text Notes 7450 7000 0    276  ~ 0
 BUTTONS/GATES
-Text HLabel 9600 1850 3    50   Input ~ 0
+Text Label 8600 2050 2    50   ~ 0
+IN8_POS
+Text Label 8600 2250 2    50   ~ 0
+IN7_POS
+Text Label 8600 2150 2    50   ~ 0
+IN6_POS
+Text Label 8600 1950 2    50   ~ 0
+IN5_POS
+Text Label 8600 1850 2    50   ~ 0
+IN4_POS
+Text Label 8600 1550 2    50   ~ 0
+IN3_POS
+Text Label 8600 1650 2    50   ~ 0
+IN2_POS
+Text HLabel 9950 2800 3    50   Input ~ 0
 GND
-Wire Wire Line
-	9600 1550 9850 1550
-Connection ~ 9600 1550
+Text Label 8600 1750 2    50   ~ 0
+IN1_POS
+Text HLabel 9950 2500 1    50   Input ~ 0
+12V
+Text HLabel 8600 2450 0    50   Input ~ 0
+GND
+Text HLabel 9200 3050 3    50   Input ~ 0
+GND
+Text HLabel 9100 3050 3    50   Input ~ 0
+GND
+Text HLabel 9100 1250 1    50   Input ~ 0
+12V
+Text HLabel 8600 2750 0    50   Input ~ 0
+C
+Text HLabel 8600 2650 0    50   Input ~ 0
+B
+Text HLabel 8600 2550 0    50   Input ~ 0
+A
+$Comp
+L Device:C C?
+U 1 1 6095DE98
+P 9950 2650
+AR Path="/6095DE98" Ref="C?"  Part="1" 
+AR Path="/6093B89C/6095DE98" Ref="C?"  Part="1" 
+AR Path="/60958BFE/6095DE98" Ref="C5"  Part="1" 
+F 0 "C5" H 9750 2600 50  0000 C CNN
+F 1 "100n" H 9750 2700 50  0000 C CNN
+F 2 "Capacitor_SMD:C_0603_1608Metric" H 9988 2500 50  0001 C CNN
+F 3 "~" H 9950 2650 50  0001 C CNN
+F 4 "Ceramic Capacitor" H 9950 2650 50  0001 C CNN "Device"
+F 5 "CAP CER 0.1UF 25V X7R 0603" H 9950 2650 50  0001 C CNN "Description"
+F 6 "Yes" H 9950 2650 50  0001 C CNN "Place"
+F 7 "Digikey" H 9950 2650 50  0001 C CNN "Dist"
+F 8 "478-7018-1-ND" H 9950 2650 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/kemet/C0603C102J5GACTU/399-3293-1-ND/608488" H 9950 2650 50  0001 C CNN "DistLink"
+	1    9950 2650
+	-1   0    0    1   
+$EndComp
+$Comp
+L 4xxx:4051 U?
+U 1 1 6095DE74
+P 9100 2150
+AR Path="/6095DE74" Ref="U?"  Part="1" 
+AR Path="/6093B89C/6095DE74" Ref="U?"  Part="1" 
+AR Path="/60958BFE/6095DE74" Ref="U3"  Part="1" 
+F 0 "U3" H 9500 1950 50  0000 L CNN
+F 1 "4051" H 9500 1850 50  0000 L CNN
+F 2 "Package_SO:TSSOP-16_4.4x5mm_P0.65mm" H 9100 2150 50  0001 C CNN
+F 3 "http://www.intersil.com/content/dam/Intersil/documents/cd40/cd4051bms-52bms-53bms.pdf" H 9100 2150 50  0001 C CNN
+F 4 "Multiplexer" H 9100 2150 50  0001 C CNN "Device"
+F 5 "IC MUX/DEMUX 8X1 16TSSOP" H 9100 2150 50  0001 C CNN "Description"
+F 6 "Yes" H 9100 2150 50  0001 C CNN "Place"
+F 7 "Digikey" H 9100 2150 50  0001 C CNN "Dist"
+F 8 "296-11993-1-ND" H 9100 2150 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/texas-instruments/CD4051BPWR/296-11993-1-ND/390442" H 9100 2150 50  0001 C CNN "DistLink"
+	1    9100 2150
+	1    0    0    -1  
+$EndComp
+Text HLabel 9600 1550 2    50   Output ~ 0
+OUT1
 $EndSCHEMATC

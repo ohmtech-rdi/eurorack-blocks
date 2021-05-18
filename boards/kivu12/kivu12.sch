@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 8
+Sheet 1 7
 Title ""
 Date ""
 Rev ""
@@ -59,14 +59,14 @@ SDD2
 Text GLabel 1250 3050 2    50   BiDi ~ 0
 SDD3
 $Comp
-L Connector_Generic:Conn_01x21 J2
+L Connector_Generic:Conn_01x17 J2
 U 1 1 608C80B8
-P 4000 2050
-F 0 "J2" H 3900 3250 50  0000 C BNN
-F 1 "BOTTOM" H 3900 3150 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x21_P2.54mm_Vertical" H 4000 2050 50  0001 C CNN
-F 3 "~" H 4000 2050 50  0001 C CNN
-	1    4000 2050
+P 4000 1850
+F 0 "J2" H 3900 2850 50  0000 C BNN
+F 1 "BOTTOM" H 3900 2750 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x17_P2.54mm_Vertical" H 4000 1850 50  0001 C CNN
+F 3 "~" H 4000 1850 50  0001 C CNN
+	1    4000 1850
 	-1   0    0    -1  
 $EndComp
 Text GLabel 4200 2250 2    50   Output ~ 0
@@ -101,19 +101,15 @@ Text GLabel 4200 2050 2    50   Input ~ 0
 GO1
 Text GLabel 4200 2150 2    50   Input ~ 0
 GO2
-Text GLabel 4200 2750 2    50   Output ~ 0
-MIR
-Text GLabel 4200 3050 2    50   Input ~ 0
-MOT
 $Comp
-L Connector_Generic:Conn_01x24 J3
+L Connector_Generic:Conn_01x20 J3
 U 1 1 608CDDA4
-P 3000 2150
-F 0 "J3" H 2918 3467 50  0000 C CNN
-F 1 "RIGHT" H 2918 3376 50  0000 C CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x24_P2.54mm_Vertical" H 3000 2150 50  0001 C CNN
-F 3 "~" H 3000 2150 50  0001 C CNN
-	1    3000 2150
+P 3000 1950
+F 0 "J3" H 2900 3050 50  0000 C BNN
+F 1 "RIGHT" H 2900 2950 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x20_P2.54mm_Vertical" H 3000 1950 50  0001 C CNN
+F 3 "~" H 3000 1950 50  0001 C CNN
+	1    3000 1950
 	-1   0    0    -1  
 $EndComp
 Text GLabel 3200 1450 2    50   Output ~ 0
@@ -140,14 +136,6 @@ Text GLabel 3200 2850 2    50   Output ~ 0
 B15
 Text GLabel 3200 2950 2    50   Output ~ 0
 B16
-Text GLabel 3200 3050 2    50   Output ~ 0
-B17
-Text GLabel 3200 3150 2    50   Output ~ 0
-B18
-Text GLabel 3200 3250 2    50   Output ~ 0
-B19
-Text GLabel 3200 3350 2    50   Output ~ 0
-B20
 $Comp
 L Connector_Generic:Conn_01x21 J4
 U 1 1 608D2E60
@@ -333,54 +321,30 @@ Text GLabel 1250 5700 0    50   Input ~ 0
 P12
 Text GLabel 1250 4600 0    50   Input ~ 0
 P1
-$Sheet
-S 7150 4500 1100 900 
-U 60963995
-F0 "kivu12.midi" 50
-F1 "kivu12.midi.sch" 50
-F2 "MIDI_IN_TIP" I L 7150 4600 50 
-F3 "MIDI_IN_RING" I L 7150 4700 50 
-F4 "MIDI_IN" O R 8250 4600 50 
-F5 "MIDI_OUT" I L 7150 4900 50 
-F6 "MIDI_OUT_TIP" O R 8250 4900 50 
-F7 "MIDI_OUT_RING" O R 8250 5000 50 
-F8 "GND" I R 8250 5300 50 
-F9 "3V3" I R 8250 5200 50 
-$EndSheet
 Text Label 8050 3150 0    50   ~ 0
-MUX_ADDR_A
-Text Label 6250 3250 2    50   ~ 0
-~GATEIN3_MUX~
+ADC_MUX_ADDR_A
 Text Label 8050 3250 0    50   ~ 0
 ADC1_MUX
 Text Label 8050 3350 0    50   ~ 0
 ADC2_MUX
 Text Label 8050 3450 0    50   ~ 0
-MUX_ADDR_B
+ADC_MUX_ADDR_B
 Text Label 6250 3350 2    50   ~ 0
-MUX_ADDR_C
-Text Label 6250 3050 2    50   ~ 0
-MIDI_OUT
-Text Label 6250 2950 2    50   ~ 0
-MIDI_IN
+ADC_MUX_ADDR_C
 Text Label 8050 2650 0    50   ~ 0
 GATEIN1_MUX
 Text Label 8050 2750 0    50   ~ 0
 GATEIN2_MUX
 Text Label 1250 5900 2    50   ~ 0
-MUX_ADDR_A
+ADC_MUX_ADDR_A
 Text Label 1250 6000 2    50   ~ 0
-MUX_ADDR_B
+ADC_MUX_ADDR_B
 Text Label 1250 6100 2    50   ~ 0
-MUX_ADDR_C
+ADC_MUX_ADDR_C
 Text Label 2000 4600 0    50   ~ 0
 ADC1_MUX
 Text Label 2000 4700 0    50   ~ 0
 ADC2_MUX
-Text Label 8250 4600 0    50   ~ 0
-MIDI_IN
-Text Label 7150 4900 2    50   ~ 0
-MIDI_OUT
 Text Label 6250 1350 2    50   ~ 0
 CV_OR_PITCH_ADSR1
 Text Label 6250 1450 2    50   ~ 0
@@ -465,11 +429,11 @@ F24 "OUT19" O R 6250 6400 50
 F25 "OUT20" O R 6250 6500 50 
 $EndSheet
 Text Label 3350 6700 2    50   ~ 0
-MUX_ADDR_A
+GATE_MUX_ADDR_A
 Text Label 3350 6800 2    50   ~ 0
-MUX_ADDR_B
+GATE_MUX_ADDR_B
 Text Label 3350 6900 2    50   ~ 0
-MUX_ADDR_C
+GATE_MUX_ADDR_C
 $Comp
 L power:GND #PWR0123
 U 1 1 60A9ED31
@@ -535,20 +499,10 @@ Text GLabel 3350 6000 0    50   Input ~ 0
 B15
 Text GLabel 3350 6100 0    50   Input ~ 0
 B16
-Text GLabel 3350 6200 0    50   Input ~ 0
-B17
-Text GLabel 3350 6300 0    50   Input ~ 0
-B18
-Text GLabel 3350 6400 0    50   Input ~ 0
-B19
-Text GLabel 3350 6500 0    50   Input ~ 0
-B20
-Text Label 4250 4600 0    50   ~ 0
-GATEIN1_MUX
 Text Label 4250 4700 0    50   ~ 0
+GATEIN1_MUX
+Text Label 4250 4600 0    50   ~ 0
 GATEIN2_MUX
-Text Label 4250 4800 0    50   ~ 0
-~GATEIN3_MUX~
 Text GLabel 9350 4700 0    50   Output ~ 0
 SDCMD
 Text GLabel 9350 4600 0    50   Output ~ 0
@@ -595,38 +549,8 @@ F 3 "" H 10450 5400 50  0001 C CNN
 	1    10450 5400
 	0    -1   -1   0   
 $EndComp
-$Comp
-L power:+3V3 #PWR0128
-U 1 1 60AD492D
-P 8250 5200
-F 0 "#PWR0128" H 8250 5050 50  0001 C CNN
-F 1 "+3V3" V 8250 5400 50  0000 C CNN
-F 2 "" H 8250 5200 50  0001 C CNN
-F 3 "" H 8250 5200 50  0001 C CNN
-	1    8250 5200
-	0    1    1    0   
-$EndComp
-$Comp
-L power:GND #PWR0129
-U 1 1 60AD4E3A
-P 8250 5300
-F 0 "#PWR0129" H 8250 5050 50  0001 C CNN
-F 1 "GND" V 8250 5100 50  0000 C CNN
-F 2 "" H 8250 5300 50  0001 C CNN
-F 3 "" H 8250 5300 50  0001 C CNN
-	1    8250 5300
-	0    -1   -1   0   
-$EndComp
 Text Notes 3100 5350 2    50   ~ 0
 Gates are ±12V\n\nButtons and\nSwitches\nare 0 or 3V3
-Text GLabel 7150 4600 0    50   Input ~ 0
-MIT
-Text GLabel 7150 4700 0    50   Input ~ 0
-MIR
-Text GLabel 8250 4900 2    50   Output ~ 0
-MOT
-Text GLabel 8250 5000 2    50   Output ~ 0
-MOR
 $Comp
 L power:+3V3 #PWR0131
 U 1 1 60B1E14C
@@ -695,10 +619,6 @@ Text GLabel 6250 6500 2    50   Output ~ 0
 L20
 Text Notes 7450 7000 0    276  ~ 0
 MAIN
-Text GLabel 4200 2850 2    50   Output ~ 0
-MIT
-Text GLabel 4200 2950 2    50   Input ~ 0
-MOR
 $Sheet
 S 7150 5650 1100 700 
 U 608DB245
@@ -978,7 +898,6 @@ F3 "B" I L 3350 6800 50
 F4 "C" I L 3350 6900 50 
 F5 "12V" I R 4250 6700 50 
 F6 "GND" I R 4250 6900 50 
-F7 "3V3" I R 4250 6800 50 
 F8 "IN1" I L 3350 4600 50 
 F9 "IN2" I L 3350 4700 50 
 F10 "IN3" I L 3350 4800 50 
@@ -995,13 +914,8 @@ F20 "IN13" I L 3350 5800 50
 F21 "IN14" I L 3350 5900 50 
 F22 "IN15" I L 3350 6000 50 
 F23 "IN16" I L 3350 6100 50 
-F24 "IN17" I L 3350 6200 50 
-F25 "IN18" I L 3350 6300 50 
-F26 "IN19" I L 3350 6400 50 
-F27 "IN20" I L 3350 6500 50 
-F28 "~OUT3~" O R 4250 4800 50 
-F29 "OUT1" O R 4250 4600 50 
-F30 "OUT2" O R 4250 4700 50 
+F28 "OUT1" O R 4250 4600 50 
+F29 "OUT2" O R 4250 4700 50 
 $EndSheet
 NoConn ~ 6950 1050
 $Comp
@@ -1037,4 +951,10 @@ F 3 "~" H 9900 3600 50  0001 C CNN
 	1    9900 3600
 	1    0    0    -1  
 $EndComp
+Text Label 6250 3050 2    50   ~ 0
+GATE_MUX_ADDR_A
+Text Label 6250 2950 2    50   ~ 0
+GATE_MUX_ADDR_B
+Text Label 6250 3250 2    50   ~ 0
+GATE_MUX_ADDR_C
 $EndSCHEMATC
