@@ -49,9 +49,9 @@ Name : impl_preprocess
 
 void  BoardDaisyField::impl_preprocess ()
 {
-   /*for (size_t i = 0 ; i < _digital_inputs.size () ; ++i)
-   {
-   }*/
+   _digital_inputs [0] = !read_gpio (Pin30);
+   _digital_inputs [1] = !read_gpio (Pin29);
+   _digital_inputs [2] = !read_gpio (Pin0);
 
    for (size_t i = 0 ; i < _analog_inputs.size () ; ++i)
    {
@@ -76,8 +76,7 @@ Name : impl_postprocess
 
 void  BoardDaisyField::impl_postprocess ()
 {
-   write_gpio (Pin30, _digital_outputs [0]);
-   write_gpio (Pin7, _digital_outputs [1]);
+   write_gpio (Pin15, _digital_outputs [0]);
 
    _seed.dac.WriteValue (
       daisy::DacHandle::Channel::ONE,
@@ -89,7 +88,7 @@ void  BoardDaisyField::impl_postprocess ()
       norm_to_u16 (_analog_outputs [1])
    );
 
-   for (size_t i = 0 ; i < 20 ; ++i)
+   for (size_t i = 0 ; i < 8 ; ++i)
    {
       _led_driver.SetLed (i, _analog_outputs [2 + i]);
    }
