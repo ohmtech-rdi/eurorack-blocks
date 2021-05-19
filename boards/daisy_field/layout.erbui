@@ -60,7 +60,7 @@ module daisy_field {
       pin GI
    }
 
-   control gateout GateIn {
+   control gateout GateOut {
       position 164mm, 33mm
       style thonk.pj398sm.hex
       label "OUT"
