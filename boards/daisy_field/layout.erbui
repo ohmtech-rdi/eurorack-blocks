@@ -7,7 +7,7 @@
 
 
 
-module daisy.field {
+module daisy_field {
    width 42hp
    material aluminum
    header {}

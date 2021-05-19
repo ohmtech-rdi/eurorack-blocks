@@ -113,12 +113,15 @@ class Analyser:
       if pin.name not in pins.keys ():
          raise error.unknown_pin (pin, pins.keys ())
 
-      hw_pin = pins [pin.name]['physical']
+      pin_description = pins [pin.name]
 
-      if hw_pin in self._used_pins:
-         raise error.already_used_pin (pin, self._used_pins [hw_pin])
+      if 'physical' in pin_description:
+         hw_pin = pin_description ['physical']
 
-      self._used_pins [hw_pin] = pin
+         if hw_pin in self._used_pins:
+            raise error.already_used_pin (pin, self._used_pins [hw_pin])
+
+         self._used_pins [hw_pin] = pin
 
    #--------------------------------------------------------------------------
 
