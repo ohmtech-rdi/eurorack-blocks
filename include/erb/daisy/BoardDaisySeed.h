@@ -124,6 +124,11 @@ public:
 
 protected:
 
+   enum class Pull
+   {
+      Up, Down
+   };
+
    struct MuxAddress
    {
       Pin         pin_a = PinNC;
@@ -140,7 +145,7 @@ protected:
 
    enum { NBR_MAX_ADC_CHANNELS = 12 };
 
-   void           init_gpio_input (Pin pin);
+   void           init_gpio_input (Pin pin, Pull pull = Pull::Down);
    uint8_t        read_gpio (Pin pin);
 
    void           init_gpio_output (Pin pin);

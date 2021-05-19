@@ -113,20 +113,9 @@ Name : init_digital_inputs
 
 void  BoardKivu12::init_digital_inputs ()
 {
-   // 8 buttons multiplexed on Pin26
-   // 8 buttons multiplexed on Pin27
-   // 4 buttons multiplexed on Pin29, inverted
-   // Multiplexer address on Pin10, Pin9 and Pin8
-
-   // Problem, the Mux address is instrumented by the ADC channels
-   // configuration, so we need to be able to use this also for digital
-   // inputs
-
-   /*auto mux_address = MuxAddress {Pin10, Pin9, Pin8};
-
-   init_gpio_input (Pin26);
-   init_gpio_input (Pin27);
-   init_gpio_input (Pin29);*/
+   init_gpio_input (Pin30, Pull::Up);  // SW1
+   init_gpio_input (Pin29, Pull::Up);  // SW2
+   init_gpio_input (Pin0);             // Gate In
 }
 
 
@@ -139,20 +128,17 @@ Name : init_analog_inputs
 
 void  BoardKivu12::init_analog_inputs ()
 {
-   // 8 CV inputs on ADC0..ADC6, ADC9
-   // 8 pots multiplexed on ADC10
-   // 4 pots multiplexed on ADC11
-   // Multiplexer address on Pin10, Pin9 and Pin8
+   // 4 CV inputs on ADC2, ADC3, ADC10, ADC9
+   // 8 pots multiplexed on ADC1
+   // Multiplexer address on Pin21, Pin20, Pin19
 
-   auto mux_address = MuxAddress {Pin10, Pin9, Pin8};
+   auto mux_address = MuxAddress {Pin21, Pin20, Pin19};
 
    _adc16_channels = init_adc_channels <NBR_ANALOG_INPUTS> ({
-      // 8 CVs
-      {AdcPin0}, {AdcPin1}, {AdcPin2}, {AdcPin3},
-      {AdcPin4}, {AdcPin5}, {AdcPin6}, {AdcPin7},
-      // 12 Pots
-      {AdcPin10, 8, mux_address},
-      {AdcPin11, 8, mux_address} // 4 last ones ignored
+      // 4 CVs
+      {AdcPin2}, {AdcPin3}, {AdcPin10}, {AdcPin9},
+      // 8 Pots
+      {AdcPin1, 8, mux_address},
    });
 }
 
@@ -166,10 +152,9 @@ Name : init_digital_outputs
 
 void  BoardKivu12::init_digital_outputs ()
 {
-   // 2 Gate outputs on Pin30 and Pin7
+   // 1 Gate output on Pin15
 
-   init_gpio_output (Pin30);
-   init_gpio_output (Pin7);
+   init_gpio_output (Pin15);
 }
 
 
@@ -180,8 +165,8 @@ Name : init_analog_outputs
 ==============================================================================
 */
 
-static daisy::LedDriverPca9685 <2>::DmaBuffer DMA_BUFFER_MEM_SECTION dma_buffer_a;
-static daisy::LedDriverPca9685 <2>::DmaBuffer DMA_BUFFER_MEM_SECTION dma_buffer_b;
+static daisy::LedDriverPca9685 <1>::DmaBuffer DMA_BUFFER_MEM_SECTION dma_buffer_a;
+static daisy::LedDriverPca9685 <1>::DmaBuffer DMA_BUFFER_MEM_SECTION dma_buffer_b;
 
 void  BoardKivu12::init_analog_outputs ()
 {
@@ -189,9 +174,8 @@ void  BoardKivu12::init_analog_outputs ()
 
    init_dac_channels ({DacPin0, DacPin1});
 
-   // 20 PWM outputs on I2C1
-   // 16 on PCA9685 address 0x0
-   // 4 on PCA9685 address 0x2
+   // 8 PWM outputs on I2C1
+   // 8 on PCA9685 address 0x0
 
    daisy::I2CHandle::Config i2c_config = {
       daisy::I2CHandle::Config::Peripheral::I2C_1,
@@ -199,7 +183,7 @@ void  BoardKivu12::init_analog_outputs ()
       daisy::I2CHandle::Config::Speed::I2C_1MHZ
    };
 
-   uint8_t addr [2] = {0x0, 0x2};
+   uint8_t addr [1] = {0x2};
    daisy::I2CHandle i2c;
    i2c.Init (i2c_config);
    _led_driver.Init (i2c, addr, dma_buffer_a, dma_buffer_b);

@@ -15,6 +15,10 @@
 
 
 
+#define SCENARIO SW1
+
+#define SW1 1
+
 /*
 ==============================================================================
 Name : process
@@ -23,5 +27,7 @@ Name : process
 
 void  Field::process ()
 {
-   
+#if SCENARIO == SW1
+   ui.audio_out1.fill (ui.button.held ());
+#endif
 }
