@@ -186,6 +186,18 @@ void  LedBi::blink (Color color, std::chrono::milliseconds period, TransitionFun
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+void  LedBi::impl_postprocess ()
+{
+   r.impl_postprocess ();
+   g.impl_postprocess ();
+}
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

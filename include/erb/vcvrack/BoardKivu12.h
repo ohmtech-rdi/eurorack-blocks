@@ -37,45 +37,45 @@ public:
 
    // Digital Inputs
    inline const uint8_t &
-                  d1 () { return _digital_inputs [0]; }
+                  di1 () { return _digital_inputs [0]; }
    inline const uint8_t &
-                  d2 () { return _digital_inputs [1]; }
+                  di2 () { return _digital_inputs [1]; }
    inline const uint8_t &
-                  d3 () { return _digital_inputs [2]; }
+                  di3 () { return _digital_inputs [2]; }
    inline const uint8_t &
-                  d4 () { return _digital_inputs [3]; }
+                  di4 () { return _digital_inputs [3]; }
    inline const uint8_t &
-                  d5 () { return _digital_inputs [4]; }
+                  di5 () { return _digital_inputs [4]; }
    inline const uint8_t &
-                  d6 () { return _digital_inputs [5]; }
+                  di6 () { return _digital_inputs [5]; }
    inline const uint8_t &
-                  d7 () { return _digital_inputs [6]; }
+                  di7 () { return _digital_inputs [6]; }
    inline const uint8_t &
-                  d8 () { return _digital_inputs [7]; }
+                  di8 () { return _digital_inputs [7]; }
    inline const uint8_t &
-                  d9 () { return _digital_inputs [8]; }
+                  di9 () { return _digital_inputs [8]; }
    inline const uint8_t &
-                  d10 () { return _digital_inputs [9]; }
+                  di10 () { return _digital_inputs [9]; }
    inline const uint8_t &
-                  d11 () { return _digital_inputs [10]; }
+                  di11 () { return _digital_inputs [10]; }
    inline const uint8_t &
-                  d12 () { return _digital_inputs [11]; }
+                  di12 () { return _digital_inputs [11]; }
    inline const uint8_t &
-                  d13 () { return _digital_inputs [12]; }
+                  di13 () { return _digital_inputs [12]; }
    inline const uint8_t &
-                  d14 () { return _digital_inputs [13]; }
+                  di14 () { return _digital_inputs [13]; }
    inline const uint8_t &
-                  d15 () { return _digital_inputs [14]; }
+                  di15 () { return _digital_inputs [14]; }
    inline const uint8_t &
-                  d16 () { return _digital_inputs [15]; }
+                  di16 () { return _digital_inputs [15]; }
    inline const uint8_t &
-                  d17 () { return _digital_inputs [16]; }
+                  di17 () { return _digital_inputs [16]; }
    inline const uint8_t &
-                  d18 () { return _digital_inputs [17]; }
+                  di18 () { return _digital_inputs [17]; }
    inline const uint8_t &
-                  d19 () { return _digital_inputs [18]; }
+                  di19 () { return _digital_inputs [18]; }
    inline const uint8_t &
-                  d20 () { return _digital_inputs [19]; }
+                  di20 () { return _digital_inputs [19]; }
 
    // Pots
    inline const float &
@@ -130,6 +130,28 @@ public:
    // CV Outputs
    inline float & co1 () { return _analog_outputs [0]; }
    inline float & co2 () { return _analog_outputs [1]; }
+
+   // LEDs
+   inline float & l1 () { return _analog_outputs [2]; }
+   inline float & l2 () { return _analog_outputs [3]; }
+   inline float & l3 () { return _analog_outputs [4]; }
+   inline float & l4 () { return _analog_outputs [5]; }
+   inline float & l5 () { return _analog_outputs [6]; }
+   inline float & l6 () { return _analog_outputs [7]; }
+   inline float & l7 () { return _analog_outputs [8]; }
+   inline float & l8 () { return _analog_outputs [9]; }
+   inline float & l9 () { return _analog_outputs [10]; }
+   inline float & l10 () { return _analog_outputs [11]; }
+   inline float & l11 () { return _analog_outputs [12]; }
+   inline float & l12 () { return _analog_outputs [13]; }
+   inline float & l13 () { return _analog_outputs [14]; }
+   inline float & l14 () { return _analog_outputs [15]; }
+   inline float & l15 () { return _analog_outputs [16]; }
+   inline float & l16 () { return _analog_outputs [17]; }
+   inline float & l17 () { return _analog_outputs [18]; }
+   inline float & l18 () { return _analog_outputs [19]; }
+   inline float & l19 () { return _analog_outputs [20]; }
+   inline float & l20 () { return _analog_outputs [21]; }
 
    // Audio Inputs
    inline const Buffer &

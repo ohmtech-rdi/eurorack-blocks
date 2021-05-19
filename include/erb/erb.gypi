@@ -69,6 +69,10 @@
             '../../src/Led.cpp',
             '../../src/LedBi.cpp',
             '../../src/LedRgb.cpp',
+            '../../src/Switch.cpp',
+
+            '../../src/detail/Animation.cpp',
+            '../../src/detail/Debounce.cpp',
          ],
 
          'include_dirs': [

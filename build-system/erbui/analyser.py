@@ -197,7 +197,7 @@ class Analyser:
          for i in range (1, 20 + 1):
             self._pin_names.append ('L%d' % i)
          for i in range (1, 20 + 1):
-            self._pin_names.append ('B%d' % i)
+            self._pin_names.append ('DI%d' % i)
          for i in range (1, 8 + 1):
             self._pin_names.append ('CI%d' % i)
          for i in range (1, 2 + 1):

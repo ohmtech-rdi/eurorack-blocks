@@ -198,8 +198,8 @@ inline void  BoardGeneric::impl_bind (LedBi & control, rack::engine::Light & mod
    _binding_outputs.push_back (BindingLedBi {
       .data_r_ptr = &control.r.impl_data,
       .data_g_ptr = &control.g.impl_data,
-      .light_r_ptr = &model_ptr [0],
-      .light_g_ptr = &model_ptr [1]
+      .light_r_ptr = &model_ptr [1],
+      .light_g_ptr = &model_ptr [0]
    });
 }
 

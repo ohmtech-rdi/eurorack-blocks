@@ -108,6 +108,10 @@ public:
    template <typename F>
    void           run (F && f);
 
+   // Clock
+   inline const uint64_t &
+                  clock () { return _clock.ms (); }
+
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

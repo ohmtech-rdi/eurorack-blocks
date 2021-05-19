@@ -194,6 +194,19 @@ void  LedRgb::blink (Color color, std::chrono::milliseconds period, TransitionFu
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+void  LedRgb::impl_postprocess ()
+{
+   r.impl_postprocess ();
+   g.impl_postprocess ();
+   b.impl_postprocess ();
+}
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

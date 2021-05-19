@@ -82,7 +82,7 @@ class Code:
 
             elif category == 'Light':
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
-               nbr_lights += 1
+               nbr_lights += control.nbr_pins
 
       template = template.replace ('%module.nbr_params%', str (nbr_params))
       template = template.replace ('%module.nbr_inputs%', str (nbr_inputs))

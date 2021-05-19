@@ -50,6 +50,10 @@ public:
    template <class Control, class VcvModel>
    void           impl_bind (Control & control, VcvModel & model);
 
+   // Clock
+   inline const uint64_t &
+                  clock () { return _clock.ms (); }
+
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
