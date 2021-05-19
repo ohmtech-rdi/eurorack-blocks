@@ -41,5 +41,11 @@
 
       'B1': { 'accept': ['Button'] },
       'B2': { 'accept': ['Button'] },
+
+      'AI1': { 'accept': ['AudioIn'] },
+      'AI2': { 'accept': ['AudioIn'] },
+
+      'AO1': { 'accept': ['AudioOut'] },
+      'AO2': { 'accept': ['AudioOut'] },
    }
 }

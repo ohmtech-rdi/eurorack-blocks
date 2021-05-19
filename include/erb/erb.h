@@ -28,9 +28,11 @@
 #include "erb/Switch.h"
 
 #if defined (erb_TARGET_DAISY)
+   #include "erb/daisy/BoardDaisyField.h"
    #include "erb/daisy/BoardKivu12.h"
 
 #elif defined (erb_TARGET_VCV_RACK)
+   #include "erb/vcvrack/BoardDaisyField.h"
    #include "erb/vcvrack/BoardKivu12.h"
 
 #else

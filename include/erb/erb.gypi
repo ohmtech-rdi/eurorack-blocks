@@ -91,10 +91,12 @@
          ],
 
          'sources': [
+            'daisy/BoardDaisyField.h',
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
             'daisy/BoardKivu12.h',
 
+            '../../src/daisy/BoardDaisyField.cpp',
             '../../src/daisy/BoardDaisySeed.cpp',
             '../../src/daisy/BoardKivu12.cpp',
          ],
@@ -133,13 +135,13 @@
 
          'sources': [
             # headers
+            'vcvrack/BoardDaisyField.h',
             'vcvrack/BoardGeneric.h',
             'vcvrack/BoardGeneric.hpp',
             'vcvrack/BoardKivu12.h',
 
             # sources
             '../../src/vcvrack/BoardGeneric.cpp',
-            '../../src/vcvrack/BoardKivu12.cpp',
          ],
 
          'xcode_settings':
