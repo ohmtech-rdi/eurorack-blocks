@@ -60,7 +60,7 @@ Name : impl_pull_audio_inputs
 
 void  BoardGeneric::impl_pull_audio_inputs ()
 {
-   for (size_t i = 0 ; i < _audio_inputs.size () ; ++i)
+   for (size_t i = 0 ; i < _rack_audio_inputs.size () ; ++i)
    {
       auto & double_buffer = _double_buffer_inputs [i];
       auto & audio_input = *_rack_audio_inputs [i];
@@ -81,7 +81,7 @@ Name : impl_push_audio_outputs
 
 void  BoardGeneric::impl_push_audio_outputs ()
 {
-   for (size_t i = 0 ; i < _audio_outputs.size () ; ++i)
+   for (size_t i = 0 ; i < _rack_audio_outputs.size () ; ++i)
    {
       auto & double_buffer = _double_buffer_outputs [i];
       auto & audio_output = *_rack_audio_outputs [i];
