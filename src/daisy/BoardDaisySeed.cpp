@@ -50,12 +50,15 @@ Name : init_gpio_input
 ==============================================================================
 */
 
-void  BoardDaisySeed::init_gpio_input (Pin pin)
+void  BoardDaisySeed::init_gpio_input (Pin pin, Pull pull)
 {
    dsy_gpio gpio;
    gpio.pin = pin;
    gpio.mode = DSY_GPIO_MODE_INPUT;
-   gpio.pull = DSY_GPIO_PULLUP;
+   gpio.pull
+      = pull == Pull::Down
+      ? DSY_GPIO_PULLDOWN
+      : DSY_GPIO_PULLUP;
 
    dsy_gpio_init (&gpio);
 }
