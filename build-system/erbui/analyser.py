@@ -11,16 +11,20 @@ from . import adapter
 from . import ast
 from . import error
 
+import os
 from difflib import get_close_matches
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 
 
 class Analyser:
 
    def __init__ (self):
-      self._pin_names = []
-      self._pin_out = {} # map from pin name to hardware number
-      self._used_pins = {} # map from hardware number to declaration
+      self._board_definition = {}
+      self._used_pins = {} # map from physical pin number to declaration
 
    #--------------------------------------------------------------------------
 
@@ -35,8 +39,7 @@ class Analyser:
    def analyse_module (self, module):
       assert module.is_module
 
-      self.make_pin_names (module)
-      self.make_pin_out (module)
+      self.load_board_definition (module)
 
       for control in module.controls:
          self.analyse_control (module, control)
@@ -105,16 +108,17 @@ class Analyser:
    def analyse_pin (self, module, control, pin):
       assert pin.is_pin
 
-      if pin.name not in self._pin_names:
-         raise error.unknown_pin (pin, self._pin_names)
+      pins = self._board_definition ['pins'];
 
-      if pin.name in self._pin_out:
-         hw_pin = self._pin_out [pin.name]
+      if pin.name not in pins.keys ():
+         raise error.unknown_pin (pin, pins.keys ())
 
-         if hw_pin in self._used_pins:
-            raise error.already_used_pin (pin, self._used_pins [hw_pin])
+      hw_pin = pins [pin.name]['physical']
 
-         self._used_pins [hw_pin] = pin
+      if hw_pin in self._used_pins:
+         raise error.already_used_pin (pin, self._used_pins [hw_pin])
+
+      self._used_pins [hw_pin] = pin
 
    #--------------------------------------------------------------------------
 
@@ -162,49 +166,25 @@ class Analyser:
 
    #--------------------------------------------------------------------------
 
-   def make_pin_names (self, module):
-      self._pin_names = []
+   def load_board_definition (self, module):
+      self._board_definition = {}
 
-      if module.board is None:
-         for i in range (0, 31):
-            self._pin_names.append ('Pin%d' % i)
+      module_board = 'daisy.seed' if module.board is None else module.board.name
 
-         for i in range (0, 12):
-            self._pin_names.append ('AdcPin%d' % i)
+      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
 
-         for i in range (0, 8):
-            self._pin_names.append ('MultiplexerPin%d' % i)
+      try:
+         file = open (path_definition, 'r')
+      except OSError:
+         err = error.Error ()
+         context = module.board.source_context
+         err.add_error ("Undefined board '%s'" % context, context)
+         err.add_context (context)
+         raise err
 
-         self._pin_names.append ('AudioInPinLeft')
-         self._pin_names.append ('AudioInPinRight')
-         self._pin_names.append ('AudioInPin0')
-         self._pin_names.append ('AudioInPin1')
+      with file:
+         self._board_definition = eval (file.read ())
 
-         self._pin_names.append ('AudioOutPinLeft')
-         self._pin_names.append ('AudioOutPinRight')
-         self._pin_names.append ('AudioOutPin0')
-         self._pin_names.append ('AudioOutPin1')
-
-         self._pin_names.append ('PinNC')
-         self._pin_names.append ('AdcPinNC')
-         self._pin_names.append ('MultiplexerPinNC')
-         self._pin_names.append ('AudioInPinNC')
-         self._pin_names.append ('AudioOutPinNC')
-
-      elif module.board.name == 'kivu12':
-         for i in range (1, 12 + 1):
-            self._pin_names.append ('P%d' % i)
-         for i in range (1, 20 + 1):
-            self._pin_names.append ('L%d' % i)
-         for i in range (1, 20 + 1):
-            self._pin_names.append ('DI%d' % i)
-         for i in range (1, 8 + 1):
-            self._pin_names.append ('CI%d' % i)
-         for i in range (1, 2 + 1):
-            self._pin_names.append ('CO%d' % i)
-            self._pin_names.append ('GO%d' % i)
-            self._pin_names.append ('AI%d' % i)
-            self._pin_names.append ('AO%d' % i)
 
    #--------------------------------------------------------------------------
 

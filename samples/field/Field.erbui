@@ -7,6 +7,7 @@
 
 
 
-module Field extends daisy.field {
-   alias button = sw1
+module Field /*extends daisy.field*/ {
+   board daisy_field
+   alias button sw1
 }
