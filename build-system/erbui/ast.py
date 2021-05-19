@@ -228,10 +228,12 @@ class GlobalNamespace (Scope):
 # -- Module ------------------------------------------------------------------
 
 class Module (Scope):
-   def __init__ (self, identifier):
+   def __init__ (self, identifier, base_identifier):
       assert isinstance (identifier, adapter.Identifier)
+      assert base_identifier is None or isinstance (base_identifier, adapter.Identifier)
       super (Module, self).__init__ ()
       self.identifier = identifier
+      self.base_identifier = base_identifier
 
    @staticmethod
    def typename (): return 'module'
@@ -246,6 +248,8 @@ class Module (Scope):
    def source_context_part (self, part):
       if part == 'name':
          return adapter.SourceContext.from_token (self.identifier)
+      elif part == 'extends':
+         return adapter.SourceContext.from_token (self.base_identifier)
 
       return super (Module, self).source_context_part (part) # pragma: no cover
 

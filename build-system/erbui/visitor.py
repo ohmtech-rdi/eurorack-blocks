@@ -73,7 +73,11 @@ class Visitor (PTNodeVisitor):
 
       module_identifier = children.module_name [0]
 
-      module = ast.Module (module_identifier)
+      module_base_identifier = None
+      if children.module_inheritance_clause:
+         module_base_identifier = children.module_inheritance_clause [0]
+
+      module = ast.Module (module_identifier, module_base_identifier)
       global_namespace.add (module)
 
       if children.module_body:
