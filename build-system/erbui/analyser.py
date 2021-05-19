@@ -187,30 +187,3 @@ class Analyser:
 
       with file:
          self._board_definition = eval (file.read ())
-
-
-   #--------------------------------------------------------------------------
-
-   def make_pin_out (self, module):
-      self._pin_out = {}
-
-      for i in range (0, 15):
-         self._pin_out ['Pin%d' % i] = i + 1
-
-      self._pin_out ['AudioInPinLeft'] = 16
-      self._pin_out ['AudioInPin0'] = 16
-      self._pin_out ['AudioInPinRight'] = 17
-      self._pin_out ['AudioInPin1'] = 17
-
-      self._pin_out ['AudioOutPinLeft'] = 18
-      self._pin_out ['AudioOutPin0'] = 18
-      self._pin_out ['AudioOutPinRight'] = 19
-      self._pin_out ['AudioOutPin1'] = 19
-
-      for i in range (15, 31):
-         self._pin_out ['Pin%d' % i] = i + 7
-
-      for i in range (0, 11):
-         self._pin_out ['AdcPin%d' % i] = i + 22
-
-      self._pin_out ['AdcPin11'] = 35

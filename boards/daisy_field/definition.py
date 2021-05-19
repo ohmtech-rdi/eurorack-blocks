@@ -8,6 +8,7 @@
 
 
 {
+   'class': 'BoardDaisyField',
    'pins': {
       'CI1': { 'accept': ['CvIn'] },
       'CI2': { 'accept': ['CvIn'] },

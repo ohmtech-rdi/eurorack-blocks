@@ -10,6 +10,8 @@
 import os
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 
 
@@ -34,11 +36,7 @@ class Code:
       with open (path_template, 'r') as file:
          template = file.read ()
 
-      board_to_class = {
-         'kivu12': 'BoardKivu12',
-      }
-
-      board_class = board_to_class [module.board.name]
+      board_class = self.module_board_to_class (module)
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%type(module.board)%', board_class)
@@ -122,3 +120,26 @@ class Code:
       source_code = '   erb::%s & %s { %s };\n' % (alias.reference.kind, alias.name, alias.reference.name)
 
       return source_code
+
+
+   #--------------------------------------------------------------------------
+
+   def module_board_to_class (self, module):
+
+      module_board = 'daisy_seed' if module.board is None else module.board.name
+
+      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
+
+      try:
+         file = open (path_definition, 'r')
+      except OSError:
+         err = error.Error ()
+         context = module.board.source_context
+         err.add_error ("Undefined board '%s'" % context, context)
+         err.add_context (context)
+         raise err
+
+      with file:
+         board_definition = eval (file.read ())
+
+      return board_definition ['class']
