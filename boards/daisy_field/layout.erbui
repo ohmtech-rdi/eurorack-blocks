@@ -15,25 +15,25 @@ module daisy_field {
 
    //--- CVs -----------------------------------------------------------------
 
-   control cvin1 CvIn {
+   control cv_in1 CvIn {
       position 116.5mm, 19mm
       style thonk.pj398sm.hex
       pin CI1
    }
 
-   control cvin2 CvIn {
+   control cv_in2 CvIn {
       position 116.5mm, 33mm
       style thonk.pj398sm.hex
       pin CI2
    }
 
-   control cvin3 CvIn {
+   control cv_in3 CvIn {
       position 133mm, 19mm
       style thonk.pj398sm.hex
       pin CI3
    }
 
-   control cvin4 CvIn {
+   control cv_in4 CvIn {
       position 133mm, 33mm
       style thonk.pj398sm.hex
       pin CI4
@@ -41,13 +41,13 @@ module daisy_field {
 
    //--- Gates ---------------------------------------------------------------
 
-   control gatein GateIn {
+   control gate_in GateIn {
       position 164mm, 19mm
       style thonk.pj398sm.hex
       pin GI
    }
 
-   control gateout GateOut {
+   control gate_out GateOut {
       position 164mm, 33mm
       style thonk.pj398sm.hex
       pin GO
@@ -163,5 +163,31 @@ module daisy_field {
       position 37.5mm, 110.5mm
       style tl1105
       pin B2
+   }
+
+   //--- Audio ---------------------------------------------------------------
+
+   control audio_in1 AudioIn {
+      position 197.5mm, 19mm
+      style thonk.pj398sm.hex
+      pin AI1
+   }
+
+   control audio_in2 AudioIn {
+      position 197.5mm, 33mm
+      style thonk.pj398sm.hex
+      pin AI2
+   }
+
+   control audio_out1 AudioOut {
+      position 197.5mm, 82.5mm
+      style thonk.pj398sm.hex
+      pin AO1
+   }
+
+   control audio_out2 AudioOut {
+      position 197.5mm, 98mm
+      style thonk.pj398sm.hex
+      pin AO2
    }
 }
