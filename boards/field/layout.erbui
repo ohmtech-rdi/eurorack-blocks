@@ -1,0 +1,191 @@
+/*****************************************************************************
+
+      layout.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module daisy.field {
+   width 42hp
+   material aluminum
+   header {}
+   footer {}
+
+   //--- CVs -----------------------------------------------------------------
+
+   label "CV" {
+      position 132mm, 11.25mm
+   }
+
+   control cvin1 CvIn {
+      position 116.5mm, 19mm
+      style thonk.pj398sm.hex
+      label "IN 1"
+      pin CI1
+   }
+
+   control cvin2 CvIn {
+      position 116.5mm, 33mm
+      style thonk.pj398sm.hex
+      label "IN 2"
+      pin CI2
+   }
+
+   control cvin3 CvIn {
+      position 133mm, 19mm
+      style thonk.pj398sm.hex
+      label "IN 3"
+      pin CI3
+   }
+
+   control cvin4 CvIn {
+      position 133mm, 33mm
+      style thonk.pj398sm.hex
+      label "IN 4"
+      pin CI4
+   }
+
+   //--- Gates ---------------------------------------------------------------
+
+   label "GATE" {
+      position 164mm, 11.25mm
+   }
+
+   control gatein GateIn {
+      position 164mm, 19mm
+      style thonk.pj398sm.hex
+      label "IN"
+      pin GI
+   }
+
+   control gatein GateIn {
+      position 164mm, 33mm
+      style thonk.pj398sm.hex
+      label "OUT"
+      pin GO
+   }
+
+   //--- LEDs + Pots ---------------------------------------------------------
+
+   control led1 Led {
+      position 14.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L1
+   }
+
+   control pot1 Pot {
+      position 14.5mm, 57mm
+      style rogan.2ps
+      label "1"
+      pin P1
+   }
+
+   control led2 Led {
+      position 37.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L2
+   }
+
+   control pot2 Pot {
+      position 37.5mm, 57mm
+      style rogan.2ps
+      label "2"
+      pin P2
+   }
+
+   control led3 Led {
+      position 60.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L3
+   }
+
+   control pot3 Pot {
+      position 60.5mm, 57mm
+      style rogan.2ps
+      label "3"
+      pin P3
+   }
+
+   control led4 Led {
+      position 83.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L4
+   }
+
+   control pot4 Pot {
+      position 83.5mm, 57mm
+      style rogan.2ps
+      label "4"
+      pin P4
+   }
+
+   control led5 Led {
+      position 106.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L5
+   }
+
+   control pot5 Pot {
+      position 106.5mm, 57mm
+      style rogan.2ps
+      label "5"
+      pin P5
+   }
+
+   control led6 Led {
+      position 129.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L6
+   }
+
+   control pot6 Pot {
+      position 129.5mm, 57mm
+      style rogan.2ps
+      label "6"
+      pin P6
+   }
+
+   control led7 Led {
+      position 152.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L7
+   }
+
+   control pot7 Pot {
+      position 152.5mm, 57mm
+      style rogan.2ps
+      label "7"
+      pin P7
+   }
+
+   control led8 Led {
+      position 175.5mm, 45.5mm
+      style led.3mm.yellow
+      pin L8
+   }
+
+   control pot8 Pot {
+      position 175.5mm, 57mm
+      style rogan.2ps
+      label "8"
+      pin P8
+   }
+
+   //--- Switches ------------------------------------------------------------
+
+   control sw1 Button {
+      position 16.5mm, 110.5mm
+      style tl1105
+      label "SW 1"
+      pin B1
+   }
+
+   control sw2 Button {
+      position 37.5mm, 110.5mm
+      style tl1105
+      label "SW 2"
+      pin B2
+   }
+}
