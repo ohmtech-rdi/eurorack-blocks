@@ -74,10 +74,6 @@ class Panel:
       for control in module.controls:
          self.generate_control (context, module, control)
 
-      for multiplexer in module.multiplexers:
-         for control in multiplexer.controls:
-            self.generate_control (context, module, control)
-
       if simulated:
          for sticker in module.stickers:
             self.generate_sticker (context, module, sticker)

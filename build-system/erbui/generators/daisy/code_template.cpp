@@ -43,7 +43,17 @@ int main ()
 
    erb::module_init (module);
 
-   module.ui.module.run ([&](){
+   module.ui.board.run ([&](){
+      using BoardType = decltype (module.ui.board);
+
+      module.ui.board.impl_preprocess ();
+
+%     board_preprocess%
+%     controls_preprocess%
       module.process ();
+
+%     controls_postprocess%
+%     board_postprocess%
+      module.ui.board.impl_postprocess ();
    });
 }

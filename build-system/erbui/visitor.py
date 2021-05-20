@@ -213,28 +213,6 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
-   #-- Multiplexer -----------------------------------------------------------
-
-   def visit_multiplexer_declaration (self, node, children):
-      multiplexer_name = children.multiplexer_name [0]
-      multiplexer = ast.Multiplexer (multiplexer_name)
-
-      if children.multiplexer_body:
-         entities = children.multiplexer_body [0]
-         multiplexer.add (entities)
-
-      return multiplexer
-
-   def visit_multiplexer_name (self, node, children):
-      return self.visit_identifier (node, children)
-
-   def visit_multiplexer_body (self, node, children):
-      return children [0] if children else []
-
-   def visit_multiplexer_entities (self, node, children):
-      return list (children)
-
-
    #-- Control ---------------------------------------------------------------
 
    def visit_control_declaration (self, node, children):

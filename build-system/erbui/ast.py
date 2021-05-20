@@ -67,9 +67,6 @@ class Node:
    def is_control (self): return isinstance (self, Control)
 
    @property
-   def is_multiplexer (self): return isinstance (self, Multiplexer)
-
-   @property
    def is_alias (self): return isinstance (self, Alias)
 
    @property
@@ -317,11 +314,6 @@ class Module (Scope):
       return entities
 
    @property
-   def multiplexers (self):
-      entities = [e for e in self.entities if e.is_multiplexer]
-      return entities
-
-   @property
    def aliases (self):
       entities = [e for e in self.entities if e.is_alias]
       return entities
@@ -450,42 +442,6 @@ class Footer (Scope):
    def images (self):
       entities = [e for e in self.entities if e.is_image]
       return entities
-
-
-# -- Multiplexer -------------------------------------------------------------
-
-class Multiplexer (Scope):
-   def __init__ (self, identifier):
-      assert isinstance (identifier, adapter.Identifier)
-      super (Multiplexer, self).__init__ ()
-      self.identifier = identifier
-
-   @staticmethod
-   def typename (): return 'multiplexer'
-
-   @property
-   def name (self): return self.identifier.name
-
-   @property
-   def source_context (self):
-      return self.source_context_part ('name')
-
-   def source_context_part (self, part):
-      if part == 'name':
-         return adapter.SourceContext.from_token (self.identifier)
-
-      return super (Multiplexer, self).source_context_part (part) # pragma: no cover
-
-   @property
-   def controls (self):
-      entities = [e for e in self.entities if e.is_control]
-      return entities
-
-   @property
-   def pins (self):
-      entities = [e for e in self.entities if e.is_pin_array]
-      assert (len (entities) == 1)
-      return entities [0]
 
 
 # -- Alias -------------------------------------------------------------------
@@ -622,8 +578,16 @@ class Control (Scope):
          return 1
 
    @property
+   def is_input (self):
+      return self.kind in ['AudioIn', 'Button', 'CvIn', 'GateIn', 'Pot', 'Switch', 'Trim']
+
+   @property
+   def is_output (self):
+      return self.kind in ['AudioOut', 'CvOut','GateOut', 'Led', 'LedBi', 'LedRgb']
+
+   @property
    def is_kind_out (self):
-      return self.kind == 'AudioOut' or self.kind == 'GateOut'
+      return self.kind in ['AudioOut', 'CvOut', 'GateOut']
 
 
 # -- Mode --------------------------------------------------------------------

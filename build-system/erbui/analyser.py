@@ -39,24 +39,13 @@ class Analyser:
    def analyse_module (self, module):
       assert module.is_module
 
-      self.load_board_definition (module)
+      self._board_definition = self.load_board_definition (module)
 
       for control in module.controls:
          self.analyse_control (module, control)
 
-      for multiplexer in module.multiplexers:
-         self.analyse_multiplexer (module, multiplexer)
-
       for alias in module.aliases:
          self.resolve_alias (module, alias)
-
-   #--------------------------------------------------------------------------
-
-   def analyse_multiplexer (self, module, multiplexer):
-      assert multiplexer.is_multiplexer
-
-      for control in multiplexer.controls:
-         self.analyse_control (multiplexer, control)
 
    #--------------------------------------------------------------------------
 
@@ -115,8 +104,8 @@ class Analyser:
 
       pin_description = pins [pin.name]
 
-      if 'physical' in pin_description:
-         hw_pin = pin_description ['physical']
+      if 'physical.location' in pin_description:
+         hw_pin = pin_description ['physical.location']
 
          if hw_pin in self._used_pins:
             raise error.already_used_pin (pin, self._used_pins [hw_pin])
@@ -139,19 +128,12 @@ class Analyser:
          if entity.is_control:
             if alias.identifier_reference.name == entity.name:
                control = entity
-         elif entity.is_multiplexer:
-            for subcontrol in entity.controls:
-               if alias.identifier_reference.name == subcontrol.name:
-                  control = subcontrol
 
       if control is None:
          possible_tokens = []
          for entity in module.entities:
             if entity.is_control:
                possible_tokens.append (entity.identifier_name)
-            elif entity.is_multiplexer:
-               for control in entity.controls:
-                  possible_tokens.append (control.identifier_name)
 
          def make_dict (fun, iterable):
             return dict (zip (map (fun, iterable), iterable))
@@ -170,8 +152,6 @@ class Analyser:
    #--------------------------------------------------------------------------
 
    def load_board_definition (self, module):
-      self._board_definition = {}
-
       module_board = 'daisy_seed' if module.board is None else module.board.name
 
       path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
@@ -186,4 +166,6 @@ class Analyser:
          raise err
 
       with file:
-         self._board_definition = eval (file.read ())
+         board_definition = eval (file.read ())
+
+      return board_definition
