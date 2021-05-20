@@ -346,6 +346,8 @@ class Panel:
       if label.position: # override
          position_x = label.position.x.mm
          position_y = label.position.y.mm
+         align_x = 0.5
+         align_y = 0.5
 
       elif control is None: # center
          align_x = 0.5
