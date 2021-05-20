@@ -124,7 +124,7 @@ def header_declaration ():             return 'header', header_body
 def width_declaration ():              return 'width', distance_declaration
 
 # Module Board
-def board_name ():                     return []
+def board_name ():                     return name
 def board_declaration ():              return 'board', board_name
 
 # Module Material

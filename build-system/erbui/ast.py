@@ -324,13 +324,23 @@ class Module (Scope):
 # -- Board -------------------------------------------------------------------
 
 class Board (Node):
-   def __init__ (self, keyword_name):
-      assert isinstance (keyword_name, adapter.Keyword)
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
       super (Board, self).__init__ ()
-      self.keyword_name = keyword_name
+      self.identifier = identifier
 
    @property
-   def name (self): return self.keyword_name.value
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (Board, self).source_context_part (part) # pragma: no cover
 
 
 # -- Material ----------------------------------------------------------------
