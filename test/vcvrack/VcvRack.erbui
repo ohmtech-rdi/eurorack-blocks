@@ -44,34 +44,34 @@ module VcvRack {
    alias button_alias button
    alias led_alias led
 
-   control audio_in AudioInDaisy {
+   control audio_in AudioIn {
       position 10mm, 20mm
       style thonk.pj398sm.knurled
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AudioInDaisyPinNC
+      pin AudioInPinNC
    }
 
-   control audio_in2 AudioInDaisy {
+   control audio_in2 AudioIn {
       position 30mm, 20mm
       style thonk.pj398sm.hex
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AudioInDaisyPinNC
+      pin AudioInPinNC
    }
 
-   control audio_out AudioOutDaisy {
+   control audio_out AudioOut {
       position 50mm, 20mm
       style thonk.pj398sm.hex
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AudioOutDaisyPinNC
+      pin AudioOutPinNC
    }
 
    control button Button {

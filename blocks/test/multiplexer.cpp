@@ -62,8 +62,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out0 (module, AudioOutDaisyPin0);
-   AudioOutDaisy audio_out1 (module, AudioOutDaisyPin1);
+   AudioOut audio_out0 (module, AudioOutPin0);
+   AudioOut audio_out1 (module, AudioOutPin1);
 
    Multiplexer multiplexer (module, AdcPin1, Pin23, Pin24, Pin25);
 

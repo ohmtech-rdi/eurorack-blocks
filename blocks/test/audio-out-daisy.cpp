@@ -28,8 +28,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out_left (module, AudioOutDaisyPinLeft);
-   AudioOutDaisy audio_out_right (module, AudioOutDaisyPinRight);
+   AudioOut audio_out_left (module, AudioOutPinLeft);
+   AudioOut audio_out_right (module, AudioOutPinRight);
 
    constexpr double pim2 = 2.f * M_PI;
    constexpr double phase_step = pim2 * 440.f / erb::sample_rate;

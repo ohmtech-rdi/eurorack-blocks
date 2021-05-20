@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      VcvAudioOutDaisy.h
+      VcvAudioIn.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -14,20 +14,10 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/vcvrack/VcvConstants.h"
-#include "erb/vcvrack/VcvOutputBase.h"
+#include "erb/vcvrack/VcvInputBase.h"
 #include "erb/vcvrack/VcvPins.h"
 
 #include <array>
-
-
-
-namespace rack
-{
-namespace engine
-{
-struct Output;
-}
-}
 
 
 
@@ -38,8 +28,8 @@ namespace erb
 
 class VcvModule;
 
-class VcvAudioOutDaisy
-:  public VcvOutputBase
+class VcvAudioIn
+:  public VcvInputBase
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -47,25 +37,22 @@ class VcvAudioOutDaisy
 public:
    using Buffer = std::array <float, buffer_size>;
 
-                  VcvAudioOutDaisy (VcvModule & module, VcvAudioOutDaisyPin pin);
-   virtual        ~VcvAudioOutDaisy () override = default;
+                  VcvAudioIn (VcvModule & module, VcvAudioInPin pin);
+   virtual        ~VcvAudioIn () override = default;
 
-   VcvAudioOutDaisy &
-                  operator = (const Buffer & buffer);
+                  operator Buffer () const;
 
    size_t         size () const;
-   float &        operator [] (size_t index);
-   void           fill (float val);
+   const float &  operator [] (size_t index);
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_push_sample ();
+   void           impl_pull_sample ();
 
    // VcvModuleListener
    virtual void   impl_notify_audio_buffer_start () override;
-   virtual void   impl_notify_audio_buffer_end () override;
 
 
 
@@ -89,19 +76,17 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  VcvAudioOutDaisy () = delete;
-                  VcvAudioOutDaisy (const VcvAudioOutDaisy & rhs) = delete;
-                  VcvAudioOutDaisy (VcvAudioOutDaisy && rhs) = delete;
-   VcvAudioOutDaisy &
-                  operator = (const VcvAudioOutDaisy & rhs) = delete;
-   VcvAudioOutDaisy &
-                  operator = (VcvAudioOutDaisy && rhs) = delete;
-   bool           operator == (const VcvAudioOutDaisy & rhs) const = delete;
-   bool           operator != (const VcvAudioOutDaisy & rhs) const = delete;
+                  VcvAudioIn () = delete;
+                  VcvAudioIn (const VcvAudioIn & rhs) = delete;
+                  VcvAudioIn (VcvAudioIn && rhs) = delete;
+   VcvAudioIn &   operator = (const VcvAudioIn & rhs) = delete;
+   VcvAudioIn &   operator = (VcvAudioIn && rhs) = delete;
+   bool           operator == (const VcvAudioIn & rhs) const = delete;
+   bool           operator != (const VcvAudioIn & rhs) const = delete;
 
 
 
-}; // class VcvAudioOutDaisy
+}; // class VcvAudioIn
 
 
 

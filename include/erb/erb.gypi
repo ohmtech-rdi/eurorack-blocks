@@ -29,8 +29,8 @@
 
             'daisy/DaisyAdcChannels.h',
             'daisy/DaisyAnalogControlBase.h',
-            'daisy/DaisyAudioInDaisy.h',
-            'daisy/DaisyAudioOutDaisy.h',
+            'daisy/DaisyAudioIn.h',
+            'daisy/DaisyAudioOut.h',
             'daisy/DaisyButton.h',
             'daisy/DaisyConstants.h',
             'daisy/DaisyCvIn.h',
@@ -55,8 +55,8 @@
             # sources
             '../../src/daisy/DaisyAdcChannels.cpp',
             '../../src/daisy/DaisyAnalogControlBase.cpp',
-            '../../src/daisy/DaisyAudioInDaisy.cpp',
-            '../../src/daisy/DaisyAudioOutDaisy.cpp',
+            '../../src/daisy/DaisyAudioIn.cpp',
+            '../../src/daisy/DaisyAudioOut.cpp',
             '../../src/daisy/DaisyButton.cpp',
             '../../src/daisy/DaisyCvIn.cpp',
             '../../src/daisy/DaisyGateIn.cpp',
@@ -112,8 +112,8 @@
             'erb.h',
             'module_init.h',
 
-            'vcvrack/VcvAudioInDaisy.h',
-            'vcvrack/VcvAudioOutDaisy.h',
+            'vcvrack/VcvAudioIn.h',
+            'vcvrack/VcvAudioOut.h',
             'vcvrack/VcvButton.h',
             'vcvrack/VcvConstants.h',
             'vcvrack/VcvCvIn.h',
@@ -141,8 +141,8 @@
             'detail/Debounce.h',
 
             # sources
-            '../../src/vcvrack/VcvAudioInDaisy.cpp',
-            '../../src/vcvrack/VcvAudioOutDaisy.cpp',
+            '../../src/vcvrack/VcvAudioIn.cpp',
+            '../../src/vcvrack/VcvAudioOut.cpp',
             '../../src/vcvrack/VcvButton.cpp',
             '../../src/vcvrack/VcvCvIn.cpp',
             '../../src/vcvrack/VcvGateIn.cpp',

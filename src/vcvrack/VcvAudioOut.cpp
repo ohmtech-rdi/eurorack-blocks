@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      VcvAudioInDaisy.cpp
+      VcvAudioOut.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,9 +9,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/vcvrack/VcvAudioInDaisy.h"
+#include "erb/vcvrack/VcvAudioOut.h"
 
 #include "erb/vcvrack/VcvModule.h"
+
+#include <rack.hpp>
 
 
 
@@ -28,8 +30,8 @@ Name : ctor
 ==============================================================================
 */
 
-VcvAudioInDaisy::VcvAudioInDaisy (VcvModule & module, VcvAudioInDaisyPin /* pin */)
-:  VcvInputBase ()
+VcvAudioOut::VcvAudioOut (VcvModule & module, VcvAudioOutPin /* pin */)
+:  VcvOutputBase ()
 {
    module.add (*this);
 
@@ -40,13 +42,15 @@ VcvAudioInDaisy::VcvAudioInDaisy (VcvModule & module, VcvAudioInDaisyPin /* pin 
 
 /*
 ==============================================================================
-Name : size
+Name : operator =
 ==============================================================================
 */
 
-VcvAudioInDaisy::operator Buffer () const
+VcvAudioOut &   VcvAudioOut::operator = (const Buffer & buffer)
 {
-   return _buffers [_cur_buf];
+   _buffers [_cur_buf] = buffer;
+
+   return *this;
 }
 
 
@@ -57,7 +61,7 @@ Name : size
 ==============================================================================
 */
 
-size_t   VcvAudioInDaisy::size () const
+size_t   VcvAudioOut::size () const
 {
    return _buffers [_cur_buf].size ();
 }
@@ -70,9 +74,22 @@ Name : operator []
 ==============================================================================
 */
 
-const float &  VcvAudioInDaisy::operator [] (size_t index)
+float &  VcvAudioOut::operator [] (size_t index)
 {
    return _buffers [_cur_buf][index];
+}
+
+
+
+/*
+==============================================================================
+Name : fill
+==============================================================================
+*/
+
+void  VcvAudioOut::fill (float val)
+{
+   _buffers [_cur_buf].fill (val);
 }
 
 
@@ -85,14 +102,12 @@ Name : impl_pull_sample
 ==============================================================================
 */
 
-void  VcvAudioInDaisy::impl_pull_sample ()
+void  VcvAudioOut::impl_push_sample ()
 {
-   VcvInputBase::impl_notify_audio_buffer_start ();
-
-   float sample = norm_val ();
-
-   _buffers [1 - _cur_buf][_cur_index] = sample;
+   float sample = _buffers [1 - _cur_buf][_cur_index];
    ++_cur_index;
+
+   set_norm_val (sample);
 }
 
 
@@ -103,10 +118,21 @@ Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  VcvAudioInDaisy::impl_notify_audio_buffer_start ()
+void  VcvAudioOut::impl_notify_audio_buffer_start ()
 {
-   // we don't need to call-in the base class method
+   // nothing
+}
 
+
+
+/*
+==============================================================================
+Name : impl_notify_audio_buffer_end
+==============================================================================
+*/
+
+void  VcvAudioOut::impl_notify_audio_buffer_end ()
+{
    // switch buffer
    _cur_buf = 1 - _cur_buf;
    _cur_index = 0;

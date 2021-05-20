@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyAudioOutDaisy.h
+      DaisyAudioIn.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -28,7 +28,7 @@ namespace erb
 
 class DaisyModule;
 
-class DaisyAudioOutDaisy
+class DaisyAudioIn
 :  public DaisyModuleListener
 {
 
@@ -37,15 +37,13 @@ class DaisyAudioOutDaisy
 public:
    using Buffer = std::array <float, buffer_size>;
 
-                  DaisyAudioOutDaisy (DaisyModule & module, AudioOutDaisyPin pin);
-   virtual        ~DaisyAudioOutDaisy () override = default;
+                  DaisyAudioIn (DaisyModule & module, AudioInPin pin);
+   virtual        ~DaisyAudioIn () override = default;
 
-   DaisyAudioOutDaisy &
-                  operator = (const Buffer & buffer);
+                  operator Buffer () const;
 
    size_t         size () const;
-   float &        operator [] (size_t index);
-   void           fill (float val);
+   const float &  operator [] (size_t index);
 
 
 
@@ -53,7 +51,6 @@ public:
 
    // DaisyModuleListener
    virtual void   impl_notify_audio_buffer_start () override;
-   virtual void   impl_notify_audio_buffer_end () override;
 
 
 
@@ -77,19 +74,17 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  DaisyAudioOutDaisy () = delete;
-                  DaisyAudioOutDaisy (const DaisyAudioOutDaisy & rhs) = delete;
-                  DaisyAudioOutDaisy (DaisyAudioOutDaisy && rhs) = delete;
-   DaisyAudioOutDaisy &
-                  operator = (const DaisyAudioOutDaisy & rhs) = delete;
-   DaisyAudioOutDaisy &
-                  operator = (DaisyAudioOutDaisy && rhs) = delete;
-   bool           operator == (const DaisyAudioOutDaisy & rhs) const = delete;
-   bool           operator != (const DaisyAudioOutDaisy & rhs) const = delete;
+                  DaisyAudioIn () = delete;
+                  DaisyAudioIn (const DaisyAudioIn & rhs) = delete;
+                  DaisyAudioIn (DaisyAudioIn && rhs) = delete;
+   DaisyAudioIn & operator = (const DaisyAudioIn & rhs) = delete;
+   DaisyAudioIn & operator = (DaisyAudioIn && rhs) = delete;
+   bool           operator == (const DaisyAudioIn & rhs) const = delete;
+   bool           operator != (const DaisyAudioIn & rhs) const = delete;
 
 
 
-}; // class DaisyAudioOutDaisy
+}; // class DaisyAudioIn
 
 
 
