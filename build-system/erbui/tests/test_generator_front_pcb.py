@@ -70,7 +70,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       writer.write (component, os.path.join (PATH_ARTIFACTS, 'alpha.9mm.move.kicad_pcb'))
 
    def test_003 (self):
-      module = ast.Module (mock.identifier ('test_generator_front_pcb_003'))
+      module = ast.Module (mock.identifier ('test_generator_front_pcb_003'), None)
       module.entities.append (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
 
       control = ast.Control (
