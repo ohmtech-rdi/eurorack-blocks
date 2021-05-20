@@ -102,7 +102,7 @@ class Visitor (PTNodeVisitor):
       return board
 
    def visit_board_name (self, node, children):
-      return self.to_keyword (node)
+      return self.visit_identifier (node, children)
 
 
 
