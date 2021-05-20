@@ -21,11 +21,14 @@
          ],
 
          'sources': [
+            'daisy/BoardDaisyField.h',
+            'daisy/BoardDaisyField.hpp',
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
             'daisy/SubmoduleDaisySeed.h',
             'daisy/SubmoduleDaisySeed.hpp',
 
+            '../../src/daisy/BoardDaisyField.cpp',
             '../../src/daisy/BoardDaisySeed.cpp',
             '../../src/daisy/SubmoduleDaisySeed.cpp',
          ],
@@ -64,6 +67,7 @@
 
          'sources': [
             # headers
+            'vcvrack/BoardDaisyField.h',
             'vcvrack/BoardDaisySeed.h',
             'vcvrack/BoardGeneric.h',
             'vcvrack/BoardGeneric.hpp',
