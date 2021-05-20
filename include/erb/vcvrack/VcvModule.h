@@ -43,8 +43,8 @@ class VcvInputBase;
 class VcvOutputBase;
 class VcvLightBase;
 
-class VcvAudioInDaisy;
-class VcvAudioOutDaisy;
+class VcvAudioIn;
+class VcvAudioOut;
 
 struct VcvPin;
 
@@ -81,8 +81,8 @@ public:
    void           add (VcvOutputBase & output);
    void           add (VcvLightBase & light);
 
-   void           add (VcvAudioInDaisy & input);
-   void           add (VcvAudioOutDaisy & output);
+   void           add (VcvAudioIn & input);
+   void           add (VcvAudioOut & output);
 
    void           impl_process ();
 
@@ -102,8 +102,8 @@ private:
    using VcvOutputs = std::vector <VcvOutputBase *>;
    using VcvLights = std::vector <VcvLightBase *>;
 
-   using VcvAudioInputs = std::vector <VcvAudioInDaisy *>;
-   using VcvAudioOutputs = std::vector <VcvAudioOutDaisy *>;
+   using VcvAudioInputs = std::vector <VcvAudioIn *>;
+   using VcvAudioOutputs = std::vector <VcvAudioOut *>;
 
    std::function <void ()>
                   _buffer_callback;

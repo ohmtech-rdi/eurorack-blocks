@@ -92,8 +92,8 @@ class Code:
    def generate_control (self, control):
 
       type_func_category_map = {
-         'AudioInDaisy': 'Input',
-         'AudioOutDaisy': 'Output',
+         'AudioIn': 'Input',
+         'AudioOut': 'Output',
          'Button': 'Param',
          'CvIn': 'Input',
          'GateIn': 'Input',
@@ -109,8 +109,8 @@ class Code:
       func_category = type_func_category_map [control.kind]
 
       type_category_map = {
-         'AudioInDaisy': 'Input',
-         'AudioOutDaisy': 'Output',
+         'AudioIn': 'Input',
+         'AudioOut': 'Output',
          'Button': 'Param',
          'CvIn': 'Input',
          'GateIn': 'Input',

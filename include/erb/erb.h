@@ -17,8 +17,8 @@
 
 
 #if defined (erb_TARGET_DAISY)
-   #include "erb/daisy/DaisyAudioInDaisy.h"
-   #include "erb/daisy/DaisyAudioOutDaisy.h"
+   #include "erb/daisy/DaisyAudioIn.h"
+   #include "erb/daisy/DaisyAudioOut.h"
    #include "erb/daisy/DaisyButton.h"
    #include "erb/daisy/DaisyConstants.h"
    #include "erb/daisy/DaisyCvIn.h"
@@ -35,8 +35,8 @@
 
    namespace erb
    {
-      using AudioInDaisy = DaisyAudioInDaisy;
-      using AudioOutDaisy = DaisyAudioOutDaisy;
+      using AudioIn = DaisyAudioIn;
+      using AudioOut = DaisyAudioOut;
       using Button = DaisyButton;
       using CvIn = DaisyCvIn;
       using GateIn = DaisyGateIn;
@@ -52,8 +52,8 @@
    }
 
 #elif defined (erb_TARGET_VCV_RACK)
-   #include "erb/vcvrack/VcvAudioInDaisy.h"
-   #include "erb/vcvrack/VcvAudioOutDaisy.h"
+   #include "erb/vcvrack/VcvAudioIn.h"
+   #include "erb/vcvrack/VcvAudioOut.h"
    #include "erb/vcvrack/VcvButton.h"
    #include "erb/vcvrack/VcvConstants.h"
    #include "erb/vcvrack/VcvCvIn.h"
@@ -70,8 +70,8 @@
 
    namespace erb
    {
-      using AudioInDaisy = VcvAudioInDaisy;
-      using AudioOutDaisy = VcvAudioOutDaisy;
+      using AudioIn = VcvAudioIn;
+      using AudioOut = VcvAudioOut;
       using Button = VcvButton;
       using CvIn = VcvCvIn;
       using GateIn = VcvGateIn;

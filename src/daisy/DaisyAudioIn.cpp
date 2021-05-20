@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyAudioInDaisy.cpp
+      DaisyAudioIn.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/DaisyAudioInDaisy.h"
+#include "erb/daisy/DaisyAudioIn.h"
 
 #include "erb/daisy/DaisyModule.h"
 
@@ -30,7 +30,7 @@ Name : ctor
 ==============================================================================
 */
 
-DaisyAudioInDaisy::DaisyAudioInDaisy (DaisyModule & module, AudioInDaisyPin pin)
+DaisyAudioIn::DaisyAudioIn (DaisyModule & module, AudioInPin pin)
 :  _module (module)
 ,  _channel (pin.pin)
 {
@@ -45,7 +45,7 @@ Name : size
 ==============================================================================
 */
 
-DaisyAudioInDaisy::operator Buffer () const
+DaisyAudioIn::operator Buffer () const
 {
    return _buffer;
 }
@@ -58,7 +58,7 @@ Name : size
 ==============================================================================
 */
 
-size_t   DaisyAudioInDaisy::size () const
+size_t   DaisyAudioIn::size () const
 {
    return _buffer.size ();
 }
@@ -71,7 +71,7 @@ Name : operator []
 ==============================================================================
 */
 
-const float &  DaisyAudioInDaisy::operator [] (size_t index)
+const float &  DaisyAudioIn::operator [] (size_t index)
 {
    return _buffer [index];
 }
@@ -86,7 +86,7 @@ Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  DaisyAudioInDaisy::impl_notify_audio_buffer_start ()
+void  DaisyAudioIn::impl_notify_audio_buffer_start ()
 {
    const auto & buffer = _module.impl_onboard_codec_buffer_input ();
 

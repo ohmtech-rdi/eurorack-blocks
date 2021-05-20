@@ -32,7 +32,7 @@
             StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
             Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.";
             Words = (
-                "AudioInDaisy", "AudioOutDaisy", "Button", "CvIn", "GateIn", "GateOut", "Led", "LedBi", "LedRgb", "Pot", "Switch", "Trim",
+                "AudioIn", "AudioOut", "Button", "CvIn", "GateIn", "GateOut", "Led", "LedBi", "LedRgb", "Pot", "Switch", "Trim",
                 "aluminum", "brushed_aluminum", "aluminum_coated", "natural", "white", "black",
                 "center", "left", "top", "right", "bottom",
                 "normalized", "bipolar",

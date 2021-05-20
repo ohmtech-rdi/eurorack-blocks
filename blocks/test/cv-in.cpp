@@ -62,8 +62,8 @@ int main ()
    using namespace erb;
 
    Module module;
-   AudioOutDaisy audio_out_left (module, AudioOutDaisyPinLeft);
-   AudioOutDaisy audio_out_right (module, AudioOutDaisyPinRight);
+   AudioOut audio_out_left (module, AudioOutPinLeft);
+   AudioOut audio_out_right (module, AudioOutPinRight);
 
    // Pins are the same as the CTRL 1..4 on Daisy Patch
    CvIn ctrl_1 (module, AdcPin0); // osc1 amplitude

@@ -113,27 +113,27 @@ struct DaisyMultiplexerAddressPins
 
 
 
-struct AudioInDaisyPin
+struct AudioInPin
 {
    size_t pin;
 };
 
-static constexpr AudioInDaisyPin AudioInDaisyPinLeft =  {0};
-static constexpr AudioInDaisyPin AudioInDaisyPinRight = {1};
-static constexpr AudioInDaisyPin AudioInDaisyPin0 =     {0};
-static constexpr AudioInDaisyPin AudioInDaisyPin1 =     {1};
+static constexpr AudioInPin AudioInPinLeft =  {0};
+static constexpr AudioInPin AudioInPinRight = {1};
+static constexpr AudioInPin AudioInPin0 =     {0};
+static constexpr AudioInPin AudioInPin1 =     {1};
 
 
 
-struct AudioOutDaisyPin
+struct AudioOutPin
 {
    size_t pin;
 };
 
-static constexpr AudioOutDaisyPin AudioOutDaisyPinLeft =  {0};
-static constexpr AudioOutDaisyPin AudioOutDaisyPinRight = {1};
-static constexpr AudioOutDaisyPin AudioOutDaisyPin0 =     {0};
-static constexpr AudioOutDaisyPin AudioOutDaisyPin1 =     {1};
+static constexpr AudioOutPin AudioOutPinLeft =  {0};
+static constexpr AudioOutPin AudioOutPinRight = {1};
+static constexpr AudioOutPin AudioOutPin0 =     {0};
+static constexpr AudioOutPin AudioOutPin1 =     {1};
 
 
 

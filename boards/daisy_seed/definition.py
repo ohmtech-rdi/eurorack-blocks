@@ -135,37 +135,37 @@
       },
 
 
-      'AudioInDaisyPinLeft': {
+      'AudioInPinLeft': {
          'physical': 16,
-         'accept': ['AudioInDaisy'],
+         'accept': ['AudioIn'],
       },
-      'AudioInDaisyPin0': {
+      'AudioInPin0': {
          'physical': 16,
-         'accept': ['AudioInDaisy'],
+         'accept': ['AudioIn'],
       },
-      'AudioInDaisyPinRight': {
+      'AudioInPinRight': {
          'physical': 17,
-         'accept': ['AudioInDaisy'],
+         'accept': ['AudioIn'],
       },
-      'AudioInDaisyPin1': {
+      'AudioInPin1': {
          'physical': 17,
-         'accept': ['AudioInDaisy'],
+         'accept': ['AudioIn'],
       },
-      'AudioOutDaisyPinLeft': {
+      'AudioOutPinLeft': {
          'physical': 18,
-         'accept': ['AudioOutDaisy'],
+         'accept': ['AudioOut'],
       },
-      'AudioOutDaisyPin0': {
+      'AudioOutPin0': {
          'physical': 18,
-         'accept': ['AudioOutDaisy'],
+         'accept': ['AudioOut'],
       },
-      'AudioOutDaisyPinRight': {
+      'AudioOutPinRight': {
          'physical': 19,
-         'accept': ['AudioOutDaisy'],
+         'accept': ['AudioOut'],
       },
-      'AudioOutDaisyPin1': {
+      'AudioOutPin1': {
          'physical': 19,
-         'accept': ['AudioOutDaisy'],
+         'accept': ['AudioOut'],
       },
 
       'AdcPin0': {
@@ -231,11 +231,11 @@
       'PinNC': {
          'accept': ['Button', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Switch'],
       },
-      'AudioInDaisyPinNC': {
-         'accept': ['AudioInDaisy'],
+      'AudioInPinNC': {
+         'accept': ['AudioIn'],
       },
-      'AudioOutDaisyPinNC': {
-         'accept': ['AudioOutDaisy'],
+      'AudioOutPinNC': {
+         'accept': ['AudioOut'],
       },
       'AdcPinNC': {
          'accept': ['CvIn', 'Pot', 'Trim'],

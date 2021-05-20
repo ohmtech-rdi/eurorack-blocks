@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      DaisyAudioOutDaisy.cpp
+      DaisyAudioOut.cpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/daisy/DaisyAudioOutDaisy.h"
+#include "erb/daisy/DaisyAudioOut.h"
 
 #include "erb/daisy/DaisyModule.h"
 
@@ -30,7 +30,7 @@ Name : ctor
 ==============================================================================
 */
 
-DaisyAudioOutDaisy::DaisyAudioOutDaisy (DaisyModule & module, AudioOutDaisyPin pin)
+DaisyAudioOut::DaisyAudioOut (DaisyModule & module, AudioOutPin pin)
 :  _module (module)
 ,  _channel (pin.pin)
 {
@@ -45,7 +45,7 @@ Name : operator =
 ==============================================================================
 */
 
-DaisyAudioOutDaisy &   DaisyAudioOutDaisy::operator = (const Buffer & buffer)
+DaisyAudioOut &   DaisyAudioOut::operator = (const Buffer & buffer)
 {
    _buffer = buffer;
 
@@ -60,7 +60,7 @@ Name : size
 ==============================================================================
 */
 
-size_t   DaisyAudioOutDaisy::size () const
+size_t   DaisyAudioOut::size () const
 {
    return _buffer.size ();
 }
@@ -73,7 +73,7 @@ Name : operator []
 ==============================================================================
 */
 
-float &  DaisyAudioOutDaisy::operator [] (size_t index)
+float &  DaisyAudioOut::operator [] (size_t index)
 {
    return _buffer [index];
 }
@@ -86,7 +86,7 @@ Name : fill
 ==============================================================================
 */
 
-void  DaisyAudioOutDaisy::fill (float val)
+void  DaisyAudioOut::fill (float val)
 {
    _buffer.fill (val);
 }
@@ -101,7 +101,7 @@ Name : impl_notify_audio_buffer_start
 ==============================================================================
 */
 
-void  DaisyAudioOutDaisy::impl_notify_audio_buffer_start ()
+void  DaisyAudioOut::impl_notify_audio_buffer_start ()
 {
    // nothing
 }
@@ -114,7 +114,7 @@ Name : impl_notify_audio_buffer_end
 ==============================================================================
 */
 
-void  DaisyAudioOutDaisy::impl_notify_audio_buffer_end ()
+void  DaisyAudioOut::impl_notify_audio_buffer_end ()
 {
    auto & buffer = _module.impl_onboard_codec_buffer_output ();
 

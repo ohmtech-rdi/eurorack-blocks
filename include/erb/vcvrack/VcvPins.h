@@ -116,30 +116,30 @@ static constexpr VcvMultiplexerPin MultiplexerPinNC =  {size_t (-1)};
 
 
 
-struct VcvAudioInDaisyPin
+struct VcvAudioInPin
 {
    size_t pin;
 };
 
-static constexpr VcvAudioInDaisyPin AudioInDaisyPinLeft =  {0};
-static constexpr VcvAudioInDaisyPin AudioInDaisyPinRight = {1};
-static constexpr VcvAudioInDaisyPin AudioInDaisyPin0 =     {0};
-static constexpr VcvAudioInDaisyPin AudioInDaisyPin1 =     {1};
+static constexpr VcvAudioInPin AudioInPinLeft =  {0};
+static constexpr VcvAudioInPin AudioInPinRight = {1};
+static constexpr VcvAudioInPin AudioInPin0 =     {0};
+static constexpr VcvAudioInPin AudioInPin1 =     {1};
 
-static constexpr VcvAudioInDaisyPin AudioInDaisyPinNC =     {size_t (-1)};
+static constexpr VcvAudioInPin AudioInPinNC =     {size_t (-1)};
 
 
-struct VcvAudioOutDaisyPin
+struct VcvAudioOutPin
 {
    size_t pin;
 };
 
-static constexpr VcvAudioOutDaisyPin AudioOutDaisyPinLeft =  {0};
-static constexpr VcvAudioOutDaisyPin AudioOutDaisyPinRight = {1};
-static constexpr VcvAudioOutDaisyPin AudioOutDaisyPin0 =     {0};
-static constexpr VcvAudioOutDaisyPin AudioOutDaisyPin1 =     {1};
+static constexpr VcvAudioOutPin AudioOutPinLeft =  {0};
+static constexpr VcvAudioOutPin AudioOutPinRight = {1};
+static constexpr VcvAudioOutPin AudioOutPin0 =     {0};
+static constexpr VcvAudioOutPin AudioOutPin1 =     {1};
 
-static constexpr VcvAudioOutDaisyPin AudioOutDaisyPinNC =     {size_t (-1)};
+static constexpr VcvAudioOutPin AudioOutPinNC =     {size_t (-1)};
 
 
 

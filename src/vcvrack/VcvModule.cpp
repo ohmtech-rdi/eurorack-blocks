@@ -11,8 +11,8 @@
 
 #include "erb/vcvrack/VcvModule.h"
 
-#include "erb/vcvrack/VcvAudioInDaisy.h"
-#include "erb/vcvrack/VcvAudioOutDaisy.h"
+#include "erb/vcvrack/VcvAudioIn.h"
+#include "erb/vcvrack/VcvAudioOut.h"
 #include "erb/vcvrack/VcvInputBase.h"
 #include "erb/vcvrack/VcvLightBase.h"
 #include "erb/vcvrack/VcvOutputBase.h"
@@ -208,7 +208,7 @@ Name : add
 ==============================================================================
 */
 
-void  VcvModule::add (VcvAudioInDaisy & input)
+void  VcvModule::add (VcvAudioIn & input)
 {
    _audio_inputs.push_back (&input);
    _inputs.push_back (&input);
@@ -223,7 +223,7 @@ Name : add
 ==============================================================================
 */
 
-void  VcvModule::add (VcvAudioOutDaisy & output)
+void  VcvModule::add (VcvAudioOut & output)
 {
    _audio_outputs.push_back (&output);
    _outputs.push_back (&output);

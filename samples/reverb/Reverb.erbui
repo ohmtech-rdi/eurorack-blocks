@@ -100,31 +100,31 @@ module Reverb {
       pin AdcPin3
    }
 
-   control audio_in_left AudioInDaisy {
+   control audio_in_left AudioIn {
       position 7.11mm, 111mm
       style thonk.pj398sm.knurled
       label "IN L"
-      pin AudioInDaisyPinLeft
+      pin AudioInPinLeft
    }
 
-   control audio_in_right AudioInDaisy {
+   control audio_in_right AudioIn {
       position 19.2mm, 111mm
       style thonk.pj398sm.knurled
       label "IN R"
-      pin AudioInDaisyPinRight
+      pin AudioInPinRight
    }
 
-   control audio_out_left AudioOutDaisy {
+   control audio_out_left AudioOut {
       position 31.3mm, 111mm
       style thonk.pj398sm.knurled
       label "OUT L"
-      pin AudioOutDaisyPinLeft
+      pin AudioOutPinLeft
    }
 
-   control audio_out_right AudioOutDaisy {
+   control audio_out_right AudioOut {
       position 43.4mm, 111mm
       style thonk.pj398sm.knurled
       label "OUT R"
-      pin AudioOutDaisyPinRight
+      pin AudioOutPinRight
    }
 }
