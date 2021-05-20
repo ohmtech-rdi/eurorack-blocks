@@ -33,8 +33,10 @@
       'xcode_settings':
       {
          'ARCHS': ['x86_64'],
-         'MACOSX_DEPLOYMENT_TARGET': '10.7',
+         'MACOSX_DEPLOYMENT_TARGET': '10.14',
 
+
+         'CLANG_CXX_LANGUAGE_STANDARD': 'c++17',
          'CLANG_CXX_LIBRARY': 'libc++',
 
          'GCC_TREAT_WARNINGS_AS_ERRORS': 'YES',
@@ -100,6 +102,7 @@
 
             '-Wno-c++98-compat',
             '-Wno-c++98-compat-pedantic',
+            '-Wno-c99-extensions',
             '-Wno-padded',
             '-Wno-weak-vtables',
             '-Wno-float-equal',
