@@ -36,7 +36,7 @@ class TestGenerators (unittest.TestCase):
    def make_ast_001 (self):
       global_namespace = ast.GlobalNamespace ()
 
-      module = ast.Module (mock.identifier ('Test'))
+      module = ast.Module (mock.identifier ('Test'), None)
       module.entities.append (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
       module.entities.append (ast.Material (mock.keyword ('aluminum'), None))
 
