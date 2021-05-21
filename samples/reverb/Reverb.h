@@ -25,7 +25,7 @@ struct Reverb
    erb::SdramObject <ReverbDsp::AuxiliaryBuffer> object
       = erb::make_sdram_object <ReverbDsp::AuxiliaryBuffer> ();
 
-   ReverbDsp dsp { erb::sample_rate, *object };
+   ReverbDsp dsp { erb_SAMPLE_RATE, *object };
    ReverbUi ui;
 
    void  process ();
