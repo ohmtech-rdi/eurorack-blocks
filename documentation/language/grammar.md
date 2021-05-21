@@ -1,0 +1,426 @@
+# Grammar
+
+This document describes what sequence of tokens form valid inputs of the language.
+
+
+## How to Read the Grammar
+
+The notation used to describe the formal grammar of `erbui` has the following conventions:
+
+- An arrow (→) is used to mark grammar productions and can be read as "can consist of",
+- Alternative grammar productions are either separated by verticals bars (|) or are broken into
+   multiple grammar production rules lines,
+- [Keywords](./lexical.md#keywords) and [symbols](./lexical.md#symbols) are indicated using
+   **`bold inline code`** style text,
+- Optional syntactic categories and literals are marked by a trailing subscript (<sub>_opt_</sub>),
+- Syntactic category or literal repetitions of 0 or more are marked by a trailing subscript (<sub>_0+_</sub>),
+- Syntactic category or literal repetitions of 1 or more are marked by a trailing subscript (<sub>_1+_</sub>).
+
+
+## Global namespace
+
+The global namespace is the root of the grammar. One and only one module declaration is
+valid.
+
+### Grammar
+
+> _global-namespace_ → [module-declaration](#module)
+
+
+## `module`
+
+A `module` defines a physical module, a unique piece of hardware to produce.
+it is a set of multiple `control`, `image`, `label`, `width`, `material`, etc. _declarations_.
+
+### Grammar
+
+> _module-declaration_ → **`module`** module-name module-inheritance-clause<sub>_opt_</sub> **`{`** module-entity<sub>_0+_</sub> **`}`** \
+> _module-name_ → [identifier](./lexical.md#identifiers) \
+> _module-inheritance-clause_ → **`extends`** [identifier](./lexical.md#identifiers) \
+> _module-entity_ → [board-declaration](#board) \
+> _module-entity_ → [width-declaration](#width) \
+> _module-entity_ → [material-declaration](#material) \
+> _module-entity_ → [header-declaration](#header) \
+> _module-entity_ → [footer-declaration](#footer) \
+> _module-entity_ → [line-declaration](#line) \
+> _module-entity_ → [label-declaration](#label) \
+> _module-entity_ → [sticker-declaration](#sticker) \
+> _module-entity_ → [image-declaration](#image) \
+> _module-entity_ → [control-declaration](#control) \
+> _module-entity_ → [alias-declaration](#alias)
+
+### Extensions
+
+The module inheritance clause loads the content of the standard library module with its
+identifier name, and populates the extended module with all the inherited module definitions.
+
+For example:
+
+```erbui
+// In standard library
+module Foo {
+   width 12hp
+   label "Some Text"
+}
+
+// User
+module Bar extends Foo {
+   header { label "BAR" }
+}
+```
+
+Is equivalent to:
+
+```erbui
+module Bar {
+   width 12hp
+   label "Some Text"
+   header { label "BAR" }
+}
+```
+
+
+## `material`
+
+A `material` defines the actual material used to produce the module front panel.
+
+### Grammar
+
+> _material-declaration_ → **`material`** material-name material-color<sub>_opt_</sub> \
+> _material-name_ → **`aluminum`** \
+> _material-name_ → **`brushed_aluminum`** \
+> _material-color_ → **`natural`** \
+> _material-color_ → **`black`**
+
+
+## `board`
+
+A `board` defines the [board](../../boards/) used for the back panel. Each board comes with
+a specific set of digital, analog and audio pins and their associated names for both inputs and
+outputs.
+
+### Grammar
+
+> _board-declaration_ → **`board`** [identifier](./lexical.md#identifiers)
+
+See individual [boards](../boards/) reference for the available pins configuration for each board.
+
+
+## `width`
+
+`width` defines the module width in HP. In general, it should follow the [board](#board) width.
+Only a [specific set of integer HP widths](http://www.doepfer.de/a100_man/a100m_e.htm) are valid.
+
+### Grammar
+
+> _width-declaration_ → **`width`** [distance-literal](./lexical.md#distance-literals)
+
+
+## `header`
+
+The `header` defines a region at the top of the module, typically used for the
+module logo.
+
+### Grammar
+
+> _header-declaration_ → **`header`** **`{`** header-entity<sub>_0+_</sub> **`}`** \
+> _header-entity_ → [label-declaration](#label) \
+> _header-entity_ → [image-declaration](#image)
+
+
+## `footer`
+
+The `footer` defines a region at the bottom of the module, typically used for the
+company logo.
+
+### Grammar
+
+> _footer-declaration_ → **`footer`** **`{`** footer-entity<sub>_0+_</sub> **`}`** \
+> _footer-entity_ → [label-declaration](#label) \
+> _footer-entity_ → [image-declaration](#image)
+
+When no footer is defined, an implicit footer is created with the ERB logo.
+
+
+## `control`
+
+A `control` is an element of the module that is generally apparent on the front panel
+and with which the end-user can interact with.
+
+### Grammar
+
+> _control-declaration_ → **`control`** control-name [control-kind](../controls/) **`{`** control-entity<sub>_0+_</sub> **`}`** \
+> _control-name_ → [identifier](./lexical.md#identifiers) \
+> _control-entity_ → [mode-declaration](#mode) \
+> _control-entity_ → [position-declaration](#position) \
+> _control-entity_ → [rotation-declaration](#rotation) \
+> _control-entity_ → [style-declaration](#style) \
+> _control-entity_ → [label-declaration](#label) \
+> _control-entity_ → [image-declaration](#image) \
+> _control-entity_ → [pins-declaration](#pins) \
+> _control-entity_ → [pin-declaration](#pin)
+
+### Language Bindings
+
+_control-name_ is exported to the target language used to develop the module DSP, such
+as C++ or Max.
+
+For example the following `erbui` source code:
+
+```erbui
+module Foo {
+   control vco_freq Pot { ... }
+}
+```
+
+Exports the `vco_freq` in C++:
+
+```c++
+void  process () {
+   float val = ui.vco_freq;
+}
+``` 
+
+### Supported Entities
+
+Some grammar production rules are specific to some control kinds.
+For example `Button` supports `pin` but not `pins`, and conversely, `Switch` supports
+`pins` but does not support `pin`.
+
+See individual [controls](../controls/) reference for a list of supported features for each control.
+
+
+## `alias`
+
+An `alias` gives an alternative name to a control name. It is typically used when extending
+a standard library board, to give appropriate names to the entities of a module.
+
+### Grammar
+
+> _alias-declaration_ → **`alias`** [identifier](./lexical.md#identifiers) alias-reference \
+> _alias-reference_ → [identifier](./lexical.md#identifiers)
+
+
+For example:
+
+```erbui
+// Standard library daisy_field.erbui
+module daisy_field {
+   ...
+   control pot1 Pot { ... }
+   control pot2 Pot { ... }
+}
+
+// User code Foo.erbui
+module Foo extends daisy_field {
+   alias vco_freq pot2
+}
+```
+
+```c++
+// Foo.cpp
+void  process ()
+{
+   float freq_val = ui.pot1;        // not great
+   float freq_val2 = ui.vco_freq;   // better
+}
+```
+
+
+## `mode`
+
+A `mode` defines a range of values presented by the [`control`](#control).
+
+### Grammar
+
+> _mode-declaration_ → **`mode`** mode-value \
+> _mode-value_ → **`normalized`** \
+> _mode-value_ → **`bipolar`**
+
+### `normalized`
+
+`normalized` represents a range of values from `0` to `1`.
+When the control has a jack connector for inputs or outputs,
+it maps the value linearly from 0V to 5V.
+
+This is the default mode for `Pot` and `Trim`.
+
+### `bipolar`
+
+`bipolar` represents a range of values from `-1` to `1`.
+When the control has a jack connector for inputs or outputs,
+it maps the value linearly from –5V to 5V.
+
+This is the default mode for `CvIn` and `CvOut`.
+
+See individual [controls](../controls/) reference for a list of supported modes for each control.
+
+
+## `style`
+
+A `style` instructs the hardware parts to use for a `control`.
+This can represent the component part as
+mounted on the PCB as well as a decoration element that the end-user will manipulate, such
+as a style of knob.
+
+### Grammar
+
+> _style-declaration_ → **`style`** style-name
+
+See individual [controls](../controls/) reference for a list of supported styles for each control.
+
+
+## `line`
+
+A `line` is a graphic element printed on the front panel, usually used to indicate a conceptual
+link between a pair of controls.
+
+### Grammar
+
+> _line-declaration_ → **`line`** **`{`** line-entity<sub>_0+_</sub> **`}`** \
+> _line-entity_ → [position-declaration](#position)
+
+
+## `offset`
+
+An `offset` represents a relative shift from a position, typically used to reposition a control's label.
+
+### Grammar
+
+> _offset-declaration_ → **`offset`** [distance-literal](./lexical.md#distance-literals) **`,`** [distance-literal](./lexical.md#distance-literals)
+
+
+## `rotation`
+
+A `rotation` represents a rotation of a front panel element,
+typically used for [switches](./controls/Switch.md).
+
+### Grammar
+
+> _rotation-declaration_ → **`rotation`** [rotation-literal](./lexical.md#rotation-literals)
+
+See individual [controls](../controls/) reference for a list of supported rotations for each control, if any.
+
+
+## `position`
+
+A `position` represents the position of a [control](#control) on the front panel.
+Usually, the position is relative to the natural center of the control, when applicable.
+
+### Grammar
+
+> _position-declaration_ → **`position`** [distance-literal](./lexical.md#distance-literals) **`,`** [distance-literal](./lexical.md#distance-literals)
+
+See individual [controls](../controls/) reference for the center definition for each control.
+
+
+## `sticker`
+
+A `sticker` represents a virtual sticker glued on the front panel.
+It is usually used in conjunction of `alias` to display the real name of a value on top of
+the default board one.
+
+The `sticker` is only displayed when using the simulator. In particular, it is not present in
+the generated front panel files for hardware production.
+
+### Grammar
+
+> _sticker-declaration_ → **`sticker`** [string-literal](./lexical.md#string-literals) sticker-body<sub>_opt_</sub> \
+> _sticker-body_ → **`{`** sticker-entity<sub>_0+_</sub> **`}`**  \
+> _sticker-entity_ → [position-declaration](#position) \
+> _sticker-entity_ → [positioning-declaration](#positioning) \
+> _sticker-entity_ → [offset-declaration](#offset)
+
+
+## `label`
+
+A `label` is a piece of text printed on the front panel, and usually represents the name of
+the associated control, or group of controls.
+
+A `label` can be either defined in a control with its positioning relative to the control, or
+can be defined freely in the module with a position relative to the module.
+
+### Grammar
+
+> _label-declaration_ → **`label`** [string-literal](./lexical.md#string-literals) label-body<sub>_opt_</sub> \
+> _label-body_ → **`{`** label-entity<sub>_0+_</sub> **`}`**  \
+> _label-entity_ → [position-declaration](#position) \
+> _label-entity_ → [positioning-declaration](#positioning) \
+> _label-entity_ → [offset-declaration](#offset)
+
+
+## `image`
+
+An `image` is a picture printed on the front panel, and is usually used to make a complete
+custom front panel design.
+The path represents a [Scalable Vector Graphics (SVG)](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics)
+file relative to the `erbui` file where the `image` definition takes place.
+
+### Grammar
+
+> _image-declaration_ → **`image`** [path-literal](./lexical.md#path-literals)
+
+
+## `pin`
+
+A `pin` represents the physical board pin used by a [control](#control).
+
+### Grammar
+
+> _pin-declaration_ → **`pin`** pin-name
+
+See individual [boards](../boards/) reference for the available pins configuration for each board.
+
+The `pin` property is only supported for controls that support exactly one data pin.
+See individual [controls](../controls/) reference for a list of pins for each control.
+
+
+## `pins`
+
+A `pin` represents a set of physical board pins used by a [control](#control).
+
+### Grammar
+
+> _pins-declaration_ → **`pins`** pins-argument-list \
+> _pins-argument-list_ → pin-name \
+> _pins-argument-list_ → pin-name **`,`** pins-argument-list
+
+See individual [boards](../boards/) reference for the available pins configuration for each board.
+
+The `pins` property is only supported for controls that support more than one data pin.
+See individual [controls](../controls/) reference for a list of pins for each control.
+
+
+## `positioning`
+
+A `positioning` represents a positioning of a graphic element relative to its control center.
+It is usually used to position labels for a control.
+
+### Grammar
+
+> _positioning-declaration_ → **`positioning`** positioning-name \
+> _positioning-name_ → **`center`** \
+> _positioning-name_ → **`left`** \
+> _positioning-name_ → **`top`** \
+> _positioning-name_ → **`right`** \
+> _positioning-name_ → **`bottom`**
+
+### `center`
+
+This `positioning` centers the graphic element with the center of its control.
+
+### `left`
+
+This `positioning` places the graphic element to the left of its control.
+
+### `top`
+
+This `positioning` places the graphic element to the top of its control.
+
+### `right`
+
+This `positioning` places the graphic element to the right of its control.
+
+### `bottom`
+
+This `positioning` places the graphic element to the bottom of its control.
