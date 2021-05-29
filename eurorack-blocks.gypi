@@ -18,7 +18,7 @@
       },
 
       'cflags_cc': [
-         '-std=c++14',
+         '-std=gnu++17',
       ],
 
       'cflags': [
