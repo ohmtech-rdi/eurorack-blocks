@@ -15,6 +15,8 @@
 
 #include "erb/Buffer.h"
 
+#include <cstddef>
+
 
 
 namespace erb
