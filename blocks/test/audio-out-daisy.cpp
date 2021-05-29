@@ -27,19 +27,20 @@ int main ()
 {
    using namespace erb;
 
-   Module module;
-   AudioOut audio_out_left (module, AudioOutPinLeft);
-   AudioOut audio_out_right (module, AudioOutPinRight);
+   BoardDaisySeed board;
 
-   constexpr double pim2 = 2.f * M_PI;
-   constexpr double phase_step = pim2 * 440.f / erb::sample_rate;
+   AudioOut audio_out_left { board.audioout (0) };
+   AudioOut audio_out_right { board.audioout (1) };
+
+   constexpr double pim2 = 2.0 * M_PI;
+   constexpr double phase_step = pim2 * 440.0 / erb_SAMPLE_RATE;
    const double step_cos = std::cos (phase_step);
    const double step_sin = std::sin (phase_step);
 
-   double pos_cos = 1.f;
-   double pos_sin = 0.f;
+   double pos_cos = 1.0;
+   double pos_sin = 0.0;
 
-   module.run ([&](){
+   board.run ([&](){
       for (size_t i = 0 ; i < audio_out_left.size () ; ++i)
       {
          const double old_cos = pos_cos;

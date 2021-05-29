@@ -44,7 +44,6 @@ if __name__ == '__main__':
          'led-rgb',
          'led-bi',
          'led',
-         'multiplexer',
          'pot',
          'switch',
       ]

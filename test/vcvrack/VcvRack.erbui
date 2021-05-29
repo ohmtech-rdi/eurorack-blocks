@@ -165,43 +165,39 @@ module VcvRack {
       pin AdcPinNC
    }
 
-   multiplexer rogan {
-      pins AdcPinNC, PinNC, PinNC, PinNC
+   control rogan_6ps Pot {
+      position 20mm, 65mm
+      style rogan.6ps
+      label "rogan.6ps" { positioning bottom }
+      pin AdcPinNC
+   }
 
-      control rogan_6ps Pot {
-         position 20mm, 65mm
-         style rogan.6ps
-         label "rogan.6ps" { positioning bottom }
-         pin AdcPinNC
-      }
+   control rogan_5ps Pot {
+      position 50mm, 65mm
+      style rogan.5ps
+      label "rogan.5ps" { positioning bottom }
+      pin AdcPinNC
+   }
 
-      control rogan_5ps Pot {
-         position 50mm, 65mm
-         style rogan.5ps
-         label "rogan.5ps" { positioning bottom }
-         pin AdcPinNC
-      }
+   control rogan_3ps Pot {
+      position 73mm, 65mm
+      style rogan.3ps
+      label "rogan.3ps" { positioning bottom }
+      pin AdcPinNC
+   }
 
-      control rogan_3ps Pot {
-         position 73mm, 65mm
-         style rogan.3ps
-         label "rogan.3ps" { positioning bottom }
-         pin AdcPinNC
-      }
+   control rogan_2ps Pot {
+      position 93mm, 65mm
+      style rogan.2ps
+      label "rogan.2ps" { positioning bottom }
+      pin AdcPinNC
+   }
 
-      control rogan_2ps Pot {
-         position 93mm, 65mm
-         style rogan.2ps
-         label "rogan.2ps" { positioning bottom }
-         pin AdcPinNC
-      }
-
-      control rogan_1ps Pot {
-         position 110mm, 65mm
-         style rogan.1ps
-         label "rogan.1ps" { positioning bottom }
-         pin AdcPinNC
-      }
+   control rogan_1ps Pot {
+      position 110mm, 65mm
+      style rogan.1ps
+      label "rogan.1ps" { positioning bottom }
+      pin AdcPinNC
    }
 
    control dailywell_2ms1 Switch {

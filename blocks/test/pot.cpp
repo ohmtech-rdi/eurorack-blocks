@@ -17,14 +17,14 @@
 
 /*\\\ CLASSES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-constexpr double pim2 = 2.f * M_PI;
+constexpr double pim2 = 2.0 * M_PI;
 
 class OscSin
 {
 public:
    void           set_freq (float freq)
    {
-      const double phase_step = pim2 * freq / erb::sample_rate;
+      const double phase_step = pim2 * double (freq) / erb_SAMPLE_RATE;
       _step_cos = std::cos (phase_step);
       _step_sin = std::sin (phase_step);
    }
@@ -40,11 +40,11 @@ public:
    }
 
 private:
-   double         _step_cos = 1.f;
-   double         _step_sin = 0.f;
+   double         _step_cos = 1.0;
+   double         _step_sin = 0.0;
 
-   double         _pos_cos = 1.f;
-   double         _pos_sin = 0.f;
+   double         _pos_cos = 1.0;
+   double         _pos_sin = 0.0;
 };
 
 
@@ -61,19 +61,20 @@ int main ()
 {
    using namespace erb;
 
-   Module module;
-   AudioOut audio_out0 (module, AudioOutPin0);
-   AudioOut audio_out1 (module, AudioOutPin1);
+   BoardDaisySeed board;
+
+   AudioOut audio_out0 { board.audioout (0) };
+   AudioOut audio_out1 { board.audioout (1) };
 
    // Pins are the same as the CTRL 1..4 on Daisy Patch
-   Pot ctrl_1 (module, AdcPin0); // osc1 amplitude
-   Pot ctrl_2 (module, AdcPin1); // osc1 frequency
-   Pot ctrl_3 (module, AdcPin6); // osc2 amplitude
-   Pot ctrl_4 (module, AdcPin3); // osc2 frequency
+   Pot <FloatRange::Normalized> ctrl_1 { board.adc (0) }; // osc1 amplitude
+   Pot <FloatRange::Normalized> ctrl_2 { board.adc (1) }; // osc1 frequency
+   Pot <FloatRange::Normalized> ctrl_3 { board.adc (6) }; // osc2 amplitude
+   Pot <FloatRange::Normalized> ctrl_4 { board.adc (3) }; // osc2 frequency
 
    OscSin osc1, osc2;
 
-   module.run ([&](){
+   board.run ([&](){
       for (size_t i = 0 ; i < audio_out0.size () ; ++i)
       {
          osc1.set_freq (20.f * std::pow (500.f, ctrl_2));
