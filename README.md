@@ -44,18 +44,18 @@ module Bypass {
    material aluminum black
    header { label "BYPASS" }
 
-   control audio_in AudioInDaisy {
+   control audio_in AudioIn {
       position 4hp, 40mm
       style thonk.pj398sm.knurled
       label "IN"
-      pin AudioInDaisyPin0
+      pin AudioInPin0
    }
 
-   control audio_out AudioOutDaisy {
+   control audio_out AudioOut {
       position 4hp, 80mm
       style thonk.pj398sm.knurled
       label "OUT"
-      pin AudioOutDaisyPin0
+      pin AudioOutPin0
    }
 }
 ```
@@ -63,21 +63,14 @@ module Bypass {
 ```console
 raf:bypass$ ./configure.py 👈 Generate IDE project and hardware files
 raf:bypass$ ls artifacts/
--rw-r--r--  1 raf  staff    582 Apr 23 18:14 BypassUi.h
+...
 drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 bypass.xcodeproj 👈 Xcode Project
--rw-r--r--  1 raf  staff   2011 Apr 23 18:14 deploy_vcvrack.py
--rw-r--r--  1 raf  staff   1281 Apr 23 18:14 generate_vcvrack.py
--rw-r--r--  1 raf  staff    685 Apr 23 18:14 main_daisy.cpp
-drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 out
--rw-r--r--  1 raf  staff  17412 Apr 23 18:14 panel_vcvrack-preprocess.svg
--rw-r--r--  1 raf  staff  17271 Apr 23 18:14 panel_vcvrack.svg
--rw-r--r--  1 raf  staff    641 Apr 23 18:14 plugin.json
--rw-r--r--  1 raf  staff   4806 Apr 23 18:14 plugin_vcvrack.cpp
+...
 raf:bypass$ ./build.py 👈 Build the firmware
 ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/out/Release'
 [185/185] LINK bypass-daisy
 OBJCOPY bypass-daisy
-raf:bypass$ ./deploy.py 👈 Upload the firmware to your Daisy Seed
+raf:bypass$ ./deploy.py 👈 Upload the firmware
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Press Enter to continue...
@@ -86,36 +79,45 @@ raf:bypass$
 ```
 
 
+## Sample Projects
+
+[<img align="right" height="200px" src="./samples/bypass/screenshot.png">](./samples/bypass/)
+[<img align="right" height="200px" src="./samples/drop/screenshot.png">](./samples/drop/)
+[<img align="right" height="200px" src="./samples/reverb/screenshot.png">](./samples/reverb/)
+
+Sample projects are a good place to start learning:
+
+- [`bypass`](./samples/bypass/) is the example used above,
+- [`drop`](./samples/drop/) shows the usage of almost every blocks,
+- [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory.
+
+
 ## Blocks
 
 ### Audio Signals
 
-- [`audio-in-daisy`](./blocks/audio-in-daisy/documentation/) is an audio input block,
-- [`audio-out-daisy`](./blocks/audio-out-daisy/documentation/) is an audio output block.
+- [`AudioIn`](./documentation/controls/AudioIn.md) represents an audio input block,
+- [`AudioOut`](./documentation/controls/AudioOut.md) represents an audio output block.
 
 ### Control Voltages
 
-- [`cv-in`](./blocks/cv-in/documentation/) is a CV input block.
+- [`CvIn`](./documentation/controls/CvIn.md) represents a CV input block,
+- [`CvOut`](./documentation/controls/CvOut.md) represents a CV output block.
 
 ### Trigger, Gate and Clock Signals
 
-- [`gate-in`](./blocks/gate-in/documentation/) is a gate input block,
-- [`gate-out`](./blocks/gate-out/) is a gate output block.
+- [`GateIn`](./documentation/controls/GateIn.md) represents a gate input block,
+- [`GateOut`](./documentation/controls/GateOut.md) represents a gate output block.
 
-### HID
+### Human Interface Devices
 
-- [`button`](./blocks/button/documentation/) is a trigger button,
-- [`led`](./blocks/led/documentation/) is a monochromatic LED,
-- [`led-bi`](./blocks/led-bi/documentation/) is a dichromatic LED,
-- [`led-rgb`](./blocks/led-rgb/documentation/) is a RGB LED,
-- [`pot`](./blocks/pot/documentation/) is a potentiometer block,
-- [`slider`](./blocks/slider/) is a slider potentiometer block,
-- [`switch`](./blocks/switch/documentation/) is a 2 or 3 positions toggle switch,
-- [`trim`](./blocks/trim/documentation/) is a trim potentiometer block.
-
-### Utility
-
-- [`multiplexer`](./blocks/multiplexer/documentation/) is a signal multiplexer block.
+- [`Button`](./documentation/controls/Button.md) represents a switch button,
+- [`Led`](./documentation/controls/Led.md) represents a monochromatic LED,
+- [`LedBi`](./documentation/controls/LedBi.md) represents a dichromatic LED,
+- [`LedRgb`](./documentation/controls/LedRgb.md) represents a RGB LED,
+- [`Pot`](./documentation/controls/Pot.md) represents a potentiometer block,
+- [`Switch`](./documentation/controls/Switch.md) represents a 2 or 3 positions toggle switch,
+- [`Trim`](./documentation/controls/Trim.md) represents a trim potentiometer block.
 
 
 ## Setting up
@@ -147,27 +149,20 @@ This repository contains submodules:
     git submodule update --init --recursive
 
 
-## Sample Projects
-
-Sample projects are a good place to start learning:
-
-- [`bypass`](./samples/bypass/) is the example used above,
-- [`drop`](./samples/drop/) shows the usage of almost every blocks,
-- [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory.
-
-
 ## Structure
 
 ```
 eurorack-blocks/
    blocks/
+   boards/
    build-system/
    include/
    src/
    submodules/
 ```
 
-- [`blocks`](./blocks/) contains all the atomic blocks hardware for design validation, software tests and documentation,
+- [`blocks`](./blocks/) contains all the atomic blocks hardware for design validation and software tests,
+- [`boards`](./blocks/) contains all the boards hardware to design with,
 - [`build-system`](./build-system/) contains the build system used to build and deploy
    the tests and samples,
 - [`include`](./include/) contains the software implementation of the blocks,
@@ -177,7 +172,7 @@ eurorack-blocks/
 
 ## License
 
-All files in this repository are provided with the CC BY-SA 4.0 license, **except**:
+All files in this repository, excluding `submodules/`, are provided with the CC BY-SA 4.0 license, **except**:
 
 - The [D-DIN Font](./include/erb/vcvrack/design/d-din),
    under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
