@@ -88,13 +88,6 @@
       },
 
       {
-         'target_name': 'multiplexer',
-         'type': 'executable',
-         'dependencies': [ 'erb-daisy' ],
-         'sources': [ 'multiplexer.cpp' ],
-      },
-
-      {
          'target_name': 'pot',
          'type': 'executable',
          'dependencies': [ 'erb-daisy' ],

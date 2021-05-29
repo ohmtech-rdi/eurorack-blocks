@@ -10,12 +10,14 @@
 import os
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 
 
 class Code:
    def __init__ (self):
-      pass
+      self._board_definition = {}
 
 
    #--------------------------------------------------------------------------
@@ -34,7 +36,11 @@ class Code:
       with open (path_template, 'r') as file:
          template = file.read ()
 
+      self._board_definition = self.load_board_definition (module)
+      board_class = self._board_definition ['class']
+
       template = template.replace ('%module.name%', module.name)
+      template = template.replace ('%type(module.board)%', board_class)
 
       entities_content = self.generate_entities (module.entities)
       template = template.replace ('%entities%', entities_content)
@@ -51,8 +57,6 @@ class Code:
       for entity in entities:
          if entity.is_control:
             content += self.generate_control (entity)
-         elif entity.is_multiplexer:
-            content += self.generate_multiplexer (entity)
 
       for entity in entities:
          if entity.is_alias:
@@ -65,34 +69,62 @@ class Code:
 
    def generate_control (self, control):
 
-      source_code = '   erb::%s %s { module' % (control.kind, control.name)
+      if control.kind in ['Pot', 'Trim', 'CvIn', 'CvOut']:
+         if control.mode is None:
+            if control.kind in ['Pot', 'Trim']:
+               control_type = '%s <erb::FloatRange::Normalized>' % control.kind
+            elif control.kind in ['CvIn', 'CvOut']:
+               control_type = '%s <erb::FloatRange::Bipolar>' % control.kind
+
+         elif control.mode.is_normalized:
+            control_type = '%s <erb::FloatRange::Normalized>' % control.kind
+
+         elif control.mode.is_bipolar:
+            control_type = '%s <erb::FloatRange::Bipolar>' % control.kind
+
+      elif control.kind in ['Led', 'LedBi', 'LedRgb']:
+         if control.kind == 'Led':
+            pin_name = control.pin.name
+         else:
+            pin_name = control.pins.names [0]
+
+         pin_type = self._board_definition ['pins'][pin_name]['type']
+         if pin_type == 'gpio':
+            control_type = '%s <erb::PinType::Gpio>' % control.kind
+         elif pin_type == 'pwm':
+            control_type = '%s <erb::PinType::Pwm>' % control.kind
+
+      elif control.kind in ['Switch']:
+         if control.style.is_dailywell_2ms1:
+            control_type = '%s <2>' % control.kind
+         elif control.style.is_dailywell_2ms3:
+            control_type = '%s <3>' % control.kind
+
+      else:
+         control_type = control.kind
+
+      def pin_name (name):
+         pin_desc = self._board_definition ['pins'][name]
+         if control.is_input:
+            if 'bind.input' in pin_desc:
+               return pin_desc ['bind.input']
+            else:
+               return pin_desc ['bind']
+         else:
+            if 'bind.output' in pin_desc:
+               return pin_desc ['bind.output']
+            else:
+               return pin_desc ['bind']
 
       if control.is_pin_single:
-         source_code += ', erb::' + control.pin.name
+         args =  'board.%s' % pin_name (control.pin.name)
       elif control.is_pin_multiple:
-         source_code += ', erb::' + ', erb::'.join (control.pins.names)
+         args = ', '.join (map (lambda name: 'board.%s' % pin_name (name), control.pins.names))
 
-      if control.kind == 'Pot' or control.kind == 'Trim':
-         if control.mode is None or control.mode.is_normalized:
-            source_code += ', erb::%s::Mode::Normalized' % control.kind
-         elif control.mode.is_bipolar:
-            source_code += ', erb::%s::Mode::Bipolar' % control.kind
+      if control.kind == 'GateOut' or control.kind.startswith ('Led'):
+         args += ', board.clock ()'
 
-      source_code += ' };\n'
-
-      return source_code
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_multiplexer (self, multiplexer):
-
-      source_code = '   erb::Multiplexer %s { module' % multiplexer.name
-      source_code += ', erb::' + ', erb::'.join (multiplexer.pins.names)
-      source_code += ' };\n'
-
-      for control in multiplexer.controls:
-         source_code += self.generate_control (control)
+      source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 
       return source_code
 
@@ -101,6 +133,29 @@ class Code:
 
    def generate_alias (self, alias):
 
-      source_code = '   erb::%s & %s { %s };\n' % (alias.reference.kind, alias.name, alias.reference.name)
+      source_code = '   decltype (%s) & %s { %s };\n' % (alias.reference.name, alias.name, alias.reference.name)
 
       return source_code
+
+
+   #--------------------------------------------------------------------------
+
+   def load_board_definition (self, module):
+
+      module_board = 'daisy_seed' if module.board is None else module.board.name
+
+      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
+
+      try:
+         file = open (path_definition, 'r')
+      except OSError:
+         err = error.Error ()
+         context = module.board.source_context
+         err.add_error ("Undefined board '%s'" % context, context)
+         err.add_context (context)
+         raise err
+
+      with file:
+         board_definition = eval (file.read ())
+
+      return board_definition

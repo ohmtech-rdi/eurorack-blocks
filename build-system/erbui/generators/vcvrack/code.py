@@ -36,11 +36,10 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
-      controls_content = self.generate_controls (module.entities)
-      template = template.replace ('%controls%', controls_content)
-
-      controls_config = self.generate_controls_config (module.entities)
-      template = template.replace ('%controls_config%', controls_config)
+      template = self.replace_config_controls_bind (template, module.entities);
+      template = self.replace_controls_preprocess (template, module.entities);
+      template = self.replace_controls_postprocess (template, module.entities);
+      template = self.replace_controls_widget (template, module.entities);
 
       with open (path_cpp, 'w') as file:
          file.write (template)
@@ -48,71 +47,137 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_controls_config (self, entities):
-      content = ''
+   def replace_config_controls_bind (self, template, entities):
+      nbr_params = 0
+      nbr_inputs = 0
+      nbr_outputs = 0
+      nbr_lights = 0
+
+      controls_bind_config = ''
 
       for entity in entities:
          if entity.is_control:
-            content += self.generate_control_config (entity)
-         elif entity.is_multiplexer:
-            for control in entity.controls:
-               content += self.generate_control_config (control)
+            control = entity
+            category = self.control_kind_to_vcv_category (control)
 
-      return content
+            if category == 'Param':
+               if control.mode is not None and control.mode.is_bipolar:
+                  min_val = -1
+               else:
+                  min_val = 0
+
+               max_val = 2 if control.style.is_dailywell_2ms3 else 1
+
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
+               controls_bind_config += '   configParam (%d, %f, %f, 0.f);\n\n' % (nbr_params, min_val, max_val)
+               nbr_params += 1
+
+            elif category == 'Input':
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
+               nbr_inputs += 1
+
+            elif category == 'Output':
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
+               nbr_outputs += 1
+
+            elif category == 'Light':
+               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
+               nbr_lights += control.nbr_pins
+
+      template = template.replace ('%module.nbr_params%', str (nbr_params))
+      template = template.replace ('%module.nbr_inputs%', str (nbr_inputs))
+      template = template.replace ('%module.nbr_outputs%', str (nbr_outputs))
+      template = template.replace ('%module.nbr_lights%', str (nbr_lights))
+
+      template = template.replace ('%  module.controls.bind+config%', controls_bind_config)
+
+      return template
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control_config (self, control):
-      source_code = ''
-
-      if control.style.is_dailywell_2ms3:
-         source_code = '      if (i == module.ui.%s.index ()) { max_value = 2.f; }\n' % control.name
-
-      return source_code
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_controls (self, entities):
-      content = ''
+   def replace_controls_preprocess (self, template, entities):
+      lines = ''
 
       for entity in entities:
          if entity.is_control:
-            content += self.generate_control (entity)
-         elif entity.is_multiplexer:
-            for control in entity.controls:
-               content += self.generate_control (control)
+            lines += '      module.ui.%s.impl_preprocess ();\n' % entity.name
 
-      return content
+      return template.replace ('%     controls_preprocess%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control (self, control):
+   def replace_controls_postprocess (self, template, entities):
+      lines = ''
 
-      type_func_category_map = {
+      for entity in entities:
+         if entity.is_control:
+            lines += '      module.ui.%s.impl_postprocess ();\n' % entity.name
+
+      return template.replace ('%     controls_postprocess%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_controls_widget (self, template, entities):
+      lines = ''
+      nbr_params = 0
+      nbr_inputs = 0
+      nbr_outputs = 0
+      nbr_lights = 0
+
+      for entity in entities:
+         if entity.is_control:
+            control = entity
+            category = self.control_kind_to_vcv_category (control)
+
+            func_category = category
+            if func_category == 'Light':
+               func_category = 'Child'
+
+            widget = self.control_style_to_widget (control)
+
+            if control.style.is_dailywell_2ms:
+               if control.rotation is None:
+                  rotation = 0
+               else:
+                  rotation = control.rotation.degree_top_down % 360
+               widget += ' <%d>' % rotation
+
+            if category == 'Param':
+               index = nbr_params
+               nbr_params += 1
+
+            elif category == 'Input':
+               index = nbr_inputs
+               nbr_inputs += 1
+
+            elif category == 'Output':
+               index = nbr_outputs
+               nbr_outputs += 1
+
+            elif category == 'Light':
+               index = nbr_lights
+               nbr_lights += 1
+
+            lines += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, %d));\n' % (
+               func_category, category, widget, control.position.x.mm, control.position.y.mm, index
+            )
+            lines += '\n'
+
+      return template.replace ('%  controls_widget%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def control_kind_to_vcv_category (self, control):
+      kind_category_map = {
          'AudioIn': 'Input',
          'AudioOut': 'Output',
          'Button': 'Param',
          'CvIn': 'Input',
-         'GateIn': 'Input',
-         'GateOut': 'Output',
-         'Led': 'Child',
-         'LedBi': 'Child',
-         'LedRgb': 'Child',
-         'Pot': 'Param',
-         'Switch': 'Param',
-         'Trim': 'Param',
-      }
-
-      func_category = type_func_category_map [control.kind]
-
-      type_category_map = {
-         'AudioIn': 'Input',
-         'AudioOut': 'Output',
-         'Button': 'Param',
-         'CvIn': 'Input',
+         'CvOut': 'Output',
          'GateIn': 'Input',
          'GateOut': 'Output',
          'Led': 'Light',
@@ -123,8 +188,12 @@ class Code:
          'Trim': 'Param',
       }
 
-      category = type_category_map [control.kind]
+      return kind_category_map [control.kind]
 
+
+   #--------------------------------------------------------------------------
+
+   def control_style_to_widget (self, control):
       style_widget_map = {
          'rogan.6ps': 'erb::Rogan6Ps',
          'rogan.5ps': 'erb::Rogan5Ps',
@@ -146,27 +215,6 @@ class Code:
          'tl1105': 'TL1105',
       }
 
-      widget = style_widget_map [control.style.name]
-
-      if control.style.is_dailywell_2ms:
-         if control.rotation is None:
-            rotation = 0
-         else:
-            rotation = control.rotation.degree_top_down % 360
-         widget += ' <%d>' % rotation
-
-      source_code = ''
-      source_code += '   // Type mismatch between module and gui code\n'
-      source_code += '   static_assert (std::is_same <decltype (module_->module.ui.%s), erb::%s>::value, "");\n' % (
-         control.name, control.kind
-      )
-      source_code += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, module_->module.ui.%s.index ()));\n' % (
-         func_category, category, widget, control.position.x.mm, control.position.y.mm, control.name
-      )
-      if control.style.is_dailywell_2ms3:
-         source_code += '   module_->module.ui.%s.set_3_position ();\n' % control.name
-      source_code += '\n'
-
-      return source_code
+      return style_widget_map [control.style.name]
 
 

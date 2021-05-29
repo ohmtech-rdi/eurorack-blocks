@@ -25,11 +25,11 @@ int main ()
 {
    using namespace erb;
 
-   Module module;
+   BoardDaisySeed board;
 
-   LedRgb led (module, Pin19, Pin20, Pin21);
+   LedRgb <PinType::Gpio> led { board.gpo (19), board.gpo (20), board.gpo (21), board.clock () };
 
-   led.blink (LedRgb::Color::blue ());
+   led.blink (ColorRgb::blue ());
 
-   module.run ([&](){});
+   board.run ([&](){});
 }

@@ -25,18 +25,19 @@ int main ()
 {
    using namespace erb;
 
-   Module module;
-   AudioIn audio_in0 (module, AudioInPin0);
-   AudioIn audio_in1 (module, AudioInPin1);
-   AudioOut audio_out0 (module, AudioOutPin0);
-   AudioOut audio_out1 (module, AudioOutPin1);
+   BoardDaisySeed board;
+
+   AudioIn audio_in0 { board.audioin (0) };
+   AudioIn audio_in1 { board.audioin (1) };
+   AudioOut audio_out0 { board.audioout (0) };
+   AudioOut audio_out1 { board.audioout (1) };
 
    // Pin is the same as the GATE OUT on Daisy Patch
-   GateOut gate_out (module, Pin17);
+   GateOut gate_out { board.gpo (17), board.clock () };
 
    uint32_t phase = 0;
 
-   module.run ([&](){
+   board.run ([&](){
       audio_out0 = audio_in0;
       audio_out1 = audio_in1;
 

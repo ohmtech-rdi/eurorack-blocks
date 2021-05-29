@@ -25,15 +25,16 @@ int main ()
 {
    using namespace erb;
 
-   Module module;
-   AudioOut audio_out0 (module, AudioOutPin0);
-   AudioOut audio_out1 (module, AudioOutPin1);
+   BoardDaisySeed board;
+
+   AudioOut audio_out0 { board.audioout (0) };
+   AudioOut audio_out1 { board.audioout (1) };
 
    // Pins are the same as the GATE IN 1/2 on Daisy Patch
-   GateIn gate_in_1 (module, Pin20);
-   GateIn gate_in_2 (module, Pin19);
+   GateIn gate_in_1 { board.gpi (20) };
+   GateIn gate_in_2 { board.gpi (19) };
 
-   module.run ([&](){
+   board.run ([&](){
       auto out_val = (gate_in_1.triggered () || gate_in_2) ? 1.f : 0.f;
 
       audio_out0.fill (out_val);

@@ -98,49 +98,16 @@ ErbModule::ErbModule ()
    // for the Daisy target.
 
    config (
-      module.ui.module.nbr_params (),
-      module.ui.module.nbr_inputs (),
-      module.ui.module.nbr_outputs (),
-      module.ui.module.nbr_lights ()
+      /* nbr_params  */ %module.nbr_params%,
+      /* nbr_inputs  */ %module.nbr_inputs%,
+      /* nbr_outputs */ %module.nbr_outputs%,
+      /* nbr_lights  */ %module.nbr_lights%
    );
 
    // bind
 
-   for (size_t i = 0 ; i < module.ui.module.nbr_params () ; ++i)
-   {
-      module.ui.module.impl_bind (i, params [i]);
-   }
-
-   for (size_t i = 0 ; i < module.ui.module.nbr_inputs () ; ++i)
-   {
-      module.ui.module.impl_bind (i, inputs [i]);
-   }
-
-   for (size_t i = 0 ; i < module.ui.module.nbr_outputs () ; ++i)
-   {
-      module.ui.module.impl_bind (i, outputs [i]);
-   }
-
-   for (size_t i = 0 ; i < module.ui.module.nbr_lights () ; ++i)
-   {
-      module.ui.module.impl_bind (i, lights [i]);
-   }
-
-   // configure params values
-
-   for (size_t i = 0 ; i < module.ui.module.nbr_params () ; ++i)
-   {
-      float max_value = 1.f;
-
-%controls_config%
-      configParam (int (i), 0.f, max_value, 0.f);
-   }
-
+%  module.controls.bind+config%
    erb::module_init (module);
-
-   module.ui.module.bind_process ([&](){
-      module.process ();
-   });
 }
 
 
@@ -153,7 +120,22 @@ Name : ErbModule::process
 
 void  ErbModule::process (const ProcessArgs & /* args */)
 {
-   module.ui.module.impl_process ();
+   bool process_flag = module.ui.board.impl_need_process ();
+
+   module.ui.board.impl_pull_audio_inputs ();
+
+   if (process_flag)
+   {
+      module.ui.board.impl_preprocess ();
+
+%     controls_preprocess%
+      module.process ();
+
+%     controls_postprocess%
+      module.ui.board.impl_postprocess ();
+   }
+
+   module.ui.board.impl_push_audio_outputs ();
 }
 
 
@@ -183,20 +165,9 @@ ErbWidget::ErbWidget (ErbModule * module_)
    addChild (createWidget <ScrewSilver> (Vec (RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
    addChild (createWidget <ScrewSilver> (Vec (box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-   // VcvRack is expecting static enumeration of parameters, etc.
-   // But since we deduce them dynamically, we are just going to ignore
-   // this.
-   // In practice, when the module is loaded through the module browser
-   // the constructor is called with a `nullptr` module.
-   // We just skip this, so that the plug-in appears with only its
-   // back panel.
-   // This is probably fine for prototyping.
-
-   if (module == nullptr) return;
-
    // controls
 
-%controls%
+%  controls_widget%
 }
 
 

@@ -14,11 +14,11 @@ KEYWORDS = (
    'module', 'board', 'width', 'material', 'header', 'footer', 'line',
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
-   'center', 'left', 'top', 'right', 'bottom',
+   'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
 )
-UNITS = ('mm', 'cm', 'hp', '°CCW', '°CW')
-CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
+UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
+CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
 CONTROL_STYLES = (
    'rogan.6ps', 'rogan.5ps', 'rogan.3ps', 'rogan.2ps', 'rogan.1ps',
    'songhuei.9mm',
@@ -104,12 +104,6 @@ def control_kind ():                   return list (CONTROL_KINDS)
 def control_name ():                   return name
 def control_declaration ():            return 'control', control_name, control_kind, control_body
 
-# Multiplexer
-def multiplexer_entities ():           return ZeroOrMore ([control_declaration, pins_declaration])
-def multiplexer_body ():               return '{', multiplexer_entities, '}'
-def multiplexer_name ():               return name
-def multiplexer_declaration ():        return 'multiplexer', multiplexer_name, multiplexer_body
-
 # Footer
 def footer_entities ():                return ZeroOrMore ([label_declaration, image_declaration])
 def footer_body ():                    return '{', footer_entities, '}'
@@ -133,7 +127,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, multiplexer_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name

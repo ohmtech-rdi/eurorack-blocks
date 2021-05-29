@@ -10,68 +10,96 @@
 {
    'targets' : [
       {
+         'target_name': 'erb',
+         'type': 'static_library',
+
+         'defines': [
+            'erb_BUFFER_SIZE=48',
+            'erb_SAMPLE_RATE=48014',
+         ],
+
+         'all_dependent_settings': {
+            'defines': [
+               'erb_BUFFER_SIZE=48',
+               'erb_SAMPLE_RATE=48014',
+            ],
+         },
+
+         'sources': [
+            'AudioIn.h',
+            'AudioIn.hpp',
+            'AudioOut.h',
+            'AudioOut.hpp',
+            'Buffer.h',
+            'Button.h',
+            'Button.hpp',
+            'CvIn.h',
+            'CvIn.hpp',
+            'CvOut.h',
+            'CvOut.hpp',
+            'FloatRange.h',
+            'GateIn.h',
+            'GateIn.hpp',
+            'GateOut.h',
+            'Led.h',
+            'Led.hpp',
+            'LedBi.h',
+            'LedBi.hpp',
+            'LedRgb.h',
+            'LedRgb.hpp',
+            'PinType.h',
+            'Pot.h',
+            'Pot.hpp',
+            'SdramObject.h',
+            'SdramObject.hpp',
+            'Switch.h',
+            'Switch.hpp',
+            'def.h',
+            'erb.h',
+            'module_init.h',
+
+            'detail/Animation.h',
+            'detail/Animation.hpp',
+            'detail/Clock.h',
+            'detail/Clock.hpp',
+            'detail/Debounce.h',
+            'detail/DoubleBuffer.h',
+            'detail/DoubleBuffer.hpp',
+            'detail/GateGenerator.h',
+            'detail/GateGenerator.hpp',
+            'detail/fnc.h',
+            'detail/fnc.hpp',
+
+            '../../src/Button.cpp',
+            '../../src/GateOut.cpp',
+
+            '../../src/detail/Animation.cpp',
+            '../../src/detail/Debounce.cpp',
+         ],
+
+         'include_dirs': [
+            '..',
+         ],
+      },
+
+      {
          'target_name': 'erb-daisy',
          'type': 'static_library',
 
-         'dependencies': [ 'libdaisy' ],
+         'dependencies': [ 'erb', 'libdaisy' ],
 
          'defines': [
             'erb_TARGET_DAISY',
          ],
 
          'sources': [
-            # headers
-            'SdramObject.h',
-            'SdramObject.hpp',
-            'def.h',
-            'erb.h',
-            'module_init.h',
+            'daisy/BoardDaisySeed.h',
+            'daisy/BoardDaisySeed.hpp',
+            'daisy/SubmoduleDaisySeed.h',
+            'daisy/SubmoduleDaisySeed.hpp',
 
-            'daisy/DaisyAdcChannels.h',
-            'daisy/DaisyAnalogControlBase.h',
-            'daisy/DaisyAudioIn.h',
-            'daisy/DaisyAudioOut.h',
-            'daisy/DaisyButton.h',
-            'daisy/DaisyConstants.h',
-            'daisy/DaisyCvIn.h',
-            'daisy/DaisyGateIn.h',
-            'daisy/DaisyGateOut.h',
-            'daisy/DaisyLed.h',
-            'daisy/DaisyLedBi.h',
-            'daisy/DaisyLedRgb.h',
-            'daisy/DaisyModule.h',
-            'daisy/DaisyModule.hpp',
-            'daisy/DaisyModuleListener.h',
-            'daisy/DaisyModuleListeners.h',
-            'daisy/DaisyMultiplexer.h',
-            'daisy/DaisyPins.h',
-            'daisy/DaisyPot.h',
-            'daisy/DaisySwitch.h',
-
-            'detail/Animation.h',
-            'detail/Animation.hpp',
-            'detail/Debounce.h',
-
-            # sources
-            '../../src/daisy/DaisyAdcChannels.cpp',
-            '../../src/daisy/DaisyAnalogControlBase.cpp',
-            '../../src/daisy/DaisyAudioIn.cpp',
-            '../../src/daisy/DaisyAudioOut.cpp',
-            '../../src/daisy/DaisyButton.cpp',
-            '../../src/daisy/DaisyCvIn.cpp',
-            '../../src/daisy/DaisyGateIn.cpp',
-            '../../src/daisy/DaisyGateOut.cpp',
-            '../../src/daisy/DaisyLed.cpp',
-            '../../src/daisy/DaisyLedBi.cpp',
-            '../../src/daisy/DaisyLedRgb.cpp',
-            '../../src/daisy/DaisyModule.cpp',
-            '../../src/daisy/DaisyModuleListeners.cpp',
-            '../../src/daisy/DaisyMultiplexer.cpp',
-            '../../src/daisy/DaisyPot.cpp',
-            '../../src/daisy/DaisySwitch.cpp',
-
-            '../../src/detail/Animation.cpp',
-            '../../src/detail/Debounce.cpp',
+            '../../src/daisy/BoardDaisySeed.cpp',
+            '../../src/daisy/SubmoduleDaisySeed.cpp',
          ],
 
          'include_dirs': [
@@ -100,68 +128,21 @@
          'target_name': 'erb-vcvrack',
          'type': 'static_library',
 
+         'dependencies': [ 'erb' ],
+
          'defines': [
             'erb_TARGET_VCV_RACK',
          ],
 
          'sources': [
             # headers
-            'SdramObject.h',
-            'SdramObject.hpp',
-            'def.h',
-            'erb.h',
-            'module_init.h',
-
-            'vcvrack/VcvAudioIn.h',
-            'vcvrack/VcvAudioOut.h',
-            'vcvrack/VcvButton.h',
-            'vcvrack/VcvConstants.h',
-            'vcvrack/VcvCvIn.h',
-            'vcvrack/VcvGateIn.h',
-            'vcvrack/VcvGateOut.h',
-            'vcvrack/VcvInputBase.h',
-            'vcvrack/VcvLed.h',
-            'vcvrack/VcvLedBi.h',
-            'vcvrack/VcvLedRgb.h',
-            'vcvrack/VcvLightBase.h',
-            'vcvrack/VcvModule.h',
-            'vcvrack/VcvModule.hpp',
-            'vcvrack/VcvModuleListener.h',
-            'vcvrack/VcvModuleListeners.h',
-            'vcvrack/VcvMultiplexer.h',
-            'vcvrack/VcvOutputBase.h',
-            'vcvrack/VcvParamBase.h',
-            'vcvrack/VcvPins.h',
-            'vcvrack/VcvPot.h',
-            'vcvrack/VcvSwitch.h',
+            'vcvrack/BoardDaisySeed.h',
+            'vcvrack/BoardGeneric.h',
+            'vcvrack/BoardGeneric.hpp',
             'vcvrack/VcvWidgets.h',
 
-            'detail/Animation.h',
-            'detail/Animation.hpp',
-            'detail/Debounce.h',
-
             # sources
-            '../../src/vcvrack/VcvAudioIn.cpp',
-            '../../src/vcvrack/VcvAudioOut.cpp',
-            '../../src/vcvrack/VcvButton.cpp',
-            '../../src/vcvrack/VcvCvIn.cpp',
-            '../../src/vcvrack/VcvGateIn.cpp',
-            '../../src/vcvrack/VcvGateOut.cpp',
-            '../../src/vcvrack/VcvInputBase.cpp',
-            '../../src/vcvrack/VcvLed.cpp',
-            '../../src/vcvrack/VcvLedBi.cpp',
-            '../../src/vcvrack/VcvLedRgb.cpp',
-            '../../src/vcvrack/VcvLightBase.cpp',
-            '../../src/vcvrack/VcvModule.cpp',
-            '../../src/vcvrack/VcvModuleListeners.cpp',
-            '../../src/vcvrack/VcvMultiplexer.cpp',
-            '../../src/vcvrack/VcvOutputBase.cpp',
-            '../../src/vcvrack/VcvParamBase.cpp',
-            '../../src/vcvrack/VcvPot.cpp',
-            '../../src/vcvrack/VcvSwitch.cpp',
-
-            '../../src/detail/Animation.cpp',
-            '../../src/detail/Debounce.cpp',
+            '../../src/vcvrack/BoardGeneric.cpp',
          ],
 
          'xcode_settings':

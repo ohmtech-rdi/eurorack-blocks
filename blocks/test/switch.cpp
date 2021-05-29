@@ -27,20 +27,21 @@ int main ()
 {
    using namespace erb;
 
-   Module module;
-   AudioOut audio_out0 (module, AudioOutPin0);
-   AudioOut audio_out1 (module, AudioOutPin1);
-   Switch switch_ (module, Pin19, Pin20);
+   BoardDaisySeed board;
+
+   AudioOut audio_out0 { board.audioout (0) };
+   AudioOut audio_out1 { board.audioout (1) };
+   Switch <3> switch_ { board.gpi (19), board.gpi (20) };
 
    constexpr float pim2 = 2.f * float (M_PI);
-   constexpr float phase_step = pim2 * 440.f / erb::sample_rate;
+   constexpr float phase_step = pim2 * 440.f / erb_SAMPLE_RATE;
    const float step_cos = std::cos (phase_step);
    const float step_sin = std::sin (phase_step);
 
    float pos_cos = 1.f;
    float pos_sin = 0.f;
 
-   module.run ([&](){
+   board.run ([&](){
       for (size_t i = 0 ; i < audio_out0.size () ; ++i)
       {
          const float old_cos = pos_cos;
@@ -52,15 +53,15 @@ int main ()
 
          switch (switch_)
          {
-         case Switch::Position::Out0:
+         case SwitchPosition::First:
             out_val = pos_sin;
             break;
 
-         case Switch::Position::Center:
+         case SwitchPosition::Center:
             out_val = 0.f;
             break;
 
-         case Switch::Position::Out1:
+         case SwitchPosition::Last:
             out_val = (pos_sin > 0.f) ? 1.f : -1.f;
             break;
          }

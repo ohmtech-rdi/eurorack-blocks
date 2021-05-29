@@ -36,7 +36,7 @@ void  Drop::process ()
    }
 
    auto mode
-      = (ui.mute_hp == erb::Switch::Position::Out1)
+      = ui.mute_hp.position_last ()
       ? DropDsp::Mode::Mute
       : DropDsp::Mode::HighPass;
 
@@ -75,9 +75,9 @@ void  Drop::process ()
       switch (state)
       {
       case DropDsp::State::None:   ui.state_led.off (); break;
-      case DropDsp::State::Off:    ui.state_led.on (erb::LedBi::Color::green ()); break;
-      case DropDsp::State::Armed:  ui.state_led.blink (erb::LedBi::Color::yellow ()); break;
-      case DropDsp::State::Active: ui.state_led.on (erb::LedBi::Color::red ()); break;
+      case DropDsp::State::Off:    ui.state_led.on (erb::ColorBi::green ()); break;
+      case DropDsp::State::Armed:  ui.state_led.blink (erb::ColorBi::yellow ()); break;
+      case DropDsp::State::Active: ui.state_led.on (erb::ColorBi::red ()); break;
       }
    }
 }

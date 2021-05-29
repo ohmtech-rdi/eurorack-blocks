@@ -12,17 +12,17 @@ module Bypass {
    material aluminum black
    header { label "BYPASS" }
 
-   control audio_in AudioInDaisy {
+   control audio_in AudioIn {
       position 4hp, 40mm
       style thonk.pj398sm.knurled
       label "IN"
-      pin AudioInDaisyPin0
+      pin AudioInPin0
    }
 
-   control audio_out AudioOutDaisy {
+   control audio_out AudioOut {
       position 4hp, 80mm
       style thonk.pj398sm.knurled
       label "OUT"
-      pin AudioOutDaisyPin0
+      pin AudioOutPin0
    }
 }

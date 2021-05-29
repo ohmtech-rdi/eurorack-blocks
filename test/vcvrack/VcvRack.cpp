@@ -28,8 +28,8 @@ void  VcvRack::init ()
    ui.led_3mm_red.blink ();
    ui.led_3mm_green.blink (1.f, 2s, erb::linear);
    ui.led_3mm_yellow.blink (1.f, 2s, erb::ease_in_out);
-   ui.led_3mm_green_red.blink (erb::LedBi::Color::yellow ());
-   ui.led_3mm_rgb.blink (erb::LedRgb::Color::blue ());
+   ui.led_3mm_green_red.blink (erb::ColorBi::yellow ());
+   ui.led_3mm_rgb.blink (erb::ColorRgb::blue ());
 }
 
 
