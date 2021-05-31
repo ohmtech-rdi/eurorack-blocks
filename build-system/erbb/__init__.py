@@ -220,6 +220,20 @@ Name : deploy
 """
 
 def deploy (name, path):
+   if shutil.which ('openocd') is not None:
+      deploy_openocd (name, path)
+   else:
+      deploy_dfu_util (name, path)
+
+
+
+"""
+==============================================================================
+Name : deploy_dfu_util
+==============================================================================
+"""
+
+def deploy_dfu_util (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
    file_bin = os.path.join (path_artifacts, 'out', 'Release', '%s.bin' % name)
 
@@ -240,6 +254,33 @@ def deploy (name, path):
       '-s', '0x08000000:leave',
       '-D', file_bin,
       '-d', '0483:df11',
+   ]
+
+   subprocess.check_call (cmd)
+
+   print ('OK.')
+
+
+
+"""
+==============================================================================
+Name : deploy_openocd
+==============================================================================
+"""
+
+def deploy_openocd (name, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+   file_elf = os.path.join (path_artifacts, 'out', 'Release', '%s' % name)
+
+   if not os.path.exists (file_elf):
+      sys.exit ('Unknown target %s' % name)
+
+   cmd = [
+      'openocd',
+      '--search', '/usr/local/share/openocd/scripts',
+      '--file', 'interface/stlink.cfg',
+      '--file', 'target/stm32h7x.cfg',
+      '--command', 'program %s verify reset exit' % file_elf
    ]
 
    subprocess.check_call (cmd)
