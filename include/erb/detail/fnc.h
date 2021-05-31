@@ -34,6 +34,7 @@ void              scale (float ** out, const std::array <Buffer, NbrChannels> & 
 inline void       scale (Buffer & out, const float * in, float gain);
 inline void       scale (float * out, const Buffer & in, float gain);
 
+inline uint16_t   norm_to_u12 (float norm_val);
 inline uint16_t   norm_to_u16 (float norm_val);
 inline float      to_float_norm (uint16_t val);
 
