@@ -7,6 +7,7 @@
 
 
 
+import os
 from .arpeggio import PTNodeVisitor
 from . import ast
 from . import adapter
@@ -19,6 +20,10 @@ class Visitor (PTNodeVisitor):
    def __init__ (self, parser, **kwargs):
       super (Visitor, self).__init__ (defaults=True, **kwargs)
       self.parser = parser
+      self.filename = None
+
+   def set_filename (self, filename):
+      self.filename = filename
 
    def to_identifier (self, node):
       return adapter.Identifier (self.parser, node)
@@ -173,6 +178,18 @@ class Visitor (PTNodeVisitor):
 
    def visit_footer_entities (self, node, children):
       return list (children)
+
+
+   #-- Image -----------------------------------------------------------------
+
+   def visit_image_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      dir_name = os.path.dirname (self.filename)
+      image_path = os.path.join (dir_name, string_literal.value)
+      image_path_str = str (image_path)
+      image = ast.Image (image_path_str)
+
+      return image
 
 
    #-- Label -----------------------------------------------------------------
