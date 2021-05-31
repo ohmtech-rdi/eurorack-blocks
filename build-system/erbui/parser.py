@@ -28,7 +28,7 @@ class Parser:
 
    def parse (self, input_text, file_name):
       parse_tree = self._get_parse_tree (input_text, file_name)
-      ast = self._get_ast (parse_tree)
+      ast = self._get_ast (parse_tree, file_name)
 
       for module in ast.modules:
          self._merge_super (module)
@@ -56,7 +56,7 @@ class Parser:
       file_name = os.path.basename (path_layout)
 
       parse_tree = self._get_parse_tree (input_text, file_name)
-      ast = self._get_ast (parse_tree)
+      ast = self._get_ast (parse_tree, path_layout)
       module.entities.extend (ast.modules [0].entities)
 
    def _get_parse_tree (self, input_text, file_name):
@@ -66,8 +66,9 @@ class Parser:
       except NoMatch as err:
          raise ParseError (err)
 
-   def _get_ast (self, parse_tree):
+   def _get_ast (self, parse_tree, file_name):
       visitor = Visitor (self._parser)
+      visitor.set_filename (file_name)
       ast = visit_parse_tree (parse_tree, visitor)
       return ast
 

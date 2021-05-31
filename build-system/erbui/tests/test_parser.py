@@ -18,7 +18,7 @@ class TestParser (unittest.TestCase):
    def parse (self, source, grammar_root = grammar.GRAMMAR_ROOT):
       p = parser.Parser (grammar_root)
       parse_tree = p._get_parse_tree (source, 'test')
-      ast = p._get_ast (parse_tree)
+      ast = p._get_ast (parse_tree, 'test')
       return ast
 
    def test_module_001 (self):
