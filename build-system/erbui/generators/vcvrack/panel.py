@@ -47,18 +47,33 @@ class Panel:
 
 
    #--------------------------------------------------------------------------
-   # VCV Rack doesn't interpret properly rgb:() color style.
+   # VCV Rack doesn't interpret properly rgb() color style.
    # Post-process the file to solve that problem.
 
    def post_process (self, path_svg_pp, path_svg):
       with open (path_svg_pp, 'r') as file_pp:
          with open (path_svg, 'w') as file:
             for line in file_pp:
-               # Good enough for now
-               line = line.replace ('rgb(100%,100%,100%)', '#ffffff')
-               line = line.replace ('rgb(90%,90%,90%)', '#e6e6e6')
-               line = line.replace ('rgb(30%,30%,30%)', '#4d4d4d')
-               line = line.replace ('rgb(10%,10%,10%)', '#191919')
-               line = line.replace ('rgb(10.196078%,10.196078%,10.196078%)', '#191919')
-               line = line.replace ('rgb(0%,0%,0%)', '#000000')
+               line = self.post_process_line (line)
                file.write (line)
+
+
+   #--------------------------------------------------------------------------
+   # Note: fragile parser
+
+   def post_process_line (self, line):
+      def percent_to_hex (ps):
+         s = ps [:-1]
+         f = float (s) * 2.55
+         i = int (f)
+         return '%0.2x' % i
+
+      while 'rgb(' in line:
+         start = line.find ('rgb(')
+         end = line.find (')')
+         sub = line [start+4:end]
+         arr = sub.split (',')
+         color_hex = '#' + ''.join (map (lambda s: percent_to_hex (s), arr))
+         line = line.replace (line [start:end+1], color_hex)
+
+      return line
