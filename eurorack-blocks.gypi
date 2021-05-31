@@ -19,12 +19,10 @@
 
       'cflags_cc': [
          '-std=gnu++17',
-         '-fPIC',
       ],
 
       'cflags': [
          '-Wno-multichar',
-         '-fPIC',
       ],
    },
 
