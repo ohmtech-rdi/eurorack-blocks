@@ -14,6 +14,7 @@ jobs:
           submodules: recursive
       - run: pip2 install future
       - run: brew install --cask kicad
+      - run: ls -laR ~/Library/Caches/Homebrew
       - run: ./blocks/audio-in-daisy/build.py
       - run: ./blocks/audio-out-daisy/build.py
       - run: ./blocks/button/build.py
