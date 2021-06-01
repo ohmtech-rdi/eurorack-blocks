@@ -138,13 +138,13 @@
       (net 3 "Net-(SW1-Pad1)"))
   )
 
-  (gr_text 1 (at 3.175 1.905) (layer F.SilkS) (tstamp 608ACC15)
+  (gr_text 1 (at 2.54 3.429) (layer F.SilkS) (tstamp 608ACC15)
     (effects (font (size 1 0.7) (thickness 0.15)))
   )
-  (gr_text 3 (at -3.175 1.905) (layer F.SilkS) (tstamp 608ACC12)
+  (gr_text 3 (at -2.54 3.429) (layer F.SilkS) (tstamp 608ACC12)
     (effects (font (size 1 0.7) (thickness 0.15)))
   )
-  (gr_text VD (at 0 -1.651) (layer F.SilkS)
+  (gr_text VB (at 0 3.429) (layer F.SilkS)
     (effects (font (size 1 0.7) (thickness 0.15)))
   )
 
