@@ -83,6 +83,7 @@ jobs:
         with:
           submodules: recursive
       - run: brew install cairo libffi
+      - run: brew install --cask kicad
       - run: pip3 install cairosvg cairocffi
       - run: pip3 install ezdxf
       - run: pip3 install coverage
