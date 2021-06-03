@@ -112,6 +112,28 @@ class KicadPcb:
       elif control.style.is_ck_d6r:
          component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.kicad_pcb'))
 
+      elif control.style.is_dailywell_2ms:
+         rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
+         if rotation == 0:
+            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.kicad_pcb'))
+         elif rotation == 90:
+            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.r90.kicad_pcb'))
+         elif rotation == 270:
+            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.r270.kicad_pcb'))
+         else:
+            print ('unsupported rotation %d for %s' % (rotation, control.style.name))
+
+      elif control.style.is_led_3mm:
+         if control.style.is_led_3mm_green_red:
+            component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.kicad_pcb'))
+         elif control.style.is_led_3mm_rgb:
+            component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.kicad_pcb'))
+         else:
+            component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.kicad_pcb'))
+
+      else:
+         print ('unsupported block %s' % control.style.name)
+
       component = self.move (component, control.position)
       for element in component.entities:
          self.base.add (element)
