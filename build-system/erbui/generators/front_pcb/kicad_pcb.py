@@ -143,10 +143,25 @@ class KicadPcb:
       def filter_func (node):
          if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
             return False
+
          if isinstance (node, s_expression.List) and node.entities \
             and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net', 'net_class']:
+            and node.entities [0].value in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class']:
             return False
+
+         if isinstance (node, s_expression.List) and node.entities \
+            and isinstance (node.entities [0], s_expression.Symbol) \
+            and node.entities [0].value in ['net']:
+               if len (node.entities) == 3:
+                  if node.entities [2].value == 'GND':
+                     return True
+                  elif node.entities [2].value == '+3V3':
+                     return True
+                  else:
+                     return False
+               else:
+                  return False
+
          return True
 
       component = self.load (path)
@@ -164,7 +179,15 @@ class KicadPcb:
          if isinstance (node, s_expression.List) and node.entities \
             and isinstance (node.entities [0], s_expression.Symbol) \
             and node.entities [0].value == 'net':
-            return False
+               if len (node.entities) == 3:
+                  if node.entities [2].value == 'GND':
+                     return True
+                  elif node.entities [2].value == '+3V3':
+                     return True
+                  else:
+                     return False
+               else:
+                  return False
          return True
 
       for element in node.entities:
