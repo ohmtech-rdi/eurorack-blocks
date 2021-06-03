@@ -30,4 +30,37 @@ F 9 "https://www.thonk.co.uk/shop/ttpots/" H 4750 4100 50  0001 C CNN "DistLink"
 	1    4750 4100
 	0    -1   1    0   
 $EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60B955C8
+P 4600 4100
+F 0 "#PWR?" H 4600 3850 50  0001 C CNN
+F 1 "GND" V 4605 3972 50  0000 R CNN
+F 2 "" H 4600 4100 50  0001 C CNN
+F 3 "" H 4600 4100 50  0001 C CNN
+	1    4600 4100
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 60B95DAB
+P 4900 4100
+F 0 "#PWR?" H 4900 3950 50  0001 C CNN
+F 1 "+3V3" V 4915 4228 50  0000 L CNN
+F 2 "" H 4900 4100 50  0001 C CNN
+F 3 "" H 4900 4100 50  0001 C CNN
+	1    4900 4100
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint O1
+U 1 1 60B967CE
+P 4750 4250
+F 0 "O1" H 4692 4322 50  0000 R CNN
+F 1 "TestPoint" H 4692 4367 50  0001 R CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4950 4250 50  0001 C CNN
+F 3 "~" H 4950 4250 50  0001 C CNN
+	1    4750 4250
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC

@@ -31,25 +31,36 @@ F 9 "https://www.thonk.co.uk/shop/thonkiconn/" H 3650 4200 50  0001 C CNN "DistL
 	1    0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x01 J2
-U 1 1 6089FAE7
-P 4050 4200
-F 0 "J2" H 4150 4200 50  0000 L CNN
-F 1 "T" H 4250 4200 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.1sqmm_1x01_D0.4mm_OD1mm" H 4050 4200 50  0001 C CNN
-F 3 "~" H 4050 4200 50  0001 C CNN
-	1    4050 4200
-	1    0    0    -1  
+L power:GND #PWR0101
+U 1 1 60B90F5A
+P 3850 4100
+F 0 "#PWR0101" H 3850 3850 50  0001 C CNN
+F 1 "GND" V 3855 3972 50  0000 R CNN
+F 2 "" H 3850 4100 50  0001 C CNN
+F 3 "" H 3850 4100 50  0001 C CNN
+	1    3850 4100
+	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x01 J3
-U 1 1 608A010E
-P 4050 4300
-F 0 "J3" H 4150 4300 50  0000 L CNN
-F 1 "TN" H 4250 4300 50  0000 L CNN
-F 2 "Connector_Wire:SolderWire-0.1sqmm_1x01_D0.4mm_OD1mm" H 4050 4300 50  0001 C CNN
+L Connector:TestPoint TP1
+U 1 1 60B91AE3
+P 3850 4200
+F 0 "TP1" V 3850 4388 50  0000 L CNN
+F 1 "TestPoint" V 3895 4388 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4050 4200 50  0001 C CNN
+F 3 "~" H 4050 4200 50  0001 C CNN
+	1    3850 4200
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint TP2
+U 1 1 60B927EB
+P 3850 4300
+F 0 "TP2" V 3850 4488 50  0000 L CNN
+F 1 "TestPoint" V 3895 4488 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4050 4300 50  0001 C CNN
 F 3 "~" H 4050 4300 50  0001 C CNN
-	1    4050 4300
-	1    0    0    -1  
+	1    3850 4300
+	0    1    1    0   
 $EndComp
 $EndSCHEMATC
