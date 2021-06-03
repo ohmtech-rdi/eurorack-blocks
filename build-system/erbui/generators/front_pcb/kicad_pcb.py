@@ -109,6 +109,9 @@ class KicadPcb:
       elif control.style.is_thonk_pj398sm:
          component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.kicad_pcb'))
 
+      elif control.style.is_ck_d6r:
+         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.kicad_pcb'))
+
       component = self.move (component, control.position)
       for element in component.entities:
          self.base.add (element)
