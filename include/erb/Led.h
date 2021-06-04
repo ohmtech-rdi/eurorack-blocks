@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/CurrentMode.h"
 #include "erb/PinType.h"
 #include "erb/detail/Animation.h"
 
@@ -39,7 +40,7 @@ template <> struct LedKeyframeTarget <PinType::Pwm> { using type = float; };
 template <> struct LedKeyframeTarget <PinType::Gpio> { using type = bool; };
 template <> struct LedKeyframeTarget <PinType::Dac> { using type = float; };
 
-template <PinType Pin>
+template <PinType Pin, CurrentMode Current>
 class Led
 {
 

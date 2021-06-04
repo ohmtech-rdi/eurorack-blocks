@@ -154,6 +154,7 @@ private:
    struct BindingLedFloat
    {
       void        process ();
+      bool        invert;
       const float *
                   data_ptr;
       rack::engine::Light *
@@ -163,6 +164,7 @@ private:
    struct BindingLedBiFloat
    {
       void        process ();
+      bool        invert;
       const float *
                   data_r_ptr;
       const float *
@@ -176,6 +178,7 @@ private:
    struct BindingLedRgbFloat
    {
       void        process ();
+      bool        invert;
       const float *
                   data_r_ptr;
       const float *
@@ -193,6 +196,7 @@ private:
    struct BindingLedBool
    {
       void        process ();
+      bool        invert;
       const uint8_t *
                   data_ptr;
       rack::engine::Light *
@@ -202,6 +206,7 @@ private:
    struct BindingLedBiBool
    {
       void        process ();
+      bool        invert;
       const uint8_t *
                   data_r_ptr;
       const uint8_t *
@@ -215,6 +220,7 @@ private:
    struct BindingLedRgbBool
    {
       void        process ();
+      bool        invert;
       const uint8_t *
                   data_r_ptr;
       const uint8_t *

@@ -34,14 +34,14 @@ struct ColorRgb
    inline static ColorRgb blue ();
 };
 
-template <PinType Pin>
+template <PinType Pin, CurrentMode Current>
 class LedRgb
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  LedRgb (typename Led <Pin>::BindingType data_r, typename Led <Pin>::BindingType data_g, typename Led <Pin>::BindingType data_b, const uint64_t & clock_ms);
+                  LedRgb (typename Led <Pin, Current>::BindingType data_r, typename Led <Pin, Current>::BindingType data_g, typename Led <Pin, Current>::BindingType data_b, const uint64_t & clock_ms);
    virtual        ~LedRgb () = default;
 
    void           set_brightness (float perceptual_brightness);
@@ -54,9 +54,12 @@ public:
    void           blink (ColorRgb color, std::chrono::milliseconds period = 800ms, TransitionFunction transition_function = step);
 
 
-   Led <Pin>      r;
-   Led <Pin>      g;
-   Led <Pin>      b;
+   Led <Pin, Current>
+                  r;
+   Led <Pin, Current>
+                  g;
+   Led <Pin, Current>
+                  b;
 
 
 

@@ -28,6 +28,7 @@
       'Buffer.h',
       'Button.h',
       'Button.hpp',
+      'CurrentMode.h',
       'CvIn.h',
       'CvIn.hpp',
       'CvOut.h',

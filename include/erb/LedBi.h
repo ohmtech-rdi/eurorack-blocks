@@ -34,14 +34,14 @@ struct ColorBi
    inline static ColorBi yellow ();
 };
 
-template <PinType Pin>
+template <PinType Pin, CurrentMode Current>
 class LedBi
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  LedBi (typename Led <Pin>::BindingType data_r, typename Led <Pin>::BindingType data_g, const uint64_t & clock_ms);
+                  LedBi (typename Led <Pin, Current>::BindingType data_r, typename Led <Pin, Current>::BindingType data_g, const uint64_t & clock_ms);
    virtual        ~LedBi () = default;
 
    void           set_brightness (float perceptual_brightness);
@@ -54,8 +54,10 @@ public:
    void           blink (ColorBi color, std::chrono::milliseconds period = 800ms, TransitionFunction transition_function = step);
 
 
-   Led <Pin>      r;
-   Led <Pin>      g;
+   Led <Pin, Current>
+                  r;
+   Led <Pin, Current>
+                  g;
 
 
 

@@ -264,7 +264,7 @@ Name : BindingLedFloat::process
 
 void  BoardGeneric::BindingLedFloat::process ()
 {
-   light_ptr->setBrightness (*data_ptr);
+   light_ptr->setBrightness (invert ? 1.f - *data_ptr : *data_ptr);
 }
 
 
@@ -277,8 +277,8 @@ Name : BindingLedBiFloat::process
 
 void  BoardGeneric::BindingLedBiFloat::process ()
 {
-   light_r_ptr->setBrightness (*data_r_ptr);
-   light_g_ptr->setBrightness (*data_g_ptr);
+   light_r_ptr->setBrightness (invert ? 1.f - *data_r_ptr : *data_r_ptr);
+   light_g_ptr->setBrightness (invert ? 1.f - *data_g_ptr : *data_g_ptr);
 }
 
 
@@ -291,9 +291,9 @@ Name : BindingLedRgbFloat::process
 
 void  BoardGeneric::BindingLedRgbFloat::process ()
 {
-   light_r_ptr->setBrightness (*data_r_ptr);
-   light_g_ptr->setBrightness (*data_g_ptr);
-   light_b_ptr->setBrightness (*data_b_ptr);
+   light_r_ptr->setBrightness (invert ? 1.f - *data_r_ptr : *data_r_ptr);
+   light_g_ptr->setBrightness (invert ? 1.f - *data_g_ptr : *data_g_ptr);
+   light_b_ptr->setBrightness (invert ? 1.f - *data_b_ptr : *data_b_ptr);
 }
 
 
@@ -306,7 +306,7 @@ Name : BindingLedBool::process
 
 void  BoardGeneric::BindingLedBool::process ()
 {
-   light_ptr->setBrightness (*data_ptr ? 1.f : 0.f);
+   light_ptr->setBrightness (*data_ptr ^ invert ? 1.f : 0.f);
 }
 
 
@@ -319,8 +319,8 @@ Name : BindingLedBiBool::process
 
 void  BoardGeneric::BindingLedBiBool::process ()
 {
-   light_r_ptr->setBrightness (*data_r_ptr ? 1.f : 0.f);
-   light_g_ptr->setBrightness (*data_g_ptr ? 1.f : 0.f);
+   light_r_ptr->setBrightness (*data_r_ptr ^ invert ? 1.f : 0.f);
+   light_g_ptr->setBrightness (*data_g_ptr ^ invert ? 1.f : 0.f);
 }
 
 
@@ -333,9 +333,9 @@ Name : BindingLedRgbBool::process
 
 void  BoardGeneric::BindingLedRgbBool::process ()
 {
-   light_r_ptr->setBrightness (*data_r_ptr ? 1.f : 0.f);
-   light_g_ptr->setBrightness (*data_g_ptr ? 1.f : 0.f);
-   light_b_ptr->setBrightness (*data_b_ptr ? 1.f : 0.f);
+   light_r_ptr->setBrightness (*data_r_ptr ^ invert ? 1.f : 0.f);
+   light_g_ptr->setBrightness (*data_g_ptr ^ invert ? 1.f : 0.f);
+   light_b_ptr->setBrightness (*data_b_ptr ^ invert ? 1.f : 0.f);
 }
 
 
