@@ -135,6 +135,8 @@ class KicadPcb:
          print ('unsupported block %s' % control.style.name)
 
       component = self.move (component, control.position)
+      component = self.rename_pins (component, control)
+
       for element in component.entities:
          self.base.add (element)
 
@@ -238,6 +240,27 @@ class KicadPcb:
          if isinstance (element, s_expression.List):
             element.entities = list (filter (filter_func, element.entities))
             self.remove_net_recursive (element)
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_pins (self, component, control):
+      name_map = {}
+      if control.is_pin_single:
+         name_map ['pin'] = control.pin.name
+      else:
+         names = control.pins.names
+         for index, name in enumerate (names):
+            name_map ['pin%d' % index] = name
+
+      for element in component.entities:
+         element_name = element.entities [0].value
+         if element_name in ['gr_text']:
+            element_text = element.entities [1].value
+            if element_text in name_map:
+               element.entities [1].value = name_map [element_text]
+
+      return component
 
 
    #--------------------------------------------------------------------------
