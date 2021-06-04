@@ -257,6 +257,18 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Cascade ---------------------------------------------------------------
+
+   def visit_cascade_declaration (self, node, children):
+      cascade_reference = children.cascade_reference [0]
+      cascade = ast.CascadeTo (cascade_reference)
+
+      return cascade
+
+   def visit_cascade_reference (self, node, children):
+      return self.visit_identifier (node, children)
+
+
    #-- Alias -----------------------------------------------------------------
 
    def visit_alias_declaration (self, node, children):
