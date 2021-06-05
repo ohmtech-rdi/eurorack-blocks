@@ -105,6 +105,7 @@ module Reverb {
       position 2hp, 111mm
       style thonk.pj398sm.knurled
       label "IN L"
+      cascade audio_in_right
       pin AI1
    }
 
