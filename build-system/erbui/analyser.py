@@ -25,6 +25,7 @@ class Analyser:
    def __init__ (self):
       self._board_definition = {}
       self._used_pins = {} # map from physical pin number to declaration
+      self._cascade_index = 0
 
    #--------------------------------------------------------------------------
 
@@ -89,8 +90,11 @@ class Analyser:
             err.add_context (context)
             raise err
 
-
          self.analyse_pins (module, control, pin_array)
+
+      if control.cascade_to is not None:
+         self.resolve_cascade (module, control, control.cascade_to)
+
 
    #--------------------------------------------------------------------------
 
@@ -147,6 +151,42 @@ class Analyser:
          raise error.undefined_reference (alias, fixit_decls_sc)
 
       alias.reference = control
+
+
+   #--------------------------------------------------------------------------
+
+   def resolve_cascade (self, module, control_from, cascade_to):
+      control = None
+
+      for entity in module.entities:
+         if entity.is_control:
+            if cascade_to.identifier.name == entity.name:
+               control = entity
+
+      if control is None:
+         possible_tokens = []
+         for entity in module.entities:
+            if entity.is_control:
+               possible_tokens.append (entity.identifier_name)
+
+         def make_dict (fun, iterable):
+            return dict (zip (map (fun, iterable), iterable))
+
+         possible_names = make_dict (lambda x: x.value, possible_tokens)
+         matches = get_close_matches (cascade_to.identifier.name, possible_names.keys ())
+
+         fixit_decl_tokens = [possible_names [match_name] for match_name in matches]
+         fixit_decls_sc = [adapter.SourceContext.from_token (f) for f in fixit_decl_tokens]
+
+         raise error.undefined_reference (cascade_to, fixit_decls_sc)
+
+      cascade_to.reference = control
+      cascade_to.index = self._cascade_index
+      cascade_from = ast.CascadeFrom ()
+      cascade_from.reference = control_from
+      cascade_from.index = self._cascade_index
+      control.entities.append (cascade_from)
+      self._cascade_index += 1
 
 
    #--------------------------------------------------------------------------
