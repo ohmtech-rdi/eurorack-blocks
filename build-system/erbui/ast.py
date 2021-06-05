@@ -88,6 +88,12 @@ class Node:
    def is_pin_array (self): return isinstance (self, Pins)
 
    @property
+   def is_cascade_to (self): return isinstance (self, CascadeTo)
+
+   @property
+   def is_cascade_from (self): return isinstance (self, CascadeFrom)
+
+   @property
    def is_positioning (self): return isinstance (self, Positioning)
 
    @property
@@ -578,6 +584,24 @@ class Control (Scope):
          return 1
 
    @property
+   def cascade_to (self):
+      entities = [e for e in self.entities if e.is_cascade_to]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def cascade_from (self):
+      entities = [e for e in self.entities if e.is_cascade_from]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
    def is_input (self):
       return self.kind in ['AudioIn', 'Button', 'CvIn', 'GateIn', 'Pot', 'Switch', 'Trim']
 
@@ -851,6 +875,47 @@ class Pins (Node):
 
    @property
    def names (self): return [ ident.name for ident in self.identifiers ]
+
+
+
+# -- CascadeTo ---------------------------------------------------------------
+
+class CascadeTo (Node):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (CascadeTo, self).__init__ ()
+      self.identifier = identifier
+      self.reference = None
+      self.index = 0
+
+   @staticmethod
+   def typename (): return 'cascade_to'
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (CascadeTo, self).source_context_part (part) # pragma: no cover
+
+
+
+# -- CascadeFrom -------------------------------------------------------------
+
+class CascadeFrom (Node):
+   def __init__ (self):
+      super (CascadeFrom, self).__init__ ()
+      self.reference = None
+      self.index = 0
+
+   @staticmethod
+   def typename (): return 'cascade_from'
 
 
 
