@@ -32,10 +32,12 @@ using namespace std::chrono_literals;
 template <PinType> struct LedBinding {};
 template <> struct LedBinding <PinType::Pwm> { using type = float &; };
 template <> struct LedBinding <PinType::Gpio> { using type = uint8_t &; };
+template <> struct LedBinding <PinType::Dac> { using type = float &; };
 
 template <PinType> struct LedKeyframeTarget {};
 template <> struct LedKeyframeTarget <PinType::Pwm> { using type = float; };
 template <> struct LedKeyframeTarget <PinType::Gpio> { using type = bool; };
+template <> struct LedKeyframeTarget <PinType::Dac> { using type = float; };
 
 template <PinType Pin>
 class Led

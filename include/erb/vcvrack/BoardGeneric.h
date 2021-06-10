@@ -151,7 +151,7 @@ private:
                   output_ptr;
    };
 
-   struct BindingLedPwm
+   struct BindingLedFloat
    {
       void        process ();
       const float *
@@ -160,7 +160,7 @@ private:
                   light_ptr;
    };
 
-   struct BindingLedBiPwm
+   struct BindingLedBiFloat
    {
       void        process ();
       const float *
@@ -173,7 +173,7 @@ private:
                   light_g_ptr;
    };
 
-   struct BindingLedRgbPwm
+   struct BindingLedRgbFloat
    {
       void        process ();
       const float *
@@ -190,7 +190,7 @@ private:
                   light_b_ptr;
    };
 
-   struct BindingLedGpio
+   struct BindingLedBool
    {
       void        process ();
       const uint8_t *
@@ -199,7 +199,7 @@ private:
                   light_ptr;
    };
 
-   struct BindingLedBiGpio
+   struct BindingLedBiBool
    {
       void        process ();
       const uint8_t *
@@ -212,7 +212,7 @@ private:
                   light_g_ptr;
    };
 
-   struct BindingLedRgbGpio
+   struct BindingLedRgbBool
    {
       void        process ();
       const uint8_t *
@@ -260,12 +260,12 @@ private:
       BindingAudioOut,
       BindingCvOut,
       BindingGateOut,
-      BindingLedPwm,
-      BindingLedBiPwm,
-      BindingLedRgbPwm,
-      BindingLedGpio,
-      BindingLedBiGpio,
-      BindingLedRgbGpio
+      BindingLedFloat,
+      BindingLedBiFloat,
+      BindingLedRgbFloat,
+      BindingLedBool,
+      BindingLedBiBool,
+      BindingLedRgbBool
    >>;
 
    BindingInputs  _binding_inputs;

@@ -247,11 +247,11 @@ void  BoardGeneric::BindingGateOut::process ()
 
 /*
 ==============================================================================
-Name : BindingLedPwm::process
+Name : BindingLedFloat::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingLedPwm::process ()
+void  BoardGeneric::BindingLedFloat::process ()
 {
    light_ptr->setBrightness (*data_ptr);
 }
@@ -260,11 +260,11 @@ void  BoardGeneric::BindingLedPwm::process ()
 
 /*
 ==============================================================================
-Name : BindingLedBiPwm::process
+Name : BindingLedBiFloat::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingLedBiPwm::process ()
+void  BoardGeneric::BindingLedBiFloat::process ()
 {
    light_r_ptr->setBrightness (*data_r_ptr);
    light_g_ptr->setBrightness (*data_g_ptr);
@@ -274,11 +274,11 @@ void  BoardGeneric::BindingLedBiPwm::process ()
 
 /*
 ==============================================================================
-Name : BindingLedRgbPwm::process
+Name : BindingLedRgbFloat::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingLedRgbPwm::process ()
+void  BoardGeneric::BindingLedRgbFloat::process ()
 {
    light_r_ptr->setBrightness (*data_r_ptr);
    light_g_ptr->setBrightness (*data_g_ptr);
@@ -289,11 +289,11 @@ void  BoardGeneric::BindingLedRgbPwm::process ()
 
 /*
 ==============================================================================
-Name : BindingLedGpio::process
+Name : BindingLedBool::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingLedGpio::process ()
+void  BoardGeneric::BindingLedBool::process ()
 {
    light_ptr->setBrightness (*data_ptr ? 1.f : 0.f);
 }
@@ -302,11 +302,11 @@ void  BoardGeneric::BindingLedGpio::process ()
 
 /*
 ==============================================================================
-Name : BindingLedBiGpio::process
+Name : BindingLedBiBool::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingLedBiGpio::process ()
+void  BoardGeneric::BindingLedBiBool::process ()
 {
    light_r_ptr->setBrightness (*data_r_ptr ? 1.f : 0.f);
    light_g_ptr->setBrightness (*data_g_ptr ? 1.f : 0.f);
@@ -316,11 +316,11 @@ void  BoardGeneric::BindingLedBiGpio::process ()
 
 /*
 ==============================================================================
-Name : BindingLedRgbGpio::process
+Name : BindingLedRgbBool::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingLedRgbGpio::process ()
+void  BoardGeneric::BindingLedRgbBool::process ()
 {
    light_r_ptr->setBrightness (*data_r_ptr ? 1.f : 0.f);
    light_g_ptr->setBrightness (*data_g_ptr ? 1.f : 0.f);

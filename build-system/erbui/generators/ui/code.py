@@ -93,6 +93,8 @@ class Code:
             control_type = '%s <erb::PinType::Gpio>' % control.kind
          elif pin_type == 'pwm':
             control_type = '%s <erb::PinType::Pwm>' % control.kind
+         elif pin_type == 'dac':
+            control_type = '%s <erb::PinType::Dac>' % control.kind
 
       elif control.kind in ['Switch']:
          if control.style.is_dailywell_2ms1:
