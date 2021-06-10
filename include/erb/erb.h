@@ -30,10 +30,12 @@
 
 #if defined (erb_TARGET_DAISY)
    #include "erb/daisy/BoardDaisyField.h"
+   #include "erb/daisy/BoardDaisyMicropatch.h"
    #include "erb/daisy/BoardDaisySeed.h"
 
 #elif defined (erb_TARGET_VCV_RACK)
    #include "erb/vcvrack/BoardDaisyField.h"
+   #include "erb/vcvrack/BoardDaisyMicropatch.h"
    #include "erb/vcvrack/BoardDaisySeed.h"
 
 #else
