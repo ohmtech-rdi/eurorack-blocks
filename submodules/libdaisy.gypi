@@ -148,6 +148,8 @@
 
             './libDaisy/src/dev/codec_ak4556.cpp',
             './libDaisy/src/dev/codec_ak4556.h',
+            './libDaisy/src/dev/codec_pcm3060.cpp',
+            './libDaisy/src/dev/codec_pcm3060.h',
             './libDaisy/src/dev/flash_IS25LP064A.h',
             './libDaisy/src/dev/flash_IS25LP080D.h',
             './libDaisy/src/dev/leddriver.h',
