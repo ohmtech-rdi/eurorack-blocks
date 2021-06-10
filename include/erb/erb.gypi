@@ -33,11 +33,14 @@
             'daisy/GpioInputDaisy.hpp',
             'daisy/GpioOutputDaisy.h',
             'daisy/GpioOutputDaisy.hpp',
+            'daisy/SubmoduleDaisyPatchSm.h',
+            'daisy/SubmoduleDaisyPatchSm.hpp',
             'daisy/SubmoduleDaisySeed.h',
             'daisy/SubmoduleDaisySeed.hpp',
 
             '../../src/daisy/BoardDaisyField.cpp',
             '../../src/daisy/BoardDaisySeed.cpp',
+            '../../src/daisy/SubmoduleDaisyPatchSm.cpp',
             '../../src/daisy/SubmoduleDaisySeed.cpp',
          ],
 
