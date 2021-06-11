@@ -155,9 +155,6 @@ public:
    inline daisy::DacHandle &
                   dac ();
 
-   void           init_dac_channels (std::initializer_list <DacPin> dac_pins);
-   void           write_dac (DacPin pin, uint16_t val);
-
    // Onboard Daisy Codec and associated gain stage
    // eurorack audio level (-5V, 5V) to (-1.f, 1.f)
    static constexpr float
