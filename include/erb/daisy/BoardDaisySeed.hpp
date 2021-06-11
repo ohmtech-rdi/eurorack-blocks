@@ -106,10 +106,7 @@ Name : impl_postprocess
 
 void  BoardDaisySeed::impl_postprocess (DacPin pin)
 {
-   _submodule.write_dac (
-      SubmoduleDaisySeed::DacPins [pin.index],
-      norm_to_u16 (_analog_outputs [pin.index])
-   );
+   _dac.write (pin.index, norm_to_u12 (_analog_outputs [pin.index]));
 }
 
 

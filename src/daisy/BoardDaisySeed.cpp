@@ -22,7 +22,6 @@ namespace erb
 
 /*
 ==============================================================================
-Name : ctor
 Description :
 
    !!! This board is not meant to be used !!!
@@ -37,18 +36,6 @@ Description :
    - 2 audio outputs
 ==============================================================================
 */
-
-BoardDaisySeed::BoardDaisySeed ()
-{
-   // no init needed for audio inputs
-
-   _submodule.init_dac_channels ({
-      SubmoduleDaisySeed::DacPin0,
-      SubmoduleDaisySeed::DacPin1,
-   });
-
-   // no init needed for audio outputs
-}
 
 
 
