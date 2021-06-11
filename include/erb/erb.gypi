@@ -25,6 +25,10 @@
             'daisy/BoardDaisyField.hpp',
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
+            'daisy/GpioInputDaisy.h',
+            'daisy/GpioInputDaisy.hpp',
+            'daisy/GpioOutputDaisy.h',
+            'daisy/GpioOutputDaisy.hpp',
             'daisy/SubmoduleDaisySeed.h',
             'daisy/SubmoduleDaisySeed.hpp',
 
