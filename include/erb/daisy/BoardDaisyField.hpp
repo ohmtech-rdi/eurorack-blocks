@@ -48,13 +48,14 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardDaisyField::impl_preprocess (Pin pin)
+void  BoardDaisyField::impl_preprocess (GpiPin pin)
 {
    // Topology:
    // - GI: BJT
    // - BX: switch to ground with pull-up
    // => Both are inverted
-   _digital_ios [pin.index] = _submodule.read_gpio (pin.pin) == 0;
+
+   _digital_inputs [pin.index] = !_gpio_inputs [pin.index].read ();
 }
 
 
@@ -96,9 +97,9 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  BoardDaisyField::impl_postprocess (Pin pin)
+void  BoardDaisyField::impl_postprocess (GpoPin pin)
 {
-   _submodule.write_gpio (pin.pin, _digital_ios [pin.index]);
+   _gpio_outputs [pin.index].write (_digital_outputs [pin.index]);
 }
 
 

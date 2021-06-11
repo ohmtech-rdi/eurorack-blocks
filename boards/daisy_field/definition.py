@@ -43,7 +43,7 @@
 
       'GO': {
          'accept': ['GateOut'],
-         'bind': 'gpo(1)',
+         'bind': 'gpo(0)',
       },
 
       'L1': {
@@ -122,11 +122,11 @@
 
       'B1': {
          'accept': ['Button'],
-         'bind': 'gpi(2)',
+         'bind': 'gpi(1)',
       },
       'B2': {
          'accept': ['Button'],
-         'bind': 'gpi(3)',
+         'bind': 'gpi(2)',
       },
 
       'AI1': {

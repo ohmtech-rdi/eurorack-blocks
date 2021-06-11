@@ -28,11 +28,6 @@ Name : ctor
 
 BoardDaisyField::BoardDaisyField ()
 {
-   _submodule.init_gpio_input (GI.pin);
-   _submodule.init_gpio_output (GO.pin);
-   _submodule.init_gpio_input (B1.pin, SubmoduleDaisySeed::Pull::Up);
-   _submodule.init_gpio_input (B2.pin, SubmoduleDaisySeed::Pull::Up);
-
    _analog_inputs_u16 = _submodule.init_adc_channels <12> ({
       {SubmoduleDaisySeed::AdcPin2},
       {SubmoduleDaisySeed::AdcPin3},
