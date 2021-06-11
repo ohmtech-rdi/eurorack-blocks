@@ -153,10 +153,6 @@ public:
    inline daisy::AdcHandle &
                   adc ();
 
-   template <size_t MaxNbrChannels>
-   std::array <uint16_t *, MaxNbrChannels>
-                  init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
-
    void           init_dac_channels (std::initializer_list <DacPin> dac_pins);
    void           write_dac (DacPin pin, uint16_t val);
 
