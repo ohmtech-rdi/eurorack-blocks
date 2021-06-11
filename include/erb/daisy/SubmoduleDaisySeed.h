@@ -148,7 +148,8 @@ public:
 
    // Clock
    inline const uint64_t &
-                  clock () { return _clock.ms (); }
+                  clock ();
+
 
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
