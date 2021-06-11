@@ -50,79 +50,6 @@ SubmoduleDaisySeed::SubmoduleDaisySeed ()
 
 /*
 ==============================================================================
-Name : init_gpio_input
-==============================================================================
-*/
-
-void  SubmoduleDaisySeed::init_gpio_input (Pin pin, Pull pull)
-{
-   dsy_gpio gpio;
-   gpio.pin = pin;
-   gpio.mode = DSY_GPIO_MODE_INPUT;
-   gpio.pull
-      = pull == Pull::Down
-      ? DSY_GPIO_PULLDOWN
-      : DSY_GPIO_PULLUP;
-
-   dsy_gpio_init (&gpio);
-}
-
-
-
-/*
-==============================================================================
-Name : read_gpio
-==============================================================================
-*/
-
-uint8_t  SubmoduleDaisySeed::read_gpio (Pin pin)
-{
-   dsy_gpio gpio;
-   gpio.pin = pin;
-   // all the other fields are irrelevant
-
-   return dsy_gpio_read (&gpio);
-}
-
-
-
-/*
-==============================================================================
-Name : init_gpio_output
-==============================================================================
-*/
-
-void  SubmoduleDaisySeed::init_gpio_output (Pin pin)
-{
-   dsy_gpio gpio;
-   gpio.pin = pin;
-   gpio.mode = DSY_GPIO_MODE_OUTPUT_PP;
-   gpio.pull = DSY_GPIO_NOPULL;
-
-   dsy_gpio_init (&gpio);
-}
-
-
-
-/*
-==============================================================================
-Name : write_gpio
-==============================================================================
-*/
-
-void  SubmoduleDaisySeed::write_gpio (Pin pin, uint8_t val)
-{
-   dsy_gpio gpio;
-   gpio.pin = pin;
-   // all the other fields are irrelevant
-
-   dsy_gpio_write (&gpio, val);
-}
-
-
-
-/*
-==============================================================================
 Name : init_dac_channels
 ==============================================================================
 */
@@ -135,7 +62,7 @@ void  SubmoduleDaisySeed::init_dac_channels (std::initializer_list <DacPin> dac_
    if (dac_pins.size () == 1)
    {
       auto dac_pin = *dac_pins.begin ();
-      if (dac_pin.pin == DacPin0.pin)
+      if (dac_pin.pin.port == DacPin0.pin.port && dac_pin.pin.pin == DacPin0.pin.pin)
       {
          channel = daisy::DacHandle::Channel::ONE;
       }
@@ -164,7 +91,7 @@ Name : write_dac
 void  SubmoduleDaisySeed::write_dac (DacPin pin, uint16_t val)
 {
    auto channel
-      = (pin.pin == DacPin0.pin)
+      = (pin.pin.port == DacPin0.pin.port && pin.pin.pin == DacPin0.pin.pin)
       ? daisy::DacHandle::Channel::ONE
       : daisy::DacHandle::Channel::TWO;
 

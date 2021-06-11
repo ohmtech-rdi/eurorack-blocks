@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/daisy/GpioInputDaisy.h"
+#include "erb/daisy/GpioOutputDaisy.h"
 #include "erb/daisy/SubmoduleDaisySeed.h"
 
 #include <array>
@@ -35,7 +37,7 @@ public:
 
    // Digital Inputs
    inline const uint8_t &
-                  gpi (size_t i) { return _digital_ios [i]; }
+                  gpi (size_t i) { return _digital_inputs [i]; }
 
    // Analog Inputs
    inline const float &
@@ -47,7 +49,7 @@ public:
 
    // Digital Outputs
    inline uint8_t &
-                  gpo (size_t i) { return _digital_ios [i]; }
+                  gpo (size_t i) { return _digital_outputs [i]; }
 
    // Analog Outputs
    inline float & dac (size_t i) { return _analog_outputs [i]; }
@@ -63,11 +65,13 @@ public:
    template <typename F>
    inline void    run (F && f) { _submodule.run (std::forward <F> (f)); }
 
-   struct Pin { size_t index; SubmoduleDaisySeed::Pin pin; };
-   static constexpr Pin GI = {0, SubmoduleDaisySeed::Pin0};
-   static constexpr Pin GO = {1, SubmoduleDaisySeed::Pin15};
-   static constexpr Pin B1 = {2, SubmoduleDaisySeed::Pin30};
-   static constexpr Pin B2 = {3, SubmoduleDaisySeed::Pin29};
+   struct GpiPin { size_t index; };
+   static constexpr GpiPin GI = {0};
+   static constexpr GpiPin B1 = {1};
+   static constexpr GpiPin B2 = {2};
+
+   struct GpoPin { size_t index; };
+   static constexpr GpoPin GO = {0};
 
    struct AdcPin { size_t index; };
    static constexpr AdcPin CI1 = {0};
@@ -107,11 +111,11 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
    inline void    impl_preprocess () {}
-   inline void    impl_preprocess (Pin pin);
+   inline void    impl_preprocess (GpiPin pin);
    inline void    impl_preprocess (AdcPin pin);
    inline void    impl_preprocess (AudioInPin pin);
 
-   inline void    impl_postprocess (Pin pin);
+   inline void    impl_postprocess (GpoPin pin);
    inline void    impl_postprocess (DacPin pin);
    inline void    impl_postprocess (AudioOutPin pin);
    inline void    impl_postprocess ();
@@ -131,18 +135,30 @@ private:
    SubmoduleDaisySeed
                   _submodule;
 
-   std::array <uint8_t, 4>
-                  _digital_ios;
-
+   std::array <uint8_t, 3>
+                  _digital_inputs;
    std::array <float, 12>
                   _analog_inputs;
    std::array <Buffer, 2>
                   _audio_inputs;
 
+   std::array <uint8_t, 1>
+                  _digital_outputs;
    std::array <float, 10>
                   _analog_outputs;
    std::array <Buffer, 2>
                   _audio_outputs;
+
+   std::array <GpioInputDaisy, 3>
+                  _gpio_inputs = {{
+                     {SubmoduleDaisySeed::Pin0},
+                     {SubmoduleDaisySeed::Pin30, GpioInputDaisy::Pull::Up},
+                     {SubmoduleDaisySeed::Pin29, GpioInputDaisy::Pull::Up}
+                  }};
+   std::array <GpioOutputDaisy, 1>
+                  _gpio_outputs = {{
+                     {SubmoduleDaisySeed::Pin15}
+                  }};
 
    std::array <uint16_t *, 12>
                   _analog_inputs_u16;

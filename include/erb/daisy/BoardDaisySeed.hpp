@@ -48,11 +48,9 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardDaisySeed::impl_preprocess (Pin pin)
+void  BoardDaisySeed::impl_preprocess (GpiPin pin)
 {
-   _digital_ios [pin.index] = _submodule.read_gpio (
-      SubmoduleDaisySeed::Pins [pin.index]
-   );
+   _digital_inputs [pin.index] = _gpio_inputs [pin.index].read ();
 }
 
 
@@ -96,12 +94,9 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  BoardDaisySeed::impl_postprocess (Pin pin)
+void  BoardDaisySeed::impl_postprocess (GpoPin pin)
 {
-   _submodule.write_gpio (
-      SubmoduleDaisySeed::Pins [pin.index],
-      _digital_ios [pin.index]
-   );
+   _gpio_outputs [pin.index].write (_digital_outputs [pin.index]);
 }
 
 

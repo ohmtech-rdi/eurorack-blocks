@@ -150,12 +150,6 @@ public:
    inline const uint64_t &
                   clock () { return _clock.ms (); }
 
-   void           init_gpio_input (Pin pin, Pull pull = Pull::Down);
-   uint8_t        read_gpio (Pin pin);
-
-   void           init_gpio_output (Pin pin);
-   void           write_gpio (Pin pin, uint8_t val);
-
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
                   init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
@@ -230,13 +224,6 @@ private:
 
 
 }; // class SubmoduleDaisySeed
-
-
-
-inline bool      operator == (const SubmoduleDaisySeed::Pin & lhs, const SubmoduleDaisySeed::Pin & rhs)
-{
-   return lhs.port == rhs.port && lhs.pin == rhs.pin;
-}
 
 
 
