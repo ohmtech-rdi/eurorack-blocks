@@ -27,6 +27,8 @@
             'daisy/BoardDaisyField.hpp',
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
+            'daisy/DacDaisy.h',
+            'daisy/DacDaisy.hpp',
             'daisy/GpioInputDaisy.h',
             'daisy/GpioInputDaisy.hpp',
             'daisy/GpioOutputDaisy.h',

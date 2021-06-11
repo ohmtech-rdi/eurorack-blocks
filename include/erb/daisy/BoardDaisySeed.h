@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/daisy/AdcDaisy.h"
+#include "erb/daisy/DacDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
 #include "erb/daisy/GpioOutputDaisy.h"
 #include "erb/daisy/SubmoduleDaisySeed.h"
@@ -33,7 +34,7 @@ class BoardDaisySeed
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardDaisySeed ();
+                  BoardDaisySeed () = default;
    virtual        ~BoardDaisySeed () = default;
 
    // Digital Inputs
@@ -200,6 +201,7 @@ private:
                         {SubmoduleDaisySeed::AdcPin11.pin}
                      }
                   };
+   DacDaisy       _dac = {_submodule.dac (), {DacPin0.index, DacPin1.index}};
 
 
 

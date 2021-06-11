@@ -28,11 +28,6 @@ Name : ctor
 
 BoardDaisyField::BoardDaisyField ()
 {
-   _submodule.init_dac_channels ({
-      SubmoduleDaisySeed::DacPin0,
-      SubmoduleDaisySeed::DacPin1,
-   });
-
    uint8_t addr [] = {0x02};
 
    constexpr auto led_i2c_config = daisy::I2CHandle::Config {

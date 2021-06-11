@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      SubmoduleDaisySeed.hpp
+      DacDaisy.hpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -13,6 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+erb_DISABLE_WARNINGS_DAISY
+#include "per/dac.h"
+erb_RESTORE_WARNINGS
+
 
 
 namespace erb
@@ -24,55 +28,49 @@ namespace erb
 
 /*
 ==============================================================================
-Name : run
+Name : ctor
 ==============================================================================
 */
 
-template <typename F>
-void  SubmoduleDaisySeed::run (F && f)
+DacDaisy::DacDaisy (daisy::DacHandle & dac, std::initializer_list <Channel> channels)
+:  _dac (dac)
 {
-   _run = std::forward <F> (f);
+   daisy::DacHandle::Channel channel = daisy::DacHandle::Channel::BOTH;
 
-   do_run ();
+   if (channels.size () == 1)
+   {
+      auto index = *channels.begin ();
+      channel
+         = (index == 0)
+         ? daisy::DacHandle::Channel::ONE
+         : daisy::DacHandle::Channel::TWO;
+   }
+
+   daisy::DacHandle::Config cfg;
+   cfg.bitdepth = daisy::DacHandle::BitDepth::BITS_12;
+   cfg.buff_state = daisy::DacHandle::BufferState::ENABLED;
+   cfg.mode = daisy::DacHandle::Mode::POLLING;
+   cfg.chn = channel;
+
+   _dac.Init (cfg);
 }
 
 
 
 /*
 ==============================================================================
-Name : clock
+Name : write
 ==============================================================================
 */
 
-const uint64_t &  SubmoduleDaisySeed::clock ()
+void  DacDaisy::write (size_t index, uint16_t val)
 {
-   return _clock.ms ();
-}
+   auto channel
+      = (index == 0)
+      ? daisy::DacHandle::Channel::ONE
+      : daisy::DacHandle::Channel::TWO;
 
-
-
-/*
-==============================================================================
-Name : adc
-==============================================================================
-*/
-
-daisy::AdcHandle &   SubmoduleDaisySeed::adc ()
-{
-   return _seed.adc;
-}
-
-
-
-/*
-==============================================================================
-Name : dac
-==============================================================================
-*/
-
-daisy::DacHandle &   SubmoduleDaisySeed::dac ()
-{
-   return _seed.dac;
+   _dac.WriteValue (channel, val);
 }
 
 

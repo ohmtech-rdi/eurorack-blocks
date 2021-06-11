@@ -113,10 +113,7 @@ void  BoardDaisyField::impl_postprocess (DacPin pin)
 {
    if (pin.index <= CO2.index)
    {
-      _submodule.write_dac (
-         SubmoduleDaisySeed::DacPins [pin.index],
-         norm_to_u12 (_analog_outputs [pin.index])
-      );
+      _dac.write (pin.index, norm_to_u12 (_analog_outputs [pin.index]));
    }
    else
    {

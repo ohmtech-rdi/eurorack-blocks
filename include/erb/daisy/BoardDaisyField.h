@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/daisy/AdcDaisy.h"
+#include "erb/daisy/DacDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
 #include "erb/daisy/GpioOutputDaisy.h"
 #include "erb/daisy/SubmoduleDaisySeed.h"
@@ -178,6 +179,8 @@ private:
                         },
                      }
                   };
+
+   DacDaisy       _dac = {_submodule.dac (), {CO1.index, CO2.index}};
 
    daisy::LedDriverPca9685 <1, true>
                   _led_driver;

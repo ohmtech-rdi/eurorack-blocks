@@ -48,56 +48,6 @@ SubmoduleDaisySeed::SubmoduleDaisySeed ()
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-/*
-==============================================================================
-Name : init_dac_channels
-==============================================================================
-*/
-
-void  SubmoduleDaisySeed::init_dac_channels (std::initializer_list <DacPin> dac_pins)
-{
-   daisy::DacHandle::Channel channel
-      = daisy::DacHandle::Channel::BOTH;
-
-   if (dac_pins.size () == 1)
-   {
-      auto dac_pin = *dac_pins.begin ();
-      if (dac_pin.pin.port == DacPin0.pin.port && dac_pin.pin.pin == DacPin0.pin.pin)
-      {
-         channel = daisy::DacHandle::Channel::ONE;
-      }
-      else
-      {
-         channel = daisy::DacHandle::Channel::TWO;
-      }
-   }
-
-   daisy::DacHandle::Config cfg;
-   cfg.bitdepth = daisy::DacHandle::BitDepth::BITS_12;
-   cfg.buff_state = daisy::DacHandle::BufferState::ENABLED;
-   cfg.mode = daisy::DacHandle::Mode::POLLING;
-   cfg.chn = channel;
-   _seed.dac.Init (cfg);
-}
-
-
-
-/*
-==============================================================================
-Name : write_dac
-==============================================================================
-*/
-
-void  SubmoduleDaisySeed::write_dac (DacPin pin, uint16_t val)
-{
-   auto channel
-      = (pin.pin.port == DacPin0.pin.port && pin.pin.pin == DacPin0.pin.pin)
-      ? daisy::DacHandle::Channel::ONE
-      : daisy::DacHandle::Channel::TWO;
-
-   _seed.dac.WriteValue (channel, val);
-}
-
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
