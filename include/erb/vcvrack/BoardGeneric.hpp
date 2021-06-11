@@ -213,7 +213,7 @@ Name : impl_bind
 template <>
 inline void  BoardGeneric::impl_bind (Led <PinType::Pwm> & control, rack::engine::Light & model)
 {
-   _binding_outputs.push_back (BindingLedPwm {
+   _binding_outputs.push_back (BindingLedFloat {
       .data_ptr = &control.impl_data,
       .light_ptr = &model
    });
@@ -232,7 +232,7 @@ inline void  BoardGeneric::impl_bind (LedBi <PinType::Pwm> & control, rack::engi
 {
    auto * model_ptr = &model;
 
-   _binding_outputs.push_back (BindingLedBiPwm {
+   _binding_outputs.push_back (BindingLedBiFloat {
       .data_r_ptr = &control.r.impl_data,
       .data_g_ptr = &control.g.impl_data,
       // red and green are inverted in the GreenRed VCV light
@@ -254,7 +254,7 @@ inline void  BoardGeneric::impl_bind (LedRgb <PinType::Pwm> & control, rack::eng
 {
    auto * model_ptr = &model;
 
-   _binding_outputs.push_back (BindingLedRgbPwm {
+   _binding_outputs.push_back (BindingLedRgbFloat {
       .data_r_ptr = &control.r.impl_data,
       .data_g_ptr = &control.g.impl_data,
       .data_b_ptr = &control.b.impl_data,
@@ -275,7 +275,7 @@ Name : impl_bind
 template <>
 inline void  BoardGeneric::impl_bind (Led <PinType::Gpio> & control, rack::engine::Light & model)
 {
-   _binding_outputs.push_back (BindingLedGpio {
+   _binding_outputs.push_back (BindingLedBool {
       .data_ptr = &control.impl_data,
       .light_ptr = &model
    });
@@ -294,7 +294,7 @@ inline void  BoardGeneric::impl_bind (LedBi <PinType::Gpio> & control, rack::eng
 {
    auto * model_ptr = &model;
 
-   _binding_outputs.push_back (BindingLedBiGpio {
+   _binding_outputs.push_back (BindingLedBiBool {
       .data_r_ptr = &control.r.impl_data,
       .data_g_ptr = &control.g.impl_data,
       // red and green are inverted in the GreenRed VCV light
@@ -316,7 +316,69 @@ inline void  BoardGeneric::impl_bind (LedRgb <PinType::Gpio> & control, rack::en
 {
    auto * model_ptr = &model;
 
-   _binding_outputs.push_back (BindingLedRgbGpio {
+   _binding_outputs.push_back (BindingLedRgbBool {
+      .data_r_ptr = &control.r.impl_data,
+      .data_g_ptr = &control.g.impl_data,
+      .data_b_ptr = &control.b.impl_data,
+      .light_r_ptr = &model_ptr [0],
+      .light_g_ptr = &model_ptr [1],
+      .light_b_ptr = &model_ptr [2]
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (Led <PinType::Dac> & control, rack::engine::Light & model)
+{
+   _binding_outputs.push_back (BindingLedFloat {
+      .data_ptr = &control.impl_data,
+      .light_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (LedBi <PinType::Dac> & control, rack::engine::Light & model)
+{
+   auto * model_ptr = &model;
+
+   _binding_outputs.push_back (BindingLedBiFloat {
+      .data_r_ptr = &control.r.impl_data,
+      .data_g_ptr = &control.g.impl_data,
+      // red and green are inverted in the GreenRed VCV light
+      .light_r_ptr = &model_ptr [1],
+      .light_g_ptr = &model_ptr [0]
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (LedRgb <PinType::Dac> & control, rack::engine::Light & model)
+{
+   auto * model_ptr = &model;
+
+   _binding_outputs.push_back (BindingLedRgbFloat {
       .data_r_ptr = &control.r.impl_data,
       .data_g_ptr = &control.g.impl_data,
       .data_b_ptr = &control.b.impl_data,
