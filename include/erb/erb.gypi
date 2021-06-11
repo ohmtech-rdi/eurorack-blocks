@@ -21,6 +21,8 @@
          ],
 
          'sources': [
+            'daisy/AdcDaisy.h',
+            'daisy/AdcDaisy.hpp',
             'daisy/BoardDaisyField.h',
             'daisy/BoardDaisyField.hpp',
             'daisy/BoardDaisySeed.h',

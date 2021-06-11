@@ -68,8 +68,7 @@ Name : impl_preprocess
 
 void  BoardDaisyField::impl_preprocess (AdcPin pin)
 {
-   auto && u16_ptr = _analog_inputs_u16 [pin.index];
-   _analog_inputs [pin.index] = to_float_norm (*u16_ptr);
+   _analog_inputs [pin.index] = to_float_norm (_adc.read (pin.index));
 }
 
 

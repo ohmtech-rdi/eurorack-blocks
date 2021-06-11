@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/daisy/AdcDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
 #include "erb/daisy/GpioOutputDaisy.h"
 #include "erb/daisy/SubmoduleDaisySeed.h"
@@ -87,9 +88,9 @@ public:
    static constexpr AdcPin AdcPin4 = {4};
    static constexpr AdcPin AdcPin5 = {5};
    static constexpr AdcPin AdcPin6 = {6};
-   static constexpr AdcPin AdcPin9 = {9};
-   static constexpr AdcPin AdcPin10 = {10};
-   static constexpr AdcPin AdcPin11 = {11};
+   static constexpr AdcPin AdcPin9 = {7};
+   static constexpr AdcPin AdcPin10 = {8};
+   static constexpr AdcPin AdcPin11 = {9};
 
    struct GpoPin { size_t index; };
    static constexpr GpoPin Pin12 = {0};
@@ -158,9 +159,6 @@ private:
    std::array <Buffer, 2>
                   _audio_outputs;
 
-   std::array <uint16_t *, 10>
-                  _analog_inputs_u16;
-
    std::array <GpioInputDaisy, 12>
                   _gpio_inputs = {{
                      {SubmoduleDaisySeed::Pin0},
@@ -186,6 +184,22 @@ private:
                      {SubmoduleDaisySeed::Pin29},
                      {SubmoduleDaisySeed::Pin30},
                   }};
+
+   AdcDaisy <10>  _adc = {
+                     _submodule.adc (),
+                     {
+                        {SubmoduleDaisySeed::AdcPin0.pin},
+                        {SubmoduleDaisySeed::AdcPin1.pin},
+                        {SubmoduleDaisySeed::AdcPin2.pin},
+                        {SubmoduleDaisySeed::AdcPin3.pin},
+                        {SubmoduleDaisySeed::AdcPin4.pin},
+                        {SubmoduleDaisySeed::AdcPin5.pin},
+                        {SubmoduleDaisySeed::AdcPin6.pin},
+                        {SubmoduleDaisySeed::AdcPin9.pin},
+                        {SubmoduleDaisySeed::AdcPin10.pin},
+                        {SubmoduleDaisySeed::AdcPin11.pin}
+                     }
+                  };
 
 
 

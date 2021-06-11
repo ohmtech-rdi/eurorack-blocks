@@ -40,19 +40,6 @@ Description :
 
 BoardDaisySeed::BoardDaisySeed ()
 {
-   _analog_inputs_u16 = _submodule.init_adc_channels <10> ({
-      {SubmoduleDaisySeed::AdcPin0},
-      {SubmoduleDaisySeed::AdcPin1},
-      {SubmoduleDaisySeed::AdcPin2},
-      {SubmoduleDaisySeed::AdcPin3},
-      {SubmoduleDaisySeed::AdcPin4},
-      {SubmoduleDaisySeed::AdcPin5},
-      {SubmoduleDaisySeed::AdcPin6},
-      {SubmoduleDaisySeed::AdcPin9},
-      {SubmoduleDaisySeed::AdcPin10},
-      {SubmoduleDaisySeed::AdcPin11}
-   });
-
    // no init needed for audio inputs
 
    _submodule.init_dac_channels ({

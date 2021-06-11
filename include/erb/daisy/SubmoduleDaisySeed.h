@@ -148,11 +148,10 @@ public:
 
    // Clock
    inline const uint64_t &
-                  clock () { return _clock.ms (); }
+                  clock ();
 
-   template <size_t MaxNbrChannels>
-   std::array <uint16_t *, MaxNbrChannels>
-                  init_adc_channels (std::initializer_list <AdcChannel> adc_channels);
+   inline daisy::AdcHandle &
+                  adc ();
 
    void           init_dac_channels (std::initializer_list <DacPin> dac_pins);
    void           write_dac (DacPin pin, uint16_t val);

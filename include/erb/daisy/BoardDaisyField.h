@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/daisy/AdcDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
 #include "erb/daisy/GpioOutputDaisy.h"
 #include "erb/daisy/SubmoduleDaisySeed.h"
@@ -160,8 +161,24 @@ private:
                      {SubmoduleDaisySeed::Pin15}
                   }};
 
-   std::array <uint16_t *, 12>
-                  _analog_inputs_u16;
+   AdcDaisy <12>  _adc = {
+                     _submodule.adc (),
+                     {
+                        {SubmoduleDaisySeed::AdcPin2.pin},
+                        {SubmoduleDaisySeed::AdcPin3.pin},
+                        {SubmoduleDaisySeed::AdcPin10.pin},
+                        {SubmoduleDaisySeed::AdcPin9.pin},
+                        {
+                           SubmoduleDaisySeed::AdcPin1.pin, 8,
+                           {
+                              SubmoduleDaisySeed::Pin21,
+                              SubmoduleDaisySeed::Pin20,
+                              SubmoduleDaisySeed::Pin19
+                           }
+                        },
+                     }
+                  };
+
    daisy::LedDriverPca9685 <1, true>
                   _led_driver;
 
