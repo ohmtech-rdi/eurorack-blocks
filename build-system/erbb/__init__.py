@@ -32,6 +32,7 @@ Name: configure
 def configure (name, path):
    configure_native (name, path)
    configure_daisy (name, path)
+   configure_vscode (name, path)
 
 
 
@@ -97,6 +98,65 @@ def configure_daisy (name, path):
    os.chdir (path)
    gyp.main (gyp_args + ['%s.gyp' % name])
    os.chdir (cwd)
+
+
+
+"""
+==============================================================================
+Name: configure_vscode
+==============================================================================
+"""
+
+def configure_vscode (name, path):
+   path_vscode = os.path.join (path, '.vscode')
+   if not os.path.exists (path_vscode):
+      os.makedirs (path_vscode)
+
+   configure_vscode_launch (name, path)
+   configure_vscode_tasks (name, path)
+
+
+
+"""
+==============================================================================
+Name: configure_vscode_launch
+==============================================================================
+"""
+
+def configure_vscode_launch (name, path):
+   path_template = os.path.join (PATH_THIS, 'vscode', 'launch.json')
+
+   path_artifacts = os.path.join (path, 'artifacts')
+   file_elf = os.path.abspath (os.path.join (path_artifacts, 'out', 'Debug', '%s-daisy' % name))
+   file_svd = os.path.abspath (os.path.join (os.path.dirname (PATH_THIS), 'svd', 'STM32H750x.svd'))
+   path_launch = os.path.join (path, '.vscode', 'launch.json')
+
+   with open (path_template, 'r') as file:
+      template = file.read ()
+
+   template = template.replace ('%executable%', file_elf)
+   template = template.replace ('%svd_file%', file_svd)
+
+   with open (path_launch, 'w') as file:
+      file.write (template)
+
+
+
+"""
+==============================================================================
+Name: configure_vscode_tasks
+==============================================================================
+"""
+
+def configure_vscode_tasks (name, path):
+   path_template = os.path.join (PATH_THIS, 'vscode', 'tasks.json')
+   path_launch = os.path.join (path, '.vscode', 'tasks.json')
+
+   with open (path_template, 'r') as file:
+      template = file.read ()
+
+   with open (path_launch, 'w') as file:
+      file.write (template)
 
 
 

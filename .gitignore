@@ -33,3 +33,7 @@ htmlcov/
 # Build temporary files
 
 artifacts/
+
+# VSCode
+
+.vscode/
