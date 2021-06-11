@@ -63,10 +63,7 @@ Name : impl_preprocess
 
 void  BoardDaisySeed::impl_preprocess (AdcPin pin)
 {
-   auto pin_u16 = (pin.index < 7) ? pin.index : pin.index - 2;
-
-   auto && u16_ptr = _analog_inputs_u16 [pin_u16];
-   _analog_inputs [pin.index] = to_float_norm (*u16_ptr);
+   _analog_inputs [pin.index] = to_float_norm (_adc.read (pin.index));
 }
 
 

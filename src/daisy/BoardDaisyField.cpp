@@ -28,21 +28,6 @@ Name : ctor
 
 BoardDaisyField::BoardDaisyField ()
 {
-   _analog_inputs_u16 = _submodule.init_adc_channels <12> ({
-      {SubmoduleDaisySeed::AdcPin2},
-      {SubmoduleDaisySeed::AdcPin3},
-      {SubmoduleDaisySeed::AdcPin10},
-      {SubmoduleDaisySeed::AdcPin9},
-      {
-         SubmoduleDaisySeed::AdcPin1, 8,
-         {
-            SubmoduleDaisySeed::Pin21,
-            SubmoduleDaisySeed::Pin20,
-            SubmoduleDaisySeed::Pin19
-         }
-      },
-   });
-
    _submodule.init_dac_channels ({
       SubmoduleDaisySeed::DacPin0,
       SubmoduleDaisySeed::DacPin1,
