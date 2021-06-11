@@ -150,6 +150,8 @@ public:
    inline const uint64_t &
                   clock ();
 
+   inline daisy::AdcHandle &
+                  adc ();
 
    template <size_t MaxNbrChannels>
    std::array <uint16_t *, MaxNbrChannels>
