@@ -106,9 +106,8 @@ Name : build
 ==============================================================================
 """
 
-def build (name, path):
+def build (name, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
-   configuration = 'Release'
 
    cmd = [
       'ninja',
@@ -125,9 +124,8 @@ Name : build_target
 ==============================================================================
 """
 
-def build_target (name, target, path):
+def build_target (name, target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
-   configuration = 'Release'
 
    cmd = [
       'ninja',
@@ -145,9 +143,8 @@ Name : build_native_target
 ==============================================================================
 """
 
-def build_native_target (name, target, path):
+def build_native_target (name, target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
-   configuration = 'Release'
 
    if platform.system () == 'Darwin':
       conf_dir = os.path.join (path_artifacts, 'build', configuration)
@@ -192,9 +189,8 @@ Name : objcopy
 ==============================================================================
 """
 
-def objcopy (name, path):
+def objcopy (name, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
-   configuration = 'Release'
 
    print ('OBJCOPY %s' % name)
 
@@ -219,11 +215,11 @@ Name : deploy
 ==============================================================================
 """
 
-def deploy (name, path):
+def deploy (name, path, configuration):
    if shutil.which ('openocd') is not None:
-      deploy_openocd (name, path)
+      deploy_openocd (name, path, configuration)
    else:
-      deploy_dfu_util (name, path)
+      deploy_dfu_util (name, path, configuration)
 
 
 
@@ -233,9 +229,9 @@ Name : deploy_dfu_util
 ==============================================================================
 """
 
-def deploy_dfu_util (name, path):
+def deploy_dfu_util (name, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
-   file_bin = os.path.join (path_artifacts, 'out', 'Release', '%s.bin' % name)
+   file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
 
    if not os.path.exists (file_bin):
       sys.exit ('Unknown target %s' % name)
@@ -268,9 +264,9 @@ Name : deploy_openocd
 ==============================================================================
 """
 
-def deploy_openocd (name, path):
+def deploy_openocd (name, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
-   file_elf = os.path.join (path_artifacts, 'out', 'Release', '%s' % name)
+   file_elf = os.path.join (path_artifacts, 'out', configuration, '%s' % name)
 
    if not os.path.exists (file_elf):
       sys.exit ('Unknown target %s' % name)

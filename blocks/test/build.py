@@ -49,8 +49,11 @@ if __name__ == '__main__':
       ]
 
       for target in targets:
-         erbb.build_target ('test', target, PATH_THIS)
-         erbb.objcopy (target, PATH_THIS)
+         erbb.build_target ('test', target, PATH_THIS, 'Debug')
+         erbb.objcopy (target, PATH_THIS, 'Debug')
+
+         erbb.build_target ('test', target, PATH_THIS, 'Release')
+         erbb.objcopy (target, PATH_THIS, 'Release')
 
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)

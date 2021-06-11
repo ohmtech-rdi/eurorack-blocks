@@ -22,6 +22,9 @@ sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbb
 import erbui
 
+PROJECT = 'drop'
+CLASS = 'Drop'
+
 
 
 ##############################################################################
@@ -48,6 +51,13 @@ def parse_args ():
       help = 'The erb target to use. Defaults to daisy'
    )
 
+   arg_parser.add_argument(
+      '-c', '--configuration',
+      default = 'Release',
+      choices = ['Debug', 'Release'],
+      help = 'The erb target to use. Defaults to daisy'
+   )
+
    return arg_parser.parse_args (sys.argv[1:])
 
 
@@ -59,14 +69,18 @@ if __name__ == '__main__':
       args = parse_args ()
 
       if args.erb_target == 'daisy':
-         ast = erbui.parse (os.path.join (PATH_THIS, 'Drop.erbui'))
+         ast = erbui.parse (os.path.join (PATH_THIS, '%s.erbui' % CLASS))
          erbui.generate_front_panel (PATH_ARTIFACTS, ast)
 
-         erbb.build_target ('drop', 'drop-daisy', PATH_THIS)
-         erbb.objcopy ('drop-daisy', PATH_THIS)
+         erbb.build_target (
+            PROJECT, '%s-daisy' % PROJECT, PATH_THIS, args.configuration
+         )
+         erbb.objcopy ('%s-daisy' % PROJECT, PATH_THIS, args.configuration)
 
       elif args.erb_target == 'vcvrack':
-         erbb.build_native_target ('drop', 'drop-vcvrack', PATH_THIS)
+         erbb.build_native_target (
+            PROJECT, '%s-vcvrack' % PROJECT, PATH_THIS, args.configuration
+         )
 
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)
