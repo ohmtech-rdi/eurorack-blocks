@@ -47,7 +47,18 @@ Name : impl_need_process
 
 bool  BoardGeneric::impl_need_process ()
 {
-   return _double_buffer_inputs [0].tell () == 0;
+   if (!_rack_audio_inputs.empty ())
+   {
+      return _double_buffer_inputs [0].tell () == 0;
+   }
+   else if (!_rack_audio_outputs.empty ())
+   {
+      return _double_buffer_outputs [0].tell () == 0;
+   }
+   else
+   {
+      return false;
+   }
 }
 
 
