@@ -38,7 +38,7 @@ module Drop {
       rotation 90°ccw
       label "MUTE" { positioning left }
       label "HP" { positioning right }
-      pins Pin12, Pin11
+      pins Pin0, Pin1
    }
 
    control freq_trim Trim {
@@ -52,52 +52,52 @@ module Drop {
    control sync_button Button {
       position 7.11mm, 75.3mm
       style ck.d6r.black
-      pin Pin5
+      pin Pin2
    }
 
    control arm_button Button {
       position 19.2mm, 75.3mm
       style ck.d6r.black
-      pin Pin10
+      pin Pin3
    }
 
    control sync_led Led {
       position 7.11mm, 85mm
       style led.3mm.red
-      pin Pin13
+      pin Pin26
    }
 
    control sync_gate GateIn {
       position 7.11mm, 96.5mm
       style thonk.pj398sm.knurled
       label "SYNC"
-      pin Pin14
+      pin Pin5
    }
 
    control arm_led Led {
       position 19.2mm, 85mm
       style led.3mm.red
-      pin Pin8
+      pin Pin27
    }
 
    control arm_gate GateIn {
       position 19.2mm, 96.5mm
       style thonk.pj398sm.knurled
       label "ARM"
-      pin Pin9
+      pin Pin7
    }
 
    control state_led LedBi {
       position 31.3mm, 85mm
       style led.3mm.green_red
-      pins Pin7, Pin6
+      pins Pin12, Pin13
    }
 
    control state_gate GateOut {
       position 31.3mm, 96.5mm
       style thonk.pj398sm.knurled
       label "STATE"
-      pin Pin4
+      pin Pin14
    }
 
    control freq_cv CvIn {
