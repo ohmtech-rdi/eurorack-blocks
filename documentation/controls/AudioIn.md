@@ -15,7 +15,8 @@ module Example {
       position 19.2mm, 111mm        // 2.
       style thonk.pj398sm.knurled   // 3.
       label "IN L"                  // 4.
-      pin AudioInPinLeft            // 5.
+      cascade in_right              // 5.
+      pin AudioInPinLeft            // 6.
    }
 }
 ```
@@ -26,7 +27,8 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the physical board pin to use.
+5. Sets the optional cascade control for the control,
+6. Sets the physical board pin to use.
 
 `style` is the nut style, and is one of:
 - `thonk.pj398sm.knurled`,
