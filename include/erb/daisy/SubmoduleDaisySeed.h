@@ -22,9 +22,7 @@ erb_DISABLE_WARNINGS_DAISY
 #include "daisy_seed.h"
 erb_RESTORE_WARNINGS
 
-#include <array>
 #include <functional>
-#include <initializer_list>
 
 
 
@@ -118,27 +116,6 @@ public:
    static constexpr DacPin DacPins [] = {
       DacPin0, DacPin1
    };
-
-   enum class Pull
-   {
-      Up, Down
-   };
-
-   struct MuxAddress
-   {
-      Pin         pin_a = PinNC;
-      Pin         pin_b = PinNC;
-      Pin         pin_c = PinNC;
-   };
-
-   struct AdcChannel
-   {
-      AdcPin      pin;
-      size_t      nbr_channels = 1;
-      MuxAddress  address = MuxAddress {};
-   };
-
-   enum { NBR_MAX_ADC_CHANNELS = 12 };
 
                   SubmoduleDaisySeed ();
    virtual        ~SubmoduleDaisySeed () = default;
