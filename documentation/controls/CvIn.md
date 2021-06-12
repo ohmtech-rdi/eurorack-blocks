@@ -16,7 +16,8 @@ module Example {
       style thonk.pj398sm.knurled   // 3.
       label "AMP"                   // 4.
       mode bipolar                  // 5.
-      pin AdcPin1                   // 6.
+      cascade vco_amp2              // 6.
+      pin AdcPin1                   // 7.
    }
 }
 ```
@@ -28,7 +29,8 @@ module Example {
 3. Sets the style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional mode for the control, bipolar by default,
-6. Sets the physical board pin to use.
+6. Sets the optional cascade control for the control,
+7. Sets the physical board pin to use.
 
 `style` is the nut style, and is one of:
 - `thonk.pj398sm.knurled`,

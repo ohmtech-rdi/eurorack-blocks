@@ -158,7 +158,8 @@ and with which the end-user can interact with.
 > _control-entity_ → [label-declaration](#label) \
 > _control-entity_ → [image-declaration](#image) \
 > _control-entity_ → [pins-declaration](#pins) \
-> _control-entity_ → [pin-declaration](#pin)
+> _control-entity_ → [pin-declaration](#pin) \
+> _control-entity_ → [cascade-declaration](#cascade)
 
 ### Language Bindings
 
@@ -389,6 +390,36 @@ See individual [boards](../boards/) reference for the available pins configurati
 
 The `pins` property is only supported for controls that support more than one data pin.
 See individual [controls](../controls/) reference for a list of pins for each control.
+
+
+## `cascade`
+
+A `cascade` represents a link from the current [control](#control) to the referenced control.
+
+### Grammar
+
+> _cascade-declaration_ → **`cascade`** control-reference \
+> _control-reference_ → [identifier](./lexical.md#identifiers)
+
+`cascade` allows to cascade the signal from an input to another input, when that other
+input is not connected.
+
+For example:
+
+```erbui
+// Standard library daisy_field.erbui
+module daisy_field {
+   ...
+   control input_left AudioIn {
+      ...
+      cascade input_right
+   }
+   control input_right AudioIn { ... }
+}
+```
+
+In the example above, when no audio jack is connected into the right input,
+the signal seen on `input_right` will be the signal of `input_left`.
 
 
 ## `positioning`

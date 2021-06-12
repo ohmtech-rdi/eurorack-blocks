@@ -107,7 +107,10 @@ class KicadPcb:
          component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.kicad_pcb'))
 
       elif control.style.is_thonk_pj398sm:
-         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.kicad_pcb'))
+         if control.cascade_from is None:
+            component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-gnd.kicad_pcb'))
+         else:
+            component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-cascade.kicad_pcb'))
 
       elif control.style.is_ck_d6r:
          component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.kicad_pcb'))
@@ -139,6 +142,20 @@ class KicadPcb:
 
       for element in component.entities:
          self.base.add (element)
+
+      if control.cascade_to is not None:
+         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.do.kicad_pcb'))
+         component = self.move (component, control.position)
+         component = self.rename_cascade (component, control.cascade_to.index)
+         for element in component.entities:
+            self.base.add (element)
+
+      if control.cascade_from is not None:
+         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.di.kicad_pcb'))
+         component = self.move (component, control.position)
+         component = self.rename_cascade (component, control.cascade_from.index)
+         for element in component.entities:
+            self.base.add (element)
 
 
    #--------------------------------------------------------------------------
@@ -259,6 +276,19 @@ class KicadPcb:
             element_text = element.entities [1].value
             if element_text in name_map:
                element.entities [1].value = name_map [element_text]
+
+      return component
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_cascade (self, component, cascade_index):
+      for element in component.entities:
+         element_name = element.entities [0].value
+         if element_name in ['gr_text']:
+            element_text = element.entities [1].value
+            if element_text == 'cascade':
+               element.entities [1].value = 'K%d' % (cascade_index + 1)
 
       return component
 
