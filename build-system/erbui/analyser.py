@@ -48,6 +48,9 @@ class Analyser:
       for alias in module.aliases:
          self.resolve_alias (module, alias)
 
+      self.make_cascade_eval_list (module)
+
+
    #--------------------------------------------------------------------------
 
    def analyse_control (self, module, control):
@@ -209,3 +212,65 @@ class Analyser:
          board_definition = eval (file.read ())
 
       return board_definition
+
+
+   #--------------------------------------------------------------------------
+
+   def make_cascade_eval_list (self, module):
+      for control in module.controls:
+         if control.is_kind_in:
+            self.visit_cascade (module, control)
+
+
+   #--------------------------------------------------------------------------
+
+   def visit_cascade (self, module, control):
+      if self.is_cascade_visited (control):
+         return
+
+      if self.is_cascade_visiting (control):
+         err = error.Error ()
+         context = module.source_context
+         err.add_error ("Cascade loop", context)
+         err.add_context (context)
+         raise err
+
+      self.mark_cascade_visiting (control)
+
+      if control.cascade_to is not None:
+         control_next = control.cascade_to.reference
+         self.visit_cascade (module, control_next)
+
+      self.remove_cascade_visiting (control)
+      self.mark_cascade_visited (control)
+      module.cascade_eval_list.insert (0, control)
+
+
+   #--------------------------------------------------------------------------
+
+   def mark_cascade_visiting (self, control):
+      setattr (control, '_cascade_visiting', None)
+
+
+   #--------------------------------------------------------------------------
+
+   def remove_cascade_visiting (self, control):
+      delattr (control, '_cascade_visiting')
+
+
+   #--------------------------------------------------------------------------
+
+   def is_cascade_visiting (self, control):
+      return hasattr (control, '_cascade_visiting')
+
+
+   #--------------------------------------------------------------------------
+
+   def mark_cascade_visited (self, control):
+      setattr (control, '_cascade_visited', None)
+
+
+   #--------------------------------------------------------------------------
+
+   def is_cascade_visited (self, control):
+      return hasattr (control, '_cascade_visited')
