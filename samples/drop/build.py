@@ -71,6 +71,7 @@ if __name__ == '__main__':
       if args.erb_target == 'daisy':
          ast = erbui.parse (os.path.join (PATH_THIS, '%s.erbui' % CLASS))
          erbui.generate_front_panel (PATH_ARTIFACTS, ast)
+         erbui.generate_front_pcb (PATH_ARTIFACTS, ast)
 
          erbb.build_target (
             PROJECT, '%s-daisy' % PROJECT, PATH_THIS, args.configuration
