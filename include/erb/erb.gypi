@@ -29,6 +29,8 @@
             'daisy/BoardDaisyMicropatch.hpp',
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
+            'daisy/BoardKivu12.h',
+            'daisy/BoardKivu12.hpp',
             'daisy/DacDaisy.h',
             'daisy/DacDaisy.hpp',
             'daisy/GpioInputDaisy.h',
@@ -43,6 +45,7 @@
             '../../src/daisy/BoardDaisyField.cpp',
             '../../src/daisy/BoardDaisyMicropatch.cpp',
             '../../src/daisy/BoardDaisySeed.cpp',
+            '../../src/daisy/BoardKivu12.cpp',
             '../../src/daisy/SubmoduleDaisyPatchSm.cpp',
             '../../src/daisy/SubmoduleDaisySeed.cpp',
          ],
@@ -86,6 +89,7 @@
             'vcvrack/BoardDaisySeed.h',
             'vcvrack/BoardGeneric.h',
             'vcvrack/BoardGeneric.hpp',
+            'vcvrack/BoardKivu12.h',
             'vcvrack/VcvWidgets.h',
 
             # sources
