@@ -59,6 +59,8 @@ jobs:
       - run: python3 blocks/test/build.py
       - run: python3 test/field/configure.py
       - run: python3 test/field/build.py
+      - run: python3 test/micropatch/configure.py
+      - run: python3 test/micropatch/build.py
       - run: python3 samples/drop/configure.py
       - run: python3 samples/drop/build.py
       - run: python3 samples/drop/build.py --erb-target vcvrack

@@ -25,6 +25,8 @@
             'daisy/AdcDaisy.hpp',
             'daisy/BoardDaisyField.h',
             'daisy/BoardDaisyField.hpp',
+            'daisy/BoardDaisyMicropatch.h',
+            'daisy/BoardDaisyMicropatch.hpp',
             'daisy/BoardDaisySeed.h',
             'daisy/BoardDaisySeed.hpp',
             'daisy/DacDaisy.h',
@@ -33,11 +35,15 @@
             'daisy/GpioInputDaisy.hpp',
             'daisy/GpioOutputDaisy.h',
             'daisy/GpioOutputDaisy.hpp',
+            'daisy/SubmoduleDaisyPatchSm.h',
+            'daisy/SubmoduleDaisyPatchSm.hpp',
             'daisy/SubmoduleDaisySeed.h',
             'daisy/SubmoduleDaisySeed.hpp',
 
             '../../src/daisy/BoardDaisyField.cpp',
+            '../../src/daisy/BoardDaisyMicropatch.cpp',
             '../../src/daisy/BoardDaisySeed.cpp',
+            '../../src/daisy/SubmoduleDaisyPatchSm.cpp',
             '../../src/daisy/SubmoduleDaisySeed.cpp',
          ],
 
@@ -76,6 +82,7 @@
          'sources': [
             # headers
             'vcvrack/BoardDaisyField.h',
+            'vcvrack/BoardDaisyMicropatch.h',
             'vcvrack/BoardDaisySeed.h',
             'vcvrack/BoardGeneric.h',
             'vcvrack/BoardGeneric.hpp',
