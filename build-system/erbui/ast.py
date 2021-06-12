@@ -237,6 +237,7 @@ class Module (Scope):
       super (Module, self).__init__ ()
       self.identifier = identifier
       self.super_identifier = super_identifier
+      self.cascade_eval_list = []
 
    @staticmethod
    def typename (): return 'module'
@@ -608,6 +609,10 @@ class Control (Scope):
    @property
    def is_output (self):
       return self.kind in ['AudioOut', 'CvOut','GateOut', 'Led', 'LedBi', 'LedRgb']
+
+   @property
+   def is_kind_in (self):
+      return self.kind in ['AudioIn', 'CvIn', 'GateIn']
 
    @property
    def is_kind_out (self):

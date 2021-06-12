@@ -37,6 +37,7 @@ class Code:
       template = template.replace ('%module.name%', module.name)
 
       template = self.replace_config_controls_bind (template, module.entities);
+      template = self.replace_cascade_process (template, module.cascade_eval_list);
       template = self.replace_controls_preprocess (template, module.entities);
       template = self.replace_controls_postprocess (template, module.entities);
       template = self.replace_controls_widget (template, module.entities);
@@ -68,19 +69,23 @@ class Code:
 
                max_val = 2 if control.style.is_dailywell_2ms3 else 1
 
+               control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
                controls_bind_config += '   configParam (%d, %f, %f, 0.f);\n\n' % (nbr_params, min_val, max_val)
                nbr_params += 1
 
             elif category == 'Input':
+               control.vcv_input_index = nbr_inputs
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
                nbr_inputs += 1
 
             elif category == 'Output':
+               control.vcv_output_index = nbr_outputs
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
                nbr_outputs += 1
 
             elif category == 'Light':
+               control.vcv_light_index = nbr_lights
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
                nbr_lights += control.nbr_pins
 
@@ -92,6 +97,21 @@ class Code:
       template = template.replace ('%  module.controls.bind+config%', controls_bind_config)
 
       return template
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_cascade_process (self, template, controls):
+      lines = ''
+
+      for control in controls:
+         if control.cascade_from is not None:
+            lines += '   if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
+            lines += '   {\n'
+            lines += '      inputs [%d].setVoltage (inputs [%d].getVoltage ());\n' % (control.vcv_input_index, control.cascade_from.reference.vcv_input_index)
+            lines += '   }\n'
+
+      return template.replace ('%  cascade_process%', lines)
 
 
    #--------------------------------------------------------------------------
