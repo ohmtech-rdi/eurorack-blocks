@@ -42,7 +42,28 @@ class KicadPcb:
       writer = s_expression.Writer ()
       writer.write (self.base, path_pcb)
 
+      self.fill_zones (path, module)
       self.generate_module_gerber (path, module)
+
+
+   #--------------------------------------------------------------------------
+
+   def fill_zones (self, path, module):
+      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+
+      if platform.system () == 'Darwin':
+         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      else:
+         kicad_python_path = 'python'
+
+      subprocess.check_call (
+         [
+            kicad_python_path,
+            os.path.join (PATH_THIS, 'fill_zones.py'),
+            path_pcb
+         ],
+         cwd = PATH_THIS
+      )
 
 
    #--------------------------------------------------------------------------
@@ -74,8 +95,6 @@ class KicadPcb:
       gerber_dir = os.path.join (path, 'gerber')
       zipdir (gerber_dir, zip_file)
       zip_file.close ()
-
-
 
 
    #--------------------------------------------------------------------------
@@ -143,10 +162,25 @@ class KicadPcb:
       def filter_func (node):
          if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
             return False
+
          if isinstance (node, s_expression.List) and node.entities \
             and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net', 'net_class']:
+            and node.entities [0].value in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class']:
             return False
+
+         if isinstance (node, s_expression.List) and node.entities \
+            and isinstance (node.entities [0], s_expression.Symbol) \
+            and node.entities [0].value in ['net']:
+               if len (node.entities) == 3:
+                  if node.entities [2].value == 'GND':
+                     return True
+                  elif node.entities [2].value == '+3V3':
+                     return True
+                  else:
+                     return False
+               else:
+                  return False
+
          return True
 
       component = self.load (path)
@@ -164,7 +198,15 @@ class KicadPcb:
          if isinstance (node, s_expression.List) and node.entities \
             and isinstance (node.entities [0], s_expression.Symbol) \
             and node.entities [0].value == 'net':
-            return False
+               if len (node.entities) == 3:
+                  if node.entities [2].value == 'GND':
+                     return True
+                  elif node.entities [2].value == '+3V3':
+                     return True
+                  else:
+                     return False
+               else:
+                  return False
          return True
 
       for element in node.entities:

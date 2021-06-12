@@ -30,4 +30,37 @@ F 9 "https://www.thonk.co.uk/shop/sub-mini-toggle-switches/" H 5000 4700 50  000
 	1    5000 4700
 	1    0    0    -1  
 $EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 60B938C9
+P 4800 4700
+F 0 "#PWR?" H 4800 4550 50  0001 C CNN
+F 1 "+3V3" V 4815 4828 50  0000 L CNN
+F 2 "" H 4800 4700 50  0001 C CNN
+F 3 "" H 4800 4700 50  0001 C CNN
+	1    4800 4700
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint O1
+U 1 1 60B942BC
+P 5200 4600
+F 0 "O1" V 5200 4788 50  0000 L CNN
+F 1 "TestPoint" V 5245 4788 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5400 4600 50  0001 C CNN
+F 3 "~" H 5400 4600 50  0001 C CNN
+	1    5200 4600
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint O3
+U 1 1 60B947FF
+P 5200 4800
+F 0 "O3" V 5200 4988 50  0000 L CNN
+F 1 "TestPoint" V 5245 4988 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5400 4800 50  0001 C CNN
+F 3 "~" H 5400 4800 50  0001 C CNN
+	1    5200 4800
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

@@ -30,4 +30,37 @@ F 9 "https://www.thonk.co.uk/shop/alpha-9mm-pots-dshaft/" H 4350 2950 50  0001 C
 	1    4350 2950
 	0    -1   1    0   
 $EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 60B91767
+P 4200 2950
+F 0 "#PWR?" H 4200 2700 50  0001 C CNN
+F 1 "GND" V 4205 2822 50  0000 R CNN
+F 2 "" H 4200 2950 50  0001 C CNN
+F 3 "" H 4200 2950 50  0001 C CNN
+	1    4200 2950
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 60B921D9
+P 4500 2950
+F 0 "#PWR?" H 4500 2800 50  0001 C CNN
+F 1 "+3V3" V 4515 3078 50  0000 L CNN
+F 2 "" H 4500 2950 50  0001 C CNN
+F 3 "" H 4500 2950 50  0001 C CNN
+	1    4500 2950
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector:TestPoint TP1
+U 1 1 60B9472F
+P 4350 3100
+F 0 "TP1" H 4292 3172 50  0000 R CNN
+F 1 "TestPoint" H 4292 3217 50  0001 R CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4550 3100 50  0001 C CNN
+F 3 "~" H 4550 3100 50  0001 C CNN
+	1    4350 3100
+	-1   0    0    1   
+$EndComp
 $EndSCHEMATC

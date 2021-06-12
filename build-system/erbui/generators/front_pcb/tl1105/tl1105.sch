@@ -30,4 +30,26 @@ F 9 "https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/2
 	1    4700 5300
 	1    0    0    -1  
 $EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 60B97257
+P 4500 5300
+F 0 "#PWR?" H 4500 5150 50  0001 C CNN
+F 1 "+3V3" V 4515 5428 50  0000 L CNN
+F 2 "" H 4500 5300 50  0001 C CNN
+F 3 "" H 4500 5300 50  0001 C CNN
+	1    4500 5300
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint TP1
+U 1 1 60B97905
+P 4900 5300
+F 0 "TP1" V 4900 5488 50  0000 L CNN
+F 1 "TestPoint" V 4945 5488 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5100 5300 50  0001 C CNN
+F 3 "~" H 5100 5300 50  0001 C CNN
+	1    4900 5300
+	0    1    1    0   
+$EndComp
 $EndSCHEMATC

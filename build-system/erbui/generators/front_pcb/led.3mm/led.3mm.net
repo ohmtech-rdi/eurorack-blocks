@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/led.3mm/led.3mm.sch)
-    (date "2021 April 29, Thursday 17:14:36")
+    (date "2021 June 03, Thursday 22:25:11")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -28,8 +28,26 @@
         (field (name Place) No))
       (libsource (lib Device) (part LED) (description "Light emitting diode"))
       (sheetpath (names /) (tstamps /))
-      (tstamp 5FD62DCA)))
+      (tstamp 5FD62DCA))
+    (comp (ref O1)
+      (value TestPoint)
+      (footprint TestPoint:TestPoint_Pad_D1.5mm)
+      (datasheet ~)
+      (libsource (lib Connector) (part TestPoint) (description "test point"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 60B93C6A)))
   (libparts
+    (libpart (lib Connector) (part TestPoint)
+      (description "test point")
+      (docs ~)
+      (footprints
+        (fp Pin*)
+        (fp Test*))
+      (fields
+        (field (name Reference) TP)
+        (field (name Value) TestPoint))
+      (pins
+        (pin (num 1) (name 1) (type passive))))
     (libpart (lib Device) (part LED)
       (description "Light emitting diode")
       (docs ~)
@@ -44,10 +62,13 @@
         (pin (num 1) (name K) (type passive))
         (pin (num 2) (name A) (type passive)))))
   (libraries
+    (library (logical Connector)
+      (uri "/Library/Application Support/kicad/library/Connector.lib"))
     (library (logical Device)
       (uri "/Library/Application Support/kicad/library/Device.lib")))
   (nets
     (net (code 1) (name GND)
       (node (ref D1) (pin 1)))
     (net (code 2) (name "Net-(D1-Pad2)")
-      (node (ref D1) (pin 2)))))
+      (node (ref D1) (pin 2))
+      (node (ref O1) (pin 1)))))

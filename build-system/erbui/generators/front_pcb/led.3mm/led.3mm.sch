@@ -41,4 +41,15 @@ F 9 "https://www.digikey.de/product-detail/en/kingbright/WP710A10GD/754-1603-ND/
 	1    5100 5050
 	-1   0    0    1   
 $EndComp
+$Comp
+L Connector:TestPoint O1
+U 1 1 60B93C6A
+P 4950 5050
+F 0 "O1" V 5053 5122 50  0000 C CNN
+F 1 "TestPoint" V 5054 5122 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5150 5050 50  0001 C CNN
+F 3 "~" H 5150 5050 50  0001 C CNN
+	1    4950 5050
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC

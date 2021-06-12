@@ -43,4 +43,26 @@ F 3 "" H 5500 4700 50  0001 C CNN
 $EndComp
 Wire Wire Line
 	5400 4700 5500 4700
+$Comp
+L Connector:TestPoint L1
+U 1 1 60B93D2A
+P 4800 4600
+F 0 "L1" V 4800 4850 50  0000 C CNN
+F 1 "TestPoint" V 4904 4672 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5000 4600 50  0001 C CNN
+F 3 "~" H 5000 4600 50  0001 C CNN
+	1    4800 4600
+	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector:TestPoint L2
+U 1 1 60B94B75
+P 4800 4800
+F 0 "L2" V 4800 5050 50  0000 C CNN
+F 1 "TestPoint" V 4904 4872 50  0001 C CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5000 4800 50  0001 C CNN
+F 3 "~" H 5000 4800 50  0001 C CNN
+	1    4800 4800
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
