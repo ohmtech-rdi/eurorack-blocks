@@ -84,6 +84,8 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       control.entities.append (position)
       style = ast.Style (mock.keyword ('songhuei.9mm'))
       control.entities.append (style)
+      pin = ast.Pin (mock.identifier ('P1'))
+      control.entities.append (pin)
       module.entities.append (control)
 
       control = ast.Control (
@@ -97,6 +99,8 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       control.entities.append (position)
       style = ast.Style (mock.keyword ('rogan.6ps'))
       control.entities.append (style)
+      pin = ast.Pin (mock.identifier ('P2'))
+      control.entities.append (pin)
       module.entities.append (control)
 
       control = ast.Control (
@@ -110,6 +114,8 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       control.entities.append (position)
       style = ast.Style (mock.keyword ('thonk.pj398sm.hex'))
       control.entities.append (style)
+      pin = ast.Pin (mock.identifier ('CI1'))
+      control.entities.append (pin)
       module.entities.append (control)
 
       gen = KicadPcb ()
