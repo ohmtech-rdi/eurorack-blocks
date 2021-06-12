@@ -31,6 +31,7 @@ jobs:
       - run: ./blocks/trim/build.py
       - run: ./blocks/kits/stats.py
       - run: ./blocks/kits/build.py
+      - run: ./boards/kivu12/build.py
 
   software:
     name: Software
