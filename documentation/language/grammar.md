@@ -108,7 +108,11 @@ See individual [boards](../boards/) reference for the available pins configurati
 
 ## `width`
 
-`width` defines the module width in HP. In general, it should follow the [board](#board) width.
+`width` defines the module width in HP.
+
+If a [board](#board) is defined but no width is defined, then the actual width will be inherited from
+the board width.
+
 Only a [specific set of integer HP widths](http://www.doepfer.de/a100_man/a100m_e.htm) are valid.
 
 ### Grammar
