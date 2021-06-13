@@ -24,7 +24,7 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the physical board pin to use.
+5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the button style, and is one of:
 - [`tl1105`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)

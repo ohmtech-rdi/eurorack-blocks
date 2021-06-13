@@ -30,7 +30,7 @@ module Example {
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional mode for the control, bipolar by default,
 6. Sets the optional cascade control for the control,
-7. Sets the physical board pin to use.
+7. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the nut style, and is one of:
 - `thonk.pj398sm.knurled`,
