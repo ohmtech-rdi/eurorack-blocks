@@ -9,7 +9,6 @@
 
 module Reverb {
    board kivu12
-   width 12hp
    material aluminum
    header { label "REVERB" }
 
