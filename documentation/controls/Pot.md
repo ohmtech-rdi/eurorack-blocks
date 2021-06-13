@@ -26,7 +26,7 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the physical board pin to use.
+5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the knob style, and is one of:
 - `rogan.6ps`

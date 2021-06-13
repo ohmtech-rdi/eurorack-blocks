@@ -43,6 +43,12 @@ class Analyser:
       self._board_definition = self.load_board_definition (module)
 
       for control in module.controls:
+         self.update_pools (control)
+
+      for control in module.controls:
+         self.allocate_pin (control)
+
+      for control in module.controls:
          self.analyse_control (module, control)
 
       for alias in module.aliases:
@@ -212,6 +218,85 @@ class Analyser:
          board_definition = eval (file.read ())
 
       return board_definition
+
+
+   #--------------------------------------------------------------------------
+
+   def update_pools (self, control):
+      if 'pools' not in self._board_definition:
+         return # board doesn't support auto pin allocation
+
+      pins = [e for e in control.entities if e.is_pin]
+      for pin in pins:
+         self.remove_pools_pin (pin.name)
+
+      pin_arrays = [e for e in control.entities if e.is_pin_array]
+      for pin_array in pin_arrays:
+         for pin_name in pin_array.names:
+            self.remove_pools_pin (pin_name)
+
+
+   #--------------------------------------------------------------------------
+
+   def remove_pools_pin (self, pin_name):
+      pools = self._board_definition ['pools']
+      for key, value in pools.items ():
+         if pin_name in value:
+            value.remove (pin_name)
+
+
+   #--------------------------------------------------------------------------
+
+   def allocate_pin (self, control):
+      if 'pools' not in self._board_definition:
+         return # board doesn't support auto pin allocation
+
+      pools = self._board_definition ['pools']
+      control_pools = self._board_definition ['kinds'][control.kind]['pools']
+
+      def generate_identifier (name):
+         node = lambda: None
+         node.value = name
+         node.position = None
+         return adapter.Identifier (None, node)
+
+      def raise_pool_empty (pool_type):
+         err = error.Error ()
+         context = control.source_context
+         err.add_error ("No more pin of type %s" % pool_type, context)
+         err.add_context (context)
+         raise err
+
+      if control.is_pin_single:
+         pins = [e for e in control.entities if e.is_pin]
+         nbr_pins = len (pins)
+
+         if nbr_pins == 0:
+            pool_type = control_pools [0]
+            pool = pools [pool_type]
+            if len (pool) == 0:
+               raise_pool_empty (pool_type)
+
+            pin_name = pool.pop (0)
+            pin = ast.Pin (generate_identifier (pin_name))
+            control.entities.append (pin)
+
+      elif control.is_pin_multiple:
+         pin_arrays = [e for e in control.entities if e.is_pin_array]
+         nbr_pin_arrays = len (pin_arrays)
+
+         if nbr_pin_arrays == 0:
+            identifiers = []
+            for pool_type in control_pools:
+               pool = pools [pool_type]
+               if len (pool) == 0:
+                  raise_pool_empty (pool_type)
+
+               pin_name = pool.pop (0)
+               identifiers.append (generate_identifier (pin_name))
+
+            pin_array = ast.Pins (identifiers)
+            control.entities.append (pin_array)
 
 
    #--------------------------------------------------------------------------

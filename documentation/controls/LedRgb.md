@@ -25,10 +25,11 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the physical board pins to use:
+5. Sets the optional physical board pins to use:
    - First pin denotes the *red* pin,
    - Second pin denotes the *green* pin,
    - Third pin denotes the *blue* pin.
+   If not set, the system will choose them automatically.
 
 `style` is the LED style, and is one of:
 - `led.3mm.rgb`

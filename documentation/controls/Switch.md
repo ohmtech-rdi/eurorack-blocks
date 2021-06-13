@@ -28,7 +28,8 @@ module Example {
 3. Sets the style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional rotation for the switch,
-6. Sets the physical board pins to use, one for each extreme position.
+6. Sets the optional physical board pins to use, one for each extreme position.
+   If not set, the system will choose them automatically.
 
 `style` is the button style, and is one of:
 - `dailywell.2ms1`, which is a SPDT On-On (2 positions) switch
