@@ -9,6 +9,7 @@
 
 {
    'class': 'BoardKivu12',
+   'width': 12, # hp
    'pins': {
 
       #--- Bottom Header
