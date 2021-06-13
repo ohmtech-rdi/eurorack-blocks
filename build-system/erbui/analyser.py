@@ -42,6 +42,8 @@ class Analyser:
 
       self._board_definition = self.load_board_definition (module)
 
+      self.set_auto_board_width (module)
+
       for control in module.controls:
          self.update_pools (control)
 
@@ -55,6 +57,28 @@ class Analyser:
          self.resolve_alias (module, alias)
 
       self.make_cascade_eval_list (module)
+
+
+   #--------------------------------------------------------------------------
+
+   def set_auto_board_width (self, module):
+      if 'width' not in self._board_definition:
+         return # board doesn't support fixed width
+
+      board_width = self._board_definition ['width']
+
+      def generate_literal (value):
+         node = lambda: None
+         node.value = value
+         node.position = None
+         return adapter.Literal (None, node)
+
+      entities = [e for e in module.entities if e.is_width]
+      if len (entities) == 0:
+         literal = generate_literal ('%shp' % board_width)
+         distance_literal = ast.DistanceLiteral (literal, 'hp')
+         width = ast.Width (distance_literal)
+         module.entities.append (width)
 
 
    #--------------------------------------------------------------------------
