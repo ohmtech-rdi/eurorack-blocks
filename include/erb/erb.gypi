@@ -37,6 +37,7 @@
             'daisy/GpioInputDaisy.hpp',
             'daisy/GpioOutputDaisy.h',
             'daisy/GpioOutputDaisy.hpp',
+            'daisy/SdDaisy.h',
             'daisy/SubmoduleDaisyPatchSm.h',
             'daisy/SubmoduleDaisyPatchSm.hpp',
             'daisy/SubmoduleDaisySeed.h',
@@ -46,6 +47,7 @@
             '../../src/daisy/BoardDaisyMicropatch.cpp',
             '../../src/daisy/BoardDaisySeed.cpp',
             '../../src/daisy/BoardKivu12.cpp',
+            '../../src/daisy/SdDaisy.cpp',
             '../../src/daisy/SubmoduleDaisyPatchSm.cpp',
             '../../src/daisy/SubmoduleDaisySeed.cpp',
          ],
@@ -90,10 +92,12 @@
             'vcvrack/BoardGeneric.h',
             'vcvrack/BoardGeneric.hpp',
             'vcvrack/BoardKivu12.h',
+            'vcvrack/SdVcv.h',
             'vcvrack/VcvWidgets.h',
 
             # sources
             '../../src/vcvrack/BoardGeneric.cpp',
+            '../../src/vcvrack/SdVcv.cpp',
          ],
 
          'xcode_settings':

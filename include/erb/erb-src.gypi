@@ -45,6 +45,7 @@
       'PinType.h',
       'Pot.h',
       'Pot.hpp',
+      'Sd.h',
       'SdramObject.h',
       'SdramObject.hpp',
       'Switch.h',
@@ -67,6 +68,7 @@
 
       '../../src/Button.cpp',
       '../../src/GateOut.cpp',
+      '../../src/Sd.cpp',
 
       '../../src/detail/Animation.cpp',
       '../../src/detail/Debounce.cpp',
