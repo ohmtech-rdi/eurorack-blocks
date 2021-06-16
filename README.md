@@ -131,11 +131,11 @@ The eurorack-block project requires the following to be installed:
 
 - [Homebrew](https://brew.sh), up-to-date,
 - [Xcode](https://developer.apple.com/xcode/), with minimum version 10 on macOS,
-- [All the package dependencies](.github/workflows/macos_10_15.yml#L43-L59).
+- [All the package dependencies](.github/workflows/macos_10_15.yml#L42-L57).
 
 ### Debian/Ubuntu
 
-- [All the package dependencies](.github/workflows/ubuntu_20_04.yml#L43-L61).
+- [All the package dependencies](.github/workflows/ubuntu_20_04.yml#L43-L60).
 
 ### STLink probe
 

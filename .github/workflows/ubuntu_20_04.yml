@@ -54,8 +54,7 @@ jobs:
       - run: sudo apt install dfu-util  # using USB
       - run: sudo apt install openocd   # using JTAG
 
-      - run: pip install cairosvg cairocffi
-      - run: pip install ezdxf
+      - run: python -m pip install cairosvg cairocffi ezdxf
       - run: mkdir -p ~/.local/share/fonts/
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
@@ -93,9 +92,7 @@ jobs:
       - run: sudo apt-get install libglu1-mesa-dev
       - run: sudo apt install libcairo2-dev libffi-dev python3-dev
       - run: sudo apt-get install kicad
-      - run: pip install cairosvg cairocffi
-      - run: pip install ezdxf
-      - run: pip install coverage
+      - run: python -m pip install cairosvg cairocffi ezdxf coverage
       - run: mkdir -p ~/.local/share/fonts/
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
