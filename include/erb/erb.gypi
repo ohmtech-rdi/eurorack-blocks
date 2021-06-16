@@ -74,7 +74,12 @@
       },
       {
          'target_name': 'erb-vcvrack',
-         'type': 'static_library',
+
+         'conditions': [['OS=="daisy"', {
+            'type': 'none',
+         },{
+            'type': 'static_library',
+         }]],
 
          'includes' : ['erb-src.gypi'],
 
