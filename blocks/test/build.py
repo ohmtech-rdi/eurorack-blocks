@@ -33,6 +33,9 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
+      erbb.build ('test', PATH_THIS, 'Debug')
+      erbb.build ('test', PATH_THIS, 'Release')
+
       targets = [
          'audio-in-daisy',
          'audio-out-daisy',
@@ -49,10 +52,7 @@ if __name__ == '__main__':
       ]
 
       for target in targets:
-         erbb.build_target ('test', target, PATH_THIS, 'Debug')
          erbb.objcopy (target, PATH_THIS, 'Debug')
-
-         erbb.build_target ('test', target, PATH_THIS, 'Release')
          erbb.objcopy (target, PATH_THIS, 'Release')
 
    except subprocess.CalledProcessError as error:
