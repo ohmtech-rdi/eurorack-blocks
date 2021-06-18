@@ -123,9 +123,8 @@ public:
 
    // Onboard Daisy Codec and associated gain stage
    // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
-   // 10V / (0.7 x 3.3V x 10) = 0.433
    static constexpr float
-                  gain_output_scaling = 0.433f;
+                  gain_output_scaling = 0.576f;
 
 
    float * const *raw_audio_inputs = nullptr;
