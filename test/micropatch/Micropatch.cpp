@@ -23,12 +23,16 @@ Name : process
 
 void  Micropatch::process ()
 {
-   bool osc1_gate = ui.osc1_button.held () || ui.osc1_gate;
-   float osc1_amp = (ui.osc1_amp + ui.osc1_amp2) * osc1_gate;
-   osc1.set_freq_norm (ui.osc1_freq + ui.osc1_freq2);
+   const bool osc1_gate = ui.osc1_button.held () || ui.osc1_gate;
+   const float osc1_amp = (ui.osc1_amp + ui.osc1_amp2) * osc1_gate;
+   const float osc1_freq_norm = ui.osc1_freq + ui.osc1_freq2;
+   const float osc1_freq = 20.f * std::pow (500.f, std::abs (osc1_freq_norm));
+   osc1.set_freq (osc1_freq);
 
    float osc2_amp = ui.osc2_amp + ui.osc2_amp2;
-   osc2.set_freq_norm (ui.osc2_freq + ui.osc2_freq2);
+   const float osc2_freq_norm = ui.osc2_freq + ui.osc2_freq2;
+   const float osc2_freq = 20.f * std::pow (500.f, std::abs (osc2_freq_norm));
+   osc2.set_freq (osc2_freq);
 
    for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
    {
