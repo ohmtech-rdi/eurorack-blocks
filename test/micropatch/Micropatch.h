@@ -54,6 +54,7 @@ struct Micropatch
    MicropatchUi ui;
    OscSin osc1;
    OscSin osc2;
+   double phase = 0.f;
 
    void  process ();
 };

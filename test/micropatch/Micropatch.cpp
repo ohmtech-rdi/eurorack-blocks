@@ -23,6 +23,9 @@ Name : process
 
 void  Micropatch::process ()
 {
+#if 0
+   // Interactive feature test
+
    const bool osc1_gate = ui.osc1_button.held () || ui.osc1_gate;
    const float osc1_amp = (ui.osc1_amp + ui.osc1_amp2) * osc1_gate;
    const float osc1_freq_norm = ui.osc1_freq + ui.osc1_freq2;
@@ -57,4 +60,38 @@ void  Micropatch::process ()
    ui.osc1_lvl = osc1_amp;
 
    ui.led = ui.pot1;
+
+#elif 0
+   // Audio spec test - output scaling
+   // sine @1kHz ±1.f outputs sine @1kHz ±5V
+   // Only left input/output channels
+
+   osc1.set_freq (1000.f);
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      // micropatch outputs are swapped?
+      ui.audio_out2 [i] = osc1.process ();
+      ui.audio_out1 [i] = 0.f;
+   }
+
+#elif 1
+   // Audio spec test - buffering noise @1kHz
+   // sine @440Hz ±1.f
+   // Only left input/output channels
+
+   constexpr double pim2 = 2.f * M_PI;
+   const double phase_step = pim2 * 440.f / erb_SAMPLE_RATE;
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      // micropatch outputs are swapped?
+      ui.audio_out2 [i] = std::sin (phase);
+      ui.audio_out1 [i] = 0.f;
+
+      phase += phase_step;
+      if (phase > pim2) phase -= pim2;
+   }
+
+#endif
 }
