@@ -75,7 +75,7 @@ void  Micropatch::process ()
       ui.audio_out1 [i] = 0.f;
    }
 
-#elif 1
+#elif 0
    // Audio spec test - buffering noise @1kHz
    // sine @440Hz ±1.f
    // Only left input/output channels
@@ -92,6 +92,18 @@ void  Micropatch::process ()
       phase += phase_step;
       if (phase > pim2) phase -= pim2;
    }
+
+#elif 1
+   // Audio spec test - input scaling
+   // bypass
+   // Only left input/output channels
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      // micropatch outputs are swapped?
+      ui.audio_out2 [i] = ui.audio_in1 [i];
+   }
+
 
 #endif
 }
