@@ -3,7 +3,7 @@
   (general
     (thickness 1.6)
     (drawings 1)
-    (tracks 1)
+    (tracks 4)
     (zones 0)
     (modules 1)
     (nets 2)
@@ -59,7 +59,7 @@
     (mod_edge_width 0.15)
     (mod_text_size 1 1)
     (mod_text_width 0.15)
-    (pad_size 2.3 1.6)
+    (pad_size 2 1.3)
     (pad_drill 1.3)
     (pad_to_mask_clearance 0.2)
     (aux_axis_origin 0 0)
@@ -109,7 +109,7 @@
   )
 
   (module TestPoint:TestPoint_Pad_D1.5mm (layer B.Cu) (tedit 5A0F774F) (tstamp 60BC93E3)
-    (at 3.175 2.54)
+    (at 1.9 1.8)
     (descr "SMD pad as test Point, diameter 1.5mm")
     (tags "test point SMD pad")
     (path /60BC9738)
@@ -129,10 +129,13 @@
       (net 1 "Net-(J1-PadT)"))
   )
 
-  (gr_text cascade (at 3.175 0.635) (layer B.SilkS) (tstamp 60BC9433)
-    (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
+  (gr_text cascade (at 1.4 0.1) (layer B.SilkS) (tstamp 60BC9433)
+    (effects (font (size 1 1) (thickness 0.15)) (justify right mirror))
   )
 
-  (segment (start 3.175 -2.54) (end 3.175 2.54) (width 0.635) (layer B.Cu) (net 1))
+  (segment (start 2.2 1.5) (end 1.9 1.8) (width 0.635) (layer B.Cu) (net 1))
+  (segment (start 2.2 -1.2) (end 2.2 1.5) (width 0.635) (layer B.Cu) (net 1))
+  (segment (start 0.4 -3) (end 2.2 -1.2) (width 0.635) (layer B.Cu) (net 1))
+  (segment (start 0 -3) (end 0.4 -3) (width 0.635) (layer B.Cu) (net 1))
 
 )
