@@ -88,7 +88,7 @@ class KicadPcb:
       def zipdir (path, zip_file):
          for root, dirs, files in os.walk (path):
             for file in files:
-               zip_file.write (os.path.join (root, file))
+               zip_file.write (os.path.join (root, file), file)
 
       path_zip = os.path.join (path, '%s.gerber.zip' % module.name)
       zip_file = zipfile.ZipFile (path_zip, 'w', zipfile.ZIP_DEFLATED)
