@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 7
+Sheet 4 7
 Title ""
 Date ""
 Rev ""
@@ -13,84 +13,6 @@ Comment2 ""
 Comment3 ""
 Comment4 ""
 $EndDescr
-Text HLabel 7500 2800 1    50   Input ~ 0
-3V3
-Text HLabel 7500 4900 3    50   Input ~ 0
-GND
-Text HLabel 6800 4000 0    50   Input ~ 0
-3V3
-Text HLabel 6800 4100 0    50   Input ~ 0
-GND
-Text HLabel 6800 4200 0    50   Input ~ 0
-GND
-Text HLabel 6800 4300 0    50   Input ~ 0
-GND
-Text HLabel 6800 4400 0    50   Input ~ 0
-GND
-Text HLabel 6800 4500 0    50   Input ~ 0
-GND
-Text HLabel 6800 3400 0    50   Input ~ 0
-GND
-Text HLabel 6800 3300 0    50   Input ~ 0
-GND
-Text HLabel 6800 3100 0    50   Input ~ 0
-SCL
-Text HLabel 6800 3200 0    50   Input ~ 0
-SDA
-$Comp
-L Device:C C?
-U 1 1 60B00837
-P 7850 2550
-AR Path="/60B00837" Ref="C?"  Part="1" 
-AR Path="/6093B89C/60B00837" Ref="C?"  Part="1" 
-AR Path="/60958BFE/60B00837" Ref="C?"  Part="1" 
-AR Path="/60963995/60B00837" Ref="C?"  Part="1" 
-AR Path="/609AFC8B/60B00837" Ref="C9"  Part="1" 
-F 0 "C9" H 7650 2500 50  0000 C CNN
-F 1 "100n" H 7650 2600 50  0000 C CNN
-F 2 "Capacitor_SMD:C_0603_1608Metric" H 7888 2400 50  0001 C CNN
-F 3 "~" H 7850 2550 50  0001 C CNN
-F 4 "Ceramic Capacitor" H 7850 2550 50  0001 C CNN "Device"
-F 5 "CAP CER 0.1UF 25V X7R 0603" H 7850 2550 50  0001 C CNN "Description"
-F 6 "Yes" H 7850 2550 50  0001 C CNN "Place"
-F 7 "Digikey" H 7850 2550 50  0001 C CNN "Dist"
-F 8 "478-7018-1-ND" H 7850 2550 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/kemet/C0603C102J5GACTU/399-3293-1-ND/608488" H 7850 2550 50  0001 C CNN "DistLink"
-	1    7850 2550
-	-1   0    0    1   
-$EndComp
-Text HLabel 7850 2400 1    50   Input ~ 0
-3V3
-Text HLabel 7850 2700 3    50   Input ~ 0
-GND
-Text HLabel 8800 3100 2    50   Output ~ 0
-OUT17
-Wire Wire Line
-	8400 3100 8800 3100
-Text HLabel 8800 3200 2    50   Output ~ 0
-OUT18
-Wire Wire Line
-	8400 3200 8800 3200
-Text HLabel 8800 3300 2    50   Output ~ 0
-OUT19
-Wire Wire Line
-	8400 3300 8800 3300
-Text HLabel 8800 3400 2    50   Output ~ 0
-OUT20
-Wire Wire Line
-	8400 3400 8800 3400
-NoConn ~ 8200 3500
-NoConn ~ 8200 3600
-NoConn ~ 8200 3700
-NoConn ~ 8200 3800
-NoConn ~ 8200 3900
-NoConn ~ 8200 4000
-NoConn ~ 8200 4100
-NoConn ~ 8200 4200
-NoConn ~ 8200 4300
-NoConn ~ 8200 4400
-NoConn ~ 8200 4500
-NoConn ~ 8200 4600
 Text Notes 7450 7000 0    276  ~ 0
 LEDS
 Wire Wire Line
@@ -239,23 +161,6 @@ F 7 "Digikey" H 3500 3800 50  0001 C CNN "Dist"
 F 8 "568-11925-1-ND" H 3500 3800 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/nxp-usa-inc/PCA9685PW-118/568-11925-1-ND/5221902" H 3500 3800 50  0001 C CNN "DistLink"
 	1    3500 3800
-	1    0    0    -1  
-$EndComp
-$Comp
-L Driver_LED:PCA9685PW U7
-U 1 1 608D963A
-P 7500 3800
-F 0 "U7" H 7850 2800 50  0000 C CNN
-F 1 "PCA9685PW" H 8000 2700 50  0000 C CNN
-F 2 "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm" H 7525 2825 50  0001 L CNN
-F 3 "http://www.nxp.com/documents/data_sheet/PCA9685.pdf" H 7100 4500 50  0001 C CNN
-F 4 "PMIC - LED Driver" H 7500 3800 50  0001 C CNN "Device"
-F 5 "IC LED DRIVER RGBA 28-TSSOP" H 7500 3800 50  0001 C CNN "Description"
-F 6 "Yes" H 7500 3800 50  0001 C CNN "Place"
-F 7 "Digikey" H 7500 3800 50  0001 C CNN "Dist"
-F 8 "568-11925-1-ND" H 7500 3800 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/nxp-usa-inc/PCA9685PW-118/568-11925-1-ND/5221902" H 7500 3800 50  0001 C CNN "DistLink"
-	1    7500 3800
 	1    0    0    -1  
 $EndComp
 $Comp
@@ -513,74 +418,6 @@ F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-071KL/311-1KLDCT-ND
 	1    4300 4600
 	0    1    1    0   
 $EndComp
-$Comp
-L Device:R_Small R60
-U 1 1 608E8FF5
-P 8300 3100
-F 0 "R60" V 8250 3300 50  0000 C CNN
-F 1 "1K" V 8250 3450 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8300 3100 50  0001 C CNN
-F 3 "~" H 8300 3100 50  0001 C CNN
-F 4 "Resistor" H 8300 3100 50  0001 C CNN "Device"
-F 5 "RES SMD 1K OHM 1% 1/10W 0603" H 8300 3100 50  0001 C CNN "Description"
-F 6 "Yes" H 8300 3100 50  0001 C CNN "Place"
-F 7 "Digikey" H 8300 3100 50  0001 C CNN "Dist"
-F 8 "311-1KLDCT-ND" H 8300 3100 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-071KL/311-1KLDCT-ND/2828140" H 8300 3100 50  0001 C CNN "DistLink"
-	1    8300 3100
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_Small R61
-U 1 1 608E988D
-P 8300 3200
-F 0 "R61" V 8250 3400 50  0000 C CNN
-F 1 "1K" V 8250 3550 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8300 3200 50  0001 C CNN
-F 3 "~" H 8300 3200 50  0001 C CNN
-F 4 "Resistor" H 8300 3200 50  0001 C CNN "Device"
-F 5 "RES SMD 1K OHM 1% 1/10W 0603" H 8300 3200 50  0001 C CNN "Description"
-F 6 "Yes" H 8300 3200 50  0001 C CNN "Place"
-F 7 "Digikey" H 8300 3200 50  0001 C CNN "Dist"
-F 8 "311-1KLDCT-ND" H 8300 3200 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-071KL/311-1KLDCT-ND/2828140" H 8300 3200 50  0001 C CNN "DistLink"
-	1    8300 3200
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_Small R62
-U 1 1 608EA0AB
-P 8300 3300
-F 0 "R62" V 8250 3500 50  0000 C CNN
-F 1 "1K" V 8250 3650 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8300 3300 50  0001 C CNN
-F 3 "~" H 8300 3300 50  0001 C CNN
-F 4 "Resistor" H 8300 3300 50  0001 C CNN "Device"
-F 5 "RES SMD 1K OHM 1% 1/10W 0603" H 8300 3300 50  0001 C CNN "Description"
-F 6 "Yes" H 8300 3300 50  0001 C CNN "Place"
-F 7 "Digikey" H 8300 3300 50  0001 C CNN "Dist"
-F 8 "311-1KLDCT-ND" H 8300 3300 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-071KL/311-1KLDCT-ND/2828140" H 8300 3300 50  0001 C CNN "DistLink"
-	1    8300 3300
-	0    1    1    0   
-$EndComp
-$Comp
-L Device:R_Small R63
-U 1 1 608EA55D
-P 8300 3400
-F 0 "R63" V 8250 3600 50  0000 C CNN
-F 1 "1K" V 8250 3750 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 8300 3400 50  0001 C CNN
-F 3 "~" H 8300 3400 50  0001 C CNN
-F 4 "Resistor" H 8300 3400 50  0001 C CNN "Device"
-F 5 "RES SMD 1K OHM 1% 1/10W 0603" H 8300 3400 50  0001 C CNN "Description"
-F 6 "Yes" H 8300 3400 50  0001 C CNN "Place"
-F 7 "Digikey" H 8300 3400 50  0001 C CNN "Dist"
-F 8 "311-1KLDCT-ND" H 8300 3400 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/yageo/AC0603FR-071KL/311-1KLDCT-ND/2828140" H 8300 3400 50  0001 C CNN "DistLink"
-	1    8300 3400
-	0    1    1    0   
-$EndComp
 Text HLabel 5500 2150 0    50   Input ~ 0
 SCL
 Text HLabel 5800 2150 2    50   Input ~ 0
@@ -606,8 +443,6 @@ Text HLabel 5500 2550 0    50   Input ~ 0
 SDA
 Text HLabel 5800 2550 2    50   Input ~ 0
 3V3
-Text Notes 8200 2600 0    50   ~ 0
-Close to\nU7 pin 28
 Text Notes 4200 2600 0    50   ~ 0
 Close to\nU6 pin 28
 Text Notes 5850 2350 0    50   ~ 0

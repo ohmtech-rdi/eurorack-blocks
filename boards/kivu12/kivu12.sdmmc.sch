@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 4 7
+Sheet 3 7
 Title ""
 Date ""
 Rev ""
@@ -19,7 +19,7 @@ U 1 1 60AA9B96
 P 4000 2500
 F 0 "JP5" H 4000 2739 50  0000 C CNN
 F 1 "CLK" H 4000 2648 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 4000 2500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4000 2500 50  0001 C CNN
 F 3 "~" H 4000 2500 50  0001 C CNN
 	1    4000 2500
 	1    0    0    -1  
@@ -36,7 +36,7 @@ U 1 1 60AAD163
 P 5500 2500
 F 0 "JP6" H 5500 2739 50  0000 C CNN
 F 1 "CMD" H 5500 2648 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 5500 2500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 5500 2500 50  0001 C CNN
 F 3 "~" H 5500 2500 50  0001 C CNN
 	1    5500 2500
 	1    0    0    -1  
@@ -53,7 +53,7 @@ U 1 1 60AAEFC4
 P 4000 3500
 F 0 "JP7" H 4000 3739 50  0000 C CNN
 F 1 "D0" H 4000 3648 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 4000 3500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4000 3500 50  0001 C CNN
 F 3 "~" H 4000 3500 50  0001 C CNN
 	1    4000 3500
 	1    0    0    -1  
@@ -70,7 +70,7 @@ U 1 1 60AAEFCD
 P 5500 3500
 F 0 "JP8" H 5500 3739 50  0000 C CNN
 F 1 "D1" H 5500 3648 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 5500 3500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 5500 3500 50  0001 C CNN
 F 3 "~" H 5500 3500 50  0001 C CNN
 	1    5500 3500
 	1    0    0    -1  
@@ -87,7 +87,7 @@ U 1 1 60AB12D6
 P 4000 4500
 F 0 "JP9" H 4000 4739 50  0000 C CNN
 F 1 "D2" H 4000 4648 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 4000 4500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4000 4500 50  0001 C CNN
 F 3 "~" H 4000 4500 50  0001 C CNN
 	1    4000 4500
 	1    0    0    -1  
@@ -104,7 +104,7 @@ U 1 1 60AB12DF
 P 5500 4500
 F 0 "JP10" H 5500 4739 50  0000 C CNN
 F 1 "D3" H 5500 4648 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 5500 4500 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 5500 4500 50  0001 C CNN
 F 3 "~" H 5500 4500 50  0001 C CNN
 	1    5500 4500
 	1    0    0    -1  
@@ -122,10 +122,10 @@ GND
 Text Notes 7450 7000 0    276  ~ 0
 SD/MMC
 $Comp
-L Connector:Micro_SD_Card J6
+L Connector:Micro_SD_Card JSD1
 U 1 1 60B2E16C
 P 8250 3050
-F 0 "J6" H 8200 3767 50  0000 C CNN
+F 0 "JSD1" H 8200 3767 50  0000 C CNN
 F 1 "Micro_SD_Card" H 8200 3676 50  0000 C CNN
 F 2 "Connector_Card:microSD_HC_Wuerth_693072010801" H 9400 3350 50  0001 C CNN
 F 3 "http://katalog.we-online.de/em/datasheet/693072010801.pdf" H 8250 3050 50  0001 C CNN

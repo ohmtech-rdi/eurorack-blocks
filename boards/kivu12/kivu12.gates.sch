@@ -825,15 +825,15 @@ Text HLabel 8650 5000 0    50   Input ~ 0
 GND
 Text HLabel 10000 5050 1    50   Input ~ 0
 12V
-Text Label 8650 4300 2    50   ~ 0
+Text Label 8650 4400 2    50   ~ 0
 IN9_POS
 Text HLabel 10000 5350 3    50   Input ~ 0
 GND
-Text Label 8650 4200 2    50   ~ 0
-IN10_POS
 Text Label 8650 4100 2    50   ~ 0
+IN10_POS
+Text Label 8650 4200 2    50   ~ 0
 IN11_POS
-Text Label 8650 4400 2    50   ~ 0
+Text Label 8650 4300 2    50   ~ 0
 IN12_POS
 Text Label 8650 4500 2    50   ~ 0
 IN13_POS
@@ -853,15 +853,15 @@ Text Label 8600 2150 2    50   ~ 0
 IN6_POS
 Text Label 8600 1950 2    50   ~ 0
 IN5_POS
-Text Label 8600 1850 2    50   ~ 0
+Text Label 8600 1750 2    50   ~ 0
 IN4_POS
-Text Label 8600 1550 2    50   ~ 0
-IN3_POS
 Text Label 8600 1650 2    50   ~ 0
+IN3_POS
+Text Label 8600 1550 2    50   ~ 0
 IN2_POS
 Text HLabel 9950 2800 3    50   Input ~ 0
 GND
-Text Label 8600 1750 2    50   ~ 0
+Text Label 8600 1850 2    50   ~ 0
 IN1_POS
 Text HLabel 9950 2500 1    50   Input ~ 0
 12V
