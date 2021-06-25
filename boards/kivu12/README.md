@@ -5,7 +5,7 @@
 
 ## Overview
 
-<img align="right" width="20%" src="./render.png">
+<img align="right" width="20%" src="./render-3d.png">
 
 The 12HP `kivu12` board is designed to host, at the bottom of the module,
 12 standard Eurorack 3.5mm jacks  connectors, and/or trimmer potentiometers typically used
@@ -27,27 +27,22 @@ its content conveniently on your computer with a simple miniSD card reader.
 One can also put a miniSD card slot on the front of the module. A set of jumpers select which
 miniSD connector (front board or back board) is used.
 
-The MIDI input supports both [TRS MIDI Type A and B](https://minimidi.world/#trs-connections).
-A set of jumpers allow to select either Type A or B.
-
 Finally, some predefined user interface design [templates](#templates) are provided below.
 
 
 ## Specifications
 
-<img align="right" width="20%" src="./xray.png">
+<img align="right" width="20%" src="./render-gerber-top.svg"><img align="right" width="20%" src="./render-gerber-bottom.svg">
 
 The Board provide the following features:
 
 - 12 HP,
 - 12 Pots/Trims/Sliders `P1..P12`,
-- 20 Led pins `L1..L20`,
+- 16 Led pins `L1..L16`,
 - miniSD or "emulated eMMC" selectable with jumpers:
    - Either a regular front panel miniSD card connector,
    - Or a miniSD card connector on the back board, acting as if it was a eMMC, but easier to reprogram
-- 20 Buttons/Gates In/Switches pins `B1..B20`,
-- 1 MIDI In  `MIR` (ring) `MIT` (tip), with TRS Type A or B selectable with jumpers,
-- 1 MIDI Out   `MOR` (ring) `MOT` (tip),
+- 16 Buttons/Gates In/Switches pins `B1..B16`,
 - 2 Gate Out `GO1..GO2`,
 - 8 CV In `CI1..CI8`:
    - Either with ±5V levels,
@@ -56,6 +51,7 @@ The Board provide the following features:
 - 2 Audio In ±5V `AI1..AI2`,
 - 2 Audio Out ±5V `AO1..AO2`.
 
+> Gerber renders made with [tracespace view](https://tracespace.io/view/).
 
 ## Templates
 
