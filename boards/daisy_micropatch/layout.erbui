@@ -16,7 +16,7 @@ module daisy_micropatch {
    //--- LEDs ----------------------------------------------------------------
 
    control led Led {
-      position 25mm, 19.5mm
+      position 24.75mm, 20.1239mm
       style led.3mm.red
       pin L
    }
@@ -24,28 +24,28 @@ module daisy_micropatch {
    //--- Pots ----------------------------------------------------------------
 
    control pot1 Pot {
-      position 11mm, 23.5mm
+      position 10.5mm, 23.752mm
       style rogan.1ps
       label "KNOB 1"
       pin P1
    }
 
    control pot2 Pot {
-      position 39.5mm, 23.5mm
+      position 39mm, 23.752mm
       style rogan.1ps
       label "KNOB 2"
       pin P2
    }
 
    control pot3 Pot {
-      position 11mm, 42.3mm
+      position 10.5mm, 42.8612mm
       style rogan.1ps
       label "KNOB 3"
       pin P3
    }
 
    control pot4 Pot {
-      position 39.5mm, 42.3mm
+      position 39mm, 42.8612mm
       style rogan.1ps
       label "KNOB 4"
       pin P4
@@ -54,14 +54,14 @@ module daisy_micropatch {
    //--- Switches ------------------------------------------------------------
 
    control sw1 Button {
-      position 8.5mm, 59.5mm
+      position 8mm, 60.0322mm
       style tl1105
       label "SW 1"
       pin B1
    }
 
    control sw2 Switch {
-      position 25mm, 62mm
+      position 24.75mm, 62.7822mm
       style dailywell.2ms3
       label "SW 2"
       pins B2, B3
@@ -70,28 +70,28 @@ module daisy_micropatch {
    //--- Gates ---------------------------------------------------------------
 
    control gate_in1 GateIn {
-      position 7mm, 84.5mm
+      position 6.5mm, 85.3119mm
       style thonk.pj398sm.knurled
       label "GATE 1"
       pin GI1
    }
 
    control gate_in2 GateIn {
-      position 19mm, 84.5mm
+      position 18.6667mm, 85.3119mm
       style thonk.pj398sm.knurled
       label "GATE 2"
       pin GI2
    }
 
    control gate_out1 GateOut {
-      position 31mm, 84.5mm
+      position 30.8333mm, 85.3119mm
       style thonk.pj398sm.knurled
       label "GATE 1"
       pin GO1
    }
 
    control gate_out2 GateOut {
-      position 43mm, 84.5mm
+      position 43mm, 85.3119mm
       style thonk.pj398sm.knurled
       label "GATE 2"
       pin GO2
@@ -100,35 +100,35 @@ module daisy_micropatch {
    //--- CVs -----------------------------------------------------------------
 
    control cv_in1 CvIn {
-      position 7mm, 98mm
+      position 6.5mm, 99.0619mm
       style thonk.pj398sm.knurled
       label "CV 1"
       pin CI1
    }
 
    control cv_in2 CvIn {
-      position 19mm, 98mm
+      position 18.6667mm, 99.0619mm
       style thonk.pj398sm.knurled
       label "CV 2"
       pin CI2
    }
 
    control cv_in3 CvIn {
-      position 31mm, 98mm
+      position 30.8333mm, 99.0619mm
       style thonk.pj398sm.knurled
       label "CV 3"
       pin CI3
    }
 
    control cv_in4 CvIn {
-      position 43mm, 98mm
+      position 43mm, 99.0619mm
       style thonk.pj398sm.knurled
       label "CV 4"
       pin CI4
    }
 
    control cv_out CvOut {
-      position 42mm, 59mm
+      position 41.5mm, 60.0322mm
       style thonk.pj398sm.knurled
       label "CV OUT 1" {
          positioning bottom
@@ -140,28 +140,29 @@ module daisy_micropatch {
    //--- Audio ---------------------------------------------------------------
 
    control audio_in1 AudioIn {
-      position 7mm, 112mm
+      position 6.5mm, 112.65mm
       style thonk.pj398sm.knurled
       pin AI1
       label "IN L"
+      cascade audio_in2
    }
 
    control audio_in2 AudioIn {
-      position 19mm, 112mm
+      position 18.6667mm, 112.65mm
       style thonk.pj398sm.knurled
       pin AI2
       label "IN R"
    }
 
    control audio_out1 AudioOut {
-      position 31mm, 112mm
+      position 30.8333mm, 112.65mm
       style thonk.pj398sm.knurled
       pin AO1
       label "OUT L"
    }
 
    control audio_out2 AudioOut {
-      position 43mm, 112mm
+      position 43mm, 112.65mm
       style thonk.pj398sm.knurled
       pin AO2
       label "OUT R"
