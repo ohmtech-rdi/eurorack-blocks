@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 6 7
+Sheet 5 7
 Title ""
 Date ""
 Rev ""
@@ -276,7 +276,7 @@ U 1 1 609044D2
 P 4400 3100
 F 0 "JP3" H 4400 3339 50  0000 C CNN
 F 1 "Jumper" H 4400 3248 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 4400 3100 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4400 3100 50  0001 C CNN
 F 3 "~" H 4400 3100 50  0001 C CNN
 	1    4400 3100
 	1    0    0    -1  
@@ -386,7 +386,7 @@ U 1 1 60916A06
 P 4400 4800
 F 0 "JP4" H 4400 5039 50  0000 C CNN
 F 1 "Jumper" H 4400 4948 50  0000 C CNN
-F 2 "Connector_PinHeader_1.27mm:PinHeader_1x03_P1.27mm_Vertical" H 4400 4800 50  0001 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x03_P2.54mm_Vertical" H 4400 4800 50  0001 C CNN
 F 3 "~" H 4400 4800 50  0001 C CNN
 	1    4400 4800
 	1    0    0    -1  

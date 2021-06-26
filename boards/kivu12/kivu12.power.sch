@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 7 7
+Sheet 6 7
 Title ""
 Date ""
 Rev ""
@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector_Generic:Conn_02x05_Odd_Even J5
+L Connector_Generic:Conn_02x05_Odd_Even J0
 U 1 1 6095C792
 P 4700 4000
-F 0 "J5" H 4750 4417 50  0000 C CNN
+F 0 "J0" H 4750 4417 50  0000 C CNN
 F 1 "POWER BUS" H 4750 4326 50  0000 C CNN
 F 2 "Connector_IDC:IDC-Header_2x05_P2.54mm_Vertical" H 4700 4000 50  0001 C CNN
 F 3 "~" H 4700 4000 50  0001 C CNN
