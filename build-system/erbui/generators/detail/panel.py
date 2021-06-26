@@ -255,6 +255,9 @@ class Panel:
          radius = 5.5 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
+      elif style.is_pjs008u:
+         return Panel.Box (1.15, 6.4, 1.15, 6.4)
+
       else:
          raise Exception ('unsupported control style %s' % style.name)
 
