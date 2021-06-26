@@ -1056,6 +1056,10 @@ class Style (Scope):
    def is_ck_d6r_black (self):
       return self.name == 'ck.d6r.black'
 
+   @property
+   def is_pjs008u (self):
+      return self.name == 'thonk.pjs008u'
+
 
 
 # -- Label -------------------------------------------------------------------
