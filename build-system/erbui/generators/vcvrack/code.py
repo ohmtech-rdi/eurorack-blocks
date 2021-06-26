@@ -204,6 +204,7 @@ class Code:
          'LedBi': 'Light',
          'LedRgb': 'Light',
          'Pot': 'Param',
+         'Sd': None,
          'Switch': 'Param',
          'Trim': 'Param',
       }
@@ -231,6 +232,7 @@ class Code:
          'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
          'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
          'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
+         'thonk.pjs008u': 'erb::ThonkPjs008u',
          'ck.d6r.black': 'CKD6',
          'tl1105': 'TL1105',
       }
