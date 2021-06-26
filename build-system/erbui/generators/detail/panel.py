@@ -256,7 +256,7 @@ class Panel:
          return Panel.Box (radius, radius, radius, radius)
 
       else:
-         raise Exception ('unsupported control style %s' % style.value)
+         raise Exception ('unsupported control style %s' % style.name)
 
 
    #--------------------------------------------------------------------------

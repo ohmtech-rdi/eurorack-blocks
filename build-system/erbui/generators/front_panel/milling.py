@@ -144,4 +144,4 @@ class Milling:
          return 5.2
 
       else:
-         raise Exception ('unsupported control style %s' % style.value)
+         raise Exception ('unsupported control style %s' % style.name)
