@@ -50,6 +50,8 @@ class Analyser:
       for control in module.controls:
          self.allocate_pin (control)
 
+      self.make_unused_pins (module)
+
       for control in module.controls:
          self.analyse_control (module, control)
 
@@ -321,6 +323,18 @@ class Analyser:
 
             pin_array = ast.Pins (identifiers)
             control.entities.append (pin_array)
+
+
+   #--------------------------------------------------------------------------
+
+   def make_unused_pins (self, module):
+      if 'pools' not in self._board_definition:
+         return # board doesn't support auto pin allocation
+
+      module.unused_pins = []
+      pools = self._board_definition ['pools']
+      for key, value in pools.items ():
+         module.unused_pins.extend (value)
 
 
    #--------------------------------------------------------------------------

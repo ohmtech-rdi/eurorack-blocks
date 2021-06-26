@@ -36,6 +36,8 @@ class KicadPcb:
 
       self.base = self.load (os.path.join (PATH_THIS, board, '%s.kicad_pcb' % board))
 
+      self.remove_pads (module)
+
       for control in module.controls:
          self.generate_control (control)
 
@@ -44,6 +46,63 @@ class KicadPcb:
 
       self.fill_zones (path, module)
       self.generate_module_gerber (path, module)
+
+
+   #--------------------------------------------------------------------------
+
+   def remove_pads (self, module):
+      net_numbers = []
+      def filter_func (node):
+         if isinstance (node, s_expression.List) and node.entities \
+            and isinstance (node.entities [0], s_expression.Symbol) \
+            and node.entities [0].value in ['module'] \
+            and isinstance (node.entities [1], s_expression.Symbol) \
+            and 'TestPoint:TestPoint_Pad' in node.entities [1].value:
+            remove = False
+            net_number = None
+            for sub_node in node.entities:
+               if isinstance (sub_node, s_expression.List) and sub_node.entities \
+                  and isinstance (sub_node.entities [0], s_expression.Symbol) \
+                  and sub_node.entities [0].value in ['fp_text'] \
+                  and sub_node.entities [1].value in ['reference', 'user'] \
+                  and sub_node.entities [2].value in module.unused_pins:
+                     remove = True
+
+               if isinstance (sub_node, s_expression.List) and sub_node.entities \
+                  and isinstance (sub_node.entities [0], s_expression.Symbol) \
+                  and sub_node.entities [0].value in ['pad']:
+                  for ssub_node in sub_node.entities:
+                     if isinstance (ssub_node, s_expression.List) and ssub_node.entities \
+                        and isinstance (ssub_node.entities [0], s_expression.Symbol) \
+                        and ssub_node.entities [0].value in ['net']:
+                           net_number = ssub_node.entities [1].value
+            if remove:
+               net_numbers.append (net_number)
+               return False
+
+         return True
+
+      self.base.entities = list (filter (filter_func, self.base.entities))
+
+      self.remove_nets (net_numbers)
+
+
+   #--------------------------------------------------------------------------
+
+   def remove_nets (self, nets):
+      def filter_func (node):
+         if isinstance (node, s_expression.List) and node.entities \
+            and isinstance (node.entities [0], s_expression.Symbol) \
+            and node.entities [0].value in ['segment']:
+            for sub_node in node.entities:
+               if isinstance (sub_node, s_expression.List) and sub_node.entities \
+                  and isinstance (sub_node.entities [0], s_expression.Symbol) \
+                  and sub_node.entities [0].value in ['net'] \
+                  and sub_node.entities [1].value in nets:
+                  return False
+         return True
+
+      self.base.entities = list (filter (filter_func, self.base.entities))
 
 
    #--------------------------------------------------------------------------

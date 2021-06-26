@@ -238,6 +238,7 @@ class Module (Scope):
       self.identifier = identifier
       self.super_identifier = super_identifier
       self.cascade_eval_list = []
+      self.unused_pins = []
 
    @staticmethod
    def typename (): return 'module'
