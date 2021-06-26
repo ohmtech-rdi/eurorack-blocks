@@ -58,6 +58,12 @@
          'bind': 'dac(1)',
       },
 
+      'SD': {
+         'type': 'sd',
+         'accept': ['Sd'],
+         'bind': 'sd()',
+      },
+
       'P1': {
          'accept': ['Pot'],
          'bind': 'adc(4)',

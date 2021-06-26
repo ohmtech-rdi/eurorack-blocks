@@ -21,6 +21,14 @@ module daisy_micropatch {
       pin L
    }
 
+   //--- SD ------------------------------------------------------------------
+
+   control sd Sd {
+      position 24.75mm, 40.8518mm
+      style thonk.pjs008u
+      pin SD
+   }
+
    //--- Pots ----------------------------------------------------------------
 
    control pot1 Pot {
