@@ -121,6 +121,7 @@
             'erbui/generators/front_pcb/led.3mm/led.3mm.kicad_pcb',
             'erbui/generators/front_pcb/led.3mm.bi/led.3mm.bi.kicad_pcb',
             'erbui/generators/front_pcb/thonk.pj398sm/thonk.pj398sm.kicad_pcb',
+            'erbui/generators/front_pcb/thonk.pjs008u/thonk.pjs008u.kicad_pcb',
             'erbui/generators/front_pcb/tl1105/tl1105.kicad_pcb',
             'erbui/generators/front_pcb/songhuei.9mm/songhuei.9mm.kicad_pcb',
 
