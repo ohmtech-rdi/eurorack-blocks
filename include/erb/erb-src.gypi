@@ -33,6 +33,8 @@
       'CvIn.hpp',
       'CvOut.h',
       'CvOut.hpp',
+      'File.h',
+      'Filesystem.h',
       'FloatRange.h',
       'GateIn.h',
       'GateIn.hpp',
@@ -50,6 +52,7 @@
       'SdramPtr.hpp',
       'SramPtr.h',
       'SramPtr.hpp',
+      'Sd.h',
       'Switch.h',
       'Switch.hpp',
       'config.h',
@@ -76,7 +79,10 @@
       'detail/fnc.hpp',
 
       '../../src/Button.cpp',
+      '../../src/File.cpp',
+      '../../src/Filesystem.cpp',
       '../../src/GateOut.cpp',
+      '../../src/Sd.cpp',
 
       '../../src/detail/Animation.cpp',
       '../../src/detail/Debounce.cpp',
