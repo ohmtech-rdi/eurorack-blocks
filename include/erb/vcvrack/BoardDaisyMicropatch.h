@@ -58,6 +58,10 @@ public:
    inline Buffer &
                   audioout (size_t i) { return _audio_outputs [i]; }
 
+   // SD
+   inline Filesystem &
+                  sd () { return _sd; }
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
