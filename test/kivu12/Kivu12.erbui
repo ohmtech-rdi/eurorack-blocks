@@ -7,30 +7,20 @@
 
 
 
-module Kivu12 extends daisy_micropatch {
+module Kivu12 {
+   board kivu12
 
-   //--- Oscillator 1 --------------------------------------------------------
+   control audio_out1 AudioOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+      pin AO1
+   }
 
-   alias osc1_button sw1
-   alias osc1_gate gate_in1
-   alias osc1_state gate_out1
-
-   alias osc1_amp pot1
-   alias osc1_amp2 cv_in1
-   alias osc1_lvl cv_out
-
-   alias osc1_freq pot2
-   alias osc1_freq2 cv_in2
-
-   //--- Oscillator 2 --------------------------------------------------------
-
-   alias osc2_type sw2
-   alias osc2_gate gate_in2
-   alias osc2_state gate_out2
-
-   alias osc2_amp pot3
-   alias osc2_amp2 cv_in3
-
-   alias osc2_freq pot4
-   alias osc2_freq2 cv_in4
+   control audio_out2 AudioOut {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+      pin AO2
+   }
 }

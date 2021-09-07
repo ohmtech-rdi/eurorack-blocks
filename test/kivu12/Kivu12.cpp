@@ -23,6 +23,17 @@ Name : process
 
 void  Kivu12::process ()
 {
+#if 1
+   osc1.set_freq (440.f);
+   osc2.set_freq (880.f);
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      ui.audio_out1 [i] = osc1.process ();
+      ui.audio_out2 [i] = osc2.process ();
+   }
+
+#elif 0
    bool osc1_gate = ui.osc1_button.held () || ui.osc1_gate;
    float osc1_amp = (ui.osc1_amp + ui.osc1_amp2) * osc1_gate;
    osc1.set_freq_norm (ui.osc1_freq + ui.osc1_freq2);
@@ -53,4 +64,5 @@ void  Kivu12::process ()
    ui.osc1_lvl = osc1_amp;
 
    ui.led = ui.pot1;
+#endif
 }

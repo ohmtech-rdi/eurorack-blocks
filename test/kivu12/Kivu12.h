@@ -25,6 +25,11 @@ public:
    void           set_freq_norm (float freq_norm)
    {
       float freq = 20.f * std::pow (500.f, std::abs (freq_norm));
+      set_freq (freq);
+   }
+
+   void           set_freq (float freq)
+   {
       const double phase_step = pim2 * freq / erb_SAMPLE_RATE;
       _step_cos = std::cos (phase_step);
       _step_sin = std::sin (phase_step);
