@@ -9,6 +9,23 @@
 
 module Kivu12 {
    board kivu12
+   material aluminum
+   header { label "Kivu12" }
+
+   control freq_cv CvIn {
+      mode bipolar
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "FREQ"
+      pin CI1
+   }
+
+   control audio_in2 AudioIn {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+      pin AI2
+   }
 
    control audio_out1 AudioOut {
       position 7.33hp, 111mm
