@@ -39,10 +39,10 @@ class SubmoduleDaisyPatchSm
 public:
    using Pin = dsy_gpio_pin;
 
-   static constexpr Pin A2 = {DSY_GPIOB, 7};    // UART1 Rx
-   static constexpr Pin A3 = {DSY_GPIOB, 6};    // UART1 Tx
-   static constexpr Pin A8 = {DSY_GPIOA, 11};   // USB DM
-   static constexpr Pin A9 = {DSY_GPIOA, 12};   // USB DP
+   static constexpr Pin A2 = {DSY_GPIOA, 1};    // UART1 Rx
+   static constexpr Pin A3 = {DSY_GPIOA, 0};    // UART1 Tx
+   static constexpr Pin A8 = {DSY_GPIOB, 14};   // USB DM
+   static constexpr Pin A9 = {DSY_GPIOB, 15};   // USB DP
 
    static constexpr Pin B5 = {DSY_GPIOC, 13};   // GATE OUT 1
    static constexpr Pin B6 = {DSY_GPIOC, 14};   // GATE OUT 2
@@ -51,16 +51,16 @@ public:
    static constexpr Pin B9 = {DSY_GPIOG, 14};   // GATE IN 2
    static constexpr Pin B10 = {DSY_GPIOG, 13};  // GATE IN 1
 
-   static constexpr Pin D1 = {DSY_GPIOG, 10};   // SPI1 CS
+   static constexpr Pin D1 = {DSY_GPIOB, 4};    // SPI2 CS
    static constexpr Pin D2 = {DSY_GPIOC, 11};   // SDMMC D3
    static constexpr Pin D3 = {DSY_GPIOC, 10};   // SDMMC D2
    static constexpr Pin D4 = {DSY_GPIOC, 9};    // SDMMC D1
    static constexpr Pin D5 = {DSY_GPIOC, 8};    // SDMMC D0
    static constexpr Pin D6 = {DSY_GPIOC, 12};   // SDMMC CK
    static constexpr Pin D7 = {DSY_GPIOD, 2};    // SDMMC CMD
-   static constexpr Pin D8 = {DSY_GPIOB, 4};    // SPI1 MISO
-   static constexpr Pin D9 = {DSY_GPIOB, 5};    // SPI1 MOSI
-   static constexpr Pin D10 = {DSY_GPIOG, 11};  // SPI1 SCK
+   static constexpr Pin D8 = {DSY_GPIOC, 2};    // SPI2 MISO
+   static constexpr Pin D9 = {DSY_GPIOC, 3};    // SPI2 MOSI
+   static constexpr Pin D10 = {DSY_GPIOD, 3};   // SPI2 SCK
 
    static constexpr Pin Pins [] = {
       A2, A3, A8, A9,
