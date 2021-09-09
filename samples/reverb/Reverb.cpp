@@ -11,7 +11,32 @@
 
 #include "Reverb.h"
 
+#if defined (erb_TARGET_DAISY)
+erb_DISABLE_WARNINGS_DAISY
+#include "daisy.h"
+erb_RESTORE_WARNINGS
+#endif
+
 #include <cmath>
+
+
+#if defined (erb_TARGET_DAISY)
+std::aligned_storage <sizeof (ReverbDsp::AuxiliaryBuffer), alignof (ReverbDsp::AuxiliaryBuffer)> DSY_SDRAM_BSS sdram_memory;
+auto aux_buffer = *new (std::addressof (sdram_memory)) ReverbDsp::AuxiliaryBuffer;
+#endif
+
+
+
+/*
+==============================================================================
+Name : ctor
+==============================================================================
+*/
+
+Reverb::Reverb ()
+:  dsp (erb_SAMPLE_RATE, aux_buffer)
+{
+}
 
 
 

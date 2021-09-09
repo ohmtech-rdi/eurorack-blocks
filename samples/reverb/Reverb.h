@@ -18,14 +18,21 @@
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+
 struct Reverb
 {
    // Construct the auxiliary buffer of the Reverb DSP (here the delay lines)
    // into an SdramObject, that will be at the right place in memory.
-   erb::SdramObject <ReverbDsp::AuxiliaryBuffer> object
-      = erb::make_sdram_object <ReverbDsp::AuxiliaryBuffer> ();
+   /*erb::SdramObject <ReverbDsp::AuxiliaryBuffer> object
+      = erb::make_sdram_object <ReverbDsp::AuxiliaryBuffer> ();*/
 
-   ReverbDsp dsp { erb_SAMPLE_RATE, *object };
+   Reverb ();
+
+#if defined (erb_TARGET_VCV_RACK)
+   ReverbDsp::AuxiliaryBuffer aux_buffer;
+#endif
+
+   ReverbDsp dsp;
    ReverbUi ui;
 
    void  process ();
