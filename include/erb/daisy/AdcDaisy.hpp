@@ -72,12 +72,10 @@ AdcDaisy <MaxNbrData>::AdcDaisy (daisy::AdcHandle & adc, std::initializer_list <
       }
       else
       {
-         constexpr size_t pot_order [] = {0, 3, 1, 4, 2, 5, 6, 7};
-
          for (size_t i = 0 ; i < channel.nbr_channels ; ++i)
          {
             _data [channel_nbr]
-               = adc.GetMuxPtr (uint8_t (config_nbr), pot_order [i]);
+               = adc.GetMuxPtr (uint8_t (config_nbr), i);
             ++channel_nbr;
          }
       }
