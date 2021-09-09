@@ -40,7 +40,7 @@ void  Kivu12::process ()
       ui.audio_out2 [i] = ui.audio_in2 [i];
    }
 
-#elif 1
+#elif 0
    osc1.set_freq_norm (ui.freq_cv);
 
    for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
@@ -48,6 +48,26 @@ void  Kivu12::process ()
       float val = osc1.process ();
       ui.audio_out1 [i] = val;
       ui.audio_out2 [i] = val;
+   }
+
+#elif 0
+   osc1.set_freq_norm (ui.freq_pot);
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      float val = osc1.process ();
+      ui.audio_out1 [i] = val;
+      ui.audio_out2 [i] = val;
+   }
+
+#elif 1
+   osc1.set_freq_norm (ui.freq_pot);
+   osc2.set_freq_norm (ui.freq2_pot);
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      ui.audio_out1 [i] = osc1.process ();
+      ui.audio_out2 [i] = osc2.process ();
    }
 
 #elif 0

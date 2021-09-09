@@ -12,6 +12,20 @@ module Kivu12 {
    material aluminum
    header { label "Kivu12" }
 
+   control freq_pot Pot {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "FREQ"
+      pin P1
+   }
+
+   control freq2_pot Pot {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "FREQ"
+      pin P2
+   }
+
    control freq_cv CvIn {
       mode bipolar
       position 7.33hp, 111mm
