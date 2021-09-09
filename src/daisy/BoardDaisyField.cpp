@@ -33,7 +33,8 @@ BoardDaisyField::BoardDaisyField ()
    constexpr auto led_i2c_config = daisy::I2CHandle::Config {
       daisy::I2CHandle::Config::Peripheral::I2C_1,
       {SubmoduleDaisySeed::Pin11, SubmoduleDaisySeed::Pin12},
-      daisy::I2CHandle::Config::Speed::I2C_1MHZ
+      daisy::I2CHandle::Config::Speed::I2C_1MHZ,
+      daisy::I2CHandle::Config::Mode::I2C_MASTER
    };
 
    using DmaBuffer = decltype (_led_driver)::DmaBuffer;
