@@ -91,7 +91,7 @@ Name : audio_callback_proc
 ==============================================================================
 */
 
-void  SubmoduleDaisySeed::audio_callback_proc (float ** in, float ** out, size_t size)
+void  SubmoduleDaisySeed::audio_callback_proc (const float * const * in, float ** out, size_t size)
 {
    _this_ptr->audio_callback (in, out, size);
 }
@@ -104,7 +104,7 @@ Name : audio_callback
 ==============================================================================
 */
 
-void  SubmoduleDaisySeed::audio_callback (float ** in, float ** out, size_t /* size */)
+void  SubmoduleDaisySeed::audio_callback (const float * const * in, float ** out, size_t /* size */)
 {
    raw_audio_inputs = in;
    raw_audio_outputs = out;

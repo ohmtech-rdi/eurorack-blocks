@@ -144,7 +144,8 @@ public:
                   gain_output_scaling = 0.433f;
 
 
-   float * const *raw_audio_inputs = nullptr;
+   const float * const *
+                  raw_audio_inputs = nullptr;
    float **       raw_audio_outputs = nullptr;
 
 
@@ -172,8 +173,8 @@ private:
 
    void           do_run ();
 
-   static void    audio_callback_proc (float ** in, float ** out, size_t size);
-   void           audio_callback (float ** in, float ** out, size_t size);
+   static void    audio_callback_proc (const float * const * in, float ** out, size_t size);
+   void           audio_callback (const float * const * in, float ** out, size_t size);
 
    static SubmoduleDaisySeed *
                   _this_ptr;
