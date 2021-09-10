@@ -140,8 +140,18 @@ void  BoardKivu12::impl_postprocess (DacPin pin)
    }
    else
    {
-      _led_driver.SetLed (
-         pin.index - L1.index, _analog_outputs [pin.index]
+      // The PCA9685 is made so that the anode is connected to 3V3,
+      // not to the pin. Similarly, cathode is connected to the pin, not
+      // GND.
+      // For this reason, the logic is inverted, and we need to adapt
+      // the gamma too.
+
+      auto val = _analog_outputs [pin.index];
+      auto linear = 1.f - val * val * val;
+      auto linear_u12 = norm_to_u12 (linear);
+
+      _led_driver.SetLedRaw (
+         pin.index - L1.index, linear_u12
       );
    }
 }
