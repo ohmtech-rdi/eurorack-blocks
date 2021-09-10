@@ -12,6 +12,13 @@ module Kivu12 {
    material aluminum
    header { label "Kivu12" }
 
+   control led Led {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "STATE"
+      pin L1
+   }
+
    control freq_pot Pot {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled

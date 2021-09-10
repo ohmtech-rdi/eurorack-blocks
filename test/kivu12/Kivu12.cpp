@@ -60,7 +60,7 @@ void  Kivu12::process ()
       ui.audio_out2 [i] = val;
    }
 
-#elif 1
+#elif 0
    osc1.set_freq_norm (ui.freq_pot);
    osc2.set_freq_norm (ui.freq2_pot);
 
@@ -68,6 +68,21 @@ void  Kivu12::process ()
    {
       ui.audio_out1 [i] = osc1.process ();
       ui.audio_out2 [i] = osc2.process ();
+   }
+
+#elif 1
+   osc1.set_freq (440.f);
+
+   auto phase = ui.board.clock () % 2000ull;
+   //ui.led = (phase < 1000) ? 1.f : 0.f;
+   //ui.led = 0.5f;
+   ui.led = float (phase) / 1999.f;
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      float val = osc1.process ();
+      ui.audio_out1 [i] = val;
+      ui.audio_out2 [i] = val;
    }
 
 #elif 0
