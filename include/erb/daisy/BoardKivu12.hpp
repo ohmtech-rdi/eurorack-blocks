@@ -138,7 +138,7 @@ void  BoardKivu12::impl_postprocess (DacPin pin)
    {
       _dac.write (pin.index, norm_to_u12 (_analog_outputs [pin.index]));
    }
-   else
+   else if ((pin.index >= L1.index) && (pin.index <= L16.index))
    {
       // The PCA9685 is made so that the anode is connected to 3V3,
       // not to the pin. Similarly, cathode is connected to the pin, not
@@ -150,8 +150,16 @@ void  BoardKivu12::impl_postprocess (DacPin pin)
       auto linear = 1.f - val * val * val;
       auto linear_u12 = norm_to_u12 (linear);
 
+      // LEDO-L8 LED1-L7 LED2-L6 ... LED7-L1
+      // LED8-L9 LED9-L10 LED10-L11 ... LED15-L16
+
+      constexpr size_t led_order [] = {
+         7, 6, 5, 4, 3, 2, 1, 0,       // L1..8
+         8, 9, 10, 11, 12, 13, 14, 15  // L9..16
+      };
+
       _led_driver.SetLedRaw (
-         pin.index - L1.index, linear_u12
+         led_order [pin.index - L1.index], linear_u12
       );
    }
 }
