@@ -205,8 +205,8 @@ private:
 
    std::array <GpioOutputDaisy, 2>
                   _gpio_outputs = {{
-                     {SubmoduleDaisyPatchSm::B5},  // GATE OUT 1
-                     {SubmoduleDaisyPatchSm::B6},  // GATE OUT 2
+                     {SubmoduleDaisyPatchSm::B6},  // GATE OUT 1
+                     {SubmoduleDaisyPatchSm::B5},  // GATE OUT 2
                   }};
 
    AdcDaisy <20>  _adc = {
