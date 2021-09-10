@@ -12,6 +12,20 @@ module Kivu12 {
    material aluminum
    header { label "Kivu12" }
 
+   control gate_out GateOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "GATE OUT"
+      pin GO2
+   }
+
+   control button Button {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "BUTTON"
+      pin B1
+   }
+
    control led Led {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled
