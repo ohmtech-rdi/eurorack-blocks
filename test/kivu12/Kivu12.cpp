@@ -85,7 +85,7 @@ void  Kivu12::process ()
       ui.audio_out2 [i] = val;
    }
 
-#elif 0
+#elif 1
    osc1.set_freq (440.f);
 
    ui.led = ui.button.held () ? 1.f : 0.f;
@@ -97,7 +97,7 @@ void  Kivu12::process ()
       ui.audio_out2 [i] = val;
    }
 
-#elif 1
+#elif 0
    osc1.set_freq (440.f);
 
    auto phase = ui.board.clock () % 2000ull;

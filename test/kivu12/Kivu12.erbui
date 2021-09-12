@@ -30,7 +30,7 @@ module Kivu12 {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled
       label "STATE"
-      pin L1
+      pin L8
    }
 
    control freq_pot Pot {
