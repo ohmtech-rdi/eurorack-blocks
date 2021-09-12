@@ -23,7 +23,7 @@ module Kivu12 {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled
       label "BUTTON"
-      pin B4
+      pin B6
    }
 
    control led Led {

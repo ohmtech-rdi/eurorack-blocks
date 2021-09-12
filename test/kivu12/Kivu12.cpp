@@ -85,10 +85,25 @@ void  Kivu12::process ()
       ui.audio_out2 [i] = val;
    }
 
-#elif 1
+#elif 0
    osc1.set_freq (440.f);
 
    ui.led = ui.button.held () ? 1.f : 0.f;
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      float val = osc1.process ();
+      ui.audio_out1 [i] = val;
+      ui.audio_out2 [i] = val;
+   }
+
+#elif 1
+   osc1.set_freq (440.f);
+
+   if (ui.button.pressed ())
+   {
+      ui.led.pulse ();
+   }
 
    for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
    {
