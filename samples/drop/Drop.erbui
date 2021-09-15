@@ -58,7 +58,7 @@ module Drop {
 
    control sync_led Led {
       position 2hp, 85mm
-      style led.3mm.red
+      style led.3mm.green
    }
 
    control sync_gate GateIn {
@@ -69,7 +69,7 @@ module Drop {
 
    control arm_led Led {
       position 4.66hp, 85mm
-      style led.3mm.red
+      style led.3mm.green
    }
 
    control arm_gate GateIn {
