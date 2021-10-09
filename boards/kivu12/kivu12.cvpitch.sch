@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 5 7
+Sheet 1 7
 Title ""
 Date ""
 Rev ""
@@ -91,7 +91,7 @@ F 7 "Digikey" H 3850 3100 50  0001 C CNN "Dist"
 F 8 "296-1282-1-ND" H 3850 3100 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/texas-instruments/TL072CDR/296-1282-1-ND/404930" H 3850 3100 50  0001 C CNN "DistLink"
 	1    3850 3100
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 $Comp
 L Amplifier_Operational:TL072 U9
@@ -102,7 +102,7 @@ F 1 "TL072" H 3900 5000 50  0000 C CNN
 F 2 "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm" H 3850 4800 50  0001 C CNN
 F 3 "http://www.ti.com/lit/ds/symlink/tl071.pdf" H 3850 4800 50  0001 C CNN
 	2    3850 4800
-	1    0    0    -1  
+	1    0    0    1   
 $EndComp
 $Comp
 L Amplifier_Operational:TL072 U9
@@ -211,57 +211,14 @@ F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-1
 	1    3000 2650
 	0    1    1    0   
 $EndComp
-$Comp
-L Device:R R71
-U 1 1 608EFADA
-P 3900 3400
-F 0 "R71" V 4000 3400 50  0000 C CNN
-F 1 "100k" V 4100 3400 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3830 3400 50  0001 C CNN
-F 3 "~" H 3900 3400 50  0001 C CNN
-F 4 "Resistor" H 3900 3400 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3900 3400 50  0001 C CNN "Description"
-F 6 "Yes" H 3900 3400 50  0001 C CNN "Place"
-F 7 "Digikey" H 3900 3400 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 3900 3400 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3900 3400 50  0001 C CNN "DistLink"
-	1    3900 3400
-	0    1    1    0   
-$EndComp
 Wire Wire Line
-	3250 3000 3550 3000
-$Comp
-L Device:R R70
-U 1 1 608F6E3C
-P 3550 3550
-F 0 "R70" H 3450 3600 50  0000 R CNN
-F 1 "100k" H 3450 3500 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3480 3550 50  0001 C CNN
-F 3 "~" H 3550 3550 50  0001 C CNN
-F 4 "Resistor" H 3550 3550 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3550 3550 50  0001 C CNN "Description"
-F 6 "Yes" H 3550 3550 50  0001 C CNN "Place"
-F 7 "Digikey" H 3550 3550 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 3550 3550 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3550 3550 50  0001 C CNN "DistLink"
-	1    3550 3550
-	1    0    0    -1  
-$EndComp
+	3250 3000 3500 3000
 Wire Wire Line
 	3250 3000 3250 2650
 Text HLabel 2850 3000 0    50   Input ~ 0
 IN1
-Text HLabel 3550 3700 3    50   Input ~ 0
+Text HLabel 3550 3200 0    50   Input ~ 0
 GND
-Wire Wire Line
-	3550 3200 3550 3400
-Wire Wire Line
-	3550 3400 3750 3400
-Connection ~ 3550 3400
-Wire Wire Line
-	4150 3100 4150 3400
-Wire Wire Line
-	4150 3400 4050 3400
 Text HLabel 4400 3200 3    50   Output ~ 0
 OUT1
 Text HLabel 7300 3450 3    50   Input ~ 0
@@ -281,7 +238,6 @@ F 3 "~" H 4400 3100 50  0001 C CNN
 	1    4400 3100
 	1    0    0    -1  
 $EndComp
-Connection ~ 4150 3100
 Text HLabel 4650 3100 2    50   Input ~ 0
 IN1
 Text Notes 2700 2050 0    50   ~ 0
@@ -327,57 +283,14 @@ F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-1
 	1    3000 4350
 	0    1    1    0   
 $EndComp
-$Comp
-L Device:R R75
-U 1 1 609169EA
-P 3900 5100
-F 0 "R75" V 4000 5100 50  0000 C CNN
-F 1 "100k" V 4100 5100 50  0000 C CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3830 5100 50  0001 C CNN
-F 3 "~" H 3900 5100 50  0001 C CNN
-F 4 "Resistor" H 3900 5100 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3900 5100 50  0001 C CNN "Description"
-F 6 "Yes" H 3900 5100 50  0001 C CNN "Place"
-F 7 "Digikey" H 3900 5100 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 3900 5100 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3900 5100 50  0001 C CNN "DistLink"
-	1    3900 5100
-	0    1    1    0   
-$EndComp
 Wire Wire Line
-	3250 4700 3550 4700
-$Comp
-L Device:R R74
-U 1 1 609169F7
-P 3550 5250
-F 0 "R74" H 3450 5300 50  0000 R CNN
-F 1 "100k" H 3450 5200 50  0000 R CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" V 3480 5250 50  0001 C CNN
-F 3 "~" H 3550 5250 50  0001 C CNN
-F 4 "Resistor" H 3550 5250 50  0001 C CNN "Device"
-F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3550 5250 50  0001 C CNN "Description"
-F 6 "Yes" H 3550 5250 50  0001 C CNN "Place"
-F 7 "Digikey" H 3550 5250 50  0001 C CNN "Dist"
-F 8 "541-100KHCT-ND" H 3550 5250 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3550 5250 50  0001 C CNN "DistLink"
-	1    3550 5250
-	1    0    0    -1  
-$EndComp
+	3250 4700 3500 4700
 Wire Wire Line
 	3250 4700 3250 4350
 Text HLabel 2850 4700 0    50   Input ~ 0
 IN2
-Text HLabel 3550 5400 3    50   Input ~ 0
+Text HLabel 3550 4900 0    50   Input ~ 0
 GND
-Wire Wire Line
-	3550 4900 3550 5100
-Wire Wire Line
-	3550 5100 3750 5100
-Connection ~ 3550 5100
-Wire Wire Line
-	4150 4800 4150 5100
-Wire Wire Line
-	4150 5100 4050 5100
 Text HLabel 4400 4900 3    50   Output ~ 0
 OUT2
 $Comp
@@ -393,7 +306,6 @@ F 3 "~" H 4400 4800 50  0001 C CNN
 $EndComp
 Text HLabel 4650 4800 2    50   Input ~ 0
 IN2
-Connection ~ 4150 4800
 Text HLabel 6900 4850 0    50   Input ~ 0
 -12V
 Text HLabel 7300 5150 3    50   Input ~ 0
@@ -401,5 +313,25 @@ GND
 Text HLabel 8100 5150 3    50   Input ~ 0
 GND
 Text Notes 4050 4050 0    50   ~ 0
-OUT1 = (IN1+VREFm5)/2 * (1 + R71/R70)\n      = IN1 + VREFm5
+OUT1 = - (IN1 + VREFm5) = 5V - IN1\n\nNeeds to be inverted in software when pitch mode is used
+Wire Wire Line
+	3500 3000 3500 2750
+Wire Wire Line
+	3500 2750 4150 2750
+Wire Wire Line
+	4150 2750 4150 3100
+Connection ~ 3500 3000
+Wire Wire Line
+	3500 3000 3550 3000
+Connection ~ 4150 3100
+Wire Wire Line
+	3500 4700 3500 4450
+Wire Wire Line
+	3500 4450 4150 4450
+Wire Wire Line
+	4150 4450 4150 4800
+Connection ~ 3500 4700
+Wire Wire Line
+	3500 4700 3550 4700
+Connection ~ 4150 4800
 $EndSCHEMATC
