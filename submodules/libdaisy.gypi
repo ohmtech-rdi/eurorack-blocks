@@ -263,6 +263,7 @@
             '-Wno-missing-field-initializers',
             '-Wno-ignored-qualifiers',
             '-Wno-unused-function',
+            '-Wno-stringop-overflow',
          ],
 
          'cflags!': [
