@@ -25,17 +25,6 @@ F 3 "~" H 1700 1850 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+3V3 #PWR0108
-U 1 1 60B98C55
-P 1500 3650
-F 0 "#PWR0108" H 1500 3500 50  0001 C CNN
-F 1 "+3V3" V 1500 3750 50  0000 L CNN
-F 2 "" H 1500 3650 50  0001 C CNN
-F 3 "" H 1500 3650 50  0001 C CNN
-	1    1500 3650
-	0    1    1    0   
-$EndComp
-$Comp
 L Connector:TestPoint P2
 U 1 1 60BAC877
 P 1500 1950
@@ -817,17 +806,6 @@ F 3 "~" H 1300 3050 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x04 J9
-U 1 1 60D8982A
-P 1300 3750
-F 0 "J9" H 1218 4067 50  0000 C CNN
-F 1 "POWER1" H 1218 3976 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 1300 3750 50  0001 C CNN
-F 3 "~" H 1300 3750 50  0001 C CNN
-	1    1300 3750
-	-1   0    0    -1  
-$EndComp
-$Comp
 L power:+3V3 #PWR?
 U 1 1 60D8A6B7
 P 1500 3750
@@ -847,17 +825,6 @@ F 1 "GND" V 1505 3722 50  0000 R CNN
 F 2 "" H 1500 3850 50  0001 C CNN
 F 3 "" H 1500 3850 50  0001 C CNN
 	1    1500 3850
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 60D8AE91
-P 1500 3950
-F 0 "#PWR?" H 1500 3700 50  0001 C CNN
-F 1 "GND" V 1505 3822 50  0000 R CNN
-F 2 "" H 1500 3950 50  0001 C CNN
-F 3 "" H 1500 3950 50  0001 C CNN
-	1    1500 3950
 	0    -1   -1   0   
 $EndComp
 $Comp
@@ -898,33 +865,11 @@ L Connector_Generic:Conn_01x02 J11
 U 1 1 60DAA61D
 P 2300 4150
 F 0 "J11" H 2218 4367 50  0000 C CNN
-F 1 "GND" H 2218 4276 50  0000 C CNN
+F 1 "3V3" H 2218 4276 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 2300 4150 50  0001 C CNN
 F 3 "~" H 2300 4150 50  0001 C CNN
 	1    2300 4150
 	-1   0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 60DAB421
-P 2500 4150
-F 0 "#PWR?" H 2500 3900 50  0001 C CNN
-F 1 "GND" V 2505 4022 50  0000 R CNN
-F 2 "" H 2500 4150 50  0001 C CNN
-F 3 "" H 2500 4150 50  0001 C CNN
-	1    2500 4150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR?
-U 1 1 60DAB935
-P 2500 4250
-F 0 "#PWR?" H 2500 4000 50  0001 C CNN
-F 1 "GND" V 2505 4122 50  0000 R CNN
-F 2 "" H 2500 4250 50  0001 C CNN
-F 3 "" H 2500 4250 50  0001 C CNN
-	1    2500 4250
-	0    -1   -1   0   
 $EndComp
 $Comp
 L Connector_Generic:Conn_01x08 J3
@@ -1046,5 +991,38 @@ F 2 "" H 4600 3050 50  0001 C CNN
 F 3 "" H 4600 3050 50  0001 C CNN
 	1    4600 3050
 	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J9
+U 1 1 61622A1C
+P 1300 3750
+F 0 "J9" H 1218 3967 50  0000 C CNN
+F 1 "POWER1" H 1218 3876 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical" H 1300 3750 50  0001 C CNN
+F 3 "~" H 1300 3750 50  0001 C CNN
+	1    1300 3750
+	-1   0    0    -1  
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 61623FC0
+P 2500 4150
+F 0 "#PWR?" H 2500 4000 50  0001 C CNN
+F 1 "+3V3" V 2500 4250 50  0000 L CNN
+F 2 "" H 2500 4150 50  0001 C CNN
+F 3 "" H 2500 4150 50  0001 C CNN
+	1    2500 4150
+	0    1    1    0   
+$EndComp
+$Comp
+L power:+3V3 #PWR?
+U 1 1 61624A0E
+P 2500 4250
+F 0 "#PWR?" H 2500 4100 50  0001 C CNN
+F 1 "+3V3" V 2500 4350 50  0000 L CNN
+F 2 "" H 2500 4250 50  0001 C CNN
+F 3 "" H 2500 4250 50  0001 C CNN
+	1    2500 4250
+	0    1    1    0   
 $EndComp
 $EndSCHEMATC
