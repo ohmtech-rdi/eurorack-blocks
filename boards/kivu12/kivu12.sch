@@ -55,6 +55,12 @@ F 0 "J2" H 3900 2050 50  0000 C BNN
 F 1 "CIX" H 3900 1950 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x09_P2.54mm_Vertical" H 4000 1450 50  0001 C CNN
 F 3 "~" H 4000 1450 50  0001 C CNN
+F 4 "Female Socket" H 4000 1450 50  0001 C CNN "Device"
+F 5 "CONN HDR 9POS 0.1 GOLD PCB" H 4000 1450 50  0001 C CNN "Description"
+F 6 "No" H 4000 1450 50  0001 C CNN "Place"
+F 7 "Digikey" H 4000 1450 50  0001 C CNN "Dist"
+F 8 "S7042-ND" H 4000 1450 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC091LFBN-RC/S7042-ND/810181" H 4000 1450 50  0001 C CNN "DiskLink"
 	1    4000 1450
 	-1   0    0    -1  
 $EndComp
@@ -114,17 +120,6 @@ Text GLabel 3200 3450 2    50   Output ~ 0
 B15
 Text GLabel 3200 3550 2    50   Output ~ 0
 B16
-$Comp
-L Connector_Generic:Conn_01x08 J4
-U 1 1 608D2E60
-P 2100 1350
-F 0 "J4" H 2050 1850 50  0000 C BNN
-F 1 "LX1" H 2050 1750 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 2100 1350 50  0001 C CNN
-F 3 "~" H 2100 1350 50  0001 C CNN
-	1    2100 1350
-	-1   0    0    -1  
-$EndComp
 Text GLabel 2300 1050 2    50   Input ~ 0
 L1
 Text GLabel 2300 1150 2    50   Input ~ 0
@@ -850,50 +845,6 @@ F 3 "" H 4200 1050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x09 J5
-U 1 1 60D4FB61
-P 4750 1450
-F 0 "J5" H 4650 2050 50  0000 C BNN
-F 1 "ANALOG" H 4650 1950 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x09_P2.54mm_Vertical" H 4750 1450 50  0001 C CNN
-F 3 "~" H 4750 1450 50  0001 C CNN
-	1    4750 1450
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x04 J6
-U 1 1 60D66DEC
-P 3000 2250
-F 0 "J6" H 2900 2550 50  0000 C BNN
-F 1 "POWER2" H 2900 2450 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 3000 2250 50  0001 C CNN
-F 3 "~" H 3000 2250 50  0001 C CNN
-	1    3000 2250
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x08 J7
-U 1 1 60D6A883
-P 3000 3150
-F 0 "J7" H 2900 3650 50  0000 C BNN
-F 1 "BX" H 2900 3550 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 3000 3150 50  0001 C CNN
-F 3 "~" H 3000 3150 50  0001 C CNN
-	1    3000 3150
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x08 J3
-U 1 1 608CDDA4
-P 3000 1350
-F 0 "J3" H 2900 1850 50  0000 C BNN
-F 1 "BX" H 2900 1750 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 3000 1350 50  0001 C CNN
-F 3 "~" H 3000 1350 50  0001 C CNN
-	1    3000 1350
-	-1   0    0    -1  
-$EndComp
-$Comp
 L Connector_Generic:Conn_01x08 J1
 U 1 1 60D6DFBD
 P 1050 1350
@@ -901,19 +852,14 @@ F 0 "J1" H 950 1850 50  0000 C BNN
 F 1 "P1" H 950 1750 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 1050 1350 50  0001 C CNN
 F 3 "~" H 1050 1350 50  0001 C CNN
+F 4 "Female Socket" H 1050 1350 50  0001 C CNN "Device"
+F 5 "CONN HDR 8POS 0.1 TIN PCB" H 1050 1350 50  0001 C CNN "Description"
+F 6 "No" H 1050 1350 50  0001 C CNN "Place"
+F 7 "Digikey" H 1050 1350 50  0001 C CNN "Dist"
+F 8 "S7006-ND" H 1050 1350 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 1050 1350 50  0001 C CNN "DiskLink"
 	1    1050 1350
 	-1   0    0    -1  
-$EndComp
-$Comp
-L power:+3V3 #PWR0109
-U 1 1 60D73383
-P 1250 2850
-F 0 "#PWR0109" H 1250 2700 50  0001 C CNN
-F 1 "+3V3" V 1250 3050 50  0000 C CNN
-F 2 "" H 1250 2850 50  0001 C CNN
-F 3 "" H 1250 2850 50  0001 C CNN
-	1    1250 2850
-	0    1    1    0   
 $EndComp
 $Comp
 L power:+3V3 #PWR0111
@@ -938,28 +884,6 @@ F 3 "" H 1250 3050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:GND #PWR0115
-U 1 1 60D73395
-P 1250 3150
-F 0 "#PWR0115" H 1250 2900 50  0001 C CNN
-F 1 "GND" V 1250 2950 50  0000 C CNN
-F 2 "" H 1250 3150 50  0001 C CNN
-F 3 "" H 1250 3150 50  0001 C CNN
-	1    1250 3150
-	0    -1   -1   0   
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x04 J9
-U 1 1 60D7339B
-P 1050 2950
-F 0 "J9" H 950 3250 50  0000 C BNN
-F 1 "POWER1" H 950 3150 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 1050 2950 50  0001 C CNN
-F 3 "~" H 1050 2950 50  0001 C CNN
-	1    1050 2950
-	-1   0    0    -1  
-$EndComp
-$Comp
 L Connector_Generic:Conn_01x04 J8
 U 1 1 60D763B5
 P 1050 2250
@@ -967,6 +891,12 @@ F 0 "J8" H 950 2550 50  0000 C BNN
 F 1 "P2" H 950 2450 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 1050 2250 50  0001 C CNN
 F 3 "~" H 1050 2250 50  0001 C CNN
+F 4 "Female Socket" H 1050 2250 50  0001 C CNN "Device"
+F 5 "CONN HDR 4POS 0.1 GOLD PCB" H 1050 2250 50  0001 C CNN "Description"
+F 6 "No" H 1050 2250 50  0001 C CNN "Place"
+F 7 "Digikey" H 1050 2250 50  0001 C CNN "Dist"
+F 8 "S7037-ND" H 1050 2250 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC041LFBN-RC/S7037-ND/810176" H 1050 2250 50  0001 C CNN "DiskLink"
 	1    1050 2250
 	-1   0    0    -1  
 $EndComp
@@ -978,18 +908,13 @@ F 0 "J10" H 950 4150 50  0000 C BNN
 F 1 "SD" H 950 4050 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x06_P2.54mm_Vertical" H 1050 3750 50  0001 C CNN
 F 3 "~" H 1050 3750 50  0001 C CNN
+F 4 "Female Socket" H 1050 3750 50  0001 C CNN "Device"
+F 5 "CONN HDR 6POS 0.1 TIN PCB" H 1050 3750 50  0001 C CNN "Description"
+F 6 "No" H 1050 3750 50  0001 C CNN "Place"
+F 7 "Digikey" H 1050 3750 50  0001 C CNN "Dist"
+F 8 "S7004-ND" H 1050 3750 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC061LFBN-RC/S7004-ND/810145" H 1050 3750 50  0001 C CNN "DiskLink"
 	1    1050 3750
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x08 J12
-U 1 1 60D7F94D
-P 2100 2450
-F 0 "J12" H 2000 2950 50  0000 C BNN
-F 1 "LX2" H 2000 2850 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 2100 2450 50  0001 C CNN
-F 3 "~" H 2100 2450 50  0001 C CNN
-	1    2100 2450
 	-1   0    0    -1  
 $EndComp
 $Comp
@@ -1000,6 +925,12 @@ F 0 "J11" H 1950 3600 50  0000 C BNN
 F 1 "GND" H 1950 3500 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 2050 3400 50  0001 C CNN
 F 3 "~" H 2050 3400 50  0001 C CNN
+F 4 "Female Socket" H 2050 3400 50  0001 C CNN "Package"
+F 5 "CONN HDR 2POS 0.1 TIN PCB" H 2050 3400 50  0001 C CNN "Description"
+F 6 "No" H 2050 3400 50  0001 C CNN "Place"
+F 7 "Digikey" H 2050 3400 50  0001 C CNN "Dist"
+F 8 "S7000-ND" H 2050 3400 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC021LFBN-RC/S7000-ND/810142" H 2050 3400 50  0001 C CNN "DiskLink"
 	1    2050 3400
 	-1   0    0    -1  
 $EndComp
@@ -1024,5 +955,124 @@ F 2 "" H 2250 3500 50  0001 C CNN
 F 3 "" H 2250 3500 50  0001 C CNN
 	1    2250 3500
 	0    -1   -1   0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J6
+U 1 1 61625402
+P 3000 2250
+F 0 "J6" H 2900 2550 50  0000 C BNN
+F 1 "POWER2" H 2900 2450 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 3000 2250 50  0001 C CNN
+F 3 "~" H 3000 2250 50  0001 C CNN
+F 4 "Female Socket" H 3000 2250 50  0001 C CNN "Device"
+F 5 "CONN HDR 4POS 0.1 GOLD PCB" H 3000 2250 50  0001 C CNN "Description"
+F 6 "No" H 3000 2250 50  0001 C CNN "Place"
+F 7 "Digikey" H 3000 2250 50  0001 C CNN "Dist"
+F 8 "S7037-ND" H 3000 2250 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC041LFBN-RC/S7037-ND/810176" H 3000 2250 50  0001 C CNN "DiskLink"
+	1    3000 2250
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x02 J9
+U 1 1 61626A0C
+P 1050 2950
+F 0 "J9" H 950 3150 50  0000 C BNN
+F 1 "POWER1" H 950 3050 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 1050 2950 50  0001 C CNN
+F 3 "~" H 1050 2950 50  0001 C CNN
+F 4 "Female Socket" H 1050 2950 50  0001 C CNN "Package"
+F 5 "CONN HDR 2POS 0.1 TIN PCB" H 1050 2950 50  0001 C CNN "Description"
+F 6 "No" H 1050 2950 50  0001 C CNN "Place"
+F 7 "Digikey" H 1050 2950 50  0001 C CNN "Dist"
+F 8 "S7000-ND" H 1050 2950 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC021LFBN-RC/S7000-ND/810142" H 1050 2950 50  0001 C CNN "DiskLink"
+	1    1050 2950
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x08 J4
+U 1 1 61628947
+P 2100 1350
+F 0 "J4" H 2000 1850 50  0000 C BNN
+F 1 "LX1" H 2000 1750 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 2100 1350 50  0001 C CNN
+F 3 "~" H 2100 1350 50  0001 C CNN
+F 4 "Female Socket" H 2100 1350 50  0001 C CNN "Device"
+F 5 "CONN HDR 8POS 0.1 TIN PCB" H 2100 1350 50  0001 C CNN "Description"
+F 6 "No" H 2100 1350 50  0001 C CNN "Place"
+F 7 "Digikey" H 2100 1350 50  0001 C CNN "Dist"
+F 8 "S7006-ND" H 2100 1350 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 2100 1350 50  0001 C CNN "DiskLink"
+	1    2100 1350
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x08 J3
+U 1 1 61629511
+P 3000 1350
+F 0 "J3" H 2900 1850 50  0000 C BNN
+F 1 "BX" H 2900 1750 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 3000 1350 50  0001 C CNN
+F 3 "~" H 3000 1350 50  0001 C CNN
+F 4 "Female Socket" H 3000 1350 50  0001 C CNN "Device"
+F 5 "CONN HDR 8POS 0.1 TIN PCB" H 3000 1350 50  0001 C CNN "Description"
+F 6 "No" H 3000 1350 50  0001 C CNN "Place"
+F 7 "Digikey" H 3000 1350 50  0001 C CNN "Dist"
+F 8 "S7006-ND" H 3000 1350 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 3000 1350 50  0001 C CNN "DiskLink"
+	1    3000 1350
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x08 J12
+U 1 1 6162ACE4
+P 2100 2450
+F 0 "J12" H 2000 2950 50  0000 C BNN
+F 1 "LX2" H 2000 2850 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 2100 2450 50  0001 C CNN
+F 3 "~" H 2100 2450 50  0001 C CNN
+F 4 "Female Socket" H 2100 2450 50  0001 C CNN "Device"
+F 5 "CONN HDR 8POS 0.1 TIN PCB" H 2100 2450 50  0001 C CNN "Description"
+F 6 "No" H 2100 2450 50  0001 C CNN "Place"
+F 7 "Digikey" H 2100 2450 50  0001 C CNN "Dist"
+F 8 "S7006-ND" H 2100 2450 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 2100 2450 50  0001 C CNN "DiskLink"
+	1    2100 2450
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x08 J7
+U 1 1 6162B672
+P 3000 3150
+F 0 "J7" H 2900 3650 50  0000 C BNN
+F 1 "BX" H 2900 3550 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 3000 3150 50  0001 C CNN
+F 3 "~" H 3000 3150 50  0001 C CNN
+F 4 "Female Socket" H 3000 3150 50  0001 C CNN "Device"
+F 5 "CONN HDR 8POS 0.1 TIN PCB" H 3000 3150 50  0001 C CNN "Description"
+F 6 "No" H 3000 3150 50  0001 C CNN "Place"
+F 7 "Digikey" H 3000 3150 50  0001 C CNN "Dist"
+F 8 "S7006-ND" H 3000 3150 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 3000 3150 50  0001 C CNN "DiskLink"
+	1    3000 3150
+	-1   0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x09 J5
+U 1 1 6162F4C0
+P 4750 1450
+F 0 "J5" H 4650 2050 50  0000 C BNN
+F 1 "ANALOG" H 4650 1950 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x09_P2.54mm_Vertical" H 4750 1450 50  0001 C CNN
+F 3 "~" H 4750 1450 50  0001 C CNN
+F 4 "Female Socket" H 4750 1450 50  0001 C CNN "Device"
+F 5 "CONN HDR 9POS 0.1 GOLD PCB" H 4750 1450 50  0001 C CNN "Description"
+F 6 "No" H 4750 1450 50  0001 C CNN "Place"
+F 7 "Digikey" H 4750 1450 50  0001 C CNN "Dist"
+F 8 "S7042-ND" H 4750 1450 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC091LFBN-RC/S7042-ND/810181" H 4750 1450 50  0001 C CNN "DiskLink"
+	1    4750 1450
+	-1   0    0    -1  
 $EndComp
 $EndSCHEMATC
