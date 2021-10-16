@@ -19,18 +19,32 @@ module Kivu12 {
       pin GO2
    }
 
-   control button Button {
+   control sync_gate GateIn {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled
-      label "BUTTON"
+      label "SYNC"
+      pin B5
+   }
+
+   control arm_gate GateIn {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "ARM"
       pin B6
    }
 
-   control led Led {
+   control sync_led Led {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled
-      label "STATE"
-      pin L8
+      label "SYNC"
+      pin L1
+   }
+
+   control arm_led Led {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "ARM"
+      pin L2
    }
 
    control freq_pot Pot {

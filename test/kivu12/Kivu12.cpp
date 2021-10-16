@@ -97,12 +97,32 @@ void  Kivu12::process ()
       ui.audio_out2 [i] = val;
    }
 
-#elif 1
+#elif 0
    osc1.set_freq (440.f);
 
    if (ui.button.pressed ())
    {
       ui.led.pulse ();
+   }
+
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      float val = osc1.process ();
+      ui.audio_out1 [i] = val;
+      ui.audio_out2 [i] = val;
+   }
+
+#elif 1
+   osc1.set_freq (440.f);
+
+   if (ui.sync_gate.triggered ())
+   {
+      ui.sync_led.pulse ();
+   }
+
+   if (ui.arm_gate.triggered ())
+   {
+      ui.arm_led.pulse ();
    }
 
    for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
