@@ -45,14 +45,12 @@
 
       {
          'target_name': 'drop-daisy',
-         'type': 'executable',
 
          'dependencies': [ 'drop', 'erb-daisy' ],
       },
 
       {
          'target_name': 'drop-vcvrack',
-         'type': 'shared_library',
 
          'dependencies': [ 'drop', 'erb-vcvrack' ],
       },
