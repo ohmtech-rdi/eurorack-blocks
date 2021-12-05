@@ -32,14 +32,12 @@
 
       {
          'target_name': 'bypass-daisy',
-         'type': 'executable',
 
          'dependencies': [ 'bypass', 'erb-daisy' ],
       },
 
       {
          'target_name': 'bypass-vcvrack',
-         'type': 'shared_library',
 
          'dependencies': [ 'bypass', 'erb-vcvrack' ],
       },

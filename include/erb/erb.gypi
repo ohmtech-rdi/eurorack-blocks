@@ -55,6 +55,8 @@
          ],
 
          'direct_dependent_settings': {
+            'type': 'executable',
+
             'defines': [
                'erb_TARGET_DAISY',
             ],
@@ -142,6 +144,8 @@
          ],
 
          'direct_dependent_settings': {
+            'type': 'loadable_module',
+
             'defines': [
                'erb_TARGET_VCV_RACK',
             ],
@@ -180,6 +184,7 @@
                ],
 
                'EXECUTABLE_PREFIX': '',
+               'EXECUTABLE_EXTENSION': 'dylib',
                'PRODUCT_NAME': 'plugin',
             },
 

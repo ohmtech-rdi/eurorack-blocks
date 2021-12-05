@@ -36,14 +36,12 @@
 
       {
          'target_name': 'micropatch-daisy',
-         'type': 'executable',
 
          'dependencies': [ 'micropatch', 'erb-daisy' ],
       },
 
       {
          'target_name': 'micropatch-vcvrack',
-         'type': 'shared_library',
 
          'dependencies': [ 'micropatch', 'erb-vcvrack' ],
       },

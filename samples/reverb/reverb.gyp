@@ -47,14 +47,12 @@
 
       {
          'target_name': 'reverb-daisy',
-         'type': 'executable',
 
          'dependencies': [ 'reverb', 'erb-daisy' ],
       },
 
       {
          'target_name': 'reverb-vcvrack',
-         'type': 'shared_library',
 
          'dependencies': [ 'reverb', 'erb-vcvrack' ],
       },
