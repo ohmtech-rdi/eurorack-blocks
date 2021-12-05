@@ -36,14 +36,12 @@
 
       {
          'target_name': 'field-daisy',
-         'type': 'executable',
 
          'dependencies': [ 'field', 'erb-daisy' ],
       },
 
       {
          'target_name': 'field-vcvrack',
-         'type': 'shared_library',
 
          'dependencies': [ 'field', 'erb-vcvrack' ],
       },

@@ -19,7 +19,6 @@
    'targets' : [
       {
          'target_name': 'vcvrack',
-         'type': 'shared_library',
 
          'dependencies': [ 'erb-vcvrack' ],
 
