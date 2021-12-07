@@ -275,8 +275,8 @@ Name : deploy
 ==============================================================================
 """
 
-def deploy (name, path, configuration):
-   if shutil.which ('openocd') is not None:
+def deploy (name, path, configuration, force_dfu_util=False):
+   if shutil.which ('openocd') is not None and not force_dfu_util:
       deploy_openocd (name, path, configuration)
    else:
       deploy_dfu_util (name, path, configuration)
