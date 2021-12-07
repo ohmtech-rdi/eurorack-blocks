@@ -68,7 +68,24 @@ Name : impl_preprocess
 
 void  BoardDaisyField::impl_preprocess (AdcPin pin)
 {
-   _analog_inputs [pin.index] = to_float_norm (_adc.read (pin.index));
+   if ((pin.index >= CI1.index) && (pin.index <= CI4.index))
+   {
+      const auto norm_val = to_float_norm (_adc.read (pin.index));
+      // OpAmp in non-inverting amplifier
+      _analog_inputs [pin.index] = norm_val;
+   }
+   else if ((pin.index >= P1.index) && (pin.index <= P8.index))
+   {
+      constexpr size_t pot_order [] = {
+         4+0, 4+3, 4+1, 4+4, 4+2, 4+5, 4+6, 4+7, // P1..8
+      };
+
+      const auto norm_val = to_float_norm (
+         _adc.read (pot_order [pin.index - P1.index])
+      );
+
+      _analog_inputs [pin.index] = norm_val;
+   }
 }
 
 

@@ -81,15 +81,27 @@ Name : impl_preprocess
 
 void  BoardKivu12::impl_preprocess (AdcPin pin)
 {
-   const auto norm_val = to_float_norm (_adc.read (pin.index));
-
    if ((pin.index >= CI1.index) && (pin.index <= CI8.index))
    {
+      const auto norm_val = to_float_norm (_adc.read (pin.index));
       // OpAmp in inverter adder with voltage reference
       _analog_inputs [pin.index] = 1.f - norm_val;
    }
-   else
+   else if ((pin.index >= P1.index) && (pin.index <= P12.index))
    {
+      // IN1-X4, IN2-X6, IN3-X7, IN4-X5
+      // IN5-X2, IN6-X1, IN7-X0, IN8-X3
+      // IN9-X2, IN10-X1, IN11-X0, IN12-X3
+
+      constexpr size_t pot_order [] = {
+         8+4, 8+6, 8+7, 8+5, 8+2, 8+1, 8+0, 8+3, // P1..8
+         16+2, 16+1, 16+0, 16+3                  // P9..12
+      };
+
+      const auto norm_val = to_float_norm (
+         _adc.read (pot_order [pin.index - P1.index])
+      );
+
       _analog_inputs [pin.index] = norm_val;
    }
 }
