@@ -48,6 +48,12 @@ def parse_args ():
       help = 'The build configuration to use. Defaults to Release'
    )
 
+   arg_parser.add_argument(
+      '--dfu',
+      action = 'store_true',
+      help = 'Force dfu-util usage over openocd.'
+   )
+
    return arg_parser.parse_args (sys.argv[1:])
 
 
@@ -58,7 +64,7 @@ if __name__ == '__main__':
    try:
       args = parse_args ()
 
-      erbb.deploy ('%s-daisy' % PROJECT, PATH_THIS, args.configuration)
+      erbb.deploy ('%s-daisy' % PROJECT, PATH_THIS, args.configuration, force_dfu_util=args.dfu)
 
    except subprocess.CalledProcessError as error:
       print ('Deploy command exited with %d' % error.returncode, file = sys.stderr)
