@@ -36,7 +36,8 @@ BoardKivu12::BoardKivu12 ()
          SubmoduleDaisyPatchSm::B7, // SCL
          SubmoduleDaisyPatchSm::B8  // SDA
       },
-      daisy::I2CHandle::Config::Speed::I2C_1MHZ
+      daisy::I2CHandle::Config::Speed::I2C_1MHZ,
+      daisy::I2CHandle::Config::Mode::I2C_MASTER
    };
 
    using DmaBuffer = decltype (_led_driver)::DmaBuffer;

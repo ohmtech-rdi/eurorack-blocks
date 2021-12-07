@@ -122,16 +122,24 @@ Name : init_qspi
 
 void  SubmoduleDaisyPatchSm::init_qspi ()
 {
-   _qspi.pin_config [DSY_QSPI_PIN_IO0] = {DSY_GPIOF, 8};
-   _qspi.pin_config [DSY_QSPI_PIN_IO1] = {DSY_GPIOF, 9};
-   _qspi.pin_config [DSY_QSPI_PIN_IO2] = {DSY_GPIOF, 7};
-   _qspi.pin_config [DSY_QSPI_PIN_IO3] = {DSY_GPIOF, 6};
-   _qspi.pin_config [DSY_QSPI_PIN_CLK] = {DSY_GPIOF, 10};
-   _qspi.pin_config [DSY_QSPI_PIN_NCS] = {DSY_GPIOG, 6};
-   _qspi.device = DSY_QSPI_DEVICE_IS25LP064A;
-   _qspi.mode = DSY_QSPI_MODE_DSY_MEMORY_MAPPED;
+   erb_DISABLE_WARNINGS_DAISY
 
-   dsy_qspi_init (&_qspi);
+   using namespace daisy;
+
+   _qspi.Init (QSPIHandle::Config {
+      .pin_config = {
+         .io0 = {DSY_GPIOF, 8},
+         .io1 = {DSY_GPIOF, 9},
+         .io2 = {DSY_GPIOF, 7},
+         .io3 = {DSY_GPIOF, 6},
+         .clk = {DSY_GPIOF, 10},
+         .ncs = {DSY_GPIOG, 6}
+      },
+      .device = QSPIHandle::Config::Device::IS25LP064A,
+      .mode = QSPIHandle::Config::Mode::MEMORY_MAPPED
+   });
+
+   erb_RESTORE_WARNINGS
 }
 
 
@@ -174,6 +182,7 @@ void  SubmoduleDaisyPatchSm::init_audio ()
          .sda = {DSY_GPIOB, 11},
       },
       .speed = I2CHandle::Config::Speed::I2C_400KHZ,
+      .mode = I2CHandle::Config::Mode::I2C_MASTER
    });
 
    _codec.Init (i2c2);
@@ -214,7 +223,7 @@ Name : audio_callback_proc
 ==============================================================================
 */
 
-void  SubmoduleDaisyPatchSm::audio_callback_proc (float ** in, float ** out, size_t size)
+void  SubmoduleDaisyPatchSm::audio_callback_proc (const float * const * in, float ** out, size_t size)
 {
    _this_ptr->audio_callback (in, out, size);
 }
@@ -227,7 +236,7 @@ Name : audio_callback
 ==============================================================================
 */
 
-void  SubmoduleDaisyPatchSm::audio_callback (float ** in, float ** out, size_t /* size */)
+void  SubmoduleDaisyPatchSm::audio_callback (const float * const * in, float ** out, size_t /* size */)
 {
    raw_audio_inputs = in;
    raw_audio_outputs = out;
