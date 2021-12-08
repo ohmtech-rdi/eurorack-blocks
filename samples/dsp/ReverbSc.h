@@ -35,15 +35,15 @@ public:
 
    struct DelayLine
    {
-      size_t         time_spl;
-      size_t         write_pos;
-      float          read_pos;
-      float          read_pos_step;
-      size_t         rand_val;
-      size_t         rand_line_cnt;
+      size_t         time_spl = 0;
+      size_t         write_pos = 0;
+      float          read_pos = 0;
+      float          read_pos_step = 0;
+      size_t         rand_val = 0;
+      size_t         rand_line_cnt = 0;
       float          filter_state = 0.f;
       std::array <float, max_time_spl>
-                     buf;
+                     buf = {};
    };
 
    using DelayLines = std::array <DelayLine, 8>;
