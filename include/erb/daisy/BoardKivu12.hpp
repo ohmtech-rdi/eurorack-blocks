@@ -50,11 +50,41 @@ Name : impl_preprocess
 
 void  BoardKivu12::impl_preprocess ()
 {
-   // address was already set 1ms or so, read from gpios
+   // Addr0 Gpio0 - B10 (9)
+   // Addr1 Gpio0 - B11 (10)
+   // Addr2 Gpio0 - B12 (11)
+   // Addr3 Gpio0 - B9  (8)
+   // Addr4 Gpio0 - B13 (12)
+   // Addr5 Gpio0 - B16 (15)
+   // Addr6 Gpio0 - B14 (13)
+   // Addr7 Gpio0 - B15 (14)
+
+   // Addr0 Gpio1 - B2 (1)
+   // Addr1 Gpio1 - B3 (2)
+   // Addr2 Gpio1 - B4 (3)
+   // Addr3 Gpio1 - B1 (0)
+   // Addr4 Gpio1 - B5 (4)
+   // Addr5 Gpio1 - B8 (7)
+   // Addr6 Gpio1 - B6 (5)
+   // Addr7 Gpio1 - B7 (6)
+
+   constexpr size_t gpio0_order [] = {
+      9, 10, 11, 8, 12, 15, 13, 14
+   };
+   constexpr size_t gpio1_order [] = {
+      1, 2, 3, 0, 4, 7, 5, 6
+   };
 
    // GI: BJT => inverted
-   _digital_inputs [_b_mux_addr] = !_gpio_inputs [0].read ();
-   _digital_inputs [8 + _b_mux_addr] = !_gpio_inputs [1].read ();
+   _digital_inputs [gpio0_order [_b_mux_addr]] = !_gpio_inputs [0].read ();
+   _digital_inputs [gpio1_order [_b_mux_addr]] = !_gpio_inputs [1].read ();
+
+   // set address for next read in next preprocess, in 1ms or so
+   _b_mux_addr = (_b_mux_addr + 1) % 8;
+   set_b_mux_addr ();
+
+   // a full cycle has a length of 8, which represent at worst a 8ms latency
+   // with the default 48 sample buffer and 48kHz sample rate.
 }
 
 
@@ -204,13 +234,6 @@ Name : impl_postprocess
 void  BoardKivu12::impl_postprocess ()
 {
    _led_driver.SwapBuffersAndTransmit ();
-
-   // set address for next read in next preprocess
-   _b_mux_addr = (_b_mux_addr + 1) % 8;
-   set_b_mux_addr ();
-
-   // a full cycle has a length of 8, which represent at worst a 8ms latency
-   // with the default 48 sample buffer and 48kHz sample rate.
 }
 
 

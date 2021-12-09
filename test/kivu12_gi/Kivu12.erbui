@@ -1,0 +1,124 @@
+/*****************************************************************************
+
+      Kivu12.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Kivu12 {
+   board kivu12
+   material aluminum
+   header { label "Kivu12" }
+
+   control b1 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B1
+   }
+
+   control b2 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B2
+   }
+
+   control b3 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B3
+   }
+
+   control b4 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B4
+   }
+
+   control b5 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B5
+   }
+
+   control b6 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B6
+   }
+
+   control b7 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B7
+   }
+
+   control b8 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B8
+   }
+
+   control b9 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B9
+   }
+
+   control b10 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B10
+   }
+
+   control b11 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B11
+   }
+
+   control b12 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B12
+   }
+
+   control b13 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B13
+   }
+
+   control b14 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B14
+   }
+
+   control b15 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B15
+   }
+
+   control b16 Button {
+      position 7.33hp, 111mm
+      style ck.d6r.black
+      pin B16
+   }
+
+   control audio_out1 AudioOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+      pin AO1
+   }
+
+   control audio_out2 AudioOut {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+      pin AO2
+   }
+}
