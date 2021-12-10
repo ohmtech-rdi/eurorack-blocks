@@ -44,8 +44,8 @@ public:
    static constexpr Pin A8 = {DSY_GPIOB, 14};   // USB DM
    static constexpr Pin A9 = {DSY_GPIOB, 15};   // USB DP
 
-   static constexpr Pin B5 = {DSY_GPIOC, 13};   // GATE OUT 1
-   static constexpr Pin B6 = {DSY_GPIOC, 14};   // GATE OUT 2
+   static constexpr Pin B5 = {DSY_GPIOC, 14};   // GATE OUT 1
+   static constexpr Pin B6 = {DSY_GPIOC, 13};   // GATE OUT 2
    static constexpr Pin B7 = {DSY_GPIOB, 8};    // I2C1 SCL
    static constexpr Pin B8 = {DSY_GPIOB, 9};    // I2C1 SDA
    static constexpr Pin B9 = {DSY_GPIOG, 14};   // GATE IN 2
