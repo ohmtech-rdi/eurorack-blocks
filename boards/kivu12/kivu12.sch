@@ -27,13 +27,13 @@ Text GLabel 1250 1650 2    50   Output ~ 0
 P7
 Text GLabel 1250 1750 2    50   Output ~ 0
 P8
-Text GLabel 1250 2150 2    50   Output ~ 0
+Text GLabel 1250 1850 2    50   Output ~ 0
 P9
-Text GLabel 1250 2250 2    50   Output ~ 0
+Text GLabel 1250 1950 2    50   Output ~ 0
 P10
-Text GLabel 1250 2350 2    50   Output ~ 0
+Text GLabel 1250 2050 2    50   Output ~ 0
 P11
-Text GLabel 1250 2450 2    50   Output ~ 0
+Text GLabel 1250 2150 2    50   Output ~ 0
 P12
 Text GLabel 1250 3850 2    50   Input ~ 0
 SDCMD
@@ -56,11 +56,12 @@ F 1 "CIX" H 3900 1950 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x09_P2.54mm_Vertical" H 4000 1450 50  0001 C CNN
 F 3 "~" H 4000 1450 50  0001 C CNN
 F 4 "Female Socket" H 4000 1450 50  0001 C CNN "Device"
-F 5 "CONN HDR 9POS 0.1 GOLD PCB" H 4000 1450 50  0001 C CNN "Description"
+F 5 "CONN HDR 9POS 0.1 TIN PCB" H 4000 1450 50  0001 C CNN "Description"
 F 6 "No" H 4000 1450 50  0001 C CNN "Place"
 F 7 "Digikey" H 4000 1450 50  0001 C CNN "Dist"
-F 8 "S7042-ND" H 4000 1450 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC091LFBN-RC/S7042-ND/810181" H 4000 1450 50  0001 C CNN "DiskLink"
+F 8 "S7007-ND" H 4000 1450 50  0001 C CNN "DistPartNumber"
+F 9 "" H 4000 1450 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPTC091LFBN-RC/810148" H 4000 1450 50  0001 C CNN "DistLink"
 	1    4000 1450
 	-1   0    0    -1  
 $EndComp
@@ -805,20 +806,21 @@ F 3 "" H 4200 1050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x08 J1
+L Connector_Generic:Conn_01x12 J1
 U 1 1 60D6DFBD
-P 1050 1350
-F 0 "J1" H 950 1850 50  0000 C BNN
-F 1 "P1" H 950 1750 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x08_P2.54mm_Vertical" H 1050 1350 50  0001 C CNN
-F 3 "~" H 1050 1350 50  0001 C CNN
-F 4 "Female Socket" H 1050 1350 50  0001 C CNN "Device"
-F 5 "CONN HDR 8POS 0.1 TIN PCB" H 1050 1350 50  0001 C CNN "Description"
-F 6 "No" H 1050 1350 50  0001 C CNN "Place"
-F 7 "Digikey" H 1050 1350 50  0001 C CNN "Dist"
-F 8 "S7006-ND" H 1050 1350 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 1050 1350 50  0001 C CNN "DiskLink"
-	1    1050 1350
+P 1050 1550
+F 0 "J1" H 1000 2250 50  0000 C BNN
+F 1 "P1" H 1000 2150 50  0000 C BNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_1x12_P2.54mm_Vertical" H 1050 1550 50  0001 C CNN
+F 3 "~" H 1050 1550 50  0001 C CNN
+F 4 "Female Socket" H 1050 1550 50  0001 C CNN "Device"
+F 5 "CONN HDR 12POS 0.1 TIN PCB" H 1050 1550 50  0001 C CNN "Description"
+F 6 "No" H 1050 1550 50  0001 C CNN "Place"
+F 7 "Digikey" H 1050 1550 50  0001 C CNN "Dist"
+F 8 "S6100-ND" H 1050 1550 50  0001 C CNN "DistPartNumber"
+F 9 "" H 1050 1550 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPTC121LFBN-RC/807231" H 1050 1550 50  0001 C CNN "DistLink"
+	1    1050 1550
 	-1   0    0    -1  
 $EndComp
 $Comp
@@ -844,23 +846,6 @@ F 3 "" H 1250 3050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x04 J8
-U 1 1 60D763B5
-P 1050 2250
-F 0 "J8" H 950 2550 50  0000 C BNN
-F 1 "P2" H 950 2450 50  0000 C BNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 1050 2250 50  0001 C CNN
-F 3 "~" H 1050 2250 50  0001 C CNN
-F 4 "Female Socket" H 1050 2250 50  0001 C CNN "Device"
-F 5 "CONN HDR 4POS 0.1 GOLD PCB" H 1050 2250 50  0001 C CNN "Description"
-F 6 "No" H 1050 2250 50  0001 C CNN "Place"
-F 7 "Digikey" H 1050 2250 50  0001 C CNN "Dist"
-F 8 "S7037-ND" H 1050 2250 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC041LFBN-RC/S7037-ND/810176" H 1050 2250 50  0001 C CNN "DiskLink"
-	1    1050 2250
-	-1   0    0    -1  
-$EndComp
-$Comp
 L Connector_Generic:Conn_01x06 J10
 U 1 1 60D77248
 P 1050 3750
@@ -873,7 +858,8 @@ F 5 "CONN HDR 6POS 0.1 TIN PCB" H 1050 3750 50  0001 C CNN "Description"
 F 6 "No" H 1050 3750 50  0001 C CNN "Place"
 F 7 "Digikey" H 1050 3750 50  0001 C CNN "Dist"
 F 8 "S7004-ND" H 1050 3750 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC061LFBN-RC/S7004-ND/810145" H 1050 3750 50  0001 C CNN "DiskLink"
+F 9 "" H 1050 3750 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC061LFBN-RC/S7004-ND/810145" H 1050 3750 50  0001 C CNN "DistLink"
 	1    1050 3750
 	-1   0    0    -1  
 $EndComp
@@ -885,12 +871,13 @@ F 0 "J11" H 1950 3600 50  0000 C BNN
 F 1 "GND" H 1950 3500 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 2050 3400 50  0001 C CNN
 F 3 "~" H 2050 3400 50  0001 C CNN
-F 4 "Female Socket" H 2050 3400 50  0001 C CNN "Package"
-F 5 "CONN HDR 2POS 0.1 TIN PCB" H 2050 3400 50  0001 C CNN "Description"
-F 6 "No" H 2050 3400 50  0001 C CNN "Place"
-F 7 "Digikey" H 2050 3400 50  0001 C CNN "Dist"
-F 8 "S7000-ND" H 2050 3400 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC021LFBN-RC/S7000-ND/810142" H 2050 3400 50  0001 C CNN "DiskLink"
+F 4 "CONN HDR 2POS 0.1 TIN PCB" H 2050 3400 50  0001 C CNN "Description"
+F 5 "No" H 2050 3400 50  0001 C CNN "Place"
+F 6 "Digikey" H 2050 3400 50  0001 C CNN "Dist"
+F 7 "S7000-ND" H 2050 3400 50  0001 C CNN "DistPartNumber"
+F 8 "" H 2050 3400 50  0001 C CNN "DiskLink"
+F 9 "Female Socket" H 2050 3400 50  0001 C CNN "Device"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC021LFBN-RC/S7000-ND/810142" H 2050 3400 50  0001 C CNN "DistLink"
 	1    2050 3400
 	-1   0    0    -1  
 $EndComp
@@ -925,11 +912,12 @@ F 1 "POWER2" H 2900 2450 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x04_P2.54mm_Vertical" H 3000 2250 50  0001 C CNN
 F 3 "~" H 3000 2250 50  0001 C CNN
 F 4 "Female Socket" H 3000 2250 50  0001 C CNN "Device"
-F 5 "CONN HDR 4POS 0.1 GOLD PCB" H 3000 2250 50  0001 C CNN "Description"
+F 5 "CONN HDR 4POS 0.1 TIN PCB" H 3000 2250 50  0001 C CNN "Description"
 F 6 "No" H 3000 2250 50  0001 C CNN "Place"
 F 7 "Digikey" H 3000 2250 50  0001 C CNN "Dist"
-F 8 "S7037-ND" H 3000 2250 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC041LFBN-RC/S7037-ND/810176" H 3000 2250 50  0001 C CNN "DiskLink"
+F 8 "S7002-ND" H 3000 2250 50  0001 C CNN "DistPartNumber"
+F 9 "" H 3000 2250 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPTC041LFBN-RC/810144" H 3000 2250 50  0001 C CNN "DistLink"
 	1    3000 2250
 	-1   0    0    -1  
 $EndComp
@@ -941,12 +929,13 @@ F 0 "J9" H 950 3150 50  0000 C BNN
 F 1 "POWER1" H 950 3050 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 1050 2950 50  0001 C CNN
 F 3 "~" H 1050 2950 50  0001 C CNN
-F 4 "Female Socket" H 1050 2950 50  0001 C CNN "Package"
-F 5 "CONN HDR 2POS 0.1 TIN PCB" H 1050 2950 50  0001 C CNN "Description"
-F 6 "No" H 1050 2950 50  0001 C CNN "Place"
-F 7 "Digikey" H 1050 2950 50  0001 C CNN "Dist"
-F 8 "S7000-ND" H 1050 2950 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC021LFBN-RC/S7000-ND/810142" H 1050 2950 50  0001 C CNN "DiskLink"
+F 4 "CONN HDR 2POS 0.1 TIN PCB" H 1050 2950 50  0001 C CNN "Description"
+F 5 "No" H 1050 2950 50  0001 C CNN "Place"
+F 6 "Digikey" H 1050 2950 50  0001 C CNN "Dist"
+F 7 "S7000-ND" H 1050 2950 50  0001 C CNN "DistPartNumber"
+F 8 "" H 1050 2950 50  0001 C CNN "DiskLink"
+F 9 "Female Socket" H 1050 2950 50  0001 C CNN "Device"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC021LFBN-RC/S7000-ND/810142" H 1050 2950 50  0001 C CNN "DistLink"
 	1    1050 2950
 	-1   0    0    -1  
 $EndComp
@@ -963,7 +952,8 @@ F 5 "CONN HDR 8POS 0.1 TIN PCB" H 2100 1350 50  0001 C CNN "Description"
 F 6 "No" H 2100 1350 50  0001 C CNN "Place"
 F 7 "Digikey" H 2100 1350 50  0001 C CNN "Dist"
 F 8 "S7006-ND" H 2100 1350 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 2100 1350 50  0001 C CNN "DiskLink"
+F 9 "" H 2100 1350 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 2100 1350 50  0001 C CNN "DistLink"
 	1    2100 1350
 	-1   0    0    -1  
 $EndComp
@@ -980,7 +970,8 @@ F 5 "CONN HDR 8POS 0.1 TIN PCB" H 3000 1350 50  0001 C CNN "Description"
 F 6 "No" H 3000 1350 50  0001 C CNN "Place"
 F 7 "Digikey" H 3000 1350 50  0001 C CNN "Dist"
 F 8 "S7006-ND" H 3000 1350 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 3000 1350 50  0001 C CNN "DiskLink"
+F 9 "" H 3000 1350 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 3000 1350 50  0001 C CNN "DistLink"
 	1    3000 1350
 	-1   0    0    -1  
 $EndComp
@@ -997,7 +988,8 @@ F 5 "CONN HDR 8POS 0.1 TIN PCB" H 2100 2450 50  0001 C CNN "Description"
 F 6 "No" H 2100 2450 50  0001 C CNN "Place"
 F 7 "Digikey" H 2100 2450 50  0001 C CNN "Dist"
 F 8 "S7006-ND" H 2100 2450 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 2100 2450 50  0001 C CNN "DiskLink"
+F 9 "" H 2100 2450 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 2100 2450 50  0001 C CNN "DistLink"
 	1    2100 2450
 	-1   0    0    -1  
 $EndComp
@@ -1014,7 +1006,8 @@ F 5 "CONN HDR 8POS 0.1 TIN PCB" H 3000 3150 50  0001 C CNN "Description"
 F 6 "No" H 3000 3150 50  0001 C CNN "Place"
 F 7 "Digikey" H 3000 3150 50  0001 C CNN "Dist"
 F 8 "S7006-ND" H 3000 3150 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 3000 3150 50  0001 C CNN "DiskLink"
+F 9 "" H 3000 3150 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPTC081LFBN-RC/S7006-ND/810147" H 3000 3150 50  0001 C CNN "DistLink"
 	1    3000 3150
 	-1   0    0    -1  
 $EndComp
@@ -1027,11 +1020,12 @@ F 1 "ANALOG" H 4650 1950 50  0000 C BNN
 F 2 "Connector_PinSocket_2.54mm:PinSocket_1x09_P2.54mm_Vertical" H 4750 1450 50  0001 C CNN
 F 3 "~" H 4750 1450 50  0001 C CNN
 F 4 "Female Socket" H 4750 1450 50  0001 C CNN "Device"
-F 5 "CONN HDR 9POS 0.1 GOLD PCB" H 4750 1450 50  0001 C CNN "Description"
+F 5 "CONN HDR 9POS 0.1 TIN PCB" H 4750 1450 50  0001 C CNN "Description"
 F 6 "No" H 4750 1450 50  0001 C CNN "Place"
 F 7 "Digikey" H 4750 1450 50  0001 C CNN "Dist"
-F 8 "S7042-ND" H 4750 1450 50  0001 C CNN "DistPartNumber"
-F 9 "https://www.digikey.de/product-detail/en/sullins-connector-solutions/PPPC091LFBN-RC/S7042-ND/810181" H 4750 1450 50  0001 C CNN "DiskLink"
+F 8 "S7007-ND" H 4750 1450 50  0001 C CNN "DistPartNumber"
+F 9 "" H 4750 1450 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPTC091LFBN-RC/810148" H 4750 1450 50  0001 C CNN "DistLink"
 	1    4750 1450
 	-1   0    0    -1  
 $EndComp
@@ -1064,4 +1058,240 @@ F22 "OUT1" O R 4250 4600 50
 F23 "OUT2" O R 4250 4700 50 
 F24 "3V3" I R 4250 6800 50 
 $EndSheet
+$Comp
+L Mechanical:MountingHole Dummy1
+U 1 1 61B3B217
+P 9000 1700
+F 0 "Dummy1" H 9100 1746 50  0000 L CNN
+F 1 "DPSM Header" H 9100 1655 50  0000 L CNN
+F 2 "Empty:Empty" H 9000 1700 50  0001 C CNN
+F 3 "~" H 9000 1700 50  0001 C CNN
+F 4 "Female Socket" H 9000 1700 50  0001 C CNN "Device"
+F 5 "CONN HDR 10POS 0.1 GOLD PCB" H 9000 1700 50  0001 C CNN "Description"
+F 6 "No" H 9000 1700 50  0001 C CNN "Place"
+F 7 "Digikey" H 9000 1700 50  0001 C CNN "Dist"
+F 8 "S7108-ND" H 9000 1700 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9000 1700 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPPC052LFBN-RC/810245" H 9000 1700 50  0001 C CNN "DistLink"
+	1    9000 1700
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy2
+U 1 1 61B3BCC0
+P 9000 1900
+F 0 "Dummy2" H 9100 1946 50  0000 L CNN
+F 1 "DPSM Header" H 9100 1855 50  0000 L CNN
+F 2 "Empty:Empty" H 9000 1900 50  0001 C CNN
+F 3 "~" H 9000 1900 50  0001 C CNN
+F 4 "Female Socket" H 9000 1900 50  0001 C CNN "Device"
+F 5 "CONN HDR 10POS 0.1 GOLD PCB" H 9000 1900 50  0001 C CNN "Description"
+F 6 "No" H 9000 1900 50  0001 C CNN "Place"
+F 7 "Digikey" H 9000 1900 50  0001 C CNN "Dist"
+F 8 "S7108-ND" H 9000 1900 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9000 1900 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPPC052LFBN-RC/810245" H 9000 1900 50  0001 C CNN "DistLink"
+	1    9000 1900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy3
+U 1 1 61B3C116
+P 9000 2100
+F 0 "Dummy3" H 9100 2146 50  0000 L CNN
+F 1 "DPSM Header" H 9100 2055 50  0000 L CNN
+F 2 "Empty:Empty" H 9000 2100 50  0001 C CNN
+F 3 "~" H 9000 2100 50  0001 C CNN
+F 4 "Female Socket" H 9000 2100 50  0001 C CNN "Device"
+F 5 "CONN HDR 10POS 0.1 GOLD PCB" H 9000 2100 50  0001 C CNN "Description"
+F 6 "No" H 9000 2100 50  0001 C CNN "Place"
+F 7 "Digikey" H 9000 2100 50  0001 C CNN "Dist"
+F 8 "S7108-ND" H 9000 2100 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9000 2100 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPPC052LFBN-RC/810245" H 9000 2100 50  0001 C CNN "DistLink"
+	1    9000 2100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy4
+U 1 1 61B3C7A6
+P 9000 2300
+F 0 "Dummy4" H 9100 2346 50  0000 L CNN
+F 1 "DPSM Header" H 9100 2255 50  0000 L CNN
+F 2 "Empty:Empty" H 9000 2300 50  0001 C CNN
+F 3 "~" H 9000 2300 50  0001 C CNN
+F 4 "Female Socket" H 9000 2300 50  0001 C CNN "Device"
+F 5 "CONN HDR 10POS 0.1 GOLD PCB" H 9000 2300 50  0001 C CNN "Description"
+F 6 "No" H 9000 2300 50  0001 C CNN "Place"
+F 7 "Digikey" H 9000 2300 50  0001 C CNN "Dist"
+F 8 "S7108-ND" H 9000 2300 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9000 2300 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PPPC052LFBN-RC/810245" H 9000 2300 50  0001 C CNN "DistLink"
+	1    9000 2300
+	1    0    0    -1  
+$EndComp
+Text Notes 9700 2250 0    50   ~ 0
+Just needed for BOM\nThey are:\n- 4x 2x5 female socket for the DPSM\n- 1x 1x36 Male header\n- 8x Jumpers
+$Comp
+L Mechanical:MountingHole Dummy5
+U 1 1 61B3F7C3
+P 9000 2550
+F 0 "Dummy5" H 9100 2596 50  0000 L CNN
+F 1 "Big Pin Header" H 9100 2505 50  0000 L CNN
+F 2 "Empty:Empty" H 9000 2550 50  0001 C CNN
+F 3 "~" H 9000 2550 50  0001 C CNN
+F 4 "Female Socket" H 9000 2550 50  0001 C CNN "Device"
+F 5 "CONN HEADER VERT 36POS 2.54MM" H 9000 2550 50  0001 C CNN "Description"
+F 6 "No" H 9000 2550 50  0001 C CNN "Place"
+F 7 "Digikey" H 9000 2550 50  0001 C CNN "Dist"
+F 8 "S1011E-36-ND" H 9000 2550 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9000 2550 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PBC36SAAN/859621" H 9000 2550 50  0001 C CNN "DistLink"
+	1    9000 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy6
+U 1 1 61B41678
+P 9900 2550
+F 0 "Dummy6" H 10000 2596 50  0000 L CNN
+F 1 "Jumper" H 10000 2505 50  0000 L CNN
+F 2 "Empty:Empty" H 9900 2550 50  0001 C CNN
+F 3 "~" H 9900 2550 50  0001 C CNN
+F 4 "Jumper" H 9900 2550 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 9900 2550 50  0001 C CNN "Description"
+F 6 "No" H 9900 2550 50  0001 C CNN "Place"
+F 7 "Digikey" H 9900 2550 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 9900 2550 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9900 2550 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 9900 2550 50  0001 C CNN "DistLink"
+	1    9900 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy7
+U 1 1 61B42595
+P 9900 2750
+F 0 "Dummy7" H 10000 2796 50  0000 L CNN
+F 1 "Jumper" H 10000 2705 50  0000 L CNN
+F 2 "Empty:Empty" H 9900 2750 50  0001 C CNN
+F 3 "~" H 9900 2750 50  0001 C CNN
+F 4 "Jumper" H 9900 2750 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 9900 2750 50  0001 C CNN "Description"
+F 6 "No" H 9900 2750 50  0001 C CNN "Place"
+F 7 "Digikey" H 9900 2750 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 9900 2750 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9900 2750 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 9900 2750 50  0001 C CNN "DistLink"
+	1    9900 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy8
+U 1 1 61B42AB9
+P 9900 2950
+F 0 "Dummy8" H 10000 2996 50  0000 L CNN
+F 1 "Jumper" H 10000 2905 50  0000 L CNN
+F 2 "Empty:Empty" H 9900 2950 50  0001 C CNN
+F 3 "~" H 9900 2950 50  0001 C CNN
+F 4 "Jumper" H 9900 2950 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 9900 2950 50  0001 C CNN "Description"
+F 6 "No" H 9900 2950 50  0001 C CNN "Place"
+F 7 "Digikey" H 9900 2950 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 9900 2950 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9900 2950 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 9900 2950 50  0001 C CNN "DistLink"
+	1    9900 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy9
+U 1 1 61B430D5
+P 9900 3150
+F 0 "Dummy9" H 10000 3196 50  0000 L CNN
+F 1 "Jumper" H 10000 3105 50  0000 L CNN
+F 2 "Empty:Empty" H 9900 3150 50  0001 C CNN
+F 3 "~" H 9900 3150 50  0001 C CNN
+F 4 "Jumper" H 9900 3150 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 9900 3150 50  0001 C CNN "Description"
+F 6 "No" H 9900 3150 50  0001 C CNN "Place"
+F 7 "Digikey" H 9900 3150 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 9900 3150 50  0001 C CNN "DistPartNumber"
+F 9 "" H 9900 3150 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 9900 3150 50  0001 C CNN "DistLink"
+	1    9900 3150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy10
+U 1 1 61B47F85
+P 10450 2550
+F 0 "Dummy10" H 10550 2596 50  0000 L CNN
+F 1 "Jumper" H 10550 2505 50  0000 L CNN
+F 2 "Empty:Empty" H 10450 2550 50  0001 C CNN
+F 3 "~" H 10450 2550 50  0001 C CNN
+F 4 "Jumper" H 10450 2550 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 10450 2550 50  0001 C CNN "Description"
+F 6 "No" H 10450 2550 50  0001 C CNN "Place"
+F 7 "Digikey" H 10450 2550 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 10450 2550 50  0001 C CNN "DistPartNumber"
+F 9 "" H 10450 2550 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 10450 2550 50  0001 C CNN "DistLink"
+	1    10450 2550
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy11
+U 1 1 61B48605
+P 10450 2750
+F 0 "Dummy11" H 10550 2796 50  0000 L CNN
+F 1 "Jumper" H 10550 2705 50  0000 L CNN
+F 2 "Empty:Empty" H 10450 2750 50  0001 C CNN
+F 3 "~" H 10450 2750 50  0001 C CNN
+F 4 "Jumper" H 10450 2750 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 10450 2750 50  0001 C CNN "Description"
+F 6 "No" H 10450 2750 50  0001 C CNN "Place"
+F 7 "Digikey" H 10450 2750 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 10450 2750 50  0001 C CNN "DistPartNumber"
+F 9 "" H 10450 2750 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 10450 2750 50  0001 C CNN "DistLink"
+	1    10450 2750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy12
+U 1 1 61B48CA4
+P 10450 2950
+F 0 "Dummy12" H 10550 2996 50  0000 L CNN
+F 1 "Jumper" H 10550 2905 50  0000 L CNN
+F 2 "Empty:Empty" H 10450 2950 50  0001 C CNN
+F 3 "~" H 10450 2950 50  0001 C CNN
+F 4 "Jumper" H 10450 2950 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 10450 2950 50  0001 C CNN "Description"
+F 6 "No" H 10450 2950 50  0001 C CNN "Place"
+F 7 "Digikey" H 10450 2950 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 10450 2950 50  0001 C CNN "DistPartNumber"
+F 9 "" H 10450 2950 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 10450 2950 50  0001 C CNN "DistLink"
+	1    10450 2950
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole Dummy13
+U 1 1 61B48FA6
+P 10450 3150
+F 0 "Dummy13" H 10550 3196 50  0000 L CNN
+F 1 "Jumper" H 10550 3105 50  0000 L CNN
+F 2 "Empty:Empty" H 10450 3150 50  0001 C CNN
+F 3 "~" H 10450 3150 50  0001 C CNN
+F 4 "Jumper" H 10450 3150 50  0001 C CNN "Device"
+F 5 "CONN JUMPER SHORTING GOLD FLASH" H 10450 3150 50  0001 C CNN "Description"
+F 6 "No" H 10450 3150 50  0001 C CNN "Place"
+F 7 "Digikey" H 10450 3150 50  0001 C CNN "Dist"
+F 8 "S9001-ND" H 10450 3150 50  0001 C CNN "DistPartNumber"
+F 9 "" H 10450 3150 50  0001 C CNN "DiskLink"
+F 10 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/SPC02SYAN/76375" H 10450 3150 50  0001 C CNN "DistLink"
+	1    10450 3150
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC

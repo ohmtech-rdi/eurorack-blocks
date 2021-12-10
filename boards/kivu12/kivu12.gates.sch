@@ -584,7 +584,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 1400 1200 50  0001 C CNN "Description"
 F 7 "YES" H 1400 1200 50  0001 C CNN "Place"
 F 8 "Digikey" H 1400 1200 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 1400 1200 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 1200 50  0001 C CNN "DiskLink"
+F 10 "" H 1400 1200 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 1200 50  0001 C CNN "DistLink"
 	1    1400 1200
 	1    0    0    1   
 $EndComp
@@ -608,7 +609,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 2700 1200 50  0001 C CNN "Description"
 F 7 "YES" H 2700 1200 50  0001 C CNN "Place"
 F 8 "Digikey" H 2700 1200 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 2700 1200 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 2700 1200 50  0001 C CNN "DiskLink"
+F 10 "" H 2700 1200 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 2700 1200 50  0001 C CNN "DistLink"
 	1    2700 1200
 	1    0    0    1   
 $EndComp
@@ -632,7 +634,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 4000 1200 50  0001 C CNN "Description"
 F 7 "YES" H 4000 1200 50  0001 C CNN "Place"
 F 8 "Digikey" H 4000 1200 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 4000 1200 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 4000 1200 50  0001 C CNN "DiskLink"
+F 10 "" H 4000 1200 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 4000 1200 50  0001 C CNN "DistLink"
 	1    4000 1200
 	1    0    0    1   
 $EndComp
@@ -654,7 +657,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 5350 1200 50  0001 C CNN "Description"
 F 7 "YES" H 5350 1200 50  0001 C CNN "Place"
 F 8 "Digikey" H 5350 1200 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 5350 1200 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 5350 1200 50  0001 C CNN "DiskLink"
+F 10 "" H 5350 1200 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 5350 1200 50  0001 C CNN "DistLink"
 	1    5350 1200
 	1    0    0    1   
 $EndComp
@@ -676,7 +680,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 6700 1200 50  0001 C CNN "Description"
 F 7 "YES" H 6700 1200 50  0001 C CNN "Place"
 F 8 "Digikey" H 6700 1200 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 6700 1200 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 6700 1200 50  0001 C CNN "DiskLink"
+F 10 "" H 6700 1200 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 6700 1200 50  0001 C CNN "DistLink"
 	1    6700 1200
 	1    0    0    1   
 $EndComp
@@ -700,7 +705,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 1400 2150 50  0001 C CNN "Description"
 F 7 "YES" H 1400 2150 50  0001 C CNN "Place"
 F 8 "Digikey" H 1400 2150 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 1400 2150 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 2150 50  0001 C CNN "DiskLink"
+F 10 "" H 1400 2150 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 2150 50  0001 C CNN "DistLink"
 	1    1400 2150
 	1    0    0    1   
 $EndComp
@@ -722,7 +728,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 2700 2150 50  0001 C CNN "Description"
 F 7 "YES" H 2700 2150 50  0001 C CNN "Place"
 F 8 "Digikey" H 2700 2150 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 2700 2150 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 2700 2150 50  0001 C CNN "DiskLink"
+F 10 "" H 2700 2150 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 2700 2150 50  0001 C CNN "DistLink"
 	1    2700 2150
 	1    0    0    1   
 $EndComp
@@ -744,7 +751,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 4000 2150 50  0001 C CNN "Description"
 F 7 "YES" H 4000 2150 50  0001 C CNN "Place"
 F 8 "Digikey" H 4000 2150 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 4000 2150 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 4000 2150 50  0001 C CNN "DiskLink"
+F 10 "" H 4000 2150 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 4000 2150 50  0001 C CNN "DistLink"
 	1    4000 2150
 	1    0    0    1   
 $EndComp
@@ -766,7 +774,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 5350 2150 50  0001 C CNN "Description"
 F 7 "YES" H 5350 2150 50  0001 C CNN "Place"
 F 8 "Digikey" H 5350 2150 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 5350 2150 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 5350 2150 50  0001 C CNN "DiskLink"
+F 10 "" H 5350 2150 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 5350 2150 50  0001 C CNN "DistLink"
 	1    5350 2150
 	1    0    0    1   
 $EndComp
@@ -788,7 +797,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 6700 2150 50  0001 C CNN "Description"
 F 7 "YES" H 6700 2150 50  0001 C CNN "Place"
 F 8 "Digikey" H 6700 2150 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 6700 2150 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 6700 2150 50  0001 C CNN "DiskLink"
+F 10 "" H 6700 2150 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 6700 2150 50  0001 C CNN "DistLink"
 	1    6700 2150
 	1    0    0    1   
 $EndComp
@@ -815,7 +825,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 1400 3100 50  0001 C CNN "Description"
 F 7 "YES" H 1400 3100 50  0001 C CNN "Place"
 F 8 "Digikey" H 1400 3100 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 1400 3100 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 3100 50  0001 C CNN "DiskLink"
+F 10 "" H 1400 3100 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 3100 50  0001 C CNN "DistLink"
 	1    1400 3100
 	1    0    0    1   
 $EndComp
@@ -837,7 +848,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 2700 3100 50  0001 C CNN "Description"
 F 7 "YES" H 2700 3100 50  0001 C CNN "Place"
 F 8 "Digikey" H 2700 3100 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 2700 3100 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 2700 3100 50  0001 C CNN "DiskLink"
+F 10 "" H 2700 3100 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 2700 3100 50  0001 C CNN "DistLink"
 	1    2700 3100
 	1    0    0    1   
 $EndComp
@@ -859,7 +871,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 4000 3100 50  0001 C CNN "Description"
 F 7 "YES" H 4000 3100 50  0001 C CNN "Place"
 F 8 "Digikey" H 4000 3100 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 4000 3100 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 4000 3100 50  0001 C CNN "DiskLink"
+F 10 "" H 4000 3100 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 4000 3100 50  0001 C CNN "DistLink"
 	1    4000 3100
 	1    0    0    1   
 $EndComp
@@ -881,7 +894,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 5350 3100 50  0001 C CNN "Description"
 F 7 "YES" H 5350 3100 50  0001 C CNN "Place"
 F 8 "Digikey" H 5350 3100 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 5350 3100 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 5350 3100 50  0001 C CNN "DiskLink"
+F 10 "" H 5350 3100 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 5350 3100 50  0001 C CNN "DistLink"
 	1    5350 3100
 	1    0    0    1   
 $EndComp
@@ -903,7 +917,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 6700 3100 50  0001 C CNN "Description"
 F 7 "YES" H 6700 3100 50  0001 C CNN "Place"
 F 8 "Digikey" H 6700 3100 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 6700 3100 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 6700 3100 50  0001 C CNN "DiskLink"
+F 10 "" H 6700 3100 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 6700 3100 50  0001 C CNN "DistLink"
 	1    6700 3100
 	1    0    0    1   
 $EndComp
@@ -930,7 +945,8 @@ F 6 "DIODE ARRAY SCHOTTKY 40V SOT323" H 1400 4050 50  0001 C CNN "Description"
 F 7 "YES" H 1400 4050 50  0001 C CNN "Place"
 F 8 "Digikey" H 1400 4050 50  0001 C CNN "Dist"
 F 9 "497-14153-1-ND" H 1400 4050 50  0001 C CNN "DistPartNumber"
-F 10 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 4050 50  0001 C CNN "DiskLink"
+F 10 "" H 1400 4050 50  0001 C CNN "DiskLink"
+F 11 "https://www.digikey.de/en/products/detail/stmicroelectronics/BAT54SWFILM/1037674" H 1400 4050 50  0001 C CNN "DistLink"
 	1    1400 4050
 	1    0    0    1   
 $EndComp
