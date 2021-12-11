@@ -56,8 +56,6 @@
             'TestAnimation.h',
             'TestDebounce.cpp',
             'TestDebounce.h',
-            'TestSdramObject.cpp',
-            'TestSdramObject.h',
             'TestSdramPtr.cpp',
             'TestSdramPtr.h',
          ],

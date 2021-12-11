@@ -45,8 +45,6 @@
       'PinType.h',
       'Pot.h',
       'Pot.hpp',
-      'SdramObject.h',
-      'SdramObject.hpp',
       'SdramPtr.h',
       'SdramPtr.hpp',
       'Switch.h',

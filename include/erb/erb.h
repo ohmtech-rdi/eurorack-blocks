@@ -26,7 +26,6 @@
 #include "erb/LedRgb.h"
 #include "erb/Pot.h"
 #include "erb/SdramPtr.h"
-#include "erb/SdramObject.h"
 #include "erb/Switch.h"
 
 #if defined (erb_TARGET_DAISY)
