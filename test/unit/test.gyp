@@ -38,12 +38,19 @@
 
             '../../include/erb/SdramObject.h',
             '../../include/erb/SdramObject.hpp',
+            '../../include/erb/SdramPtr.h',
+            '../../include/erb/SdramPtr.hpp',
             '../../include/erb/detail/Animation.h',
             '../../include/erb/detail/Animation.hpp',
             '../../include/erb/detail/Debounce.h',
+            '../../include/erb/detail/MonotonicMemoryPool.h',
+            '../../include/erb/detail/MonotonicMemoryPool.hpp',
+            '../../include/erb/detail/Sdram.h',
+            '../../include/erb/detail/Sdram.hpp',
 
             '../../src/detail/Animation.cpp',
             '../../src/detail/Debounce.cpp',
+            '../../src/detail/Sdram.cpp',
 
             'TestAnimation.cpp',
             'TestAnimation.h',
@@ -51,6 +58,12 @@
             'TestDebounce.h',
             'TestSdramObject.cpp',
             'TestSdramObject.h',
+            'TestSdramPtr.cpp',
+            'TestSdramPtr.h',
+         ],
+
+         'ldflags': [
+            '-pthread',
          ],
       },
    ],
