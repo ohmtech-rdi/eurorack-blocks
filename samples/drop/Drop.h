@@ -20,8 +20,8 @@
 
 struct Drop
 {
-   DropDsp dsp { erb_SAMPLE_RATE };
    DropUi ui;
+   DropDsp dsp { erb_SAMPLE_RATE };
 
    DropDsp::State _old_state = DropDsp::State::None;
 

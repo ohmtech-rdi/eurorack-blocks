@@ -21,8 +21,8 @@ Name : ctor
 ==============================================================================
 */
 
-ReverbDsp::ReverbDsp (float sample_freq, AuxiliaryBuffer & aux_buffer)
-:  _reverb (sample_freq, aux_buffer)
+ReverbDsp::ReverbDsp (float sample_freq)
+:  _reverb (sample_freq)
 {
    _wet.target = 0.f;
 
