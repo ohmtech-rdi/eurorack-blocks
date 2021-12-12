@@ -104,45 +104,45 @@ $EndComp
 $Comp
 L Connector:TestPoint P9
 U 1 1 60BAE1BB
-P 1500 2950
-F 0 "P9" V 1500 3138 50  0000 L CNN
-F 1 "TestPoint" V 1545 3138 50  0001 L CNN
-F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 2950 50  0001 C CNN
-F 3 "~" H 1700 2950 50  0001 C CNN
-	1    1500 2950
+P 1500 2650
+F 0 "P9" V 1500 2838 50  0000 L CNN
+F 1 "TestPoint" V 1545 2838 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 2650 50  0001 C CNN
+F 3 "~" H 1700 2650 50  0001 C CNN
+	1    1500 2650
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint P10
 U 1 1 60BAE60B
-P 1500 3050
-F 0 "P10" V 1500 3238 50  0000 L CNN
-F 1 "TestPoint" V 1545 3238 50  0001 L CNN
-F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 3050 50  0001 C CNN
-F 3 "~" H 1700 3050 50  0001 C CNN
-	1    1500 3050
+P 1500 2750
+F 0 "P10" V 1500 2938 50  0000 L CNN
+F 1 "TestPoint" V 1545 2938 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 2750 50  0001 C CNN
+F 3 "~" H 1700 2750 50  0001 C CNN
+	1    1500 2750
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint P11
 U 1 1 60BAE93D
-P 1500 3150
-F 0 "P11" V 1500 3338 50  0000 L CNN
-F 1 "TestPoint" V 1545 3338 50  0001 L CNN
-F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 3150 50  0001 C CNN
-F 3 "~" H 1700 3150 50  0001 C CNN
-	1    1500 3150
+P 1500 2850
+F 0 "P11" V 1500 3038 50  0000 L CNN
+F 1 "TestPoint" V 1545 3038 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 2850 50  0001 C CNN
+F 3 "~" H 1700 2850 50  0001 C CNN
+	1    1500 2850
 	0    1    1    0   
 $EndComp
 $Comp
 L Connector:TestPoint P12
 U 1 1 60BAECAC
-P 1500 3250
-F 0 "P12" V 1500 3438 50  0000 L CNN
-F 1 "TestPoint" V 1545 3438 50  0001 L CNN
-F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 3250 50  0001 C CNN
-F 3 "~" H 1700 3250 50  0001 C CNN
-	1    1500 3250
+P 1500 2950
+F 0 "P12" V 1500 3138 50  0000 L CNN
+F 1 "TestPoint" V 1545 3138 50  0001 L CNN
+F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 1700 2950 50  0001 C CNN
+F 3 "~" H 1700 2950 50  0001 C CNN
+	1    1500 2950
 	0    1    1    0   
 $EndComp
 $Comp
@@ -784,25 +784,14 @@ F 3 "" H 5300 4850 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x08 J1
+L Connector_Generic:Conn_01x12 ZZ1
 U 1 1 60D5BC2E
-P 1300 2150
-F 0 "J1" H 1218 2667 50  0000 C CNN
-F 1 "P1" H 1218 2576 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 1300 2150 50  0001 C CNN
-F 3 "~" H 1300 2150 50  0001 C CNN
-	1    1300 2150
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Connector_Generic:Conn_01x04 J8
-U 1 1 60D85E93
-P 1300 3050
-F 0 "J8" H 1218 3367 50  0000 C CNN
-F 1 "P2" H 1218 3276 50  0000 C CNN
-F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 1300 3050 50  0001 C CNN
-F 3 "~" H 1300 3050 50  0001 C CNN
-	1    1300 3050
+P 1300 2350
+F 0 "ZZ1" H 1200 3100 50  0000 C CNN
+F 1 "PX" H 1200 3000 50  0000 C CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical" H 1300 2350 50  0001 C CNN
+F 3 "~" H 1300 2350 50  0001 C CNN
+	1    1300 2350
 	-1   0    0    -1  
 $EndComp
 $Comp
@@ -828,10 +817,10 @@ F 3 "" H 1500 3850 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x06 J10
+L Connector_Generic:Conn_01x06 ZZ10
 U 1 1 60D8CDA0
 P 1300 4600
-F 0 "J10" H 1218 5017 50  0000 C CNN
+F 0 "ZZ10" H 1218 5017 50  0000 C CNN
 F 1 "SD" H 1218 4926 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical" H 1300 4600 50  0001 C CNN
 F 3 "~" H 1300 4600 50  0001 C CNN
@@ -839,22 +828,22 @@ F 3 "~" H 1300 4600 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x08 J4
+L Connector_Generic:Conn_01x08 ZZ4
 U 1 1 60D92664
 P 2300 2150
-F 0 "J4" H 2218 2667 50  0000 C CNN
-F 1 "LX1" H 2218 2576 50  0000 C CNN
+F 0 "ZZ4" H 2218 2667 50  0000 C CNN
+F 1 "LX" H 2218 2576 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 2300 2150 50  0001 C CNN
 F 3 "~" H 2300 2150 50  0001 C CNN
 	1    2300 2150
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x08 J12
+L Connector_Generic:Conn_01x08 ZZ12
 U 1 1 60D9C1B6
 P 2300 3250
-F 0 "J12" H 2218 3767 50  0000 C CNN
-F 1 "LX2" H 2218 3676 50  0000 C CNN
+F 0 "ZZ12" H 2218 3767 50  0000 C CNN
+F 1 "LX" H 2218 3676 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 2300 3250 50  0001 C CNN
 F 3 "~" H 2300 3250 50  0001 C CNN
 	1    2300 3250
@@ -872,10 +861,10 @@ F 3 "~" H 2300 4150 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x08 J3
+L Connector_Generic:Conn_01x08 ZZ3
 U 1 1 60DAC621
 P 3350 2150
-F 0 "J3" H 3268 2667 50  0000 C CNN
+F 0 "ZZ3" H 3268 2667 50  0000 C CNN
 F 1 "BX" H 3268 2576 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 3350 2150 50  0001 C CNN
 F 3 "~" H 3350 2150 50  0001 C CNN
@@ -938,10 +927,10 @@ F 3 "" H 3550 3250 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x08 J7
+L Connector_Generic:Conn_01x08 ZZ7
 U 1 1 60DBBB75
 P 3350 3950
-F 0 "J7" H 3268 4467 50  0000 C CNN
+F 0 "ZZ7" H 3268 4467 50  0000 C CNN
 F 1 "BX" H 3268 4376 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical" H 3350 3950 50  0001 C CNN
 F 3 "~" H 3350 3950 50  0001 C CNN
@@ -949,10 +938,10 @@ F 3 "~" H 3350 3950 50  0001 C CNN
 	-1   0    0    -1  
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x09 J2
+L Connector_Generic:Conn_01x09 ZZ2
 U 1 1 60DCE168
 P 4400 2250
-F 0 "J2" H 4318 2867 50  0000 C CNN
+F 0 "ZZ2" H 4318 2867 50  0000 C CNN
 F 1 "CIX" H 4318 2776 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical" H 4400 2250 50  0001 C CNN
 F 3 "~" H 4400 2250 50  0001 C CNN
@@ -971,10 +960,10 @@ F 3 "" H 4600 1850 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector_Generic:Conn_01x09 J5
+L Connector_Generic:Conn_01x09 ZZ5
 U 1 1 60DD41EB
 P 4400 3450
-F 0 "J5" H 4318 4067 50  0000 C CNN
+F 0 "ZZ5" H 4318 4067 50  0000 C CNN
 F 1 "ANALOG" H 4318 3976 50  0000 C CNN
 F 2 "Connector_PinHeader_2.54mm:PinHeader_1x09_P2.54mm_Vertical" H 4400 3450 50  0001 C CNN
 F 3 "~" H 4400 3450 50  0001 C CNN
