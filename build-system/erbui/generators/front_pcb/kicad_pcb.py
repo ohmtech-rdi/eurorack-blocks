@@ -197,6 +197,7 @@ class KicadPcb:
          print ('unsupported block %s' % control.style.name)
 
       component = self.move (component, control.position)
+      component = self.rename_references (component, control)
       component = self.rename_pins (component, control)
 
       for element in component.entities:
@@ -205,6 +206,7 @@ class KicadPcb:
       if control.cascade_to is not None:
          component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.do.kicad_pcb'))
          component = self.move (component, control.position)
+         component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_to.index)
          for element in component.entities:
             self.base.add (element)
@@ -212,6 +214,7 @@ class KicadPcb:
       if control.cascade_from is not None:
          component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.di.kicad_pcb'))
          component = self.move (component, control.position)
+         component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_from.index)
          for element in component.entities:
             self.base.add (element)
@@ -316,6 +319,28 @@ class KicadPcb:
          if isinstance (element, s_expression.List):
             element.entities = list (filter (filter_func, element.entities))
             self.remove_net_recursive (element)
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_references (self, component, control):
+      for element in component.entities:
+         entity = element.entities [0]
+         element_name = entity.value
+         if element_name in ['module']:
+            self.rename_reference (element, control.name)
+
+      return component
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_reference (self, element, control_name):
+      for property in element.entities:
+         if isinstance (property, s_expression.List) \
+            and property.entities [0].value == 'fp_text' \
+            and property.entities [1].value == 'reference':
+            property.entities [2].value = control_name + property.entities [2].value
 
 
    #--------------------------------------------------------------------------
