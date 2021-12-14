@@ -16,6 +16,8 @@ from . import s_expression
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_FREEROUTING = os.path.join (PATH_ROOT, 'submodules', 'freerouting-jar')
 
 PANEL_HEIGHT = 128.5#mm
 HP_TO_MM = 5.08#mm
@@ -46,7 +48,8 @@ class KicadPcb:
       writer = s_expression.Writer ()
       writer.write (self.base, path_pcb)
 
-      self.fill_zones (path, module)
+      self.route (path, module);
+
       self.generate_module_gerber (path, module)
 
 
@@ -115,6 +118,79 @@ class KicadPcb:
          if isinstance (element, s_expression.List) \
             and element.entities [0].value == 'net':
             self.nets [element.entities [2].value] = element.entities [1].value
+
+
+   #--------------------------------------------------------------------------
+
+   def route (self, path, module):
+      autoroute = True
+
+      if module.route is not None:
+         autoroute = module.route.is_auto
+
+      if autoroute:
+         self.export_dsn (path, module)
+
+         freerouting_jar = os.path.join (PATH_FREEROUTING, 'freerouting-1.4.5.1.jar')
+         path_dsn = os.path.join (path, '%s.dsn' % module.name)
+         path_ses = os.path.join (path, '%s.ses' % module.name)
+
+         subprocess.check_call (
+            [
+               'java',
+               '-jar', freerouting_jar,
+               '-de', path_dsn,
+               '-do', path_ses,
+               '-mp', '100'
+            ],
+         )
+
+         self.import_ses (path, module)
+
+      else:
+         self.fill_zones (path, module)
+
+
+   #--------------------------------------------------------------------------
+
+   def export_dsn (self, path, module):
+      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+      path_dsn = os.path.join (path, '%s.dsn' % module.name)
+
+      if platform.system () == 'Darwin':
+         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      else:
+         kicad_python_path = 'python'
+
+      subprocess.check_call (
+         [
+            kicad_python_path,
+            os.path.join (PATH_THIS, 'export_dsn.py'),
+            path_pcb, path_dsn
+         ],
+         cwd = PATH_THIS
+      )
+
+
+   #--------------------------------------------------------------------------
+
+   def import_ses (self, path, module):
+      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+      path_ses = os.path.join (path, '%s.ses' % module.name)
+
+      if platform.system () == 'Darwin':
+         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      else:
+         kicad_python_path = 'python'
+
+      subprocess.check_call (
+         [
+            kicad_python_path,
+            os.path.join (PATH_THIS, 'import_ses.py'),
+            path_pcb, path_ses
+         ],
+         cwd = PATH_THIS
+      )
 
 
    #--------------------------------------------------------------------------
