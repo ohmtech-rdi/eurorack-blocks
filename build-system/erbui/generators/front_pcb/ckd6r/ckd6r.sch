@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Switch:SW_Push SW1
+L Switch:SW_Push ZZ1
 U 1 1 5FD27819
 P 4700 5300
-F 0 "SW1" H 4700 5585 50  0000 C CNN
+F 0 "ZZ1" H 4700 5585 50  0000 C CNN
 F 1 "SW_Push_Dual" H 4700 5494 50  0000 C CNN
 F 2 "Switch_Thonk:SW_SPST_CKD6R" H 4700 5500 50  0001 C CNN
 F 3 "https://sten-eswitch-13110800-production.s3.amazonaws.com/system/asset/product_line/data_sheet/144/TL1105.pdf" H 4700 5500 50  0001 C CNN
@@ -42,10 +42,10 @@ F 3 "" H 4500 5300 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:TestPoint TP1
+L Connector:TestPoint Pin0
 U 1 1 60B97905
 P 4900 5300
-F 0 "TP1" V 4900 5488 50  0000 L CNN
+F 0 "Pin0" V 4900 5488 50  0000 L CNN
 F 1 "TestPoint" V 4945 5488 50  0001 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5100 5300 50  0001 C CNN
 F 3 "~" H 5100 5300 50  0001 C CNN

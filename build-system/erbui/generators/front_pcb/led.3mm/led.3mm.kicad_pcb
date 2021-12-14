@@ -95,7 +95,7 @@
 
   (net 0 "")
   (net 1 GND)
-  (net 2 "Net-(D1-Pad2)")
+  (net 2 "Net-(Pin0-Pad1)")
 
   (net_class Default "This is the default net class."
     (clearance 0.1524)
@@ -107,7 +107,7 @@
     (diff_pair_width 0.1524)
     (diff_pair_gap 0.1524)
     (add_net GND)
-    (add_net "Net-(D1-Pad2)")
+    (add_net "Net-(Pin0-Pad1)")
   )
 
   (module LED_THT:LED_D3.0mm (layer F.Cu) (tedit 587A3A7B) (tstamp 608ACE48)
@@ -115,7 +115,7 @@
     (descr "LED, diameter 3.0mm, 2 pins")
     (tags "LED diameter 3.0mm 2 pins")
     (path /5FD62DCA)
-    (fp_text reference D1 (at 1.27 -2.96) (layer F.SilkS) hide
+    (fp_text reference ZZ1 (at 1.27 -2.96) (layer F.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value LED (at 1.27 2.96) (layer F.Fab)
@@ -137,7 +137,7 @@
     (pad 1 thru_hole rect (at 0 0) (size 1.8 1.8) (drill 0.9) (layers *.Cu *.Mask)
       (net 1 GND))
     (pad 2 thru_hole circle (at 2.54 0) (size 1.8 1.8) (drill 0.9) (layers *.Cu *.Mask)
-      (net 2 "Net-(D1-Pad2)"))
+      (net 2 "Net-(Pin0-Pad1)"))
     (model ${KISYS3DMOD}/LED_THT.3dshapes/LED_D3.0mm.wrl
       (at (xyz 0 0 0))
       (scale (xyz 1 1 1))
@@ -151,7 +151,7 @@
     (tags "test point SMD pad")
     (path /60B93C6A)
     (attr virtual)
-    (fp_text reference O1 (at 0 1.648) (layer B.SilkS) hide
+    (fp_text reference Pin0 (at 0 1.648) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (fp_text value TestPoint (at 0 -1.75) (layer B.Fab)
@@ -163,7 +163,7 @@
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (pad 1 smd circle (at 0 0) (size 1.5 1.5) (layers B.Cu B.Mask)
-      (net 2 "Net-(D1-Pad2)"))
+      (net 2 "Net-(Pin0-Pad1)"))
   )
 
   (gr_text pin (at 0.254 -2.794) (layer B.SilkS) (tstamp 60C4C501)

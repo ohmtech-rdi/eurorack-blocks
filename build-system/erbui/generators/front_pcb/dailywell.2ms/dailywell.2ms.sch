@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Switch:SW_SPDT SW1
+L Switch:SW_SPDT ZZ1
 U 1 1 5FD259E4
 P 5000 4700
-F 0 "SW1" H 5000 4985 50  0000 C CNN
+F 0 "ZZ1" H 5000 4985 50  0000 C CNN
 F 1 "SW_SPDT" H 5000 4894 50  0000 C CNN
 F 2 "Switch_Thonk:SW_SPDT_Dailywell" H 5000 4700 50  0001 C CNN
 F 3 "https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf" H 5000 4700 50  0001 C CNN
@@ -42,10 +42,10 @@ F 3 "" H 4800 4700 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:TestPoint O1
+L Connector:TestPoint Pin0
 U 1 1 60B942BC
 P 5200 4600
-F 0 "O1" V 5200 4788 50  0000 L CNN
+F 0 "Pin0" V 5200 4788 50  0000 L CNN
 F 1 "TestPoint" V 5245 4788 50  0001 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5400 4600 50  0001 C CNN
 F 3 "~" H 5400 4600 50  0001 C CNN
@@ -53,10 +53,10 @@ F 3 "~" H 5400 4600 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:TestPoint O3
+L Connector:TestPoint Pin1
 U 1 1 60B947FF
 P 5200 4800
-F 0 "O3" V 5200 4988 50  0000 L CNN
+F 0 "Pin1" V 5200 4988 50  0000 L CNN
 F 1 "TestPoint" V 5245 4988 50  0001 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5400 4800 50  0001 C CNN
 F 3 "~" H 5400 4800 50  0001 C CNN

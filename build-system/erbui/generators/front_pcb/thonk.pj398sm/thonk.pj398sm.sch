@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:AudioJack2_SwitchT J1
+L Connector:AudioJack2_SwitchT ZZ1
 U 1 1 5FC82E98
 P 3650 4200
-F 0 "J1" H 3654 4542 50  0000 C CNN
+F 0 "ZZ1" H 3654 4542 50  0000 C CNN
 F 1 "IN" H 3654 4451 50  0000 C CNN
 F 2 "Connector_Thonk:ThonkiconnJack" H 3650 4200 50  0001 C CNN
 F 3 "~" H 3650 4200 50  0001 C CNN
@@ -42,10 +42,10 @@ F 3 "" H 3850 4100 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:TestPoint TP1
+L Connector:TestPoint Pin0
 U 1 1 60B91AE3
 P 4250 4200
-F 0 "TP1" V 4250 4388 50  0000 L CNN
+F 0 "Pin0" V 4250 4388 50  0000 L CNN
 F 1 "TestPoint" V 4295 4388 50  0001 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4450 4200 50  0001 C CNN
 F 3 "~" H 4450 4200 50  0001 C CNN
@@ -53,10 +53,10 @@ F 3 "~" H 4450 4200 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:TestPoint TP3
+L Connector:TestPoint Cascade0
 U 1 1 60B927EB
 P 3850 4300
-F 0 "TP3" V 3850 4488 50  0000 L CNN
+F 0 "Cascade0" V 3850 4488 50  0000 L CNN
 F 1 "TestPoint" V 3895 4488 50  0001 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4050 4300 50  0001 C CNN
 F 3 "~" H 4050 4300 50  0001 C CNN
@@ -64,10 +64,10 @@ F 3 "~" H 4050 4300 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:TestPoint TP2
+L Connector:TestPoint ZZ2
 U 1 1 60BC9738
 P 4250 4300
-F 0 "TP2" V 4250 4488 50  0000 L CNN
+F 0 "ZZ2" V 4250 4488 50  0000 L CNN
 F 1 "TestPoint" V 4295 4488 50  0001 L CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 4450 4300 50  0001 C CNN
 F 3 "~" H 4450 4300 50  0001 C CNN

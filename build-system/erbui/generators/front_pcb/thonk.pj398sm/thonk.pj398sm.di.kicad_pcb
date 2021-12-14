@@ -94,7 +94,7 @@
   )
 
   (net 0 "")
-  (net 1 "Net-(J1-PadTN)")
+  (net 1 "Net-(Cascade0-Pad1)")
 
   (net_class Default "This is the default net class."
     (clearance 0.1524)
@@ -105,7 +105,7 @@
     (uvia_drill 0.1524)
     (diff_pair_width 0.1524)
     (diff_pair_gap 0.1524)
-    (add_net "Net-(J1-PadTN)")
+    (add_net "Net-(Cascade0-Pad1)")
   )
 
   (module TestPoint:TestPoint_Pad_D1.5mm (layer B.Cu) (tedit 5A0F774F) (tstamp 60B90EAD)
@@ -114,7 +114,7 @@
     (tags "test point SMD pad")
     (path /60B927EB)
     (attr virtual)
-    (fp_text reference TP3 (at 0 1.648) (layer B.SilkS) hide
+    (fp_text reference Cascade0 (at 0 1.648) (layer B.SilkS) hide
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (fp_text value TestPoint (at 0 -1.75) (layer B.Fab)
@@ -126,7 +126,7 @@
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
     (pad 1 smd circle (at 0 0) (size 1.5 1.5) (layers B.Cu B.Mask)
-      (net 1 "Net-(J1-PadTN)"))
+      (net 1 "Net-(Cascade0-Pad1)"))
   )
 
   (gr_text cascade (at -1.4 0.1) (layer B.SilkS) (tstamp 60B90FDA)
