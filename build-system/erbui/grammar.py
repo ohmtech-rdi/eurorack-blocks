@@ -11,7 +11,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 
 KEYWORDS = (
-   'module', 'board', 'width', 'material', 'header', 'footer', 'line',
+   'module', 'board', 'width', 'material', 'route', 'auto', 'wire', 'header', 'footer', 'line',
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'cascade', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
@@ -130,8 +130,12 @@ def material_color ():                 return ['natural', 'black', 'white']
 def material_name ():                  return ['aluminum', 'brushed_aluminum', 'aluminum_coated']
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
+# Module Route
+def route_mode ():                     return ['auto', 'wire']
+def route_declaration ():              return 'route', route_mode
+
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, route_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name

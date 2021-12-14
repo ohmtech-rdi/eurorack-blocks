@@ -58,6 +58,9 @@ class Node:
    def is_material (self): return isinstance (self, Material)
 
    @property
+   def is_route (self): return isinstance (self, Route)
+
+   @property
    def is_header (self): return isinstance (self, Header)
 
    @property
@@ -282,6 +285,15 @@ class Module (Scope):
       return entities [0]
 
    @property
+   def route (self):
+      entities = [e for e in self.entities if e.is_route]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
    def header (self):
       entities = [e for e in self.entities if e.is_header]
       assert (len (entities) == 1)
@@ -400,6 +412,29 @@ class Material (Node):
    @property
    def is_aluminum_coated_black (self):
       return self.type == 'aluminum_coated' and self.color == 'black'
+
+
+# -- Route -------------------------------------------------------------------
+
+class Route (Node):
+   def __init__ (self, keyword_mode):
+      assert isinstance (keyword_mode, adapter.Keyword)
+      super (Route, self).__init__ ()
+      self.keyword_mode = keyword_mode
+
+   @staticmethod
+   def typename (): return 'route'
+
+   @property
+   def mode (self): return self.keyword_mode.value
+
+   @property
+   def is_auto (self):
+      return self.mode == 'auto'
+
+   @property
+   def is_wire (self):
+      return self.mode == 'wire'
 
 
 # -- Header ------------------------------------------------------------------
