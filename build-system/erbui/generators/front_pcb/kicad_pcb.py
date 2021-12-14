@@ -38,6 +38,8 @@ class KicadPcb:
 
       self.remove_pads (module)
 
+      self.collect_nets ()
+
       for control in module.controls:
          self.generate_control (control)
 
@@ -103,6 +105,16 @@ class KicadPcb:
          return True
 
       self.base.entities = list (filter (filter_func, self.base.entities))
+
+
+   #--------------------------------------------------------------------------
+
+   def collect_nets (self):
+      self.nets = {}
+      for element in self.base.entities:
+         if isinstance (element, s_expression.List) \
+            and element.entities [0].value == 'net':
+            self.nets [element.entities [2].value] = element.entities [1].value
 
 
    #--------------------------------------------------------------------------
@@ -199,6 +211,7 @@ class KicadPcb:
       component = self.move (component, control.position)
       component = self.rename_references (component, control)
       component = self.rename_pins (component, control)
+      component = self.relink_pads (component, control)
 
       for element in component.entities:
          self.base.add (element)
@@ -208,6 +221,7 @@ class KicadPcb:
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_to.index)
+         component = self.relink_pads (component, control)
          for element in component.entities:
             self.base.add (element)
 
@@ -216,6 +230,7 @@ class KicadPcb:
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_from.index)
+         component = self.relink_pads (component, control)
          for element in component.entities:
             self.base.add (element)
 
@@ -292,7 +307,7 @@ class KicadPcb:
       component = self.load (path)
       component.entities = list (filter (filter_func, component.entities))
 
-      self.remove_net_recursive (component)
+      #self.remove_net_recursive (component)
 
       return component
 
@@ -362,6 +377,48 @@ class KicadPcb:
                element.entities [1].value = name_map [element_text]
 
       return component
+
+
+   #--------------------------------------------------------------------------
+
+   def relink_pads (self, component, control):
+      name_map = {}
+      if control.is_pin_single:
+         name_map ['Net-(Pin0-Pad1)'] = 'Net-(%s-Pad1)' % control.pin.name
+      else:
+         names = control.pins.names
+         for index, name in enumerate (names):
+            name_map ['Net-(Pin%d-Pad1)' % index] = 'Net-(%s-Pad1)' % name
+
+      if control.cascade_from is not None:
+         name_map ['Net-(Cascade0-Pad1)'] = 'Net-(%s-Pad1)' % control.cascade_from.reference.pin.name
+
+      for element in component.entities:
+         element_name = element.entities [0].value
+         if element_name in ['module']:
+            self.relink_pad (element, name_map)
+
+      return component
+
+
+   #--------------------------------------------------------------------------
+
+   def relink_pad (self, element, name_map):
+      for property in element.entities:
+         if isinstance (property, s_expression.List) \
+            and property.entities [0].value == 'pad':
+            self.relink_pad_net (property, name_map)
+
+
+   #--------------------------------------------------------------------------
+
+   def relink_pad_net (self, element, name_map):
+      for property in element.entities:
+         if isinstance (property, s_expression.List) \
+            and property.entities [0].value == 'net' \
+            and property.entities [2].value in name_map:
+            property.entities [2].value = name_map [property.entities [2].value]
+            property.entities [1].value = self.nets [property.entities [2].value]
 
 
    #--------------------------------------------------------------------------
