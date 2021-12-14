@@ -13,3 +13,6 @@
 [submodule "submodules/vcv-rack-sdk"]
 	path = submodules/vcv-rack-sdk
 	url = git@github.com:ohmtech-rdi/vcv-rack-sdk.git
+[submodule "submodules/freerouting-jar"]
+	path = submodules/freerouting-jar
+	url = git@github.com:ohmtech-rdi/freerouting-jar.git
