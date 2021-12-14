@@ -45,10 +45,11 @@
       'PinType.h',
       'Pot.h',
       'Pot.hpp',
-      'SdramObject.h',
-      'SdramObject.hpp',
+      'SdramPtr.h',
+      'SdramPtr.hpp',
       'Switch.h',
       'Switch.hpp',
+      'config.h',
       'def.h',
       'erb.h',
       'module_init.h',
@@ -62,6 +63,10 @@
       'detail/DoubleBuffer.hpp',
       'detail/GateGenerator.h',
       'detail/GateGenerator.hpp',
+      'detail/MonotonicMemoryPool.h',
+      'detail/MonotonicMemoryPool.hpp',
+      'detail/Sdram.h',
+      'detail/Sdram.hpp',
       'detail/fnc.h',
       'detail/fnc.hpp',
 
@@ -70,6 +75,7 @@
 
       '../../src/detail/Animation.cpp',
       '../../src/detail/Debounce.cpp',
+      '../../src/detail/Sdram.cpp',
    ],
 
    'include_dirs': [

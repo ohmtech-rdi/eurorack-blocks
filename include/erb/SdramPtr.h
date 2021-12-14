@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      SdramObject.h
+      SdramPtr.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -21,18 +21,27 @@ namespace erb
 
 
 template <typename T>
-class SdramObject
+class SdramPtr
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  SdramObject () = default;
-                  SdramObject (SdramObject && rhs);
-   virtual        ~SdramObject ();
+   using element_type = T;
+   using pointer = T *;
+   using reference = T &;
 
-   T &            operator * () const;
-   T *            operator -> () const;
+                  SdramPtr () = default;
+                  SdramPtr (SdramPtr && rhs);
+   virtual        ~SdramPtr ();
+
+   SdramPtr &     operator = (SdramPtr && rhs);
+
+   pointer        get () const;
+   explicit       operator bool () const;
+
+   reference      operator * () const;
+   pointer        operator -> () const;
 
 
 
@@ -43,37 +52,38 @@ public:
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
-                  SdramObject (T * ptr);
+                  SdramPtr (pointer ptr);
 
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   T *            _ptr = nullptr;
+   void           release ();
+
+   pointer        _ptr = nullptr;
 
    template <typename U, class... Args>
-   friend SdramObject <U> make_sdram_object (Args &&... args);
+   friend SdramPtr <U> make_sdram (Args &&... args);
 
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  SdramObject (const SdramObject & rhs) = delete;
-   SdramObject &  operator = (const SdramObject & rhs) = delete;
-   SdramObject &  operator = (SdramObject && rhs) = delete;
-   bool           operator == (const SdramObject & rhs) const = delete;
-   bool           operator != (const SdramObject & rhs) const = delete;
+                  SdramPtr (const SdramPtr & rhs) = delete;
+   SdramPtr &     operator = (const SdramPtr & rhs) = delete;
+   bool           operator == (const SdramPtr & rhs) const = delete;
+   bool           operator != (const SdramPtr & rhs) const = delete;
 
 
 
-}; // class SdramObject
+}; // class SdramPtr
 
 
 
 template <typename T, class... Args>
-SdramObject <T>   make_sdram_object (Args &&... args);
+SdramPtr <T>   make_sdram (Args &&... args);
 
 
 
@@ -81,7 +91,7 @@ SdramObject <T>   make_sdram_object (Args &&... args);
 
 
 
-#include "erb/SdramObject.hpp"
+#include "erb/SdramPtr.hpp"
 
 
 

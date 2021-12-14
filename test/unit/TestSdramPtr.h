@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      TestSdramObject.h
+      TestSdramPtr.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -15,14 +15,14 @@
 
 
 
-class TestSdramObject
+class TestSdramPtr
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  TestSdramObject () = default;
-   virtual        ~TestSdramObject () = default;
+                  TestSdramPtr () = default;
+   virtual        ~TestSdramPtr () = default;
 
    void           run ();
 
@@ -38,11 +38,8 @@ protected:
 
 private:
 
-   struct A
-   {
-      int         a;
-   };
-
+   void           run_000 ();
+   void           run_000b ();
    void           run_001 ();
 
 
@@ -50,18 +47,16 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  TestSdramObject (const TestSdramObject & rhs) = delete;
-                  TestSdramObject (TestSdramObject && rhs) = delete;
-   TestSdramObject &
-                  operator = (const TestSdramObject & rhs) = delete;
-   TestSdramObject &
-                  operator = (TestSdramObject && rhs) = delete;
-   bool           operator == (const TestSdramObject & rhs) const = delete;
-   bool           operator != (const TestSdramObject & rhs) const = delete;
+                  TestSdramPtr (const TestSdramPtr & rhs) = delete;
+                  TestSdramPtr (TestSdramPtr && rhs) = delete;
+   TestSdramPtr & operator = (const TestSdramPtr & rhs) = delete;
+   TestSdramPtr & operator = (TestSdramPtr && rhs) = delete;
+   bool           operator == (const TestSdramPtr & rhs) const = delete;
+   bool           operator != (const TestSdramPtr & rhs) const = delete;
 
 
 
-}; // class TestSdramObject
+}; // class TestSdramPtr
 
 
 

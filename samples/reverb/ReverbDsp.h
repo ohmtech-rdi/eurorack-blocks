@@ -28,9 +28,7 @@ class ReverbDsp
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   using AuxiliaryBuffer = dsp::ReverbSc::DelayLines;
-
-                  ReverbDsp (float sample_freq, AuxiliaryBuffer & aux_buffer);
+                  ReverbDsp (float sample_freq);
    /*virtual*/    ~ReverbDsp () = default;
 
    void           set_wet (float wet);

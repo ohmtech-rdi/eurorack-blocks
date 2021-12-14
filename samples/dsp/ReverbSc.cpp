@@ -29,9 +29,9 @@ Name : ctor
 ==============================================================================
 */
 
-ReverbSc::ReverbSc (float sample_freq, DelayLines & delay_lines)
+ReverbSc::ReverbSc (float sample_freq)
 :  _sample_freq (sample_freq)
-,  _delay_lines (delay_lines)
+,  _delay_lines_sptr (erb::make_sdram <DelayLines> ())
 {
    reset ();
 }
@@ -73,20 +73,23 @@ Name : reset
 
 void  ReverbSc::reset ()
 {
-   for (size_t d = 0 ; d < _delay_lines.size () ; ++d)
+   auto & delay_lines = *_delay_lines_sptr;
+
+   for (size_t d = 0 ; d < delay_lines.size () ; ++d)
    {
-      auto & delay = _delay_lines [d];
+      auto & delay = delay_lines [d];
+      auto & state = _delay_states [d];
       const auto & param = _params [d];
 
-      delay.write_pos = 0;
+      state.write_pos = 0;
 
-      delay.time_spl = param.time_spl + param.time_mod_spl * param.seed / 32768;
-      delay.read_pos
-         = (delay.write_pos + delay.buf.size () - delay.time_spl)
+      state.time_spl = param.time_spl + param.time_mod_spl * param.seed / 32768;
+      state.read_pos
+         = (state.write_pos + delay.buf.size () - state.time_spl)
          % delay.buf.size ();
-      delay.read_pos_step = 1.f;
-      delay.rand_val = param.seed;
-      delay.filter_state = 0.f;
+      state.read_pos_step = 1.f;
+      state.rand_val = param.seed;
+      state.filter_state = 0.f;
       delay.buf.fill (0.f);
 
       update_rand_seg (d);
@@ -105,10 +108,12 @@ ReverbSc::Frame   ReverbSc::process (Frame in)
 {
    if (_low_pass_needs_update) update_low_pass ();
 
+   auto & delay_lines = *_delay_lines_sptr;
+
    auto junction_pressure = std::accumulate (
-      _delay_lines.begin (), _delay_lines.end (),
-      0.f, [](auto acc, const auto & delay_line){
-         return acc + delay_line.filter_state;
+      _delay_states.begin (), _delay_states.end (),
+      0.f, [](auto acc, const auto & delay_state){
+         return acc + delay_state.filter_state;
       }
    ) * _junction_pressure_scale;
 
@@ -117,14 +122,15 @@ ReverbSc::Frame   ReverbSc::process (Frame in)
 
    auto out = Frame { 0.f, 0.f };
 
-   for (size_t d = 0 ; d < _delay_lines.size () ; ++d)
+   for (size_t d = 0 ; d < delay_lines.size () ; ++d)
    {
-      auto & delay = _delay_lines [d];
+      auto & delay = delay_lines [d];
+      auto & state = _delay_states [d];
 
-      write (delay, d & 1 ? in.right : in.left);
+      write (delay, state, d & 1 ? in.right : in.left);
 
       float integral;
-      float frac = std::modf (delay.read_pos, &integral);
+      float frac = std::modf (state.read_pos, &integral);
       size_t read_pos = size_t (integral);
 
       auto vm1 = read (delay, read_pos, -1);
@@ -139,26 +145,26 @@ ReverbSc::Frame   ReverbSc::process (Frame in)
 
       v0 = (am1 * vm1 + a0 * v0 + a1 * v1 + a2 * v2) * frac + v0;
       v0 *= _feedback;
-      v0 = (delay.filter_state - v0) * _damp_factor + v0;
-      delay.filter_state = v0;
+      v0 = (state.filter_state - v0) * _damp_factor + v0;
+      state.filter_state = v0;
 
       float & o = d & 1 ? out.right : out.left;
       o += v0;
 
-      delay.read_pos += delay.read_pos_step;
+      state.read_pos += state.read_pos_step;
 
-      if (delay.read_pos > float (delay.buf.size ()))
+      if (state.read_pos > float (delay.buf.size ()))
       {
-         delay.read_pos -= float (delay.buf.size ());
+         state.read_pos -= float (delay.buf.size ());
       }
 
-      if (delay.rand_line_cnt == 0)
+      if (state.rand_line_cnt == 0)
       {
          update_rand_seg (d);
       }
       else
       {
-         --delay.rand_line_cnt;
+         --state.rand_line_cnt;
       }
    }
 
@@ -180,7 +186,7 @@ ReverbSc::Frame   ReverbSc::process (Frame in)
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-const ReverbSc::Params  ReverbSc::_params [8] = {
+const ReverbSc::Params  ReverbSc::_params [ReverbSc::nbr_delays] = {
    { 2473, 44, 14226,  1966 },
    { 2767, 49, 12600, 29491 },
    { 3217, 75, 39730, 22937 },
@@ -217,11 +223,11 @@ Name : write
 ==============================================================================
 */
 
-void  ReverbSc::write (DelayLine & delay, float val)
+void  ReverbSc::write (DelayLine & delay, DelayState & state, float val)
 {
-   delay.buf [delay.write_pos] = val - delay.filter_state;
+   delay.buf [state.write_pos] = val - state.filter_state;
 
-   delay.write_pos = (delay.write_pos + 1) % delay.buf.size ();
+   state.write_pos = (state.write_pos + 1) % delay.buf.size ();
 }
 
 
@@ -250,21 +256,21 @@ Name : update_rand_seg
 
 void  ReverbSc::update_rand_seg (size_t delay_idx)
 {
-   auto & delay = _delay_lines [delay_idx];
+   auto & state = _delay_states [delay_idx];
    const auto & param = _params [delay_idx];
 
-   delay.rand_line_cnt = param.rand_line_cnt;
-   delay.rand_val = (delay.rand_val * 15625 + 1) & 0xFFFF;
+   state.rand_line_cnt = param.rand_line_cnt;
+   state.rand_val = (state.rand_val * 15625 + 1) & 0xFFFF;
 
    size_t time_spl
       = param.time_spl
-      + (param.time_mod_spl * delay.rand_val) / 65535
+      + (param.time_mod_spl * state.rand_val) / 65535
       - param.time_mod_spl / 2;
 
-   delay.read_pos_step
+   state.read_pos_step
       = 1.f
-      + (float (delay.time_spl) - float (time_spl)) / float (delay.rand_line_cnt);
-   delay.time_spl = time_spl;
+      + (float (state.time_spl) - float (time_spl)) / float (state.rand_line_cnt);
+   state.time_spl = time_spl;
 }
 
 
