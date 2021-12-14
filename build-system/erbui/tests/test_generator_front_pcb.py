@@ -72,6 +72,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
    def test_003 (self):
       module = ast.Module (mock.identifier ('test_generator_front_pcb_003'), None)
       module.entities.append (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
+      module.entities.append (ast.Board (mock.identifier ("kivu12")))
 
       control = ast.Control (
          mock.identifier ('test'),

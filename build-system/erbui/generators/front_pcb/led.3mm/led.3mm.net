@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/led.3mm/led.3mm.sch)
-    (date "2021 June 03, Thursday 22:25:11")
+    (date "2021 December 14, Tuesday 09:36:34")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -15,7 +15,7 @@
         (comment (number 3) (value ""))
         (comment (number 4) (value "")))))
   (components
-    (comp (ref D1)
+    (comp (ref ZZ1)
       (value LED)
       (footprint LED_THT:LED_D3.0mm)
       (datasheet ~)
@@ -29,7 +29,7 @@
       (libsource (lib Device) (part LED) (description "Light emitting diode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD62DCA))
-    (comp (ref O1)
+    (comp (ref Pin0)
       (value TestPoint)
       (footprint TestPoint:TestPoint_Pad_D1.5mm)
       (datasheet ~)
@@ -68,7 +68,7 @@
       (uri "/Library/Application Support/kicad/library/Device.lib")))
   (nets
     (net (code 1) (name GND)
-      (node (ref D1) (pin 1)))
-    (net (code 2) (name "Net-(D1-Pad2)")
-      (node (ref D1) (pin 2))
-      (node (ref O1) (pin 1)))))
+      (node (ref ZZ1) (pin 1)))
+    (net (code 2) (name "Net-(Pin0-Pad1)")
+      (node (ref ZZ1) (pin 2))
+      (node (ref Pin0) (pin 1)))))

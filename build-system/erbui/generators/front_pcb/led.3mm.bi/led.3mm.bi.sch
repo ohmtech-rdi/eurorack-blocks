@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Device:LED_Dual_ACA D1
+L Device:LED_Dual_ACA ZZ1
 U 1 1 5FD639C8
 P 5100 4700
-F 0 "D1" H 5100 5125 50  0000 C CNN
+F 0 "ZZ1" H 5100 5125 50  0000 C CNN
 F 1 "LED_Dual_ACA" H 5100 5034 50  0000 C CNN
 F 2 "LED_THT:LED_D3.0mm-3" H 5100 4700 50  0001 C CNN
 F 3 "~" H 5100 4700 50  0001 C CNN
@@ -44,10 +44,10 @@ $EndComp
 Wire Wire Line
 	5400 4700 5500 4700
 $Comp
-L Connector:TestPoint L1
+L Connector:TestPoint Pin0
 U 1 1 60B93D2A
 P 4800 4600
-F 0 "L1" V 4800 4850 50  0000 C CNN
+F 0 "Pin0" V 4800 4850 50  0000 C CNN
 F 1 "TestPoint" V 4904 4672 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5000 4600 50  0001 C CNN
 F 3 "~" H 5000 4600 50  0001 C CNN
@@ -55,10 +55,10 @@ F 3 "~" H 5000 4600 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:TestPoint L2
+L Connector:TestPoint Pin1
 U 1 1 60B94B75
 P 4800 4800
-F 0 "L2" V 4800 5050 50  0000 C CNN
+F 0 "Pin1" V 4800 5050 50  0000 C CNN
 F 1 "TestPoint" V 4904 4872 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5000 4800 50  0001 C CNN
 F 3 "~" H 5000 4800 50  0001 C CNN

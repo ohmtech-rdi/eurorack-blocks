@@ -14,10 +14,10 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L Connector:TestPoint L1
+L Connector:TestPoint Pin0
 U 1 1 60B93D2A
 P 6000 4500
-F 0 "L1" V 6000 4750 50  0000 C CNN
+F 0 "Pin0" V 6000 4750 50  0000 C CNN
 F 1 "TestPoint" V 6104 4572 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 6200 4500 50  0001 C CNN
 F 3 "~" H 6200 4500 50  0001 C CNN
@@ -25,10 +25,10 @@ F 3 "~" H 6200 4500 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:LED_RGBA D1
+L Device:LED_RGBA ZZ1
 U 1 1 60BBD1E1
 P 6200 4700
-F 0 "D1" H 6200 5197 50  0000 C CNN
+F 0 "ZZ1" H 6200 5197 50  0000 C CNN
 F 1 "LED_RGBA" H 6200 5106 50  0000 C CNN
 F 2 "LED_SMD:LED_Cree-PLCC4_3.2x2.8mm_CCW" H 6200 4650 50  0001 C CNN
 F 3 "~" H 6200 4650 50  0001 C CNN
@@ -47,10 +47,10 @@ F 3 "" H 6400 4700 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L Connector:TestPoint L2
+L Connector:TestPoint Pin1
 U 1 1 60BC16D9
 P 6000 4700
-F 0 "L2" V 6000 4950 50  0000 C CNN
+F 0 "Pin1" V 6000 4950 50  0000 C CNN
 F 1 "TestPoint" V 6104 4772 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 6200 4700 50  0001 C CNN
 F 3 "~" H 6200 4700 50  0001 C CNN
@@ -58,10 +58,10 @@ F 3 "~" H 6200 4700 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Connector:TestPoint L3
+L Connector:TestPoint Pin2
 U 1 1 60BC1964
 P 6000 4900
-F 0 "L3" V 6000 5150 50  0000 C CNN
+F 0 "Pin2" V 6000 5150 50  0000 C CNN
 F 1 "TestPoint" V 6104 4972 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 6200 4900 50  0001 C CNN
 F 3 "~" H 6200 4900 50  0001 C CNN

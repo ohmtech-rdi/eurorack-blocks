@@ -25,10 +25,10 @@ F 3 "" H 5250 5050 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L Device:LED D1
+L Device:LED ZZ1
 U 1 1 5FD62DCA
 P 5100 5050
-F 0 "D1" H 5092 4795 50  0000 C CNN
+F 0 "ZZ1" H 5092 4795 50  0000 C CNN
 F 1 "LED" H 5092 4886 50  0000 C CNN
 F 2 "LED_THT:LED_D3.0mm" H 5100 5050 50  0001 C CNN
 F 3 "~" H 5100 5050 50  0001 C CNN
@@ -42,10 +42,10 @@ F 9 "https://www.digikey.de/product-detail/en/kingbright/WP710A10GD/754-1603-ND/
 	-1   0    0    1   
 $EndComp
 $Comp
-L Connector:TestPoint O1
+L Connector:TestPoint Pin0
 U 1 1 60B93C6A
 P 4950 5050
-F 0 "O1" V 5053 5122 50  0000 C CNN
+F 0 "Pin0" V 5053 5122 50  0000 C CNN
 F 1 "TestPoint" V 5054 5122 50  0001 C CNN
 F 2 "TestPoint:TestPoint_Pad_D1.5mm" H 5150 5050 50  0001 C CNN
 F 3 "~" H 5150 5050 50  0001 C CNN
