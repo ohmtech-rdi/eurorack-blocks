@@ -169,7 +169,7 @@ protected:
 
 private:
 
-   void           enable_fz ();
+   void           init_audio ();
 
    void           do_run ();
 

@@ -149,11 +149,6 @@ protected:
 
 private:
 
-   void           enable_fz ();
-   void           init ();
-   void           init_system ();
-   void           init_sdram ();
-   void           init_qspi ();
    void           init_audio ();
 
    void           do_run ();
@@ -164,11 +159,6 @@ private:
    static SubmoduleDaisyPatchSm *
                   _this_ptr;
 
-   daisy::System  _system;
-   dsy_sdram_handle
-                  _sdram;
-   daisy::QSPIHandle
-                  _qspi;
    daisy::AudioHandle
                   _audio;
    daisy::AdcHandle

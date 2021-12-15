@@ -11,6 +11,8 @@
 
 #include "erb/daisy/SubmoduleDaisySeed.h"
 
+#include "dev/codec_ak4556.h"
+
 #undef erb_DAISY_HEARTBEAT
 
 
@@ -30,12 +32,9 @@ Name : ctor
 
 SubmoduleDaisySeed::SubmoduleDaisySeed ()
 {
-   enable_fz ();
-
    _this_ptr = this;
 
-   _seed.Configure ();
-   _seed.Init (true /* boost */);
+   init_audio ();
 
    _seed.SetAudioBlockSize (erb_BUFFER_SIZE);
 }
@@ -54,17 +53,38 @@ SubmoduleDaisySeed::SubmoduleDaisySeed ()
 
 /*
 ==============================================================================
-Name : enable_fz
-Description :
-   Enable FZ (flush-to-zero) denormal behavior
+Name : init_audio
 ==============================================================================
 */
 
-void  SubmoduleDaisySeed::enable_fz ()
+void  SubmoduleDaisySeed::init_audio ()
 {
-   uint32_t fpscr = __get_FPSCR ();
-   fpscr |= 0x01000000; // FZ bit
-   __set_FPSCR (fpscr);
+   daisy::SaiHandle::Config sai_config;
+   sai_config.periph          = daisy::SaiHandle::Config::Peripheral::SAI_1;
+   sai_config.sr              = daisy::SaiHandle::Config::SampleRate::SAI_48KHZ;
+   sai_config.bit_depth       = daisy::SaiHandle::Config::BitDepth::SAI_24BIT;
+   sai_config.a_sync          = daisy::SaiHandle::Config::Sync::MASTER;
+   sai_config.b_sync          = daisy::SaiHandle::Config::Sync::SLAVE;
+   sai_config.a_dir           = daisy::SaiHandle::Config::Direction::TRANSMIT;
+   sai_config.b_dir           = daisy::SaiHandle::Config::Direction::RECEIVE;
+   sai_config.pin_config.fs   = {DSY_GPIOE, 4};
+   sai_config.pin_config.mclk = {DSY_GPIOE, 2};
+   sai_config.pin_config.sck  = {DSY_GPIOE, 5};
+   sai_config.pin_config.sa   = {DSY_GPIOE, 6};
+   sai_config.pin_config.sb   = {DSY_GPIOE, 3};
+
+   daisy::SaiHandle sai_1_handle;
+   sai_1_handle.Init (sai_config);
+
+   dsy_gpio_pin codec_reset_pin;
+   codec_reset_pin = {DSY_GPIOB, 11};
+   daisy::Ak4556::Init (codec_reset_pin);
+
+   daisy::AudioHandle::Config audio_config;
+   audio_config.blocksize  = 48;
+   audio_config.samplerate = daisy::SaiHandle::Config::SampleRate::SAI_48KHZ;
+   audio_config.postgain   = 1.f;
+   _seed.audio_handle.Init (audio_config, sai_1_handle);
 }
 
 
