@@ -20,8 +20,8 @@
 
 struct Reverb
 {
-   ReverbUi ui;
    ReverbDsp dsp { erb_SAMPLE_RATE };
+   ReverbUi ui;
 
    void  process ();
 };
