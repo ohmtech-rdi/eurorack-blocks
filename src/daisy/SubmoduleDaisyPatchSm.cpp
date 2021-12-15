@@ -28,11 +28,9 @@ Name : ctor
 
 SubmoduleDaisyPatchSm::SubmoduleDaisyPatchSm ()
 {
-   enable_fz ();
-
    _this_ptr = this;
 
-   init ();
+   init_audio ();
 
    _audio.SetBlockSize (erb_BUFFER_SIZE);
 }
@@ -48,101 +46,6 @@ SubmoduleDaisyPatchSm::SubmoduleDaisyPatchSm ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : enable_fz
-Description :
-   Enable FZ (flush-to-zero) denormal behavior
-==============================================================================
-*/
-
-void  SubmoduleDaisyPatchSm::enable_fz ()
-{
-   uint32_t fpscr = __get_FPSCR ();
-   fpscr |= 0x01000000; // FZ bit
-   __set_FPSCR (fpscr);
-}
-
-
-
-/*
-==============================================================================
-Name : init
-==============================================================================
-*/
-
-void  SubmoduleDaisyPatchSm::init ()
-{
-   init_system ();
-   init_sdram ();
-   init_qspi ();
-   init_audio ();
-}
-
-
-
-/*
-==============================================================================
-Name : init_system
-==============================================================================
-*/
-
-void  SubmoduleDaisyPatchSm::init_system ()
-{
-   daisy::System::Config config;
-
-   config.Defaults ();
-   _system.Init (config);
-}
-
-
-
-/*
-==============================================================================
-Name : init_sdram
-==============================================================================
-*/
-
-void  SubmoduleDaisyPatchSm::init_sdram ()
-{
-   _sdram.state = DSY_SDRAM_STATE_ENABLE;
-   _sdram.pin_config [DSY_SDRAM_PIN_SDNWE] = {DSY_GPIOH, 5};
-
-   dsy_sdram_init (&_sdram);
-}
-
-
-
-/*
-==============================================================================
-Name : init_qspi
-==============================================================================
-*/
-
-void  SubmoduleDaisyPatchSm::init_qspi ()
-{
-   erb_DISABLE_WARNINGS_DAISY
-
-   using namespace daisy;
-
-   _qspi.Init (QSPIHandle::Config {
-      .pin_config = {
-         .io0 = {DSY_GPIOF, 8},
-         .io1 = {DSY_GPIOF, 9},
-         .io2 = {DSY_GPIOF, 7},
-         .io3 = {DSY_GPIOF, 6},
-         .clk = {DSY_GPIOF, 10},
-         .ncs = {DSY_GPIOG, 6}
-      },
-      .device = QSPIHandle::Config::Device::IS25LP064A,
-      .mode = QSPIHandle::Config::Mode::MEMORY_MAPPED
-   });
-
-   erb_RESTORE_WARNINGS
-}
-
-
 
 /*
 ==============================================================================

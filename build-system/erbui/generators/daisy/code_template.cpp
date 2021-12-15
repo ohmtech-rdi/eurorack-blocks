@@ -13,6 +13,12 @@
 
 #include "erb/module_init.h"
 
+#include "erb/def.h"
+
+erb_DISABLE_WARNINGS_DAISY
+#include "daisy.h"
+erb_RESTORE_WARNINGS
+
 
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -25,6 +31,50 @@ Name : main
 
 int main ()
 {
+   // Enable FZ (flush-to-zero) denormal behavior
+   uint32_t fpscr = __get_FPSCR ();
+   fpscr |= 0x01000000; // FZ bit
+   __set_FPSCR (fpscr);
+
+   // Init system
+   daisy::System system;
+   daisy::System::Config config;
+
+   config.Boost ();
+   system.Init (config);
+
+   // Init SDRAM
+   dsy_sdram_handle sdram;
+
+   sdram.state = DSY_SDRAM_STATE_ENABLE;
+   sdram.pin_config [DSY_SDRAM_PIN_SDNWE] = {DSY_GPIOH, 5};
+
+   dsy_sdram_init (&sdram);
+
+   // Init QSPI
+   daisy::QSPIHandle qspi;
+
+   erb_DISABLE_WARNINGS_DAISY
+
+   using namespace daisy;
+
+   qspi.Init (QSPIHandle::Config {
+      .pin_config = {
+         .io0 = {DSY_GPIOF, 8},
+         .io1 = {DSY_GPIOF, 9},
+         .io2 = {DSY_GPIOF, 7},
+         .io3 = {DSY_GPIOF, 6},
+         .clk = {DSY_GPIOF, 10},
+         .ncs = {DSY_GPIOG, 6}
+      },
+      .device = QSPIHandle::Config::Device::IS25LP064A,
+      .mode = QSPIHandle::Config::Mode::MEMORY_MAPPED
+   });
+
+   erb_RESTORE_WARNINGS
+
+   //-------------------------------------------------------------------------
+
    %module.name% module;
 
    // The Daisy Seed stack, sitting on SRAM is 512K only.
