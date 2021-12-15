@@ -30,24 +30,101 @@ memory fragmentation.
 To avoid that, and when possible, allocations are done once and for all using the maximum
 possible memory your application could use. Internally, your program uses just a portion of it.
 
+> Note: The reverb delay lines consumes only 132KB of memory, so this technic is not
+> strictly needed here, but is given as a concrete example.
+
+
+## `erb::SdramPtr`
+
 This is what is done in this sample: We calculate the biggest delay possible and use it as
-a maximum bound, as shown [here](../dsp/ReverbSc.h#L33).
+a maximum bound, as shown [here](../dsp/ReverbSc.h#L70).
 
 Finally, while the SRAM is very fast, the SDRAM is comparatively slow. A good balance must
 be found by keeping the most accessed data in SRAM, while keeping the less accessed
 data in SDRAM.
 
-The `Reverb` sample illustrates this technic by running all filters in SRAM, but keeping less
-frequently accessed delay line samples in SDRAM. The whole idea is to separate those into
-two blocks of memory, SRAM as the default for filters, and use `erb::make_sdram_object`
-for delay lines samples in SDRAM as illustrated [here](./Reverb.h#L25-L26).
+The `Reverb` sample illustrates this technic by running all filters and delay lines states in SRAM,
+but keeping less frequently accessed delay line samples in SDRAM.
+
+The whole idea is to separate those into
+two blocks of memory, SRAM as the default for filters and states as illustrated [here](../dsp/ReverbSc.h#L111),
+and use `erb::SdramPtr`
+for delay lines samples in SDRAM as illustrated [here](../dsp/ReverbSc.h#L109).
+
+`erb::SdramPtr` is in a way similar to `std::unique_ptr`. It can be moved, and "owns" the
+underlying memory.
+
+The differences are:
+- It uses a monotonic memory pool, meaning that allocating always grows the amount of
+   memory used,
+- This implies that destroying a `erb::SdramPtr` doesn't allow you to reclaim the memory
+   for another allocation, and is therefore similar to leaking.
+
+Whether leaking or not is appropriate for your application, it depends. If this is done in a
+bounded number of times and you are doing on purpose, then this is fine. If not, then there
+is a conceptual problem in your algorithm.
+
+
+## Memory Pool Size
+
+The preprocessor macro `erb_SDRAM_MEM_POOL_SIZE` can be used to instrument the
+total amount of memory available to `erb::SdramPtr`.
+
+This is useful in the case where you are using code that is already using `DSY_SDRAM_BSS`
+so that the full `SDRAM` section is not entirely available to `erb::SdramPtr`.
+
+When this happen, building will return an error stating the `SDRAM` section is overflowing,
+for example:
+
+```console
+$ ./build.py
+ninja: Entering directory `/Users/raf/Desktop/dev/eurorack-blocks/samples/reverb/artifacts/out/Release'
+[4/4] LINK reverb-daisy
+FAILED: reverb-daisy
+...
+arm-none-eabi/bin/ld: reverb-daisy section `.sdram_bss' will not fit in region `SDRAM'
+arm-none-eabi/bin/ld: region `SDRAM' overflowed by 10000 bytes
+...
+```
+
+You can then adjust the `erb_SDRAM_MEM_POOL_SIZE` value by subtracting 64MB with the
+overflow value in bytes, typically:
+
+```
+'defines': [
+   'erb_SDRAM_MEM_POOL_SIZE=67098864',  # 64 * 1024 * 1024 - 10000
+],
+```
+
+You typically do this for every targets (both the Daisy and Simulator), and this can be done
+using `gyp` like [this](./reverb.gyp#L20-L25).
+
+
+## Simulation
 
 The project can generate builds to both run on VCV Rack and on the hardware Daisy platform,
-with the same source code. Though, the purpose of this example is only relevant to the Daisy
-target hardware.
+with the same source code.
 
-> Note: The reverb delay lines consumes only 132KB of memory, so this technic is not
-> strictly needed here, but is given as a concrete example.
+The VCV Rack implementation will still monitor the amount of memory you use, and will `throw`
+should you use more in your module than the allowed memory pool size.
+
+Also, when a `erb::SdramPtr` is destroyed, and when launching VCV Rack in the IDE debugger,
+the module will report potential memory leaks on the standard output.
+
+The simulator check will only run properly when only one module is tested. If you want to
+test the same module twice in VCV Rack, and each module is likely to consume more than
+the half of the memory pool, then you can disable checks by adding
+`erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0` in the preprocessor flags.
+
+```
+'defines': [
+   'erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0',
+],
+```
+
+You typically do this for every targets (both the Daisy and Simulator), and this can be done
+using `gyp` like [this](./reverb.gyp#L20-L25).
+
 
 ## Overview
 
