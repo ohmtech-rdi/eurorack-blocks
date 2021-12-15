@@ -16,6 +16,14 @@
       '../../eurorack-blocks.gypi',
    ],
 
+   # See README.md for 'erb_SDRAM_MEM_POOL_*' options
+   'target_defaults': {
+      'defines': [
+         #'erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0',
+         #'erb_SDRAM_MEM_POOL_SIZE=67098864',
+      ],
+   },
+
    'targets' : [
       {
          'target_name': 'reverb',
