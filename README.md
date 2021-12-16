@@ -135,7 +135,7 @@ The eurorack-block project requires the following to be installed:
 
 ### Debian/Ubuntu
 
-- [All the package dependencies](.github/workflows/ubuntu_20_04.yml#L43-L60).
+- [All the package dependencies](.github/workflows/ubuntu_20_04.yml#L43-L61).
 
 ### STLink probe
 
