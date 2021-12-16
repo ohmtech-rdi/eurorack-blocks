@@ -271,6 +271,10 @@
             '-Wno-old-style-declaration',
          ],
 
+         'cflags_cc': [
+            '-Wno-volatile',
+         ],
+
          'direct_dependent_settings': {
             'include_dirs': [
                './libDaisy/src',

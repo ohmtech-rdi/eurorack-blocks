@@ -73,12 +73,13 @@
       ],
 
       'cflags_cc': [
-         '-std=gnu++17',
+         '-std=gnu++2a',
          '-fno-exceptions',
          '-fno-rtti',
          '-fno-unwind-tables',
 
          '-Wno-register',
+         '-Wno-volatile',
       ],
 
       'ldflags': [
