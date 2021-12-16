@@ -1,0 +1,32 @@
+/*****************************************************************************
+
+      Kivu12.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Kivu12 {
+   board kivu12
+   material aluminum
+   header { label "Data" }
+
+   data raw {
+      file "raw.bin"
+   }
+
+   control audio_out1 AudioOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+      pin AO1
+   }
+
+   control audio_out2 AudioOut {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+      pin AO2
+   }
+}

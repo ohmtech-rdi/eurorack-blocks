@@ -47,6 +47,7 @@ it is a set of multiple `control`, `image`, `label`, `width`, `material`, etc. _
 > _module-entity_ → [sticker-declaration](#sticker) \
 > _module-entity_ → [image-declaration](#image) \
 > _module-entity_ → [control-declaration](#control) \
+> _module-entity_ → [data-declaration](#data) \
 > _module-entity_ → [alias-declaration](#alias)
 
 ### Extensions
@@ -193,6 +194,73 @@ For example `Button` supports `pin` but not `pins`, and conversely, `Switch` sup
 `pins` but does not support `pin`.
 
 See individual [controls](../controls/) reference for a list of supported features for each control.
+
+
+## `data`
+
+A `data` is an element of the module that represents a resource.
+
+### Grammar
+
+> _data-declaration_ → **`data`** data-name **`{`** data-entity<sub>_0+_</sub> **`}`** \
+> _data-name_ → [identifier](./lexical.md#identifiers) \
+> _data-entity_ → [file-declaration](#file) \
+> _datal-entity_ → [type-declaration](#type)
+
+### Language Bindings
+
+_data-name_ is exported to the target language used to develop the module DSP, such
+as C++ or Max.
+
+For example the following `erbui` source code:
+
+```erbui
+module Foo {
+   data osc_sample {
+      file "osc_sample.wav"
+      type AudioSample
+   }
+}
+```
+
+Exports the `osc_sample` in C++:
+
+```c++
+void  process () {
+   float val = data.osc_sample.channels [0].samples [0];
+
+   // 'data.osc_sample' is a 'erb::AudioSample <float, length, nbr_channels>'
+   // where 'length' and 'nbr_channels' are automatically deduced from
+   // the input file.
+}
+``` 
+
+Omitting the `type` entity results in raw data.
+
+```erbui
+module Foo {
+   data raw {
+      file "raw.bin"
+   }
+}
+```
+
+```c++
+   uint8_t val = data.raw [0];
+   
+   // 'data.raw' is a 'std::array <uint8_t, size>' where 'size' is the size of
+   // the input file.
+```
+
+
+## `type`
+
+A `type` is an element of a `data` resource that represents the type of the data.
+
+### Grammar
+
+> _type-declaration_ → **`type`** type-name \
+> _type-name_ → [identifier](./lexical.md#identifiers)
 
 
 ## `alias`
