@@ -15,6 +15,7 @@
 
 #include "erb/AudioIn.h"
 #include "erb/AudioOut.h"
+#include "erb/AudioSample.h"
 #include "erb/Button.h"
 #include "erb/CvIn.h"
 #include "erb/CvOut.h"

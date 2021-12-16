@@ -25,6 +25,7 @@
       'AudioIn.hpp',
       'AudioOut.h',
       'AudioOut.hpp',
+      'AudioSample.h',
       'Buffer.h',
       'Button.h',
       'Button.hpp',
