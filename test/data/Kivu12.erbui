@@ -16,6 +16,16 @@ module Kivu12 {
       file "raw.bin"
    }
 
+   data sample_mono {
+      file "mono.wav"
+      type AudioSample
+   }
+
+   data sample_stereo {
+      file "stereo.wav"
+      type AudioSample
+   }
+
    control audio_out1 AudioOut {
       position 7.33hp, 111mm
       style thonk.pj398sm.knurled

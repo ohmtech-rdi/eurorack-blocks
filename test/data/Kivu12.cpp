@@ -23,15 +23,22 @@ Name : process
 
 void  Kivu12::process ()
 {
-   // Basic: check if audio output works
-   osc1.set_freq (440.f);
-   osc2.set_freq (880.f);
-
+#if 0
    for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
    {
-      ui.audio_out1 [i] = osc1.process ();
-      ui.audio_out2 [i] = osc2.process ();
+      auto val = data.sample_mono.channels [0].samples [pos];
+      pos = (pos + 1) % data.sample_mono.channels [0].samples.size ();
+
+      ui.audio_out1 [i] = val;
+      ui.audio_out2 [i] = val;
    }
 
-   data.raw [0];
+#elif 1
+   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
+   {
+      ui.audio_out1 [i] = data.sample_stereo.channels [0].samples [pos];
+      ui.audio_out2 [i] = data.sample_stereo.channels [1].samples [pos];
+      pos = (pos + 1) % data.sample_mono.channels [0].samples.size ();
+   }
+#endif
 }

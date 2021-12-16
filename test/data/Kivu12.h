@@ -60,10 +60,8 @@ struct Kivu12
 {
    Kivu12Ui ui;
    Kivu12Data data;
-   OscSin osc1;
-   OscSin osc2;
-   OscSin osc3;
-   OscSin osc4;
 
    void  process ();
+
+   size_t pos = 0;
 };
