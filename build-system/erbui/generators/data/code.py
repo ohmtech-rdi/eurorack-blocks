@@ -8,6 +8,7 @@
 
 
 import os
+from soundfile import SoundFile
 
 from ... import error
 
@@ -66,6 +67,9 @@ class Code:
       if data.data_type is None:
          return self.generate_data_raw (data)
 
+      elif data.data_type.name == 'AudioSample':
+         return self.generate_data_audio_sample (data)
+
       else:
          err = error.Error ()
          context = data.data_type.source_context
@@ -92,9 +96,43 @@ class Code:
          file.seek (0, os.SEEK_END)
          file_size = file.tell ()
          file.seek (0, os.SEEK_SET)
-         content = 'static constexpr std::array <uint8_t, %d> %s = {' % (file_size, data.name);
+         content = '   static constexpr std::array <uint8_t, %d> %s = {' % (file_size, data.name);
          bytes = bytearray (file.read ())
          content += ', '.join (map (lambda byte: '0x' + format (byte, "02x"), bytes))
-         content += '};\n'
+         content += '   };\n'
+
+      return content
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_data_audio_sample (self, data):
+
+      try:
+         file = SoundFile (data.file.file)
+
+      except OSError:
+         err = error.Error ()
+         context = data.file.source_context
+         err.add_error ("File '%s' not found" % context, context)
+         err.add_context (context)
+         raise err
+
+      with file:
+         samples = file.read ()
+         content = '   static constexpr erb::AudioSample <float, %d, %d> %s = {\n' % (file.frames, file.channels, data.name);
+         content += '      .sample_rate = %f,\n' % file.samplerate;
+         content += '      .channels = {{\n';
+         if file.channels == 1:
+            content += '         {{';
+            content += ', '.join (map (lambda frame: float.hex(frame), samples))
+            content += '}},\n';
+         else:
+            for c in range (file.channels):
+               content += '         {{';
+               content += ', '.join (map (lambda frame: float.hex(frame [c]), samples))
+               content += '}},\n';
+         content += '      }}\n';
+         content += '   };\n'
 
       return content

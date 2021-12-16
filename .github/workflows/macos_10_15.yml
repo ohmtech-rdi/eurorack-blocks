@@ -51,12 +51,14 @@ jobs:
       - run: brew install dfu-util  # using USB
       - run: brew install openocd   # using JTAG
 
-      - run: python3 -m pip install cairosvg cairocffi ezdxf
+      - run: python3 -m pip install cairosvg cairocffi ezdxf soundfile numpy
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
       - run: python3 blocks/test/configure.py
       - run: python3 blocks/test/build.py
+      - run: python3 test/data/configure.py
+      - run: python3 test/data/build.py
       - run: python3 test/field/configure.py
       - run: python3 test/field/build.py
       - run: python3 test/micropatch/configure.py
@@ -86,7 +88,7 @@ jobs:
           submodules: recursive
       - run: brew install cairo libffi
       - run: brew install --cask kicad
-      - run: python3 -m pip install cairosvg cairocffi ezdxf coverage
+      - run: python3 -m pip install cairosvg cairocffi ezdxf coverage soundfile numpy
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts

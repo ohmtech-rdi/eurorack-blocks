@@ -262,6 +262,10 @@ A `type` is an element of a `data` resource that represents the type of the data
 > _type-declaration_ → **`type`** type-name \
 > _type-name_ → [identifier](./lexical.md#identifiers)
 
+### Supported Types
+
+- **`AudioSample`**: Creates a `erb::AudioSample` value from an audio sample file.
+
 
 ## `alias`
 
