@@ -8,10 +8,6 @@
 
 
 {
-   'variables': {
-      'erbb_flash_lds': '../../../../../submodules/libDaisy/core/STM32H750IB_flash.lds',
-   },
-
    'includes': [
       '../../eurorack-blocks.gypi',
    ],
