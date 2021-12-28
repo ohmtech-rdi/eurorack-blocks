@@ -212,7 +212,7 @@
                      '<!(echo artifacts/plugin_vcvrack.cpp)',
                      '<!(echo artifacts/plugin.json)',
                   ],
-                  'action': [ 'python3', 'artifacts/generate_vcvrack.py', '<(RULE_INPUT_PATH)' ],
+                  'action': [ '<!(which python3)', 'artifacts/generate_vcvrack.py', '<(RULE_INPUT_PATH)' ],
                },
             ],
 
@@ -247,7 +247,7 @@
                {
                   'postbuild_name': 'Copy to VCV Rack plug-ins folder',
                   'action': [
-                     'python3', 'artifacts/deploy_vcvrack.py'
+                     '<!(which python3)', 'artifacts/deploy_vcvrack.py'
                   ],
                },
             ],
