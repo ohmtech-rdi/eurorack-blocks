@@ -64,10 +64,28 @@ def configure_native (name, path):
          if 'BuildIndependentTargetsInParallel' in line:
             print ('\t\t\t\tLastUpgradeCheck = 1000;')
 
-   shutil.copyfile (
-      os.path.join (PATH_THIS, 'generate_vcvrack.py'),
-      os.path.join (path_artifacts, 'generate_vcvrack.py')
-   )
+   configure_native_vcvrack (path)
+
+
+
+"""
+==============================================================================
+Name: configure_native_vcvrack
+==============================================================================
+"""
+
+def configure_native_vcvrack (path):
+   path_artifacts = os.path.join (path, 'artifacts')
+   path_py = os.path.join (path_artifacts, 'generate_vcvrack.py')
+   path_template = os.path.join (PATH_THIS, 'generate_vcvrack_template.py')
+
+   with open (path_template, 'r') as file:
+      template = file.read ()
+
+   template = template.replace ('%PATH_ROOT%', PATH_ROOT)
+
+   with open (path_py, 'w') as file:
+      file.write (template)
 
 
 

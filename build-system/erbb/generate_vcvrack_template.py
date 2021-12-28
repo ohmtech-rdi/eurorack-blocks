@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#     configure.py
+#     generate_vcvrack.py
 #     Copyright (c) 2020 Raphael Dinge
 #
 #Tab=3########################################################################
@@ -13,8 +13,7 @@ import os
 import subprocess
 import sys
 
-PATH_THIS = os.path.abspath (os.path.dirname (__file__))
-PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
+PATH_ROOT = '%PATH_ROOT%'
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbui
