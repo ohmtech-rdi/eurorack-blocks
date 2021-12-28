@@ -39,6 +39,7 @@
             'erbui/generators/daisy/code.py',
 
             # generators/data
+            'erbui/generators/data/code_template.cpp',
             'erbui/generators/data/code_template.h',
             'erbui/generators/data/code.py',
 
