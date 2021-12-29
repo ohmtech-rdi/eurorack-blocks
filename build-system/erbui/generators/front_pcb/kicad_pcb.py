@@ -186,6 +186,9 @@ class KicadPcb:
       elif control.style.is_ck_d6r:
          component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.kicad_pcb'))
 
+      elif control.style.is_tl1105:
+         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.kicad_pcb'))
+
       elif control.style.is_dailywell_2ms:
          rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
          if rotation == 0:
