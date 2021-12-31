@@ -221,16 +221,14 @@ class Code:
          samples = file.read ()
          content = 'const erb::AudioSample <float, %d, %d> %sData::%s = {\n' % (file.frames, file.channels, module.name, data.name);
          content += '   .sample_rate = %f,\n' % file.samplerate;
-         content += '   .channels = {{\n';
+         content += '   .frames = {{\n';
+         content += '      ';
          if file.channels == 1:
-            content += '      {{';
-            content += ', '.join (map (lambda frame: float.hex(frame), samples))
-            content += '}},\n';
+            to_channels = lambda frame: '{' + float.hex (frame) + '}'
          else:
-            for c in range (file.channels):
-               content += '      {{';
-               content += ', '.join (map (lambda frame: float.hex(frame [c]), samples))
-               content += '}},\n';
+            to_channels = lambda frame: '{'+ ', '.join (map (lambda channel: float.hex (channel), frame)) + '}'
+         content += ', '.join (map (lambda frame: to_channels (frame), samples))
+         content += '\n';
          content += '   }}\n';
          content += '};\n'
 
