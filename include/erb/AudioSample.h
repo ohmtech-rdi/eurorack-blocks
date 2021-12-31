@@ -28,12 +28,12 @@ struct AudioSample
 {
    struct Channel
    {
-      std::array <float, Length> samples;
+      std::array <float, NbrChannels> channels;
    };
 
    float          sample_rate;
-   std::array <Channel, NbrChannels>
-                  channels;
+   std::array <Channel, Length>
+                  frames;
 };
 
 
