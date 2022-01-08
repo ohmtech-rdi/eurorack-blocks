@@ -26,7 +26,11 @@
 #include "erb/Pot.h"
 #include "erb/Switch.h"
 
+#include "erb/def.h"
+
+erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
+erb_RESTORE_WARNINGS
 
 
 

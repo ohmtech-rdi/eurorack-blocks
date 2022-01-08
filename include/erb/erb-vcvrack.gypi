@@ -41,29 +41,6 @@
 
    'xcode_settings':
    {
-      'WARNING_CFLAGS': [
-         '-Wno-shadow-field-in-constructor',
-         '-Wno-float-conversion',
-         '-Wno-documentation-unknown-command',
-         '-Wno-documentation',
-         '-Wno-old-style-cast',
-         '-Wno-zero-as-null-pointer-constant',
-         '-Wno-reserved-id-macro',
-         '-Wno-gnu-anonymous-struct',
-         '-Wno-nested-anon-types',
-         '-Wno-double-promotion',
-         '-Wno-shadow',
-         '-Wno-conversion',
-         '-Wno-unused-parameter',
-         '-Wno-inconsistent-missing-destructor-override',
-         '-Wno-global-constructors',
-         '-Wno-cast-align',
-         '-Wno-cast-qual',
-         '-Wno-vla',
-         '-Wno-vla-extension',
-         '-Wno-header-hygiene',
-      ],
-
       'OTHER_LDFLAGS': [
          '-undefined dynamic_lookup',
       ],
