@@ -24,6 +24,7 @@
             'erbb/ast.py',
             'erbb/generate_vcvrack_template.py',
             'erbb/grammar.py',
+            'erbb/parser.py',
             'erbb/visitor.py',
             'erbb/vscode/launch.json',
             'erbb/vscode/tasks.json',
