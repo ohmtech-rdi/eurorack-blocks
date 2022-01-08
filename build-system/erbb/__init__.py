@@ -62,7 +62,7 @@ def configure_native (name, path):
          print (line, end = '')
 
          if 'BuildIndependentTargetsInParallel' in line:
-            print ('\t\t\t\tLastUpgradeCheck = 1000;')
+            print ('\t\t\t\tLastUpgradeCheck = 2000;')
 
    configure_native_vcvrack (path)
 
