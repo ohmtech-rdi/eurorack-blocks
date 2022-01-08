@@ -21,6 +21,52 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp', 'pylib'))
 import gyp
 
+from .parser import Parser
+from .generators.vcvrack.project import Project as vcvrackProject
+
+
+
+"""
+==============================================================================
+Name: parse
+==============================================================================
+"""
+
+def parse (filepath):
+   with open (filepath, "r") as data:
+      input_text = data.read ()
+
+   parser = Parser ()
+   return parser.parse (input_text, filepath)
+
+
+
+"""
+==============================================================================
+Name: generate_gyp
+==============================================================================
+"""
+
+def generate_gyp (path, ast):
+   generate_gyp_vcvrack (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_gyp_vcvrack
+==============================================================================
+"""
+
+def generate_gyp_vcvrack (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
+   generator = vcvrackProject ()
+   generator.generate (path, ast)
+
 
 
 """

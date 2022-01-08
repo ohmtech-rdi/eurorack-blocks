@@ -35,6 +35,10 @@
             'erbb/tests/mock.py',
             'erbb/tests/test_parser.py',
 
+            # generators/vcvrack
+            'erbb/generators/vcvrack/project_template.gyp',
+            'erbb/generators/vcvrack/project.py',
+
             # erbui
             'erbui/__init__.py',
             'erbui/adapter.py',
