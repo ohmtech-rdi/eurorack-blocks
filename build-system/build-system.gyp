@@ -21,6 +21,7 @@
             # erbb
             'erbb/__init__.py',
             'erbb/adapter.py',
+            'erbb/analyser.py',
             'erbb/ast.py',
             'erbb/error.py',
             'erbb/generate_vcvrack_template.py',
