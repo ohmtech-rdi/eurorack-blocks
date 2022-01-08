@@ -31,6 +31,10 @@
             'erbb/vscode/launch.json',
             'erbb/vscode/tasks.json',
 
+            # tests
+            'erbb/tests/mock.py',
+            'erbb/tests/test_parser.py',
+
             # erbui
             'erbui/__init__.py',
             'erbui/adapter.py',
