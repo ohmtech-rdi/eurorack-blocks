@@ -21,6 +21,7 @@
             # erbb
             'erbb/__init__.py',
             'erbb/generate_vcvrack_template.py',
+            'erbb/grammar.py',
             'erbb/vscode/launch.json',
             'erbb/vscode/tasks.json',
 
