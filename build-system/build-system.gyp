@@ -43,6 +43,12 @@
             'erbb/generators/daisy/project_template.gyp',
             'erbb/generators/daisy/project.py',
 
+            # generators/vscode
+            'erbb/generators/vscode/launch_template.json',
+            'erbb/generators/vscode/launch.py',
+            'erbb/generators/vscode/tasks_template.json',
+            'erbb/generators/vscode/tasks.py',
+
             # erbui
             'erbui/__init__.py',
             'erbui/adapter.py',
