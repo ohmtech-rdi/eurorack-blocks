@@ -24,6 +24,8 @@ import gyp
 from .parser import Parser
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.daisy.project import Project as daisyProject
+from .generators.vscode.launch import Launch as vscodeLaunch
+from .generators.vscode.tasks import Tasks as vscodeTasks
 
 
 
@@ -94,10 +96,10 @@ Name: configure
 ==============================================================================
 """
 
-def configure (name, path):
+def configure (path, ast):
    configure_vcvrack (path)
    configure_daisy (path)
-   configure_vscode (name, path)
+   configure_vscode (path, ast)
 
 
 
@@ -197,13 +199,14 @@ Name: configure_vscode
 ==============================================================================
 """
 
-def configure_vscode (name, path):
+def configure_vscode (path, ast):
    path_vscode = os.path.join (path, '.vscode')
+
    if not os.path.exists (path_vscode):
       os.makedirs (path_vscode)
 
-   configure_vscode_launch (name, path)
-   configure_vscode_tasks (name, path)
+   configure_vscode_launch (path, ast)
+   configure_vscode_tasks (path, ast)
 
 
 
@@ -213,22 +216,9 @@ Name: configure_vscode_launch
 ==============================================================================
 """
 
-def configure_vscode_launch (name, path):
-   path_template = os.path.join (PATH_THIS, 'vscode', 'launch.json')
-
-   path_artifacts = os.path.join (path, 'artifacts')
-   file_elf = os.path.abspath (os.path.join (path_artifacts, 'out', 'Debug', '%s' % name))
-   file_svd = os.path.abspath (os.path.join (os.path.dirname (PATH_THIS), 'svd', 'STM32H750x.svd'))
-   path_launch = os.path.join (path, '.vscode', 'launch.json')
-
-   with open (path_template, 'r') as file:
-      template = file.read ()
-
-   template = template.replace ('%executable%', file_elf)
-   template = template.replace ('%svd_file%', file_svd)
-
-   with open (path_launch, 'w') as file:
-      file.write (template)
+def configure_vscode_launch (path, ast):
+   generator = vscodeLaunch ()
+   generator.generate (path, ast)
 
 
 
@@ -238,15 +228,9 @@ Name: configure_vscode_tasks
 ==============================================================================
 """
 
-def configure_vscode_tasks (name, path):
-   path_template = os.path.join (PATH_THIS, 'vscode', 'tasks.json')
-   path_launch = os.path.join (path, '.vscode', 'tasks.json')
-
-   with open (path_template, 'r') as file:
-      template = file.read ()
-
-   with open (path_launch, 'w') as file:
-      file.write (template)
+def configure_vscode_tasks (path, ast):
+   generator = vscodeTasks ()
+   generator.generate (path, ast)
 
 
 
