@@ -1,0 +1,20 @@
+/*****************************************************************************
+
+      Drop.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Drop {
+   import "../dsp/dsp.erbb"
+
+   sources {
+      file "Drop.cpp"
+      file "Drop.h"
+      file "DropDsp.cpp"
+      file "DropDsp.h"
+      file "Drop.erbui"
+   }
+}

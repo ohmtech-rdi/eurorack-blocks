@@ -1,0 +1,21 @@
+/*****************************************************************************
+
+      Drop.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+base ".."
+
+sources {
+   file "Filter2Poles.cpp"
+   file "Filter2Poles.h"
+   file "Filter2Poles.hpp"
+   file "GainRamp.cpp"
+   file "GainRamp.h"
+   file "GainRamp.hpp"
+   file "ReverbSc.cpp"
+   file "ReverbSc.h"
+}
