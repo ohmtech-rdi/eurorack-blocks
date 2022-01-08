@@ -150,7 +150,7 @@ def configure_vscode_launch (name, path):
    path_template = os.path.join (PATH_THIS, 'vscode', 'launch.json')
 
    path_artifacts = os.path.join (path, 'artifacts')
-   file_elf = os.path.abspath (os.path.join (path_artifacts, 'out', 'Debug', '%s-daisy' % name))
+   file_elf = os.path.abspath (os.path.join (path_artifacts, 'out', 'Debug', '%s' % name))
    file_svd = os.path.abspath (os.path.join (os.path.dirname (PATH_THIS), 'svd', 'STM32H750x.svd'))
    path_launch = os.path.join (path, '.vscode', 'launch.json')
 

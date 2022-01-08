@@ -26,11 +26,6 @@
       ],
    },
 
-   'includes': [
-      './include/erb/erb.gypi',
-      './submodules/libdaisy.gypi',
-   ],
-
    'conditions': [
       ['OS=="mac"', {
          'includes': [
@@ -41,6 +36,7 @@
       ['OS=="daisy"', {
          'includes': [
             './include/erb/daisy.gypi',
+            './submodules/libdaisy.gypi',
          ],
       }],
    ],
