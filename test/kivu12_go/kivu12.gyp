@@ -12,36 +12,29 @@
       '../../eurorack-blocks.gypi',
    ],
 
-   'targets' : [
-      {
-         'target_name': 'kivu12',
-         'type': 'none',
+   'conditions': [
+      ['OS=="daisy"', {
+         'targets' : [
+            {
+               'target_name': 'kivu12',
 
-         'direct_dependent_settings': {
-            'sources': [
-               'Kivu12.cpp',
-               'Kivu12.h',
-               'Kivu12.erbui',
-            ],
+               'includes': [
+                  'kivu12-src.gypi',
+                  '../../include/erb/erb-daisy.gypi',
+               ],
+            },
+         ],
+      },{
+         'targets' : [
+            {
+               'target_name': 'kivu12',
 
-            'include_dirs': [
-               '..',
-            ],
-         },
-      },
-
-      {
-         'target_name': 'kivu12-daisy',
-         'type': 'executable',
-
-         'dependencies': [ 'kivu12', 'erb-daisy' ],
-      },
-
-      {
-         'target_name': 'kivu12-vcvrack',
-         'type': 'shared_library',
-
-         'dependencies': [ 'kivu12', 'erb-vcvrack' ],
-      },
+               'includes': [
+                  'kivu12-src.gypi',
+                  '../../include/erb/erb-vcvrack.gypi',
+               ],
+            },
+         ],
+      }],
    ],
 }

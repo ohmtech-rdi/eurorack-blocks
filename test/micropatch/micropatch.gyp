@@ -12,34 +12,29 @@
       '../../eurorack-blocks.gypi',
    ],
 
-   'targets' : [
-      {
-         'target_name': 'micropatch',
-         'type': 'none',
+   'conditions': [
+      ['OS=="daisy"', {
+         'targets' : [
+            {
+               'target_name': 'micropatch',
 
-         'direct_dependent_settings': {
-            'sources': [
-               'Micropatch.cpp',
-               'Micropatch.h',
-               'Micropatch.erbui',
-            ],
+               'includes': [
+                  'micropatch-src.gypi',
+                  '../../include/erb/erb-daisy.gypi',
+               ],
+            },
+         ],
+      },{
+         'targets' : [
+            {
+               'target_name': 'micropatch',
 
-            'include_dirs': [
-               '..',
-            ],
-         },
-      },
-
-      {
-         'target_name': 'micropatch-daisy',
-
-         'dependencies': [ 'micropatch', 'erb-daisy' ],
-      },
-
-      {
-         'target_name': 'micropatch-vcvrack',
-
-         'dependencies': [ 'micropatch', 'erb-vcvrack' ],
-      },
+               'includes': [
+                  'micropatch-src.gypi',
+                  '../../include/erb/erb-vcvrack.gypi',
+               ],
+            },
+         ],
+      }],
    ],
 }
