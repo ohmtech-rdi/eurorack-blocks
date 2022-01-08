@@ -21,6 +21,7 @@
             # erbb
             'erbb/__init__.py',
             'erbb/adapter.py',
+            'erbb/ast.py',
             'erbb/generate_vcvrack_template.py',
             'erbb/grammar.py',
             'erbb/visitor.py',
