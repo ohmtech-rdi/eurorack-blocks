@@ -73,13 +73,13 @@ if __name__ == '__main__':
          erbui.generate_front_panel (PATH_ARTIFACTS, ast)
 
          erbb.build_target (
-            PROJECT, '%s-daisy' % PROJECT, PATH_THIS, args.configuration
+            PROJECT, '%s' % PROJECT, PATH_THIS, args.configuration
          )
-         erbb.objcopy ('%s-daisy' % PROJECT, PATH_THIS, args.configuration)
+         erbb.objcopy ('%s' % PROJECT, PATH_THIS, args.configuration)
 
       elif args.erb_target == 'vcvrack':
          erbb.build_native_target (
-            PROJECT, '%s-vcvrack' % PROJECT, PATH_THIS, args.configuration
+            PROJECT, '%s' % PROJECT, PATH_THIS, args.configuration
          )
 
    except subprocess.CalledProcessError as error:

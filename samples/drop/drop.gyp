@@ -12,43 +12,29 @@
       '../../eurorack-blocks.gypi',
    ],
 
-   'targets' : [
-      {
-         'target_name': 'drop',
-         'type': 'none',
+   'conditions': [
+      ['OS=="daisy"', {
+         'targets' : [
+            {
+               'target_name': 'drop',
 
-         'direct_dependent_settings': {
-            'sources': [
-               'Drop.cpp',
-               'Drop.h',
-               'DropDsp.cpp',
-               'DropDsp.h',
-               'Drop.erbui',
+               'includes': [
+                  'drop-src.gypi',
+                  '../../include/erb/erb-daisy.gypi',
+               ],
+            },
+         ],
+      },{
+         'targets' : [
+            {
+               'target_name': 'drop',
 
-               '../dsp/Filter2Poles.cpp',
-               '../dsp/Filter2Poles.h',
-               '../dsp/Filter2Poles.hpp',
-               '../dsp/GainRamp.cpp',
-               '../dsp/GainRamp.h',
-               '../dsp/GainRamp.hpp',
-            ],
-
-            'include_dirs': [
-               '..',
-            ],
-         },
-      },
-
-      {
-         'target_name': 'drop-daisy',
-
-         'dependencies': [ 'drop', 'erb-daisy' ],
-      },
-
-      {
-         'target_name': 'drop-vcvrack',
-
-         'dependencies': [ 'drop', 'erb-vcvrack' ],
-      },
+               'includes': [
+                  'drop-src.gypi',
+                  '../../include/erb/erb-vcvrack.gypi',
+               ],
+            },
+         ],
+      }],
    ],
 }
