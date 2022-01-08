@@ -28,8 +28,6 @@
             'erbb/grammar.py',
             'erbb/parser.py',
             'erbb/visitor.py',
-            'erbb/vscode/launch.json',
-            'erbb/vscode/tasks.json',
 
             # tests
             'erbb/tests/mock.py',
