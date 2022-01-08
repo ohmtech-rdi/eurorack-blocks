@@ -315,7 +315,7 @@ void  Animation <T, NbrKeyframes>::process_blocks (uint64_t position)
          float t = float (position) / float (block.duration);
          t = block.function (t);
 
-         _value = interpolate (block.start, block.target, t);
+         _value = static_cast <T> (interpolate (block.start, block.target, t));
 
          break;
       }

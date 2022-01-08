@@ -60,7 +60,7 @@ Name : operator =
 template <PinType Pin>
 Led <Pin> & Led <Pin>::operator = (float brightness)
 {
-   _animation.set (brightness);
+   _animation.set (static_cast <KeyframeTargetType> (brightness));
 
    return *this;
 }
@@ -76,7 +76,7 @@ Name : on
 template <PinType Pin>
 void  Led <Pin>::on (float brightness)
 {
-   _animation.set (brightness);
+   _animation.set (static_cast <KeyframeTargetType> (brightness));
 }
 
 
@@ -90,7 +90,7 @@ Name : off
 template <PinType Pin>
 void  Led <Pin>::off ()
 {
-   _animation.set (0.f);
+   _animation.set (0);
 }
 
 
@@ -106,7 +106,7 @@ void  Led <Pin>::pulse (float brightness, std::chrono::milliseconds duration, Tr
 {
    _animation.pulse (
       _clock_ms, duration, transition_function,
-      brightness, 0.f
+      static_cast <KeyframeTargetType> (brightness), 0.f
    );
 }
 
@@ -123,7 +123,7 @@ void  Led <Pin>::pulse_twice (float brightness, std::chrono::milliseconds durati
 {
    _animation.pulse_twice (
       _clock_ms, duration, transition_function,
-      brightness, 0.f
+      static_cast <KeyframeTargetType> (brightness), 0.f
    );
 }
 
@@ -140,7 +140,7 @@ void  Led <Pin>::pulse_thrice (float brightness, std::chrono::milliseconds durat
 {
    _animation.pulse_thrice (
       _clock_ms, duration, transition_function,
-      brightness, 0.f
+      static_cast <KeyframeTargetType> (brightness), 0.f
    );
 }
 
@@ -157,7 +157,7 @@ void  Led <Pin>::blink (float brightness, std::chrono::milliseconds period, Tran
 {
    _animation.blink (
       _clock_ms, period, transition_function,
-      brightness, 0.f
+      static_cast <KeyframeTargetType> (brightness), 0.f
    );
 }
 
@@ -188,7 +188,7 @@ Name : impl_postprocess
 template <PinType Pin>
 void  Led <Pin>::impl_postprocess ()
 {
-   impl_data = _animation.get (_clock_ms) * _brightness;
+   impl_data = static_cast <KeyframeTargetType> (_animation.get (_clock_ms) * _brightness);
 }
 
 

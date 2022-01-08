@@ -219,7 +219,7 @@ struct Dailywell2Ms : rack::app::Switch
       if (!frames.empty() && paramQuantity) {
          int index = int (std::round (paramQuantity->getValue () - paramQuantity->getMinValue ()));
          index = rack::math::clamp (index, 0, int (frames.size ()) - 1);
-         sw->setSvg(frames [index]);
+         sw->setSvg(frames [size_t (index)]);
          fb->dirty = true;
       }
       ParamWidget::onChange(e);
