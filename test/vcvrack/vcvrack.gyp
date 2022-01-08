@@ -16,12 +16,14 @@
       {
          'target_name': 'vcvrack',
 
-         'dependencies': [ 'erb-vcvrack' ],
-
          'sources': [
             'VcvRack.cpp',
             'VcvRack.h',
             'VcvRack.erbui',
+         ],
+
+         'includes': [
+            '../../include/erb/erb-vcvrack.gypi',
          ],
       },
    ],

@@ -12,30 +12,29 @@
       '../../eurorack-blocks.gypi',
    ],
 
-   'targets' : [
-      {
-         'target_name': 'bypass',
-         'type': 'none',
+   'conditions': [
+      ['OS=="daisy"', {
+         'targets' : [
+            {
+               'target_name': 'bypass',
 
-         'direct_dependent_settings': {
-            'sources': [
-               'Bypass.cpp',
-               'Bypass.h',
-               'Bypass.erbui',
-            ],
-         },
-      },
+               'includes': [
+                  'bypass-src.gypi',
+                  '../../include/erb/erb-daisy.gypi',
+               ],
+            },
+         ],
+      },{
+         'targets' : [
+            {
+               'target_name': 'bypass',
 
-      {
-         'target_name': 'bypass-daisy',
-
-         'dependencies': [ 'bypass', 'erb-daisy' ],
-      },
-
-      {
-         'target_name': 'bypass-vcvrack',
-
-         'dependencies': [ 'bypass', 'erb-vcvrack' ],
-      },
+               'includes': [
+                  'bypass-src.gypi',
+                  '../../include/erb/erb-vcvrack.gypi',
+               ],
+            },
+         ],
+      }],
    ],
 }

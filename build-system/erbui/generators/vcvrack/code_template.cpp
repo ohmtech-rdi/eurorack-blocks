@@ -18,7 +18,11 @@
 #include "erb/module_init.h"
 #include "erb/vcvrack/VcvWidgets.h"
 
+#include "erb/def.h"
+
+erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
+erb_RESTORE_WARNINGS
 
 #include <type_traits>
 
@@ -53,7 +57,10 @@ extern rack::Plugin * plugin_instance;
 extern rack::Model * model;
 
 rack::Plugin * plugin_instance = nullptr;
+
+erb_DISABLE_WARNINGS_GLOBAL_CTOR
 rack::Model * model = rack::createModel <ErbModule, ErbWidget> ("%module.name%");
+erb_RESTORE_WARNINGS
 
 
 

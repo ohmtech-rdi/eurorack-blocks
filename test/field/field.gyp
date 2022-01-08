@@ -12,34 +12,29 @@
       '../../eurorack-blocks.gypi',
    ],
 
-   'targets' : [
-      {
-         'target_name': 'field',
-         'type': 'none',
+   'conditions': [
+      ['OS=="daisy"', {
+         'targets' : [
+            {
+               'target_name': 'field',
 
-         'direct_dependent_settings': {
-            'sources': [
-               'Field.cpp',
-               'Field.h',
-               'Field.erbui',
-            ],
+               'includes': [
+                  'field-src.gypi',
+                  '../../include/erb/erb-daisy.gypi',
+               ],
+            },
+         ],
+      },{
+         'targets' : [
+            {
+               'target_name': 'field',
 
-            'include_dirs': [
-               '..',
-            ],
-         },
-      },
-
-      {
-         'target_name': 'field-daisy',
-
-         'dependencies': [ 'field', 'erb-daisy' ],
-      },
-
-      {
-         'target_name': 'field-vcvrack',
-
-         'dependencies': [ 'field', 'erb-vcvrack' ],
-      },
+               'includes': [
+                  'field-src.gypi',
+                  '../../include/erb/erb-vcvrack.gypi',
+               ],
+            },
+         ],
+      }],
    ],
 }

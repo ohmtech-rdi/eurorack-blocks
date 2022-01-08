@@ -181,7 +181,7 @@ class Code:
                index = nbr_lights
                nbr_lights += 1
 
-            lines += '   add%s (create%sCentered <%s> (mm2px (Vec (%f, %f)), module_, %d));\n' % (
+            lines += '   add%s (create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d));\n' % (
                func_category, category, widget, control.position.x.mm, control.position.y.mm, index
             )
             lines += '\n'

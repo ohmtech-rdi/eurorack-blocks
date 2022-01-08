@@ -159,28 +159,28 @@ void  Filter2Poles::update ()
       s_eq_b [2] = 0;
       s_eq_b [1] = 0;
       s_eq_b [0] = 1;
-      s_eq_a [1] = 1 / _reso;
+      s_eq_a [1] = 1.0 / double (_reso);
       break;
 
    case Type::HighPass:
       s_eq_b [2] = 1;
       s_eq_b [1] = 0;
       s_eq_b [0] = 0;
-      s_eq_a [1] = 1 / _reso;
+      s_eq_a [1] = 1.0 / double (_reso);
       break;
 
    case Type::BandPass:
       s_eq_b [2] = 0;
-      s_eq_b [1] = _reso / _q;
+      s_eq_b [1] = double (_reso) / double (_q);
       s_eq_b [0] = 0;
-      s_eq_a [1] = 1 / _q;
+      s_eq_a [1] = 1.0 / double (_q);
       break;
 
    case Type::Resonator:
       s_eq_b [2] = 1;
-      s_eq_b [1] = _reso / _q;
+      s_eq_b [1] = double (_reso) / double (_q);
       s_eq_b [0] = 1;
-      s_eq_a [1] = 1 / _q;
+      s_eq_a [1] = 1.0 / double (_q);
       break;
    }
 

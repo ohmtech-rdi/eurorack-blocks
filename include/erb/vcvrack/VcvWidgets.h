@@ -13,7 +13,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/def.h"
+
+erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
+erb_RESTORE_WARNINGS
 
 
 
@@ -89,8 +93,8 @@ struct Rogan1Ps : rack::Rogan
 struct SongHuei9 : rack::app::SvgKnob
 {
    SongHuei9 () {
-      minAngle = -0.78 * M_PI;
-      maxAngle = 0.78 * M_PI;
+      minAngle = float (-0.78 * M_PI);
+      maxAngle = float (0.78 * M_PI);
       shadow->blurRadius = 5;
       setSvg (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, "res/songhuei.9mm.svg")
@@ -125,7 +129,7 @@ struct ThonkPj398Sm : rack::app::PortWidget
       box.size = sw->box.size;
 
       float angle = static_cast <float> (rand ()) / static_cast <float> (RAND_MAX) * 100.f;
-      angle = std::fmod (angle, 2 * M_PI);
+      angle = float (std::fmod (angle, 2 * M_PI));
 
       tw->identity ();
       // Rotate SVG
@@ -194,9 +198,9 @@ struct Dailywell2Ms : rack::app::Switch
          {
          default:
          case 0: angle = 0.f; break;
-         case 90: angle = M_PI * 0.5; break;
-         case 180: angle = M_PI; break;
-         case 270: angle = M_PI * 1.5; break;
+         case 90: angle = float (M_PI * 0.5); break;
+         case 180: angle = float (M_PI); break;
+         case 270: angle = float (M_PI * 1.5); break;
          }
 
          tw->identity ();
@@ -213,9 +217,9 @@ struct Dailywell2Ms : rack::app::Switch
 
    void onChange (const rack::event::Change & e) {
       if (!frames.empty() && paramQuantity) {
-         int index = (int) std::round (paramQuantity->getValue () - paramQuantity->getMinValue ());
-         index = rack::math::clamp (index, 0, (int) frames.size () - 1);
-         sw->setSvg(frames [index]);
+         int index = int (std::round (paramQuantity->getValue () - paramQuantity->getMinValue ()));
+         index = rack::math::clamp (index, 0, int (frames.size ()) - 1);
+         sw->setSvg(frames [size_t (index)]);
          fb->dirty = true;
       }
       ParamWidget::onChange(e);
