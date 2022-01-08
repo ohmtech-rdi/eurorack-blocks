@@ -23,6 +23,7 @@ import gyp
 
 from .parser import Parser
 from .generators.vcvrack.project import Project as vcvrackProject
+from .generators.daisy.project import Project as daisyProject
 
 
 
@@ -49,6 +50,7 @@ Name: generate_gyp
 
 def generate_gyp (path, ast):
    generate_gyp_vcvrack (path, ast)
+   generate_gyp_daisy (path, ast)
 
 
 
@@ -71,13 +73,30 @@ def generate_gyp_vcvrack (path, ast):
 
 """
 ==============================================================================
+Name: generate_gyp_daisy
+==============================================================================
+"""
+
+def generate_gyp_daisy (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
+   generator = daisyProject ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
 Name: configure
 ==============================================================================
 """
 
 def configure (name, path):
    configure_vcvrack (path)
-   configure_daisy (name, path)
+   configure_daisy (path)
    configure_vscode (name, path)
 
 
@@ -143,7 +162,7 @@ Name: configure_daisy
 ==============================================================================
 """
 
-def configure_daisy (name, path):
+def configure_daisy (path):
    path_artifacts = os.path.join (path, 'artifacts')
 
    libdaisy_flash_lds_path = os.path.join (
@@ -167,7 +186,7 @@ def configure_daisy (name, path):
 
    cwd = os.getcwd ()
    os.chdir (path)
-   gyp.main (gyp_args + ['%s.gyp' % name])
+   gyp.main (gyp_args + ['project_daisy.gyp'])
    os.chdir (cwd)
 
 
@@ -240,6 +259,7 @@ Name: cleanup
 def cleanup (path):
    if platform.system () == 'Darwin':
       os.remove (os.path.join (path, 'project_vcvrack.gyp'))
+      os.remove (os.path.join (path, 'project_daisy.gyp'))
 
 
 
@@ -263,11 +283,11 @@ def build (name, path, configuration):
 
 """
 ==============================================================================
-Name : build_target
+Name : build_daisy_target
 ==============================================================================
 """
 
-def build_target (name, target, path, configuration):
+def build_target (target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
    cmd = [
