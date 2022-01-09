@@ -28,8 +28,6 @@
             'erbb/grammar.py',
             'erbb/parser.py',
             'erbb/visitor.py',
-            'erbb/vscode/launch.json',
-            'erbb/vscode/tasks.json',
 
             # tests
             'erbb/tests/mock.py',
@@ -42,6 +40,12 @@
             # generators/daisy
             'erbb/generators/daisy/project_template.gyp',
             'erbb/generators/daisy/project.py',
+
+            # generators/vscode
+            'erbb/generators/vscode/launch_template.json',
+            'erbb/generators/vscode/launch.py',
+            'erbb/generators/vscode/tasks_template.json',
+            'erbb/generators/vscode/tasks.py',
 
             # erbui
             'erbui/__init__.py',

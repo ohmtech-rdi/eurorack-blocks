@@ -37,7 +37,7 @@ if __name__ == '__main__':
    try:
       ast_erbb = erbb.parse (os.path.join (PATH_THIS, 'Bypass.erbb'))
       erbb.generate_gyp (PATH_THIS, ast_erbb)
-      erbb.configure ('bypass', PATH_THIS)
+      erbb.configure (PATH_THIS, ast_erbb)
       erbb.cleanup (PATH_THIS)
 
       ast_erbui = erbui.parse (os.path.join (PATH_THIS, 'Bypass.erbui'))
