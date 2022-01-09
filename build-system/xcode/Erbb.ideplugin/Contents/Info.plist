@@ -5,9 +5,9 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.ohmtech.xcode.erbui</string>
+	<string>com.ohmtech.xcode.erbb</string>
 	<key>CFBundleName</key>
-	<string>Erbui Xcode Plug-in</string>
+	<string>Erbb Xcode Plug-in</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

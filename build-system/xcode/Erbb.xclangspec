@@ -1,0 +1,70 @@
+// Erbb Model Notation language specs
+
+(
+
+/****************************************************************************/
+// MARK: Keywords
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbb.keyword";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Words = (
+                "module", "import", "define", "sources", "file",
+            );
+            Type = "xcode.syntax.keyword";
+        };
+    },
+
+/****************************************************************************/
+// MARK: User module
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbb.module";
+        Syntax = {
+            StartChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Type = "xcode.syntax.identifier.type";
+        };
+    },
+
+/****************************************************************************/
+// MARK: User controls
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbb.control";
+        Syntax = {
+            StartChars = "abcdefghijklmnopqrstuvwxyz";
+            Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
+            Type = "xcode.syntax.identifier.variable";
+        };
+    },
+
+/****************************************************************************/
+// MARK: Simple Syntax Coloring
+/****************************************************************************/
+
+    {
+        Identifier = "xcode.lang.erbb";
+        Description = "Erbb Model Coloring";
+        BasedOn = "xcode.lang.simpleColoring";
+        IncludeInMenu = YES;
+        Name = "Erbb";
+        Syntax = {
+            IncludeRules = (
+                "xcode.lang.comment",
+                "xcode.lang.comment.singleline",
+                "xcode.lang.string",
+                "xcode.lang.number",
+                "xcode.lang.erbb.keyword",
+                "xcode.lang.erbb.module",
+                "xcode.lang.erbb.control",
+            );
+            Type = "xcode.syntax.plain";
+        };
+    },
+)
