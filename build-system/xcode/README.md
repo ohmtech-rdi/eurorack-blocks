@@ -19,6 +19,8 @@ To install, run the `install.py` script.
 The script will copy the required files into your user Xcode folder:
 
 ```
+~/Library/Developer/Xcode/Plug-ins/Erbb.ideplugin
+~/Library/Developer/Xcode/Specifications/Erbb.xclangspec
 ~/Library/Developer/Xcode/Plug-ins/Erbui.ideplugin
 ~/Library/Developer/Xcode/Specifications/Erbui.xclangspec
 ```
@@ -36,7 +38,7 @@ Since some parts will modify your installation of Xcode, this is probably better
 - Copy `Erbb.xclangspec` and `Erbui.xclangspec` to `/Applications/Xcode.app/Contents/SharedFrameworks/SourceModel.framework/Versions/A/Resources/LanguageSpecifications`
 - Copy `Xcode.SourceCodeLanguage.Erbb.plist` and `Xcode.SourceCodeLanguage.Erbui.plist` to `/Applications/Xcode.app/Contents/SharedFrameworks/SourceModel.framework/Versions/A/Resources/LanguageMetadata`
 
-Using the command line (use `sudo` if permission are denied):
+Using the command line (use `sudo` if permissions are denied):
 
 ```
 cp -r Erbb.ideplugin ~/Library/Developer/Xcode/Plug-ins/
