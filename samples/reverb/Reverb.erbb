@@ -1,0 +1,20 @@
+/*****************************************************************************
+
+      Reverb.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Reverb {
+   import "../dsp/dsp.erbb"
+
+   sources {
+      file "Reverb.cpp"
+      file "Reverb.h"
+      file "ReverbDsp.cpp"
+      file "ReverbDsp.h"
+      file "Reverb.erbui"
+   }
+}

@@ -1,0 +1,16 @@
+/*****************************************************************************
+
+      Bypass.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Bypass {
+   sources {
+      file "Bypass.cpp"
+      file "Bypass.h"
+      file "Bypass.erbui"
+   }
+}

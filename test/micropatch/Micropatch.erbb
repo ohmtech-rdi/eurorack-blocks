@@ -1,0 +1,16 @@
+/*****************************************************************************
+
+      Micropatch.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Micropatch {
+   sources {
+      file "Micropatch.cpp"
+      file "Micropatch.h"
+      file "Micropatch.erbui"
+   }
+}

@@ -1,0 +1,16 @@
+/*****************************************************************************
+
+      VcvRack.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module VcvRack {
+   sources {
+      file "VcvRack.cpp"
+      file "VcvRack.h"
+      file "VcvRack.erbui"
+   }
+}

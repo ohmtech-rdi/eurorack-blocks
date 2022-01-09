@@ -36,6 +36,7 @@ htmlcov/
 # Build temporary files
 
 artifacts/
+project_vcvrack.gyp
 
 # VSCode
 

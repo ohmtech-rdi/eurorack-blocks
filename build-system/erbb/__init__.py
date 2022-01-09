@@ -21,6 +21,52 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp', 'pylib'))
 import gyp
 
+from .parser import Parser
+from .generators.vcvrack.project import Project as vcvrackProject
+
+
+
+"""
+==============================================================================
+Name: parse
+==============================================================================
+"""
+
+def parse (filepath):
+   with open (filepath, "r") as data:
+      input_text = data.read ()
+
+   parser = Parser ()
+   return parser.parse (input_text, filepath)
+
+
+
+"""
+==============================================================================
+Name: generate_gyp
+==============================================================================
+"""
+
+def generate_gyp (path, ast):
+   generate_gyp_vcvrack (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_gyp_vcvrack
+==============================================================================
+"""
+
+def generate_gyp_vcvrack (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
+   generator = vcvrackProject ()
+   generator.generate (path, ast)
+
 
 
 """
@@ -30,7 +76,7 @@ Name: configure
 """
 
 def configure (name, path):
-   configure_native (name, path)
+   configure_vcvrack (path)
    configure_daisy (name, path)
    configure_vscode (name, path)
 
@@ -38,11 +84,11 @@ def configure (name, path):
 
 """
 ==============================================================================
-Name: configure_native
+Name: configure_vcvrack
 ==============================================================================
 """
 
-def configure_native (name, path):
+def configure_vcvrack (path):
    path_artifacts = os.path.join (path, 'artifacts')
 
    gyp_args = [
@@ -52,11 +98,13 @@ def configure_native (name, path):
 
    cwd = os.getcwd ()
    os.chdir (path)
-   gyp.main (gyp_args + ['%s.gyp' % name])
+   gyp.main (gyp_args + ['project_vcvrack.gyp'])
    os.chdir (cwd)
 
    if platform.system () == 'Darwin':
-      file = os.path.join (path_artifacts, '%s.xcodeproj' % name, 'project.pbxproj')
+      project_path = os.path.join (path_artifacts, 'project_vcvrack.xcodeproj')
+
+      file = os.path.join (project_path, 'project.pbxproj')
 
       for line in fileinput.input (file, inplace = 1):
          print (line, end = '')
@@ -185,6 +233,18 @@ def configure_vscode_tasks (name, path):
 
 """
 ==============================================================================
+Name: cleanup
+==============================================================================
+"""
+
+def cleanup (path):
+   if platform.system () == 'Darwin':
+      os.remove (os.path.join (path, 'project_vcvrack.gyp'))
+
+
+
+"""
+==============================================================================
 Name : build
 ==============================================================================
 """
@@ -226,7 +286,7 @@ Name : build_native_target
 ==============================================================================
 """
 
-def build_native_target (name, target, path, configuration):
+def build_native_target (target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
    if platform.system () == 'Darwin':
@@ -244,7 +304,7 @@ def build_native_target (name, target, path, configuration):
 
       cmd = [
          xcodebuild_path,
-         '-project', os.path.join (path_artifacts, '%s.xcodeproj' % name),
+         '-project', os.path.join (path_artifacts, 'project_vcvrack.xcodeproj'),
          '-configuration', configuration,
          '-target', target,
          '-parallelizeTargets',

@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
       elif args.erb_target == 'vcvrack':
          erbb.build_native_target (
-            PROJECT, '%s' % PROJECT, PATH_THIS, args.configuration
+            CLASS, PATH_THIS, args.configuration
          )
 
    except subprocess.CalledProcessError as error:
