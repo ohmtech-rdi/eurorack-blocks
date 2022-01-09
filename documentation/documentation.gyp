@@ -31,8 +31,11 @@
             'controls/Switch.md',
             'controls/Trim.md',
 
-            'language/lexical.md',
-            'language/grammar.md',
+            'erbb/lexical.md',
+            'erbb/grammar.md',
+
+            'erbui/lexical.md',
+            'erbui/grammar.md',
          ],
       },
    ],
