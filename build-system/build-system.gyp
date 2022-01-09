@@ -20,9 +20,20 @@
 
             # erbb
             'erbb/__init__.py',
+            'erbb/adapter.py',
+            'erbb/analyser.py',
+            'erbb/ast.py',
+            'erbb/error.py',
             'erbb/generate_vcvrack_template.py',
+            'erbb/grammar.py',
+            'erbb/parser.py',
+            'erbb/visitor.py',
             'erbb/vscode/launch.json',
             'erbb/vscode/tasks.json',
+
+            # tests
+            'erbb/tests/mock.py',
+            'erbb/tests/test_parser.py',
 
             # erbui
             'erbui/__init__.py',
