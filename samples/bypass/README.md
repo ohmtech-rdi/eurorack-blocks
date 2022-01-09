@@ -21,20 +21,38 @@ Provided that [Homebrew](https://brew.sh) is already installed and up-to-date,
 that Xcode is already installed as well,
 then all dependencies can be installed by running:
 
-    $ brew install armmbed/formulae/arm-none-eabi-gcc dfu-util ninja cairo libffi
-    $ pip3 install cairosvg cairocffi ezdxf
+```console
+$ brew install armmbed/formulae/arm-none-eabi-gcc dfu-util ninja cairo libffi
+$ pip3 install cairosvg cairocffi ezdxf soundfile numpy
+```
 
 The D-DIN Font must be installed on the system to render panel labels properly.
 This font and its permissive SIL Open Font License
 can be found [here in the repository](../../include/erb/vcvrack/design/d-din).
 
-    $ cd eurorack-blocks/include/erb/vcvrack/design/d-din
-    $ cp *.otf ~/Library/Fonts
+```console
+$ cd eurorack-blocks/include/erb/vcvrack/design/d-din
+$ cp *.otf ~/Library/Fonts
+```
+
+
+## Setting Up
+
+```console
+$ source eurorack-blocks/build-system/init.sh
+```
+
+This will add the `erbb` command line in your `PATH` for the current terminal.
+
+You may want to add this line with the correct path to your `~/.profile` or `~/.bash_profile`,
+to avoid to reload it each time.
 
 
 ## Configuring
 
-    $ python configure.py
+```console
+$ erbb configure
+```
 
 This will create an `artifacts` folder with everything needed to build for Daisy and VCV Rack.
 
@@ -44,13 +62,11 @@ This will create an `artifacts` folder with everything needed to build for Daisy
 Open the generated project file into your IDE. Building will automatically copy the files to
 the VCV Rack plug-in folder.
 
-> In Xcode, make sure to select the `Product > Scheme > bypass-vcvrack` scheme before building.
-
 
 ## Debugging on Xcode
 
 To debug on Xcode, the following configuration must be first done:
-- Select the `Product > Scheme > bypass-vcvrack` scheme,
+- Select the `Product > Scheme > bypass` scheme,
 - Go to `Product > Scheme > Edit Scheme...`,
 - Select `Run` on the left column,
 - In the `Info` tab:
@@ -69,37 +85,40 @@ started manually.
 
 ## Building for Daisy
 
-    $ python build.py
-    ninja: Entering directory `/Users/raf/dev/eurorack-blocks/samples/bypass/artifacts/out/Release'
-    [10/10] LINK bypass-daisy
-    OBJCOPY bypass-daisy
-    ...
+```console
+$ erbb build
+ninja: Entering directory `/Users/raf/dev/eurorack-blocks/samples/bypass/artifacts/out/Release'
+[10/10] LINK Bypass
+OBJCOPY Bypass
+...
+```
 
-This will create a binary file to upload to the Daisy seed. It is the `bypass-daisy.bin` file
+This will create a binary file to upload to the Daisy seed. It is the `Bypass.bin` file
 output in the `artifacts/out/Release` build directory.
 
 
 ## Deploying for Daisy
 
-    $ python deploy.py
-    Enter the system bootloader by holding the BOOT button down,
-    and then pressing, and releasing the RESET button.
-    Press Enter to continue...
-    Flashing...
-    dfu-util 0.9
-    [...]
-    Downloading to address = 0x08000000, size = 36484
-    Download   [=========================] 100%        36484 bytes
-    Download done.
-    File downloaded successfully
-    dfu-util: Error during download get_status
-    Run command exited with 74
+```console
+$ erbb install dfu
+Enter the system bootloader by holding the BOOT button down,
+and then pressing, and releasing the RESET button.
+Press Enter to continue...
+Flashing...
+dfu-util 0.9
+[...]
+Downloading to address = 0x08000000, size = 36484
+Download   [=========================] 100%        36484 bytes
+Download done.
+File downloaded successfully
+dfu-util: Error during download get_status
+Run command exited with 74
+```
 
-Follow the onscreen instructions and this will download the `bypass-daisy.bin` firmware to the
+Follow the onscreen instructions and this will download the `Bypass.bin` firmware to the
 Daisy Seed when it is connected to USB.
 
-The error 74 reported from `dfu-util` can be safely
-ignored.
+The error 74 reported from `dfu-util` can be safely ignored.
 
 Alternatively, if `dfu-util` does not work properly on your computer,
 one may use the [Daisy Web Programmer](https://electro-smith.github.io/Programmer/)

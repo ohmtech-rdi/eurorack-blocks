@@ -33,6 +33,7 @@ possible memory your application could use. Internally, your program uses just a
 > Note: The reverb delay lines consumes only 132KB of memory, so this technic is not
 > strictly needed here, but is given as a concrete example.
 
+<img align="center" src="./photo.png">
 
 ## `erb::SdramPtr`
 
@@ -77,12 +78,12 @@ When this happen, building will return an error stating the `SDRAM` section is o
 for example:
 
 ```console
-$ ./build.py
+$ erbb build
 ninja: Entering directory `/Users/raf/Desktop/dev/eurorack-blocks/samples/reverb/artifacts/out/Release'
-[4/4] LINK reverb-daisy
-FAILED: reverb-daisy
+[4/4] LINK Reverb
+FAILED: Reverb
 ...
-arm-none-eabi/bin/ld: reverb-daisy section `.sdram_bss' will not fit in region `SDRAM'
+arm-none-eabi/bin/ld: Reverb section `.sdram_bss' will not fit in region `SDRAM'
 arm-none-eabi/bin/ld: region `SDRAM' overflowed by 10000 bytes
 ...
 ```
@@ -91,13 +92,14 @@ You can then adjust the `erb_SDRAM_MEM_POOL_SIZE` value by subtracting 64MB with
 overflow value in bytes, typically:
 
 ```
-'defines': [
-   'erb_SDRAM_MEM_POOL_SIZE=67098864',  # 64 * 1024 * 1024 - 10000
-],
+module Reverb {
+   define erb_SDRAM_MEM_POOL_SIZE = 67098864 // 64 * 1024 * 1024 - 10000
+   ...
+}
 ```
 
 You typically do this for every targets (both the Daisy and Simulator), and this can be done
-using `gyp` like [this](./reverb.gyp#L20-L25).
+using `erbb` like [this](./Reverb.erbb#L15).
 
 
 ## Simulation
@@ -117,13 +119,14 @@ the half of the memory pool, then you can disable checks by adding
 `erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0` in the preprocessor flags.
 
 ```
-'defines': [
-   'erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0',
-],
+module Reverb {
+   define erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0
+   ...
+}
 ```
 
 You typically do this for every targets (both the Daisy and Simulator), and this can be done
-using `gyp` like [this](./reverb.gyp#L20-L25).
+using `erbb` like [this](./Reverb.erbb#L16).
 
 
 ## Overview
@@ -147,20 +150,38 @@ Provided that [Homebrew](https://brew.sh) is already installed and up-to-date,
 that Xcode is already installed as well,
 then all dependencies can be installed by running:
 
-    $ brew install armmbed/formulae/arm-none-eabi-gcc dfu-util ninja cairo libffi
-    $ pip3 install cairosvg cairocffi ezdxf
+```console
+$ brew install armmbed/formulae/arm-none-eabi-gcc dfu-util ninja cairo libffi
+$ pip3 install cairosvg cairocffi ezdxf soundfile numpy
+```
 
 The D-DIN Font must be installed on the system to render panel labels properly.
 This font and its permissive SIL Open Font License
 can be found [here in the repository](../../include/erb/vcvrack/design/d-din).
 
-    $ cd eurorack-blocks/include/erb/vcvrack/design/d-din
-    $ cp *.otf ~/Library/Fonts
+```console
+$ cd eurorack-blocks/include/erb/vcvrack/design/d-din
+$ cp *.otf ~/Library/Fonts
+```
+
+
+## Setting Up
+
+```console
+$ source eurorack-blocks/build-system/init.sh
+```
+
+This will add the `erbb` command line in your `PATH` for the current terminal.
+
+You may want to add this line with the correct path to your `~/.profile` or `~/.bash_profile`,
+to avoid to reload it each time.
 
 
 ## Configuring
 
-    $ python configure.py
+```console
+$ erbb configure
+```
 
 This will create an `artifacts` folder with everything needed to build for Daisy and VCV Rack.
 
@@ -170,13 +191,11 @@ This will create an `artifacts` folder with everything needed to build for Daisy
 Open the generated project file into your IDE. Building will automatically copy the files to
 the VCV Rack plug-in folder.
 
-> In Xcode, make sure to select the `Product > Scheme > reverb-vcvrack` scheme before building.
-
 
 ## Debugging on Xcode
 
 To debug on Xcode, the following configuration must be first done:
-- Select the `Product > Scheme > reverb-vcvrack` scheme,
+- Select the `Product > Scheme > Reverb` scheme,
 - Go to `Product > Scheme > Edit Scheme...`,
 - Select `Run` on the left column,
 - In the `Info` tab:
@@ -195,33 +214,37 @@ started manually.
 
 ## Building for Daisy
 
-    $ python build.py
-    ninja: Entering directory `/Users/raf/dev/eurorack-blocks/samples/reverb/artifacts/out/Release'
-    [10/10] LINK reverb-daisy
-    OBJCOPY reverb-daisy
-    ...
+```console
+$ erbb build
+ninja: Entering directory `/Users/raf/dev/eurorack-blocks/samples/reverb/artifacts/out/Release'
+[10/10] LINK Reverb
+OBJCOPY Reverb
+...
+```
 
-This will create a binary file to upload to the Daisy seed. It is the `reverb-daisy.bin` file
+This will create a binary file to upload to the Daisy seed. It is the `Reverb.bin` file
 output in the `artifacts/out/Release` build directory.
 
 
 ## Deploying for Daisy
 
-    $ python deploy.py
-    Enter the system bootloader by holding the BOOT button down,
-    and then pressing, and releasing the RESET button.
-    Press Enter to continue...
-    Flashing...
-    dfu-util 0.9
-    [...]
-    Downloading to address = 0x08000000, size = 36484
-    Download   [=========================] 100%        36484 bytes
-    Download done.
-    File downloaded successfully
-    dfu-util: Error during download get_status
-    Run command exited with 74
+```console
+$ erbb install dfu
+Enter the system bootloader by holding the BOOT button down,
+and then pressing, and releasing the RESET button.
+Press Enter to continue...
+Flashing...
+dfu-util 0.9
+[...]
+Downloading to address = 0x08000000, size = 36484
+Download   [=========================] 100%        36484 bytes
+Download done.
+File downloaded successfully
+dfu-util: Error during download get_status
+Run command exited with 74
+```
 
-Follow the onscreen instructions and this will download the `reverb-daisy.bin` firmware to the
+Follow the onscreen instructions and this will download the `Reverb.bin` firmware to the
 Daisy Seed when it is connected to USB.
 
 The error 74 reported from `dfu-util` can be safely ignored.

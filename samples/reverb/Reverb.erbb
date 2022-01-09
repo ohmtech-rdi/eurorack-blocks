@@ -10,6 +10,11 @@
 module Reverb {
    import "../dsp/dsp.erbb"
 
+   // See README.md for 'erb_SDRAM_MEM_POOL_*' options
+
+   // define erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK=0
+   // define erb_SDRAM_MEM_POOL_SIZE=67098864
+
    sources {
       file "Reverb.cpp"
       file "Reverb.h"
