@@ -17,6 +17,7 @@
             'cover.py',
             'erbuic.py',
             'test.py',
+            'scripts/erbb',
 
             # erbb
             'erbb/__init__.py',

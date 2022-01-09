@@ -8,6 +8,7 @@
 
 
 module Bypass {
+   board kivu12
    width 8hp
    material aluminum black
    header { label "BYPASS" }

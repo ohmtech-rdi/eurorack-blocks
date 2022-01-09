@@ -1,0 +1,257 @@
+#!/usr/bin/env python3
+#
+#     erbb
+#     Copyright (c) 2020 Raphael DINGE
+#
+#Tab=3---------------------------------------------------------------------
+
+
+from __future__ import print_function
+
+import os
+import sys
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+
+sys.path.insert (0, os.path.dirname (PATH_THIS))
+import erbb
+import erbui
+
+
+
+#--------------------------------------------------------------------------
+
+if sys.version_info < (3, 7):
+   print ('This script requires python 3.7 or greater.', file=sys.stderr)
+   sys.exit (1)
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+
+
+
+#-- find_erbb ----------------------------------------------------------------
+
+def find_erbb ():
+   files = os.listdir (os.getcwd ())
+   for file in files:
+      if file.endswith ('.erbb'):
+         return file
+
+   return None
+
+
+
+#-- find_erbui ---------------------------------------------------------------
+
+def find_erbui ():
+   files = os.listdir (os.getcwd ())
+   for file in files:
+      if file.endswith ('.erbui'):
+         return file
+
+   return None
+
+
+
+#-- read_erbb_ast ------------------------------------------------------------
+
+def read_erbb_ast (filepath):
+   if filepath is None:
+      print ("\033[91mfatal error:\033[0m No erbb file found")
+      sys.exit (1)
+
+   try:
+      file = open (filepath, 'r')
+   except IOError as e:
+      print ("\033[91mfatal error:\033[0m Unable to open for read '%s' file: %s" % (args.input, e.strerror))
+      sys.exit (1)
+
+   with file:
+      try:
+         ast = erbb.parse (filepath)
+      except erbb.error.Error as error:
+         error.color ()
+         print ("%s" % str (error))
+         sys.exit (1)
+
+   return ast
+
+
+
+#-- read_erbui_ast -----------------------------------------------------------
+
+def read_erbui_ast (filepath):
+   if filepath is None:
+      print ("\033[91mfatal error:\033[0m No erbui file found")
+      sys.exit (1)
+
+   try:
+      file = open (filepath, 'r')
+   except IOError as e:
+      print ("\033[91mfatal error:\033[0m Unable to open for read '%s' file: %s" % (args.input, e.strerror))
+      sys.exit (1)
+
+   with file:
+      try:
+         ast = erbui.parse (filepath)
+      except erbb.error.Error as error:
+         error.color ()
+         print ("%s" % str (error))
+         sys.exit (1)
+
+   return ast
+
+
+
+#-- usage --------------------------------------------------------------------
+
+def usage ():
+   print ('usage: erbb.py <command> [<args>]\n')
+   print ('command:')
+   print ('   configure       Create the simulator project and hardware make file')
+   print ('   build           Build the IDE project or make file')
+   print ('   install         Install the firmware on the Daisy hardware')
+   print ('')
+   print ('build [<target> [<configuration>]]')
+   print ('   target:')
+   print ('      daisy        Daisy firmware (default)')
+   print ('      simulator    Simulator plug-in module')
+   print ('   configuration:')
+   print ('      debug        Debug configuration')
+   print ('      release      Release configuration (default)')
+   print ('')
+   print ('install [<mode> [<configuration>]]')
+   print ('   mode:')
+   print ('      openocd      Install using OpenOCD if installed (default)')
+   print ('      dfu          Install using USB (fallback)')
+   print ('   configuration:')
+   print ('      debug        Debug configuration')
+   print ('      release      Release configuration (default)')
+
+
+
+#-- configure ----------------------------------------------------------------
+
+def configure ():
+   cwd = os.getcwd ()
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   erbb.generate_gyp (cwd, ast_erbb)
+   erbb.configure (cwd, ast_erbb)
+   erbb.cleanup (cwd)
+
+   ast_erbui = read_erbui_ast (find_erbui ())
+   path_artifacts = os.path.join (cwd, 'artifacts')
+   erbui.generate_ui (path_artifacts, ast_erbui)
+   erbui.generate_daisy (path_artifacts, ast_erbui)
+   erbui.generate_vcvrack (path_artifacts, ast_erbui)
+
+
+
+#-- build --------------------------------------------------------------------
+
+def build ():
+   cwd = os.getcwd ()
+
+   target = 'daisy'
+   configuration = 'release'
+   if len (sys.argv) >= 3:
+      target = sys.argv [2]
+   if len (sys.argv) >= 4:
+      configuration = sys.argv [3]
+
+   if configuration == 'release':
+      configuration = 'Release'
+   elif configuration == 'debug':
+      configuration = 'Debug'
+   else:
+      print ("Error: Unknown configuration %s\n" % configuration)
+      usage ()
+      sys.exit (1)
+
+   if target == 'daisy':
+      ast_erbui = read_erbui_ast (find_erbui ())
+      path_artifacts = os.path.join (cwd, 'artifacts')
+      erbui.generate_front_panel (path_artifacts, ast_erbui)
+      erbui.generate_front_pcb (path_artifacts, ast_erbui)
+
+      ast_erbb = read_erbb_ast (find_erbb ())
+      module = ast_erbb.modules [0].name
+      erbb.build_target (module, cwd, configuration)
+      erbb.objcopy (module, cwd, configuration)
+   elif target == 'simulator':
+      ast_erbb = read_erbb_ast (find_erbb ())
+      module = ast_erbb.modules [0].name
+      erbb.build_native_target (module, cwd, configuration)
+   else:
+      print ("Error: Unknown target %s\n" % target)
+      usage ()
+      sys.exit (1)
+
+
+
+#-- install ------------------------------------------------------------------
+
+def install ():
+   cwd = os.getcwd ()
+
+   mode = 'openocd'
+   configuration = 'release'
+   if len (sys.argv) >= 3:
+      mode = sys.argv [2]
+   if len (sys.argv) >= 4:
+      configuration = sys.argv [3]
+
+   if configuration == 'release':
+      configuration = 'Release'
+   elif configuration == 'debug':
+      configuration = 'Debug'
+   else:
+      print ("Error: Unknown configuration %s\n" % configuration)
+      usage ()
+      sys.exit (1)
+
+   if mode == 'openocd':
+      force_dfu_util = False
+   elif mode == 'dfu':
+      force_dfu_util = True
+   else:
+      print ("Error: Unknown mode %s\n" % mode)
+      usage ()
+      sys.exit (1)
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   module = ast_erbb.modules [0].name
+   erbb.deploy (module, cwd, configuration, force_dfu_util=force_dfu_util)
+
+
+
+#-- main ---------------------------------------------------------------------
+
+def main ():
+   cwd = os.getcwd ()
+   if len (sys.argv) == 1:
+      usage ()
+
+   elif len (sys.argv) >= 2:
+      command = sys.argv [1]
+      if command == 'configure':
+         configure ()
+
+      elif command == 'build':
+         build ()
+
+      elif command == 'install':
+         install ()
+
+      else:
+         print ("Error: Unknown command %s\n" % command)
+         usage ()
+         sys.exit (1)
+
+
+
+#--------------------------------------------------------------------------
+
+if __name__ == '__main__':
+   sys.exit (main ())
