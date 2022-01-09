@@ -59,16 +59,16 @@ module Bypass {
 ```
 
 ```console
-raf:bypass$ ./configure.py 👈 Generate IDE project and hardware files
+raf:bypass$ erbb configure 👈 Generate IDE project and hardware files
 raf:bypass$ ls artifacts/
 ...
-drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 bypass.xcodeproj 👈 Xcode Project
+drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 project_vcvrack.xcodeproj 👈 Xcode Project
 ...
-raf:bypass$ ./build.py 👈 Build the firmware
+raf:bypass$ erbb build 👈 Build the firmware
 ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/out/Release'
 [185/185] LINK bypass-daisy
 OBJCOPY bypass-daisy
-raf:bypass$ ./deploy.py 👈 Upload the firmware
+raf:bypass$ erbb install dfu 👈 Upload the firmware
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Press Enter to continue...
