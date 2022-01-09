@@ -57,15 +57,18 @@ jobs:
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
       - run: python3 blocks/test/configure.py
       - run: python3 blocks/test/build.py
-      - run: python3 test/data/configure.py
-      - run: python3 test/data/build.py
-      - run: python3 test/field/configure.py
-      - run: python3 test/field/build.py
-      - run: python3 test/micropatch/configure.py
-      - run: python3 test/micropatch/build.py
-      - run: python3 samples/drop/configure.py
-      - run: python3 samples/drop/build.py
-      - run: python3 samples/drop/build.py --erb-target vcvrack
+      - name: test/data
+        run: source ../../build-system/init.sh; erbb configure; erbb build
+        working-directory: test/data
+      - name: samples/bypass
+        run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
+        working-directory: samples/bypass
+      - name: samples/drop
+        run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
+        working-directory: samples/drop
+      - name: samples/reverb
+        run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
+        working-directory: samples/reverb
 
   unit_tests:
     name: Unit Tests
