@@ -35,12 +35,15 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      ast = erbui.parse (os.path.join (PATH_THIS, 'Micropatch.erbui'))
-
+      ast_erbb = erbb.parse (os.path.join (PATH_THIS, 'Micropatch.erbb'))
+      erbb.generate_gyp (PATH_THIS, ast_erbb)
       erbb.configure ('micropatch', PATH_THIS)
-      erbui.generate_ui (PATH_ARTIFACTS, ast)
-      erbui.generate_daisy (PATH_ARTIFACTS, ast)
-      erbui.generate_vcvrack (PATH_ARTIFACTS, ast)
+      erbb.cleanup (PATH_THIS)
+
+      ast_erbui = erbui.parse (os.path.join (PATH_THIS, 'Micropatch.erbui'))
+      erbui.generate_ui (PATH_ARTIFACTS, ast_erbui)
+      erbui.generate_daisy (PATH_ARTIFACTS, ast_erbui)
+      erbui.generate_vcvrack (PATH_ARTIFACTS, ast_erbui)
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)

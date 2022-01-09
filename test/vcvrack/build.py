@@ -34,7 +34,7 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.build_native_target ('vcvrack', 'vcvrack', PATH_THIS, 'Release')
+      erbb.build_native_target ('VcvRack', PATH_THIS, 'Release')
 
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)

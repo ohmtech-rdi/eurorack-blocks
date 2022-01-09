@@ -1,0 +1,16 @@
+/*****************************************************************************
+
+      Field.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Field {
+   sources {
+      file "Field.cpp"
+      file "Field.h"
+      file "Field.erbui"
+   }
+}
