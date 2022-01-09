@@ -72,9 +72,9 @@ if __name__ == '__main__':
          ast = erbui.parse (os.path.join (PATH_THIS, '%s.erbui' % CLASS))
 
          erbb.build_target (
-            PROJECT, '%s' % PROJECT, PATH_THIS, args.configuration
+            CLASS, PATH_THIS, args.configuration
          )
-         erbb.objcopy ('%s' % PROJECT, PATH_THIS, args.configuration)
+         erbb.objcopy (CLASS, PATH_THIS, args.configuration)
 
       elif args.erb_target == 'vcvrack':
          erbb.build_native_target (

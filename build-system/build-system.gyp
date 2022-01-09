@@ -39,6 +39,10 @@
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
 
+            # generators/daisy
+            'erbb/generators/daisy/project_template.gyp',
+            'erbb/generators/daisy/project.py',
+
             # erbui
             'erbui/__init__.py',
             'erbui/adapter.py',

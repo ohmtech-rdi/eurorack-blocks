@@ -37,6 +37,7 @@ htmlcov/
 
 artifacts/
 project_vcvrack.gyp
+project_daisy.gyp
 
 # VSCode
 
