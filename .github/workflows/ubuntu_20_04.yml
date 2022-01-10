@@ -73,6 +73,9 @@ jobs:
       - name: samples/reverb
         run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
         working-directory: samples/reverb
+      - name: erbb init
+        run: source ../build-system/init.sh; mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
+        working-directory: samples
 
   unit_tests:
     name: Unit Tests
