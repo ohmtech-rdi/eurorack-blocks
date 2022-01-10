@@ -34,6 +34,13 @@
             'erbb/tests/mock.py',
             'erbb/tests/test_parser.py',
 
+            # generators/init
+            'erbb/generators/init/project_template.cpp',
+            'erbb/generators/init/project_template.erbb',
+            'erbb/generators/init/project_template.erbui',
+            'erbb/generators/init/project_template.h',
+            'erbb/generators/init/project.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',

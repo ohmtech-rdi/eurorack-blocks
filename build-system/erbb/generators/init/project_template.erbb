@@ -1,0 +1,27 @@
+/*
+------------------------------------------------------------------------------
+
+      %Name%.erbb
+
+------------------------------------------------------------------------------
+*/
+
+
+
+module %Name% {
+
+   // Put more sources in this list as you add classes.
+
+   sources {
+      file "%Name%.cpp"
+      file "%Name%.h"
+      file "%Name%.erbui"
+   }
+
+   // IMPORTANT
+   // Every time you change this file, you need to re-run:
+   // erbb configure
+
+   // erbb language reference is here:
+   // https://github.com/ohmtech-rdi/eurorack-blocks/tree/main/documentation
+}

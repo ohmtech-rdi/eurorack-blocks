@@ -22,6 +22,7 @@ sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp', 'pylib'))
 import gyp
 
 from .parser import Parser
+from .generators.init.project import Project as initProject
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.daisy.project import Project as daisyProject
 from .generators.vscode.launch import Launch as vscodeLaunch
@@ -41,6 +42,18 @@ def parse (filepath):
 
    parser = Parser ()
    return parser.parse (input_text, filepath)
+
+
+
+"""
+==============================================================================
+Name: init
+==============================================================================
+"""
+
+def init (path, name):
+   generator = initProject ()
+   generator.generate (path, name)
 
 
 
