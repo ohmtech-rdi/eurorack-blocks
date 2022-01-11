@@ -39,6 +39,7 @@ it is a set of multiple `import`, `sources`, `base`, `define`, etc. _declaration
 > _module-entity_ → [import-declaration](#import) \
 > _module-entity_ → [define-declaration](#define) \
 > _module-entity_ → [sources-declaration](#sources) \
+> _module-entity_ → [resources-declaration](#resources) \
 > _module-entity_ → [base-declaration](#base)
 
 
@@ -127,8 +128,79 @@ The `sources` defines the source code of the module.
 A `file` defines a file to compile in the `module` `sources`.
 
 The path is relative to the current parsed file.
-This is typically C++ source and header files, but can be also the `erbui` file.
+This is typically C++ source and header files, audio sample files, but can be also the `erbb` file.
 
 ### Grammar
 
 > _file-declaration_ → **`file`** [path-literal](./lexical.md#path-literals)
+
+
+## `resources`
+
+The `resources` defines the resources of the module, like an audio sample.
+They are piece of data compiled with the program for convenience.
+
+### Grammar
+
+> _resources-declaration_ → **`resources`** **`{`** resources-entity<sub>_0+_</sub> **`}`** \
+> _resources-entity_ → [data-declaration](#data)
+
+
+## `data`
+
+A `data` is an element of the module that represents a resource.
+
+### Grammar
+
+> _data-declaration_ → **`data`** data-name data-type<sub>_opt_</sub> **`{`** data-entity<sub>_0+_</sub> **`}`** \
+> _data-name_ → [identifier](./lexical.md#identifiers) \
+> _data-type_ → [identifier](./lexical.md#identifiers) \
+> _data-entity_ → [file-declaration](#file)
+
+### Language Bindings
+
+_data-name_ is exported to the target language used to develop the module DSP, such
+as C++ or Max.
+
+For example the following `erbb` source code:
+
+```erbb
+module Foo {
+   data osc_sample AudioSample {
+      file "osc_sample.wav"
+   }
+}
+```
+
+Exports the `osc_sample` in C++:
+
+```c++
+void  process () {
+   float val = data.osc_sample.frames [0].channels [0];
+
+   // 'data.osc_sample' is a 'erb::AudioSample <float, length, nbr_channels>'
+   // where 'length' and 'nbr_channels' are automatically deduced from
+   // the input file.
+}
+``` 
+
+Omitting _data-type_ results in raw data.
+
+```erbb
+module Foo {
+   data raw {
+      file "raw.bin"
+   }
+}
+```
+
+```c++
+   uint8_t val = data.raw [0];
+   
+   // 'data.raw' is a 'std::array <uint8_t, size>' where 'size' is the size of
+   // the input file.
+```
+
+### Supported Types
+
+- **`AudioSample`**: Creates a `erb::AudioSample` value from an audio sample file.
