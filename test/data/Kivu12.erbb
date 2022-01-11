@@ -13,4 +13,10 @@ module Kivu12 {
       file "Kivu12.h"
       file "Kivu12.erbui"
    }
+
+   resources {
+      data raw { file "raw.bin" }
+      data sample_mono AudioSample { file "mono.wav" }
+      data sample_stereo AudioSample { file "stereo.wav" }
+   }
 }
