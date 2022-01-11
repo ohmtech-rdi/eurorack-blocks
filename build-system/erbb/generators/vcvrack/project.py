@@ -82,4 +82,7 @@ class Project:
 
       lines += '            \'%s.erbb\',\n' % name
 
+      lines += '            \'artifacts/%sUi.h\',\n' % name
+      lines += '            \'artifacts/%sData.h\',\n' % name
+
       return template.replace ('%           sources.entities%', lines)
