@@ -18,6 +18,16 @@ module %Name% {
       file "%Name%.erbui"
    }
 
+   // Put more resources in this list as you add data like samples, etc.
+
+   resources {
+      // A raw piece of data
+      // data raw { file "raw.bin" }
+
+      // A sample accessible in 'process' as 'data.sample'
+      // data sample AudioSample { file "sample.wav" }
+   }
+
    // IMPORTANT
    // Every time you change this file, you need to re-run:
    // erbb configure
