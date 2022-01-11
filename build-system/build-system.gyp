@@ -41,6 +41,11 @@
             'erbb/generators/init/project_template.h',
             'erbb/generators/init/project.py',
 
+            # generators/data
+            'erbb/generators/data/code_template.cpp',
+            'erbb/generators/data/code_template.h',
+            'erbb/generators/data/code.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',

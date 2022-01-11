@@ -27,6 +27,7 @@ from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.daisy.project import Project as daisyProject
 from .generators.vscode.launch import Launch as vscodeLaunch
 from .generators.vscode.tasks import Tasks as vscodeTasks
+from .generators.data.code import Code as dataCode
 
 
 
@@ -113,6 +114,7 @@ def configure (path, ast):
    configure_vcvrack (path)
    configure_daisy (path)
    configure_vscode (path, ast)
+   configure_data (path, ast)
 
 
 
@@ -244,6 +246,20 @@ Name: configure_vscode_tasks
 def configure_vscode_tasks (path, ast):
    generator = vscodeTasks ()
    generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: configure_data
+==============================================================================
+"""
+
+def configure_data (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   generator = dataCode ()
+   generator.generate (path_artifacts, ast)
 
 
 
