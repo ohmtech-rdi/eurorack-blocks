@@ -18,7 +18,7 @@
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-constexpr double pim2 = 2.f * M_PI;
+constexpr double pim2 = 2.0 * M_PI;
 
 class OscSin
 {
@@ -31,7 +31,7 @@ public:
 
    void           set_freq (float freq)
    {
-      const double phase_step = pim2 * freq / erb_SAMPLE_RATE;
+      const double phase_step = pim2 * double (freq / erb_SAMPLE_RATE);
       _step_cos = std::cos (phase_step);
       _step_sin = std::sin (phase_step);
    }
@@ -47,11 +47,11 @@ public:
    }
 
 private:
-   double         _step_cos = 1.f;
-   double         _step_sin = 0.f;
+   double         _step_cos = 1.0;
+   double         _step_sin = 0.0;
 
-   double         _pos_cos = 1.f;
-   double         _pos_sin = 0.f;
+   double         _pos_cos = 1.0;
+   double         _pos_sin = 0.0;
 };
 
 

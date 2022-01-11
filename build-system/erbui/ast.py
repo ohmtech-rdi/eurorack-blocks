@@ -67,12 +67,6 @@ class Node:
    def is_control (self): return isinstance (self, Control)
 
    @property
-   def is_data (self): return isinstance (self, Data)
-
-   @property
-   def is_data_type (self): return isinstance (self, DataType)
-
-   @property
    def is_alias (self): return isinstance (self, Alias)
 
    @property
@@ -328,11 +322,6 @@ class Module (Scope):
    @property
    def controls (self):
       entities = [e for e in self.entities if e.is_control]
-      return entities
-
-   @property
-   def datas (self):
-      entities = [e for e in self.entities if e.is_data]
       return entities
 
    @property
@@ -632,77 +621,6 @@ class Control (Scope):
    @property
    def is_kind_out (self):
       return self.kind in ['AudioOut', 'CvOut', 'GateOut']
-
-
-# -- Data --------------------------------------------------------------------
-
-class Data (Scope):
-   def __init__ (self, identifier_name):
-      assert isinstance (identifier_name, adapter.Identifier)
-      super (Data, self).__init__ ()
-      self.identifier_name = identifier_name
-
-   @staticmethod
-   def typename (): return 'data'
-
-   @property
-   def name (self): return self.identifier_name.name
-
-   @property
-   def source_context (self):
-      return self.source_context_part ('name')
-
-   def source_context_part (self, part):
-      if part == 'name':
-         return adapter.SourceContext.from_token (self.identifier_name)
-
-      return super (Data, self).source_context_part (part) # pragma: no cover
-
-   @property
-   def file (self):
-      entities = [e for e in self.entities if e.is_file]
-      assert (len (entities) == 1)
-      return entities [0]
-
-   @property
-   def data_type (self):
-      entities = [e for e in self.entities if e.is_data_type]
-      assert (len (entities) <= 1)
-      if entities:
-         return entities [0]
-      else:
-         return None
-
-
-# -- DataType ----------------------------------------------------------------
-
-class DataType (Scope):
-   def __init__ (self, identifier_name, igentifier_args):
-      assert isinstance (identifier_name, adapter.Identifier)
-      super (DataType, self).__init__ ()
-      self.identifier_name = identifier_name
-      self.identifier_args = igentifier_args
-
-   @staticmethod
-   def typename (): return 'type'
-
-   @property
-   def name (self): return self.identifier_name.name
-
-   @property
-   def source_context (self):
-      return self.source_context_part ('name')
-
-   def source_context_part (self, part):
-      if part == 'name':
-         return adapter.SourceContext.from_token (self.identifier_name)
-
-      return super (Data, self).source_context_part (part) # pragma: no cover
-
-   @property
-   def args (self):
-      arg_list = [e.name for e in self.identifier_args]
-      return arg_list
 
 
 # -- Mode --------------------------------------------------------------------

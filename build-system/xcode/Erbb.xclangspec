@@ -12,7 +12,7 @@
             StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
             Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
             Words = (
-                "module", "import", "define", "sources", "file",
+                "module", "import", "define", "sources", "file", "resources", "data",
             );
             Type = "xcode.syntax.keyword";
         };

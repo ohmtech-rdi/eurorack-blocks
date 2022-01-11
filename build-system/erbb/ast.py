@@ -58,6 +58,12 @@ class Node:
    def is_sources (self): return isinstance (self, Sources)
 
    @property
+   def is_resources (self): return isinstance (self, Resources)
+
+   @property
+   def is_data (self): return isinstance (self, Data)
+
+   @property
    def is_base (self): return isinstance (self, Base)
 
 
@@ -161,6 +167,11 @@ class Module (Scope):
    @property
    def sources (self):
       entities = [e for e in self.entities if e.is_sources]
+      return entities
+
+   @property
+   def resources (self):
+      entities = [e for e in self.entities if e.is_resources]
       return entities
 
    @property
@@ -332,3 +343,56 @@ class Sources (Scope):
    def files (self):
       entities = [e for e in self.entities if e.is_file]
       return entities
+
+
+
+# -- Resources ---------------------------------------------------------------
+
+class Resources (Scope):
+   def __init__ (self):
+      super (Resources, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'resources'
+
+   @property
+   def datas (self):
+      entities = [e for e in self.entities if e.is_data]
+      return entities
+
+
+
+# -- Data --------------------------------------------------------------------
+
+class Data (Scope):
+   def __init__ (self, name_identifier, type_identifier):
+      assert isinstance (name_identifier, adapter.Identifier)
+      assert type_identifier is None or isinstance (type_identifier, adapter.Identifier)
+      super (Data, self).__init__ ()
+      self.name_identifier = name_identifier
+      self.type_identifier = type_identifier
+
+   @staticmethod
+   def typename (): return 'module'
+
+   @property
+   def name (self): return self.name_identifier.name
+
+   @property
+   def type_ (self): return self.type_identifier.name if self.type_identifier is not None else None
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.name_identifier)
+
+      return super (Data, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def file (self):
+      entities = [e for e in self.entities if e.is_file]
+      assert (len (entities) == 1)
+      return entities [0]

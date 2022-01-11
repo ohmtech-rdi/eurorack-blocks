@@ -48,7 +48,12 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
-      entities_content = self.generate_declaration_entities (module.entities)
+      entities_content = ''
+
+      for entity in module.entities:
+         if entity.is_resources:
+            entities_content += self.generate_declaration_resources (entity)
+
       template = template.replace ('%entities%', entities_content)
 
       with open (path_cpp, 'w') as file:
@@ -57,10 +62,10 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_declaration_entities (self, entities):
+   def generate_declaration_resources (self, resources):
       content = ''
 
-      for entity in entities:
+      for entity in resources.entities:
          if entity.is_data:
             content += self.generate_declaration_data (entity)
 
@@ -71,10 +76,10 @@ class Code:
 
    def generate_declaration_data (self, data):
 
-      if data.data_type is None:
+      if data.type_ is None:
          return self.generate_declaration_data_raw (data)
 
-      elif data.data_type.name == 'AudioSample':
+      elif data.type_ == 'AudioSample':
          return self.generate_declaration_data_audio_sample (data)
 
       else:
@@ -90,7 +95,7 @@ class Code:
    def generate_declaration_data_raw (self, data):
 
       try:
-         file = open (data.file.file, 'rb')
+         file = open (data.file.path, 'rb')
 
       except OSError:
          err = error.Error ()
@@ -113,7 +118,7 @@ class Code:
    def generate_declaration_data_audio_sample (self, data):
 
       try:
-         file = SoundFile (data.file.file)
+         file = SoundFile (data.file.path)
 
       except OSError:
          err = error.Error ()
@@ -140,7 +145,12 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
-      entities_content = self.generate_definition_entities (module, module.entities)
+      entities_content = ''
+
+      for entity in module.entities:
+         if entity.is_resources:
+            entities_content += self.generate_definition_resources (module, entity)
+
       template = template.replace ('%entities%', entities_content)
 
       with open (path_cpp, 'w') as file:
@@ -149,10 +159,10 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_definition_entities (self, module, entities):
+   def generate_definition_resources (self, module, resources):
       content = ''
 
-      for entity in entities:
+      for entity in resources.entities:
          if entity.is_data:
             content += self.generate_definition_data (module, entity)
 
@@ -163,10 +173,10 @@ class Code:
 
    def generate_definition_data (self, module, data):
 
-      if data.data_type is None:
+      if data.type_ is None:
          return self.generate_definition_data_raw (module, data)
 
-      elif data.data_type.name == 'AudioSample':
+      elif data.type_ == 'AudioSample':
          return self.generate_definition_data_audio_sample (module, data)
 
       else:
@@ -182,7 +192,7 @@ class Code:
    def generate_definition_data_raw (self, module, data):
 
       try:
-         file = open (data.file.file, 'rb')
+         file = open (data.file.path, 'rb')
 
       except OSError:
          err = error.Error ()
@@ -208,7 +218,7 @@ class Code:
    def generate_definition_data_audio_sample (self, module, data):
 
       try:
-         file = SoundFile (data.file.file)
+         file = SoundFile (data.file.path)
 
       except OSError:
          err = error.Error ()

@@ -35,3 +35,27 @@ class Analyser:
 
    def analyse_module (self, module):
       assert module.is_module
+
+      for resources in module.resources:
+         self.analyse_resources (resources)
+
+   #--------------------------------------------------------------------------
+
+   def analyse_resources (self, resources):
+      assert resources.is_resources
+
+      for data in resources.datas:
+         self.analyse_data (data)
+
+   #--------------------------------------------------------------------------
+
+   def analyse_data (self, data):
+      assert data.is_data
+
+      files = [e for e in data.entities if e.is_file]
+      nbr_files = len (files)
+
+      if nbr_files == 0:
+         raise error.missing_required (data, ast.File)
+      elif nbr_files > 1:
+         raise error.multiple_definition (data, files)

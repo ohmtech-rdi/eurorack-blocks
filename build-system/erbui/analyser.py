@@ -55,9 +55,6 @@ class Analyser:
       for control in module.controls:
          self.analyse_control (module, control)
 
-      for data in module.datas:
-         self.analyse_data (module, data)
-
       for alias in module.aliases:
          self.resolve_alias (module, alias)
 
@@ -159,26 +156,6 @@ class Analyser:
    def analyse_pins (self, module, control, pin_array):
       for pin in pin_array.pins:
          self.analyse_pin (module, control, pin)
-
-
-   #--------------------------------------------------------------------------
-
-   def analyse_data (self, module, data):
-      assert data.is_data
-
-      files = [e for e in data.entities if e.is_file]
-      nbr_files = len (files)
-
-      if nbr_files == 0:
-         raise error.missing_required (data, ast.File)
-      elif nbr_files > 1:
-         raise error.multiple_definition (data, files)
-
-      data_types = [e for e in data.entities if e.is_data_type]
-      nbr_data_types = len (data_types)
-
-      if nbr_data_types > 1:
-         raise error.multiple_definition (data, data_types)
 
 
    #--------------------------------------------------------------------------

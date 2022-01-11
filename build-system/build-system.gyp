@@ -41,6 +41,11 @@
             'erbb/generators/init/project_template.h',
             'erbb/generators/init/project.py',
 
+            # generators/data
+            'erbb/generators/data/code_template.cpp',
+            'erbb/generators/data/code_template.h',
+            'erbb/generators/data/code.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
@@ -68,11 +73,6 @@
             # generators/daisy
             'erbui/generators/daisy/code_template.cpp',
             'erbui/generators/daisy/code.py',
-
-            # generators/data
-            'erbui/generators/data/code_template.cpp',
-            'erbui/generators/data/code_template.h',
-            'erbui/generators/data/code.py',
 
             # generators/detail
             'erbui/generators/detail/panel.py',
