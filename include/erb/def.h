@@ -52,6 +52,9 @@
       _Pragma ("clang diagnostic ignored \"-Wvla\"") \
       _Pragma ("clang diagnostic ignored \"-Wvla-extension\"") \
       _Pragma ("clang diagnostic ignored \"-Wheader-hygiene\"") \
+      _Pragma ("clang diagnostic ignored \"-Wunknown-warning-option\"") \
+      _Pragma ("clang diagnostic ignored \"-Wsuggest-override\"") \
+      _Pragma ("clang diagnostic ignored \"-Wsuggest-destructor-override\"") \
 
    #define erb_DISABLE_WARNINGS_GLOBAL_CTOR \
       _Pragma ("clang diagnostic push") \
