@@ -33,7 +33,7 @@ public:
       5, 8, 2, // digital/analog/audio inputs
       2, 2, 2  // digital/analog/audio outputs
    ) {}
-   virtual        ~BoardDaisyMicropatch () = default;
+   virtual        ~BoardDaisyMicropatch () override = default;
 
    // Digital Inputs
    inline const uint8_t &

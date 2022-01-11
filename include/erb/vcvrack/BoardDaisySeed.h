@@ -33,7 +33,7 @@ public:
       31, 12, 2,  // digital/analog/audio inputs
       31, 2, 2    // digital/analog/audio outputs
    ) {}
-   virtual        ~BoardDaisySeed () = default;
+   virtual        ~BoardDaisySeed () override = default;
 
    // Digital Inputs
    inline const uint8_t &

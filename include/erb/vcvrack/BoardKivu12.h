@@ -33,7 +33,7 @@ public:
       16, 20, 2,  // digital/analog/audio inputs
       2, 22, 2    // digital/analog/audio outputs
    ) {}
-   virtual        ~BoardKivu12 () = default;
+   virtual        ~BoardKivu12 () override = default;
 
    // Digital Inputs
    inline const uint8_t &
