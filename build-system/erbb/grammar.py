@@ -42,11 +42,24 @@ def sources_entities ():               return ZeroOrMore (file_declaration)
 def sources_body ():                   return '{', sources_entities, '}'
 def sources_declaration ():            return 'sources', sources_body
 
+# Data
+
+def data_entities ():                  return ZeroOrMore (file_declaration)
+def data_body ():                      return '{', data_entities, '}'
+def data_name ():                      return name
+def data_type ():                      return name
+def data_declaration ():               return 'data', data_name, Optional (data_type), data_body
+
+# Resources
+def resources_entities ():             return ZeroOrMore (data_declaration)
+def resources_body ():                 return '{', resources_entities, '}'
+def resources_declaration ():          return 'resources', resources_body
+
 # Base
 def base_declaration ():               return 'base', string_literal
 
 # Module
-def module_entities ():                return ZeroOrMore ([import_declaration, define_declaration, sources_declaration, base_declaration])
+def module_entities ():                return ZeroOrMore ([import_declaration, define_declaration, sources_declaration, resources_declaration, base_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body, EOF

@@ -151,6 +151,55 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Data ------------------------------------------------------------------
+
+   def visit_data_declaration (self, node, children):
+      data_name_identifier = children.data_name [0]
+
+      data_type_identifier = None
+      if children.data_type:
+         data_type_identifier = children.data_type [0]
+
+      data = ast.Data (data_name_identifier, data_type_identifier)
+
+      if children.data_body:
+         entities = children.data_body [0]
+         data.add (entities)
+
+      return data
+
+   def visit_data_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_data_type (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_data_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_data_entities (self, node, children):
+      return list (children)
+
+
+   #-- Resources -------------------------------------------------------------
+
+   def visit_resources_declaration (self, node, children):
+
+      resources = ast.Resources ()
+
+      if children.resources_body:
+         entities = children.resources_body [0]
+         resources.add (entities)
+
+      return resources
+
+   def visit_resources_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_resources_entities (self, node, children):
+      return list (children)
+
+
    #-- Base ------------------------------------------------------------------
 
    def visit_base_declaration (self, node, children):
