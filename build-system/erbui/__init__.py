@@ -12,7 +12,6 @@ import os
 from . import ast
 from .parser import Parser
 from .generators.ui.code import Code as uiCode
-from .generators.data.code import Code as dataCode
 from .generators.vcvrack.panel import Panel as vcvrackPanel
 from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
@@ -50,7 +49,6 @@ Name: generate_ui
 
 def generate_ui (path, ast):
    generate_ui_code (path, ast)
-   generate_data_code (path, ast)
 
 
 
@@ -62,18 +60,6 @@ Name: generate_ui_code
 
 def generate_ui_code (path, ast):
    generator = uiCode ()
-   generator.generate (path, ast)
-
-
-
-"""
-==============================================================================
-Name: generate_data_code
-==============================================================================
-"""
-
-def generate_data_code (path, ast):
-   generator = dataCode ()
    generator.generate (path, ast)
 
 

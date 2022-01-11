@@ -242,56 +242,6 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
-   #-- Data ------------------------------------------------------------------
-
-   def visit_data_declaration (self, node, children):
-      data_name = children.data_name [0]
-
-      data = ast.Data (data_name)
-
-      if children.data_body:
-         entities = children.data_body [0]
-         data.add (entities)
-
-      return data
-
-   def visit_data_name (self, node, children):
-      return self.visit_identifier (node, children)
-
-   def visit_data_body (self, node, children):
-      return children [0] if children else []
-
-   def visit_data_entities (self, node, children):
-      return list (children)
-
-   def visit_data_type_declaration (self, node, children):
-      data_type_name = children.data_type_name [0]
-
-      data_type_args = []
-      if children.data_type_args_clause:
-         data_type_args = children.data_type_args_clause [0]
-
-      data_type = ast.DataType (data_type_name, data_type_args)
-
-      return data_type
-
-   def visit_data_type_name (self, node, children):
-      return self.visit_identifier (node, children)
-
-   def visit_data_type_args_clause (self, node, children):
-      return children [0] if children else []
-
-   def visit_data_type_args (self, node, children):
-      arg_names = []
-      for data_type_arg_name in children.data_type_arg_name:
-         arg_names.append (data_type_arg_name)
-
-      return arg_names
-
-   def visit_data_type_arg_name (self, node, children):
-      return self.visit_identifier (node, children)
-
-
    #-- Control ---------------------------------------------------------------
 
    def visit_control_declaration (self, node, children):
