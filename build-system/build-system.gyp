@@ -46,6 +46,11 @@
             'erbb/generators/data/code_template.h',
             'erbb/generators/data/code.py',
 
+            # generators/faust
+            'erbb/generators/faust/code_template.h',
+            'erbb/generators/faust/code_template.hpp',
+            'erbb/generators/faust/code.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
