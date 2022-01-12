@@ -85,5 +85,9 @@ class Project:
       lines += '            \'artifacts/%sUi.h\',\n' % module.name
       lines += '            \'artifacts/%sData.h\',\n' % module.name
 
+      if module.source_language == 'faust':
+         lines += '            \'artifacts/%s.h\',\n' % module.name
+         lines += '            \'artifacts/%s.hpp\',\n' % module.name
+         lines += '            \'artifacts/module_faust.h\',\n'
 
       return template.replace ('%           sources.entities%', lines)
