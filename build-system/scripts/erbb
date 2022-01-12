@@ -207,6 +207,8 @@ def configure ():
    ast_erbb = read_erbb_ast (find_erbb ())
    ast_erbui = read_erbui_ast (find_erbui ())
 
+   erbb.generate_faust (cwd, ast_erbb, ast_erbui)
+
    erbb.generate_gyp (cwd, ast_erbb)
    erbb.configure (cwd, ast_erbb)
    erbb.cleanup (cwd)
