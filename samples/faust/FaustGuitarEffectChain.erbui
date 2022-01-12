@@ -1,0 +1,111 @@
+/*****************************************************************************
+
+      FaustGuitarEffectChain.erui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module FaustGuitarEffectChain {
+   width 12hp
+   board kivu12
+   material aluminum
+
+   header { label "Faust Sampler" }
+
+   control audio_out AudioOut {
+      position 4hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+   }
+
+   control audio_out2 AudioOut {
+      position 8hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+   }
+
+   /*header { label "Faust PHASER2" }
+
+   faust {
+      init { address "/PHASER2/0x00/Invert Internal Phaser Sum" value 0 }
+      init { address "/PHASER2/0x00/Vibrato Mode" value 0.0 }
+   }
+
+   control bypass Switch {
+      faust { bind { address "/PHASER2/0x00/Bypass" } }
+      position 6hp, 80mm
+      style dailywell.2ms1
+      label "BYPASS"
+   }
+
+   control compression_gain Pot {
+      faust { bind { address "/PHASER2/0x00/Speed" } }
+      position 6hp, 60mm
+      style rogan.2ps
+      label "SPEED"
+   }
+
+   control notch_depth Pot {
+      faust { bind { address "/PHASER2/0x00/Notch Depth (Intensity)" } }
+      position 2hp, 40mm
+      style rogan.1ps
+      label "DEPTH"
+   }
+
+   control notch_width Pot {
+      faust { bind { address "/PHASER2/0x00/Notch width" } }
+      position 6hp, 40mm
+      style rogan.1ps
+      label "WIDTH"
+   }
+
+   control level Pot {
+      faust { bind { address "/PHASER2/0x00/Phaser Output Level" } }
+      position 10hp, 40mm
+      style rogan.1ps
+      label "LEVEL"
+   }
+
+   control led Led {
+      faust { init { value 1.0 } }
+      position 2hp, 80mm
+      style led.3mm.red
+      label "LED"
+   }
+
+   control led_bi LedBi {
+      faust {
+         init { property r value 0.5 }
+         init { property g value 0.0 }
+      }
+      position 10hp, 80mm
+      style led.3mm.red
+      label "LED"
+   }
+
+   control audio_in AudioIn {
+      position 4hp, 96mm
+      style thonk.pj398sm.knurled
+      label "IN L"
+   }
+
+   control audio_in2 AudioIn {
+      position 8hp, 96mm
+      style thonk.pj398sm.knurled
+      label "IN R"
+   }
+
+   control audio_out AudioOut {
+      position 4hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+   }
+
+   control audio_out2 AudioOut {
+      position 8hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+   }*/
+}

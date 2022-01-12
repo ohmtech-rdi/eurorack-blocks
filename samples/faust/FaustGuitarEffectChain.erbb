@@ -1,0 +1,22 @@
+/*****************************************************************************
+
+      FaustGuitarEffectChain.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module FaustGuitarEffectChain {
+   sources {
+      file "FaustGuitarEffectChain.dsp"
+      file "FaustGuitarEffectChain.erbui"
+   }
+
+   resources {
+      data foo AudioSample {
+         file "foo.wav"
+         faust { bind { address "/FaustGuitarEffectChain/foo" }}
+      }
+   }
+}
