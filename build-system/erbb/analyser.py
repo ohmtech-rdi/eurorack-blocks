@@ -66,6 +66,8 @@ class Analyser:
 
       for file in sources.files:
          filename, file_extension = os.path.splitext (file.path)
+         if file_extension == '.dsp':
+            module.source_language = 'faust'
 
    #--------------------------------------------------------------------------
 
