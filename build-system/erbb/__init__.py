@@ -28,6 +28,7 @@ from .generators.daisy.project import Project as daisyProject
 from .generators.vscode.launch import Launch as vscodeLaunch
 from .generators.vscode.tasks import Tasks as vscodeTasks
 from .generators.data.code import Code as dataCode
+from .generators.faust.code import Code as faustCode
 
 
 
@@ -55,6 +56,23 @@ Name: init
 def init (path, name):
    generator = initProject ()
    generator.generate (path, name)
+
+
+
+"""
+==============================================================================
+Name: generate_faust
+==============================================================================
+"""
+
+def generate_faust (path, ast_erbb, ast_erbui):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
+   generator = faustCode ()
+   generator.generate (path, ast_erbb, ast_erbui)
 
 
 
