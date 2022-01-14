@@ -34,6 +34,9 @@ class Node:
    def is_literal (self): return isinstance (self, Literal)
 
    @property
+   def is_float_literal (self): return isinstance (self, FloatLiteral)
+
+   @property
    def is_string_literal (self): return isinstance (self, StringLiteral)
 
    @property
@@ -62,6 +65,30 @@ class Node:
 
    @property
    def is_footer (self): return isinstance (self, Footer)
+
+   @property
+   def is_module_faust (self): return isinstance (self, ModuleFaust)
+
+   @property
+   def is_module_faust_init (self): return isinstance (self, ModuleFaustInit)
+
+   @property
+   def is_faust_address (self): return isinstance (self, FaustAddress)
+
+   @property
+   def is_faust_value (self): return isinstance (self, FaustValue)
+
+   @property
+   def is_faust_property (self): return isinstance (self, FaustProperty)
+
+   @property
+   def is_faust_bind (self): return isinstance (self, FaustBind)
+
+   @property
+   def is_control_faust (self): return isinstance (self, ControlFaust)
+
+   @property
+   def is_control_faust_init (self): return isinstance (self, ControlFaustInit)
 
    @property
    def is_control (self): return isinstance (self, Control)
@@ -160,8 +187,23 @@ class StringLiteral (Literal):
       assert isinstance (literal, adapter.Literal)
       super (StringLiteral, self).__init__ (literal)
 
+   @staticmethod
+   def synthesize (value):
+      literal = adapter.LiteralSynthesized ('"%s"' % value)
+      return StringLiteral (literal)
+
    @property
    def value (self): return str (self.literal.value.strip ('"'))
+
+
+
+class FloatLiteral (Literal):
+   def __init__ (self, literal):
+      assert isinstance (literal, adapter.Literal)
+      super (FloatLiteral, self).__init__ (literal)
+
+   @property
+   def value (self): return float (self.literal.value)
 
 
 
@@ -242,6 +284,7 @@ class Module (Scope):
       self.super_identifier = super_identifier
       self.cascade_eval_list = []
       self.unused_pins = []
+      self.faust_addresses = {}
 
    @staticmethod
    def typename (): return 'module'
@@ -455,6 +498,143 @@ class Footer (Scope):
       return entities
 
 
+# -- ModuleFaust ------------------------------------------------------------
+
+class ModuleFaust (Scope):
+   def __init__ (self):
+      super (ModuleFaust, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'faust'
+
+   @property
+   def inits (self):
+      entities = [e for e in self.entities if e.is_module_faust_init]
+      return entities
+
+
+# -- ModuleFaustInit ---------------------------------------------------------
+
+class ModuleFaustInit (Scope):
+   def __init__ (self):
+      super (ModuleFaustInit, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'init'
+
+   @property
+   def address (self):
+      entities = [e for e in self.entities if e.is_faust_address]
+      assert len (entities) == 1
+      return entities [0]
+
+   @property
+   def value (self):
+      entities = [e for e in self.entities if e.is_faust_value]
+      assert len (entities) == 1
+      return entities [0]
+
+
+# -- FaustBind ---------------------------------------------------------------
+
+class FaustBind (Scope):
+   def __init__ (self):
+      super (FaustBind, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'bind'
+
+   @property
+   def address (self):
+      entities = [e for e in self.entities if e.is_faust_address]
+      assert len (entities) == 1
+      return entities [0]
+
+   @property
+   def property_ (self):
+      entities = [e for e in self.entities if e.is_faust_property]
+      assert len (entities) <= 1
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+
+# -- FaustAddress ------------------------------------------------------------
+
+class FaustAddress (Node):
+   def __init__ (self, path):
+      assert isinstance (path, StringLiteral)
+      super (FaustAddress, self).__init__ ()
+      self.literal_path = path
+
+   @staticmethod
+   def typename (): return 'address'
+
+   @property
+   def path (self): return self.literal_path.value
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('path')
+
+   def source_context_part (self, part):
+      if part == 'path':
+         return adapter.SourceContext.from_token (self.literal_path)
+
+      return super (FaustAddress, self).source_context_part (part) # pragma: no cover
+
+
+# -- FaustValue --------------------------------------------------------------
+
+class FaustValue (Node):
+   def __init__ (self, value):
+      assert isinstance (value, FloatLiteral)
+      super (FaustValue, self).__init__ ()
+      self.literal_value = value
+
+   @staticmethod
+   def typename (): return 'value'
+
+   @property
+   def value (self): return self.literal_value.value
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('value')
+
+   def source_context_part (self, part):
+      if part == 'value':
+         return adapter.SourceContext.from_token (self.literal_value)
+
+      return super (FaustValue, self).source_context_part (part) # pragma: no cover
+
+
+# -- FaustProperty -----------------------------------------------------------
+
+class FaustProperty (Node):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (FaustProperty, self).__init__ ()
+      self.identifier = identifier
+
+   @staticmethod
+   def typename (): return 'property'
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (FaustProperty, self).source_context_part (part) # pragma: no cover
+
+
 # -- Alias -------------------------------------------------------------------
 
 class Alias (Node):
@@ -483,6 +663,57 @@ class Alias (Node):
          return adapter.SourceContext.from_token (self.identifier_reference)
 
       return super (Alias, self).source_context_part (part) # pragma: no cover
+
+
+# -- ControlFaust ------------------------------------------------------------
+
+class ControlFaust (Scope):
+   def __init__ (self):
+      super (ControlFaust, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'faust'
+
+   @property
+   def binds (self):
+      entities = [e for e in self.entities if e.is_faust_bind]
+      return entities
+
+   @property
+   def inits (self):
+      entities = [e for e in self.entities if e.is_control_faust_init]
+      return entities
+
+
+# -- ControlFaustInit --------------------------------------------------------
+
+class ControlFaustInit (Scope):
+   def __init__ (self):
+      super (ControlFaustInit, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'init'
+
+   @property
+   def address (self):
+      entities = [e for e in self.entities if e.is_faust_address]
+      assert len (entities) == 1
+      return entities [0]
+
+   @property
+   def property_ (self):
+      entities = [e for e in self.entities if e.is_faust_property]
+      assert len (entities) <= 1
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def value (self):
+      entities = [e for e in self.entities if e.is_faust_value]
+      assert len (entities) == 1
+      return entities [0]
 
 
 # -- Control -----------------------------------------------------------------
@@ -516,6 +747,12 @@ class Control (Scope):
          return adapter.SourceContext.from_token (self.identifier_kind)
 
       return super (Control, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def faust (self):
+      entities = [e for e in self.entities if e.is_control_faust]
+      assert (len (entities) == 1)
+      return entities [0]
 
    @property
    def mode (self):
@@ -605,6 +842,17 @@ class Control (Scope):
          return entities [0]
       else:
          return None
+
+   @property
+   def compound_properties (self):
+      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
+         return []
+      elif self.kind == 'LedBi':
+         return ['r', 'g']
+      elif self.kind == 'LedRgb':
+         return ['r', 'g', 'b']
+      else:
+         assert False
 
    @property
    def is_input (self):
