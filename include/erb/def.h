@@ -56,6 +56,11 @@
       _Pragma ("clang diagnostic ignored \"-Wsuggest-override\"") \
       _Pragma ("clang diagnostic ignored \"-Wsuggest-destructor-override\"") \
 
+   #define erb_DISABLE_WARNINGS_FAUST_GEN \
+      _Pragma ("clang diagnostic push") \
+      _Pragma ("clang diagnostic ignored \"-Wunused-parameter\"") \
+      _Pragma ("clang diagnostic ignored \"-Wzero-length-array\"") \
+
    #define erb_DISABLE_WARNINGS_GLOBAL_CTOR \
       _Pragma ("clang diagnostic push") \
       _Pragma ("clang diagnostic ignored \"-Wglobal-constructors\"") \
@@ -73,6 +78,10 @@
    #define erb_DISABLE_WARNINGS_VCVRACK \
       _Pragma ("GCC diagnostic push")
 
+   #define erb_DISABLE_WARNINGS_FAUST_GEN \
+      _Pragma ("GCC diagnostic push") \
+      _Pragma ("GCC diagnostic ignored \"-Wunused-parameter\"") \
+
    #define erb_DISABLE_WARNINGS_GLOBAL_CTOR \
       _Pragma ("GCC diagnostic push")
 
@@ -84,6 +93,9 @@
       __pragma (warning (push))
 
    #define erb_DISABLE_WARNINGS_VCVRACK \
+      __pragma (warning (push))
+
+   #define erb_DISABLE_WARNINGS_FAUST_GEN \
       __pragma (warning (push))
 
    #define erb_DISABLE_WARNINGS_GLOBAL_CTOR \
