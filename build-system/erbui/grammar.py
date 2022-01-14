@@ -16,6 +16,7 @@ KEYWORDS = (
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
+   'faust', 'address', 'init', 'value',
 )
 UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
 CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
@@ -37,6 +38,7 @@ def comment ():                        return _(r'(/\*(.|\n)*?\*/)|(//.*)')
 
 # Literals
 def string_literal ():                 return _(r'\".*\"')
+def float_literal ():                  return _(r'[0-9\.]+')
 def float_mm_literal ():               return _(r'[0-9\.]+mm')
 def float_cm_literal ():               return _(r'[0-9\.]+cm')
 def float_hp_literal ():               return _(r'[0-9\.]+hp')
@@ -104,12 +106,47 @@ def alias_name ():                     return name
 def alias_reference ():                return name
 def alias_declaration ():              return 'alias', alias_name, alias_reference
 
+# Faust Value
+def faust_value_declaration ():    return 'value', float_literal
+
+# Faust Property
+def faust_property_name ():            return name
+def faust_property_declaration ():     return 'property', faust_property_name
+
+# Faust Address
+def faust_address_declaration ():      return 'address', string_literal
+
+# Faust Bind
+def faust_bind_entities ():            return ZeroOrMore ([faust_property_declaration, faust_address_declaration])
+def faust_bind_body ():                return '{', faust_bind_entities, '}'
+def faust_bind_declaration ():         return 'bind', faust_bind_body
+
+# Control Faust Init
+def ctrl_faust_init_entities ():       return ZeroOrMore ([faust_property_declaration, faust_value_declaration])
+def ctrl_faust_init_body ():           return '{', ctrl_faust_init_entities, '}'
+def ctrl_faust_init_declaration ():    return 'init', ctrl_faust_init_body
+
+# Control Faust
+def ctrl_faust_entities ():            return ZeroOrMore ([faust_bind_declaration, ctrl_faust_init_declaration])
+def ctrl_faust_body ():                return '{', ctrl_faust_entities, '}'
+def ctrl_faust_declaration ():         return 'faust', ctrl_faust_body
+
 # Control
-def control_entities ():               return ZeroOrMore ([mode_declaration, position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration, pins_declaration, pin_declaration, cascade_declaration])
+def control_entities ():               return ZeroOrMore ([mode_declaration, position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration, pins_declaration, pin_declaration, cascade_declaration, ctrl_faust_declaration])
 def control_body ():                   return '{', control_entities, '}'
 def control_kind ():                   return list (CONTROL_KINDS)
 def control_name ():                   return name
 def control_declaration ():            return 'control', control_name, control_kind, control_body
+
+# Module Faust Init
+def mod_faust_init_entities ():        return ZeroOrMore ([faust_address_declaration, faust_value_declaration])
+def mod_faust_init_body ():            return '{', mod_faust_init_entities, '}'
+def mod_faust_init_declaration ():     return 'init', mod_faust_init_body
+
+# Module Faust
+def mod_faust_entities ():             return ZeroOrMore ([mod_faust_init_declaration])
+def mod_faust_body ():                 return '{', mod_faust_entities, '}'
+def mod_faust_declaration ():          return 'faust', mod_faust_body
 
 # Footer
 def footer_entities ():                return ZeroOrMore ([label_declaration, image_declaration])
@@ -134,7 +171,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, mod_faust_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name
