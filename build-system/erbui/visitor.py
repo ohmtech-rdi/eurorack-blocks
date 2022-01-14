@@ -52,6 +52,9 @@ class Visitor (PTNodeVisitor):
    def visit_string_literal (self, node, children):
       return ast.StringLiteral (self.to_literal (node))
 
+   def visit_float_literal (self, node, children):
+      return ast.FloatLiteral (self.to_literal (node))
+
    def visit_float_mm_literal (self, node, children):
       return ast.DistanceLiteral (self.to_literal (node), 'mm')
 
@@ -180,6 +183,87 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Module Faust ----------------------------------------------------------
+
+   def visit_mod_faust_declaration (self, node, children):
+      faust = ast.ModuleFaust ()
+
+      if children.mod_faust_body:
+         entities = children.mod_faust_body [0]
+         faust.add (entities)
+
+      return faust
+
+   def visit_mod_faust_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_mod_faust_entities (self, node, children):
+      return list (children)
+
+
+   #-- Module Faust Init -----------------------------------------------------
+
+   def visit_mod_faust_init_declaration (self, node, children):
+      faust = ast.ModuleFaustInit ()
+
+      if children.mod_faust_init_body:
+         entities = children.mod_faust_init_body [0]
+         faust.add (entities)
+
+      return faust
+
+   def visit_mod_faust_init_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_mod_faust_init_entities (self, node, children):
+      return list (children)
+
+
+   #-- Faust Bind ------------------------------------------------------------
+
+   def visit_faust_bind_declaration (self, node, children):
+      bind = ast.FaustBind ()
+
+      if children.faust_bind_body:
+         entities = children.faust_bind_body [0]
+         bind.add (entities)
+
+      return bind
+
+   def visit_faust_bind_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_faust_bind_entities (self, node, children):
+      return list (children)
+
+
+   #-- Faust Property --------------------------------------------------------
+
+   def visit_faust_property_declaration (self, node, children):
+      property_name = children.faust_property_name [0]
+      property = ast.FaustProperty (property_name)
+      return property
+
+   def visit_faust_property_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+
+   #-- Faust Address ---------------------------------------------------------
+
+   def visit_faust_address_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      address = ast.FaustAddress (string_literal)
+      return address
+
+
+   #-- Faust Value -----------------------------------------------------------
+
+   def visit_faust_value_declaration (self, node, children):
+      float_literal = children.float_literal [0]
+      value = ast.FaustValue (float_literal)
+      return value
+
+
    #-- File ------------------------------------------------------------------
 
    def visit_file_declaration (self, node, children):
@@ -239,6 +323,42 @@ class Visitor (PTNodeVisitor):
       return children [0] if children else []
 
    def visit_sticker_entities (self, node, children):
+      return list (children)
+
+
+   #-- Control Faust ---------------------------------------------------------
+
+   def visit_ctrl_faust_declaration (self, node, children):
+      faust = ast.ControlFaust ()
+
+      if children.ctrl_faust_body:
+         entities = children.ctrl_faust_body [0]
+         faust.add (entities)
+
+      return faust
+
+   def visit_ctrl_faust_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_ctrl_faust_entities (self, node, children):
+      return list (children)
+
+
+   #-- Control Faust Init ----------------------------------------------------
+
+   def visit_ctrl_faust_init_declaration (self, node, children):
+      init = ast.ControlFaustInit ()
+
+      if children.ctrl_faust_init_body:
+         entities = children.ctrl_faust_init_body [0]
+         init.add (entities)
+
+      return init
+
+   def visit_ctrl_faust_init_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_ctrl_faust_init_entities (self, node, children):
       return list (children)
 
 
