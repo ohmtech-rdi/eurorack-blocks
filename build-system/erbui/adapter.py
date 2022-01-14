@@ -91,6 +91,17 @@ class Literal (Token):
    pass
 
 
+class LiteralSynthesized (Literal):
+   def __init__ (self, value):
+      node = lambda: None
+      node.value = value
+      node.position = 0
+      parser = lambda: None
+      parser.input = value
+      parser.file_name = None
+      super (LiteralSynthesized, self).__init__ (parser, node)
+
+
 #-- SourceContext ------------------------------------------------------------
 #
 #  SourceContext represents a source context in the parser input. It defines:
