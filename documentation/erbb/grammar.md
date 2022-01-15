@@ -1,4 +1,4 @@
-# Grammar
+# Erbb Grammar
 
 This document describes what sequence of tokens form valid inputs of the language.
 

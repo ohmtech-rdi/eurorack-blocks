@@ -1,0 +1,16 @@
+version: 2
+
+submodules:
+  exclude: all
+
+sphinx:
+  configuration: documentation/conf.py
+
+python:
+  install:
+    - requirements: requirements/documentation.txt
+
+build:
+  os: ubuntu-20.04
+  tools:
+    python: "3.8"

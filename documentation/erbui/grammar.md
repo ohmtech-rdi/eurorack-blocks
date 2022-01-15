@@ -1,4 +1,4 @@
-# Grammar
+# Erbui Grammar
 
 This document describes what sequence of tokens form valid inputs of the language.
 
@@ -153,7 +153,7 @@ and with which the end-user can interact with.
 
 ### Grammar
 
-> _control-declaration_ → **`control`** control-name [control-kind](../controls/) **`{`** control-entity<sub>_0+_</sub> **`}`** \
+> _control-declaration_ → **`control`** control-name [control-kind](../controls/README.md) **`{`** control-entity<sub>_0+_</sub> **`}`** \
 > _control-name_ → [identifier](./lexical.md#identifiers) \
 > _control-entity_ → [mode-declaration](#mode) \
 > _control-entity_ → [position-declaration](#position) \
@@ -192,7 +192,7 @@ Some grammar production rules are specific to some control kinds.
 For example `Button` supports `pin` but not `pins`, and conversely, `Switch` supports
 `pins` but does not support `pin`.
 
-See individual [controls](../controls/) reference for a list of supported features for each control.
+See individual [controls](../controls/README.md) reference for a list of supported features for each control.
 
 
 ## `alias`
@@ -258,7 +258,7 @@ it maps the value linearly from –5V to 5V.
 
 This is the default mode for `CvIn` and `CvOut`.
 
-See individual [controls](../controls/) reference for a list of supported modes for each control.
+See individual [controls](../controls/README.md) reference for a list of supported modes for each control.
 
 
 ## `style`
@@ -272,7 +272,7 @@ as a style of knob.
 
 > _style-declaration_ → **`style`** style-name
 
-See individual [controls](../controls/) reference for a list of supported styles for each control.
+See individual [controls](../controls/README.md) reference for a list of supported styles for each control.
 
 
 ## `line`
@@ -298,13 +298,13 @@ An `offset` represents a relative shift from a position, typically used to repos
 ## `rotation`
 
 A `rotation` represents a rotation of a front panel element,
-typically used for [switches](./controls/Switch.md).
+typically used for [switches](../controls/Switch.md).
 
 ### Grammar
 
 > _rotation-declaration_ → **`rotation`** [rotation-literal](./lexical.md#rotation-literals)
 
-See individual [controls](../controls/) reference for a list of supported rotations for each control, if any.
+See individual [controls](../controls/README.md) reference for a list of supported rotations for each control, if any.
 
 
 ## `position`
@@ -316,7 +316,7 @@ Usually, the position is relative to the natural center of the control, when app
 
 > _position-declaration_ → **`position`** [distance-literal](./lexical.md#distance-literals) **`,`** [distance-literal](./lexical.md#distance-literals)
 
-See individual [controls](../controls/) reference for the center definition for each control.
+See individual [controls](../controls/README.md) reference for the center definition for each control.
 
 
 ## `sticker`
@@ -377,7 +377,7 @@ A `pin` represents the physical board pin used by a [control](#control).
 See individual [boards](../boards/) reference for the available pins configuration for each board.
 
 The `pin` property is only supported for controls that support exactly one data pin.
-See individual [controls](../controls/) reference for a list of pins for each control.
+See individual [controls](../controls/README.md) reference for a list of pins for each control.
 
 
 ## `pins`
@@ -393,7 +393,7 @@ A `pin` represents a set of physical board pins used by a [control](#control).
 See individual [boards](../boards/) reference for the available pins configuration for each board.
 
 The `pins` property is only supported for controls that support more than one data pin.
-See individual [controls](../controls/) reference for a list of pins for each control.
+See individual [controls](../controls/README.md) reference for a list of pins for each control.
 
 
 ## `cascade`
