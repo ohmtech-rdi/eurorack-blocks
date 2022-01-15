@@ -42,3 +42,7 @@ project_daisy.gyp
 # VSCode
 
 .vscode/
+
+# Sphinx
+
+_build/
