@@ -36,50 +36,31 @@ jobs:
   software:
     name: Software
     runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: sudo apt-get update
-      - run: sudo apt-get install gcc-arm-none-eabi
-      - run: sudo apt-get install -y ninja-build
-      - run: sudo apt-get install libglu1-mesa-dev
-      - run: sudo apt install libcairo2-dev libffi-dev python3-dev
-      - run: sudo apt-get install kicad
-      - run: sudo apt-get install libsndfile1
-
-      # Install either dfu-util or openocd:
-      # - dfu-util allows to upload firmware by connecting Daisy with a USB cable
-      # - openocd requires STLink, like STLINK-V3MINI
-      #   Read documentation in documentation/stlink
-      - run: sudo apt install dfu-util  # using USB
-      - run: sudo apt install openocd   # using JTAG
-
-      - run: pip3 install -r requirements.txt
-      - run: mkdir -p ~/.local/share/fonts/
-      - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
-      - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
+      - run: python3 build-system/install.py
+      - run: erbb setup
       - run: python blocks/test/configure.py
       - run: python blocks/test/build.py
       - run: python build-system/install.py
       - name: test/data
-        shell: bash -l {0} # Source profile
         run: erbb configure; erbb build
         working-directory: test/data
       - name: samples/bypass
-        shell: bash -l {0}
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/bypass
       - name: samples/drop
-        shell: bash -l {0}
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/drop
       - name: samples/reverb
-        shell: bash -l {0}
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/reverb
       - name: erbb init
-        shell: bash -l {0}
         run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
         working-directory: samples
 
