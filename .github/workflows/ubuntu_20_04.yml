@@ -61,20 +61,26 @@ jobs:
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
       - run: python blocks/test/configure.py
       - run: python blocks/test/build.py
+      - run: python build-system/install.py
       - name: test/data
-        run: source ../../build-system/init.sh; erbb configure; erbb build
+        shell: bash -l {0} # Source profile
+        run: erbb configure; erbb build
         working-directory: test/data
       - name: samples/bypass
-        run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
+        shell: bash -l {0}
+        run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/bypass
       - name: samples/drop
-        run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
+        shell: bash -l {0}
+        run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/drop
       - name: samples/reverb
-        run: source ../../build-system/init.sh; erbb configure; erbb build; erbb build simulator
+        shell: bash -l {0}
+        run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/reverb
       - name: erbb init
-        run: source ../build-system/init.sh; mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
+        shell: bash -l {0}
+        run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
         working-directory: samples
 
   unit_tests:
