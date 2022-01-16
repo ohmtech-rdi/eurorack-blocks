@@ -1,0 +1,19 @@
+# Packages required to user erbb and erbui
+
+# SVG & PDF generation
+
+cairocffi
+cairosvg
+
+# DXF generation
+
+ezdxf
+
+# AudioSample generation
+
+soundfile
+numpy
+
+# Coverage
+
+coverage
