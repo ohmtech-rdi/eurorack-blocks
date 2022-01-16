@@ -55,7 +55,7 @@ jobs:
       - run: sudo apt install dfu-util  # using USB
       - run: sudo apt install openocd   # using JTAG
 
-      - run: python -m pip install cairosvg cairocffi ezdxf soundfile numpy
+      - run: pip3 install -r requirements.txt
       - run: mkdir -p ~/.local/share/fonts/
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts
@@ -102,7 +102,7 @@ jobs:
       - run: sudo apt install libcairo2-dev libffi-dev python3-dev
       - run: sudo apt-get install kicad
       - run: sudo apt-get install libsndfile1
-      - run: python -m pip install cairosvg cairocffi ezdxf coverage soundfile numpy
+      - run: pip3 install -r requirements.txt
       - run: mkdir -p ~/.local/share/fonts/
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts

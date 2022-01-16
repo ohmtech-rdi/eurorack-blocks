@@ -53,7 +53,7 @@ jobs:
       - run: brew install dfu-util  # using USB
       - run: brew install openocd   # using JTAG
 
-      - run: python3 -m pip install cairosvg cairocffi ezdxf soundfile numpy
+      - run: pip3 install -r requirements.txt
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
@@ -97,7 +97,7 @@ jobs:
       - run: brew install cairo libffi
       - run: curl -O -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/bb55b3dfaa91b1f4ce9ea94c8251f04a71dced12/Casks/kicad.rb
       - run: brew install --cask kicad.rb
-      - run: python3 -m pip install cairosvg cairocffi ezdxf coverage soundfile numpy
+      - run: pip3 install -r requirements.txt
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
