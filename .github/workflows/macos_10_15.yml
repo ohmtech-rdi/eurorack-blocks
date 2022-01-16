@@ -36,48 +36,30 @@ jobs:
   software:
     name: Software
     runs-on: macos-10.15
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: brew install armmbed/formulae/arm-none-eabi-gcc
-      - run: brew install ninja
-      - run: brew install cairo libffi
-      - run: curl -O -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/bb55b3dfaa91b1f4ce9ea94c8251f04a71dced12/Casks/kicad.rb
-      - run: brew install --cask kicad.rb
-
-      # Install either dfu-util or openocd:
-      # - dfu-util allows to upload firmware by connecting Daisy with a USB cable
-      # - openocd requires STLink, like STLINK-V3MINI
-      #   Read documentation in documentation/stlink
-      - run: brew install dfu-util  # using USB
-      - run: brew install openocd   # using JTAG
-
-      - run: pip3 install -r requirements.txt
-      - run: mkdir -p ~/Library/Fonts
-      - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
-      - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
+      - run: python3 build-system/install.py
+      - run: erbb setup
       - run: python3 blocks/test/configure.py
       - run: python3 blocks/test/build.py
-      - run: python3 build-system/install.py
       - name: test/data
-        shell: bash -l {0} # Source profile
         run: erbb configure; erbb build
         working-directory: test/data
       - name: samples/bypass
-        shell: bash -l {0}
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/bypass
       - name: samples/drop
-        shell: bash -l {0}
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/drop
       - name: samples/reverb
-        shell: bash -l {0}
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/reverb
       - name: erbb init
-        shell: bash -l {0}
         run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
         working-directory: samples
 

@@ -9,14 +9,15 @@
 from __future__ import print_function
 
 import os
+import platform
 import random
+import subprocess
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 sys.path.insert (0, os.path.dirname (PATH_THIS))
-import erbb
-import erbui
 
 
 
@@ -57,6 +58,8 @@ def find_erbui ():
 #-- read_erbb_ast ------------------------------------------------------------
 
 def read_erbb_ast (filepath):
+   import erbb
+
    if filepath is None:
       print ("\033[91mfatal error:\033[0m No erbb file found")
       sys.exit (1)
@@ -82,6 +85,8 @@ def read_erbb_ast (filepath):
 #-- read_erbui_ast -----------------------------------------------------------
 
 def read_erbui_ast (filepath):
+   import erbui
+
    if filepath is None:
       print ("\033[91mfatal error:\033[0m No erbui file found")
       sys.exit (1)
@@ -109,6 +114,7 @@ def read_erbui_ast (filepath):
 def usage ():
    print ('usage: erbb.py <command> [<args>]\n')
    print ('command:')
+   print ('   setup           Install all dependencies')
    print ('   init            Create a new project in current directory')
    print ('   configure       Create the simulator project and hardware make file')
    print ('   build           Build the IDE project or make file')
@@ -135,9 +141,46 @@ def usage ():
 
 
 
+#-- setup --------------------------------------------------------------------
+
+def setup ():
+   if platform.system () == 'Darwin':
+      path_artifacts = os.path.join (PATH_THIS, 'artifacts')
+      if not os.path.exists (path_artifacts):
+         os.makedirs (path_artifacts)
+      subprocess.check_call (
+         'curl -O -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/bb55b3dfaa91b1f4ce9ea94c8251f04a71dced12/Casks/kicad.rb',
+         shell=True, cwd=path_artifacts
+      )
+      kicad_err = subprocess.call ('brew install --cask kicad.rb', shell=True, cwd=path_artifacts)
+      if kicad_err != 0:
+         print ('Skipping Kicad Install')
+      subprocess.check_call ('brew install armmbed/formulae/arm-none-eabi-gcc ninja cairo libffi dfu-util openocd', shell=True)
+      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
+      subprocess.check_call ('mkdir -p ~/Library/Fonts', shell=True)
+      subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts', shell=True, cwd=PATH_ROOT)
+      subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts', shell=True, cwd=PATH_ROOT)
+
+   elif platform.system () == 'Linux':
+      subprocess.check_call ('sudo apt-get update', shell=True)
+      subprocess.check_call ('sudo apt-get install -y gcc-arm-none-eabi ninja-build libglu1-mesa-dev libcairo2-dev libffi-dev python3-dev kicad libsndfile1 dfu-util openocd', shell=True)
+      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
+      subprocess.check_call ('mkdir -p ~/.local/share/fonts/', shell=True)
+      subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
+      subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
+
+   else:
+      print ('Error: Platform %s unsupported' % platform.system ())
+      sys.exit (1)
+
+
+
 #-- init ---------------------------------------------------------------------
 
 def init ():
+   import erbb
+   import erbui
+
    cwd = os.getcwd ()
 
    name = 'Foo'
@@ -155,6 +198,9 @@ def init ():
 #-- configure ----------------------------------------------------------------
 
 def configure ():
+   import erbb
+   import erbui
+
    cwd = os.getcwd ()
 
    ast_erbb = read_erbb_ast (find_erbb ())
@@ -173,6 +219,9 @@ def configure ():
 #-- build --------------------------------------------------------------------
 
 def build ():
+   import erbb
+   import erbui
+
    cwd = os.getcwd ()
 
    target = 'daisy'
@@ -215,6 +264,9 @@ def build ():
 #-- install ------------------------------------------------------------------
 
 def install ():
+   import erbb
+   import erbui
+
    cwd = os.getcwd ()
 
    mode = 'openocd'
@@ -258,7 +310,10 @@ def main ():
    elif len (sys.argv) >= 2:
       command = sys.argv [1]
 
-      if command == 'init':
+      if command == 'setup':
+         setup ()
+
+      elif command == 'init':
          init ()
 
       elif command == 'configure':
