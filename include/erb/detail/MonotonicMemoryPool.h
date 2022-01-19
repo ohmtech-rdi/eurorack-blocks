@@ -35,6 +35,7 @@ public:
    virtual        ~MonotonicMemoryPool () = default;
 
    size_t         allocate (size_t alignment, size_t size);
+   size_t         allocate_npos_on_error (size_t alignment, size_t size);
 
 
 
