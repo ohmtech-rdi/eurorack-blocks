@@ -44,12 +44,8 @@ int main ()
    system.Init (config);
 
    // Init SDRAM
-   dsy_sdram_handle sdram;
-
-   sdram.state = DSY_SDRAM_STATE_ENABLE;
-   sdram.pin_config [DSY_SDRAM_PIN_SDNWE] = {DSY_GPIOH, 5};
-
-   dsy_sdram_init (&sdram);
+   SdramHandle sdram;
+   sdram.Init ();
 
    // Init QSPI
    daisy::QSPIHandle qspi;
