@@ -119,6 +119,7 @@ def usage ():
    print ('   configure       Create the simulator project and hardware make file')
    print ('   build           Build the IDE project or make file')
    print ('   install         Install the firmware on the Daisy hardware')
+   print ('   bootloader      Install the QSPI bootloader on the Daisy hardware')
    print ('')
    print ('init [<name>]')
    print ('   name:           Name of project, random name if not specified')
@@ -261,6 +262,15 @@ def build ():
 
 
 
+#-- bootloader ---------------------------------------------------------------
+
+def bootloader ():
+   import erbb
+
+   erbb.deploy_bootloader ()
+
+
+
 #-- install ------------------------------------------------------------------
 
 def install ():
@@ -325,6 +335,9 @@ def main ():
 
       elif command == 'install':
          install ()
+
+      elif command == 'bootloader':
+         bootloader ()
 
       else:
          print ("Error: Unknown command %s\n" % command)

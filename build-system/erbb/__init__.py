@@ -405,6 +405,21 @@ def deploy (name, section, path, configuration, force_dfu_util=False):
 
 """
 ==============================================================================
+Name : deploy_bootloader
+==============================================================================
+"""
+
+def deploy_bootloader ():
+   libdaisy_bootloader_bin = os.path.join (
+      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'dsy_bootloader_v4.bin'
+   )
+
+   deploy_dfu_util ('dsy_bootloader_v4', 'flash', libdaisy_bootloader_bin)
+
+
+
+"""
+==============================================================================
 Name : deploy_dfu_util
 ==============================================================================
 """
