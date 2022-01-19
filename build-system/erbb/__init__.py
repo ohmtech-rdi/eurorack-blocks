@@ -182,17 +182,12 @@ Name: configure_daisy
 def configure_daisy (path):
    path_artifacts = os.path.join (path, 'artifacts')
 
-   libdaisy_flash_lds_path = os.path.join (
-      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'STM32H750IB_flash.lds'
-   )
-
    gyp_args = [
       '--depth=.',
       '--generator-output=%s' % path_artifacts,
       '--format', 'ninja-linux',
       '-D', 'OS=daisy',
       '-D', 'GYP_CROSSCOMPILE',
-      '-D', 'erbb_flash_lds=%s' % libdaisy_flash_lds_path,
    ]
 
    os.environ.update ({

@@ -39,12 +39,28 @@ class Project:
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = self.replace_section (template, module);
       template = self.replace_defines (template, module.defines);
       template = self.replace_bases (template, module.bases);
       template = self.replace_sources (template, module.sources, path);
 
       with open (path_cpp, 'w') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_section (self, template, module):
+      daisy_core = os.path.join (PATH_ROOT, 'submodules', 'libDaisy', 'core')
+
+      if module.section.name == 'flash':
+         lds_path = os.path.join (daisy_core, 'STM32H750IB_flash.lds')
+      elif module.section.name == 'qspi':
+         lds_path = os.path.join (daisy_core, 'STM32H750IB_qspi.lds')
+      else:
+         assert False
+
+      return template.replace ('%module.section%', lds_path)
 
 
    #--------------------------------------------------------------------------

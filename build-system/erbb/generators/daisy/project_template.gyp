@@ -35,6 +35,8 @@
          'sources': [
 %           sources.entities%
          ],
+
+         'ldflags': [ '-T%module.section%' ],
       },
    ],
 }
