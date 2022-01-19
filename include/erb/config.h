@@ -27,15 +27,16 @@
 
 
 
-// 'erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK' will break into the debugger when
-// a module consumes more than 'erb_SDRAM_MEM_POOL_SIZE' in the simulator.
+// 'erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK' will break into the debugger when
+// a module consumes more than the available pool size for the choosen memory
+// section in the simulator.
 // However, this only works when debugging one module, as instantiating
 // 2 or more modules will count the used pool size for all modules.
 // To workaround this, one might want to disable explicitly this flag to be
 // able to test more than one module in the simulator.
 
-#if !defined (erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
-   #define erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK 1
+#if !defined (erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
+   #define erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK 1
 #endif
 
 

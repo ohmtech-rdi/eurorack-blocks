@@ -43,7 +43,7 @@ size_t   MonotonicMemoryPool <MaxSize>::allocate (size_t alignment, size_t size)
    {
 #if defined (erb_TARGET_DAISY)
       asm ("bkpt 255");
-#elif (erb_SDRAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
+#elif (erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
       // Either:
       // - The module is using too much memory,
       // - Multiple modules are being debugged (check erb/config.h for workaround)
