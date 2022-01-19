@@ -25,6 +25,8 @@ namespace erb
 
 
 
+inline void *     allocate_bytes_auto (size_t size);
+
 template <size_t NbrChannels>
 void              scale (std::array <Buffer, NbrChannels> & out, float * const * in, float gain);
 template <size_t NbrChannels>
