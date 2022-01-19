@@ -13,12 +13,48 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/config.h"
+#include "erb/detail/Sram.h"
+#include "erb/detail/Sdram.h"
+
 #include <algorithm>
 
 
 
 namespace erb
 {
+
+
+
+/*
+==============================================================================
+Name : allocate_bytes_auto
+==============================================================================
+*/
+
+void *   allocate_bytes_auto (size_t size)
+{
+   void * ptr = Sram::allocate_bytes_nullptr_on_error (size);
+
+   if (ptr == nullptr)
+   {
+      ptr = Sdram::allocate_bytes_nullptr_on_error (size);
+   }
+
+   if (ptr == nullptr)
+   {
+#if defined (erb_TARGET_DAISY)
+      asm ("bkpt 255");
+#elif (erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
+      // Either:
+      // - The module is using too much memory,
+      // - Multiple modules are being debugged (check erb/config.h for workaround)
+      throw std::bad_alloc ();
+#endif
+   }
+
+   return ptr;
+}
 
 
 
