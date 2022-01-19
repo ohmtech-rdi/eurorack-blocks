@@ -36,8 +36,25 @@ class Analyser:
    def analyse_module (self, module):
       assert module.is_module
 
+      self.analyse_section (module)
+
       for resources in module.resources:
          self.analyse_resources (resources)
+
+   #--------------------------------------------------------------------------
+
+   def analyse_section (self, module):
+      assert module.is_module
+
+      sections = [e for e in module.entities if e.is_section]
+      nbr_sections = len (sections)
+
+      if nbr_sections > 1:
+         raise error.multiple_definition (module, sections)
+
+      if nbr_sections == 0:
+         section = ast.Section (adapter.BuiltIn ('flash'))
+         module.add (section)
 
    #--------------------------------------------------------------------------
 
