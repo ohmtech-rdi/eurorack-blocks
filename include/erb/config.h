@@ -26,6 +26,14 @@
 #endif
 
 
+// 'erb_SRAM_MEM_POOL_SIZE' represents the maximum amount of memory that can
+// be used for all combined usages of 'SramPtr' for an entire module.
+// If not defined, it will take the entire Daisy AXI SRAM memory, so 512KB.
+
+#if !defined (erb_SRAM_MEM_POOL_SIZE)
+   #define erb_SRAM_MEM_POOL_SIZE 0x80000
+#endif
+
 
 // 'erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK' will break into the debugger when
 // a module consumes more than the available pool size for the choosen memory
@@ -38,6 +46,11 @@
 #if !defined (erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
    #define erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK 1
 #endif
+
+
+
+
+
 
 
 

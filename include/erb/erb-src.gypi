@@ -48,6 +48,8 @@
       'Pot.hpp',
       'SdramPtr.h',
       'SdramPtr.hpp',
+      'SramPtr.h',
+      'SramPtr.hpp',
       'Switch.h',
       'Switch.hpp',
       'config.h',
@@ -68,6 +70,8 @@
       'detail/MonotonicMemoryPool.hpp',
       'detail/Sdram.h',
       'detail/Sdram.hpp',
+      'detail/Sram.h',
+      'detail/Sram.hpp',
       'detail/fnc.h',
       'detail/fnc.hpp',
 
@@ -77,6 +81,7 @@
       '../../src/detail/Animation.cpp',
       '../../src/detail/Debounce.cpp',
       '../../src/detail/Sdram.cpp',
+      '../../src/detail/Sram.cpp',
    ],
 
    'include_dirs': [
