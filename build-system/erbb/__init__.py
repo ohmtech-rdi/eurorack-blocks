@@ -387,15 +387,19 @@ Name : deploy
 """
 
 def deploy (name, section, path, configuration, force_dfu_util=False):
+   path_artifacts = os.path.join (path, 'artifacts')
+
    if shutil.which ('openocd') is not None and not force_dfu_util:
       if section != 'flash':
          print ('Install option \'openocd\' doesn\'t support programming to %s.' % section)
          print ('Please use option \'dfu\' instead.')
          sys.exit ()
 
-      deploy_openocd (name, path, configuration)
+      file_elf = os.path.join (path_artifacts, 'out', configuration, '%s' % name)
+      deploy_openocd (name, file_elf)
    else:
-      deploy_dfu_util (name, section, path, configuration)
+      file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
+      deploy_dfu_util (name, section, file_bin)
 
 
 
@@ -405,10 +409,7 @@ Name : deploy_dfu_util
 ==============================================================================
 """
 
-def deploy_dfu_util (name, section, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
-   file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
-
+def deploy_dfu_util (name, section, file_bin):
    if not os.path.exists (file_bin):
       sys.exit ('Unknown target %s' % name)
 
@@ -447,10 +448,7 @@ Name : deploy_openocd
 ==============================================================================
 """
 
-def deploy_openocd (name, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
-   file_elf = os.path.join (path_artifacts, 'out', configuration, '%s' % name)
-
+def deploy_openocd (name, file_elf):
    if not os.path.exists (file_elf):
       sys.exit ('Unknown target %s' % name)
 
