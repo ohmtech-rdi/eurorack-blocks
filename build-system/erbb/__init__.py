@@ -386,11 +386,16 @@ Name : deploy
 ==============================================================================
 """
 
-def deploy (name, path, configuration, force_dfu_util=False):
+def deploy (name, section, path, configuration, force_dfu_util=False):
    if shutil.which ('openocd') is not None and not force_dfu_util:
+      if section != 'flash':
+         print ('Install option \'openocd\' doesn\'t support programming to %s.' % section)
+         print ('Please use option \'dfu\' instead.')
+         sys.exit ()
+
       deploy_openocd (name, path, configuration)
    else:
-      deploy_dfu_util (name, path, configuration)
+      deploy_dfu_util (name, section, path, configuration)
 
 
 
@@ -400,7 +405,7 @@ Name : deploy_dfu_util
 ==============================================================================
 """
 
-def deploy_dfu_util (name, path, configuration):
+def deploy_dfu_util (name, section, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
    file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
 
@@ -412,13 +417,20 @@ def deploy_dfu_util (name, path, configuration):
 
    input ("Press Enter to continue...")
 
-   print ('Flashing...')
+   print ('Uploading %s to %s section...' % (name, section))
+
+   if section == 'flash':
+      section_address = '0x08000000'
+   elif section == 'qspi':
+      section_address = '0x90040000'
+   else:
+      assert False
 
    cmd = [
       'dfu-util',
       '-a', '0',
       '-i', '0',
-      '-s', '0x08000000:leave',
+      '-s', '%s:leave' % section_address,
       '-D', file_bin,
       '-d', '0483:df11',
    ]
