@@ -1,0 +1,60 @@
+/*****************************************************************************
+
+      Kick.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Kick {
+   section qspi
+
+   import "../dsp/dsp.erbb"
+
+   sources {
+      file "Kick.cpp"
+      file "Kick.h"
+      file "Kick.erbui"
+
+      file "ClockEstimator.cpp"
+      file "ClockEstimator.h"
+      file "Presence.cpp"
+      file "Presence.h"
+      file "Space.cpp"
+      file "Space.h"
+      file "VoiceBody.cpp"
+      file "VoiceBody.h"
+      file "VoiceBody.hpp"
+      file "VoiceTransient.cpp"
+      file "VoiceTransient.h"
+      file "VoiceTransient.hpp"
+      file "VoicesBody.cpp"
+      file "VoicesBody.h"
+      file "VoicesBody.hpp"
+      file "VoicesTransient.cpp"
+      file "VoicesTransient.h"
+   }
+
+   resources {
+      data body AudioSample { file "media/body.wav" }
+      data transient01 AudioSample { file "media/transient01.wav" }
+      data transient02 AudioSample { file "media/transient02.wav" }
+      data transient03 AudioSample { file "media/transient03.wav" }
+      data transient04 AudioSample { file "media/transient04.wav" }
+      data transient05 AudioSample { file "media/transient05.wav" }
+      data transient06 AudioSample { file "media/transient06.wav" }
+      data transient07 AudioSample { file "media/transient07.wav" }
+      data transient08 AudioSample { file "media/transient08.wav" }
+      data transient09 AudioSample { file "media/transient09.wav" }
+      data transient10 AudioSample { file "media/transient10.wav" }
+      data transient11 AudioSample { file "media/transient11.wav" }
+      data transient12 AudioSample { file "media/transient12.wav" }
+      data transient13 AudioSample { file "media/transient13.wav" }
+      data transient14 AudioSample { file "media/transient14.wav" }
+      data transient15 AudioSample { file "media/transient15.wav" }
+      data transient16 AudioSample { file "media/transient16.wav" }
+      data transient17 AudioSample { file "media/transient17.wav" }
+      data transient18 AudioSample { file "media/transient18.wav" }
+   }
+}

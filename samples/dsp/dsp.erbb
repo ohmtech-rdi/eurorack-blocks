@@ -16,6 +16,8 @@ sources {
    file "GainRamp.cpp"
    file "GainRamp.h"
    file "GainRamp.hpp"
+   file "Ramp.h"
+   file "Ramp.hpp"
    file "ReverbSc.cpp"
    file "ReverbSc.h"
 }
