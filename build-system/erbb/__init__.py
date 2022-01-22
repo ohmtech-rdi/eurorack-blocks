@@ -428,8 +428,13 @@ def deploy_dfu_util (name, section, file_bin):
    if not os.path.exists (file_bin):
       sys.exit ('Unknown target %s' % name)
 
-   print ('Enter the system bootloader by holding the BOOT button down,')
-   print ('and then pressing, and releasing the RESET button.')
+   if section == 'flash':
+      print ('Enter the system bootloader by holding the BOOT button down,')
+      print ('and then pressing, and releasing the RESET button.')
+   elif section == 'qspi':
+      print ('Enter the Daisy bootloader by pressing the RESET button.')
+   else:
+      assert False
 
    input ("Press Enter to continue...")
 
