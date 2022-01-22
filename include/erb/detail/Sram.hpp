@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      MonotonicMemoryPool.hpp
+      Sram.hpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -12,8 +12,6 @@
 
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-#include "erb/config.h"
 
 #include <new>
 
@@ -32,28 +30,23 @@ Name : allocate
 ==============================================================================
 */
 
-template <size_t MaxSize>
-size_t   MonotonicMemoryPool <MaxSize>::allocate (size_t alignment, size_t size)
+template <typename T, class... Args>
+T *   Sram::allocate (Args &&... args)
 {
-   const size_t mask = alignment - 1;
-   const size_t max_needed_size = size + mask;
-   const size_t pos = _pos.fetch_add (max_needed_size, std::memory_order_relaxed);
+   auto ptr = use_instance ().allocate_raw (alignof (T), sizeof (T));
 
-   if (pos + max_needed_size > MaxSize)
+   if (ptr == nullptr)
    {
 #if defined (erb_TARGET_DAISY)
-      asm ("bkpt 255");
-#elif (erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
-      // Either:
-      // - The module is using too much memory,
-      // - Multiple modules are being debugged (check erb/config.h for workaround)
+      asm("bkpt 255");
+
+#elif defined (erb_TARGET_VCV_RACK)
       throw std::bad_alloc ();
+
 #endif
    }
 
-   const size_t aligned_pos = (pos + mask) & ~mask;
-
-   return aligned_pos;
+   return new (ptr) T (std::forward <Args> (args)...);
 }
 
 
