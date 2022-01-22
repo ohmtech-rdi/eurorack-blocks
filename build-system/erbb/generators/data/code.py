@@ -129,7 +129,19 @@ class Code:
 
       with file:
          samples = file.read ()
-         content = '   static const erb::AudioSample <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+         if data.stream is None:
+            if file.channels == 1:
+               content = '   static const erb::AudioSampleMono <float, %d> %s;\n' % (file.frames, data.name);
+            else:
+               content = '   static const erb::AudioSampleInterleaved <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+         elif data.stream.format == 'interleaved':
+            content = '   static const erb::AudioSampleInterleaved <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+         elif data.stream.format == 'planar':
+            content = '   static const erb::AudioSamplePlanar <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+         elif data.stream.format == 'mono':
+            content = '   static const erb::AudioSampleMono <float, %d> %s;\n' % (file.frames, data.name);
+         else:
+            assert False
 
       return content
 
@@ -228,18 +240,73 @@ class Code:
          raise err
 
       with file:
-         samples = file.read ()
-         content = 'const erb::AudioSample <float, %d, %d> %sData::%s = {\n' % (file.frames, file.channels, module.name, data.name);
-         content += '   .sample_rate = %f,\n' % file.samplerate;
-         content += '   .frames = {{\n';
-         content += '      ';
-         if file.channels == 1:
-            to_channels = lambda frame: '{' + float.hex (frame) + '}'
+         if data.stream is None:
+            if file.channels == 1:
+               return self.generate_definition_data_audio_sample_mono (module, data, file)
+            else:
+               return self.generate_definition_data_audio_sample_interleaved (module, data, file)
+         elif data.stream.format == 'interleaved':
+            return self.generate_definition_data_audio_sample_interleaved (module, data, file)
+         elif data.stream.format == 'planar':
+            return self.generate_definition_data_audio_sample_planar (module, data, file)
+         elif data.stream.format == 'mono':
+            return self.generate_definition_data_audio_sample_mono (module, data, file)
          else:
-            to_channels = lambda frame: '{'+ ', '.join (map (lambda channel: float.hex (channel), frame)) + '}'
-         content += ', '.join (map (lambda frame: to_channels (frame), samples))
-         content += '\n';
-         content += '   }}\n';
-         content += '};\n'
+            assert False
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_definition_data_audio_sample_interleaved (self, module, data, file):
+      samples = file.read ()
+      content = 'const erb::AudioSampleInterleaved <float, %d, %d> %sData::%s = {\n' % (file.frames, file.channels, module.name, data.name);
+      content += '   .sample_rate = %f,\n' % file.samplerate;
+      content += '   .frames = {{\n';
+      content += '      ';
+      if file.channels == 1:
+         to_channels = lambda frame: '{' + float.hex (frame) + '}'
+      else:
+         to_channels = lambda frame: '{'+ ', '.join (map (lambda channel: float.hex (channel), frame)) + '}'
+      content += ', '.join (map (lambda frame: to_channels (frame), samples))
+      content += '\n';
+      content += '   }}\n';
+      content += '};\n'
+
+      return content
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_definition_data_audio_sample_planar (self, module, data, file):
+      samples = file.read ()
+      content = 'const erb::AudioSamplePlanar <float, %d, %d> %sData::%s = {\n' % (file.frames, file.channels, module.name, data.name);
+      content += '   .sample_rate = %f,\n' % file.samplerate;
+      content += '   .channels = {{\n';
+      for c in range (file.channels):
+         content += '      {';
+         content += ', '.join (map (lambda frame: float.hex (frame [c]), samples))
+         content += '},\n';
+      content += '   }}\n';
+      content += '};\n'
+
+      return content
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_definition_data_audio_sample_mono (self, module, data, file):
+      samples = file.read ()
+      content = 'const erb::AudioSampleMono <float, %d> %sData::%s = {\n' % (file.frames, module.name, data.name);
+      content += '   .sample_rate = %f,\n' % file.samplerate;
+      content += '   .samples = {{\n';
+      content += '      ';
+      if file.channels == 1:
+         to_channels = lambda frame: float.hex (frame)
+      else:
+         to_channels = lambda frame: '{'+ ', '.join (map (lambda channel: float.hex (channel), frame)) + '}'
+      content += ', '.join (map (lambda frame: to_channels (frame), samples))
+      content += '\n';
+      content += '   }}\n';
+      content += '};\n'
 
       return content
