@@ -82,12 +82,14 @@ raf:bypass$
 [<img align="right" height="200px" src="./samples/bypass/screenshot.png">](./samples/bypass/)
 [<img align="right" height="200px" src="./samples/drop/screenshot.png">](./samples/drop/)
 [<img align="right" height="200px" src="./samples/reverb/screenshot.png">](./samples/reverb/)
+[<img align="right" height="200px" src="./samples/kick/screenshot.png">](./samples/kick/)
 
 Sample projects are a good place to start learning:
 
 - [`bypass`](./samples/bypass/) is the example used above,
 - [`drop`](./samples/drop/) shows the usage of almost every blocks,
-- [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory.
+- [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory,
+- [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs.
 
 
 ## Blocks
