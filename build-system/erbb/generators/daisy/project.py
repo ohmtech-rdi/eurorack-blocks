@@ -39,6 +39,7 @@ class Project:
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = self.replace_boot_option (template, module);
       template = self.replace_section (template, module);
       template = self.replace_defines (template, module.defines);
       template = self.replace_bases (template, module.bases);
@@ -46,6 +47,18 @@ class Project:
 
       with open (path_cpp, 'w') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_boot_option (self, template, module):
+
+      boot_option = ''
+
+      if module.section.name != 'flash':
+         boot_option = '\'BOOT_APP=1\''
+
+      return template.replace ('%boot.option%', boot_option)
 
 
    #--------------------------------------------------------------------------

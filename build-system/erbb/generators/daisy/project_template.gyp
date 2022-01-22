@@ -16,6 +16,10 @@
       '%PATH_ROOT%/eurorack-blocks.gypi',
    ],
 
+   'target_defaults': {
+      'defines': [ %boot.option% ],
+   },
+
    'targets' : [
       {
          'target_name': '%module.name%',
