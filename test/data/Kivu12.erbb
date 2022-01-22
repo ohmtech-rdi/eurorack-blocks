@@ -18,5 +18,9 @@ module Kivu12 {
       data raw { file "raw.bin" }
       data sample_mono AudioSample { file "mono.wav" }
       data sample_stereo AudioSample { file "stereo.wav" }
+
+      data sample_mono_mono AudioSample { file "mono.wav" stream mono }
+      data sample_stereo_interleaved AudioSample { file "stereo.wav" stream interleaved }
+      data sample_stereo_planar AudioSample { file "stereo.wav" stream planar }
    }
 }
