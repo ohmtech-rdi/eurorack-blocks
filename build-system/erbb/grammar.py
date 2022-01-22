@@ -13,7 +13,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 KEYWORDS = (
    'module',
    'import', 'define', 'sources', 'resources', 'section',
-   'file', 'data', 'flash', 'qspi'
+   'file', 'data', 'flash', 'qspi', 'stream', 'mono', 'interleaved', 'planar'
 )
 
 SYMBOLS = (',', '{', '}', '=')
@@ -42,9 +42,13 @@ def sources_entities ():               return ZeroOrMore (file_declaration)
 def sources_body ():                   return '{', sources_entities, '}'
 def sources_declaration ():            return 'sources', sources_body
 
+# Stream
+def stream_format ():                  return ['mono', 'interleaved', 'planar']
+def stream_declaration ():             return 'stream', stream_format
+
 # Data
 
-def data_entities ():                  return ZeroOrMore (file_declaration)
+def data_entities ():                  return ZeroOrMore ([file_declaration, stream_declaration])
 def data_body ():                      return '{', data_entities, '}'
 def data_name ():                      return name
 def data_type ():                      return name
