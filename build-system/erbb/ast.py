@@ -411,7 +411,7 @@ class Data (Scope):
       self.type_identifier = type_identifier
 
    @staticmethod
-   def typename (): return 'module'
+   def typename (): return 'data'
 
    @property
    def name (self): return self.name_identifier.name
