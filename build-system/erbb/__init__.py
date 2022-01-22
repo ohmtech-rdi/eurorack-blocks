@@ -182,17 +182,12 @@ Name: configure_daisy
 def configure_daisy (path):
    path_artifacts = os.path.join (path, 'artifacts')
 
-   libdaisy_flash_lds_path = os.path.join (
-      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'STM32H750IB_flash.lds'
-   )
-
    gyp_args = [
       '--depth=.',
       '--generator-output=%s' % path_artifacts,
       '--format', 'ninja-linux',
       '-D', 'OS=daisy',
       '-D', 'GYP_CROSSCOMPILE',
-      '-D', 'erbb_flash_lds=%s' % libdaisy_flash_lds_path,
    ]
 
    os.environ.update ({
@@ -391,11 +386,35 @@ Name : deploy
 ==============================================================================
 """
 
-def deploy (name, path, configuration, force_dfu_util=False):
+def deploy (name, section, path, configuration, force_dfu_util=False):
+   path_artifacts = os.path.join (path, 'artifacts')
+
    if shutil.which ('openocd') is not None and not force_dfu_util:
-      deploy_openocd (name, path, configuration)
+      if section != 'flash':
+         print ('Install option \'openocd\' doesn\'t support programming to %s.' % section)
+         print ('Please use option \'dfu\' instead.')
+         sys.exit ()
+
+      file_elf = os.path.join (path_artifacts, 'out', configuration, '%s' % name)
+      deploy_openocd (name, file_elf)
    else:
-      deploy_dfu_util (name, path, configuration)
+      file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
+      deploy_dfu_util (name, section, file_bin)
+
+
+
+"""
+==============================================================================
+Name : deploy_bootloader
+==============================================================================
+"""
+
+def deploy_bootloader ():
+   libdaisy_bootloader_bin = os.path.join (
+      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'dsy_bootloader_v4.bin'
+   )
+
+   deploy_dfu_util ('dsy_bootloader_v4', 'flash', libdaisy_bootloader_bin)
 
 
 
@@ -405,25 +424,34 @@ Name : deploy_dfu_util
 ==============================================================================
 """
 
-def deploy_dfu_util (name, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
-   file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
-
+def deploy_dfu_util (name, section, file_bin):
    if not os.path.exists (file_bin):
       sys.exit ('Unknown target %s' % name)
 
-   print ('Enter the system bootloader by holding the BOOT button down,')
-   print ('and then pressing, and releasing the RESET button.')
+   if section == 'flash':
+      print ('Enter the system bootloader by holding the BOOT button down,')
+      print ('and then pressing, and releasing the RESET button.')
+   elif section == 'qspi':
+      print ('Enter the Daisy bootloader by pressing the RESET button.')
+   else:
+      assert False
 
    input ("Press Enter to continue...")
 
-   print ('Flashing...')
+   print ('Uploading %s to %s section...' % (name, section))
+
+   if section == 'flash':
+      section_address = '0x08000000'
+   elif section == 'qspi':
+      section_address = '0x90040000'
+   else:
+      assert False
 
    cmd = [
       'dfu-util',
       '-a', '0',
       '-i', '0',
-      '-s', '0x08000000:leave',
+      '-s', '%s:leave' % section_address,
       '-D', file_bin,
       '-d', '0483:df11',
    ]
@@ -440,10 +468,7 @@ Name : deploy_openocd
 ==============================================================================
 """
 
-def deploy_openocd (name, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
-   file_elf = os.path.join (path_artifacts, 'out', configuration, '%s' % name)
-
+def deploy_openocd (name, file_elf):
    if not os.path.exists (file_elf):
       sys.exit ('Unknown target %s' % name)
 

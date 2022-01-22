@@ -43,6 +43,9 @@ class Node:
    def is_module (self): return isinstance (self, Module)
 
    @property
+   def is_section (self): return isinstance (self, Section)
+
+   @property
    def is_library (self): return isinstance (self, Library)
 
    @property
@@ -155,6 +158,12 @@ class Module (Scope):
       return super (Module, self).source_context_part (part) # pragma: no cover
 
    @property
+   def section (self):
+      entities = [e for e in self.entities if e.is_section]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
    def imports (self):
       entities = [e for e in self.entities if e.is_import]
       return entities
@@ -178,6 +187,32 @@ class Module (Scope):
    def bases (self):
       entities = [e for e in self.entities if e.is_base]
       return entities
+
+
+
+# -- Library -----------------------------------------------------------------
+
+class Section (Scope):
+   def __init__ (self, section_keyword):
+      super (Section, self).__init__ ()
+      self.name_keyword = section_keyword
+
+   @staticmethod
+   def typename (): return 'section'
+
+   @property
+   def name (self):
+      return self.name_keyword.value
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.name_keyword)
+
+      return super (Section, self).source_context_part (part) # pragma: no cover
 
 
 

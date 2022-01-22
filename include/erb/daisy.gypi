@@ -90,7 +90,6 @@
 
          '--specs=nano.specs',
          '--specs=nosys.specs',
-         '-T<(erbb_flash_lds)',
 
          '-lc',
          '-lm',

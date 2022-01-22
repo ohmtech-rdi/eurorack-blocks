@@ -79,6 +79,18 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Section ---------------------------------------------------------------
+
+   def visit_section_declaration (self, node, children):
+      section_keyword = children.section_name [0]
+      section = ast.Section (section_keyword)
+
+      return section
+
+   def visit_section_name (self, node, children):
+      return self.to_keyword (node)
+
+
    #-- Library ---------------------------------------------------------------
 
    def visit_library_declaration (self, node, children):

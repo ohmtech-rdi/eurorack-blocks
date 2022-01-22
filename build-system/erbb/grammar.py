@@ -12,8 +12,8 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 KEYWORDS = (
    'module',
-   'import', 'define', 'sources'
-   'file',
+   'import', 'define', 'sources', 'resources', 'section',
+   'file', 'data', 'flash', 'qspi'
 )
 
 SYMBOLS = (',', '{', '}', '=')
@@ -58,8 +58,12 @@ def resources_declaration ():          return 'resources', resources_body
 # Base
 def base_declaration ():               return 'base', string_literal
 
+# Base
+def section_name ():                   return ['flash', 'qspi']
+def section_declaration ():            return 'section', section_name
+
 # Module
-def module_entities ():                return ZeroOrMore ([import_declaration, define_declaration, sources_declaration, resources_declaration, base_declaration])
+def module_entities ():                return ZeroOrMore ([section_declaration, import_declaration, define_declaration, sources_declaration, resources_declaration, base_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body, EOF

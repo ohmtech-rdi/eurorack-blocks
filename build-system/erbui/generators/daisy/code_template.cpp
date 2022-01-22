@@ -39,35 +39,46 @@ int main ()
    // Init system
    daisy::System system;
    daisy::System::Config config;
-
    config.Boost ();
+
+   auto program_memory_section = daisy::System::GetProgramMemoryRegion ();
+
+   // When using the bootloader, clocks have been already configured
+   if (program_memory_section != daisy::System::MemoryRegion::INTERNAL_FLASH)
+   {
+      config.skip_clocks = true;
+   }
+
    system.Init (config);
 
    // Init SDRAM
-   SdramHandle sdram;
-   sdram.Init ();
+
+   // When using the bootloader, SDRAM has been already configured
+   if (program_memory_section == daisy::System::MemoryRegion::INTERNAL_FLASH)
+   {
+      SdramHandle sdram;
+      sdram.Init ();
+   }
 
    // Init QSPI
    daisy::QSPIHandle qspi;
 
-   erb_DISABLE_WARNINGS_DAISY
-
-   using namespace daisy;
-
-   qspi.Init (QSPIHandle::Config {
-      .pin_config = {
-         .io0 = {DSY_GPIOF, 8},
-         .io1 = {DSY_GPIOF, 9},
-         .io2 = {DSY_GPIOF, 7},
-         .io3 = {DSY_GPIOF, 6},
-         .clk = {DSY_GPIOF, 10},
-         .ncs = {DSY_GPIOG, 6}
-      },
-      .device = QSPIHandle::Config::Device::IS25LP064A,
-      .mode = QSPIHandle::Config::Mode::MEMORY_MAPPED
-   });
-
-   erb_RESTORE_WARNINGS
+   // When using QSPI for program, QSPI has already been configured
+   if (program_memory_section != daisy::System::MemoryRegion::QSPI)
+   {
+      qspi.Init (daisy::QSPIHandle::Config {
+         .pin_config = {
+            .io0 = {DSY_GPIOF, 8},
+            .io1 = {DSY_GPIOF, 9},
+            .io2 = {DSY_GPIOF, 7},
+            .io3 = {DSY_GPIOF, 6},
+            .clk = {DSY_GPIOF, 10},
+            .ncs = {DSY_GPIOG, 6}
+         },
+         .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
+         .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
+      });
+   }
 
    //-------------------------------------------------------------------------
 
