@@ -14,6 +14,7 @@
             Words = (
                 "module", "import", "define", "sources", "file", "resources", "data",
                 "section", "flash", "qspi",
+                "stream", "mono", "interleaved", "planar",
             );
             Type = "xcode.syntax.keyword";
         };
