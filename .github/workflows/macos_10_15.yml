@@ -59,6 +59,9 @@ jobs:
       - name: samples/reverb
         run: erbb configure; erbb build; erbb build simulator
         working-directory: samples/reverb
+      - name: samples/kick
+        run: erbb configure; erbb build; erbb build simulator
+        working-directory: samples/kick
       - name: erbb init
         run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
         working-directory: samples
