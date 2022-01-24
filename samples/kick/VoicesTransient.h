@@ -35,7 +35,7 @@ public:
 
    float          process ();
 
-   const erb::AudioSample <float, 38400, 1> &
+   const erb::AudioSampleMono <float, 38400> &
                   get_sample (size_t index);
 
 
