@@ -76,3 +76,18 @@ class Analyser:
          raise error.missing_required (data, ast.File)
       elif nbr_files > 1:
          raise error.multiple_definition (data, files)
+
+      streams = [e for e in data.entities if e.is_stream]
+      nbr_streams = len (streams)
+
+      if nbr_streams == 1:
+         stream = streams [0]
+         if data.type_ != 'AudioSample':
+            err = error.Error ()
+            context = stream.source_context
+            err.add_error ("stream format in only available for AudioSample data type", context)
+            err.add_context (context)
+            raise err
+
+      elif nbr_streams > 1:
+         raise error.multiple_definition (data, streams)

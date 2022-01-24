@@ -24,16 +24,41 @@ namespace erb
 
 
 template <class T, size_t Length, size_t NbrChannels>
-struct AudioSample
+struct AudioSampleInterleaved
 {
-   struct Channel
+   struct Frame
    {
       std::array <float, NbrChannels> channels;
    };
 
    float          sample_rate;
-   std::array <Channel, Length>
+   std::array <Frame, Length>
                   frames;
+};
+
+
+
+template <class T, size_t Length, size_t NbrChannels>
+struct AudioSamplePlanar
+{
+   struct Channel
+   {
+      std::array <float, Length> samples;
+   };
+
+   float          sample_rate;
+   std::array <Channel, NbrChannels>
+                  channels;
+};
+
+
+
+template <class T, size_t Length>
+struct AudioSampleMono
+{
+   float          sample_rate;
+   std::array <float, Length>
+                  samples;
 };
 
 

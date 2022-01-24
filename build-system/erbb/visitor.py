@@ -163,6 +163,17 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Stream ----------------------------------------------------------------
+
+   def visit_stream_declaration (self, node, children):
+      stream_format = children.stream_format [0]
+      stream = ast.Stream (stream_format)
+      return stream
+
+   def visit_stream_format (self, node, children):
+      return self.to_keyword (node)
+
+
    #-- Data ------------------------------------------------------------------
 
    def visit_data_declaration (self, node, children):

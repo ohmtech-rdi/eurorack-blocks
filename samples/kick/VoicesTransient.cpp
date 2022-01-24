@@ -107,7 +107,7 @@ Name : get_sample
 ==============================================================================
 */
 
-const erb::AudioSample <float, 38400, 1> &   VoicesTransient::get_sample (size_t index)
+const erb::AudioSampleMono <float, 38400> &  VoicesTransient::get_sample (size_t index)
 {
    index = index % 18;
 

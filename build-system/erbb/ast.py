@@ -67,6 +67,9 @@ class Node:
    def is_data (self): return isinstance (self, Data)
 
    @property
+   def is_stream (self): return isinstance (self, Stream)
+
+   @property
    def is_base (self): return isinstance (self, Base)
 
 
@@ -408,7 +411,7 @@ class Data (Scope):
       self.type_identifier = type_identifier
 
    @staticmethod
-   def typename (): return 'module'
+   def typename (): return 'data'
 
    @property
    def name (self): return self.name_identifier.name
@@ -431,3 +434,35 @@ class Data (Scope):
       entities = [e for e in self.entities if e.is_file]
       assert (len (entities) == 1)
       return entities [0]
+
+   @property
+   def stream (self):
+      entities = [e for e in self.entities if e.is_stream]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+
+
+# -- Stream ------------------------------------------------------------------
+
+class Stream (Node):
+   def __init__ (self, format):
+      assert isinstance (format, adapter.Keyword)
+      super (Stream, self).__init__ ()
+      self.format_keyword = format
+
+   @property
+   def format (self): return self.format_keyword.value
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('format')
+
+   def source_context_part (self, part):
+      if part == 'format':
+         return adapter.SourceContext.from_token (self.format_keyword)
+
+      return super (Stream, self).source_context_part (part) # pragma: no cover
