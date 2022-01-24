@@ -155,7 +155,8 @@ A `data` is an element of the module that represents a resource.
 > _data-declaration_ → **`data`** data-name data-type<sub>_opt_</sub> **`{`** data-entity<sub>_0+_</sub> **`}`** \
 > _data-name_ → [identifier](./lexical.md#identifiers) \
 > _data-type_ → [identifier](./lexical.md#identifiers) \
-> _data-entity_ → [file-declaration](#file)
+> _data-entity_ → [file-declaration](#file) \
+> _data-entity_ → [stream-declaration](#stream)
 
 ### Language Bindings
 
@@ -204,3 +205,29 @@ module Foo {
 ### Supported Types
 
 - **`AudioSample`**: Creates a `erb::AudioSample` value from an audio sample file.
+
+
+## `stream`
+
+A `stream` defines the representation of frames, channels and samples for an `AudioSample`
+`data` type. When not specified, mono audio samples are assumed `mono` and multi-channels
+audio samples are assumed `interleaved`, to maximize cache coherency and simplify
+processing using SIMD instructions.
+
+### Grammar
+
+> _stream-declaration_ → **`stream`** stream-format \
+> _stream-format_ → **`mono`** \
+> _stream-format_ → **`interleaved`** \
+> _stream-format_ → **`planar`**
+
+### Language Bindings
+
+The generated instance will have the types `AudioSampleMono`, `AudioSampleInterleaved`
+and `AudioSamplePlanar`.
+
+- `AudioSampleMono` stores the sample as a single array for floating point values,
+- `AudioSampleInterleaved` stores the sample as an array of frames, each frame
+   being an array of channels,
+- `AudioSamplePlanar` stores the sample as an array of channels, each channel
+   being an array of samples.
