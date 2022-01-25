@@ -1,5 +1,4 @@
-# Controls Reference Documentation
-
+# Synopsis
 
 ## Audio Signals
 

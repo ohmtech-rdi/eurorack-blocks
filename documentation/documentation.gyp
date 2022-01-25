@@ -15,6 +15,7 @@
 
          'sources': [
             'README.md',
+            'index.md',
 
             'controls/README.md',
             'controls/AudioIn.md',
@@ -30,6 +31,15 @@
             'controls/Pot.md',
             'controls/Switch.md',
             'controls/Trim.md',
+
+            'getting-started/before.md',
+            'getting-started/first.md',
+            'getting-started/setup.md',
+            'getting-started/what.md',
+
+            'guides/drop.md',
+            'guides/kick.md',
+            'guides/reverb.md',
 
             'erbb/lexical.md',
             'erbb/grammar.md',

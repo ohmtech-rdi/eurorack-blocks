@@ -1,4 +1,4 @@
-# Lexical Structure
+# Erbb Lexical Structure
 
 This document describes what sequence of characters form valid tokens of the language.
 

@@ -3,6 +3,7 @@
 [![License: CC BY-SA 4.0](https://img.shields.io/badge/License-CC%20BY--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-sa/4.0/)
 [<!--lint ignore no-dead-urls-->![GitHub Actions status | ohmtech-rdi/eurorack-blocks](https://github.com/ohmtech-rdi/eurorack-blocks/workflows/Ubuntu%2020.04/badge.svg)](https://github.com/ohmtech-rdi/eurorack-blocks/actions?workflow=Ubuntu%2020.04)
 [<!--lint ignore no-dead-urls-->![GitHub Actions status | ohmtech-rdi/eurorack-blocks](https://github.com/ohmtech-rdi/eurorack-blocks/workflows/macOS%2010.15/badge.svg)](https://github.com/ohmtech-rdi/eurorack-blocks/actions?workflow=macOS%2010.15)
+[![Documentation Status](https://readthedocs.org/projects/eurorack-blocks/badge/?version=latest)](https://eurorack-blocks.readthedocs.io/en/latest/?badge=latest)
 
 <img align="left" width="30%" src="./erb-logo.svg">
 
@@ -12,10 +13,12 @@ prototyping or fun in the comfort of your day-to-day IDE and debugging in a
 and when ready, to auto-magically generate all the needed files to manufacture
 the eurorack module for you to use in a real Eurorack modular system.
 
-`eurorack-blocks` is using [`Daisy Seed`](https://www.electro-smith.com/daisy/daisy),
-an embedded platform for music, which uses
-a 480 MHz ARM Cortex-M7 MCU, a High fidelity AKM stereo audio codec, 64MB of SDRAM,
-and 8MB of flash memory.
+`eurorack-blocks` is the using [`Daisy Patch Submodule`](https://www.electro-smith.com/daisy/patch-sm),
+a DSP platform for Eurorack synthesizer modules. It features a lightning fast STM32 processor,
+high fidelity stereo audio codec, and enough RAM for 10 minute long buffers
+— all with standard signal levels and conditioning for the Eurorack ecosystem..
+
+The [documentation as well as the Getting Started guide can be found on **Read the Docs**](https://eurorack-blocks.readthedocs.io/en/latest/).
 
 The full project's manifest can be read [here](manifest.md).
 
@@ -84,7 +87,8 @@ raf:bypass$
 [<img align="right" height="200px" src="./samples/reverb/screenshot.png">](./samples/reverb/)
 [<img align="right" height="200px" src="./samples/kick/screenshot.png">](./samples/kick/)
 
-Sample projects are a good place to start learning:
+Before reading sample code, make sure to grasp the concepts in the [documentation](https://eurorack-blocks.readthedocs.io/en/latest/).
+Sample projects are a good place to continue learning:
 
 - [`bypass`](./samples/bypass/) is the example used above,
 - [`drop`](./samples/drop/) shows the usage of almost every blocks,
@@ -92,65 +96,9 @@ Sample projects are a good place to start learning:
 - [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs.
 
 
-## Blocks
-
-### Audio Signals
-
-- [`AudioIn`](./documentation/controls/AudioIn.md) represents an audio input block,
-- [`AudioOut`](./documentation/controls/AudioOut.md) represents an audio output block.
-
-### Control Voltages
-
-- [`CvIn`](./documentation/controls/CvIn.md) represents a CV input block,
-- [`CvOut`](./documentation/controls/CvOut.md) represents a CV output block.
-
-### Trigger, Gate and Clock Signals
-
-- [`GateIn`](./documentation/controls/GateIn.md) represents a gate input block,
-- [`GateOut`](./documentation/controls/GateOut.md) represents a gate output block.
-
-### Human Interface Devices
-
-- [`Button`](./documentation/controls/Button.md) represents a switch button,
-- [`Led`](./documentation/controls/Led.md) represents a monochromatic LED,
-- [`LedBi`](./documentation/controls/LedBi.md) represents a dichromatic LED,
-- [`LedRgb`](./documentation/controls/LedRgb.md) represents a RGB LED,
-- [`Pot`](./documentation/controls/Pot.md) represents a potentiometer block,
-- [`Switch`](./documentation/controls/Switch.md) represents a 2 or 3 positions toggle switch,
-- [`Trim`](./documentation/controls/Trim.md) represents a trim potentiometer block.
-
-
 ## Setting up
 
-The eurorack-block project requires the following to be installed:
-
-- The `python3` interpreter with minimum version 3.7,
-- The `pip3` python package manager,
-
-> Note: Python 2 is not supported.
-
-### macOS
-
-- [Homebrew](https://brew.sh), up-to-date,
-- [Xcode](https://developer.apple.com/xcode/), with minimum version 10 on macOS,
-- [All the package dependencies](.github/workflows/macos_10_15.yml#L42-L57).
-
-### Debian/Ubuntu
-
-- [All the package dependencies](.github/workflows/ubuntu_20_04.yml#L43-L61).
-
-### STLink probe
-
-The `STLINK-V3MINI` probe can optionally be used to streamline development iterations.
-See instructions in its [documentation](./documentation/stlink/).
-
-
-## Cloning
-
-This repository contains submodules:
-
-    git clone git@github.com:ohmtech-rdi/eurorack-blocks.git
-    git submodule update --init --recursive
+Setting up the development environment is described in the [documentation](https://eurorack-blocks.readthedocs.io/en/latest/getting-started/setup.html).
 
 
 ## Structure
