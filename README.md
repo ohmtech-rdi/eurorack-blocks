@@ -13,10 +13,10 @@ prototyping or fun in the comfort of your day-to-day IDE and debugging in a
 and when ready, to auto-magically generate all the needed files to manufacture
 the eurorack module for you to use in a real Eurorack modular system.
 
-`eurorack-blocks` is the using [`Daisy Patch Submodule`](https://www.electro-smith.com/daisy/patch-sm),
+`eurorack-blocks` is using [`Daisy Patch Submodule`](https://www.electro-smith.com/daisy/patch-sm),
 a DSP platform for Eurorack synthesizer modules. It features a lightning fast STM32 processor,
 high fidelity stereo audio codec, and enough RAM for 10 minute long buffers
-— all with standard signal levels and conditioning for the Eurorack ecosystem..
+— all with standard signal levels and conditioning for the Eurorack ecosystem.
 
 The [documentation as well as the Getting Started guide can be found on **Read the Docs**](https://eurorack-blocks.readthedocs.io/en/latest/).
 
