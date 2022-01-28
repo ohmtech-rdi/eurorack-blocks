@@ -132,6 +132,8 @@ class Code:
          if data.stream is None:
             if file.channels == 1:
                content = self.generate_declaration_data_audio_sample_mono (file, data)
+            elif module.source_language == 'faust':
+               content = self.generate_declaration_data_audio_sample_planar (file, data)
             else:
                content = self.generate_declaration_data_audio_sample_interleaved (file, data)
          elif data.stream.format == 'interleaved':
@@ -260,6 +262,8 @@ class Code:
          if data.stream is None:
             if file.channels == 1:
                return self.generate_definition_data_audio_sample_mono (module, data, file)
+            elif module.source_language == 'faust':
+               return self.generate_definition_data_audio_sample_planar (module, data, file)
             else:
                return self.generate_definition_data_audio_sample_interleaved (module, data, file)
          elif data.stream.format == 'interleaved':
