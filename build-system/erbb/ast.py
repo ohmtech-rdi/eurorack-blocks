@@ -70,6 +70,15 @@ class Node:
    def is_stream (self): return isinstance (self, Stream)
 
    @property
+   def is_faust_address (self): return isinstance (self, FaustAddress)
+
+   @property
+   def is_faust_bind (self): return isinstance (self, FaustBind)
+
+   @property
+   def is_faust (self): return isinstance (self, Faust)
+
+   @property
    def is_base (self): return isinstance (self, Base)
 
 
@@ -144,6 +153,7 @@ class Module (Scope):
       super (Module, self).__init__ ()
       self.identifier = identifier
       self.source_language = 'cpp'
+      self.faust_addresses = {}
 
    @staticmethod
    def typename (): return 'module'
@@ -467,3 +477,60 @@ class Stream (Node):
          return adapter.SourceContext.from_token (self.format_keyword)
 
       return super (Stream, self).source_context_part (part) # pragma: no cover
+
+
+
+# -- Faust -------------------------------------------------------------------
+
+class Faust (Scope):
+   def __init__ (self):
+      super (Faust, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'faust'
+
+   @property
+   def binds (self):
+      entities = [e for e in self.entities if e.is_faust_bind]
+      return entities
+
+
+# -- FaustBind ---------------------------------------------------------------
+
+class FaustBind (Scope):
+   def __init__ (self):
+      super (FaustBind, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'bind'
+
+   @property
+   def address (self):
+      entities = [e for e in self.entities if e.is_faust_address]
+      assert len (entities) == 1
+      return entities [0]
+
+
+# -- FaustAddress ------------------------------------------------------------
+
+class FaustAddress (Node):
+   def __init__ (self, path):
+      assert isinstance (path, StringLiteral)
+      super (FaustAddress, self).__init__ ()
+      self.literal_path = path
+
+   @staticmethod
+   def typename (): return 'address'
+
+   @property
+   def path (self): return self.literal_path.value
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('path')
+
+   def source_context_part (self, part):
+      if part == 'path':
+         return adapter.SourceContext.from_token (self.literal_path)
+
+      return super (FaustAddress, self).source_context_part (part) # pragma: no cover
