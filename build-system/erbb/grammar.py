@@ -46,9 +46,21 @@ def sources_declaration ():            return 'sources', sources_body
 def stream_format ():                  return ['mono', 'interleaved', 'planar']
 def stream_declaration ():             return 'stream', stream_format
 
-# Data
+# Faust Address
+def faust_address_declaration ():      return 'address', string_literal
 
-def data_entities ():                  return ZeroOrMore ([file_declaration, stream_declaration])
+# Faust Bind
+def faust_bind_entities ():            return ZeroOrMore (faust_address_declaration)
+def faust_bind_body ():                return '{', faust_bind_entities, '}'
+def faust_bind_declaration ():         return 'bind', faust_bind_body
+
+# Faust
+def faust_entities ():                 return ZeroOrMore (faust_bind_declaration)
+def faust_body ():                     return '{', faust_entities, '}'
+def faust_declaration ():              return 'faust', faust_body
+
+# Data
+def data_entities ():                  return ZeroOrMore ([file_declaration, stream_declaration, faust_declaration])
 def data_body ():                      return '{', data_entities, '}'
 def data_name ():                      return name
 def data_type ():                      return name
