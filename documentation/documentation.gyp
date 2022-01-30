@@ -41,6 +41,10 @@
             'guides/kick.md',
             'guides/reverb.md',
 
+            'max/first.md',
+            'max/ui.md',
+            'max/setup.md',
+
             'erbb/lexical.md',
             'erbb/grammar.md',
 
