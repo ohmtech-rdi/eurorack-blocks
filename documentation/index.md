@@ -88,6 +88,29 @@ Continue here to learn how to create your own module.
 ```
 
 
+## FAUST Integration
+
+C++ is not your thing and you prefer to use FAUST instead?
+Continue here to learn how to create your own module using FAUST.
+
+- **{doc}`/faust/setup`**
+- **{doc}`/faust/first`**
+- **{doc}`/faust/mapping`**
+- **{doc}`/faust/soundfile`**
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: FAUST Integration
+
+   /faust/setup
+   /faust/first
+   /faust/mapping
+   /faust/soundfile
+```
+
+
 ## Controls Reference
 
 ### Audio Signals
