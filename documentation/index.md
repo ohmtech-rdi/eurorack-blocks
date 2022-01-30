@@ -19,7 +19,7 @@ Build an debug in your favorite IDE 💻
 
 Integration with Max and FAUST 🔀
 
-: You don't need to use C++. Use your favorite audio environment like Max (coming soon) or FAUST (coming soon) to express your ideas quickly.
+: You don't need to use C++. Use your favorite audio environment like Max or FAUST (coming soon) to express your ideas quickly.
 
 Enough power to support your wildest ideas 💪
 
@@ -85,6 +85,30 @@ Continue here to learn how to create your own module.
    /guides/drop
    /guides/reverb
    /guides/kick
+```
+
+
+## Max Integration
+
+Do you use Max in your company to prototype your software and only go for C++ later on?
+Or is Max your go-to visual programming language to prototype your instruments
+and effects idea?
+Continue here to learn how to develop your module using Max with `gen~` and
+its vibrant community.
+
+- **{doc}`/max/setup`**
+- **{doc}`/max/first`**
+- **{doc}`/max/ui`**
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Max Integration
+
+   /max/setup
+   /max/first
+   /max/ui
 ```
 
 
