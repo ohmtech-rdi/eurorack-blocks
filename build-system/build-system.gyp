@@ -113,6 +113,10 @@
             'erbui/generators/front_pcb/tl1105/tl1105.kicad_pcb',
             'erbui/generators/front_pcb/songhuei.9mm/songhuei.9mm.kicad_pcb',
 
+            # generators/max
+            'erbui/generators/max/code_template.cpp',
+            'erbui/generators/max/code.py',
+
             # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
