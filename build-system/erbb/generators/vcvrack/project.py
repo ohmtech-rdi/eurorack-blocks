@@ -39,13 +39,26 @@ class Project:
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = self.replace_includes (template, module, path);
       template = self.replace_defines (template, module.defines)
-      template = self.replace_bases (template, module.bases)
+      template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_sources (template, module, module.sources, path)
       template = self.replace_actions (template, module, path)
 
       with open (path_cpp, 'w') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_includes (self, template, module, path):
+      lines = ''
+
+      if module.source_language == 'max':
+         path_rel_root = os.path.relpath (PATH_ROOT, path)
+         lines += '            \'%s/include/gen_dsp/gen_dsp.gypi\',\n' % path_rel_root
+
+      return template.replace ('%           target_includes%', lines)
 
 
    #--------------------------------------------------------------------------
@@ -61,7 +74,7 @@ class Project:
 
    #--------------------------------------------------------------------------
 
-   def replace_bases (self, template, bases):
+   def replace_bases (self, template, module, bases, path):
       lines = ''
 
       for base in bases:
@@ -95,6 +108,13 @@ class Project:
       if data_paths:
          lines += '            \'artifacts/plugin_generated_data.cpp\',\n'
 
+      if module.source_language == 'max':
+         lines += '            \'artifacts/%s_erbb.cpp\',\n' % module.name
+         lines += '            \'artifacts/%s_erbui.cpp\',\n' % module.name
+         lines += '            \'artifacts/%s.h\',\n' % module.name
+         lines += '            \'artifacts/module_max_alt.cpp\',\n'
+         lines += '            \'artifacts/module_max_alt.h\',\n'
+
       return template.replace ('%           sources.entities%', lines)
 
 
@@ -102,6 +122,22 @@ class Project:
 
    def replace_actions (self, template, module, path):
       lines = ''
+
+      if module.source_language == 'max':
+         lines += '            {\n'
+         lines += '               \'action_name\': \'Transpile Max\',\n'
+         lines += '               \'inputs\': [\n'
+         lines += '                  \'<!(echo artifacts/module_max.cpp)\',\n'
+         lines += '                  \'<!(echo artifacts/module_max.h)\',\n'
+         lines += '               ],\n'
+         lines += '               \'outputs\': [\n'
+         lines += '                  \'<!(echo artifacts/module_max_alt.cpp)\',\n'
+         lines += '                  \'<!(echo artifacts/module_max_alt.h)\',\n'
+         lines += '                  \'<!(echo artifacts/%s_erbb.cpp)\',\n' % module.name
+         lines += '                  \'<!(echo artifacts/%s_erbui.cpp)\',\n' % module.name
+         lines += '               ],\n'
+         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_max.py\' ],\n'
+         lines += '            },\n'
 
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile Ui\',\n'
