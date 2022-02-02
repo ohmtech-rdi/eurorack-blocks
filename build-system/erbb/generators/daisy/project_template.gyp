@@ -33,10 +33,12 @@
          ],
 
          'include_dirs': [
+            '.',
 %           bases.entities%
          ],
 
          'sources': [
+            '.',
 %           sources.entities%
          ],
 
