@@ -22,6 +22,7 @@
 
          'includes': [
             '%PATH_ROOT%/include/erb/erb-vcvrack.gypi',
+%           target_includes%
          ],
 
          'defines': [
