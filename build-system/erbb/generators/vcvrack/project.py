@@ -41,7 +41,7 @@ class Project:
       template = template.replace ('%PATH_ROOT%', path_rel_root)
       template = self.replace_defines (template, module.defines);
       template = self.replace_bases (template, module.bases);
-      template = self.replace_sources (template, module.sources, path, module.name);
+      template = self.replace_sources (template, module, module.sources, path);
 
       with open (path_cpp, 'w') as file:
          file.write (template)
@@ -72,7 +72,7 @@ class Project:
 
    #--------------------------------------------------------------------------
 
-   def replace_sources (self, template, sources, path, name):
+   def replace_sources (self, template, module, sources, path):
       lines = ''
 
       for source in sources:
@@ -80,9 +80,10 @@ class Project:
             file_path = os.path.relpath (file.path, path)
             lines += '            \'%s\',\n' % file_path
 
-      lines += '            \'%s.erbb\',\n' % name
+      lines += '            \'%s.erbb\',\n' % module.name
 
-      lines += '            \'artifacts/%sUi.h\',\n' % name
-      lines += '            \'artifacts/%sData.h\',\n' % name
+      lines += '            \'artifacts/%sUi.h\',\n' % module.name
+      lines += '            \'artifacts/%sData.h\',\n' % module.name
+
 
       return template.replace ('%           sources.entities%', lines)
