@@ -52,6 +52,17 @@
             'erbb/generators/data/code_template.h',
             'erbb/generators/data/code.py',
 
+            # generators/max
+            'erbb/generators/max/code_template.cpp',
+            'erbb/generators/max/code_template.h',
+            'erbb/generators/max/code.py',
+            'erbb/generators/max/module_max_template.cpp',
+            'erbb/generators/max/module_max_template.h',
+            'erbb/generators/max/project_template.erbb',
+            'erbb/generators/max/project_template.erbui',
+            'erbb/generators/max/project_template.maxpat',
+            'erbb/generators/max/project.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
