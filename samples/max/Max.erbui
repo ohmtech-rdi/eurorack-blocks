@@ -1,0 +1,50 @@
+/*****************************************************************************
+
+      Max.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Max {
+   board kivu12
+   material aluminum
+   header { label "MAX" }
+
+   control freq Pot {
+      position 6hp, 34mm
+      style rogan.6ps
+      label "FREQ"
+   }
+
+   control cv_out CvOut {
+      position 6hp, 80mm
+      style thonk.pj398sm.knurled
+      label "CV OUT"
+   }
+
+   control audio_in_left AudioIn {
+      position 2hp, 111mm
+      style thonk.pj398sm.knurled
+      label "IN L"
+   }
+
+   control audio_in_right AudioIn {
+      position 4.66hp, 111mm
+      style thonk.pj398sm.knurled
+      label "IN R"
+   }
+
+   control audio_out_left AudioOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+   }
+
+   control audio_out_right AudioOut {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+   }
+}
