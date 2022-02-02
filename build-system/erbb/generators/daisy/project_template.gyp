@@ -26,6 +26,7 @@
 
          'includes': [
             '%PATH_ROOT%/include/erb/erb-daisy.gypi',
+%           target_includes%
          ],
 
          'defines': [
