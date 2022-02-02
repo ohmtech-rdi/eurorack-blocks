@@ -52,7 +52,7 @@ class Code:
 
       for entity in module.entities:
          if entity.is_resources:
-            entities_content += self.generate_declaration_resources (entity)
+            entities_content += self.generate_declaration_resources (module, entity)
 
       template = template.replace ('%entities%', entities_content)
 
@@ -62,25 +62,25 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_declaration_resources (self, resources):
+   def generate_declaration_resources (self, module, resources):
       content = ''
 
       for entity in resources.entities:
          if entity.is_data:
-            content += self.generate_declaration_data (entity)
+            content += self.generate_declaration_data (module, entity)
 
       return content
 
 
    #--------------------------------------------------------------------------
 
-   def generate_declaration_data (self, data):
+   def generate_declaration_data (self, module, data):
 
       if data.type_ is None:
          return self.generate_declaration_data_raw (data)
 
       elif data.type_ == 'AudioSample':
-         return self.generate_declaration_data_audio_sample (data)
+         return self.generate_declaration_data_audio_sample (module, data)
 
       else:
          err = error.Error ()
@@ -115,7 +115,7 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_declaration_data_audio_sample (self, data):
+   def generate_declaration_data_audio_sample (self, module, data):
 
       try:
          file = SoundFile (data.file.path)
@@ -131,19 +131,36 @@ class Code:
          samples = file.read ()
          if data.stream is None:
             if file.channels == 1:
-               content = '   static const erb::AudioSampleMono <float, %d> %s;\n' % (file.frames, data.name);
+               content = self.generate_declaration_data_audio_sample_mono (file, data)
             else:
-               content = '   static const erb::AudioSampleInterleaved <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+               content = self.generate_declaration_data_audio_sample_interleaved (file, data)
          elif data.stream.format == 'interleaved':
-            content = '   static const erb::AudioSampleInterleaved <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+            content = self.generate_declaration_data_audio_sample_interleaved (file, data)
          elif data.stream.format == 'planar':
-            content = '   static const erb::AudioSamplePlanar <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name);
+            content = self.generate_declaration_data_audio_sample_planar (file, data)
          elif data.stream.format == 'mono':
-            content = '   static const erb::AudioSampleMono <float, %d> %s;\n' % (file.frames, data.name);
+            content = self.generate_declaration_data_audio_sample_mono (file, data)
          else:
             assert False
 
       return content
+
+   #--------------------------------------------------------------------------
+
+   def generate_declaration_data_audio_sample_mono (self, file, data):
+      return '   static const erb::AudioSampleMono <float, %d> %s;\n' % (file.frames, data.name);
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_declaration_data_audio_sample_interleaved (self, file, data):
+      return '   static const erb::AudioSampleInterleaved <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_declaration_data_audio_sample_planar (self, file, data):
+      return '   static const erb::AudioSamplePlanar <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name)
 
 
    #--------------------------------------------------------------------------
