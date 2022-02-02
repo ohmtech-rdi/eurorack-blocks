@@ -143,6 +143,7 @@ class Module (Scope):
       assert isinstance (identifier, adapter.Identifier)
       super (Module, self).__init__ ()
       self.identifier = identifier
+      self.source_language = 'cpp'
 
    @staticmethod
    def typename (): return 'module'
