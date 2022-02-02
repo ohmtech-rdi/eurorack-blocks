@@ -205,11 +205,12 @@ def configure ():
    cwd = os.getcwd ()
 
    ast_erbb = read_erbb_ast (find_erbb ())
+   ast_erbui = read_erbui_ast (find_erbui ())
+
    erbb.generate_gyp (cwd, ast_erbb)
    erbb.configure (cwd, ast_erbb)
    erbb.cleanup (cwd)
 
-   ast_erbui = read_erbui_ast (find_erbui ())
    path_artifacts = os.path.join (cwd, 'artifacts')
    erbui.generate_ui (path_artifacts, ast_erbui)
    erbui.generate_daisy (path_artifacts, ast_erbui)
