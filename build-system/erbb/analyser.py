@@ -38,6 +38,9 @@ class Analyser:
 
       self.analyse_section (module)
 
+      for sources in module.sources:
+         self.analyse_sources (module, sources)
+
       for resources in module.resources:
          self.analyse_resources (resources)
 
@@ -55,6 +58,14 @@ class Analyser:
       if nbr_sections == 0:
          section = ast.Section (adapter.BuiltIn ('flash'))
          module.add (section)
+
+   #--------------------------------------------------------------------------
+
+   def analyse_sources (self, module, sources):
+      assert sources.is_sources
+
+      for file in sources.files:
+         filename, file_extension = os.path.splitext (file.path)
 
    #--------------------------------------------------------------------------
 
