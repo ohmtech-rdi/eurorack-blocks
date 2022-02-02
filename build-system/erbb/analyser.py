@@ -67,6 +67,9 @@ class Analyser:
       for file in sources.files:
          filename, file_extension = os.path.splitext (file.path)
 
+         if file_extension == '.maxpat':
+             module.source_language = 'max'
+
    #--------------------------------------------------------------------------
 
    def analyse_resources (self, resources):
