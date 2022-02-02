@@ -19,6 +19,7 @@ from .generators.daisy.code import Code as daisyCode
 from .generators.front_panel.milling import Milling as front_panelMilling
 from .generators.front_panel.printing import Printing as front_panelPrinting
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
+from .generators.max.code import Code as maxCode
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
@@ -37,6 +38,18 @@ def parse (filepath):
 
    parser = Parser ()
    return parser.parse (input_text, filepath)
+
+
+
+"""
+==============================================================================
+Name: generate_max
+==============================================================================
+"""
+
+def generate_max (path, ast):
+   generator = maxCode ()
+   generator.generate (path, ast)
 
 
 
