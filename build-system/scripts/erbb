@@ -122,6 +122,7 @@ def usage ():
    print ('   build           Build the IDE project or make file')
    print ('   install         Install the firmware on the Daisy hardware')
    print ('   bootloader      Install the QSPI bootloader on the Daisy hardware')
+   print ('   max             Cycling\'74 Max commands')
    print ('')
    print ('init [<name>]')
    print ('   name:           Name of project, random name if not specified')
@@ -142,6 +143,10 @@ def usage ():
    print ('   configuration:')
    print ('      debug        Debug configuration')
    print ('      release      Release configuration (default)')
+   print ('')
+   print ('max init [<name>]')
+   print ('   name:           Name of Max project, random name if not specified')
+   print ('')
 
 
 
@@ -312,6 +317,40 @@ def install ():
 
 
 
+#-- max ----------------------------------------------------------------------
+
+def max ():
+   if len (sys.argv) >= 3:
+      command = sys.argv [2]
+      if command == 'init':
+         max_init ()
+
+   else:
+      print ("Error: Missing max command\n")
+      usage ()
+      sys.exit (1)
+
+
+
+#-- max_init -----------------------------------------------------------------
+
+def max_init ():
+   import erbb
+
+   cwd = os.getcwd ()
+
+   name = 'Foo'
+   if len (sys.argv) >= 4:
+      name = sys.argv [3]
+   else:
+      name1 = random.choice (('Blu', 'So', 'Ann', 'Hyp', 'Nois', 'X-', 'In', 'Per', 'Tri', 'Tetra', 'Dual', 'Quad', 'Vec'))
+      name2 = random.choice (('line', 'nage', 'nor', 'rrr', 'y', 'er', 'tor', 'nator', 'dam', 'dron', 'bre', 'OR'))
+      name = name1 + name2
+
+   erbb.max_init (cwd, name)
+
+
+
 #-- main ---------------------------------------------------------------------
 
 def main ():
@@ -343,6 +382,9 @@ def main ():
 
             elif command == 'bootloader':
                bootloader ()
+
+            elif command == 'max':
+               max ()
 
             else:
                print ("Error: Unknown command %s\n" % command)
