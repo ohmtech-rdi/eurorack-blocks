@@ -41,6 +41,7 @@
          'STM32H750xx',
          'STM32H750IB',
          'ARM_MATH_CM7',
+         '__FPU_PRESENT',
          'flash_layout',
          'HSE_VALUE=16000000',
          'USE_HAL_DRIVER',
