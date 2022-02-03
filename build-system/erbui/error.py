@@ -28,8 +28,8 @@ class Error (Exception):
             category_map = {
                'error': '\033[91merror:\033[0m',
                'note': '\033[90mnote:\033[0m',
-               'hint': '\033[93mhint:\033[0m',
-               'fixit': '\033[93mfixit:\033[0m',
+               'hint': '\033[33mhint:\033[0m',
+               'fixit': '\033[33mfixit:\033[0m',
                'help': '\033[94mhelp:\033[0m',
             }
             return category_map [self.type]
