@@ -130,7 +130,9 @@ class Code:
       with file:
          samples = file.read ()
          if data.stream is None:
-            if file.channels == 1:
+            if module.source_language == 'max':
+               content = self.generate_declaration_data_audio_sample_interleaved (file, data)
+            elif file.channels == 1:
                content = self.generate_declaration_data_audio_sample_mono (file, data)
             else:
                content = self.generate_declaration_data_audio_sample_interleaved (file, data)
@@ -258,7 +260,9 @@ class Code:
 
       with file:
          if data.stream is None:
-            if file.channels == 1:
+            if module.source_language == 'max':
+               return self.generate_definition_data_audio_sample_interleaved (module, data, file)
+            elif file.channels == 1:
                return self.generate_definition_data_audio_sample_mono (module, data, file)
             else:
                return self.generate_definition_data_audio_sample_interleaved (module, data, file)
