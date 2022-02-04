@@ -456,7 +456,7 @@ def deploy_dfu_util (name, section, file_bin):
       '-d', '0483:df11',
    ]
 
-   subprocess.check_call (cmd)
+   subprocess.call (cmd)
 
    print ('OK.')
 
