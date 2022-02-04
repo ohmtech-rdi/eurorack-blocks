@@ -1,0 +1,8 @@
+// Reverb.erbb
+
+module Reverb {
+   sources {
+      file "Reverb.erbui"
+      file "Reverb.maxpat"
+   }
+}
