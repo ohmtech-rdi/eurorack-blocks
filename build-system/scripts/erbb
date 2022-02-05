@@ -325,25 +325,39 @@ def main ():
       if command == 'setup':
          setup ()
 
-      elif command == 'init':
-         init ()
-
-      elif command == 'configure':
-         configure ()
-
-      elif command == 'build':
-         build ()
-
-      elif command == 'install':
-         install ()
-
-      elif command == 'bootloader':
-         bootloader ()
-
       else:
-         print ("Error: Unknown command %s\n" % command)
-         usage ()
-         sys.exit (1)
+         import erbb
+         import erbui
+         try:
+            if command == 'init':
+               init ()
+
+            elif command == 'configure':
+               configure ()
+
+            elif command == 'build':
+               build ()
+
+            elif command == 'install':
+               install ()
+
+            elif command == 'bootloader':
+               bootloader ()
+
+            else:
+               print ("Error: Unknown command %s\n" % command)
+               usage ()
+               sys.exit (1)
+
+         except erbb.error.Error as error:
+            error.color ()
+            print (str (error))
+            sys.exit (1)
+
+         except erbui.error.Error as error:
+            error.color ()
+            print (str (error))
+            sys.exit (1)
 
 
 
