@@ -34,7 +34,6 @@
          ],
 
          'sources': [
-            '.',
 %           sources.entities%
          ],
       },
