@@ -28,7 +28,7 @@ struct AudioSampleInterleaved
 {
    struct Frame
    {
-      std::array <float, NbrChannels> channels;
+      std::array <T, NbrChannels> channels;
    };
 
    float          sample_rate;
@@ -43,7 +43,7 @@ struct AudioSamplePlanar
 {
    struct Channel
    {
-      std::array <float, Length> samples;
+      std::array <T, Length> samples;
    };
 
    float          sample_rate;
@@ -57,7 +57,7 @@ template <class T, size_t Length>
 struct AudioSampleMono
 {
    float          sample_rate;
-   std::array <float, Length>
+   std::array <T, Length>
                   samples;
 };
 
