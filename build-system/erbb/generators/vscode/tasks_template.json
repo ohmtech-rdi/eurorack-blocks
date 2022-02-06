@@ -1,7 +1,7 @@
 {
   "tasks": [
     {
-      "command": "python3 build.py --configuration Debug",
+      "command": "erbb build daisy debug",
       "group": {
         "isDefault": true,
         "kind": "build"
