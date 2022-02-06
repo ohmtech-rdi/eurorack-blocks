@@ -201,6 +201,17 @@ def configure_daisy (path):
    gyp.main (gyp_args + ['project_daisy.gyp'])
    os.chdir (cwd)
 
+   path_py = os.path.join (path_artifacts, 'generate_daisy.py')
+   path_template = os.path.join (PATH_THIS, 'generate_daisy_template.py')
+
+   with open (path_template, 'r') as file:
+      template = file.read ()
+
+   template = template.replace ('%PATH_ROOT%', PATH_ROOT)
+
+   with open (path_py, 'w') as file:
+      file.write (template)
+
 
 
 """
