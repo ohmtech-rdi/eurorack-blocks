@@ -22,6 +22,7 @@ sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp', 'pylib'))
 import gyp
 
 from .parser import Parser
+from .generators.action.action import Action
 from .generators.init.project import Project as initProject
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.daisy.project import Project as daisyProject
@@ -65,8 +66,16 @@ Name: generate_gyp
 """
 
 def generate_gyp (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
    generate_gyp_vcvrack (path, ast)
    generate_gyp_daisy (path, ast)
+
+   action = Action ()
+   action.generate (path, ast)
 
 
 
@@ -78,9 +87,6 @@ Name: generate_gyp_vcvrack
 
 def generate_gyp_vcvrack (path, ast):
    path_artifacts = os.path.join (path, 'artifacts')
-
-   if not os.path.exists (path_artifacts):
-      os.makedirs (path_artifacts)
 
    generator = vcvrackProject ()
    generator.generate (path, ast)
@@ -95,9 +101,6 @@ Name: generate_gyp_daisy
 
 def generate_gyp_daisy (path, ast):
    path_artifacts = os.path.join (path, 'artifacts')
-
-   if not os.path.exists (path_artifacts):
-      os.makedirs (path_artifacts)
 
    generator = daisyProject ()
    generator.generate (path, ast)

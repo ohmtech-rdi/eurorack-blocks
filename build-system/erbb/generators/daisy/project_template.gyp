@@ -41,6 +41,10 @@
 %           sources.entities%
          ],
 
+         'actions': [
+%           target_actions%
+         ],
+
          'ldflags': [ '-T%module.section%' ],
       },
    ],

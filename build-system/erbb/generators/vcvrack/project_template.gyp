@@ -36,6 +36,25 @@
          'sources': [
 %           sources.entities%
          ],
+
+         'actions': [
+%           target_actions%
+         ],
+
+         'copies': [
+            {
+               'destination': '<(PRODUCT_DIR)',
+               'files': [
+                  '<!(echo artifacts/plugin.json)',
+               ],
+            },
+            {
+               'destination': '<(PRODUCT_DIR)/res',
+               'files': [
+                  '<!(echo artifacts/panel_vcvrack.svg)',
+               ],
+            },
+         ],
       },
    ],
 }
