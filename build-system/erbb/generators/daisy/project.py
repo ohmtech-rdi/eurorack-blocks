@@ -169,4 +169,15 @@ class Project:
          lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_data.py\' ],\n'
          lines += '            },\n'
 
+      lines += '            {\n'
+      lines += '               \'action_name\': \'Objcopy\',\n'
+      lines += '               \'inputs\': [\n'
+      lines += '                  \'artifacts/daisy/out/Release/%s\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'outputs\': [\n'
+      lines += '                  \'artifacts/daisy/out/Release/%s.bin)\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_objcopy.py\', \'<(PRODUCT_DIR)\', \'%s\' ],\n' % module.name
+      lines += '            },\n'
+
       return template.replace ('%           target_actions%', lines)
