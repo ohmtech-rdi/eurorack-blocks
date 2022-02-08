@@ -33,8 +33,8 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.build ('test', PATH_THIS, 'Debug')
-      erbb.build ('test', PATH_THIS, 'Release')
+      erbb.build_daisy_all (PATH_THIS, 'Debug')
+      erbb.build_daisy_all (PATH_THIS, 'Release')
 
       targets = [
          'audio-in-daisy',

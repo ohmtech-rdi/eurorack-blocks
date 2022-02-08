@@ -70,7 +70,7 @@ def configure_daisy (name, path):
 
    gyp_args = [
       '--depth=.',
-      '--generator-output=%s' % path_artifacts,
+      '--generator-output=%s/daisy' % path_artifacts,
       '--format', 'ninja-linux',
       '-D', 'OS=daisy',
       '-D', 'GYP_CROSSCOMPILE',

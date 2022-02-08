@@ -71,7 +71,9 @@
       _Pragma ("GCC diagnostic ignored \"-Wunused-parameter\"") \
 
    #define erb_DISABLE_WARNINGS_VCVRACK \
-      _Pragma ("GCC diagnostic push")
+      _Pragma ("GCC diagnostic push") \
+      _Pragma ("GCC diagnostic ignored \"-Wpedantic\"") \
+      _Pragma ("GCC diagnostic ignored \"-Wunused-parameter\"") \
 
    #define erb_DISABLE_WARNINGS_GLOBAL_CTOR \
       _Pragma ("GCC diagnostic push")

@@ -185,8 +185,37 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-template <PinType Pin>
-void  Led <Pin>::impl_postprocess ()
+template <>
+inline void Led <PinType::Gpio>::impl_postprocess ()
+{
+   float val = float (_animation.get (_clock_ms)) * _brightness;
+   impl_data = val > 0.f;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+template <>
+inline void Led <PinType::Dac>::impl_postprocess ()
+{
+   impl_data = static_cast <KeyframeTargetType> (_animation.get (_clock_ms) * _brightness);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+template <>
+inline void Led <PinType::Pwm>::impl_postprocess ()
 {
    impl_data = static_cast <KeyframeTargetType> (_animation.get (_clock_ms) * _brightness);
 }

@@ -33,6 +33,12 @@
          ],
       }],
 
+      ['OS=="linux"', {
+         'includes': [
+            './include/erb/linux.gypi',
+         ],
+      }],
+
       ['OS=="daisy"', {
          'includes': [
             './include/erb/daisy.gypi',
