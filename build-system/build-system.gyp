@@ -35,6 +35,7 @@
 
             # generators/action
             'erbb/generators/action/action_daisy_template.py',
+            'erbb/generators/action/action_data_template.py',
             'erbb/generators/action/action_ui_template.py',
             'erbb/generators/action/action_vcvrack_template.py',
             'erbb/generators/action/action.py',

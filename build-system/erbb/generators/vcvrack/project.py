@@ -86,6 +86,14 @@ class Project:
       lines += '            \'artifacts/%sUi.h\',\n' % module.name
       lines += '            \'artifacts/%sData.h\',\n' % module.name
 
+      data_paths = []
+
+      for resource in module.resources:
+         for data in resource.datas:
+            data_paths.append (data.file.path)
+
+      if data_paths:
+         lines += '            \'artifacts/plugin_generated_data.cpp\',\n'
 
       return template.replace ('%           sources.entities%', lines)
 
@@ -119,5 +127,25 @@ class Project:
       lines += '               ],\n'
       lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_vcvrack.py\' ],\n'
       lines += '            },\n'
+
+      data_paths = []
+
+      for resource in module.resources:
+         for data in resource.datas:
+            data_paths.append (data.file.path)
+
+      if data_paths:
+         lines += '            {\n'
+         lines += '               \'action_name\': \'Transpile Data\',\n'
+         lines += '               \'inputs\': [\n'
+         for data_path in data_paths:
+            lines += '                  \'<!(echo %s)\',\n' % data_path
+         lines += '               ],\n'
+         lines += '               \'outputs\': [\n'
+         lines += '                  \'<!(echo artifacts/%sData.h)\',\n' % module.name
+         lines += '                  \'<!(echo artifacts/plugin_generated_data.cpp)\',\n'
+         lines += '               ],\n'
+         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_data.py\' ],\n'
+         lines += '            },\n'
 
       return template.replace ('%           target_actions%', lines)

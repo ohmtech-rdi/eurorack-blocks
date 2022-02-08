@@ -48,7 +48,6 @@
       '../../src/daisy/SubmoduleDaisySeed.cpp',
 
       '<!(echo artifacts/main_daisy.cpp)',
-      '<!(echo artifacts/plugin_generated_data.cpp)',
    ],
 
    'include_dirs': [

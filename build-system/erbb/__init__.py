@@ -109,6 +109,20 @@ def generate_gyp_daisy (path, ast):
 
 """
 ==============================================================================
+Name: generate_data
+==============================================================================
+"""
+
+def generate_data (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   generator = dataCode ()
+   generator.generate (path_artifacts, ast)
+
+
+
+"""
+==============================================================================
 Name: configure
 ==============================================================================
 """
@@ -117,7 +131,6 @@ def configure (path, ast):
    configure_vcvrack (path)
    configure_daisy (path)
    configure_vscode (path, ast)
-   configure_data (path, ast)
 
 
 
@@ -228,20 +241,6 @@ Name: configure_vscode_tasks
 def configure_vscode_tasks (path, ast):
    generator = vscodeTasks ()
    generator.generate (path, ast)
-
-
-
-"""
-==============================================================================
-Name: configure_data
-==============================================================================
-"""
-
-def configure_data (path, ast):
-   path_artifacts = os.path.join (path, 'artifacts')
-
-   generator = dataCode ()
-   generator.generate (path_artifacts, ast)
 
 
 
