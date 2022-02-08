@@ -32,6 +32,7 @@ class Action:
       self.generate_module_action (path, module, 'daisy')
       self.generate_module_action (path, module, 'ui')
       self.generate_module_action (path, module, 'vcvrack')
+      self.generate_module_action (path, module, 'data')
 
 
 
