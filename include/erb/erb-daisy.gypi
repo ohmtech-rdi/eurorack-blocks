@@ -58,15 +58,4 @@
    'export_dependent_settings': [
       'libdaisy',
    ],
-
-   'rules': [
-      {
-         'rule_name': 'Transpile Erbui',
-         'extension': 'erbui',
-         'outputs': [
-            '<!(echo artifacts/main_daisy.cpp)',
-         ],
-         'action': [ '<!(which python3)', 'artifacts/generate_daisy.py', '<(RULE_INPUT_PATH)' ],
-      },
-   ],
 }
