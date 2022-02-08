@@ -25,8 +25,6 @@
             'erbb/analyser.py',
             'erbb/ast.py',
             'erbb/error.py',
-            'erbb/generate_daisy_template.py',
-            'erbb/generate_vcvrack_template.py',
             'erbb/grammar.py',
             'erbb/parser.py',
             'erbb/visitor.py',
@@ -34,6 +32,12 @@
             # tests
             'erbb/tests/mock.py',
             'erbb/tests/test_parser.py',
+
+            # generators/action
+            'erbb/generators/action/action_daisy_template.py',
+            'erbb/generators/action/action_ui_template.py',
+            'erbb/generators/action/action_vcvrack_template.py',
+            'erbb/generators/action/action.py',
 
             # generators/init
             'erbb/generators/init/project_template.cpp',

@@ -41,9 +41,10 @@ class Project:
       template = template.replace ('%PATH_ROOT%', path_rel_root)
       template = self.replace_boot_option (template, module);
       template = self.replace_section (template, module);
-      template = self.replace_defines (template, module.defines);
-      template = self.replace_bases (template, module.bases);
-      template = self.replace_sources (template, module, module.sources, path);
+      template = self.replace_defines (template, module.defines)
+      template = self.replace_bases (template, module.bases)
+      template = self.replace_sources (template, module, module.sources, path)
+      template = self.replace_actions (template, module, path)
 
       with open (path_cpp, 'w') as file:
          file.write (template)
@@ -110,3 +111,33 @@ class Project:
             lines += '            \'%s\',\n' % file_path
 
       return template.replace ('%           sources.entities%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions (self, template, module, path):
+      lines = ''
+
+      lines += '            {\n'
+      lines += '               \'action_name\': \'Transpile Ui\',\n'
+      lines += '               \'inputs\': [\n'
+      lines += '                  \'<!(echo %s.erbui)\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'outputs\': [\n'
+      lines += '                  \'<!(echo artifacts/%sUi.h)\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_ui.py\' ],\n'
+      lines += '            },\n'
+
+      lines += '            {\n'
+      lines += '               \'action_name\': \'Transpile Daisy\',\n'
+      lines += '               \'inputs\': [\n'
+      lines += '                  \'<!(echo %s.erbui)\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'outputs\': [\n'
+      lines += '                  \'<!(echo artifacts/main_daisy.cpp)\',\n'
+      lines += '               ],\n'
+      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_daisy.py\' ],\n'
+      lines += '            },\n'
+
+      return template.replace ('%           target_actions%', lines)

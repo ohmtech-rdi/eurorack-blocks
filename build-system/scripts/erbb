@@ -211,11 +211,6 @@ def configure ():
    erbb.configure (cwd, ast_erbb)
    erbb.cleanup (cwd)
 
-   path_artifacts = os.path.join (cwd, 'artifacts')
-   erbui.generate_ui (path_artifacts, ast_erbui)
-   erbui.generate_daisy (path_artifacts, ast_erbui)
-   erbui.generate_vcvrack (path_artifacts, ast_erbui)
-
 
 
 #-- build --------------------------------------------------------------------

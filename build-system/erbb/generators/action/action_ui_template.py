@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-#     generate_daisy.py
+#     action_ui.py
 #     Copyright (c) 2020 Raphael Dinge
 #
 #Tab=3########################################################################
@@ -30,15 +30,22 @@ if sys.version_info < (3, 7):
 
 ##############################################################################
 
+def find_erbui ():
+   files = os.listdir (os.getcwd ())
+   for file in files:
+      if file.endswith ('.erbui'):
+         return file
+
+   return None
+
 if __name__ == '__main__':
    try:
-      filepath = sys.argv [1]
-      output_path = os.path.abspath (os.path.join (os.path.dirname (filepath), 'artifacts'))
+      project_path = os.path.abspath (os.getcwd ())
+      artifacts_path = os.path.join (project_path, 'artifacts')
 
-      ast = erbui.parse (filepath)
-      erbui.generate_ui (output_path, ast)
-      erbui.generate_daisy (output_path, ast)
+      ast = erbui.parse (find_erbui ())
+      erbui.generate_ui (artifacts_path, ast)
 
    except subprocess.CalledProcessError as error:
-      print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
+      print ('Action exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)

@@ -58,27 +58,7 @@
       '-fPIC',
    ],
 
-   'rules': [
-      {
-         'rule_name': 'Transpile Erbui',
-         'extension': 'erbui',
-         'outputs': [
-            '<!(echo artifacts/deploy_vcvrack.py)',
-            '<!(echo artifacts/panel_vcvrack.svg)',
-            '<!(echo artifacts/plugin_vcvrack.cpp)',
-            '<!(echo artifacts/plugin.json)',
-         ],
-         'action': [ '<!(which python3)', 'artifacts/generate_vcvrack.py', '<(RULE_INPUT_PATH)' ],
-      },
-   ],
-
    'copies': [
-      {
-         'destination': '<(PRODUCT_DIR)',
-         'files': [
-            '<!(echo artifacts/plugin.json)',
-         ],
-      },
       {
          'destination': '<(PRODUCT_DIR)/res',
          'files': [
@@ -93,8 +73,6 @@
             'vcvrack/resource/dailywell.2ms.1.svg',
             'vcvrack/resource/dailywell.2ms.2.svg',
             'vcvrack/resource/dailywell.2ms.3.svg',
-
-            '<!(echo artifacts/panel_vcvrack.svg)',
          ],
       },
    ],
