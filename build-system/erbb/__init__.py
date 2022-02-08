@@ -127,10 +127,17 @@ Name: configure_vcvrack
 def configure_vcvrack (path):
    path_artifacts = os.path.join (path, 'artifacts')
 
-   gyp_args = [
-      '--depth=.',
-      '--generator-output=%s' % path_artifacts,
-   ]
+   if platform.system () == 'Linux':
+      gyp_args = [
+         '--depth=.',
+         '--generator-output=%s/simulator' % path_artifacts,
+         '--format', 'ninja'
+      ]
+   elif platform.system () == 'Darwin':
+      gyp_args = [
+         '--depth=.',
+         '--generator-output=%s' % path_artifacts,
+      ]
 
    cwd = os.getcwd ()
    os.chdir (path)
@@ -184,7 +191,7 @@ def configure_daisy (path):
 
    gyp_args = [
       '--depth=.',
-      '--generator-output=%s' % path_artifacts,
+      '--generator-output=%s/daisy' % path_artifacts,
       '--format', 'ninja-linux',
       '-D', 'OS=daisy',
       '-D', 'GYP_CROSSCOMPILE',
@@ -284,16 +291,16 @@ def cleanup (path):
 
 """
 ==============================================================================
-Name : build
+Name : build_daisy_all
 ==============================================================================
 """
 
-def build (name, path, configuration):
+def build_daisy_all (path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
    cmd = [
       'ninja',
-      '-C', os.path.join (path_artifacts, 'out', configuration),
+      '-C', os.path.join (path_artifacts, 'daisy', 'out', configuration),
    ]
 
    subprocess.check_call (cmd)
@@ -306,12 +313,12 @@ Name : build_daisy_target
 ==============================================================================
 """
 
-def build_target (target, path, configuration):
+def build_daisy_target (target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
    cmd = [
       'ninja',
-      '-C', os.path.join (path_artifacts, 'out', configuration),
+      '-C', os.path.join (path_artifacts, 'daisy', 'out', configuration),
       target
    ]
 
@@ -321,11 +328,11 @@ def build_target (target, path, configuration):
 
 """
 ==============================================================================
-Name : build_native_target
+Name : build_simulator_target
 ==============================================================================
 """
 
-def build_native_target (target, path, configuration):
+def build_simulator_target (target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
    if platform.system () == 'Darwin':
@@ -354,10 +361,8 @@ def build_native_target (target, path, configuration):
 
    elif platform.system () == 'Linux':
       cmd = [
-         'make',
-         '-k',
-         '-C', path_artifacts,
-         '-j', '%d' % multiprocessing.cpu_count (),
+         'ninja',
+         '-C', os.path.join (path_artifacts, 'simulator', 'out', configuration),
          target
       ]
 
@@ -376,8 +381,8 @@ def objcopy (name, path, configuration):
 
    print ('OBJCOPY %s' % name)
 
-   file_elf = os.path.join (path_artifacts, 'out', configuration, name)
-   file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
+   file_elf = os.path.join (path_artifacts, 'daisy', 'out', configuration, name)
+   file_bin = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s.bin' % name)
 
    shutil.copyfile (file_elf, file_bin)
 
@@ -406,10 +411,10 @@ def deploy (name, section, path, configuration, force_dfu_util=False):
          print ('Please use option \'dfu\' instead.')
          sys.exit ()
 
-      file_elf = os.path.join (path_artifacts, 'out', configuration, '%s' % name)
+      file_elf = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s' % name)
       deploy_openocd (name, file_elf)
    else:
-      file_bin = os.path.join (path_artifacts, 'out', configuration, '%s.bin' % name)
+      file_bin = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s.bin' % name)
       deploy_dfu_util (name, section, file_bin)
 
 
