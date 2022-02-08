@@ -30,7 +30,6 @@
       '../../src/vcvrack/BoardGeneric.cpp',
 
       '<!(echo artifacts/plugin_vcvrack.cpp)',
-      '<!(echo artifacts/plugin_generated_data.cpp)',
    ],
 
    'include_dirs': [
