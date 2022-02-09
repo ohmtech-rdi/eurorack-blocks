@@ -62,15 +62,28 @@ module Bypass {
 ```
 
 ```console
-raf:bypass$ erbb configure 👈 Generate IDE project and hardware files
-raf:bypass$ ls artifacts/
+raf:bypass$ erbb configure 👈 Generate IDE projects
+raf:bypass$ ls -l artifacts/
+drwxr-xr-x  7 raf  staff  224 Feb  9 18:31 actions
+drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 daisy 👈 Daisy firmware build files
+drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 simulator 👈 Simulator build files on Linux
+drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 project_vcvrack.xcodeproj 👈 Simulator Xcode Project
+raf:bypass$ erbb build simulator 👈 Build the simulator for VCV Rack (or build from Xcode)
 ...
-drwxr-xr-x  4 raf  staff    128 Apr 23 18:14 project_vcvrack.xcodeproj 👈 Xcode Project
-...
+** BUILD SUCCEEDED **
+raf:bypass$ open /Applications/Rack.app 👈 Test in VCV Rack and iterate
+raf:bypass$ erbb build hardware 👈 Build the hardware files for manufacturing
+raf:bypass$ ls -l artifacts/hardware/
+-rw-r--r--   1 raf  staff     387 Feb  9 18:31 Bypass.bom.csv 👈 Bill of materials
+-rw-r--r--   1 raf  staff   15696 Feb  9 18:31 Bypass.dxf 👈 Aluminum panel milling/drilling
+-rw-r--r--   1 raf  staff   32731 Feb  9 18:31 Bypass.gerber.zip 👈 PCB Gerber files
+-rw-r--r--   1 raf  staff  116908 Feb  9 18:31 Bypass.kicad_pcb
+-rw-r--r--   1 raf  staff    4754 Feb  9 18:31 Bypass.pdf 👈 Aluminum panel UV printing
+drwxr-xr-x  12 raf  staff     384 Feb  9 18:31 gerber
 raf:bypass$ erbb build 👈 Build the firmware
-ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/out/Release'
-[185/185] LINK bypass-daisy
-OBJCOPY bypass-daisy
+ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/daisy/out/Release'
+[191/191] LINK Bypass
+OBJCOPY Bypass
 raf:bypass$ erbb install dfu 👈 Upload the firmware
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
