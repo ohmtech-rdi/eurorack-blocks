@@ -51,19 +51,19 @@ jobs:
         run: erbb configure; erbb build
         working-directory: test/data
       - name: samples/bypass
-        run: erbb configure; erbb build; erbb build simulator
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples/bypass
       - name: samples/drop
-        run: erbb configure; erbb build; erbb build simulator
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples/drop
       - name: samples/reverb
-        run: erbb configure; erbb build; erbb build simulator
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples/reverb
       - name: samples/kick
-        run: erbb configure; erbb build; erbb build simulator
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples/kick
       - name: erbb init
-        run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build simulator
+        run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples
 
   unit_tests:
