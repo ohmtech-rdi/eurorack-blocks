@@ -109,8 +109,6 @@
             # generators/vcvrack
             'erbui/generators/vcvrack/code_template.cpp',
             'erbui/generators/vcvrack/code.py',
-            'erbui/generators/vcvrack/deploy_template.py',
-            'erbui/generators/vcvrack/deploy.py',
             'erbui/generators/vcvrack/manifest.py',
             'erbui/generators/vcvrack/panel.py',
 

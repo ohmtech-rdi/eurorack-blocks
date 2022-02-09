@@ -33,6 +33,7 @@ class Action:
       self.generate_module_action (path, module, 'ui')
       self.generate_module_action (path, module, 'vcvrack')
       self.generate_module_action (path, module, 'data')
+      self.generate_module_action (path, module, 'vcvrack_install')
 
 
 
@@ -51,6 +52,7 @@ class Action:
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = template.replace ('%module.name%', module.name)
 
       with open (path_py, 'w') as file:
          file.write (template)
