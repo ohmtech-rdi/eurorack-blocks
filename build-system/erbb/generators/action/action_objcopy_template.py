@@ -48,6 +48,9 @@ if __name__ == '__main__':
       file_elf = os.path.join (project_path, product_dir, module_name)
       file_bin = os.path.join (project_path, product_dir, '%s.bin' % module_name)
 
+      if os.stat (file_elf).st_size == 0:
+         sys.exit (0)
+
       shutil.copyfile (file_elf, file_bin)
       cmd = [
          'arm-none-eabi-objcopy',

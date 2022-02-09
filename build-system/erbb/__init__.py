@@ -129,7 +129,7 @@ Name: configure
 
 def configure (path, ast):
    configure_vcvrack (path)
-   configure_daisy (path)
+   configure_daisy (path, ast)
    configure_vscode (path, ast)
 
 
@@ -179,7 +179,7 @@ Name: configure_daisy
 ==============================================================================
 """
 
-def configure_daisy (path):
+def configure_daisy (path, ast):
    path_artifacts = os.path.join (path, 'artifacts')
 
    gyp_args = [
@@ -200,6 +200,22 @@ def configure_daisy (path):
    os.chdir (path)
    gyp.main (gyp_args + ['project_daisy.gyp'])
    os.chdir (cwd)
+
+   module_name = ast.modules [0].name
+   cmd = [
+      'touch',
+      os.path.join (path_artifacts, 'daisy', 'out', 'Release', module_name)
+   ]
+
+   subprocess.check_call (cmd)
+
+   cmd = [
+      'touch',
+      os.path.join (path_artifacts, 'daisy', 'out', 'Debug', module_name)
+   ]
+
+   subprocess.check_call (cmd)
+
 
 
 
