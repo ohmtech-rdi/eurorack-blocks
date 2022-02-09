@@ -142,8 +142,11 @@ Name: generate_front_panel
 """
 
 def generate_front_panel (path, ast):
-   generate_front_panel_milling (path, ast)
-   generate_front_panel_printing (path, ast)
+   path_hardware = os.path.join (path, 'hardware')
+   if not os.path.exists (path_hardware):
+      os.makedirs (path_hardware)
+   generate_front_panel_milling (path_hardware, ast)
+   generate_front_panel_printing (path_hardware, ast)
 
 
 
@@ -178,7 +181,10 @@ Name: generate_front_pcb
 """
 
 def generate_front_pcb (path, ast):
-   generate_front_pcb_kicad_pcb (path, ast)
+   path_hardware = os.path.join (path, 'hardware')
+   if not os.path.exists (path_hardware):
+      os.makedirs (path_hardware)
+   generate_front_pcb_kicad_pcb (path_hardware, ast)
 
 
 
