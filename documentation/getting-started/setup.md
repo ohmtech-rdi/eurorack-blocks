@@ -57,18 +57,23 @@ Let's test a sample. We'll use the Drop sample.
 ~/eurorack-blocks/samples/drop$ erbb configure
 ```
 
-If you inspect the `drop` folder, it now contains an `artifacts` directory, with a lot of files.
+If you inspect the `drop` folder, it now contains an `artifacts` directory, with some folders and files.
 
 ```{image} setup-configure.png
 :width: 100%
 :align: center
 ```
 
+- The `daisy` folder contains the build files for the [`ninja` build system](https://ninja-build.org), to produce the Daisy firmware,
+- The `project_vcvrack.xcodeproj` is an Xcode project,
+   to produce the VCV Rack simulator module on macOS,
+- Not shown on the screenshot above, the `simulator` folder contains the build files for the `ninja` build system,
+   to produce the VCV Rack simulator module on Linux.
+
+
 ## Building in Xcode
 
-If you are using Xcode, a `project_vcvrack.xcodeproj` has been created,
-which is the project to use to develop and test in the VCV Rack simulator.
-
+If you are using Xcode, use  `project_vcvrack.xcodeproj` to develop, test and debug in the VCV Rack simulator.
 This will open the project in Xcode:
 
 ```shell-session
@@ -84,9 +89,12 @@ Press {guilabel}`⌘B` to build.
 
 The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
 
+
 ## Building from the command line
 
 Alternatively, you can build the VCV Rack module using the command line.
+This works on both Linux and macOS, with a different output depending on the build system
+used. Below, we should an extract of the output on macOS.
 
 ```shell-session
 ~/eurorack-blocks/samples/drop$ erbb build simulator
@@ -97,6 +105,7 @@ Build settings from command line:
 ```
 
 The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
+
 
 ## Testing in VCV Rack
 
@@ -130,7 +139,6 @@ This requirement will be explained later in the tutorial.
 ```{image} setup-debug-document.png
 :width: 32%
 ```
-
 
 To debug on Xcode, the following configuration must be first done:
 - Select the `Product > Scheme > Drop` scheme,

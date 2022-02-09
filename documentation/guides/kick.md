@@ -84,10 +84,8 @@ eurorack-blocks/samples/kick$ erbb configure
 
 If you are using Xcode, you can navigate to the `artifacts` folder and open the
 `project_vcvrack.xcodeproj` Xcode project.
-
-If you are using `VSCode`, just open the `kick` folder in VSCode.
-
 From Xcode, you can build using {guilabel}`⌘B`.
+If you are using `VSCode`, just open the `kick` folder in VSCode.
 You can also build the VCV Rack module from the command line with:
 
 ```shell-session
@@ -99,16 +97,24 @@ Now you can open VCV Rack, and add the Kick module and play a bit with it.
 
 ## Resources & Data
 
-Maybe have you seen next to our `*UI` class, a `*Data` in each module headers and wondered
-what it was? This is where we store our resources.
+Maybe have you looked into the `artifacts` folder as you built and saw those
+`<Module>UI.h` header files (where `<Module>` is the name of the module).
+Now you can see that we have an additional `KickData.h` header file.
 
+```{image} kick-data.png
+:align: center
+:width: 100%
+```
+
+What is that `KickData.h` file? This is where we store our resources.
 A resource is a piece of data with an optional type, and one of those types is a convenient
 audio sample data type.
+Let's look at our `Kick.erbb` file:
 
 ```{code-block} erbb
 ---
 lineno-start: 10
-emphasize-lines: 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41
+emphasize-lines: 23-41
 ---
 module Kick {
    section qspi
@@ -157,9 +163,39 @@ module Kick {
 
 The highlighted line contains a resource declaration of kind `data`.
 A `data` is a static variable in your program, that you can access from C++.
-
 What it does here, is to create an `AudioSampleMono` from the file `body.wav`, because the
 file has only one channel, with the name `kick_body`.
+Its declaration is available in the `KickData.h` header file:
+
+```{code-block} erbb
+---
+lineno-start: 26
+emphasize-lines: 3
+---
+struct KickData
+{
+   static const erb::AudioSampleMono <float, 38320> body;
+   static const erb::AudioSampleMono <float, 38400> transient01;
+   static const erb::AudioSampleMono <float, 38400> transient02;
+   static const erb::AudioSampleMono <float, 38400> transient03;
+   static const erb::AudioSampleMono <float, 38400> transient04;
+   static const erb::AudioSampleMono <float, 38400> transient05;
+   static const erb::AudioSampleMono <float, 38400> transient06;
+   static const erb::AudioSampleMono <float, 38400> transient07;
+   static const erb::AudioSampleMono <float, 38400> transient08;
+   static const erb::AudioSampleMono <float, 38400> transient09;
+   static const erb::AudioSampleMono <float, 38400> transient10;
+   static const erb::AudioSampleMono <float, 38400> transient11;
+   static const erb::AudioSampleMono <float, 38400> transient12;
+   static const erb::AudioSampleMono <float, 38400> transient13;
+   static const erb::AudioSampleMono <float, 38400> transient14;
+   static const erb::AudioSampleMono <float, 38400> transient15;
+   static const erb::AudioSampleMono <float, 38400> transient16;
+   static const erb::AudioSampleMono <float, 38400> transient17;
+   static const erb::AudioSampleMono <float, 38400> transient18;
+
+};
+```
 
 You can then use this data in your program directly. The `AudioSampleMono` template class
 instance is already filled in with the audio sample rate, all the samples.
@@ -168,8 +204,7 @@ for you, and the sample is available before your program even starts!
 
 This is because Eurorack-blocks "transpiles" the audio sample to C++ code that get compiled
 like the rest of your program.
-
-If you look at `Kick.cpp`:
+If we look at `Kick.cpp`:
 
 ```{code-block} cpp
 ---
@@ -189,7 +224,6 @@ for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
 
 We call `body.process` with the entire sample `data.body`, which was generated from
 `media/body.wav`.
-
 Now if we look into the body implementation in `VoiceBody.h`:
 
 ```{code-block} cpp
@@ -208,12 +242,15 @@ If the `body.wav` file was a stereo audio file, it would generate a `AudioSample
 object, and we could access its content like this:
 
 ```{code-block} cpp
-float ret_1 = sample.frames [pos].channels [0];
-float ret_2 = sample.frames [pos + 1].channels [0];
+float ret_left_1 = sample.frames [pos].channels [0];
+float ret_left_2 = sample.frames [pos + 1].channels [0];
+float ret_right_1 = sample.frames [pos].channels [1];
+float ret_right_2 = sample.frames [pos + 1].channels [1];
 ```
 
 `AudioSampleInterleaved` contains an array of `frames`, and each frame contains an array
 of `channels`.
+In our example above, `0` indexes the left channel, and `1` indexes the right channel.
 
 
 ## Program Section
