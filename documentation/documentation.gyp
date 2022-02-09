@@ -41,6 +41,12 @@
             'guides/kick.md',
             'guides/reverb.md',
 
+            'diy/intro.md',
+            'diy/board.md',
+            'diy/drc.md',
+            'diy/routing.md',
+            'diy/order-assemble.md',
+
             'max/first.md',
             'max/ui.md',
             'max/setup.md',

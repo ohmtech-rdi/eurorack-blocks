@@ -112,6 +112,36 @@ its vibrant community.
 ```
 
 
+## DIY Corner
+
+Now that you tested your shiny new module in the simulator, one task only is left:
+making it an object in the real world to use in your Eurorack system.
+The Eurorack-blocks market place (coming soon) is a super convenient way
+to get your new module delivered already assembled to your door.
+But maybe you adhere to the DIY philosophy and want to be able to build your own
+module without the direct aid of our service?
+Eurorack-blocks got you covered! so read on to get your hands dirty:
+
+- **{doc}`/diy/intro`**
+- **{doc}`/diy/board`**
+- **{doc}`/diy/drc`**
+- **{doc}`/diy/routing`**
+- **{doc}`/diy/order-assemble`**
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: DIY Corner
+
+   /diy/intro
+   /diy/board
+   /diy/drc
+   /diy/routing
+   /diy/order-assemble
+```
+
+
 ## Controls Reference
 
 ### Audio Signals
