@@ -48,6 +48,7 @@ class KicadPcb:
 
       self.fill_zones (path, module)
       self.generate_module_gerber (path, module)
+      self.generate_module_bom (path, module)
 
 
    #--------------------------------------------------------------------------
@@ -166,6 +167,169 @@ class KicadPcb:
       gerber_dir = os.path.join (path, 'gerber')
       zipdir (gerber_dir, zip_file)
       zip_file.close ()
+
+   #--------------------------------------------------------------------------
+
+   def generate_module_bom (self, path, module):
+      path_bom = os.path.join (path, '%s.bom.csv' % module.name)
+
+      parts = {} # control.style.name: quantity
+
+      def inc_part (part_name):
+         if part_name in parts:
+            parts [part_name] += 1
+         else:
+            parts [part_name] = 1
+
+      for control in module.controls:
+         style_name = control.style.name
+         inc_part (style_name)
+         if style_name.startswith ('rogan.'):
+            inc_part ('alpha.9mm')
+         elif style_name.startswith ('thonk.pj398sm.'):
+            inc_part ('thonk.pj398sm')
+         elif style_name == 'tl1105':
+            inc_part ('1rblk')
+
+      bom = 'Description;Quantity;Distributor;Distributor Part Nbr;Distributor Link\n'
+
+      parts ['header'] = 2
+
+      for part, quantity in parts.items ():
+         if part == 'rogan.6ps':
+            description = '6PS - X-Large Pointer (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'rogan.5ps':
+            description = '5PS - Larger Pointer (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'rogan.3ps':
+            description = '3PS - Large Pointer (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'rogan.2ps':
+            description = '2PS - Medium Pointer (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'rogan.1ps':
+            description = '1PS - Small Pointer (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'alpha.9mm':
+            description = 'B100K - D shaft - Alpha Vertical 9mm Potentiometer'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/alpha-9mm-pots-dshaft/'
+
+         elif part == 'songhuei.9mm':
+            description = 'B100K - Song Huei TALL Trimmer Potentiometer'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/ttpots/'
+
+         elif part == 'dailywell.2ms1':
+            description = 'DW1 - SPDT ON-ON - Dailywell Sub-mini Toggle Switch'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/sub-mini-toggle-switches/'
+
+         elif part == 'dailywell.2ms3':
+            description = 'DW2 - SPDT ON-OFF-ON - Dailywell Sub-mini Toggle Switch'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/sub-mini-toggle-switches/'
+
+         elif part == 'thonk.pj398sm':
+            description = 'Thonkiconn Mono 3.5mm Audio Jacks (PJ398SM)'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/thonkiconn/'
+
+         elif part == 'thonk.pj398sm.knurled':
+            description = 'Knurled Nuts (Bag of 50 pieces)'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/thonkiconn/'
+
+         elif part == 'thonk.pj398sm.hex':
+            description = 'Hex Nuts (Bag of 50 pieces)'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/thonkiconn/'
+
+         elif part == 'ck.d6r.black':
+            description = 'C&K TACTILE SWITCH (Choose Black)'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/radio-music-switch/'
+
+         elif part == 'tl1105':
+            description = 'SWITCH TACTILE SPST-NO 0.05A 12V'
+            dist = 'Digikey'
+            dist_pn = 'EG1862-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/e-switch/TL1105SPF250Q/271559'
+
+         elif part == '1rblk':
+            description = 'CAP PUSHBUTTON ROUND BLACK'
+            dist = 'Digikey'
+            dist_pn = 'EG1882-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/e-switch/1RBLK/271579'
+
+         elif part == 'led.3mm.red':
+            description = 'LED RED DIFFUSED T-1 T/H'
+            dist = 'Digikey'
+            dist_pn = '754-1606-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/kingbright/WP710A10ID/2769809'
+
+         elif part == 'led.3mm.green':
+            description = 'LED GREEN DIFFUSED T-1 T/H'
+            dist = 'Digikey'
+            dist_pn = '754-1603-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/kingbright/WP710A10GD/2769808'
+
+         elif part == 'led.3mm.yellow':
+            description = 'LED YELLOW DIFFUSED T-1 T/H'
+            dist = 'Digikey'
+            dist_pn = '754-1602-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/kingbright/WP710A10YD/2769824'
+
+         elif part == 'led.3mm.orange':
+            description = 'LED ORANGE DIFFUSED T-1 T/H'
+            dist = 'Digikey'
+            dist_pn = '754-1892-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/kingbright/WP710A10ND/3084190'
+
+         elif part == 'led.3mm.green_red':
+            description = 'LED GREEN/RED DIFFUSED T-1 T/H'
+            dist = 'Digikey'
+            dist_pn = '754-1221-ND'
+            dist_link = 'https://www.digikey.com/en/products/detail/kingbright/WP3VEGW/1747620'
+
+         elif part == 'header':
+            description = 'CONN HEADER VERT 36POS 2.54MM'
+            dist = 'Digikey'
+            dist_pn = 'S1011E-36-ND'
+            dist_link = 'https://www.digikey.de/en/products/detail/sullins-connector-solutions/PBC36SAAN/859621'
+
+         else:
+            assert False
+
+         bom += '%s;%d;%s;%s;%s\n' % (description, quantity, dist, dist_pn, dist_link)
+
+      with open (path_bom, 'w') as file:
+         file.write (bom)
+
 
 
    #--------------------------------------------------------------------------
