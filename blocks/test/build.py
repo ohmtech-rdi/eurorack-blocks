@@ -51,10 +51,6 @@ if __name__ == '__main__':
          'switch',
       ]
 
-      for target in targets:
-         erbb.objcopy (target, PATH_THIS, 'Debug')
-         erbb.objcopy (target, PATH_THIS, 'Release')
-
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)
       sys.exit (1)

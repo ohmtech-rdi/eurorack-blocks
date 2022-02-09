@@ -340,32 +340,6 @@ def build_simulator_target (target, path, configuration):
 
 """
 ==============================================================================
-Name : objcopy
-==============================================================================
-"""
-
-def objcopy (name, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
-
-   print ('OBJCOPY %s' % name)
-
-   file_elf = os.path.join (path_artifacts, 'daisy', 'out', configuration, name)
-   file_bin = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s.bin' % name)
-
-   shutil.copyfile (file_elf, file_bin)
-
-   cmd = [
-      'arm-none-eabi-objcopy',
-      '-O', 'binary',
-      '-S', file_bin,
-   ]
-
-   subprocess.check_call (cmd)
-
-
-
-"""
-==============================================================================
 Name : deploy
 ==============================================================================
 """
