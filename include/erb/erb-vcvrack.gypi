@@ -80,7 +80,7 @@
       {
          'postbuild_name': 'Copy to VCV Rack plug-ins folder',
          'action': [
-            '<!(which python3)', 'artifacts/deploy_vcvrack.py'
+            '<!(which python3)', 'artifacts/actions/action_vcvrack_install.py'
          ],
       },
    ],

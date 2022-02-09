@@ -135,7 +135,7 @@ class Project:
       lines += '               \'outputs\': [\n'
       lines += '                  \'<!(echo artifacts/%sUi.h)\',\n' % module.name
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_ui.py\' ],\n'
+      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_ui.py\' ],\n'
       lines += '            },\n'
 
       lines += '            {\n'
@@ -146,7 +146,7 @@ class Project:
       lines += '               \'outputs\': [\n'
       lines += '                  \'<!(echo artifacts/main_daisy.cpp)\',\n'
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_daisy.py\' ],\n'
+      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_daisy.py\' ],\n'
       lines += '            },\n'
 
       data_paths = []
@@ -166,7 +166,7 @@ class Project:
          lines += '                  \'<!(echo artifacts/%sData.h)\',\n' % module.name
          lines += '                  \'<!(echo artifacts/plugin_generated_data.cpp)\',\n'
          lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/action_data.py\' ],\n'
+         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_data.py\' ],\n'
          lines += '            },\n'
 
       return template.replace ('%           target_actions%', lines)

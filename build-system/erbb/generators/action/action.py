@@ -33,6 +33,7 @@ class Action:
       self.generate_module_action (path, module, 'ui')
       self.generate_module_action (path, module, 'vcvrack')
       self.generate_module_action (path, module, 'data')
+      self.generate_module_action (path, module, 'vcvrack_install')
 
 
 
@@ -40,13 +41,18 @@ class Action:
 
    def generate_module_action (self, path, module, action):
       path_template = os.path.join (PATH_THIS, 'action_%s_template.py' % action)
-      path_py = os.path.join (path, 'artifacts', 'action_%s.py' % action)
+      path_actions = os.path.join (path, 'artifacts', 'actions')
+      path_py = os.path.join (path_actions, 'action_%s.py' % action)
+
+      if not os.path.exists (path_actions):
+         os.makedirs (path_actions)
 
       with open (path_template, 'r') as file:
          template = file.read ()
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = template.replace ('%module.name%', module.name)
 
       with open (path_py, 'w') as file:
          file.write (template)
