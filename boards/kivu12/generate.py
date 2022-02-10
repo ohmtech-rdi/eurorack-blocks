@@ -35,11 +35,11 @@ if sys.version_info < (2, 7):
 
 """
 ==============================================================================
-Name : generate
+Name : generate_gerber
 ==============================================================================
 """
 
-def generate ():
+def generate_gerber ():
    args = lambda: None
    args.input_net = os.path.join (PATH_THIS, 'kivu12.net')
    args.input_pcb = os.path.join (PATH_THIS, 'kivu12.kicad_pcb')
@@ -47,11 +47,91 @@ def generate ():
    args.output_dir = os.path.join (PATH_THIS, 'artifacts')
 
    kcgen.generate_pcb (args)
-   kcgen.generate_pcb (args)
-   kcgen.generate_bom (args)
-   kcgen.generate_pickplace (args)
-   #kcgen.generate_assembly_plan (args)
 
+
+
+"""
+==============================================================================
+Name : generate_pickplace
+==============================================================================
+"""
+
+def generate_pickplace ():
+   args = lambda: None
+   args.input_net = os.path.join (PATH_THIS, 'kivu12.net')
+   args.input_pcb = os.path.join (PATH_THIS, 'kivu12.kicad_pcb')
+   args.manufacturer = 'pcbpool'
+   args.output_dir = os.path.join (PATH_THIS, 'artifacts')
+
+   kcgen.generate_pickplace (args)
+
+
+
+"""
+==============================================================================
+Name : generate_assembly_plan
+==============================================================================
+"""
+
+def generate_assembly_plan ():
+   args = lambda: None
+   args.input_net = os.path.join (PATH_THIS, 'kivu12.net')
+   args.input_pcb = os.path.join (PATH_THIS, 'kivu12.kicad_pcb')
+   args.manufacturer = 'pcbpool'
+   args.output_dir = os.path.join (PATH_THIS, 'artifacts')
+
+   kcgen.generate_assembly_plan (args)
+
+
+
+"""
+==============================================================================
+Name : generate_bom_digikey
+==============================================================================
+"""
+
+def generate_bom_digikey ():
+
+   distributor_parts = Counter ()
+   components_metadata = {}
+
+   input_net = os.path.join (PATH_THIS, 'kivu12.net')
+   input_pcb = os.path.join (PATH_THIS, 'kivu12.kicad_pcb')
+   design = kcgen.read_design (input_net, input_pcb)
+
+   parts = Counter ()
+   for reference in design.components:
+      component = design.components [reference]
+      if component.distributor.lower () == 'digikey':
+         parts [component.distributor_part_number] += 1
+         components_metadata [component.distributor_part_number] = component
+   distributor_parts += parts
+
+   output_dir = os.path.join (PATH_THIS, 'artifacts')
+   with open (os.path.join (output_dir, 'kivu12.bom.csv'), 'w') as output:
+      output.write ('"Diki-Key Part Number","Quantity"\n')
+      for part in sorted (distributor_parts):
+         device = components_metadata [part].device
+         value = components_metadata [part].value
+         if components_metadata [part].reference.startswith ('J'):
+            value = ''
+         description = components_metadata [part].description
+         quantity = math.ceil (distributor_parts [part] * 1.1) # 10% more components
+         output.write ('"%s","%d"\n' % (part, quantity))
+
+
+
+"""
+==============================================================================
+Name : generate
+==============================================================================
+"""
+
+def generate ():
+   generate_gerber ()
+   generate_pickplace ()
+   #generate_assembly_plan ()
+   generate_bom_digikey ()
 
 
 
