@@ -86,6 +86,23 @@ def generate_assembly_plan ():
 
 """
 ==============================================================================
+Name : generate_bom
+==============================================================================
+"""
+
+def generate_bom ():
+   args = lambda: None
+   args.input_net = os.path.join (PATH_THIS, 'kivu12.net')
+   args.input_pcb = os.path.join (PATH_THIS, 'kivu12.kicad_pcb')
+   args.manufacturer = 'pcbpool'
+   args.output_dir = os.path.join (PATH_THIS, 'artifacts')
+
+   kcgen.generate_bom (args)
+
+
+
+"""
+==============================================================================
 Name : generate_bom_digikey
 ==============================================================================
 """
@@ -108,7 +125,7 @@ def generate_bom_digikey ():
    distributor_parts += parts
 
    output_dir = os.path.join (PATH_THIS, 'artifacts')
-   with open (os.path.join (output_dir, 'kivu12.bom.csv'), 'w') as output:
+   with open (os.path.join (output_dir, 'kivu12.bom.digikey.csv'), 'w') as output:
       output.write ('"Diki-Key Part Number","Quantity"\n')
       for part in sorted (distributor_parts):
          device = components_metadata [part].device
@@ -131,6 +148,7 @@ def generate ():
    generate_gerber ()
    generate_pickplace ()
    #generate_assembly_plan ()
+   generate_bom ()
    generate_bom_digikey ()
 
 
