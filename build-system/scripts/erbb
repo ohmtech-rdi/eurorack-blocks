@@ -74,8 +74,9 @@ def read_erbb_ast (filepath):
       try:
          ast = erbb.parse (filepath)
       except erbb.error.Error as error:
-         error.color ()
-         print ("%s" % str (error))
+         if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():
+            error.color ()
+         print (str (error), file=sys.stderr)
          sys.exit (1)
 
    return ast
@@ -101,8 +102,9 @@ def read_erbui_ast (filepath):
       try:
          ast = erbui.parse (filepath)
       except erbb.error.Error as error:
-         error.color ()
-         print ("%s" % str (error))
+         if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():
+            error.color ()
+         print (str (error), file=sys.stderr)
          sys.exit (1)
 
    return ast
@@ -348,13 +350,15 @@ def main ():
                sys.exit (1)
 
          except erbb.error.Error as error:
-            error.color ()
-            print (str (error))
+            if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():
+               error.color ()
+            print (str (error), file=sys.stderr)
             sys.exit (1)
 
          except erbui.error.Error as error:
-            error.color ()
-            print (str (error))
+            if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():
+               error.color ()
+            print (str (error), file=sys.stderr)
             sys.exit (1)
 
 
