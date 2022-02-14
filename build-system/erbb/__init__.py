@@ -322,6 +322,7 @@ def build_simulator_target (target, path, configuration):
          '-configuration', configuration,
          '-target', target,
          '-parallelizeTargets',
+         '-PBXBuildsContinueAfterErrors=NO',
          'SYMROOT=%s' % os.path.join (path_artifacts, 'build')
       ]
 
