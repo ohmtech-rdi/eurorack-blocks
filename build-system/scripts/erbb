@@ -101,7 +101,7 @@ def read_erbui_ast (filepath):
    with file:
       try:
          ast = erbui.parse (filepath)
-      except erbb.error.Error as error:
+      except erbui.error.Error as error:
          if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():
             error.color ()
          print (str (error), file=sys.stderr)
