@@ -318,6 +318,7 @@ def build_simulator_target (target, path, configuration):
 
       cmd = [
          xcodebuild_path,
+         '-quiet',
          '-project', os.path.join (path_artifacts, 'project_vcvrack.xcodeproj'),
          '-configuration', configuration,
          '-target', target,
