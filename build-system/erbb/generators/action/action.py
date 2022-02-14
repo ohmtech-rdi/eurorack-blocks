@@ -35,6 +35,9 @@ class Action:
       self.generate_module_action (path, module, 'data')
       self.generate_module_action (path, module, 'vcvrack_install')
 
+      if module.source_language == 'max':
+         self.generate_module_action (path, module, 'max')
+
 
 
    #--------------------------------------------------------------------------
