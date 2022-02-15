@@ -45,6 +45,8 @@
    #error Unknown erb target
 #endif
 
+#include "erb/detail/fnc.h"
+
 
 
 namespace erb
