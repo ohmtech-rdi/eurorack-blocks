@@ -8,8 +8,8 @@
 <img align="left" width="30%" src="./erb-logo.svg">
 
 The `eurorack-blocks` project allows to develop your own custom Eurorack module for either
-prototyping or fun in the comfort of your day-to-day IDE and debugging in a
-[virtual Eurorack environment](https://vcvrack.com),
+prototyping or fun in the comfort of your day-to-day IDE or using the Cycling '74 Max environment,
+testing and debugging in a [virtual Eurorack environment](https://vcvrack.com),
 and when ready, to auto-magically generate all the needed files to manufacture
 the eurorack module for you to use in a real Eurorack modular system.
 
@@ -109,9 +109,21 @@ Sample projects are a good place to continue learning:
 - [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs.
 
 
+## Cycling '74 Max Projects
+
+[<img align="right" height="200px" src="./max/reverb/screenshot.png">](./max/reverb/)
+
+First make sure to read the [Max integration documentation](https://eurorack-blocks.readthedocs.io/en/latest/max/setup.html).
+Sample projects are a good place to continue learning:
+
+- [`reverb`](./samples/reverb/) uses Gigaverb.
+
+
 ## Setting up
 
-Setting up the development environment is described in the [documentation](https://eurorack-blocks.readthedocs.io/en/latest/getting-started/setup.html).
+Setting up the development environment is described in the
+[documentation](https://eurorack-blocks.readthedocs.io/en/latest/getting-started/setup.html).
+Integrations might have also their own Set up documentation, so make sure to read this as well.
 
 
 ## Structure
@@ -122,6 +134,7 @@ eurorack-blocks/
    boards/
    build-system/
    include/
+   max/
    src/
    submodules/
 ```
@@ -131,6 +144,7 @@ eurorack-blocks/
 - [`build-system`](./build-system/) contains the build system used to build and deploy
    the tests and samples,
 - [`include`](./include/) contains the software implementation of the blocks,
+- [`max`](./max/) contains the Cycling '74 Max integration,
 - [`src`](./src/) contains the software implementation of the blocks,
 - [`submodules`](./submodules/) contains the software dependencies as submodules.
 
@@ -139,6 +153,7 @@ eurorack-blocks/
 
 All files in this repository, excluding `submodules/`, are provided with the CC BY-SA 4.0 license, **except**:
 
+- The [Cycling '74 Max Gen DSP Source Code](./include/gen_dsp),
 - The [D-DIN Font](./include/erb/vcvrack/design/d-din),
    under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
 - The [Indie Flower Font](./include/erb/vcvrack/design/indie-flower),
