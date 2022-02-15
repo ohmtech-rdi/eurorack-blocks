@@ -32,15 +32,21 @@ if __name__ == '__main__':
    try:
       init_path = os.path.join (PATH_THIS, 'init.sh')
 
-      if platform.system () == 'Darwin':
-         profile_path = '~/.bash_profile'
-
-      elif platform.system () == 'Linux':
+      if 'CI' in os.environ:
          profile_path = '~/.bash_profile'
 
       else:
-         print ('Platform %s not supported' % platform.system ())
-         sys.exit (1)
+         shell = os.environ ['SHELL']
+
+         if 'bash' in shell:
+            profile_path = '~/.bash_profile'
+
+         elif 'zsh' in shell:
+            profile_path = '~/.zshrc'
+
+         else:
+            print ('Shell %s is not supported' % shell)
+            sys.exit (1)
 
 
       # Add source init.sh to profile
