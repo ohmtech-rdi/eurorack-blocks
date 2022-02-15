@@ -62,6 +62,12 @@ jobs:
       - name: samples/kick
         run: erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples/kick
+      - name: test/max
+        run: erbb configure; erbb build simulator; erbb build; erbb build hardware
+        working-directory: test/max
+      - name: test/max2
+        run: erbb configure; erbb build simulator; erbb build; erbb build hardware
+        working-directory: test/max2
       - name: erbb init
         run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples
