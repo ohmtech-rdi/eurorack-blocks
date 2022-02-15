@@ -33,7 +33,15 @@ Install by running the script below:
 ~/eurorack-blocks$ ./build-system/install.py
 ```
 
-This will add the `erbb` script to your `PATH`.
+This will add the `erbb` script to your `PATH`, but the `PATH` will be set only for new terminals.
+You can either close your current terminal and open a new one, or source the `erbb` environment
+explicitly into your current shell session:
+
+```shell-session
+~/eurorack-blocks$ source ./build-system/init.sh
+```
+
+Then:
 
 ```shell-session
 ~/eurorack-blocks$ erbb setup
