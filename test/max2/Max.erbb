@@ -1,0 +1,19 @@
+/*****************************************************************************
+
+      Max.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Max {
+   sources {
+      file "Max.erbui"
+      file "Max.maxpat"
+   }
+
+   resources {
+      data stereo AudioSample { file "stereo.wav" }
+   }
+}

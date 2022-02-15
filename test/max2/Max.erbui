@@ -1,0 +1,26 @@
+/*****************************************************************************
+
+      Max.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Max {
+   board kivu12
+   material aluminum
+   header { label "MAX TEST2" }
+
+   control audio_out_left AudioOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+   }
+
+   control audio_out_right AudioOut {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+   }
+}
