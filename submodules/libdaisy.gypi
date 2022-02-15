@@ -14,6 +14,10 @@
          'type': 'static_library',
 
          'sources': [
+            './libDaisy/Drivers/CMSIS/DSP/Source/CommonTables/arm_common_tables.c',
+            './libDaisy/Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_cos_f32.c',
+            './libDaisy/Drivers/CMSIS/DSP/Source/FastMathFunctions/arm_sin_f32.c',
+
             './libDaisy/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal.c',
             './libDaisy/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc.c',
             './libDaisy/Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_adc_ex.c',
@@ -260,6 +264,7 @@
             './libDaisy/src/usbh',
             './libDaisy/Drivers/CMSIS/Include',
             './libDaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include',
+            './libDaisy/Drivers/CMSIS/DSP/Include',
             './libDaisy/Drivers/STM32H7xx_HAL_Driver/Inc',
             './libDaisy/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy',
             './libDaisy/Middlewares/ST/STM32_USB_Device_Library/Core/Inc',
@@ -302,6 +307,7 @@
                './libDaisy/src/usbh',
                './libDaisy/Drivers/CMSIS/Include',
                './libDaisy/Drivers/CMSIS/Device/ST/STM32H7xx/Include',
+               './libDaisy/Drivers/CMSIS/DSP/Include',
                './libDaisy/Drivers/STM32H7xx_HAL_Driver/Inc',
                './libDaisy/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy',
                './libDaisy/Middlewares/ST/STM32_USB_Device_Library/Core/Inc',

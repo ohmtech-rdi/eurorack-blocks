@@ -29,6 +29,8 @@ from .generators.daisy.project import Project as daisyProject
 from .generators.vscode.launch import Launch as vscodeLaunch
 from .generators.vscode.tasks import Tasks as vscodeTasks
 from .generators.data.code import Code as dataCode
+from .generators.max.code import Code as maxCode
+from .generators.max.project import Project as maxProject
 
 
 
@@ -55,6 +57,18 @@ Name: init
 
 def init (path, name):
    generator = initProject ()
+   generator.generate (path, name)
+
+
+
+"""
+==============================================================================
+Name: max_init
+==============================================================================
+"""
+
+def max_init (path, name):
+   generator = maxProject ()
    generator.generate (path, name)
 
 
@@ -117,6 +131,23 @@ def generate_data (path, ast):
    path_artifacts = os.path.join (path, 'artifacts')
 
    generator = dataCode ()
+   generator.generate (path_artifacts, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_max
+==============================================================================
+"""
+
+def generate_max (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
+   generator = maxCode ()
    generator.generate (path_artifacts, ast)
 
 

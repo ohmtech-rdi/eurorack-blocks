@@ -36,6 +36,7 @@
             # generators/action
             'erbb/generators/action/action_daisy_template.py',
             'erbb/generators/action/action_data_template.py',
+            'erbb/generators/action/action_max_template.py',
             'erbb/generators/action/action_ui_template.py',
             'erbb/generators/action/action_vcvrack_template.py',
             'erbb/generators/action/action.py',
@@ -51,6 +52,17 @@
             'erbb/generators/data/code_template.cpp',
             'erbb/generators/data/code_template.h',
             'erbb/generators/data/code.py',
+
+            # generators/max
+            'erbb/generators/max/code_template.cpp',
+            'erbb/generators/max/code_template.h',
+            'erbb/generators/max/code.py',
+            'erbb/generators/max/module_max_template.cpp',
+            'erbb/generators/max/module_max_template.h',
+            'erbb/generators/max/project_template.erbb',
+            'erbb/generators/max/project_template.erbui',
+            'erbb/generators/max/project_template.maxpat',
+            'erbb/generators/max/project.py',
 
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
@@ -101,6 +113,10 @@
             'erbui/generators/front_pcb/thonk.pj398sm/thonk.pj398sm.kicad_pcb',
             'erbui/generators/front_pcb/tl1105/tl1105.kicad_pcb',
             'erbui/generators/front_pcb/songhuei.9mm/songhuei.9mm.kicad_pcb',
+
+            # generators/max
+            'erbui/generators/max/code_template.cpp',
+            'erbui/generators/max/code.py',
 
             # generators/ui
             'erbui/generators/ui/code_template.h',
