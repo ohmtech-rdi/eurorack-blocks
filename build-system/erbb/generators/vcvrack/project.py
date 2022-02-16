@@ -11,6 +11,8 @@ import os
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_ERBB_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbb', 'generators')
+PATH_ERBUI_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbui', 'generators')
 
 
 
@@ -127,6 +129,8 @@ class Project:
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Max\',\n'
          lines += '               \'inputs\': [\n'
+         lines += '                  \'<!(echo %s/max/code.py)\',\n' % PATH_ERBB_GENS
+         lines += '                  \'<!(echo %s/max/code.py)\',\n' % PATH_ERBUI_GENS
          lines += '                  \'<!(echo artifacts/module_max.cpp)\',\n'
          lines += '                  \'<!(echo artifacts/module_max.h)\',\n'
          lines += '               ],\n'
@@ -142,6 +146,7 @@ class Project:
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile Ui\',\n'
       lines += '               \'inputs\': [\n'
+      lines += '                  \'<!(echo %s/ui/code.py)\',\n' % PATH_ERBUI_GENS
       lines += '                  \'<!(echo %s.erbui)\',\n' % module.name
       lines += '               ],\n'
       lines += '               \'outputs\': [\n'
@@ -153,6 +158,9 @@ class Project:
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile VcvRack\',\n'
       lines += '               \'inputs\': [\n'
+      lines += '                  \'<!(echo %s/vcvrack/code.py)\',\n' % PATH_ERBUI_GENS
+      lines += '                  \'<!(echo %s/vcvrack/manifest.py)\',\n' % PATH_ERBUI_GENS
+      lines += '                  \'<!(echo %s/vcvrack/panel.py)\',\n' % PATH_ERBUI_GENS
       lines += '                  \'<!(echo %s.erbui)\',\n' % module.name
       lines += '               ],\n'
       lines += '               \'outputs\': [\n'
@@ -173,6 +181,8 @@ class Project:
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Data\',\n'
          lines += '               \'inputs\': [\n'
+         lines += '                  \'<!(echo %s/data/code.py)\',\n' % PATH_ERBB_GENS
+         lines += '                  \'<!(echo %s.erbb)\',\n' % module.name
          for data_path in data_paths:
             lines += '                  \'<!(echo %s)\',\n' % data_path
          lines += '               ],\n'
