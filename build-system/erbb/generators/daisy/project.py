@@ -193,6 +193,7 @@ class Project:
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Data\',\n'
          lines += '               \'inputs\': [\n'
+         lines += '                  \'<!(echo %s.erbb)\',\n' % module.name
          for data_path in data_paths:
             lines += '                  \'<!(echo %s)\',\n' % data_path
          lines += '               ],\n'
