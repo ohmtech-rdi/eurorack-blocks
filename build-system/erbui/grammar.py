@@ -111,6 +111,10 @@ def control_kind ():                   return list (CONTROL_KINDS)
 def control_name ():                   return name
 def control_declaration ():            return 'control', control_name, control_kind, control_body
 
+# Exclude Pins
+
+def exclude_declaration ():            return 'exclude', [pins_declaration, pin_declaration]
+
 # Footer
 def footer_entities ():                return ZeroOrMore ([label_declaration, image_declaration])
 def footer_body ():                    return '{', footer_entities, '}'
@@ -134,7 +138,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name
