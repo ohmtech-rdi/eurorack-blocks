@@ -242,6 +242,19 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Exclude Pins ----------------------------------------------------------
+
+   def visit_exclude_declaration (self, node, children):
+      if children.pins_declaration:
+         exclude = ast.ExcludePins (children.pins_declaration [0].identifiers)
+      elif children.pin_declaration:
+         exclude = ast.ExcludePins ([children.pin_declaration [0].identifier])
+      else:
+         assert False
+
+      return exclude
+
+
    #-- Control ---------------------------------------------------------------
 
    def visit_control_declaration (self, node, children):
