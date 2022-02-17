@@ -12,6 +12,8 @@ module Kick {
    material aluminum
    header { label "KICK" }
 
+   exclude pins B1, P1
+
    // Trigger ----------------------------------------------------------------
 
    control trigger_button Button {
