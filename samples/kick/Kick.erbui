@@ -12,6 +12,8 @@ module Kick {
    material aluminum
    header { label "KICK" }
 
+   exclude pins B1, P1
+
    // Trigger ----------------------------------------------------------------
 
    control trigger_button Button {
@@ -45,18 +47,18 @@ module Kick {
    // Mute -------------------------------------------------------------------
 
    control mute_button Button {
-      position 5.3hp, 14.1mm
+      position 5.3hp, 15.5mm
       style tl1105
       label "B.MUTE"
    }
 
    line {
-      position 5.3hp, 14.1mm
-      position 6.7hp, 14.1mm
+      position 5.3hp, 15.5mm
+      position 6.75hp, 15.5mm
    }
 
    control mute_led Led {
-      position 6.7hp, 14.1mm
+      position 6.75hp, 15.5mm
       style led.3mm.red
    }
 
