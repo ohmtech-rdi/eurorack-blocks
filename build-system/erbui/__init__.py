@@ -213,6 +213,16 @@ def generate_front_pcb_kicad_pcb (path, ast):
 
 
 
+"""
+==============================================================================
+Name: generate_front_pcb_gerber
+==============================================================================
+"""
 
+def generate_front_pcb_gerber (path, ast):
+   path_hardware = os.path.join (path, 'hardware')
+   if not os.path.exists (path_hardware):
+      os.makedirs (path_hardware)
 
-
+   generator = kicad_pcbKicadPcb ()
+   generator.generate_gerber (path_hardware, ast)
