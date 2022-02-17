@@ -144,6 +144,19 @@ class Visitor (PTNodeVisitor):
       return self.to_keyword (node)
 
 
+   #-- Route -----------------------------------------------------------------
+
+   def visit_route_declaration (self, node, children):
+      route_mode = children.route_mode [0]
+
+      route = ast.Route (route_mode)
+
+      return route
+
+   def visit_route_mode (self, node, children):
+      return self.to_keyword (node)
+
+
    #-- Header ----------------------------------------------------------------
 
    def visit_header_declaration (self, node, children):
