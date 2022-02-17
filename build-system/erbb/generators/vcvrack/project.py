@@ -125,12 +125,15 @@ class Project:
    def replace_actions (self, template, module, path):
       lines = ''
 
+      path_rel_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
+      path_rel_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+
       if module.source_language == 'max':
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Max\',\n'
          lines += '               \'inputs\': [\n'
-         lines += '                  \'<!(echo %s/max/code.py)\',\n' % PATH_ERBB_GENS
-         lines += '                  \'<!(echo %s/max/code.py)\',\n' % PATH_ERBUI_GENS
+         lines += '                  \'<!(echo %s/max/code.py)\',\n' % path_rel_erbb_gens
+         lines += '                  \'<!(echo %s/max/code.py)\',\n' % path_rel_erbui_gens
          lines += '                  \'<!(echo artifacts/module_max.cpp)\',\n'
          lines += '                  \'<!(echo artifacts/module_max.h)\',\n'
          lines += '               ],\n'
@@ -146,7 +149,7 @@ class Project:
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile Ui\',\n'
       lines += '               \'inputs\': [\n'
-      lines += '                  \'<!(echo %s/ui/code.py)\',\n' % PATH_ERBUI_GENS
+      lines += '                  \'<!(echo %s/ui/code.py)\',\n' % path_rel_erbui_gens
       lines += '                  \'<!(echo %s.erbui)\',\n' % module.name
       lines += '               ],\n'
       lines += '               \'outputs\': [\n'
@@ -158,9 +161,9 @@ class Project:
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile VcvRack\',\n'
       lines += '               \'inputs\': [\n'
-      lines += '                  \'<!(echo %s/vcvrack/code.py)\',\n' % PATH_ERBUI_GENS
-      lines += '                  \'<!(echo %s/vcvrack/manifest.py)\',\n' % PATH_ERBUI_GENS
-      lines += '                  \'<!(echo %s/vcvrack/panel.py)\',\n' % PATH_ERBUI_GENS
+      lines += '                  \'<!(echo %s/vcvrack/code.py)\',\n' % path_rel_erbui_gens
+      lines += '                  \'<!(echo %s/vcvrack/manifest.py)\',\n' % path_rel_erbui_gens
+      lines += '                  \'<!(echo %s/vcvrack/panel.py)\',\n' % path_rel_erbui_gens
       lines += '                  \'<!(echo %s.erbui)\',\n' % module.name
       lines += '               ],\n'
       lines += '               \'outputs\': [\n'
@@ -181,7 +184,7 @@ class Project:
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Data\',\n'
          lines += '               \'inputs\': [\n'
-         lines += '                  \'<!(echo %s/data/code.py)\',\n' % PATH_ERBB_GENS
+         lines += '                  \'<!(echo %s/data/code.py)\',\n' % path_rel_erbb_gens
          lines += '                  \'<!(echo %s.erbb)\',\n' % module.name
          for data_path in data_paths:
             lines += '                  \'<!(echo %s)\',\n' % data_path
