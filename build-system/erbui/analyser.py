@@ -25,6 +25,7 @@ class Analyser:
    def __init__ (self):
       self._board_definition = {}
       self._used_pins = {} # map from physical pin number to declaration
+      self._excluded_pins = []
       self._cascade_index = 0
 
    #--------------------------------------------------------------------------
@@ -41,6 +42,8 @@ class Analyser:
       assert module.is_module
 
       self._board_definition = self.load_board_definition (module)
+
+      self.exclude_pins (module)
 
       self.set_auto_board_width (module)
 
@@ -59,6 +62,18 @@ class Analyser:
          self.resolve_alias (module, alias)
 
       self.make_cascade_eval_list (module)
+
+
+   #--------------------------------------------------------------------------
+
+   def exclude_pins (self, module):
+      epins = [e for e in module.entities if e.is_exclude_pins]
+      for epin in epins:
+         for name in epin.names:
+            for pool in self._board_definition ['pools']:
+               if name in self._board_definition ['pools'][pool]:
+                  self._board_definition ['pools'][pool].remove (name)
+                  self._excluded_pins.append (name)
 
 
    #--------------------------------------------------------------------------
@@ -335,6 +350,8 @@ class Analyser:
       pools = self._board_definition ['pools']
       for key, value in pools.items ():
          module.unused_pins.extend (value)
+
+      module.unused_pins.extend (self._excluded_pins)
 
 
    #--------------------------------------------------------------------------
