@@ -16,6 +16,7 @@ KEYWORDS = (
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
+   'route', 'wire', 'manual',
 )
 UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
 CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
@@ -112,7 +113,6 @@ def control_name ():                   return name
 def control_declaration ():            return 'control', control_name, control_kind, control_body
 
 # Exclude Pins
-
 def exclude_declaration ():            return 'exclude', [pins_declaration, pin_declaration]
 
 # Footer
@@ -124,6 +124,10 @@ def footer_declaration ():             return 'footer', footer_body
 def header_entities ():                return ZeroOrMore ([label_declaration, image_declaration])
 def header_body ():                    return '{', header_entities, '}'
 def header_declaration ():             return 'header', header_body
+
+# Module Route
+def route_mode ():                     return ['wire', 'manual']
+def route_declaration ():              return 'route', route_mode
 
 # Module Width
 def width_declaration ():              return 'width', distance_declaration
@@ -138,7 +142,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration, route_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name
