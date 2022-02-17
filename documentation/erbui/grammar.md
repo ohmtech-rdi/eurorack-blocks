@@ -47,7 +47,8 @@ it is a set of multiple `control`, `image`, `label`, `width`, `material`, etc. _
 > _module-entity_ → [sticker-declaration](#sticker) \
 > _module-entity_ → [image-declaration](#image) \
 > _module-entity_ → [control-declaration](#control) \
-> _module-entity_ → [alias-declaration](#alias)
+> _module-entity_ → [alias-declaration](#alias) \
+> _module-entity_ → [exclude-declaration](#exclude)
 
 ### Extensions
 
@@ -230,6 +231,34 @@ void  process ()
    float freq_val2 = ui.vco_freq;   // better
 }
 ```
+
+
+## `exclude`
+
+An `exclude` allows to prevent the use of one or more pins to be used for the entire module.
+It is typically used when a pin is colliding with a control on the board, but it makes more
+sense to exclude the pin rather than move the control.
+
+### Grammar
+
+> _exclude-declaration_ → **`exclude`** exclude-entity \
+> _exclude-entity_ → [pins-declaration](#pins) \
+> _exclude-entity_ → [pin-declaration](#pin)
+
+For example:
+
+```erbui
+module Foo {
+   board kivu12
+   exclude pins P1, P2
+
+   control pot1 Pot { ... }
+   control pot2 Pot { ... }
+}
+```
+
+The pins of `pot1` and `pot2` will be respectively `P3` and `P4`, instead of `P1` and `P2` which
+are excluded.
 
 
 ## `mode`
