@@ -82,6 +82,9 @@ class Node:
    def is_sticker (self): return isinstance (self, Sticker)
 
    @property
+   def is_exclude_pins (self): return isinstance (self, ExcludePins)
+
+   @property
    def is_pin (self): return isinstance (self, Pin)
 
    @property
@@ -483,6 +486,22 @@ class Alias (Node):
          return adapter.SourceContext.from_token (self.identifier_reference)
 
       return super (Alias, self).source_context_part (part) # pragma: no cover
+
+
+# -- ExcludePins -------------------------------------------------------------
+
+class ExcludePins (Node):
+   def __init__ (self, identifiers):
+      assert isinstance (identifiers, list)
+      super (ExcludePins, self).__init__ ()
+      self.identifiers = identifiers
+      self.pins = [ Pin (ident) for ident in identifiers]
+
+   @staticmethod
+   def typename (): return 'exclude'
+
+   @property
+   def names (self): return [ ident.name for ident in self.identifiers ]
 
 
 # -- Control -----------------------------------------------------------------
