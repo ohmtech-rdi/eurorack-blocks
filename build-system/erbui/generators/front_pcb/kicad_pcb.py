@@ -29,6 +29,14 @@ class KicadPcb:
 
    #--------------------------------------------------------------------------
 
+   def generate_gerber (self, path, root):
+      for module in root.modules:
+         self.fill_zones (path, module)
+         self.generate_module_gerber (path, module)
+
+
+   #--------------------------------------------------------------------------
+
    def generate_module (self, path, module):
       path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
 
@@ -36,7 +44,12 @@ class KicadPcb:
 
       self.base = self.load (os.path.join (PATH_THIS, board, '%s.kicad_pcb' % board))
 
-      self.remove_pads (module)
+      route = 'wire'
+      if module.route is not None:
+         route = module.route.mode
+
+      remove_all_pads = route == 'manual'
+      self.remove_pads (module, remove_all_pads)
 
       self.collect_nets ()
 
@@ -46,14 +59,20 @@ class KicadPcb:
       writer = s_expression.Writer ()
       writer.write (self.base, path_pcb)
 
-      self.fill_zones (path, module)
-      self.generate_module_gerber (path, module)
+
+      if route == 'wire':
+         self.fill_zones (path, module)
+         self.generate_module_gerber (path, module)
+      elif route == 'manual':
+         pass # nothing
+
       self.generate_module_bom (path, module)
+
 
 
    #--------------------------------------------------------------------------
 
-   def remove_pads (self, module):
+   def remove_pads (self, module, all=False):
       net_numbers = []
       def filter_func (node):
          if isinstance (node, s_expression.List) and node.entities \
@@ -79,7 +98,7 @@ class KicadPcb:
                         and isinstance (ssub_node.entities [0], s_expression.Symbol) \
                         and ssub_node.entities [0].value in ['net']:
                            net_number = ssub_node.entities [1].value
-            if remove:
+            if remove or all:
                net_numbers.append (net_number)
                return False
 

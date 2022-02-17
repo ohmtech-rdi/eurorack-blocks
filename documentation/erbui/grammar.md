@@ -40,6 +40,7 @@ it is a set of multiple `control`, `image`, `label`, `width`, `material`, etc. _
 > _module-entity_ → [board-declaration](#board) \
 > _module-entity_ → [width-declaration](#width) \
 > _module-entity_ → [material-declaration](#material) \
+> _module-entity_ → [route-declaration](#route) \
 > _module-entity_ → [header-declaration](#header) \
 > _module-entity_ → [footer-declaration](#footer) \
 > _module-entity_ → [line-declaration](#line) \
@@ -92,6 +93,19 @@ A `material` defines the actual material used to produce the module front panel.
 > _material-name_ → **`brushed_aluminum`** \
 > _material-color_ → **`natural`** \
 > _material-color_ → **`black`**
+
+
+## `route`
+
+A `route` defines the way the front PCB is routed, `wire` if not specified (which requires hand soldering).
+`manual` allows to manually route the front PCB or use an autorouteur. In that case, all the
+hand soldering pads are removed to leave more space for routing.
+
+### Grammar
+
+> _route-declaration_ → **`route`** route-mode \
+> _route-mode_ → **`wire`** \
+> _route-mode_ → **`manual`**
 
 
 ## `board`
