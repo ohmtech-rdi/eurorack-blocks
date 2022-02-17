@@ -60,7 +60,7 @@ jobs:
         run: erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples/reverb
       - name: samples/kick
-        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
+        run: erbb configure; erbb build; erbb build hardware; erbb build gerber; erbb build simulator
         working-directory: samples/kick
       - name: test/max
         run: erbb configure; erbb build simulator; erbb build; erbb build hardware
