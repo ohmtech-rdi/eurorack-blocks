@@ -123,6 +123,7 @@ def usage ():
    print ('   install         Install the firmware on the Daisy hardware')
    print ('   bootloader      Install the QSPI bootloader on the Daisy hardware')
    print ('   max             Cycling\'74 Max commands')
+   print ('   faust           Faust commands')
    print ('')
    print ('init [<name>]')
    print ('   name:           Name of project, random name if not specified')
@@ -147,6 +148,8 @@ def usage ():
    print ('')
    print ('max init [<name>]')
    print ('   name:           Name of Max project, random name if not specified')
+   print ('faust init [<name>]')
+   print ('   name:           Name of Faust project, random name if not specified')
    print ('')
 
 
@@ -355,6 +358,40 @@ def max_init ():
 
 
 
+#-- faust --------------------------------------------------------------------
+
+def faust ():
+   if len (sys.argv) >= 3:
+      command = sys.argv [2]
+      if command == 'init':
+         faust_init ()
+
+   else:
+      print ("Error: Missing faust command\n")
+      usage ()
+      sys.exit (1)
+
+
+
+#-- faust_init ---------------------------------------------------------------
+
+def faust_init ():
+   import erbb
+
+   cwd = os.getcwd ()
+
+   name = 'Foo'
+   if len (sys.argv) >= 4:
+      name = sys.argv [3]
+   else:
+      name1 = random.choice (('Blu', 'So', 'Ann', 'Hyp', 'Nois', 'X-', 'In', 'Per', 'Tri', 'Tetra', 'Dual', 'Quad', 'Vec'))
+      name2 = random.choice (('line', 'nage', 'nor', 'rrr', 'y', 'er', 'tor', 'nator', 'dam', 'dron', 'bre', 'OR'))
+      name = name1 + name2
+
+   erbb.faust_init (cwd, name)
+
+
+
 #-- main ---------------------------------------------------------------------
 
 def main ():
@@ -389,6 +426,9 @@ def main ():
 
             elif command == 'max':
                max ()
+
+            elif command == 'faust':
+               faust ()
 
             else:
                print ("Error: Unknown command %s\n" % command)
