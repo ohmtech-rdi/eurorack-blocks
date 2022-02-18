@@ -55,4 +55,14 @@
    'export_dependent_settings': [
       'libdaisy',
    ],
+
+   'direct_dependent_settings': {
+      'defines': [
+         'erb_TARGET_DAISY',
+      ],
+
+      'include_dirs': [
+         '..',
+      ],
+   },
 }
