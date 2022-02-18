@@ -127,6 +127,10 @@
             'erbui/generators/max/code_template.cpp',
             'erbui/generators/max/code.py',
 
+            # generators/faust
+            'erbui/generators/faust/code_template.hpp',
+            'erbui/generators/faust/code.py',
+
             # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
