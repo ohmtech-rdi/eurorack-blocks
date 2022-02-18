@@ -63,6 +63,8 @@ class Analyser:
 
       self.make_cascade_eval_list (module)
 
+      self.resolve_module_faust_addresses (module)
+
 
    #--------------------------------------------------------------------------
 
@@ -144,6 +146,8 @@ class Analyser:
 
       if control.cascade_to is not None:
          self.resolve_cascade (module, control, control.cascade_to)
+
+      self.resolve_control_faust_addresses (module, control)
 
 
    #--------------------------------------------------------------------------
@@ -238,6 +242,118 @@ class Analyser:
       control.entities.append (cascade_from)
       self._cascade_index += 1
 
+
+   #--------------------------------------------------------------------------
+
+   def resolve_module_faust_addresses (self, module):
+      assert module.is_module
+
+      faust_entities = [e for e in module.entities if e.is_module_faust]
+      nbr_faust = len (faust_entities)
+
+      if nbr_faust > 1:
+         raise error.multiple_definition (control, faust_entities)
+
+      if nbr_faust == 1:
+         faust = faust_entities [0]
+         inits = [e for e in faust.entities if e.is_module_faust_init]
+         for init in inits:
+            object = lambda: None
+            object.control = None
+            object.property = None
+            object.qualified = None
+            object.value = init.value.value
+            module.faust_addresses [init.address.path] = object
+
+
+   #--------------------------------------------------------------------------
+
+   def resolve_control_faust_addresses (self, module, control):
+      assert control.is_control
+
+      faust_entities = [e for e in control.entities if e.is_control_faust]
+      nbr_faust = len (faust_entities)
+
+      if nbr_faust == 0:
+         properties = control.compound_properties
+         faust = ast.ControlFaust ()
+         if len (properties) == 0:
+            bind = ast.FaustBind ()
+            address_value = '/' + module.name + '/' + control.name
+            address = ast.FaustAddress (ast.StringLiteral.synthesize (address_value))
+            bind.add (address)
+            faust.add (bind)
+         else:
+            for property in properties:
+               bind = ast.FaustBind ()
+               address_value = '/' + module.name + '/' + control.name + '.' + property
+               address = ast.FaustAddress (ast.StringLiteral.synthesize (address_value))
+               bind.add (address)
+               faust.add (bind)
+         control.add (faust)
+      elif nbr_faust == 1:
+         faust = faust_entities [0]
+         binds = [e for e in faust.entities if e.is_faust_bind]
+         for bind in binds:
+            addresses = [e for e in bind.entities if e.is_faust_address]
+            nbr_addresses = len (addresses)
+            if nbr_addresses == 0:
+               raise error.missing_required (bind, ast.FaustAddress)
+            elif nbr_addresses > 1:
+               raise error.multiple_definition (bind, addresses)
+
+            address = addresses [0]
+
+            faust_properties = [e for e in bind.entities if e.is_faust_property]
+            nbr_faust_properties = len (faust_properties)
+
+            if nbr_faust_properties > 1:
+               raise error.multiple_definition (bind, faust_properties)
+
+            properties = control.compound_properties
+            if not properties:
+               if nbr_faust_properties == 1:
+                  faust_property = faust_properties [0]
+                  err = error.Error ()
+                  selector = faust_property.source_context_part ('name')
+                  err.add_error ("Unknown property '%s'" % faust_property, faust_property)
+                  err.add_context (faust_property)
+                  raise error
+            else:
+               if nbr_faust_properties == 0:
+                  raise error.missing_required (bind, ast.FaustProperty)
+               faust_property = faust_properties [0]
+               if not faust_property.name in control.compound_properties:
+                  err = error.Error ()
+                  selector = faust_property.source_context_part ('name')
+                  err.add_error ("Unknown property '%s'" % faust_property, faust_property)
+                  err.add_context (faust_property)
+                  raise error
+      else:
+         raise error.multiple_definition (control, faust_entities)
+
+      faust_entities = [e for e in control.entities if e.is_control_faust]
+      faust = faust_entities [0]
+      binds = [e for e in faust.entities if e.is_faust_bind]
+      for bind in binds:
+         suffix = '.' + bind.property_ if bind.property_ is not None else ''
+         object = lambda: None
+         object.control = control
+         object.property = bind.property_
+         object.qualified = control.name + suffix
+         object.value = None
+         module.faust_addresses [bind.address.path] = object
+
+#      inits = [e for e in faust.entities if e.is_control_faust_init]
+#      for init in inits:
+#         suffix = '.' + init.property_ if init.property_ is not None else ''
+#         object = lambda: None
+#         object.control = control
+#         object.property = init.property_
+#         object.qualified = control.name + suffix
+#         object.value = init.value
+#         module.faust_addresses [init.address.path] = object
+#
 
    #--------------------------------------------------------------------------
 
