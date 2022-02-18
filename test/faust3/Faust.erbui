@@ -1,0 +1,20 @@
+// Faust.erbui
+
+module Faust {
+   width 12hp
+   board kivu12
+   material aluminum
+   header { label "FAUST3" }
+
+   control audio_out AudioOut {
+      position 4hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+   }
+
+   control audio_out2 AudioOut {
+      position 8hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+   }
+}

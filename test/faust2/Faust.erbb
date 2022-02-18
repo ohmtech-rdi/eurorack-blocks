@@ -1,0 +1,8 @@
+// Faust.erbb
+
+module Faust {
+   sources {
+      file "Faust.erbui"
+      file "Faust.dsp"
+   }
+}
