@@ -17,9 +17,9 @@ Build an debug in your favorite IDE 💻
 : Thanks to the simulator, you can test your module completely in a virtual Eurorack environment, [VCV Rack](https://vcvrack.com).
    Iterate and refine your module, and think about creating the hardware only later.
 
-Integration with Max and FAUST 🔀
+Integration with Max and Faust 🔀
 
-: You don't need to use C++. Use your favorite audio environment like Max or FAUST (coming soon) to express your ideas quickly.
+: You don't need to use C++. Use your favorite audio environment like Max or Faust to express your ideas quickly.
 
 Enough power to support your wildest ideas 💪
 
@@ -35,7 +35,7 @@ Open Source ❤️
 
 ## Audience
 
-You should be familiar with either C++, Max or FAUST.
+You should be familiar with either C++, Max or Faust.
 
 You should know how to use a terminal and a shell like `bash`, but their usage are quite limited.
 
@@ -109,6 +109,30 @@ its vibrant community.
    /max/setup
    /max/first
    /max/ui
+```
+
+
+## Faust Integration
+
+C++ is not your thing and you prefer to use [Faust](https://faust.grame.fr),
+a functional programming language for sound synthesis and audio processing instead?
+Continue here to learn how to create your own module using Faust.
+
+- **{doc}`/faust/setup`**
+- **{doc}`/faust/first`**
+- **{doc}`/faust/mapping`**
+- **{doc}`/faust/soundfile`**
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Faust Integration
+
+   /faust/setup
+   /faust/first
+   /faust/mapping
+   /faust/soundfile
 ```
 
 

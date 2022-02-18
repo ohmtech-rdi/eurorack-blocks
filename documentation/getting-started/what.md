@@ -35,6 +35,6 @@ To make this possible, Eurorack-blocks uses a few principles:
 There are only 3 parts in a typical project:
 - The `erbb` meta-build-system file, in which you dictate which files are part of your program,
 - The `erbui` UI file, in which you dictate the layout of your module UI,
-- One or more DSP files written in C++, FAUST or done with Max.
+- One or more DSP files written in C++, Faust or done with Max.
 
 That's it! All the rest is automated for you.
