@@ -42,7 +42,7 @@ class Analyser:
          self.analyse_sources (module, sources)
 
       for resources in module.resources:
-         self.analyse_resources (resources)
+         self.analyse_resources (module, resources)
 
    #--------------------------------------------------------------------------
 
@@ -76,15 +76,15 @@ class Analyser:
 
    #--------------------------------------------------------------------------
 
-   def analyse_resources (self, resources):
+   def analyse_resources (self, module, resources):
       assert resources.is_resources
 
       for data in resources.datas:
-         self.analyse_data (data)
+         self.analyse_data (module, data)
 
    #--------------------------------------------------------------------------
 
-   def analyse_data (self, data):
+   def analyse_data (self, module, data):
       assert data.is_data
 
       files = [e for e in data.entities if e.is_file]
@@ -109,3 +109,48 @@ class Analyser:
 
       elif nbr_streams > 1:
          raise error.multiple_definition (data, streams)
+
+      self.resolve_faust_addresses (module, data)
+
+   #--------------------------------------------------------------------------
+
+   def resolve_faust_addresses (self, module, data):
+      assert data.is_data
+
+      faust_entities = [e for e in data.entities if e.is_faust]
+      nbr_faust = len (faust_entities)
+
+      if nbr_faust == 0:
+         faust = ast.Faust ()
+         bind = ast.FaustBind ()
+         address_value = '/' + module.name + '/' + data.name
+         address = ast.FaustAddress (ast.StringLiteral.synthesize (address_value))
+         bind.add (address)
+         faust.add (bind)
+         data.add (faust)
+      elif nbr_faust == 1:
+         faust = faust_entities [0]
+         binds = [e for e in faust.entities if e.is_faust_bind]
+         nbr_binds = len (binds)
+         if nbr_binds == 0:
+            raise error.missing_required (faust, ast.FaustBind)
+         elif nbr_binds > 1:
+            raise error.multiple_definition (faust, binds)
+         bind = binds [0]
+         addresses = [e for e in bind.entities if e.is_faust_address]
+         nbr_addresses = len (addresses)
+         if nbr_addresses == 0:
+            raise error.missing_required (bind, ast.FaustAddress)
+         elif nbr_addresses > 1:
+            raise error.multiple_definition (bind, addresses)
+      else:
+         raise error.multiple_definition (data, faust_entities)
+
+      faust_entities = [e for e in data.entities if e.is_faust]
+      faust = faust_entities [0]
+      binds = [e for e in faust.entities if e.is_faust_bind]
+      for bind in binds:
+         object = lambda: None
+         object.data = data
+         object.name = data.name
+         module.faust_addresses [bind.address.path] = object
