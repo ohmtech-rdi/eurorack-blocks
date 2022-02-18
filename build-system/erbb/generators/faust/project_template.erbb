@@ -1,0 +1,15 @@
+// %Name%.erbb
+
+module %Name% {
+   sources {
+      file "%Name%.erbui"
+      file "%Name%.dsp"
+   }
+
+   // Put more resources in this list when you want to add samples
+
+   resources {
+      // This is a sample accessible in gen as a box with content "data sample":
+      // data sample AudioSample { file "sample.wav" }
+   }
+}

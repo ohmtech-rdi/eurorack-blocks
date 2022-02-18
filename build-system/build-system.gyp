@@ -64,6 +64,15 @@
             'erbb/generators/max/project_template.maxpat',
             'erbb/generators/max/project.py',
 
+            # generators/faust
+            'erbb/generators/faust/code_template.h',
+            'erbb/generators/faust/code_template.hpp',
+            'erbb/generators/faust/code.py',
+            'erbb/generators/faust/project_template.erbb',
+            'erbb/generators/faust/project_template.erbui',
+            'erbb/generators/faust/project_template.dsp',
+            'erbb/generators/faust/project.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
