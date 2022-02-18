@@ -1,0 +1,8 @@
+// Flanger.erbb
+
+module Flanger {
+   sources {
+      file "Flanger.erbui"
+      file "Flanger.dsp"
+   }
+}
