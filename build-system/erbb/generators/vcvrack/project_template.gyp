@@ -19,6 +19,7 @@
    'targets' : [
       {
          'target_name': '%module.name%',
+         'type': 'loadable_module',
 
          'includes': [
             '%PATH_ROOT%/include/erb/erb-vcvrack.gypi',

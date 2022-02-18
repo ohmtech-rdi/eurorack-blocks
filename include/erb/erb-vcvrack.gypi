@@ -8,8 +8,6 @@
 
 
 {
-   'type': 'loadable_module',
-
    'defines': [
       'erb_TARGET_VCV_RACK',
    ],
@@ -84,4 +82,16 @@
          ],
       },
    ],
+
+   'direct_dependent_settings': {
+      'defines': [
+         'erb_TARGET_VCV_RACK',
+      ],
+
+      'include_dirs': [
+         '..',
+         '../../submodules/vcv-rack-sdk/include',
+         '../../submodules/vcv-rack-sdk/dep/include',
+      ],
+   },
 }
