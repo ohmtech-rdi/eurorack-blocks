@@ -5,36 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  hardware:
-    name: Hardware
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - run: sudo apt-get update
-      - run: sudo apt-get install kicad
-      - run: python blocks/audio-in-daisy/build.py
-      - run: python blocks/audio-out-daisy/build.py
-      - run: python blocks/button/build.py
-      - run: python blocks/cv-in/build.py
-      - run: python blocks/gate-in/build.py
-      - run: python blocks/gate-out/build.py
-      - run: python blocks/led/build.py
-      - run: python blocks/led-bi/build.py
-      - run: python blocks/multiplexer/build.py
-      - run: python blocks/pot/build.py
-      - run: python blocks/power-bus/build.py
-      - run: python blocks/regulator-daisy/build.py
-      - run: python blocks/slider/build.py
-      - run: python blocks/switch/build.py
-      - run: python blocks/trim/build.py
-      - run: python blocks/kits/stats.py
-      - run: python blocks/kits/build.py
-      - run: python boards/kivu12/build.py
-
-  software:
-    name: Software
+  software_cpp:
+    name: Software C++
     runs-on: ubuntu-20.04
     defaults:
       run:
@@ -66,6 +38,60 @@ jobs:
       - name: erbb init
         run: mkdir init; cd init; erbb init Init; erbb configure; erbb build; erbb build hardware; erbb build simulator
         working-directory: samples
+
+  software_faust:
+    name: Software Faust
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get install faust
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - name: samples/faust
+        run: erbb configure; erbb build; erbb build hardware; erbb build gerber; erbb build simulator
+        working-directory: samples/faust
+      - name: test/faust
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
+        working-directory: test/faust
+      - name: test/faust2
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
+        working-directory: test/faust2
+      - name: test/faust3
+        run: erbb configure; erbb build; erbb build hardware; erbb build simulator
+        working-directory: test/faust3
+
+  hardware:
+    name: Hardware
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: sudo apt-get update
+      - run: sudo apt-get install kicad
+      - run: python blocks/audio-in-daisy/build.py
+      - run: python blocks/audio-out-daisy/build.py
+      - run: python blocks/button/build.py
+      - run: python blocks/cv-in/build.py
+      - run: python blocks/gate-in/build.py
+      - run: python blocks/gate-out/build.py
+      - run: python blocks/led/build.py
+      - run: python blocks/led-bi/build.py
+      - run: python blocks/multiplexer/build.py
+      - run: python blocks/pot/build.py
+      - run: python blocks/power-bus/build.py
+      - run: python blocks/regulator-daisy/build.py
+      - run: python blocks/slider/build.py
+      - run: python blocks/switch/build.py
+      - run: python blocks/trim/build.py
+      - run: python blocks/kits/stats.py
+      - run: python blocks/kits/build.py
+      - run: python boards/kivu12/build.py
 
   unit_tests:
     name: Unit Tests
