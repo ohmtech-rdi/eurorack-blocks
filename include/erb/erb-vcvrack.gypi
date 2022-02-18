@@ -8,8 +8,6 @@
 
 
 {
-   'type': 'loadable_module',
-
    'defines': [
       'erb_TARGET_VCV_RACK',
    ],

@@ -8,8 +8,6 @@
 
 
 {
-   'type': 'executable',
-
    'dependencies': [ 'libdaisy' ],
 
    'defines': [

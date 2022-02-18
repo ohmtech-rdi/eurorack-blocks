@@ -23,6 +23,7 @@
    'targets' : [
       {
          'target_name': '%module.name%',
+         'type': 'executable',
 
          'includes': [
             '%PATH_ROOT%/include/erb/erb-daisy.gypi',
