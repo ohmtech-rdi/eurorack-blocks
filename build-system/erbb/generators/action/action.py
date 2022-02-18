@@ -38,6 +38,9 @@ class Action:
       if module.source_language == 'max':
          self.generate_module_action (path, module, 'max')
 
+      if module.source_language == 'faust':
+         self.generate_module_action (path, module, 'faust')
+
 
 
    #--------------------------------------------------------------------------
