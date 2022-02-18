@@ -12,8 +12,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: curl -O -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/bb55b3dfaa91b1f4ce9ea94c8251f04a71dced12/Casks/kicad.rb
-      - run: brew install --cask kicad.rb
+      - run: brew install --cask build-system/scripts/kicad-minimal.rb
       - run: ./blocks/audio-in-daisy/build.py
       - run: ./blocks/audio-out-daisy/build.py
       - run: ./blocks/button/build.py
@@ -92,8 +91,7 @@ jobs:
         with:
           submodules: recursive
       - run: brew install cairo libffi
-      - run: curl -O -L https://raw.githubusercontent.com/Homebrew/homebrew-cask/bb55b3dfaa91b1f4ce9ea94c8251f04a71dced12/Casks/kicad.rb
-      - run: brew install --cask kicad.rb
+      - run: brew install --cask build-system/scripts/kicad-minimal.rb
       - run: pip3 install -r requirements.txt
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
