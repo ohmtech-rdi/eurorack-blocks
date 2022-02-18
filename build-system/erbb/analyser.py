@@ -70,6 +70,10 @@ class Analyser:
          if file_extension == '.maxpat':
              module.source_language = 'max'
 
+         if file_extension == '.dsp':
+            module.source_language = 'faust'
+
+
    #--------------------------------------------------------------------------
 
    def analyse_resources (self, resources):
