@@ -117,6 +117,12 @@ class Project:
          lines += '            \'artifacts/module_max_alt.cpp\',\n'
          lines += '            \'artifacts/module_max_alt.h\',\n'
 
+      if module.source_language == 'faust':
+         lines += '            \'artifacts/%s_erbb.hpp\',\n' % module.name
+         lines += '            \'artifacts/%s_erbui.hpp\',\n' % module.name
+         lines += '            \'artifacts/%s.h\',\n' % module.name
+         lines += '            \'artifacts/module_faust.h\',\n'
+
       return template.replace ('%           sources.entities%', lines)
 
 
@@ -144,6 +150,23 @@ class Project:
          lines += '                  \'<!(echo artifacts/%s_erbui.cpp)\',\n' % module.name
          lines += '               ],\n'
          lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_max.py\' ],\n'
+         lines += '            },\n'
+
+      if module.source_language == 'faust':
+         lines += '            {\n'
+         lines += '               \'action_name\': \'Transpile Faust\',\n'
+         lines += '               \'inputs\': [\n'
+         lines += '                  \'<!(echo %s/faust/code.py)\',\n' % path_rel_erbb_gens
+         lines += '                  \'<!(echo %s/faust/code.py)\',\n' % path_rel_erbui_gens
+         lines += '                  \'<!(echo %s.dsp)\',\n' % module.name
+         lines += '               ],\n'
+         lines += '               \'outputs\': [\n'
+         lines += '                  \'<!(echo artifacts/%s.h)\',\n' % module.name
+         lines += '                  \'<!(echo artifacts/%s_erbb.hpp)\',\n' % module.name
+         lines += '                  \'<!(echo artifacts/%s_erbui.hpp)\',\n' % module.name
+         lines += '                  \'<!(echo artifacts/module_faust.h)\',\n'
+         lines += '               ],\n'
+         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_faust.py\' ],\n'
          lines += '            },\n'
 
       lines += '            {\n'
