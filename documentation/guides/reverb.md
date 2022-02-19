@@ -110,7 +110,7 @@ to put memory buffers in SRAM and SDRAM depending on how big they are, and how
 many times they are accessed per audio rendering.
 
 In C++, only you can know about this. In Max, the SRAM is the first choice to fit an object
-unless there is not enough space for it, so it goes to SDRAM. In FAUST, the transpiler as
+unless there is not enough space for it, so it goes to SDRAM. In Faust, the transpiler as
 some idea on how the memory is used and make some optimisations.
 
 But for now, let's continue with C++.

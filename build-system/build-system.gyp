@@ -36,6 +36,7 @@
             # generators/action
             'erbb/generators/action/action_daisy_template.py',
             'erbb/generators/action/action_data_template.py',
+            'erbb/generators/action/action_faust_template.py',
             'erbb/generators/action/action_max_template.py',
             'erbb/generators/action/action_ui_template.py',
             'erbb/generators/action/action_vcvrack_template.py',
@@ -63,6 +64,15 @@
             'erbb/generators/max/project_template.erbui',
             'erbb/generators/max/project_template.maxpat',
             'erbb/generators/max/project.py',
+
+            # generators/faust
+            'erbb/generators/faust/code_template.h',
+            'erbb/generators/faust/code_template.hpp',
+            'erbb/generators/faust/code.py',
+            'erbb/generators/faust/project_template.erbb',
+            'erbb/generators/faust/project_template.erbui',
+            'erbb/generators/faust/project_template.dsp',
+            'erbb/generators/faust/project.py',
 
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
@@ -117,6 +127,10 @@
             # generators/max
             'erbui/generators/max/code_template.cpp',
             'erbui/generators/max/code.py',
+
+            # generators/faust
+            'erbui/generators/faust/code_template.hpp',
+            'erbui/generators/faust/code.py',
 
             # generators/ui
             'erbui/generators/ui/code_template.h',

@@ -174,6 +174,50 @@ class Visitor (PTNodeVisitor):
       return self.to_keyword (node)
 
 
+   #-- Faust Address ---------------------------------------------------------
+
+   def visit_faust_address_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      address = ast.FaustAddress (string_literal)
+      return address
+
+
+   #-- Faust Bind ------------------------------------------------------------
+
+   def visit_faust_bind_declaration (self, node, children):
+      bind = ast.FaustBind ()
+
+      if children.faust_bind_body:
+         entities = children.faust_bind_body [0]
+         bind.add (entities)
+
+      return bind
+
+   def visit_faust_bind_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_faust_bind_entities (self, node, children):
+      return list (children)
+
+
+   #-- Faust -----------------------------------------------------------------
+
+   def visit_faust_declaration (self, node, children):
+      faust = ast.Faust ()
+
+      if children.faust_body:
+         entities = children.faust_body [0]
+         faust.add (entities)
+
+      return faust
+
+   def visit_faust_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_faust_entities (self, node, children):
+      return list (children)
+
+
    #-- Data ------------------------------------------------------------------
 
    def visit_data_declaration (self, node, children):

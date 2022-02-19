@@ -31,6 +31,8 @@ from .generators.vscode.tasks import Tasks as vscodeTasks
 from .generators.data.code import Code as dataCode
 from .generators.max.code import Code as maxCode
 from .generators.max.project import Project as maxProject
+from .generators.faust.code import Code as faustCode
+from .generators.faust.project import Project as faustProject
 
 
 
@@ -69,6 +71,18 @@ Name: max_init
 
 def max_init (path, name):
    generator = maxProject ()
+   generator.generate (path, name)
+
+
+
+"""
+==============================================================================
+Name: faust_init
+==============================================================================
+"""
+
+def faust_init (path, name):
+   generator = faustProject ()
    generator.generate (path, name)
 
 
@@ -148,6 +162,23 @@ def generate_max (path, ast):
       os.makedirs (path_artifacts)
 
    generator = maxCode ()
+   generator.generate (path_artifacts, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_faust
+==============================================================================
+"""
+
+def generate_faust (path, ast):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if not os.path.exists (path_artifacts):
+      os.makedirs (path_artifacts)
+
+   generator = faustCode ()
    generator.generate (path_artifacts, ast)
 
 

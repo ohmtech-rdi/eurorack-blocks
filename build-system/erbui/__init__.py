@@ -20,6 +20,7 @@ from .generators.front_panel.milling import Milling as front_panelMilling
 from .generators.front_panel.printing import Printing as front_panelPrinting
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
 from .generators.max.code import Code as maxCode
+from .generators.faust.code import Code as faustCode
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
@@ -49,6 +50,18 @@ Name: generate_max
 
 def generate_max (path, ast):
    generator = maxCode ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_faust
+==============================================================================
+"""
+
+def generate_faust (path, ast):
+   generator = faustCode ()
    generator.generate (path, ast)
 
 

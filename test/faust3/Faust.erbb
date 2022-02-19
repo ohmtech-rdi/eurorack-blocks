@@ -1,0 +1,15 @@
+// Faust.erbb
+
+module Faust {
+   sources {
+      file "Faust.erbui"
+      file "Faust.dsp"
+   }
+
+   resources {
+      data foo AudioSample {
+         file "foo.wav"
+         faust { bind { address "/Faust/foo" }}
+      }
+   }
+}

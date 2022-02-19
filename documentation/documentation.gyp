@@ -51,6 +51,11 @@
             'max/ui.md',
             'max/setup.md',
 
+            'faust/first.md',
+            'faust/mapping.md',
+            'faust/setup.md',
+            'faust/soundfile.md',
+
             'erbb/lexical.md',
             'erbb/grammar.md',
 

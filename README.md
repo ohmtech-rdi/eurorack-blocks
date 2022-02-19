@@ -8,7 +8,8 @@
 <img align="left" width="30%" src="./erb-logo.svg">
 
 The `eurorack-blocks` project allows to develop your own custom Eurorack module for either
-prototyping or fun in the comfort of your day-to-day IDE or using the Cycling '74 Max environment,
+prototyping or fun in the comfort of your day-to-day IDE with the C++ or Faust language,
+or using the Cycling '74 Max environment,
 testing and debugging in a [virtual Eurorack environment](https://vcvrack.com),
 and when ready, to auto-magically generate all the needed files to manufacture
 the eurorack module for you to use in a real Eurorack modular system.
@@ -133,6 +134,7 @@ eurorack-blocks/
    blocks/
    boards/
    build-system/
+   faust/
    include/
    max/
    src/
@@ -143,6 +145,7 @@ eurorack-blocks/
 - [`boards`](./blocks/) contains all the boards hardware to design with,
 - [`build-system`](./build-system/) contains the build system used to build and deploy
    the tests and samples,
+- [`faust`](./faust/) contains the Faust integration,
 - [`include`](./include/) contains the software implementation of the blocks,
 - [`max`](./max/) contains the Cycling '74 Max integration,
 - [`src`](./src/) contains the software implementation of the blocks,
