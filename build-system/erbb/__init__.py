@@ -7,6 +7,7 @@
 
 from __future__ import print_function
 from builtins import input
+import asyncio
 import fileinput
 import multiprocessing
 import os
@@ -380,7 +381,6 @@ def build_simulator_target (target, path, configuration):
 
       cmd = [
          xcodebuild_path,
-         '-quiet',
          '-project', os.path.join (path_artifacts, 'project_vcvrack.xcodeproj'),
          '-configuration', configuration,
          '-target', target,
@@ -389,7 +389,60 @@ def build_simulator_target (target, path, configuration):
          'SYMROOT=%s' % os.path.join (path_artifacts, 'build')
       ]
 
-      subprocess.check_call (cmd)
+      async def output_filter_err (input_stream, output_stream):
+         while not input_stream.at_eof ():
+            output = await input_stream.readline ()
+            output_utf8 = output.decode ("utf-8")
+            if not any (x in output_utf8 for x in ['DVTPlugInManager']):
+               output_stream.buffer.write (output)
+               output_stream.flush ()
+
+      async def output_filter_out (input_stream, output_stream):
+         log_all = False
+         while not input_stream.at_eof ():
+            output = await input_stream.readline ()
+            output_utf8 = output.decode ("utf-8")
+            if log_all:
+               output_stream.buffer.write (output)
+               output_stream.flush ()
+            elif any (x in output_utf8 for x in ['PhaseScriptExecution ', 'PBXCp ', 'CompileC ', 'Ld ', '** BUILD SUCCEEDED **', 'warning:']):
+               words = output_utf8.split (' ')
+               if words [0] == 'PhaseScriptExecution':
+                  action_beg = output_utf8.find ('\\"') + 2
+                  action_end = output_utf8.find ('\\"', action_beg)
+                  action = output_utf8 [action_beg:action_end].replace ('\\', '')
+                  output_utf8 = 'ACTION %s\n' % action
+               elif words [0] == 'PBXCp':
+                  filename = words [1]
+                  output_utf8 = 'COPY %s\n' % filename
+               elif words [0] == 'CompileC':
+                  filename = words [2]
+                  output_utf8 = 'CXX %s\n' % filename
+               elif words [0] == 'Ld':
+                  filename = words [1]
+                  output_utf8 = 'LINK %s\n' % filename
+               output_stream.buffer.write (str.encode (output_utf8))
+               output_stream.flush ()
+            elif ': error:' in output_utf8:
+               output_stream.buffer.write (output)
+               output_stream.flush ()
+               log_all = True
+
+      async def run_command (command):
+         process = await asyncio.create_subprocess_exec (
+            *command, stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE
+         )
+
+         await asyncio.gather (
+            output_filter_err (process.stderr, sys.stderr),
+            output_filter_out (process.stdout, sys.stdout),
+         )
+         await process.wait ()
+
+         if process.returncode != 0:
+            raise subprocess.CalledProcessError (process.returncode, command)
+
+      asyncio.run (run_command (cmd))
 
    elif platform.system () == 'Linux':
       cmd = [
