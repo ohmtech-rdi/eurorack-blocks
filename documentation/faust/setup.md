@@ -112,9 +112,14 @@ Alternatively, you can build the VCV Rack module using the command line.
 
 ```shell-session
 ~/eurorack-blocks/samples/faust$ erbb build simulator
-Build settings from command line:
-    SYMROOT = /Users/raf/dev/eurorack-blocks/samples/faust/artifacts/build
+ACTION Transpile Faust
+warning: non mapped checkbox /FLANGER/0x00/Bypass
+warning: non mapped hslider /FLANGER/Delay Controls/Delay Offset
+ACTION Transpile Ui
 ...
+CXX /Users/raf/Desktop/dev/eurorack-blocks/src/vcvrack/BoardGeneric.cpp
+LINK /Users/raf/Desktop/dev/eurorack-blocks/samples/faust/artifacts/build/Release/plugin.dylib
+ACTION Copy to VCV Rack plug-ins folder
 ** BUILD SUCCEEDED **
 ```
 

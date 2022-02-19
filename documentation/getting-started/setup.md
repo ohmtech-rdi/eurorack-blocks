@@ -106,9 +106,13 @@ used. Below, we should an extract of the output on macOS.
 
 ```shell-session
 ~/eurorack-blocks/samples/drop$ erbb build simulator
-Build settings from command line:
-    SYMROOT = /Users/raf/dev/eurorack-blocks/samples/drop/artifacts/build
+ACTION Transpile Ui
+ACTION Transpile VcvRack
+COPY /Users/raf/Desktop/dev/eurorack-blocks/include/erb/vcvrack/resource/songhuei.9mm.svg
 ...
+CXX /Users/raf/Desktop/dev/eurorack-blocks/samples/dsp/Filter2Poles.cpp
+LINK /Users/raf/Desktop/dev/eurorack-blocks/samples/drop/artifacts/build/Release/plugin.dylib
+ACTION Copy to VCV Rack plug-ins folder
 ** BUILD SUCCEEDED **
 ```
 
