@@ -88,3 +88,30 @@ class ErbbLexer(RegexLexer):
    }
 
 lexers ['erbb'] = ErbbLexer (startinline=True)
+
+
+class ErbuiLexer(RegexLexer):
+   name = 'erbui'
+
+   tokens = {
+      'root': [
+         (r'//.*?$', token.Comment.Singleline),
+         (r'\".*\"', token.Literal.String),
+         (r'[0-9\.]+°cw', token.Literal.Number),
+         (r'[0-9\.]+°ccw', token.Literal.Number),
+         (r'[0-9\.]+°', token.Literal.Number),
+         (r'[0-9\.]+hp', token.Literal.Number),
+         (r'[0-9\.]+mm', token.Literal.Number),
+         (r'[0-9\.]+cm', token.Literal.Number),
+         (r'[0-9\.]+', token.Literal.Number),
+         (r'module|board|width|material|header|footer|line|control|label|sticker|image|pin|pins|cascade|mode|position|rotation|offset|style|positioning|route|faust|address|init|value|property|exclude|extends|alias|file', token.Keyword),
+         (r'center|left|top|right|bottom|normalized|bipolar|wire|manual|natural|black|white|aluminum|brushed_aluminum|aluminum_coated', token.Name.Builtin),
+         (r'rogan.6ps|rogan.5ps|rogan.3ps|rogan.2ps|rogan.1ps|songhuei.9mm|dailywell.2ms1|dailywell.2ms3|led.3mm.green_red|led.3mm.rgb|led.3mm.red|led.3mm.green|led.3mm.yellow|led.3mm.orange|thonk.pj398sm.knurled|thonk.pj398sm.hex|tl1105|ck.d6r.black', token.Name.Builtin),
+         (r'AudioIn|AudioOut|Button|CvIn|CvOut|GateIn|GateOut|Led|LedBi|LedRgb|Pot|Switch|Trim', token.Keyword.Type),
+         (r'{|}|,', token.Punctuation),
+         (r'(?!\b({})\b)([a-zA-Z]\w*)', token.Name.Variable.Class),
+         (r'.', token.Text),
+      ],
+   }
+
+lexers ['erbui'] = ErbuiLexer (startinline=True)
