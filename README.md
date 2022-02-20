@@ -97,6 +97,7 @@ raf:bypass$
 ## Sample Projects
 
 [<img align="right" height="200px" src="./samples/bypass/screenshot.png">](./samples/bypass/)
+[<img align="right" height="200px" src="./samples/faust/screenshot.png">](./samples/faust/)
 [<img align="right" height="200px" src="./samples/drop/screenshot.png">](./samples/drop/)
 [<img align="right" height="200px" src="./samples/reverb/screenshot.png">](./samples/reverb/)
 [<img align="right" height="200px" src="./samples/kick/screenshot.png">](./samples/kick/)
@@ -107,7 +108,8 @@ Sample projects are a good place to continue learning:
 - [`bypass`](./samples/bypass/) is the example used above,
 - [`drop`](./samples/drop/) shows the usage of almost every blocks,
 - [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory,
-- [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs.
+- [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs,
+- [`faust`](./samples/faust/) describes how to use the Faust functional programming language.
 
 
 ## Cycling '74 Max Patches
@@ -134,7 +136,6 @@ eurorack-blocks/
    blocks/
    boards/
    build-system/
-   faust/
    include/
    max/
    src/
@@ -145,7 +146,6 @@ eurorack-blocks/
 - [`boards`](./blocks/) contains all the boards hardware to design with,
 - [`build-system`](./build-system/) contains the build system used to build and deploy
    the tests and samples,
-- [`faust`](./faust/) contains the Faust integration,
 - [`include`](./include/) contains the software implementation of the blocks,
 - [`max`](./max/) contains the Cycling '74 Max integration,
 - [`src`](./src/) contains the software implementation of the blocks,
