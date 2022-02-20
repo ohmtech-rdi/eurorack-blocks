@@ -62,3 +62,29 @@ html_css_files = ['css/custom.css']
 myst_enable_extensions = [
    'deflist',
 ]
+
+
+
+# -- Pygments Lexers ---------------------------------------------------------
+
+from pygments.lexer import RegexLexer, words
+from pygments import token
+from sphinx.highlighting import lexers
+
+class ErbbLexer(RegexLexer):
+   name = 'erbb'
+
+   tokens = {
+      'root': [
+         (r'//.*?$', token.Comment.Singleline),
+         (r'\".*\"', token.Literal.String),
+         (r'module|file|import|define|base|section|sources|resources|data|stream|faust|bind|init', token.Keyword),
+         (r'flash|qspi|mono|interleaved|planar', token.Name.Builtin),
+         (r'AudioSample', token.Keyword.Type),
+         (r'{|}|=', token.Punctuation),
+         (r'(?!\b({})\b)([a-zA-Z]\w*)', token.Name.Variable.Class),
+         (r'.', token.Text),
+      ],
+   }
+
+lexers ['erbb'] = ErbbLexer (startinline=True)

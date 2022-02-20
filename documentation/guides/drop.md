@@ -78,8 +78,7 @@ Every `control` as at least a `position` and `style` attributes, for example:
 
 ```{code-block} erbui
 ---
-lineno-start: 49
-emphasize-lines: 2, 3
+emphasize-lines: 2-3
 ---
 control sync_button Button {
    position 2hp, 75.3mm
@@ -116,7 +115,6 @@ An optional `label` can be added to the control. This will be shown on the front
 
 ```{code-block} erbui
 ---
-lineno-start: 28
 emphasize-lines: 4
 ---
 control freq_pot Pot {
@@ -141,8 +139,7 @@ the same control, for example:
 
 ```{code-block} erbui
 ---
-lineno-start: 34
-emphasize-lines: 5, 6
+emphasize-lines: 5-6
 ---
 control mute_hp Switch {
    position 6hp, 62mm
@@ -163,7 +160,6 @@ Controls defined in the `erbui` file all have a name. For example the big knob w
 
 ```{code-block} erbui
 ---
-lineno-start: 28
 emphasize-lines: 1
 ---
 control freq_pot Pot {
@@ -179,7 +175,6 @@ Let's now open the `Drop.cpp` file to see how to bind your control elements to y
 
 ```{code-block} cpp
 ---
-lineno-start: 44
 emphasize-lines: 2
 ---
 float freq_norm
@@ -207,7 +202,6 @@ CV, and potentially invert it as well.
 
 ```{code-block} erbui
 ---
-lineno-start: 42
 emphasize-lines: 2
 ---
 control freq_trim Trim {
@@ -223,8 +217,7 @@ will return a bipolar value, between -1 and 1, linearly mapped to the angle of r
 
 ```{code-block} cpp
 ---
-lineno-start: 44
-emphasize-lines: 1, 2, 3
+emphasize-lines: 1-3
 ---
 float freq_norm
    = float (ui.freq_pot)
@@ -252,7 +245,6 @@ just triggered. For this the control implements this information as part of its 
 
 ```{code-block} cpp
 ---
-lineno-start: 26
 emphasize-lines: 1
 ---
 if (ui.arm_button.pressed () || ui.arm_gate.triggered ())
@@ -286,7 +278,6 @@ intensity accordingly with just one call to its API.
 
 ```{code-block} cpp
 ---
-lineno-start: 26
 emphasize-lines: 4
 ---
 if (ui.arm_button.pressed () || ui.arm_gate.triggered ())
@@ -308,8 +299,7 @@ common in the Eurorack world.
 
 ```{code-block} cpp
 ---
-lineno-start: 26
-emphasize-lines: 3, 4, 5, 6
+emphasize-lines: 3-6
 ---
 switch (state)
 {
@@ -343,8 +333,7 @@ as many samples as your module latency, which is defined in  `erb_BUFFER_SIZE`
 
 ```{code-block} cpp
 ---
-lineno-start: 53
-emphasize-lines: 2, 3, 7, 8
+emphasize-lines: 2-3, 7-8
 ---
 const float * const in [] = {
    &ui.audio_in_left [0],
