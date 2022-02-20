@@ -26,7 +26,6 @@ What about this `QSPIFLASH` section of 8MB? Why can't we use it to allocate?
 
 ```{code-block} text
 ---
-lineno-start: 8
 emphasize-lines: 10
 ---
 MEMORY
@@ -113,7 +112,6 @@ Let's look at our `Kick.erbb` file:
 
 ```{code-block} erbb
 ---
-lineno-start: 10
 emphasize-lines: 23-41
 ---
 module Kick {
@@ -167,9 +165,8 @@ What it does here, is to create an `AudioSampleMono` from the file `body.wav`, b
 file has only one channel, with the name `kick_body`.
 Its declaration is available in the `KickData.h` header file:
 
-```{code-block} erbb
+```{code-block} cpp
 ---
-lineno-start: 26
 emphasize-lines: 3
 ---
 struct KickData
@@ -208,7 +205,6 @@ If we look at `Kick.cpp`:
 
 ```{code-block} cpp
 ---
-lineno-start: 109
 emphasize-lines: 3
 ---
 for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
@@ -228,8 +224,7 @@ Now if we look into the body implementation in `VoiceBody.h`:
 
 ```{code-block} cpp
 ---
-lineno-start: 48
-emphasize-lines: 1, 2
+emphasize-lines: 1-2
 ---
 float ret_1 = sample.samples [pos];
 float ret_2 = sample.samples [pos + 1];
@@ -263,7 +258,6 @@ You must have seen it already:
 
 ```{code-block} erbb
 ---
-lineno-start: 10
 emphasize-lines: 2
 ---
 module Kick {
@@ -280,7 +274,6 @@ Let's see what would happen if we don't flash in the QSPI flash:
 
 ```{code-block} erbb
 ---
-lineno-start: 10
 emphasize-lines: 2
 ---
 module Kick {

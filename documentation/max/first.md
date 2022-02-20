@@ -32,10 +32,10 @@ module LowPass {
    material aluminum
    header { label "LowPass" }
 
-   control freq Pot {
-      position 6hp, 34mm
-      style rogan.6ps
-      label "FREQ"
+   control freq Pot {      // 1
+      position 6hp, 34mm   // 2
+      style rogan.6ps      // 3
+      label "FREQ"         // 4
    }
 
    control audio_in AudioIn {

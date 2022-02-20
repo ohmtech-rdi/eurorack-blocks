@@ -58,8 +58,7 @@ memory, called [`STM32H750IB_flash.lds`](https://github.com/electro-smith/libDai
 
 ```{code-block} text
 ---
-lineno-start: 8
-emphasize-lines: 3, 4, 5, 9
+emphasize-lines: 3-5, 9
 ---
 MEMORY
 {
@@ -148,8 +147,7 @@ into the `dsp` Library, and open the `ReverbSc.h` file:
 
 ```{code-block} cpp
 ---
-lineno-start: 108
-emphasize-lines: 2, 3
+emphasize-lines: 2-3
 ---
 const float    _sample_freq;
 erb::SdramPtr <DelayLines>
@@ -197,9 +195,6 @@ You can then detect the problem with your favorite IDE and/or debugger. Thanks t
 the callstack, you can see precisely which allocation triggered the problem.
 
 ```{code-block} cpp
----
-lineno-start: 70
----
 static constexpr size_t max_time_spl
    = 4127 + size_t (max_sample_freq * 0.0017f) + 17 /* 16.5 */;
 ```

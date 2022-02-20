@@ -47,7 +47,7 @@ The following are examples of keywords:
 module
 import
 base
-defines
+define
 sources
 ```
 

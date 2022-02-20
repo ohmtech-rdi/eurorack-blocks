@@ -27,8 +27,7 @@ as highlighted in the following `erbui` source code:
 
 ```{code-block} erbui
 ---
-lineno-start: 1
-emphasize-lines: 9, 10, 11, 12, 13
+emphasize-lines: 9-13
 ---
 // LowPass.erbui
 
@@ -38,10 +37,10 @@ module LowPass {
    material aluminum
    header { label "LowPass" }
 
-   control freq Pot {
-      position 6hp, 34mm
-      style rogan.6ps
-      label "FREQ"
+   control freq Pot {      // 1
+      position 6hp, 34mm   // 2
+      style rogan.6ps      // 3
+      label "FREQ"         // 4
    }
 
    control audio_in AudioIn {
@@ -58,13 +57,13 @@ module LowPass {
 }
 ```
 
-- 9: Add a pot and give it the name `freq` (we will see how names are used later)
-- 10: Give it a position, first is on the horizontal axis, and second is on the vertical axis.
+1. Add a pot and give it the name `freq` (we will see how names are used later)
+2. Give it a position, first is on the horizontal axis, and second is on the vertical axis.
    Note that both have units, with `hp` being the Eurorack HP for convenience.
    Since half of 12HP is 6HP, this will place the pot at the horizontal center in the module
-- 11: Let's give it a style, which here is the knob style. `rogan.6ps` is the name of the knob used
+3. Let's give it a style, which here is the knob style. `rogan.6ps` is the name of the knob used
    in many Mutable Instruments and Make Noise modules
-- 12: Give it an optional label, which will be printed on the front panel aluminum
+4. Give it an optional label, which will be printed on the front panel aluminum
 
 You can already build the project using {guilabel}`⌘B` and run VCV Rack to see what it looks like.
 
@@ -85,7 +84,6 @@ First we will add this library by editing the build system file `LowPass.erbb`.
 
 ```{code-block} erbb
 ---
-lineno-start: 1
 emphasize-lines: 5
 ---
 // LowPass.erbb
@@ -116,7 +114,6 @@ Let's update `LowPass.h` to add the `dsp/Filter2Poles.h` header, and an instance
 
 ```{code-block} cpp
 ---
-lineno-start: 1
 emphasize-lines: 6, 18
 ---
 // LowPass.h
@@ -155,8 +152,7 @@ Let's now move to `LowPass.cpp` to configure the low pass filter and use it.
 
 ```{code-block} cpp
 ---
-lineno-start: 1
-emphasize-lines: 7, 8, 9, 14, 15, 16, 20
+emphasize-lines: 7-9, 14-16, 20
 ---
 // LowPass.cpp
 
