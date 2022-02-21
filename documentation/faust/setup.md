@@ -10,6 +10,7 @@ Make sure you have the following requirements before starting:
 - [Homebrew](https://brew.sh) on macOS X
 - [Xcode](https://developer.apple.com/xcode/) on macOS X
 - [Faust](https://faust.grame.fr/downloads/)
+- [VCV Rack](https://vcvrack.com/Rack)
 
 You then only need minimum knowledge on how the terminal works to get going.
 
@@ -69,8 +70,8 @@ Then:
 
 This will install all the needed dependencies. You would typically re-run this command when
 upgrading `eurorack-blocks`.
-In particular, this will install Kicad. Don't worry if you already have installed those
-applications! The setup script won't overwrite your installation.
+In particular, this will install Kicad. Don't worry if you already have installed this
+application! The setup script won't overwrite your installation.
 
 You can now start to use `eurorack-blocks` with Faust 🎉
 
