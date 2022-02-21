@@ -43,6 +43,9 @@ def configure_native ():
       '--generator-output=%s' % os.path.join (PATH_THIS, 'artifacts'),
    ]
 
+   if platform.system () == 'Windows':
+      gyp_args += ['-G', 'msvs_version=2019']
+
    gyp.main (gyp_args + ['test.gyp'])
 
    if platform.system () == 'Darwin':
@@ -80,6 +83,9 @@ def configure_ninja ():
    ]
 
    gyp_args += ['--format', 'ninja']
+
+   if platform.system () == 'Windows':
+      gyp_args += ['-G', 'msvs_version=2019']
 
    gyp.main (gyp_args + ['test.gyp'])
 

@@ -27,26 +27,10 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 
 
 
-"""
-==============================================================================
-Name : python3_cmd
-==============================================================================
-"""
-
-def python3_cmd ():
-   if platform.system () == 'Linux':
-      return 'python3'
-   elif platform.system () == 'Darwin':
-      return 'python3'
-   elif platform.system () == 'Windows':
-      return 'C:/Python35-x64/python.exe'
-
-
-
 ##############################################################################
 
 if __name__ == '__main__':
    subprocess.check_call (
-      [python3_cmd (), '-m', 'unittest', 'discover'],
+      ['python3', '-m', 'unittest', 'discover'],
       cwd = PATH_THIS
    )

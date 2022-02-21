@@ -179,6 +179,9 @@ def setup ():
       subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
       subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
 
+   elif platform.system () == 'Windows':
+      pass
+
    else:
       print ('Error: Platform %s unsupported' % platform.system ())
       sys.exit (1)

@@ -8,6 +8,7 @@
 
 
 import os
+import platform
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
@@ -133,6 +134,10 @@ class Project:
 
       path_rel_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
       path_rel_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+
+      if platform.system () == 'Windows':
+         path_rel_erbb_gens = path_rel_erbb_gens.replace ('\\', '/')
+         path_rel_erbui_gens = path_rel_erbui_gens.replace ('\\', '/')
 
       if module.source_language == 'max':
          lines += '            {\n'

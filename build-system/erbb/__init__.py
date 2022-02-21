@@ -217,6 +217,12 @@ def configure_vcvrack (path):
          '--depth=.',
          '--generator-output=%s' % path_artifacts,
       ]
+   elif platform.system () == 'Windows':
+      gyp_args = [
+         '--depth=.',
+         '-G', 'msvs_version=2019',
+         '--generator-output=%s' % path_artifacts,
+      ]
 
    cwd = os.getcwd ()
    os.chdir (path)
