@@ -33,16 +33,16 @@ if __name__ == '__main__':
       init_path = os.path.join (PATH_THIS, 'init.sh')
 
       if 'CI' in os.environ:
-         profile_path = '~/.bash_profile'
+         profile_path = os.path.join (os.path.expanduser ('~'), '.bash_profile')
 
       else:
          shell = os.environ ['SHELL']
 
          if 'bash' in shell:
-            profile_path = '~/.bash_profile'
+            profile_path = os.path.join (os.path.expanduser ('~'), '.bash_profile')
 
          elif 'zsh' in shell:
-            profile_path = '~/.zshrc'
+            profile_path = os.path.join (os.path.expanduser ('~'), '.zshrc')
 
          else:
             print ('Shell %s is not supported' % shell)
