@@ -33,32 +33,26 @@ if __name__ == '__main__':
       init_path = os.path.join (PATH_THIS, 'init.sh')
 
       if 'CI' in os.environ:
-         profile_path = '~/.bash_profile'
+         profile_path = os.path.join (os.path.expanduser ('~'), '.bash_profile')
 
       else:
          shell = os.environ ['SHELL']
 
          if 'bash' in shell:
-            profile_path = '~/.bash_profile'
+            profile_path = os.path.join (os.path.expanduser ('~'), '.bash_profile')
 
          elif 'zsh' in shell:
-            profile_path = '~/.zshrc'
+            profile_path = os.path.join (os.path.expanduser ('~'), '.zshrc')
 
          else:
             print ('Shell %s is not supported' % shell)
             sys.exit (1)
 
+      with open (profile_path, 'a') as f:
+         f.write ('\n')
+         f.write ('# Setting PATH for Eurorack-blocks/Erbb\n')
+         f.write ('source %s\n' % init_path)
 
-      # Add source init.sh to profile
-      subprocess.check_call ('echo "" >> %s' % profile_path, shell=True)
-      subprocess.check_call (
-         'echo "# Setting PATH for Eurorack-blocks/Erbb" >> %s' % profile_path,
-         shell=True
-      )
-      subprocess.check_call (
-         'echo "source %s" >> %s' % (init_path, profile_path),
-         shell=True
-      )
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
