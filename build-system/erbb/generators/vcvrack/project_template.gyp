@@ -47,13 +47,13 @@
             {
                'destination': '<(PRODUCT_DIR)',
                'files': [
-                  '<!(echo artifacts/plugin.json)',
+                  'artifacts/plugin.json',
                ],
             },
             {
                'destination': '<(PRODUCT_DIR)/res',
                'files': [
-                  '<!(echo artifacts/panel_vcvrack.svg)',
+                  'artifacts/panel_vcvrack.svg',
                ],
             },
          ],
