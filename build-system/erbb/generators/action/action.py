@@ -53,12 +53,12 @@ class Action:
       if not os.path.exists (path_actions):
          os.makedirs (path_actions)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
       template = template.replace ('%module.name%', module.name)
 
-      with open (path_py, 'w') as file:
+      with open (path_py, 'w', encoding='utf-8') as file:
          file.write (template)

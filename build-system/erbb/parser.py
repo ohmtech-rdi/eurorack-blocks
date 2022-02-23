@@ -43,7 +43,7 @@ class Parser:
    def _merge_import (self, node, import_):
       import_path = import_.path
       try:
-         file = open (import_path, 'r')
+         file = open (import_path, 'r', encoding='utf-8')
       except OSError:
          err = error.Error ()
          context = import_.literal

@@ -44,7 +44,7 @@ Name: parse
 """
 
 def parse (filepath):
-   with open (filepath, "r") as data:
+   with open (filepath, 'r', encoding='utf-8') as data:
       input_text = data.read ()
 
    parser = Parser ()

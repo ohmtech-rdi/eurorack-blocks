@@ -100,7 +100,7 @@ class Code:
          cwd = path
       )
 
-      with open (faust_dsp_json) as f:
+      with open (faust_dsp_json, 'r', encoding='utf-8') as f:
          faust_json = json.load (f)
 
       faust_dsp = self.generate_faust_dsp (faust_json)
@@ -157,7 +157,7 @@ class Code:
          for data in resources.datas:
             has_data = True
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
@@ -176,7 +176,7 @@ class Code:
       template = template.replace ('%     module.spl_adapters%', self.generate_module_declaration_spl_adapter (faust_dsp, module))
       template = template.replace ('%     module.samples%', self.generate_module_declaration_samples (faust_dsp, module))
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -238,10 +238,10 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.hpp')
       path_output = os.path.join (path, '%s_erbb.hpp' % module.name)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)

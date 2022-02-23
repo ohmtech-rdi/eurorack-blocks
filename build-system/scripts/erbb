@@ -65,7 +65,7 @@ def read_erbb_ast (filepath):
       sys.exit (1)
 
    try:
-      file = open (filepath, 'r')
+      file = open (filepath, 'r', encoding='utf-8')
    except IOError as e:
       print ("\033[91mfatal error:\033[0m Unable to open for read '%s' file: %s" % (args.input, e.strerror))
       sys.exit (1)
@@ -93,7 +93,7 @@ def read_erbui_ast (filepath):
       sys.exit (1)
 
    try:
-      file = open (filepath, 'r')
+      file = open (filepath, 'r', encoding='utf-8')
    except IOError as e:
       print ("\033[91mfatal error:\033[0m Unable to open for read '%s' file: %s" % (args.input, e.strerror))
       sys.exit (1)

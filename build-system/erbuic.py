@@ -94,7 +94,7 @@ def read_ast (args):
       sys.exit (1)
 
    try:
-      file = open (args.input, 'r')
+      file = open (args.input, 'r', encoding='utf-8')
    except IOError as e:
       if args.no_diagnostics_color:
          logging.error ("fatal error: Unable to open for read '%s' file: %s", args.input, e.strerror)

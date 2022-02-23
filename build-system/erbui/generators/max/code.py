@@ -36,7 +36,7 @@ class Code:
    def generate_module (self, path, module):
 
       try:
-         file_def = open (os.path.join (path, 'module_max_def.py'), 'r')
+         file_def = open (os.path.join (path, 'module_max_def.py'), 'r', encoding='utf-8')
 
       except OSError:
          # gen code is not generated yet
@@ -89,7 +89,7 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.cpp')
       path_output = os.path.join (path, '%s_erbui.cpp' % module.name)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
@@ -100,7 +100,7 @@ class Code:
       template = template.replace ('%  state.set_param%', self.generate_module_definition_set_param (module, module_max_def))
       template = template.replace ('%  ui.param = state.m_param%', self.generate_module_definition_get_param (module, module_max_def))
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 

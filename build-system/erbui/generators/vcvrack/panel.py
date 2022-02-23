@@ -51,8 +51,8 @@ class Panel:
    # Post-process the file to solve that problem.
 
    def post_process (self, path_svg_pp, path_svg):
-      with open (path_svg_pp, 'r') as file_pp:
-         with open (path_svg, 'w') as file:
+      with open (path_svg_pp, 'r', encoding='utf-8') as file_pp:
+         with open (path_svg, 'w', encoding='utf-8') as file:
             for line in file_pp:
                line = self.post_process_line (line)
                file.write (line)

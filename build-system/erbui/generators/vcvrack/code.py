@@ -31,7 +31,7 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.cpp')
       path_cpp = os.path.join (path, 'plugin_vcvrack.cpp')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
@@ -42,7 +42,7 @@ class Code:
       template = self.replace_controls_postprocess (template, module.entities);
       template = self.replace_controls_widget (template, module.entities);
 
-      with open (path_cpp, 'w') as file:
+      with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
 
 

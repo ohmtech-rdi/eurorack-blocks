@@ -34,10 +34,10 @@ class Project:
       path_template = os.path.join (PATH_THIS, 'project_template.%s' % extension)
       path_output = os.path.join (path, '%s.%s' % (name, extension))
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%Name%', name)
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)

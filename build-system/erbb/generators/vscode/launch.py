@@ -32,7 +32,7 @@ class Launch:
       path_template = os.path.join (PATH_THIS, 'launch_template.json')
       path_dst = os.path.join (path, '.vscode', 'launch.json')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       path_artifacts = os.path.join (path, 'artifacts')
@@ -42,5 +42,5 @@ class Launch:
       template = template.replace ('%executable_debug%', file_elf_debug)
       template = template.replace ('%svd_file%', file_svd)
 
-      with open (path_dst, 'w') as file:
+      with open (path_dst, 'w', encoding='utf-8') as file:
          file.write (template)

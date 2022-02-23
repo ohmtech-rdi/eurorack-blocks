@@ -34,7 +34,7 @@ class Project:
       path_template = os.path.join (PATH_THIS, 'project_template.gyp')
       path_cpp = os.path.join (path, 'project_daisy.gyp')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
@@ -49,7 +49,7 @@ class Project:
       template = self.replace_sources (template, module, module.sources, path)
       template = self.replace_actions (template, module, path)
 
-      with open (path_cpp, 'w') as file:
+      with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
