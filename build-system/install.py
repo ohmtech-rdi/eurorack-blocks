@@ -48,17 +48,11 @@ if __name__ == '__main__':
             print ('Shell %s is not supported' % shell)
             sys.exit (1)
 
+      with open (profile_path, 'a') as f:
+         f.write ('\n')
+         f.write ('# Setting PATH for Eurorack-blocks/Erbb\n')
+         f.write ('source %s\n' % init_path)
 
-      # Add source init.sh to profile
-      subprocess.check_call ('echo "" >> %s' % profile_path, shell=True)
-      subprocess.check_call (
-         'echo "# Setting PATH for Eurorack-blocks/Erbb" >> %s' % profile_path,
-         shell=True
-      )
-      subprocess.check_call (
-         'echo "source %s" >> %s' % (init_path, profile_path),
-         shell=True
-      )
 
    except subprocess.CalledProcessError as error:
       print ('Configure command exited with %d' % error.returncode, file = sys.stderr)
