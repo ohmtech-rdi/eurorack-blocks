@@ -26,8 +26,6 @@
 
       # sources
       '../../src/vcvrack/BoardGeneric.cpp',
-
-      '<!(echo artifacts/plugin_vcvrack.cpp)',
    ],
 
    'include_dirs': [
