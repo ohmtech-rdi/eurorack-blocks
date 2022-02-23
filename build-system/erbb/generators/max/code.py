@@ -57,7 +57,7 @@ class Code:
          for data in resources.datas:
             has_data = True
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
@@ -68,7 +68,7 @@ class Code:
          template = template.replace ('%include module.nameData.h%', '')
          template = template.replace ('%  module.nameData data;%', '')
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -78,13 +78,13 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.cpp')
       path_output = os.path.join (path, '%s_erbb.cpp' % module.name)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%  state.set_data%', self.generate_data_definition (path, module))
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -114,11 +114,11 @@ class Code:
       path_input = os.path.join (path, 'module_max.cpp')
       module_max_def = os.path.join (path, 'module_max_def.py')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       try:
-         file_input = open (path_input, 'r')
+         file_input = open (path_input, 'r', encoding='utf-8')
 
       except OSError:
          print ('warning: No gen code found. Please open %s.maxpat and save it to generate gen code.' % (module.name), file=sys.stderr)
@@ -153,12 +153,12 @@ class Code:
                print ('warning: Output %s not mapped.' % history_key, file=sys.stderr)
 
 
-      with open (module_max_def, 'w') as file:
+      with open (module_max_def, 'w', encoding='utf-8') as file:
          file.write (str (maxpat))
 
       template = template.replace ('%typedef struct State%', state_def)
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -168,10 +168,10 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'module_max_template.cpp')
       path_output = os.path.join (path, 'module_max_alt.cpp')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -184,7 +184,7 @@ class Code:
             if file_extension == '.maxpat':
                maxpat_path = file.path
 
-      with open (maxpat_path) as f:
+      with open (maxpat_path, 'r', encoding='utf-8') as f:
          max_json = json.load (f)
 
       return self.make_maxpat_patcher (max_json)

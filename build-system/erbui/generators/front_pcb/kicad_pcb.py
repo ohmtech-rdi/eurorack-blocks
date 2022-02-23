@@ -346,7 +346,7 @@ class KicadPcb:
 
          bom += '%s;%d;%s;%s;%s\n' % (description, quantity, dist, dist_pn, dist_link)
 
-      with open (path_bom, 'w') as file:
+      with open (path_bom, 'w', encoding='utf-8') as file:
          file.write (bom)
 
 
@@ -456,7 +456,7 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def load (self, path):
-      with open (path, 'r') as file:
+      with open (path, 'r', encoding='utf-8') as file:
          content = file.read ()
       parser = s_expression.Parser ()
       return parser.parse (content, 'kicad_pcb')

@@ -32,8 +32,8 @@ class Tasks:
       path_template = os.path.join (PATH_THIS, 'tasks_template.json')
       path_dst = os.path.join (path, '.vscode', 'tasks.json')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      with open (path_dst, 'w') as file:
+      with open (path_dst, 'w', encoding='utf-8') as file:
          file.write (template)

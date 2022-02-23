@@ -33,7 +33,7 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.h')
       path_cpp = os.path.join (path, '%sUi.h' % module.name)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       self._board_definition = self.load_board_definition (module)
@@ -45,7 +45,7 @@ class Code:
       entities_content = self.generate_entities (module.entities)
       template = template.replace ('%entities%', entities_content)
 
-      with open (path_cpp, 'w') as file:
+      with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -149,7 +149,7 @@ class Code:
       path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
 
       try:
-         file = open (path_definition, 'r')
+         file = open (path_definition, 'r', encoding='utf-8')
       except OSError:
          err = error.Error ()
          context = module.board.source_context

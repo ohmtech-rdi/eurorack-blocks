@@ -147,7 +147,7 @@ class Parser:
 class Writer:
    def write (self, ast, filename):
       content = self.write_any (ast)
-      with open (filename, 'w') as file:
+      with open (filename, 'w', encoding='utf-8') as file:
          file.write (content)
 
    def write_any (self, node, indent=0):

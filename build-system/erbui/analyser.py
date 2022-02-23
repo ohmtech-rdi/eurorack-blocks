@@ -363,7 +363,7 @@ class Analyser:
       path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
 
       try:
-         file = open (path_definition, 'r')
+         file = open (path_definition, 'r', encoding='utf-8')
       except OSError:
          err = error.Error ()
          context = module.board.source_context

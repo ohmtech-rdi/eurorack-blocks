@@ -43,7 +43,7 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.h')
       path_cpp = os.path.join (path, '%sData.h' % module.name)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
@@ -56,7 +56,7 @@ class Code:
 
       template = template.replace ('%entities%', entities_content)
 
-      with open (path_cpp, 'w') as file:
+      with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
 
 
@@ -173,7 +173,7 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.cpp')
       path_cpp = os.path.join (path, 'plugin_generated_data.cpp')
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
@@ -186,7 +186,7 @@ class Code:
 
       template = template.replace ('%entities%', entities_content)
 
-      with open (path_cpp, 'w') as file:
+      with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
 
 

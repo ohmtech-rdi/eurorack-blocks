@@ -109,7 +109,7 @@ class Code:
    def generate_module (self, path, module):
       faust_dsp_json = os.path.join (path, '%s.dsp.json' % module.name)
 
-      with open (faust_dsp_json) as f:
+      with open (faust_dsp_json, 'r', encoding='utf-8') as f:
          faust_json = json.load (f)
 
       faust_dsp = self.generate_faust_dsp (faust_json)
@@ -190,7 +190,7 @@ class Code:
       path_template = os.path.join (PATH_THIS, 'code_template.hpp')
       path_output = os.path.join (path, '%s_erbui.hpp' % module.name)
 
-      with open (path_template, 'r') as file:
+      with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
@@ -201,7 +201,7 @@ class Code:
       template = template.replace ('%  module.ui_input_entities%', self.generate_module_definition_ui_inputs (faust_dsp, module))
       template = template.replace ('%  module.ui_output_entities%', self.generate_module_definition_ui_outputs (faust_dsp, module))
 
-      with open (path_output, 'w') as file:
+      with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
 
 

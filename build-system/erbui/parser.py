@@ -42,7 +42,7 @@ class Parser:
       path_layout = os.path.join (PATH_BOARDS, module.super_identifier.name, 'layout.erbui')
 
       try:
-         file = open (path_layout, 'r')
+         file = open (path_layout, 'r', encoding='utf-8')
       except OSError:
          err = error.Error ()
          context = module.super_identifier

@@ -21,7 +21,7 @@ class Manifest:
    def generate (self, path, root):
       path_json = os.path.join (path, 'plugin.json')
 
-      with open (path_json, 'w') as file:
+      with open (path_json, 'w', encoding='utf-8') as file:
          file.write ('{\n')
          file.write ('   "slug": "ErbPlugin%s",\n' % root.modules [0].name)
          file.write ('   "name": "Erb Plugin",\n')
