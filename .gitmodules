@@ -13,3 +13,6 @@
 [submodule "submodules/vcv-rack-sdk"]
 	path = submodules/vcv-rack-sdk
 	url = git@github.com:ohmtech-rdi/vcv-rack-sdk.git
+[submodule "submodules/gyp-next"]
+	path = submodules/gyp-next
+	url = https://github.com/nodejs/gyp-next.git
