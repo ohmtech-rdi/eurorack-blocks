@@ -41,6 +41,7 @@
 
          'sources': [
 %           sources.entities%
+            'artifacts/main_daisy.cpp',
          ],
 
          'actions': [

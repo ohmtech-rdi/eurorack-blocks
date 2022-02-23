@@ -44,8 +44,6 @@
       '../../src/daisy/BoardKivu12.cpp',
       '../../src/daisy/SubmoduleDaisyPatchSm.cpp',
       '../../src/daisy/SubmoduleDaisySeed.cpp',
-
-      '<!(echo artifacts/main_daisy.cpp)',
    ],
 
    'include_dirs': [
