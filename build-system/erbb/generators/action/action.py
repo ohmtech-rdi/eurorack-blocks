@@ -60,7 +60,7 @@ class Action:
       if platform.system () == 'Windows':
          path_root = PATH_ROOT.replace ('\\', '/')
          template = template.replace ('%PATH_ROOT%', path_root)
-         template = template.replace ('%PATH_PROJECT%', path)
+         template = template.replace ('%PATH_PROJECT%', path.replace ('\\', '/'))
       else:
          path_rel_root = os.path.relpath (PATH_ROOT, path)
          template = template.replace ('%PATH_ROOT%', path_rel_root)
