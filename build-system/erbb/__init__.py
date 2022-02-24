@@ -355,6 +355,7 @@ def build_daisy_target (target, path, configuration):
 
    cmd = [
       'ninja',
+      '-v',
       '-C', os.path.join (path_artifacts, 'daisy', 'out', configuration),
       target
    ]
