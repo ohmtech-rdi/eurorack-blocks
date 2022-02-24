@@ -182,7 +182,7 @@ class Project:
       if platform.system () == 'Windows':
          path_rel_erbb_gens = path_rel_erbb_gens.replace ('\\', '/')
          path_rel_erbui_gens = path_rel_erbui_gens.replace ('\\', '/')
-         python_path = path_rel_erbui_gens.replace ('\\', '/')
+         python_path = python_path.replace ('\\', '/')
 
       if module.source_language == 'max':
          if platform.system () == 'Windows':
