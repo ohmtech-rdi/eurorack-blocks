@@ -40,6 +40,9 @@ class Project:
 
       path_rel_root = os.path.relpath (PATH_ROOT, path)
 
+      if platform.system () == 'Windows':
+         path_rel_root = path_rel_root.replace ('\\', '/')
+
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
       template = self.replace_includes (template, module, path);
@@ -59,6 +62,10 @@ class Project:
 
       if module.source_language == 'max':
          path_rel_root = os.path.relpath (PATH_ROOT, path)
+
+         if platform.system () == 'Windows':
+            path_rel_root = path_rel_root.replace ('\\', '/')
+
          lines += '            \'%s/include/gen_dsp/gen_dsp.gypi\',\n' % path_rel_root
 
       return template.replace ('%           target_includes%', lines)
@@ -82,6 +89,10 @@ class Project:
 
       for base in bases:
          base_path = os.path.normpath (base.path)
+
+         if platform.system () == 'Windows':
+            base_path = base_path.replace ('\\', '/')
+
          lines += '            \'%s\',\n' % base_path
 
       return template.replace ('%           bases.entities%', lines)
@@ -95,6 +106,10 @@ class Project:
       for source in sources:
          for file in source.files:
             file_path = os.path.relpath (file.path, path)
+
+            if platform.system () == 'Windows':
+               file_path = file_path.replace ('\\', '/')
+
             lines += '            \'%s\',\n' % file_path
 
       lines += '            \'%s.erbb\',\n' % module.name
@@ -215,6 +230,8 @@ class Project:
          lines += '                  \'%s/data/code.py\',\n' % path_rel_erbb_gens
          lines += '                  \'%s.erbb\',\n' % module.name
          for data_path in data_paths:
+            if platform.system () == 'Windows':
+               data_path = data_path.replace ('\\', '/')
             lines += '                  \'%s\',\n' % data_path
          lines += '               ],\n'
          lines += '               \'outputs\': [\n'
