@@ -90,15 +90,15 @@ class Project:
    def replace_section (self, template, module):
       daisy_core = os.path.join (PATH_ROOT, 'submodules', 'libDaisy', 'core')
 
-      if platform.system () == 'Windows':
-         daisy_core = daisy_core.replace ('\\', '/')
-
       if module.section.name == 'flash':
          lds_path = os.path.join (daisy_core, 'STM32H750IB_flash.lds')
       elif module.section.name == 'qspi':
          lds_path = os.path.join (daisy_core, 'STM32H750IB_qspi.lds')
       else:
          assert False
+
+      if platform.system () == 'Windows':
+         lds_path = lds_path.replace ('\\', '/')
 
       return template.replace ('%module.section%', lds_path)
 
