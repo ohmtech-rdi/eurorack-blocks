@@ -10,10 +10,13 @@
 
 from __future__ import print_function
 import os
+import platform
 import subprocess
 import sys
 
-sys.path.insert(0, "/Applications/Kicad/kicad.app/Contents/Frameworks/python/site-packages/")
+if platform.system () == 'Darwin':
+   sys.path.insert(0, "/Applications/Kicad/kicad.app/Contents/Frameworks/python/site-packages/")
+
 import pcbnew
 
 
