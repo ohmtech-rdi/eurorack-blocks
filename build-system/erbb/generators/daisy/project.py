@@ -236,7 +236,7 @@ class Project:
       lines += '               \'outputs\': [\n'
       lines += '                  \'artifacts/%sUi.h\',\n' % module.name
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'%s\' ],\n' % action_path
+      lines += '               \'action\': [ \'python3\', \'%s\' ],\n' % action_path
       lines += '            },\n'
 
       if platform.system () == 'Windows':
@@ -253,7 +253,7 @@ class Project:
       lines += '               \'outputs\': [\n'
       lines += '                  \'artifacts/main_daisy.cpp\',\n'
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'%s\' ],\n' % action_path
+      lines += '               \'action\': [ \'python3\', \'%s\' ],\n' % action_path
       lines += '            },\n'
 
       data_paths = []
