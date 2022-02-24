@@ -35,7 +35,7 @@ def find_erbb ():
    files = os.listdir (PATH_PROJECT)
    for file in files:
       if file.endswith ('.erbb'):
-         return file
+         return os.path.join (PATH_PROJECT, file)
 
    return None
 
