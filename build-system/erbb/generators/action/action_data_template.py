@@ -14,6 +14,7 @@ import subprocess
 import sys
 
 PATH_ROOT = '%PATH_ROOT%'
+PATH_PROJECT = '%PATH_PROJECT%'
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import erbb
@@ -31,7 +32,7 @@ if sys.version_info < (3, 7):
 ##############################################################################
 
 def find_erbb ():
-   files = os.listdir (os.getcwd ())
+   files = os.listdir (PATH_PROJECT)
    for file in files:
       if file.endswith ('.erbb'):
          return file
@@ -40,7 +41,7 @@ def find_erbb ():
 
 if __name__ == '__main__':
    try:
-      project_path = os.path.abspath (os.getcwd ())
+      project_path = os.path.abspath (PATH_PROJECT)
 
       ast = erbb.parse (find_erbb ())
       erbb.generate_data (project_path, ast)
