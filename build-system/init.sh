@@ -2,6 +2,7 @@
 
 BUILD_SYSTEM_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-${(%):-%x}}" )" &> /dev/null && pwd )
 export PATH=$PATH:$BUILD_SYSTEM_DIR/scripts
+export PYTHONPATH=$PYTHONPATH:$BUILD_SYSTEM_DIR/scripts
 
 _erbb_complete()
 {
