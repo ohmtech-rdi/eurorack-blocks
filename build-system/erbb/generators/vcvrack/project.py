@@ -8,6 +8,7 @@
 
 
 import os
+import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
@@ -130,63 +131,120 @@ class Project:
 
    def replace_actions (self, template, module, path):
       lines = ''
+      lines += self.replace_actions_max (module, path)
+      lines += self.replace_actions_faust (module, path)
+      lines += self.replace_actions_ui (module, path)
+      lines += self.replace_actions_vcvrack (module, path)
+      lines += self.replace_actions_data (module, path)
 
-      path_rel_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
-      path_rel_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      return template.replace ('%           target_actions%', lines)
 
-      if module.source_language == 'max':
-         lines += '            {\n'
-         lines += '               \'action_name\': \'Transpile Max\',\n'
-         lines += '               \'inputs\': [\n'
-         lines += '                  \'%s/max/code.py\',\n' % path_rel_erbb_gens
-         lines += '                  \'%s/max/code.py\',\n' % path_rel_erbui_gens
-         lines += '                  \'artifacts/module_max.cpp\',\n'
-         lines += '                  \'artifacts/module_max.h\',\n'
-         lines += '               ],\n'
-         lines += '               \'outputs\': [\n'
-         lines += '                  \'artifacts/module_max_alt.cpp\',\n'
-         lines += '                  \'artifacts/module_max_alt.h\',\n'
-         lines += '                  \'artifacts/%s_erbb.cpp\',\n' % module.name
-         lines += '                  \'artifacts/%s_erbui.cpp\',\n' % module.name
-         lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_max.py\' ],\n'
-         lines += '            },\n'
 
-      if module.source_language == 'faust':
-         lines += '            {\n'
-         lines += '               \'action_name\': \'Transpile Faust\',\n'
-         lines += '               \'inputs\': [\n'
-         lines += '                  \'%s/faust/code.py\',\n' % path_rel_erbb_gens
-         lines += '                  \'%s/faust/code.py\',\n' % path_rel_erbui_gens
-         lines += '                  \'%s.dsp\',\n' % module.name
-         lines += '               ],\n'
-         lines += '               \'outputs\': [\n'
-         lines += '                  \'artifacts/%s.h\',\n' % module.name
-         lines += '                  \'artifacts/%s_erbb.hpp\',\n' % module.name
-         lines += '                  \'artifacts/%s_erbui.hpp\',\n' % module.name
-         lines += '                  \'artifacts/module_faust.h\',\n'
-         lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_faust.py\' ],\n'
-         lines += '            },\n'
+   #--------------------------------------------------------------------------
+
+   def replace_actions_max (self, module, path):
+      if module.source_language != 'max':
+         return ''
+
+      lines = ''
+
+      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      python_path = sys.executable
+      action_path = 'artifacts/actions/action_max.py'
+
+      lines += '            {\n'
+      lines += '               \'action_name\': \'Transpile Max\',\n'
+      lines += '               \'inputs\': [\n'
+      lines += '                  \'%s/max/code.py\',\n' % path_erbb_gens
+      lines += '                  \'%s/max/code.py\',\n' % path_erbui_gens
+      lines += '                  \'artifacts/module_max.cpp\',\n'
+      lines += '                  \'artifacts/module_max.h\',\n'
+      lines += '               ],\n'
+      lines += '               \'outputs\': [\n'
+      lines += '                  \'artifacts/module_max_alt.cpp\',\n'
+      lines += '                  \'artifacts/module_max_alt.h\',\n'
+      lines += '                  \'artifacts/%s_erbb.cpp\',\n' % module.name
+      lines += '                  \'artifacts/%s_erbui.cpp\',\n' % module.name
+      lines += '                  \'artifacts/%s.h\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
+      lines += '            },\n'
+
+      return lines
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_faust (self, module, path):
+      if module.source_language != 'faust':
+         return ''
+
+      lines = ''
+
+      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      python_path = sys.executable
+      action_path = 'artifacts/actions/action_faust.py'
+
+      lines += '            {\n'
+      lines += '               \'action_name\': \'Transpile Faust\',\n'
+      lines += '               \'inputs\': [\n'
+      lines += '                  \'%s/faust/code.py\',\n' % path_erbb_gens
+      lines += '                  \'%s/faust/code.py\',\n' % path_erbui_gens
+      lines += '                  \'%s.dsp\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'outputs\': [\n'
+      lines += '                  \'artifacts/%s.h\',\n' % module.name
+      lines += '                  \'artifacts/%s_erbb.hpp\',\n' % module.name
+      lines += '                  \'artifacts/%s_erbui.hpp\',\n' % module.name
+      lines += '                  \'artifacts/module_faust.h\',\n'
+      lines += '               ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
+      lines += '            },\n'
+
+      return lines
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_ui (self, module, path):
+      lines = ''
+
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      python_path = sys.executable
+      action_path = 'artifacts/actions/action_ui.py'
 
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile Ui\',\n'
       lines += '               \'inputs\': [\n'
-      lines += '                  \'%s/ui/code.py\',\n' % path_rel_erbui_gens
+      lines += '                  \'%s/ui/code.py\',\n' % path_erbui_gens
       lines += '                  \'%s.erbui\',\n' % module.name
       lines += '               ],\n'
       lines += '               \'outputs\': [\n'
       lines += '                  \'artifacts/%sUi.h\',\n' % module.name
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_ui.py\' ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
       lines += '            },\n'
+
+      return lines
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_vcvrack (self, module, path):
+      lines = ''
+
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      python_path = sys.executable
+      action_path = 'artifacts/actions/action_vcvrack.py'
 
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile VcvRack\',\n'
       lines += '               \'inputs\': [\n'
-      lines += '                  \'%s/vcvrack/code.py\',\n' % path_rel_erbui_gens
-      lines += '                  \'%s/vcvrack/manifest.py\',\n' % path_rel_erbui_gens
-      lines += '                  \'%s/vcvrack/panel.py\',\n' % path_rel_erbui_gens
+      lines += '                  \'%s/vcvrack/code.py\',\n' % path_erbui_gens
+      lines += '                  \'%s/vcvrack/manifest.py\',\n' % path_erbui_gens
+      lines += '                  \'%s/vcvrack/panel.py\',\n' % path_erbui_gens
       lines += '                  \'%s.erbui\',\n' % module.name
       lines += '               ],\n'
       lines += '               \'outputs\': [\n'
@@ -194,20 +252,32 @@ class Project:
       lines += '                  \'artifacts/plugin_vcvrack.cpp\',\n'
       lines += '                  \'artifacts/plugin.json\',\n'
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_vcvrack.py\' ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
       lines += '            },\n'
 
+      return lines
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_data (self, module, path):
       data_paths = []
 
       for resource in module.resources:
          for data in resource.datas:
             data_paths.append (data.file.path)
 
+      lines = ''
+
+      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
+      python_path = sys.executable
+      action_path = 'artifacts/actions/action_data.py'
+
       if data_paths:
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Data\',\n'
          lines += '               \'inputs\': [\n'
-         lines += '                  \'%s/data/code.py\',\n' % path_rel_erbb_gens
+         lines += '                  \'%s/data/code.py\',\n' % path_erbb_gens
          lines += '                  \'%s.erbb\',\n' % module.name
          for data_path in data_paths:
             lines += '                  \'%s\',\n' % data_path
@@ -216,7 +286,7 @@ class Project:
          lines += '                  \'artifacts/%sData.h\',\n' % module.name
          lines += '                  \'artifacts/plugin_generated_data.cpp\',\n'
          lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_data.py\' ],\n'
+         lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
          lines += '            },\n'
 
-      return template.replace ('%           target_actions%', lines)
+      return lines
