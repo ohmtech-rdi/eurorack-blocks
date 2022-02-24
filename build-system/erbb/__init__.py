@@ -12,6 +12,7 @@ import fileinput
 import multiprocessing
 import os
 import platform
+import re
 import shutil
 import subprocess
 import sys
@@ -192,7 +193,7 @@ Name: configure
 
 def configure (path, ast):
    configure_vcvrack (path)
-   configure_daisy (path)
+   configure_daisy (path, ast)
    configure_vscode (path, ast)
 
 
@@ -248,7 +249,7 @@ Name: configure_daisy
 ==============================================================================
 """
 
-def configure_daisy (path):
+def configure_daisy (path, ast):
    path_artifacts = os.path.join (path, 'artifacts')
 
    gyp_args = [
@@ -269,6 +270,17 @@ def configure_daisy (path):
    os.chdir (path)
    gyp.main (gyp_args + ['project_daisy.gyp'])
    os.chdir (cwd)
+
+   if platform.system () == 'Windows':
+      for module in ast.modules:
+         for configuration in ['Debug', 'Release']:
+            module_path = os.path.join (path_artifacts, 'daisy', 'out', configuration, 'obj', '%s.ninja' % module.name)
+            with open (module_path, 'r', encoding='utf-8') as file:
+               build_cmds = file.read ()
+            build_cmds = re.sub (r'cd .*; ', '', build_cmds)
+            with open (module_path, 'w', encoding='utf-8') as file:
+               file.write (build_cmds)
+
 
 
 
