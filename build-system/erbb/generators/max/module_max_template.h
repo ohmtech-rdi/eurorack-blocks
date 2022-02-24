@@ -28,8 +28,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    #pragma clang diagnostic ignored "-Wreserved-id-macro"
    #pragma clang diagnostic ignored "-Wold-style-cast"
    #pragma clang diagnostic ignored "-Wdouble-promotion"
+   #pragma clang diagnostic ignored "-Wconversion"
    #pragma clang diagnostic ignored "-Wfloat-conversion"
-   #pragma clang diagnostic ignored "-Wimplicit-float-conversion"
    #pragma clang diagnostic ignored "-Wshadow"
    #pragma clang diagnostic ignored "-Wglobal-constructors"
    #pragma clang diagnostic ignored "-Wzero-as-null-pointer-constant"
@@ -39,6 +39,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
    #pragma clang diagnostic ignored "-Wcast-align"
    #pragma clang diagnostic ignored "-Wunused-variable"
    #pragma clang diagnostic ignored "-Wshorten-64-to-32"
+   #pragma clang diagnostic ignored "-Wunknown-warning-option"
+   #pragma clang diagnostic ignored "-Wimplicit-float-conversion"
 
 #elif defined (__GNUC__)
    #pragma GCC diagnostic push
