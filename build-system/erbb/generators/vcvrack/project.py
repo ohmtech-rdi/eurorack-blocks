@@ -9,6 +9,7 @@
 
 import os
 import platform
+import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
@@ -149,12 +150,18 @@ class Project:
 
       path_rel_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
       path_rel_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      python_path = sys.executable
 
       if platform.system () == 'Windows':
          path_rel_erbb_gens = path_rel_erbb_gens.replace ('\\', '/')
          path_rel_erbui_gens = path_rel_erbui_gens.replace ('\\', '/')
+         python_path = path_rel_erbui_gens.replace ('\\', '/')
 
       if module.source_language == 'max':
+         if platform.system () == 'Windows':
+            action_path = os.path.join (path, 'artifacts', 'actions', 'action_max.py').replace ('\\', '/')
+         else:
+            action_path = 'artifacts/actions/action_max.py'
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Max\',\n'
          lines += '               \'inputs\': [\n'
@@ -169,10 +176,14 @@ class Project:
          lines += '                  \'artifacts/%s_erbb.cpp\',\n' % module.name
          lines += '                  \'artifacts/%s_erbui.cpp\',\n' % module.name
          lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_max.py\' ],\n'
+         lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
          lines += '            },\n'
 
       if module.source_language == 'faust':
+         if platform.system () == 'Windows':
+            action_path = os.path.join (path, 'artifacts', 'actions', 'action_faust.py').replace ('\\', '/')
+         else:
+            action_path = 'artifacts/actions/action_faust.py'
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Faust\',\n'
          lines += '               \'inputs\': [\n'
@@ -186,8 +197,13 @@ class Project:
          lines += '                  \'artifacts/%s_erbui.hpp\',\n' % module.name
          lines += '                  \'artifacts/module_faust.h\',\n'
          lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_faust.py\' ],\n'
+         lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
          lines += '            },\n'
+
+      if platform.system () == 'Windows':
+         action_path = os.path.join (path, 'artifacts', 'actions', 'action_ui.py').replace ('\\', '/')
+      else:
+         action_path = 'artifacts/actions/action_ui.py'
 
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile Ui\',\n'
@@ -198,8 +214,13 @@ class Project:
       lines += '               \'outputs\': [\n'
       lines += '                  \'artifacts/%sUi.h\',\n' % module.name
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_ui.py\' ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
       lines += '            },\n'
+
+      if platform.system () == 'Windows':
+         action_path = os.path.join (path, 'artifacts', 'actions', 'action_vcvrack.py').replace ('\\', '/')
+      else:
+         action_path = 'artifacts/actions/action_vcvrack.py'
 
       lines += '            {\n'
       lines += '               \'action_name\': \'Transpile VcvRack\',\n'
@@ -214,7 +235,7 @@ class Project:
       lines += '                  \'artifacts/plugin_vcvrack.cpp\',\n'
       lines += '                  \'artifacts/plugin.json\',\n'
       lines += '               ],\n'
-      lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_vcvrack.py\' ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
       lines += '            },\n'
 
       data_paths = []
@@ -224,6 +245,11 @@ class Project:
             data_paths.append (data.file.path)
 
       if data_paths:
+         if platform.system () == 'Windows':
+            action_path = os.path.join (path, 'artifacts', 'actions', 'action_data.py').replace ('\\', '/')
+         else:
+            action_path = 'artifacts/actions/action_data.py'
+
          lines += '            {\n'
          lines += '               \'action_name\': \'Transpile Data\',\n'
          lines += '               \'inputs\': [\n'
@@ -238,7 +264,7 @@ class Project:
          lines += '                  \'artifacts/%sData.h\',\n' % module.name
          lines += '                  \'artifacts/plugin_generated_data.cpp\',\n'
          lines += '               ],\n'
-         lines += '               \'action\': [ \'<!(which python3)\', \'artifacts/actions/action_data.py\' ],\n'
+         lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
          lines += '            },\n'
 
       return template.replace ('%           target_actions%', lines)
