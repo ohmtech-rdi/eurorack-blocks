@@ -57,11 +57,13 @@ class Action:
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      path_rel_root = os.path.relpath (PATH_ROOT, path)
       if platform.system () == 'Windows':
-         path_rel_root = path_rel_root.replace ('\\', '/')
+         path_root = PATH_ROOT.replace ('\\', '/')
+         template = template.replace ('%PATH_ROOT%', path_root)
+      else:
+         path_rel_root = os.path.relpath (PATH_ROOT, path)
+         template = template.replace ('%PATH_ROOT%', path_rel_root)
 
-      template = template.replace ('%PATH_ROOT%', path_rel_root)
       template = template.replace ('%module.name%', module.name)
 
       with open (path_py, 'w', encoding='utf-8') as file:
