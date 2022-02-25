@@ -61,7 +61,7 @@ class Make:
       template = self.replace_defines (template, module.defines)
       template = self.replace_bases (template, module, module.bases, path_simulator);
       template = self.replace_sources (template, module, module.sources, path_simulator)
-      #template = self.replace_actions (template, module, path_simulator)
+      template = self.replace_actions (template, module, path_simulator)
 
       with open (path_makefile, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -108,6 +108,8 @@ class Make:
       add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sdram.cpp'))
       add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sram.cpp'))
 
+      add_source_path (os.path.join (path_simulator, '../artifacts/plugin_vcvrack.cpp'))
+
       for source in sources:
          for file in source.files:
             if file.path.endswith ('.cpp'):
@@ -120,7 +122,7 @@ class Make:
             has_data = True
 
       if has_data:
-         source_paths.append (os.path.join (path_simulator, '../artifacts/plugin_generated_data.cpp'))
+         add_source_path (os.path.join (path_simulator, '../artifacts/plugin_generated_data.cpp'))
 
       if module.source_language == 'max':
          add_source_path (os.path.join (path_simulator, '../artifacts/%s_erbb.cpp' % module.name))
@@ -148,61 +150,57 @@ class Make:
 
    #--------------------------------------------------------------------------
 
-   def replace_actions (self, template, module, path):
+   def replace_actions (self, template, module, path_simulator):
       lines = ''
-      lines += self.replace_actions_max (module, path)
-      lines += self.replace_actions_faust (module, path)
-      lines += self.replace_actions_ui (module, path)
-      lines += self.replace_actions_daisy (module, path)
-      lines += self.replace_actions_data (module, path)
+      lines += self.replace_actions_max (module, path_simulator)
+      lines += self.replace_actions_faust (module, path_simulator)
+      lines += self.replace_actions_ui (module, path_simulator)
+      lines += self.replace_actions_vcvrack (module, path_simulator)
+      lines += self.replace_actions_data (module, path_simulator)
 
       return template.replace ('%target_actions%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def replace_actions_max (self, module, path):
+   def replace_actions_max (self, module, path_simulator):
       if module.source_language != 'max':
          return ''
 
       lines = ''
 
-      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
-      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
       python_path = sys.executable
-      action_path = 'artifacts/actions/action_max.py'
 
-      lines += '            {\n'
-      lines += '               \'action_name\': \'Transpile Max\',\n'
-      lines += '               \'inputs\': [\n'
-      lines += '                  \'%s/max/code.py\',\n' % path_erbb_gens
-      lines += '                  \'%s/max/code.py\',\n' % path_erbui_gens
-      lines += '                  \'artifacts/module_max.cpp\',\n'
-      lines += '                  \'artifacts/module_max.h\',\n'
-      lines += '               ],\n'
-      lines += '               \'outputs\': [\n'
-      lines += '                  \'artifacts/module_max_alt.cpp\',\n'
-      lines += '                  \'artifacts/module_max_alt.h\',\n'
-      lines += '                  \'artifacts/%s_erbb.cpp\',\n' % module.name
-      lines += '                  \'artifacts/%s_erbui.cpp\',\n' % module.name
-      lines += '                  \'artifacts/%s.h\',\n' % module.name
-      lines += '               ],\n'
-      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
-      lines += '            },\n'
+      inputs = os.path.join (path_erbb_gens, 'max', 'code.py') + ' '
+      inputs += os.path.join (path_erbui_gens, 'max', 'code.py') + ' '
+      inputs += '../artifacts/module_max.cpp' + ' '
+      inputs += '../artifacts/module_max.h'
+
+      outputs = '../artifacts/module_max_alt.cpp' + ' '
+      outputs += '../artifacts/module_max_alt.h' + ' '
+      outputs += '../artifacts/%s_erbb.cpp' % module.name + ' '
+      outputs += '../artifacts/%s_erbui.cpp' % module.name + ' '
+      outputs += '../artifacts/%s.h' % module.name
+
+      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '\t@echo "ACTION Max"\n'
+      lines += '\t@%s ../artifacts/actions/action_max.py\n\n' % python_path
 
       return lines
 
 
    #--------------------------------------------------------------------------
 
-   def replace_actions_faust (self, module, path):
+   def replace_actions_faust (self, module, path_simulator):
       if module.source_language != 'faust':
          return ''
 
       lines = ''
 
-      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
-      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
       python_path = sys.executable
       action_path = 'artifacts/actions/action_faust.py'
 
@@ -227,55 +225,51 @@ class Make:
 
    #--------------------------------------------------------------------------
 
-   def replace_actions_ui (self, module, path):
+   def replace_actions_ui (self, module, path_simulator):
       lines = ''
 
-      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
       python_path = sys.executable
-      action_path = 'artifacts/actions/action_ui.py'
 
-      lines += '            {\n'
-      lines += '               \'action_name\': \'Transpile Ui\',\n'
-      lines += '               \'inputs\': [\n'
-      lines += '                  \'%s/ui/code.py\',\n' % path_erbui_gens
-      lines += '                  \'%s.erbui\',\n' % module.name
-      lines += '               ],\n'
-      lines += '               \'outputs\': [\n'
-      lines += '                  \'artifacts/%sUi.h\',\n' % module.name
-      lines += '               ],\n'
-      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
-      lines += '            },\n'
+      inputs = os.path.join (path_erbui_gens, 'ui', 'code.py') + ' '
+      inputs += '../../%s.erbui' % module.name
+
+      outputs = '../artifacts/%sUi.h' % module.name
+
+      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '\t@echo "ACTION Ui"\n'
+      lines += '\t@%s ../artifacts/actions/action_ui.py\n\n' % python_path
 
       return lines
 
 
    #--------------------------------------------------------------------------
 
-   def replace_actions_daisy (self, module, path):
+   def replace_actions_vcvrack (self, module, path_simulator):
       lines = ''
 
-      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
       python_path = sys.executable
-      action_path = 'artifacts/actions/action_daisy.py'
 
-      lines += '            {\n'
-      lines += '               \'action_name\': \'Transpile Daisy\',\n'
-      lines += '               \'inputs\': [\n'
-      lines += '                  \'%s/daisy/code.py\',\n' % path_erbui_gens
-      lines += '                  \'%s.erbui\',\n' % module.name
-      lines += '               ],\n'
-      lines += '               \'outputs\': [\n'
-      lines += '                  \'artifacts/main_daisy.cpp\',\n'
-      lines += '               ],\n'
-      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
-      lines += '            },\n'
+      inputs = os.path.join (path_erbui_gens, 'vcvrack', 'code.py') + ' '
+      inputs += os.path.join (path_erbui_gens, 'vcvrack', 'manifest.py') + ' '
+      inputs += os.path.join (path_erbui_gens, 'vcvrack', 'panel.py') + ' '
+      inputs += '../../%s.erbui' % module.name
+
+      outputs = '../artifacts/panel_vcvrack.svg' + ' '
+      outputs += '../artifacts/plugin_vcvrack.cpp' + ' '
+      outputs += '../artifacts/plugin.json'
+
+      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '\t@echo "ACTION VCV Rack"\n'
+      lines += '\t@%s ../artifacts/actions/action_vcvrack.py\n\n' % python_path
 
       return lines
 
 
    #--------------------------------------------------------------------------
 
-   def replace_actions_data (self, module, path):
+   def replace_actions_data (self, module, path_simulator):
       data_paths = []
 
       for resource in module.resources:
@@ -284,7 +278,7 @@ class Make:
 
       lines = ''
 
-      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
+      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
       python_path = sys.executable
       action_path = 'artifacts/actions/action_data.py'
 
