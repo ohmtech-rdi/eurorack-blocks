@@ -25,6 +25,7 @@ import gyp
 from .parser import Parser
 from .generators.action.action import Action
 from .generators.init.project import Project as initProject
+from .generators.simulator.make import Make as simulatorMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.daisy.project import Project as daisyProject
 from .generators.vscode.launch import Launch as vscodeLaunch
@@ -191,7 +192,8 @@ Name: configure
 """
 
 def configure (path, ast):
-   configure_vcvrack (path)
+   configure_simulator_native (path)
+   configure_simulator_make (path)
    configure_daisy (path)
    configure_vscode (path, ast)
 
@@ -199,31 +201,24 @@ def configure (path, ast):
 
 """
 ==============================================================================
-Name: configure_vcvrack
+Name: configure_simulator_native
 ==============================================================================
 """
 
-def configure_vcvrack (path):
+def configure_simulator_native (path):
    path_artifacts = os.path.join (path, 'artifacts')
 
-   if platform.system () == 'Linux':
-      gyp_args = [
-         '--depth=.',
-         '--generator-output=%s/simulator' % path_artifacts,
-         '--format', 'ninja'
-      ]
-   elif platform.system () == 'Darwin':
+   if platform.system () == 'Darwin':
       gyp_args = [
          '--depth=.',
          '--generator-output=%s' % path_artifacts,
       ]
 
-   cwd = os.getcwd ()
-   os.chdir (path)
-   gyp.main (gyp_args + ['project_vcvrack.gyp'])
-   os.chdir (cwd)
+      cwd = os.getcwd ()
+      os.chdir (path)
+      gyp.main (gyp_args + ['project_vcvrack.gyp'])
+      os.chdir (cwd)
 
-   if platform.system () == 'Darwin':
       project_path = os.path.join (path_artifacts, 'project_vcvrack.xcodeproj')
 
       file = os.path.join (project_path, 'project.pbxproj')
@@ -233,6 +228,18 @@ def configure_vcvrack (path):
 
          if 'BuildIndependentTargetsInParallel' in line:
             print ('\t\t\t\tLastUpgradeCheck = 2000;')
+
+
+
+"""
+==============================================================================
+Name: configure_simulator_make
+==============================================================================
+"""
+
+def configure_simulator_make (path):
+   generator = simulatorMake ()
+   generator.generate (path, ast)
 
 
 
@@ -359,11 +366,11 @@ def build_daisy_target (target, path, configuration):
 
 """
 ==============================================================================
-Name : build_simulator_target
+Name : build_simulator_native_target
 ==============================================================================
 """
 
-def build_simulator_target (target, path, configuration):
+def build_simulator_native_target (target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
    if platform.system () == 'Darwin':
@@ -444,14 +451,24 @@ def build_simulator_target (target, path, configuration):
 
       asyncio.run (run_command (cmd))
 
-   elif platform.system () == 'Linux':
-      cmd = [
-         'ninja',
-         '-C', os.path.join (path_artifacts, 'simulator', 'out', configuration),
-         target
-      ]
 
-      subprocess.check_call (cmd)
+
+"""
+==============================================================================
+Name : build_simulator_make_target
+==============================================================================
+"""
+
+def build_simulator_make_target (target, path, configuration):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   cmd = [
+      'make',
+      '-C', os.path.join (path_artifacts, 'simulator', 'out', configuration),
+      target
+   ]
+
+   subprocess.check_call (cmd)
 
 
 
