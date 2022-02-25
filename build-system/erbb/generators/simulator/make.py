@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#     project.py
+#     make.py
 #     Copyright (c) 2020 Raphael DINGE
 #
 #Tab=3########################################################################
@@ -8,16 +8,18 @@
 
 
 import os
+import platform
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
 PATH_ERBB_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbb', 'generators')
 PATH_ERBUI_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbui', 'generators')
+PATH_RACK = os.path.join (PATH_ROOT, 'submodules', 'vcv-rack-sdk')
 
 
 
-class Project:
+class Make:
    def __init__ (self):
       pass
 
@@ -32,65 +34,37 @@ class Project:
    #--------------------------------------------------------------------------
 
    def generate_module (self, path, module):
-      path_template = os.path.join (PATH_THIS, 'project_template.gyp')
-      path_cpp = os.path.join (path, 'project_daisy.gyp')
+      path_template = os.path.join (PATH_THIS, 'Makefile_template')
+      path_simulator = os.path.join (path, 'artifacts', 'simulator')
+      path_makefile = os.path.join (path_simulator, 'Makefile')
+
+      if not os.path.exists (path_simulator):
+         os.makedirs (path_simulator)
 
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      path_rel_root = os.path.relpath (PATH_ROOT, path)
+      path_root = os.path.relpath (PATH_ROOT, path_simulator)
+      path_rack_dir = os.path.relpath (PATH_RACK, path_simulator)
+
+      if platform.system () == 'Darwin':
+         arch = 'ARCH_MAC := 1\nARCH := mac'
+      elif platform.system () == 'Linux':
+         arch = 'ARCH_LIN := 1\nARCH := lin'
+      elif platform.system () == 'Windows':
+         arch = 'ARCH_WIN := 1\nARCH := win\nARCH_WIN_64 := 1\nBITS := 64'
 
       template = template.replace ('%module.name%', module.name)
-      template = template.replace ('%PATH_ROOT%', path_rel_root)
-      template = self.replace_includes (template, module, path);
-      template = self.replace_boot_option (template, module);
-      template = self.replace_section (template, module);
+      template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root)
+      template = template.replace ('%define_RACK_DIR%', 'RACK_DIR ?= %s' % path_rack_dir)
+      template = template.replace ('%define_ARCH%', arch)
       template = self.replace_defines (template, module.defines)
-      template = self.replace_bases (template, module, module.bases, path);
-      template = self.replace_sources (template, module, module.sources, path)
-      template = self.replace_actions (template, module, path)
+      template = self.replace_bases (template, module, module.bases, path_simulator);
+      template = self.replace_sources (template, module, module.sources, path_simulator)
+      #template = self.replace_actions (template, module, path_simulator)
 
-      with open (path_cpp, 'w', encoding='utf-8') as file:
+      with open (path_makefile, 'w', encoding='utf-8') as file:
          file.write (template)
-
-
-   #--------------------------------------------------------------------------
-
-   def replace_includes (self, template, module, path):
-      lines = ''
-
-      if module.source_language == 'max':
-         path_rel_root = os.path.relpath (PATH_ROOT, path)
-         lines += '            \'%s/include/gen_dsp/gen_dsp.gypi\',\n' % path_rel_root
-
-      return template.replace ('%           target_includes%', lines)
-
-
-   #--------------------------------------------------------------------------
-
-   def replace_boot_option (self, template, module):
-
-      boot_option = ''
-
-      if module.section.name != 'flash':
-         boot_option = '\'BOOT_APP=1\''
-
-      return template.replace ('%boot.option%', boot_option)
-
-
-   #--------------------------------------------------------------------------
-
-   def replace_section (self, template, module):
-      daisy_core = os.path.join (PATH_ROOT, 'submodules', 'libDaisy', 'core')
-
-      if module.section.name == 'flash':
-         lds_path = os.path.join (daisy_core, 'STM32H750IB_flash.lds')
-      elif module.section.name == 'qspi':
-         lds_path = os.path.join (daisy_core, 'STM32H750IB_qspi.lds')
-      else:
-         assert False
-
-      return template.replace ('%module.section%', lds_path)
 
 
    #--------------------------------------------------------------------------
@@ -99,56 +73,69 @@ class Project:
       lines = ''
 
       for define in defines:
-         lines += '            \'%s=%s\',\n' % (defines.key, defines.value)
+         lines += 'FLAGS += -D%s=%s\n' % (defines.key, defines.value)
 
-      return template.replace ('%           defines.entities%', lines)
+      return template.replace ('%defines.entities%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def replace_bases (self, template, module, bases, path):
+   def replace_bases (self, template, module, bases, path_simulator):
       lines = ''
 
       for base in bases:
-         base_path = os.path.normpath (base.path)
-         lines += '            \'%s\',\n' % base_path
+         path_base = os.path.relpath (base, path_simulator)
+         lines += 'FLAGS += -I%s\n' % path_base
 
-      return template.replace ('%           bases.entities%', lines)
+      return template.replace ('%bases.entities%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def replace_sources (self, template, module, sources, path):
+   def replace_sources (self, template, module, sources, path_simulator):
       lines = ''
+
+      source_paths = []
+
+      def add_source_path (path):
+         source_paths.append (os.path.abspath (path))
+
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'vcvrack', 'BoardGeneric.cpp'))
 
       for source in sources:
          for file in source.files:
-            file_path = os.path.relpath (file.path, path)
-            lines += '            \'%s\',\n' % file_path
+            if file.path.endswith ('.cpp'):
+               add_source_path (file.path)
 
-      data_paths = []
+      has_data = False
 
       for resource in module.resources:
-         for data in resource.datas:
-            data_paths.append (data.file.path)
+         if resource.datas:
+            has_data = True
 
-      if data_paths:
-         lines += '            \'artifacts/plugin_generated_data.cpp\',\n'
+      if has_data:
+         source_paths.append (os.path.join (path_simulator, '../artifacts/plugin_generated_data.cpp'))
 
       if module.source_language == 'max':
-         lines += '            \'artifacts/%s_erbb.cpp\',\n' % module.name
-         lines += '            \'artifacts/%s_erbui.cpp\',\n' % module.name
-         lines += '            \'artifacts/%s.h\',\n' % module.name
-         lines += '            \'artifacts/module_max_alt.cpp\',\n'
-         lines += '            \'artifacts/module_max_alt.h\',\n'
+         add_source_path (os.path.join (path_simulator, '../artifacts/%s_erbb.cpp' % module.name))
+         add_source_path (os.path.join (path_simulator, '../artifacts/%s_erbui.cpp' % module.name))
+         add_source_path (os.path.join (path_simulator, '../artifacts/module_max_alt.cpp'))
 
       if module.source_language == 'faust':
-         lines += '            \'artifacts/%s_erbb.hpp\',\n' % module.name
-         lines += '            \'artifacts/%s_erbui.hpp\',\n' % module.name
-         lines += '            \'artifacts/%s.h\',\n' % module.name
-         lines += '            \'artifacts/module_faust.h\',\n'
+         pass  # nothing
 
-      return template.replace ('%           sources.entities%', lines)
+      def object_name (path):
+         return '$(CONFIGURATION)/' + path.replace ('/', '_') + '.o'
+
+      lines += '$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
+      lines += '\t$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
+
+      for source_path in source_paths:
+         rel_path = os.path.relpath (source_path, path_simulator)
+         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (object_name (source_path), rel_path)
+         lines += '\t$(CXX) $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
+
+      return template.replace ('%sources.entities%', lines)
 
 
    #--------------------------------------------------------------------------
@@ -161,7 +148,7 @@ class Project:
       lines += self.replace_actions_daisy (module, path)
       lines += self.replace_actions_data (module, path)
 
-      return template.replace ('%           target_actions%', lines)
+      return template.replace ('%target_actions%', lines)
 
 
    #--------------------------------------------------------------------------

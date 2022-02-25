@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#     project_daisy.gyp
+#     Makefile
 #     Copyright (c) 2020 Raphael DINGE
 #
 #Tab=3########################################################################
@@ -10,45 +10,82 @@
 # !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
 
 
+%define_PATH_ROOT%
+%define_RACK_DIR%
+%define_ARCH%
 
-{
-   'includes': [
-      '%PATH_ROOT%/eurorack-blocks.gypi',
-   ],
+CONFIGURATION ?= Debug
 
-   'target_defaults': {
-      'defines': [ %boot.option% ],
-   },
 
-   'targets' : [
-      {
-         'target_name': '%module.name%',
-         'type': 'executable',
 
-         'includes': [
-            '%PATH_ROOT%/include/erb/erb-daisy.gypi',
-%           target_includes%
-         ],
+# Generate dependency files alongside the object files
+FLAGS += -MMD -MP
 
-         'defines': [
-%           defines.entities%
-         ],
+# Debugger symbols. These are removed with `strip`.
+FLAGS += -g
 
-         'include_dirs': [
-            '.',
-%           bases.entities%
-         ],
+# Warnings
+FLAGS += -Wall -Wextra -Wno-unused-parameter
 
-         'sources': [
-%           sources.entities%
-            'artifacts/main_daisy.cpp',
-         ],
+# C standard
+CFLAGS += -std=gnu11
 
-         'actions': [
-%           target_actions%
-         ],
+# C++ standard
+CXXFLAGS += -std=gnu++2a
 
-         'ldflags': [ '-T%module.section%' ],
-      },
-   ],
-}
+FLAGS += -fPIC
+FLAGS += -I$(PATH_ROOT)/include
+FLAGS += -I$(RACK_DIR)/include
+FLAGS += -I$(RACK_DIR)/dep/include
+
+ifdef ARCH_MAC
+	LDFLAGS += -shared -undefined dynamic_lookup
+	TARGET := plugin.dylib
+	RACK_USER_DIR ?= $(HOME)/Documents/Rack
+	FLAGS += -DARCH_MAC
+	CXXFLAGS += -stdlib=libc++
+	LDFLAGS += -stdlib=libc++
+	MAC_SDK_FLAGS = -mmacosx-version-min=10.7
+	FLAGS += $(MAC_SDK_FLAGS)
+	LDFLAGS += $(MAC_SDK_FLAGS)
+endif
+
+ifdef ARCH_LIN
+	LDFLAGS += -shared
+	TARGET := plugin.so
+	RACK_USER_DIR ?= $(HOME)/.Rack
+	FLAGS += -DARCH_LIN
+	CXXFLAGS += -Wsuggest-override
+endif
+
+ifdef ARCH_WIN
+	LDFLAGS += -shared -L$(RACK_DIR) -lRack
+	TARGET := plugin.dll
+	RACK_USER_DIR ?= "$(USERPROFILE)"/Documents/Rack
+	FLAGS += -DARCH_WIN
+	FLAGS += -D_USE_MATH_DEFINES
+	CXXFLAGS += -Wsuggest-override
+endif
+
+# Optimization
+FLAGS_Release += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimizations
+FLAGS_Debug += -O0 -DDEBUG=1 -march=nocona -funsafe-math-optimizations
+
+FLAGS += -Derb_TARGET_VCV_RACK
+
+%defines.entities%
+
+
+# Apply FLAGS to language-specific flags
+CFLAGS += $(FLAGS)
+CXXFLAGS += $(FLAGS)
+
+
+
+all: $(TARGET)
+
+%sources.entities%
+
+
+$(CONFIGURATION):
+	mkdir $@
