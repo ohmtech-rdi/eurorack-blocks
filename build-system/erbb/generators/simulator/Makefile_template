@@ -1,0 +1,101 @@
+##############################################################################
+#
+#     Makefile
+#     Copyright (c) 2020 Raphael DINGE
+#
+#Tab=3########################################################################
+
+
+
+# !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
+
+
+%define_PATH_ROOT%
+%define_RACK_DIR%
+%define_ARCH%
+
+CONFIGURATION ?= Debug
+
+
+
+# Warnings
+FLAGS += -Wall -Wextra -Wno-unused-parameter
+
+# C standard
+CFLAGS += -std=gnu11
+
+# C++ standard
+CXXFLAGS += -std=gnu++2a
+
+FLAGS += -fPIC
+FLAGS += -I$(PATH_ROOT)/include
+FLAGS += -I$(RACK_DIR)/include
+FLAGS += -I$(RACK_DIR)/dep/include
+
+ifdef ARCH_MAC
+	LDFLAGS += -shared -undefined dynamic_lookup
+	TARGET := plugin.dylib
+	RACK_USER_DIR ?= $(HOME)/Documents/Rack
+	FLAGS += -DARCH_MAC
+	CXXFLAGS += -stdlib=libc++
+	LDFLAGS += -stdlib=libc++
+	MAC_SDK_FLAGS = -mmacosx-version-min=10.14
+	FLAGS += $(MAC_SDK_FLAGS)
+	LDFLAGS += $(MAC_SDK_FLAGS)
+endif
+
+ifdef ARCH_LIN
+	LDFLAGS += -shared
+	TARGET := plugin.so
+	RACK_USER_DIR ?= $(HOME)/.Rack
+	FLAGS += -DARCH_LIN
+	CXXFLAGS += -Wsuggest-override
+endif
+
+ifdef ARCH_WIN
+	LDFLAGS += -shared -L$(RACK_DIR) -lRack
+	TARGET := plugin.dll
+	RACK_USER_DIR ?= "$(USERPROFILE)"/Documents/Rack
+	FLAGS += -DARCH_WIN
+	FLAGS += -D_USE_MATH_DEFINES
+	CXXFLAGS += -Wsuggest-override
+endif
+
+# Optimization
+FLAGS_Release += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimizations
+FLAGS_Debug += -O0 -g -DDEBUG=1 -march=nocona -funsafe-math-optimizations
+
+FLAGS += -Derb_TARGET_VCV_RACK
+FLAGS += -Derb_BUFFER_SIZE=48
+FLAGS += -Derb_SAMPLE_RATE=48014
+%defines.entities%
+%bases.entities%
+
+# Apply FLAGS to language-specific flags
+CFLAGS += $(FLAGS)
+CXXFLAGS += $(FLAGS)
+
+
+
+all: $(CONFIGURATION)/$(TARGET)
+
+%target_actions%
+%sources%
+%resources%
+$(CONFIGURATION):
+	mkdir $@
+
+package: all resources ../plugin.json ../panel_vcvrack.svg
+	@echo "PACKAGE $(CONFIGURATION) %module.name%"
+	@mkdir -p $(CONFIGURATION)/package/res
+	@cp $(CONFIGURATION)/$(TARGET) $(CONFIGURATION)/package/$(TARGET)
+	@cp ../plugin.json $(CONFIGURATION)/package/plugin.json
+	@cp ../panel_vcvrack.svg $(CONFIGURATION)/package/res/panel_vcvrack.svg
+
+install: package
+	@echo "INSTALL $(RACK_USER_DIR)/plugins-v1/%module.name%/"
+	@mkdir -p $(RACK_USER_DIR)/plugins-v1/%module.name%
+	@cp -r $(CONFIGURATION)/package/* $(RACK_USER_DIR)/plugins-v1/%module.name%/
+
+.PHONY: package install resources
+.DEFAULT_GOAL := all
