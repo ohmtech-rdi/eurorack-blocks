@@ -462,10 +462,12 @@ Name : build_simulator_make_target
 def build_simulator_make_target (target, path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
+   os.environ ["CONFIGURATION"] = configuration
+
    cmd = [
       'make',
-      '-C', os.path.join (path_artifacts, 'simulator', 'out', configuration),
-      target
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'simulator')
    ]
 
    subprocess.check_call (cmd)
