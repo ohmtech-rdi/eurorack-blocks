@@ -175,18 +175,18 @@ class Make:
 
       inputs = os.path.join (path_erbb_gens, 'max', 'code.py') + ' '
       inputs += os.path.join (path_erbui_gens, 'max', 'code.py') + ' '
-      inputs += '../artifacts/module_max.cpp' + ' '
-      inputs += '../artifacts/module_max.h'
+      inputs += '../module_max.cpp' + ' '
+      inputs += '../module_max.h'
 
-      outputs = '../artifacts/module_max_alt.cpp' + ' '
-      outputs += '../artifacts/module_max_alt.h' + ' '
-      outputs += '../artifacts/%s_erbb.cpp' % module.name + ' '
-      outputs += '../artifacts/%s_erbui.cpp' % module.name + ' '
-      outputs += '../artifacts/%s.h' % module.name
+      outputs = '../module_max_alt.cpp' + ' '
+      outputs += '../module_max_alt.h' + ' '
+      outputs += '../%s_erbb.cpp' % module.name + ' '
+      outputs += '../%s_erbui.cpp' % module.name + ' '
+      outputs += '../%s.h' % module.name
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Max"\n'
-      lines += '\t@%s ../artifacts/actions/action_max.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_max.py\n\n' % python_path
 
       return lines
 
@@ -202,23 +202,19 @@ class Make:
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
       python_path = sys.executable
-      action_path = 'artifacts/actions/action_faust.py'
 
-      lines += '            {\n'
-      lines += '               \'action_name\': \'Transpile Faust\',\n'
-      lines += '               \'inputs\': [\n'
-      lines += '                  \'%s/faust/code.py\',\n' % path_erbb_gens
-      lines += '                  \'%s/faust/code.py\',\n' % path_erbui_gens
-      lines += '                  \'%s.dsp\',\n' % module.name
-      lines += '               ],\n'
-      lines += '               \'outputs\': [\n'
-      lines += '                  \'artifacts/%s.h\',\n' % module.name
-      lines += '                  \'artifacts/%s_erbb.hpp\',\n' % module.name
-      lines += '                  \'artifacts/%s_erbui.hpp\',\n' % module.name
-      lines += '                  \'artifacts/module_faust.h\',\n'
-      lines += '               ],\n'
-      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
-      lines += '            },\n'
+      inputs = os.path.join (path_erbb_gens, 'faust', 'code.py') + ' '
+      inputs += os.path.join (path_erbui_gens, 'faust', 'code.py') + ' '
+      inputs += '../../%s.dsp' % module.name
+
+      outputs = '../module_faust.h' + ' '
+      outputs += '../%s_erbb.hpp' % module.name + ' '
+      outputs += '../%s_erbui.hpp' % module.name + ' '
+      outputs += '../%s.h' % module.name
+
+      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '\t@echo "ACTION Faust"\n'
+      lines += '\t@%s ../actions/action_faust.py\n\n' % python_path
 
       return lines
 
@@ -238,7 +234,7 @@ class Make:
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Ui"\n'
-      lines += '\t@%s ../artifacts/actions/action_ui.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_ui.py\n\n' % python_path
 
       return lines
 
@@ -256,13 +252,13 @@ class Make:
       inputs += os.path.join (path_erbui_gens, 'vcvrack', 'panel.py') + ' '
       inputs += '../../%s.erbui' % module.name
 
-      outputs = '../artifacts/panel_vcvrack.svg' + ' '
-      outputs += '../artifacts/plugin_vcvrack.cpp' + ' '
-      outputs += '../artifacts/plugin.json'
+      outputs = '../panel_vcvrack.svg' + ' '
+      outputs += '../plugin_vcvrack.cpp' + ' '
+      outputs += '../plugin.json'
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION VCV Rack"\n'
-      lines += '\t@%s ../artifacts/actions/action_vcvrack.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_vcvrack.py\n\n' % python_path
 
       return lines
 
@@ -278,24 +274,22 @@ class Make:
 
       lines = ''
 
-      path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
-      python_path = sys.executable
-      action_path = 'artifacts/actions/action_data.py'
-
       if data_paths:
-         lines += '            {\n'
-         lines += '               \'action_name\': \'Transpile Data\',\n'
-         lines += '               \'inputs\': [\n'
-         lines += '                  \'%s/data/code.py\',\n' % path_erbb_gens
-         lines += '                  \'%s.erbb\',\n' % module.name
+         path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
+         python_path = sys.executable
+         action_path = 'artifacts/actions/action_data.py'
+
+         inputs = os.path.join (path_erbb_gens, 'data', 'code.py') + ' '
+         inputs += '../../%s.erbb' % module.name
+
          for data_path in data_paths:
-            lines += '                  \'%s\',\n' % data_path
-         lines += '               ],\n'
-         lines += '               \'outputs\': [\n'
-         lines += '                  \'artifacts/%sData.h\',\n' % module.name
-         lines += '                  \'artifacts/plugin_generated_data.cpp\',\n'
-         lines += '               ],\n'
-         lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
-         lines += '            },\n'
+            inputs += '%s' % os.path.relpath (data_path, path_simulator)
+
+         outputs = '../%sData.h' % module.name + ' '
+         outputs += '../plugin_generated_data.cpp'
+
+         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+         lines += '\t@echo "ACTION Data"\n'
+         lines += '\t@%s ../actions/action_data.py\n\n' % python_path
 
       return lines
