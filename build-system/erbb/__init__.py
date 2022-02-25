@@ -193,7 +193,7 @@ Name: configure
 
 def configure (path, ast):
    configure_simulator_native (path)
-   configure_simulator_make (path)
+   configure_simulator_make (path, ast)
    configure_daisy (path)
    configure_vscode (path, ast)
 
@@ -237,7 +237,7 @@ Name: configure_simulator_make
 ==============================================================================
 """
 
-def configure_simulator_make (path):
+def configure_simulator_make (path, ast):
    generator = simulatorMake ()
    generator.generate (path, ast)
 
