@@ -74,6 +74,10 @@
             'erbb/generators/faust/project_template.dsp',
             'erbb/generators/faust/project.py',
 
+            # generators/simulator
+            'erbb/generators/simulator/Makefile_template',
+            'erbb/generators/simulator/make.py',
+
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
