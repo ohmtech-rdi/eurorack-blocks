@@ -45,7 +45,7 @@ ifdef ARCH_MAC
 	FLAGS += -DARCH_MAC
 	CXXFLAGS += -stdlib=libc++
 	LDFLAGS += -stdlib=libc++
-	MAC_SDK_FLAGS = -mmacosx-version-min=10.7
+	MAC_SDK_FLAGS = -mmacosx-version-min=10.14
 	FLAGS += $(MAC_SDK_FLAGS)
 	LDFLAGS += $(MAC_SDK_FLAGS)
 endif
@@ -72,6 +72,8 @@ FLAGS_Release += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimiza
 FLAGS_Debug += -O0 -DDEBUG=1 -march=nocona -funsafe-math-optimizations
 
 FLAGS += -Derb_TARGET_VCV_RACK
+FLAGS += -Derb_BUFFER_SIZE=48
+FLAGS += -Derb_SAMPLE_RATE=48014
 
 %defines.entities%
 

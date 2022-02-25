@@ -101,6 +101,12 @@ class Make:
          source_paths.append (os.path.abspath (path))
 
       add_source_path (os.path.join (PATH_ROOT, 'src', 'vcvrack', 'BoardGeneric.cpp'))
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'Button.cpp'))
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'GateOut.cpp'))
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Animation.cpp'))
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Debounce.cpp'))
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sdram.cpp'))
+      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sram.cpp'))
 
       for source in sources:
          for file in source.files:
@@ -128,12 +134,14 @@ class Make:
          return '$(CONFIGURATION)/' + path.replace ('/', '_') + '.o'
 
       lines += '$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
-      lines += '\t$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
+      lines += '\t@echo "LINK $(TARGET)"\n'
+      lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_simulator)
          lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (object_name (source_path), rel_path)
-         lines += '\t$(CXX) $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
+         lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
+         lines += '\t@$(CXX) $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
 
       return template.replace ('%sources.entities%', lines)
 
