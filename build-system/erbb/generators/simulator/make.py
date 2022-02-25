@@ -171,7 +171,6 @@ class Make:
 
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
-      python_path = sys.executable
 
       inputs = os.path.join (path_erbb_gens, 'max', 'code.py') + ' '
       inputs += os.path.join (path_erbui_gens, 'max', 'code.py') + ' '
@@ -186,7 +185,7 @@ class Make:
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Max"\n'
-      lines += '\t@%s ../actions/action_max.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable
 
       return lines
 
@@ -201,7 +200,6 @@ class Make:
 
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
-      python_path = sys.executable
 
       inputs = os.path.join (path_erbb_gens, 'faust', 'code.py') + ' '
       inputs += os.path.join (path_erbui_gens, 'faust', 'code.py') + ' '
@@ -214,7 +212,7 @@ class Make:
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Faust"\n'
-      lines += '\t@%s ../actions/action_faust.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable
 
       return lines
 
@@ -225,7 +223,6 @@ class Make:
       lines = ''
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
-      python_path = sys.executable
 
       inputs = os.path.join (path_erbui_gens, 'ui', 'code.py') + ' '
       inputs += '../../%s.erbui' % module.name
@@ -234,7 +231,7 @@ class Make:
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Ui"\n'
-      lines += '\t@%s ../actions/action_ui.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable
 
       return lines
 
@@ -245,7 +242,6 @@ class Make:
       lines = ''
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
-      python_path = sys.executable
 
       inputs = os.path.join (path_erbui_gens, 'vcvrack', 'code.py') + ' '
       inputs += os.path.join (path_erbui_gens, 'vcvrack', 'manifest.py') + ' '
@@ -258,7 +254,7 @@ class Make:
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION VCV Rack"\n'
-      lines += '\t@%s ../actions/action_vcvrack.py\n\n' % python_path
+      lines += '\t@%s ../actions/action_vcvrack.py\n\n' % sys.executable
 
       return lines
 
@@ -276,8 +272,6 @@ class Make:
 
       if data_paths:
          path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
-         python_path = sys.executable
-         action_path = 'artifacts/actions/action_data.py'
 
          inputs = os.path.join (path_erbb_gens, 'data', 'code.py') + ' '
          inputs += '../../%s.erbb' % module.name
@@ -290,6 +284,6 @@ class Make:
 
          lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
          lines += '\t@echo "ACTION Data"\n'
-         lines += '\t@%s ../actions/action_data.py\n\n' % python_path
+         lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable
 
       return lines
