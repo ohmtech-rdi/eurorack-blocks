@@ -93,11 +93,11 @@ class Make:
 
       if module.source_language == 'max':
          path_gen_dsp = os.path.join (PATH_ROOT, 'include', 'gen_dsp')
-         lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_simulator)
+         lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_simulator).replace ('\\', '/')
 
       for base in bases:
          path_base = os.path.relpath (base.path, path_simulator)
-         lines += 'FLAGS += -I%s\n' % path_base
+         lines += 'FLAGS += -I%s\n' % path_base.replace ('\\', '/')
 
       return template.replace ('%bases.entities%', lines)
 
@@ -139,17 +139,17 @@ class Make:
       def dep_name (path):
          return '$(CONFIGURATION)' + path + '.d'
 
-      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
+      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x).replace ('\\', '/'), source_paths))
       lines += '\t@echo "LINK $(TARGET)"\n'
       lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_simulator)
-         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path), rel_path)
+         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path).replace ('\\', '/'), rel_path.replace ('\\', '/'))
          lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
-         lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
-         lines += '-include %s\n\n' % dep_name (source_path)
+         lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
+         lines += '-include %s\n\n' % dep_name (source_path).replace ('\\', '/')
 
       return template.replace ('%sources%', lines)
 
@@ -207,15 +207,15 @@ class Make:
       def dest_name (resource):
          return '$(CONFIGURATION)/package/res/' + os.path.basename (resource)
 
-      lines += 'resources: %s\n' % ' '.join (map (lambda x: dest_name (x), resources))
+      lines += 'resources: %s\n' % ' '.join (map (lambda x: dest_name (x).replace ('\\', '/'), resources))
       lines += '\t@:\n\n'
 
       for resource in resources:
          rel_path = os.path.relpath (resource, path_simulator)
-         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (dest_name (resource), rel_path)
+         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (dest_name (resource).replace ('\\', '/'), rel_path.replace ('\\', '/'))
          lines += '\t@echo "COPY %s"\n' % rel_path.replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
-         lines += '\t@cp %s %s\n\n' % (rel_path, dest_name (resource))
+         lines += '\t@cp %s %s\n\n' % (rel_path.replace ('\\', '/'), dest_name (resource).replace ('\\', '/'))
 
       return template.replace ('%resources%', lines)
 
@@ -261,8 +261,8 @@ class Make:
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
 
-      inputs = os.path.join (path_erbb_gens, 'max', 'code.py') + ' '
-      inputs += os.path.join (path_erbui_gens, 'max', 'code.py') + ' '
+      inputs = os.path.join (path_erbb_gens, 'max', 'code.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'max', 'code.py').replace ('\\', '/') + ' '
       inputs += '../module_max.cpp' + ' '
       inputs += '../module_max.h'
 
@@ -276,7 +276,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_MAX: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Max"\n'
-      lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -293,8 +293,8 @@ class Make:
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
 
-      inputs = os.path.join (path_erbb_gens, 'faust', 'code.py') + ' '
-      inputs += os.path.join (path_erbui_gens, 'faust', 'code.py') + ' '
+      inputs = os.path.join (path_erbb_gens, 'faust', 'code.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'faust', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.dsp' % module.name
 
       outputs = '../module_faust.h' + ' '
@@ -306,7 +306,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_FAUST: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Faust"\n'
-      lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -319,7 +319,7 @@ class Make:
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
 
-      inputs = os.path.join (path_erbui_gens, 'ui', 'code.py') + ' '
+      inputs = os.path.join (path_erbui_gens, 'ui', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.erbui' % module.name
 
       outputs = '../%sUi.h' % module.name
@@ -328,7 +328,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_UI: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION UI"\n'
-      lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -341,9 +341,9 @@ class Make:
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_simulator)
 
-      inputs = os.path.join (path_erbui_gens, 'vcvrack', 'code.py') + ' '
-      inputs += os.path.join (path_erbui_gens, 'vcvrack', 'manifest.py') + ' '
-      inputs += os.path.join (path_erbui_gens, 'vcvrack', 'panel.py') + ' '
+      inputs = os.path.join (path_erbui_gens, 'vcvrack', 'code.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'vcvrack', 'manifest.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'vcvrack', 'panel.py').replace ('\\', '/') + ' '
       inputs += '../../%s.erbui' % module.name
 
       outputs = '../panel_vcvrack.svg' + ' '
@@ -354,7 +354,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_VCVRACK: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION VCV Rack"\n'
-      lines += '\t@%s ../actions/action_vcvrack.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_vcvrack.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -374,11 +374,11 @@ class Make:
       if data_paths:
          path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
 
-         inputs = os.path.join (path_erbb_gens, 'data', 'code.py') + ' '
+         inputs = os.path.join (path_erbb_gens, 'data', 'code.py').replace ('\\', '/') + ' '
          inputs += '../../%s.erbb' % module.name + ' '
 
          for data_path in data_paths:
-            inputs += '%s' % os.path.relpath (data_path, path_simulator) + ' '
+            inputs += '%s' % os.path.relpath (data_path, path_simulator).replace ('\\', '/') + ' '
 
          outputs = '../%sData.h' % module.name + ' '
          outputs += '../plugin_generated_data.cpp'
@@ -387,7 +387,7 @@ class Make:
          lines += '\t@:\n'
          lines += 'ACTION_DATA: %s Makefile | $(CONFIGURATION)\n' % inputs
          lines += '\t@echo "ACTION Data"\n'
-         lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable
+         lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable.replace ('\\', '/')
          lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
