@@ -108,7 +108,7 @@ class Make:
       add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sdram.cpp'))
       add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sram.cpp'))
 
-      add_source_path (os.path.join (path_simulator, '../artifacts/plugin_vcvrack.cpp'))
+      add_source_path (os.path.join (path_simulator, '../plugin_vcvrack.cpp'))
 
       for source in sources:
          for file in source.files:
@@ -122,18 +122,18 @@ class Make:
             has_data = True
 
       if has_data:
-         add_source_path (os.path.join (path_simulator, '../artifacts/plugin_generated_data.cpp'))
+         add_source_path (os.path.join (path_simulator, '../plugin_generated_data.cpp'))
 
       if module.source_language == 'max':
          add_source_path (os.path.join (path_simulator, '../artifacts/%s_erbb.cpp' % module.name))
-         add_source_path (os.path.join (path_simulator, '../artifacts/%s_erbui.cpp' % module.name))
-         add_source_path (os.path.join (path_simulator, '../artifacts/module_max_alt.cpp'))
+         add_source_path (os.path.join (path_simulator, '../%s_erbui.cpp' % module.name))
+         add_source_path (os.path.join (path_simulator, '../module_max_alt.cpp'))
 
       if module.source_language == 'faust':
          pass  # nothing
 
       def object_name (path):
-         return '$(CONFIGURATION)/' + path.replace ('/', '_') + '.o'
+         return '$(CONFIGURATION)' + path + '.o'
 
       lines += '$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
       lines += '\t@echo "LINK $(TARGET)"\n'
@@ -143,7 +143,8 @@ class Make:
          rel_path = os.path.relpath (source_path, path_simulator)
          lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (object_name (source_path), rel_path)
          lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
-         lines += '\t@$(CXX) $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
+         lines += '\t@mkdir -p $(@D)\n'
+         lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
 
       return template.replace ('%sources.entities%', lines)
 

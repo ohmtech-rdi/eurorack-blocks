@@ -18,12 +18,6 @@ CONFIGURATION ?= Debug
 
 
 
-# Generate dependency files alongside the object files
-FLAGS += -MMD -MP
-
-# Debugger symbols. These are removed with `strip`.
-FLAGS += -g
-
 # Warnings
 FLAGS += -Wall -Wextra -Wno-unused-parameter
 
@@ -69,7 +63,7 @@ endif
 
 # Optimization
 FLAGS_Release += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimizations
-FLAGS_Debug += -O0 -DDEBUG=1 -march=nocona -funsafe-math-optimizations
+FLAGS_Debug += -O0 -g -DDEBUG=1 -march=nocona -funsafe-math-optimizations
 
 FLAGS += -Derb_TARGET_VCV_RACK
 FLAGS += -Derb_BUFFER_SIZE=48
