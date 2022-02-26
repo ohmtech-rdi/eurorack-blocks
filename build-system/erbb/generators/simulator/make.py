@@ -58,7 +58,7 @@ class Make:
       template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root)
       template = template.replace ('%define_RACK_DIR%', 'RACK_DIR ?= %s' % path_rack_dir)
       template = template.replace ('%define_ARCH%', arch)
-      template = self.replace_defines (template, module.defines)
+      template = self.replace_defines (template, module, module.defines)
       template = self.replace_bases (template, module, module.bases, path_simulator);
       template = self.replace_sources (template, module, module.sources, path_simulator)
       template = self.replace_resources (template, module, path_simulator)
@@ -70,8 +70,13 @@ class Make:
 
    #--------------------------------------------------------------------------
 
-   def replace_defines (self, template, defines):
+   def replace_defines (self, template, module, defines):
       lines = ''
+
+      if module.source_language == 'max':
+         lines += 'FLAGS += -DGENLIB_USE_FLOAT32\n'
+         lines += 'FLAGS += -DGENLIB_NO_JSON\n'
+         lines += 'FLAGS += -DGEN_NO_STDLIB\n'
 
       for define in defines:
          lines += 'FLAGS += -D%s=%s\n' % (defines.key, defines.value)
@@ -85,6 +90,10 @@ class Make:
       lines = ''
 
       lines += 'FLAGS += -I../..\n'
+
+      if module.source_language == 'max':
+         path_gen_dsp = os.path.join (PATH_ROOT, 'include', 'gen_dsp')
+         lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_simulator)
 
       for base in bases:
          path_base = os.path.relpath (base.path, path_simulator)
@@ -120,12 +129,9 @@ class Make:
          add_source_path (os.path.join (path_simulator, '../plugin_generated_data.cpp'))
 
       if module.source_language == 'max':
-         add_source_path (os.path.join (path_simulator, '../artifacts/%s_erbb.cpp' % module.name))
+         add_source_path (os.path.join (path_simulator, '../%s_erbb.cpp' % module.name))
          add_source_path (os.path.join (path_simulator, '../%s_erbui.cpp' % module.name))
          add_source_path (os.path.join (path_simulator, '../module_max_alt.cpp'))
-
-      if module.source_language == 'faust':
-         pass  # nothing
 
       def object_name (path):
          return '$(CONFIGURATION)' + path + '.o'
