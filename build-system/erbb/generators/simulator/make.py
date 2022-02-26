@@ -97,18 +97,10 @@ class Make:
    def replace_sources (self, template, module, sources, path_simulator):
       lines = ''
 
-      source_paths = []
+      source_paths = self.include_sources_erb (module)
 
       def add_source_path (path):
          source_paths.append (os.path.abspath (path))
-
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'vcvrack', 'BoardGeneric.cpp'))
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'Button.cpp'))
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'GateOut.cpp'))
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Animation.cpp'))
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Debounce.cpp'))
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sdram.cpp'))
-      add_source_path (os.path.join (PATH_ROOT, 'src', 'detail', 'Sram.cpp'))
 
       add_source_path (os.path.join (path_simulator, '../plugin_vcvrack.cpp'))
 
@@ -152,7 +144,46 @@ class Make:
          lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
          lines += '-include %s\n\n' % dep_name (source_path)
 
-      return template.replace ('%sources.entities%', lines)
+      return template.replace ('%sources%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def include_sources_erb (self, module):
+      sources = []
+
+      sources.extend (self.include_gyp_sources (
+         os.path.join (PATH_ROOT, 'include', 'erb', 'erb-src.gypi')
+      ))
+
+      sources.extend (self.include_gyp_sources (
+         os.path.join (PATH_ROOT, 'include', 'erb', 'erb-vcvrack.gypi')
+      ))
+
+      if module.source_language == 'max':
+         sources.extend (self.include_gyp_sources (
+            os.path.join (PATH_ROOT, 'include', 'gen_dsp', 'gen_dsp.gypi')
+         ))
+
+      return sources
+
+
+   #--------------------------------------------------------------------------
+
+   def include_gyp_sources (self, path_gyp_file):
+      sources = []
+
+      with open (path_gyp_file, 'r', encoding='utf-8') as f:
+         gyp_dict = eval (f.read ())
+
+      gyp_sources = gyp_dict ['sources']
+      path_gyp_dir = os.path.dirname (path_gyp_file)
+
+      for source in gyp_sources:
+         if source.endswith ('.cpp'):
+            sources.append (os.path.abspath (os.path.join (path_gyp_dir, source)))
+
+      return sources
 
 
    #--------------------------------------------------------------------------

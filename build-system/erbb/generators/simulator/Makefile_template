@@ -80,7 +80,7 @@ CXXFLAGS += $(FLAGS)
 all: $(CONFIGURATION)/$(TARGET)
 
 %target_actions%
-%sources.entities%
+%sources%
 
 
 $(CONFIGURATION):
