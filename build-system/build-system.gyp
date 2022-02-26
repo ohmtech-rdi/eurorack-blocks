@@ -39,6 +39,7 @@
             'erbb/generators/action/action_faust_template.py',
             'erbb/generators/action/action_max_template.py',
             'erbb/generators/action/action_ui_template.py',
+            'erbb/generators/action/action_vcvrack_install_template.py',
             'erbb/generators/action/action_vcvrack_template.py',
             'erbb/generators/action/action.py',
 
