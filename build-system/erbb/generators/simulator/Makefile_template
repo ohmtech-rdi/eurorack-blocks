@@ -54,6 +54,7 @@ endif
 
 ifdef ARCH_WIN
 	LDFLAGS += -shared -L$(RACK_DIR) -lRack
+	LDFLAGS += -static-libstdc++
 	TARGET := plugin.dll
 	RACK_USER_DIR ?= "$(USERPROFILE)"/Documents/Rack
 	FLAGS += -DARCH_WIN
