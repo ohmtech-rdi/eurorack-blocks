@@ -135,7 +135,10 @@ class Make:
       def object_name (path):
          return '$(CONFIGURATION)' + path + '.o'
 
-      lines += '$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
+      def dep_name (path):
+         return '$(CONFIGURATION)' + path + '.d'
+
+      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
       lines += '\t@echo "LINK $(TARGET)"\n'
       lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
 
@@ -145,6 +148,7 @@ class Make:
          lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
          lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
+         lines += '-include %s\n\n' % dep_name (source_path)
 
       return template.replace ('%sources.entities%', lines)
 
@@ -228,7 +232,7 @@ class Make:
       inputs = os.path.join (path_erbui_gens, 'ui', 'code.py') + ' '
       inputs += '../../%s.erbui' % module.name
 
-      outputs = '../artifacts/%sUi.h' % module.name
+      outputs = '../%sUi.h' % module.name
 
       lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Ui"\n'
