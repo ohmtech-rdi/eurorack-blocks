@@ -68,9 +68,8 @@ FLAGS_Debug += -O0 -g -DDEBUG=1 -march=nocona -funsafe-math-optimizations
 FLAGS += -Derb_TARGET_VCV_RACK
 FLAGS += -Derb_BUFFER_SIZE=48
 FLAGS += -Derb_SAMPLE_RATE=48014
-
 %defines.entities%
-
+%bases.entities%
 
 # Apply FLAGS to language-specific flags
 CFLAGS += $(FLAGS)
@@ -80,8 +79,8 @@ CXXFLAGS += $(FLAGS)
 
 all: $(CONFIGURATION)/$(TARGET)
 
-%sources.entities%
 %target_actions%
+%sources.entities%
 
 
 $(CONFIGURATION):

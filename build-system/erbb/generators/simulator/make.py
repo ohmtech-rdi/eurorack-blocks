@@ -83,6 +83,8 @@ class Make:
    def replace_bases (self, template, module, bases, path_simulator):
       lines = ''
 
+      lines += 'FLAGS += -I../..\n'
+
       for base in bases:
          path_base = os.path.relpath (base, path_simulator)
          lines += 'FLAGS += -I%s\n' % path_base
@@ -144,7 +146,7 @@ class Make:
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_simulator)
-         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (object_name (source_path), rel_path)
+         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path), rel_path)
          lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
          lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
@@ -188,9 +190,10 @@ class Make:
       outputs += '../%s_erbui.cpp' % module.name + ' '
       outputs += '../%s.h' % module.name
 
-      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Max"\n'
       lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable
+      lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
 
@@ -215,9 +218,10 @@ class Make:
       outputs += '../%s_erbui.hpp' % module.name + ' '
       outputs += '../%s.h' % module.name
 
-      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Faust"\n'
       lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable
+      lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
 
@@ -234,9 +238,10 @@ class Make:
 
       outputs = '../%sUi.h' % module.name
 
-      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION Ui"\n'
       lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable
+      lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
 
@@ -257,9 +262,10 @@ class Make:
       outputs += '../plugin_vcvrack.cpp' + ' '
       outputs += '../plugin.json'
 
-      lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
       lines += '\t@echo "ACTION VCV Rack"\n'
       lines += '\t@%s ../actions/action_vcvrack.py\n\n' % sys.executable
+      lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
 
@@ -287,8 +293,9 @@ class Make:
          outputs = '../%sData.h' % module.name + ' '
          outputs += '../plugin_generated_data.cpp'
 
-         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+         lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
          lines += '\t@echo "ACTION Data"\n'
          lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable
+         lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
