@@ -84,7 +84,7 @@ class Code:
             filename, file_extension = os.path.splitext (file.path)
             if file_extension == '.dsp':
                faust_dsp = os.path.join (os.path.dirname (path), file.path)
-               filename_dsp = filename
+               filename_dsp = os.path.basename (filename)
 
       faust_dsp_json = os.path.join (path, '%s.dsp.json' % filename_dsp)
 
