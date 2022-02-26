@@ -84,9 +84,9 @@ class Project:
       daisy_core = os.path.join (PATH_ROOT, 'submodules', 'libDaisy', 'core')
 
       if module.section.name == 'flash':
-         lds_path = os.path.join (daisy_core, 'STM32H750IB_flash.lds')
+         lds_path = os.path.join (daisy_core, 'STM32H750IB_flash.lds').replace ('\\', '/')
       elif module.section.name == 'qspi':
-         lds_path = os.path.join (daisy_core, 'STM32H750IB_qspi.lds')
+         lds_path = os.path.join (daisy_core, 'STM32H750IB_qspi.lds').replace ('\\', '/')
       else:
          assert False
 
