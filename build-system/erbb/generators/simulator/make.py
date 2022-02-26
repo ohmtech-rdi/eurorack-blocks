@@ -190,7 +190,9 @@ class Make:
       outputs += '../%s_erbui.cpp' % module.name + ' '
       outputs += '../%s.h' % module.name
 
-      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  ACTION_MAX\n' % outputs
+      lines += '\t@:\n'
+      lines += 'ACTION_MAX: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Max"\n'
       lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable
       lines += 'ACTIONS += %s\n\n' % outputs
@@ -218,7 +220,9 @@ class Make:
       outputs += '../%s_erbui.hpp' % module.name + ' '
       outputs += '../%s.h' % module.name
 
-      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  ACTION_FAUST\n' % outputs
+      lines += '\t@:\n'
+      lines += 'ACTION_FAUST: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Faust"\n'
       lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable
       lines += 'ACTIONS += %s\n\n' % outputs
@@ -238,8 +242,10 @@ class Make:
 
       outputs = '../%sUi.h' % module.name
 
-      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
-      lines += '\t@echo "ACTION Ui"\n'
+      lines += '%s:  ACTION_UI\n' % outputs
+      lines += '\t@:\n'
+      lines += 'ACTION_UI: %s Makefile | $(CONFIGURATION)\n' % inputs
+      lines += '\t@echo "ACTION UI"\n'
       lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable
       lines += 'ACTIONS += %s\n\n' % outputs
 
@@ -262,7 +268,9 @@ class Make:
       outputs += '../plugin_vcvrack.cpp' + ' '
       outputs += '../plugin.json'
 
-      lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+      lines += '%s:  ACTION_VCVRACK\n' % outputs
+      lines += '\t@:\n'
+      lines += 'ACTION_VCVRACK: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION VCV Rack"\n'
       lines += '\t@%s ../actions/action_vcvrack.py\n\n' % sys.executable
       lines += 'ACTIONS += %s\n\n' % outputs
@@ -293,7 +301,9 @@ class Make:
          outputs = '../%sData.h' % module.name + ' '
          outputs += '../plugin_generated_data.cpp'
 
-         lines += '%s:  %s Makefile | $(CONFIGURATION)\n' % (outputs, inputs)
+         lines += '%s:  ACTION_DATA\n' % outputs
+         lines += '\t@:\n'
+         lines += 'ACTION_DATA: %s Makefile | $(CONFIGURATION)\n' % inputs
          lines += '\t@echo "ACTION Data"\n'
          lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable
          lines += 'ACTIONS += %s\n\n' % outputs
