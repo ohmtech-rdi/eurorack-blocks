@@ -83,10 +83,7 @@ class Code:
          for file in sources.files:
             filename, file_extension = os.path.splitext (file.path)
             if file_extension == '.dsp':
-               faust_dsp = os.path.join (os.path.dirname (path), file.path)
-               filename_dsp = filename
-
-      faust_dsp_json = os.path.join (path, '%s.dsp.json' % filename_dsp)
+               faust_dsp = os.path.abspath (file.path)
 
       subprocess.check_call (
          [
@@ -99,6 +96,8 @@ class Code:
          ],
          cwd = path
       )
+
+      faust_dsp_json = os.path.join (path, '%s.json' % os.path.basename (faust_dsp))
 
       with open (faust_dsp_json, 'r', encoding='utf-8') as f:
          faust_json = json.load (f)
