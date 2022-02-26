@@ -56,14 +56,8 @@ class Action:
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      path_root = PATH_ROOT
-      path_project = path
-
-      path_root = os.path.relpath (path_root, path)
-      path_project = os.path.relpath (path_project, path)
-
-      template = template.replace ('%PATH_ROOT%', path_root)
-      template = template.replace ('%PATH_PROJECT%', path_project)
+      template = template.replace ('%PATH_ROOT%', PATH_ROOT)
+      template = template.replace ('%PATH_PROJECT%', os.path.abspath (path))
       template = template.replace ('%module.name%', module.name)
 
       with open (path_py, 'w', encoding='utf-8') as file:
