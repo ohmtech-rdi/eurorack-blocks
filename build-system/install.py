@@ -31,6 +31,8 @@ if sys.version_info < (3, 7):
 if __name__ == '__main__':
    try:
       init_path = os.path.join (PATH_THIS, 'init.sh')
+      if platform.system () == 'Windows':
+         init_path = init_path.replace ('\\', '/')
 
       if 'CI' in os.environ:
          profile_path = os.path.join (os.path.expanduser ('~'), '.bash_profile')
