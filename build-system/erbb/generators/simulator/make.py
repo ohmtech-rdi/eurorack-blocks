@@ -369,10 +369,10 @@ class Make:
          path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_simulator)
 
          inputs = os.path.join (path_erbb_gens, 'data', 'code.py') + ' '
-         inputs += '../../%s.erbb' % module.name
+         inputs += '../../%s.erbb' % module.name + ' '
 
          for data_path in data_paths:
-            inputs += '%s' % os.path.relpath (data_path, path_simulator)
+            inputs += '%s' % os.path.relpath (data_path, path_simulator) + ' '
 
          outputs = '../%sData.h' % module.name + ' '
          outputs += '../plugin_generated_data.cpp'
