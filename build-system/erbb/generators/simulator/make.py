@@ -134,22 +134,28 @@ class Make:
          add_source_path (os.path.join (path_simulator, '../module_max_alt.cpp'))
 
       def object_name (path):
-         return '$(CONFIGURATION)' + path + '.o'
+         if platform.system () == 'Windows':
+            return '$(CONFIGURATION)' + path [path.find (':') + 1:].replace ('\\', '/') + '.o'
+         else:
+            return '$(CONFIGURATION)' + path + '.o'
 
       def dep_name (path):
-         return '$(CONFIGURATION)' + path + '.d'
+         if platform.system () == 'Windows':
+            return '$(CONFIGURATION)' + path [path.find (':') + 1:].replace ('\\', '/') + '.d'
+         else:
+            return '$(CONFIGURATION)' + path + '.d'
 
-      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x).replace ('\\', '/'), source_paths))
+      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
       lines += '\t@echo "LINK $(TARGET)"\n'
       lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_simulator)
-         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path).replace ('\\', '/'), rel_path.replace ('\\', '/'))
+         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path), rel_path.replace ('\\', '/'))
          lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
          lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
-         lines += '-include %s\n\n' % dep_name (source_path).replace ('\\', '/')
+         lines += '-include %s\n\n' % dep_name (source_path)
 
       return template.replace ('%sources%', lines)
 
@@ -212,10 +218,10 @@ class Make:
 
       for resource in resources:
          rel_path = os.path.relpath (resource, path_simulator)
-         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (dest_name (resource).replace ('\\', '/'), rel_path.replace ('\\', '/'))
+         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (dest_name (resource), rel_path.replace ('\\', '/'))
          lines += '\t@echo "COPY %s"\n' % rel_path.replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
-         lines += '\t@cp %s %s\n\n' % (rel_path.replace ('\\', '/'), dest_name (resource).replace ('\\', '/'))
+         lines += '\t@cp %s %s\n\n' % (rel_path.replace ('\\', '/'), dest_name (resource))
 
       return template.replace ('%resources%', lines)
 
