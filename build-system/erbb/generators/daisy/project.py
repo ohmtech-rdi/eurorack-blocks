@@ -174,7 +174,7 @@ class Project:
 
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
-      python_path = sys.executable
+      python_path = sys.executable.replace ('\\', '/')
       action_path = 'artifacts/actions/action_max.py'
 
       lines += '            {\n'
@@ -208,7 +208,7 @@ class Project:
 
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
-      python_path = sys.executable
+      python_path = sys.executable.replace ('\\', '/')
       action_path = 'artifacts/actions/action_faust.py'
 
       lines += '            {\n'
@@ -236,7 +236,7 @@ class Project:
       lines = ''
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
-      python_path = sys.executable
+      python_path = sys.executable.replace ('\\', '/')
       action_path = 'artifacts/actions/action_ui.py'
 
       lines += '            {\n'
@@ -260,7 +260,7 @@ class Project:
       lines = ''
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
-      python_path = sys.executable
+      python_path = sys.executable.replace ('\\', '/')
       action_path = 'artifacts/actions/action_daisy.py'
 
       lines += '            {\n'
@@ -290,7 +290,7 @@ class Project:
       lines = ''
 
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path)
-      python_path = sys.executable
+      python_path = sys.executable.replace ('\\', '/')
       action_path = 'artifacts/actions/action_data.py'
 
       if data_paths:
