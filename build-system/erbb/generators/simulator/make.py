@@ -87,7 +87,7 @@ class Make:
       lines += 'FLAGS += -I../..\n'
 
       for base in bases:
-         path_base = os.path.relpath (base, path_simulator)
+         path_base = os.path.relpath (base.path, path_simulator)
          lines += 'FLAGS += -I%s\n' % path_base
 
       return template.replace ('%bases.entities%', lines)
