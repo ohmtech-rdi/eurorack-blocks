@@ -55,8 +55,8 @@ class Make:
          arch = 'ARCH_WIN := 1\nARCH := win\nARCH_WIN_64 := 1\nBITS := 64'
 
       template = template.replace ('%module.name%', module.name)
-      template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root)
-      template = template.replace ('%define_RACK_DIR%', 'RACK_DIR ?= %s' % path_rack_dir)
+      template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root.replace ('\\', '/'))
+      template = template.replace ('%define_RACK_DIR%', 'RACK_DIR ?= %s' % path_rack_dir.replace ('\\', '/'))
       template = template.replace ('%define_ARCH%', arch)
       template = self.replace_defines (template, module, module.defines)
       template = self.replace_bases (template, module, module.bases, path_simulator);
