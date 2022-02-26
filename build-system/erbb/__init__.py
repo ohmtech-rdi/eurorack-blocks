@@ -467,7 +467,8 @@ def build_simulator_make_target (target, path, configuration):
    cmd = [
       'make',
       '--jobs',
-      '--directory=%s' % os.path.join (path_artifacts, 'simulator')
+      '--directory=%s' % os.path.join (path_artifacts, 'simulator'),
+      'install'
    ]
 
    subprocess.check_call (cmd)
