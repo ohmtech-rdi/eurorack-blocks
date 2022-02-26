@@ -81,7 +81,21 @@ all: $(CONFIGURATION)/$(TARGET)
 
 %target_actions%
 %sources%
-
-
+%resources%
 $(CONFIGURATION):
 	mkdir $@
+
+package: all resources ../plugin.json ../panel_vcvrack.svg
+	@echo "PACKAGE $(CONFIGURATION) %module.name%"
+	@mkdir -p $(CONFIGURATION)/package/res
+	@cp $(CONFIGURATION)/$(TARGET) $(CONFIGURATION)/package/$(TARGET)
+	@cp ../plugin.json $(CONFIGURATION)/package/plugin.json
+	@cp ../panel_vcvrack.svg $(CONFIGURATION)/package/res/panel_vcvrack.svg
+
+install: package
+	@echo "INSTALL $(RACK_USER_DIR)/plugins-v1/%module.name%/"
+	@mkdir -p $(RACK_USER_DIR)/plugins-v1/%module.name%
+	@cp -r $(CONFIGURATION)/package/* $(RACK_USER_DIR)/plugins-v1/%module.name%/
+
+.PHONY: package install resources
+.DEFAULT_GOAL := all

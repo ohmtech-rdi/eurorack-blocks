@@ -61,6 +61,7 @@ class Make:
       template = self.replace_defines (template, module.defines)
       template = self.replace_bases (template, module, module.bases, path_simulator);
       template = self.replace_sources (template, module, module.sources, path_simulator)
+      template = self.replace_resources (template, module, path_simulator)
       template = self.replace_actions (template, module, path_simulator)
 
       with open (path_makefile, 'w', encoding='utf-8') as file:
@@ -184,6 +185,50 @@ class Make:
             sources.append (os.path.abspath (os.path.join (path_gyp_dir, source)))
 
       return sources
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_resources (self, template, module, path_simulator):
+      lines = ''
+
+      resources = []
+
+      resources.extend (self.include_gyp_resources (
+         os.path.join (PATH_ROOT, 'include', 'erb', 'erb-vcvrack.gypi')
+      ))
+
+      def dest_name (resource):
+         return '$(CONFIGURATION)/package/res/' + os.path.basename (resource)
+
+      lines += 'resources: %s\n' % ' '.join (map (lambda x: dest_name (x), resources))
+      lines += '\t@:\n\n'
+
+      for resource in resources:
+         rel_path = os.path.relpath (resource, path_simulator)
+         lines += '%s: %s Makefile | $(CONFIGURATION)\n' % (dest_name (resource), rel_path)
+         lines += '\t@echo "COPY %s"\n' % rel_path.replace ('../', '')
+         lines += '\t@mkdir -p $(@D)\n'
+         lines += '\t@cp %s %s\n\n' % (rel_path, dest_name (resource))
+
+      return template.replace ('%resources%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def include_gyp_resources (self, path_gyp_file):
+      resources = []
+
+      with open (path_gyp_file, 'r', encoding='utf-8') as f:
+         gyp_dict = eval (f.read ())
+
+      gyp_resources = gyp_dict ['copies'][0]['files']
+      path_gyp_dir = os.path.dirname (path_gyp_file)
+
+      for resource in gyp_resources:
+         resources.append (os.path.abspath (os.path.join (path_gyp_dir, resource)))
+
+      return resources
 
 
    #--------------------------------------------------------------------------
