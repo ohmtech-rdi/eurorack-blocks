@@ -113,15 +113,14 @@ Alternatively, you can build the VCV Rack module using the command line.
 
 ```shell-session
 ~/eurorack-blocks/samples/faust$ erbb build simulator
-ACTION Transpile Faust
-warning: non mapped checkbox /FLANGER/0x00/Bypass
-warning: non mapped hslider /FLANGER/Delay Controls/Delay Offset
-ACTION Transpile Ui
+mkdir Release
+ACTION Faust
+ACTION UI
 ...
-CXX /Users/raf/Desktop/dev/eurorack-blocks/src/vcvrack/BoardGeneric.cpp
-LINK /Users/raf/Desktop/dev/eurorack-blocks/samples/faust/artifacts/build/Release/plugin.dylib
-ACTION Copy to VCV Rack plug-ins folder
-** BUILD SUCCEEDED **
+CXX plugin_vcvrack.cpp
+LINK plugin.dylib
+PACKAGE Release Flanger
+INSTALL /Users/raf/Documents/Rack/plugins-v1/Flanger/
 ```
 
 The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
