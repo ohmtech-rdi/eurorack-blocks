@@ -26,6 +26,12 @@
 %           target_includes%
          ],
 
+%        xcode_settings%
+
+         'cflags': [
+%           cflags%
+         ],
+
          'defines': [
 %           defines.entities%
          ],
