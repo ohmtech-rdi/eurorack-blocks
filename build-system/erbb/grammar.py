@@ -82,10 +82,16 @@ def section_declaration ():            return 'section', section_name
 def module_entities ():                return ZeroOrMore ([section_declaration, import_declaration, define_declaration, sources_declaration, resources_declaration, base_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
-def module_declaration ():             return 'module', module_name, module_body, EOF
+def module_declaration ():             return 'module', module_name, module_body
 
 # Library
 def library_declaration ():             return module_entities, EOF
 
-GRAMMAR_ROOT = module_declaration
+# Use Strict
+def use_strict_declaration ():         return 'use', 'strict'
+
+# Global Namespace
+def global_namespace_declaration ():   return Optional (use_strict_declaration), module_declaration, EOF
+
+GRAMMAR_ROOT = global_namespace_declaration
 GRAMMAR_LIBRARY_ROOT = library_declaration

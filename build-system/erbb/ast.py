@@ -140,13 +140,18 @@ class StringLiteral (Literal):
 # -- GlobalNamespace ---------------------------------------------------------
 
 class GlobalNamespace (Scope):
-   def __init__ (self):
+   def __init__ (self, use_strict):
       super (GlobalNamespace, self).__init__ ()
+      self.use_strict = use_strict
 
    @property
    def modules (self):
       entities = [e for e in self.entities if e.is_module]
       return entities
+
+   @property
+   def strict (self):
+      return self.use_strict
 
 
 

@@ -53,21 +53,40 @@ class Visitor (PTNodeVisitor):
       return ast.StringLiteral (self.to_literal (node))
 
 
+   #-- Global Namespace ------------------------------------------------------
+
+   def visit_global_namespace_declaration (self, node, children):
+      use_strict = False
+      if children.use_strict_declaration:
+         use_strict = True
+
+      global_namespace = ast.GlobalNamespace (use_strict)
+
+      if children.module_declaration:
+         entities = children.module_declaration [0]
+         global_namespace.add (entities)
+
+      return global_namespace
+
+
+   #-- Use Strict ------------------------------------------------------------
+
+   def visit_use_strict_declaration (self, node, children):
+      return True
+
+
    #-- Module ----------------------------------------------------------------
 
    def visit_module_declaration (self, node, children):
-      global_namespace = ast.GlobalNamespace ()
-
       module_identifier = children.module_name [0]
 
       module = ast.Module (module_identifier)
-      global_namespace.add (module)
 
       if children.module_body:
          entities = children.module_body [0]
          module.add (entities)
 
-      return global_namespace
+      return module
 
    def visit_module_name (self, node, children):
       return self.visit_identifier (node, children)
