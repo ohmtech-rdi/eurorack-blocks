@@ -289,21 +289,30 @@ Now if we run `erbb build`, which builds the firmware:
 
 ```{code-block} console
 ---
-emphasize-lines: 6, 7
+emphasize-lines: 9
 ---
-eurorack-blocks/samples/kick$ erbb build
-ninja: Entering directory `/Users/raf/Desktop/dev/eurorack-blocks/samples/kick/artifacts/out/Release'
-[71/71] LINK Kick
-FAILED: Kick 
-arm-none-eabi-g++ -mthumb -mfloat-abi=hard -mfpu=fpv5-d16 -mcpu=cortex-m7 --specs=nano.specs --specs=nosys.specs -lc -lm -lnosys -Wl,-Map=out.map,--cref -Wl,--gc-sections -T/Users/raf/Desktop/dev/eurorack-blocks/submodules/libDaisy/core/STM32H750IB_flash.lds -o Kick -Wl,--start-group obj/Kick.Kick.o obj/Kick.ClockEstimator.o obj/Kick.Presence.o dsp/Kick.Filter2Poles.o dsp/Kick.GainRamp.o dsp/Kick.ReverbSc.o ../src/daisy/Kick.BoardDaisyField.o ../src/daisy/Kick.BoardDaisyMicropatch.o ../src/daisy/Kick.BoardDaisySeed.o ../src/daisy/Kick.BoardKivu12.o ../src/daisy/Kick.SubmoduleDaisyPatchSm.o ../src/daisy/Kick.SubmoduleDaisySeed.o obj/artifacts/Kick.main_daisy.o obj/artifacts/Kick.plugin_generated_data.o ../src/Kick.Button.o ../src/Kick.GateOut.o ../src/detail/Kick.Animation.o ../src/detail/Kick.Debounce.o ../src/detail/Kick.Sdram.o obj/libdaisy.a -Wl,--end-group  
-/usr/local/Cellar/arm-none-eabi-gcc/10.3-2021.07/gcc/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/bin/ld: Kick section `.text' will not fit in region `FLASH'
-/usr/local/Cellar/arm-none-eabi-gcc/10.3-2021.07/gcc/bin/../lib/gcc/arm-none-eabi/10.3.1/../../../../arm-none-eabi/bin/ld: region `FLASH' overflowed by 2871000 bytes
-collect2: error: ld returned 1 exit status
-ninja: build stopped: subcommand failed.
+eurorack-blocks/samples/kick$ $ erbb build
+ACTION UI
+ACTION Daisy
+ACTION Data
+...
+CXX plugin_generated_data.cpp
+LINK Release/Kick.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:     3002604 B       128 KB    2290.81%
+         DTCMRAM:          0 GB       128 KB      0.00%
+            SRAM:        9232 B       512 KB      1.76%
+          RAM_D2:       16968 B       288 KB      5.75%
+          RAM_D3:          0 GB        64 KB      0.00%
+         ITCMRAM:          0 GB        64 KB      0.00%
+           SDRAM:          0 GB        64 MB      0.00%
+       QSPIFLASH:          0 GB         8 MB      0.00%
+...
+make: *** [Release/Kick.elf] Error 1
 ```
 
-If you look at the highlighted lines, you will see that the linker complains that the FLASH
-region was overflowed.
+If you look at the highlighted line, you will see that the linker indicates that the FLASH
+region is overflowed (by a lot!)
 
 ```{note}
 Building for the simulator using `erbb build simulator` won't be able to detect
