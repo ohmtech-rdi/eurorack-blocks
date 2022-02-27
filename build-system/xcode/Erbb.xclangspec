@@ -15,6 +15,7 @@
                 "module", "import", "define", "sources", "file", "resources", "data",
                 "section", "flash", "qspi",
                 "stream", "mono", "interleaved", "planar",
+                "use", "strict",
             );
             Type = "xcode.syntax.keyword";
         };
