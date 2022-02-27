@@ -64,6 +64,7 @@ endif
 # Optimization
 FLAGS_Release += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimizations
 FLAGS_Debug += -O0 -g -DDEBUG=1 -march=nocona -funsafe-math-optimizations
+%warnings%
 
 FLAGS += -Derb_TARGET_VCV_RACK
 FLAGS += -Derb_BUFFER_SIZE=48
