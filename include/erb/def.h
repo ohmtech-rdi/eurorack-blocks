@@ -46,6 +46,7 @@
       _Pragma ("clang diagnostic ignored \"-Wconversion\"") \
       _Pragma ("clang diagnostic ignored \"-Wglobal-constructors\"") \
       _Pragma ("clang diagnostic ignored \"-Wunused-parameter\"") \
+      _Pragma ("clang diagnostic ignored \"-Wunused-variable\"") \
       _Pragma ("clang diagnostic ignored \"-Winconsistent-missing-destructor-override\"") \
       _Pragma ("clang diagnostic ignored \"-Wcast-align\"") \
       _Pragma ("clang diagnostic ignored \"-Wcast-qual\"") \
@@ -55,6 +56,7 @@
       _Pragma ("clang diagnostic ignored \"-Wunknown-warning-option\"") \
       _Pragma ("clang diagnostic ignored \"-Wsuggest-override\"") \
       _Pragma ("clang diagnostic ignored \"-Wsuggest-destructor-override\"") \
+      _Pragma ("clang diagnostic ignored \"-Wmacro-redefined\"") \
 
    #define erb_DISABLE_WARNINGS_FAUST_GEN \
       _Pragma ("clang diagnostic push") \

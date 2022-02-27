@@ -28,12 +28,12 @@ class Make:
 
    def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (path, module)
+         self.generate_module (path, module, root.strict)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, path, module):
+   def generate_module (self, path, module, strict):
       path_template = os.path.join (PATH_THIS, 'Makefile_template')
       path_simulator = os.path.join (path, 'artifacts', 'simulator')
       path_makefile = os.path.join (path_simulator, 'Makefile')
@@ -58,6 +58,7 @@ class Make:
       template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root)
       template = template.replace ('%define_RACK_DIR%', 'RACK_DIR ?= %s' % path_rack_dir)
       template = template.replace ('%define_ARCH%', arch)
+      template = self.replace_warnings (template, strict)
       template = self.replace_defines (template, module, module.defines)
       template = self.replace_bases (template, module, module.bases, path_simulator);
       template = self.replace_sources (template, module, module.sources, path_simulator)
@@ -66,6 +67,17 @@ class Make:
 
       with open (path_makefile, 'w', encoding='utf-8') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_warnings (self, template, strict):
+      lines = ''
+
+      if strict:
+         lines += 'FLAGS += -Wall -Wextra -Wpedantic -Werror\n'
+
+      return template.replace ('%warnings%', lines)
 
 
    #--------------------------------------------------------------------------
