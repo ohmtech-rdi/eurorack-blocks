@@ -268,6 +268,11 @@ def build ():
       module = ast_erbb.modules [0].name
       erbb.build_simulator_make_target (module, cwd, configuration)
 
+   elif target == 'simulator_xcode':
+      ast_erbb = read_erbb_ast (find_erbb ())
+      module = ast_erbb.modules [0].name
+      erbb.build_simulator_xcode_target (module, cwd, configuration)
+
    else:
       print ("Error: Unknown target %s\n" % target)
       usage ()
