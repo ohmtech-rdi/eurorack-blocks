@@ -17,8 +17,6 @@ jobs:
           submodules: recursive
       - run: python3 build-system/install.py
       - run: erbb setup
-      - run: python blocks/test/configure.py
-      - run: python blocks/test/build.py
       - run: python build-system/install.py
       - name: test/data
         run: erbb configure && erbb build && erbb build hardware
