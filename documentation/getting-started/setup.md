@@ -107,14 +107,14 @@ used. Below, we should an extract of the output on macOS.
 
 ```shell-session
 ~/eurorack-blocks/samples/drop$ erbb build simulator
-ACTION Transpile Ui
-ACTION Transpile VcvRack
-COPY /Users/raf/Desktop/dev/eurorack-blocks/include/erb/vcvrack/resource/songhuei.9mm.svg
+mkdir Release
+ACTION UI
+COPY include/erb/vcvrack/resource/rogan.5ps.svg
 ...
-CXX /Users/raf/Desktop/dev/eurorack-blocks/samples/dsp/Filter2Poles.cpp
-LINK /Users/raf/Desktop/dev/eurorack-blocks/samples/drop/artifacts/build/Release/plugin.dylib
-ACTION Copy to VCV Rack plug-ins folder
-** BUILD SUCCEEDED **
+CXX dsp/ReverbSc.cpp
+LINK plugin.dylib
+PACKAGE Release Drop
+INSTALL /Users/raf/Documents/Rack/plugins-v1/Drop/
 ```
 
 The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
