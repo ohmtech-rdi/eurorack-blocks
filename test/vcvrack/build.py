@@ -34,7 +34,8 @@ if sys.version_info < (3, 7):
 
 if __name__ == '__main__':
    try:
-      erbb.build_simulator_target ('VcvRack', PATH_THIS, 'Release')
+      erbb.build_simulator_make_target ('VcvRack', PATH_THIS, 'Release')
+      erbb.build_simulator_xcode_target ('VcvRack', PATH_THIS, 'Release')
 
    except subprocess.CalledProcessError as error:
       print ('Build command exited with %d' % error.returncode, file = sys.stderr)
