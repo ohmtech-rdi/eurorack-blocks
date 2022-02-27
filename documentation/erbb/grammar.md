@@ -24,7 +24,18 @@ valid.
 
 ### Grammar
 
-> _global-namespace_ → [module-declaration](#module)
+> _global-namespace_ → [use-strict-statement<sub>_opt_</sub>](#use-strict) [module-declaration](#module)
+
+
+## `use strict`
+
+This statement enables more compile-time checks by enabling all warnings and turning them
+into errors. When this statement is not used, the compiler will use its default configuration,
+which has reduced warning checks and doesn't report them as errors.
+
+### Grammar
+
+> _use-strict-statement_ → **`use`** **`strict`**
 
 
 ## `module`
