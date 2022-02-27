@@ -14,11 +14,8 @@ module %Name% {
    // Header to put your module name
    header { label "%Name%" }
 
-   // Put your controls here. Here we have put one audio input and one audio.
-   // Available controls and styles are documented here:
-   // https://eurorack-blocks.readthedocs.io/en/latest/controls/README.html
-
-   // Here we have put one audio input and one audio output to start with
+   // Put your controls here
+   // Here we have put one audio input and one audio output
 
    control audio_in AudioIn {
       position 6hp, 96mm
@@ -32,9 +29,9 @@ module %Name% {
       label "OUT"
    }
 
-   // erbui language reference is here:
-   // https://eurorack-blocks.readthedocs.io/en/latest/erbui/grammar.html
+   // Available controls and styles are documented here:
+   // https://eurorack-blocks.readthedocs.io/en/latest/controls/README.html
 
-   // But don't spend too much time learning it, we'll make a GUI editor for
-   // those files.
+   // erbui grammar reference is here:
+   // https://eurorack-blocks.readthedocs.io/en/latest/erbui/grammar.html
 }

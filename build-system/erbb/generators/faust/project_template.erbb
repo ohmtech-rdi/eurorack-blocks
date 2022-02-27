@@ -2,14 +2,13 @@
 
 module %Name% {
    sources {
-      file "%Name%.erbui"
       file "%Name%.dsp"
+      file "%Name%.erbui"
    }
 
-   // Put more resources in this list when you want to add samples
-
+   // Put more resources in this list when you add audio samples
    resources {
-      // This is a sample accessible in gen as a box with content "data sample":
-      // data sample AudioSample { file "sample.wav" }
+      // Example of a stereo audio sample for 'soundfile("foo",2)':
+      // data foo AudioSample { file "sample.wav" }
    }
 }

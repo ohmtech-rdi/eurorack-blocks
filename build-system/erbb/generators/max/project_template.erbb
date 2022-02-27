@@ -6,10 +6,9 @@ module %Name% {
       file "%Name%.maxpat"
    }
 
-   // Put more resources in this list when you want to add samples
-
+   // Put more resources in this list when you add audio samples
    resources {
-      // This is a sample accessible in gen as a box with content "data sample":
-      // data sample AudioSample { file "sample.wav" }
+      // Example of an audio sample in gen as a box with content "data foo":
+      // data foo AudioSample { file "sample.wav" }
    }
 }
