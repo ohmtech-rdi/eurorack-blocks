@@ -1,37 +1,23 @@
-/*
-------------------------------------------------------------------------------
-
-      %Name%.erbb
-
-------------------------------------------------------------------------------
-*/
-
-
+// %Name%.erbb
 
 module %Name% {
 
-   // Put more sources in this list as you add classes.
-
+   // Put more sources in this list as you add classes
    sources {
       file "%Name%.cpp"
       file "%Name%.h"
       file "%Name%.erbui"
    }
 
-   // Put more resources in this list as you add data like samples, etc.
-
+   // Put more resources in this list as you add data like audio samples, etc.
    resources {
-      // A raw piece of data
-      // data raw { file "raw.bin" }
-
-      // A sample accessible in 'process' as 'data.sample'
-      // data sample AudioSample { file "sample.wav" }
+      // Example of an audio sample "sample.wav" accessible in 'process' as 'data.foo':
+      // data foo AudioSample { file "sample.wav" }
    }
 
-   // IMPORTANT
-   // Every time you change this file, you need to re-run:
-   // erbb configure
+   // !!! IMPORTANT !!!
+   // Every time you change this file, you need to re-run 'erbb configure'
 
-   // erbb language reference is here:
-   // https://github.com/ohmtech-rdi/eurorack-blocks/tree/main/documentation
+   // erbb grammar reference is here:
+   // https://eurorack-blocks.readthedocs.io/en/latest/erbb/grammar.html
 }

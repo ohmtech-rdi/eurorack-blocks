@@ -1,25 +1,11 @@
-/*
-------------------------------------------------------------------------------
+// %Name%.h
 
-      %Name%.h
-
-------------------------------------------------------------------------------
-*/
-
-
-
-//--- INCLUDE FILES ----------------------------------------------------------
+#pragma once
 
 #include "artifacts/%Name%Ui.h"
-
-// Uncomment if you use some 'data' resources
-//#include "artifacts/%Name%Data.h"
-
+//#include "artifacts/%Name%Data.h" Uncomment if you use some 'data' resources
 #include "erb/erb.h"
 
-
-
-//----------------------------------------------------------------------------
 
 struct %Name%
 {
@@ -33,5 +19,5 @@ struct %Name%
    void  init ();
    void  process ();
 
-   // Put here your DSP classes
+   // Put here your DSP objects
 };
