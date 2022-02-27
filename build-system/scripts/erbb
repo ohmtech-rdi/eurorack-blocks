@@ -250,7 +250,6 @@ def build ():
       ast_erbb = read_erbb_ast (find_erbb ())
       module = ast_erbb.modules [0].name
       erbb.build_daisy_target (module, cwd, configuration)
-      erbb.objcopy (module, cwd, configuration)
 
    elif target == 'gerber':
       ast_erbui = read_erbui_ast (find_erbui ())

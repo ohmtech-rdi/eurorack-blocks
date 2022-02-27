@@ -26,8 +26,8 @@ from .parser import Parser
 from .generators.action.action import Action
 from .generators.init.project import Project as initProject
 from .generators.simulator.make import Make as simulatorMake
+from .generators.daisy.make import Make as daisyMake
 from .generators.vcvrack.project import Project as vcvrackProject
-from .generators.daisy.project import Project as daisyProject
 from .generators.vscode.launch import Launch as vscodeLaunch
 from .generators.vscode.tasks import Tasks as vscodeTasks
 from .generators.data.code import Code as dataCode
@@ -102,7 +102,6 @@ def generate_gyp (path, ast):
       os.makedirs (path_artifacts)
 
    generate_gyp_vcvrack (path, ast)
-   generate_gyp_daisy (path, ast)
 
    action = Action ()
    action.generate (path, ast)
@@ -119,20 +118,6 @@ def generate_gyp_vcvrack (path, ast):
    path_artifacts = os.path.join (path, 'artifacts')
 
    generator = vcvrackProject ()
-   generator.generate (path, ast)
-
-
-
-"""
-==============================================================================
-Name: generate_gyp_daisy
-==============================================================================
-"""
-
-def generate_gyp_daisy (path, ast):
-   path_artifacts = os.path.join (path, 'artifacts')
-
-   generator = daisyProject ()
    generator.generate (path, ast)
 
 
@@ -194,7 +179,7 @@ Name: configure
 def configure (path, ast):
    configure_simulator_native (path)
    configure_simulator_make (path, ast)
-   configure_daisy (path)
+   configure_daisy (path, ast)
    configure_vscode (path, ast)
 
 
@@ -249,27 +234,9 @@ Name: configure_daisy
 ==============================================================================
 """
 
-def configure_daisy (path):
-   path_artifacts = os.path.join (path, 'artifacts')
-
-   gyp_args = [
-      '--depth=.',
-      '--generator-output=%s/daisy' % path_artifacts,
-      '--format', 'ninja-linux',
-      '-D', 'OS=daisy',
-      '-D', 'GYP_CROSSCOMPILE',
-   ]
-
-   os.environ.update ({
-      'CC': 'arm-none-eabi-gcc',
-      'CXX': 'arm-none-eabi-g++',
-      'AR': 'arm-none-eabi-ar',
-   })
-
-   cwd = os.getcwd ()
-   os.chdir (path)
-   gyp.main (gyp_args + ['project_daisy.gyp'])
-   os.chdir (cwd)
+def configure_daisy (path, ast):
+   generator = daisyMake ()
+   generator.generate (path, ast)
 
 
 
@@ -321,9 +288,9 @@ Name: cleanup
 """
 
 def cleanup (path):
-   if platform.system () == 'Darwin':
-      os.remove (os.path.join (path, 'project_vcvrack.gyp'))
-      os.remove (os.path.join (path, 'project_daisy.gyp'))
+   project_gyp = os.path.join (path, 'project_vcvrack.gyp')
+   if os.path.exists (project_gyp):
+      os.remove (project_gyp)
 
 
 
@@ -336,9 +303,14 @@ Name : build_daisy_all
 def build_daisy_all (path, configuration):
    path_artifacts = os.path.join (path, 'artifacts')
 
+   build_libdaisy ()
+
+   os.environ ['CONFIGURATION'] = configuration
+
    cmd = [
-      'ninja',
-      '-C', os.path.join (path_artifacts, 'daisy', 'out', configuration),
+      'make',
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'daisy')
    ]
 
    subprocess.check_call (cmd)
@@ -352,12 +324,25 @@ Name : build_daisy_target
 """
 
 def build_daisy_target (target, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
+   build_daisy_all (path, configuration)
+
+
+
+"""
+==============================================================================
+Name : build_libdaisy
+==============================================================================
+"""
+
+def build_libdaisy ():
+
+   print ('BUILD libDaisy')
 
    cmd = [
-      'ninja',
-      '-C', os.path.join (path_artifacts, 'daisy', 'out', configuration),
-      target
+      'make',
+      '--jobs',
+      '--silent',
+      '--directory=%s' % os.path.join (PATH_ROOT, 'submodules', 'libDaisy'),
    ]
 
    subprocess.check_call (cmd)
@@ -477,32 +462,6 @@ def build_simulator_make_target (target, path, configuration):
 
 """
 ==============================================================================
-Name : objcopy
-==============================================================================
-"""
-
-def objcopy (name, path, configuration):
-   path_artifacts = os.path.join (path, 'artifacts')
-
-   print ('OBJCOPY %s' % name)
-
-   file_elf = os.path.join (path_artifacts, 'daisy', 'out', configuration, name)
-   file_bin = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s.bin' % name)
-
-   shutil.copyfile (file_elf, file_bin)
-
-   cmd = [
-      'arm-none-eabi-objcopy',
-      '-O', 'binary',
-      '-S', file_bin,
-   ]
-
-   subprocess.check_call (cmd)
-
-
-
-"""
-==============================================================================
 Name : deploy
 ==============================================================================
 """
@@ -516,10 +475,10 @@ def deploy (name, section, path, configuration, force_dfu_util=False):
          print ('Please use option \'dfu\' instead.')
          sys.exit ()
 
-      file_elf = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s' % name)
+      file_elf = os.path.join (path_artifacts, 'daisy', configuration, '%s.elf' % name)
       deploy_openocd (name, file_elf)
    else:
-      file_bin = os.path.join (path_artifacts, 'daisy', 'out', configuration, '%s.bin' % name)
+      file_bin = os.path.join (path_artifacts, 'daisy', configuration, '%s.bin' % name)
       deploy_dfu_util (name, section, file_bin)
 
 
