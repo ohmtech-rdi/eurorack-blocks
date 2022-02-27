@@ -41,11 +41,6 @@
       'cflags': [
          '-fPIC',
          '-g',
-
-         '-Wall',
-         '-Wextra',
-         '-Wpedantic',
-         '-Werror',
       ],
 
       'cflags_c': [

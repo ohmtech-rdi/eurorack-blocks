@@ -8,6 +8,7 @@
 
 
 import os
+import platform
 import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -26,12 +27,12 @@ class Project:
 
    def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (path, module)
+         self.generate_module (path, module, root.strict)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, path, module):
+   def generate_module (self, path, module, strict):
       path_template = os.path.join (PATH_THIS, 'project_template.gyp')
       path_cpp = os.path.join (path, 'project_vcvrack.gyp')
 
@@ -43,6 +44,8 @@ class Project:
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
       template = self.replace_includes (template, module, path);
+      template = self.replace_xcode_settings (template, strict);
+      template = self.replace_cflags (template, strict);
       template = self.replace_defines (template, module.defines)
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_sources (template, module, module.sources, path)
@@ -62,6 +65,105 @@ class Project:
          lines += '            \'%s/include/gen_dsp/gen_dsp.gypi\',\n' % path_rel_root
 
       return template.replace ('%           target_includes%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_xcode_settings (self, template, strict):
+      lines = ''
+
+      if platform.system () == 'Darwin' and strict:
+         lines += '         \'xcode_settings\':\n'
+         lines += '         {\n'
+         lines += '            \'GCC_TREAT_WARNINGS_AS_ERRORS\': \'YES\',\n'
+         lines += '            \'SWIFT_TREAT_WARNINGS_AS_ERRORS\': \'YES\',\n'
+         lines += '\n'
+         lines += '            \'CLANG_WARN__DUPLICATE_METHOD_MATCH\': \'YES\',\n'
+         lines += '            \'CLANG_WARN__EXIT_TIME_DESTRUCTORS\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_ASSIGN_ENUM\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_BOOL_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_CONSTANT_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_CXX0X_EXTENSIONS\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_DOCUMENTATION_COMMENTS\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_EMPTY_BODY\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_ENUM_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_IMPLICIT_SIGN_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_INT_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_SUSPICIOUS_IMPLICIT_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_UNREACHABLE_CODE\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_FLOAT_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_NON_LITERAL_NULL_CONVERSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_INFINITE_RECURSION\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_SEMICOLON_BEFORE_METHOD_BODY\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_COMMA\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_PRAGMA_PACK\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_UNGUARDED_AVAILABILITY\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_VEXING_PARSE\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_DELETE_NON_VIRTUAL_DTOR\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_RANGE_LOOP_ANALYSIS\': \'YES\',\n'
+         lines += '            \'CLANG_WARN_SUSPICIOUS_MOVE\': \'YES\',\n'
+         lines += '\n'
+         lines += '            \'GCC_TREAT_IMPLICIT_FUNCTION_DECLARATIONS_AS_ERRORS\': \'YES\',\n'
+         lines += '            \'GCC_TREAT_INCOMPATIBLE_POINTER_TYPE_WARNINGS_AS_ERRORS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_64_TO_32_BIT_CONVERSION\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_MISSING_NEWLINE\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_MISSING_PROTOTYPES\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_POINTER_SIGNEDNESS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ABOUT_RETURN_TYPE\': \'YES\',\n'
+         lines += '            \'GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL\': \'YES\',\n'
+         lines += '            \'GCC_WARN_CHECK_SWITCH_STATEMENTS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_FOUR_CHARACTER_CONSTANTS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_INITIALIZER_NOT_FULLY_BRACKETED\': \'YES\',\n'
+         lines += '            \'GCC_WARN_MISSING_PARENTHESES\': \'YES\',\n'
+         lines += '            \'GCC_WARN_MULTIPLE_DEFINITION_TYPES_FOR_SELECTOR\': \'YES\',\n'
+         lines += '            \'GCC_WARN_NON_VIRTUAL_DESTRUCTOR\': \'YES\',\n'
+         lines += '            \'GCC_WARN_PEDANTIC\': \'YES\',\n'
+         lines += '            \'GCC_WARN_SHADOW\': \'YES\',\n'
+         lines += '            \'GCC_WARN_SIGN_COMPARE\': \'YES\',\n'
+         lines += '            \'GCC_WARN_STRICT_SELECTOR_MATCH\': \'YES\',\n'
+         lines += '            \'GCC_WARN_TYPECHECK_CALLS_TO_PRINTF\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNDECLARED_SELECTOR\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNINITIALIZED_AUTOS\': \'YES_AGGRESSIVE\',\n'
+         lines += '            \'GCC_WARN_UNKNOWN_PRAGMAS\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNUSED_FUNCTION\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNUSED_LABEL\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNUSED_PARAMETER\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNUSED_VALUE\': \'YES\',\n'
+         lines += '            \'GCC_WARN_UNUSED_VARIABLE\': \'YES\',\n'
+         lines += '\n'
+
+         # There is no way to disable it (since it's in VCV Rack SDK headers).
+         # So don't turn it on now.
+         #lines += '            \'RUN_CLANG_STATIC_ANALYZER\': \'YES\',\n'
+         #lines += '            \'CLANG_STATIC_ANALYZER_MODE\': \'deep\',\n'
+         #lines += '            \'CLANG_ANALYZER_NONNULL\': \'YES\',\n'
+         #lines += '            \'CLANG_ANALYZER_USE_AFTER_MOVE\': \'YES\',\n'
+         #lines += '\n'
+
+         lines += '            \'WARNING_CFLAGS\': [\n'
+         lines += '               \'-Weverything\',\n'
+         lines += '            ],\n'
+         lines += '         },\n'
+
+      return template.replace ('%        xcode_settings%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_cflags (self, template, strict):
+      lines = ''
+
+      if platform.system () == 'Linux' and strict:
+         lines += '            \'-Wall\',\n'
+         lines += '            \'-Wextra\',\n'
+         lines += '            \'-Wpedantic\',\n'
+         lines += '            \'-Werror\',\n'
+
+      return template.replace ('%           cflags%', lines)
 
 
    #--------------------------------------------------------------------------

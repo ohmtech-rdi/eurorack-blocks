@@ -62,11 +62,6 @@
          '-finline-functions-called-once',
          '-fshort-enums',
          '-fno-move-loop-invariants',
-
-         '-Wall',
-         '-Wextra',
-         '-Wpedantic',
-         '-Werror',
       ],
 
       'cflags_c': [

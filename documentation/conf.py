@@ -78,7 +78,7 @@ class ErbbLexer(RegexLexer):
       'root': [
          (r'//.*?$', token.Comment.Singleline),
          (r'\".*\"', token.Literal.String),
-         (r'module|file|import|define|base|section|resources|sources|data|stream|faust|address|bind|init', token.Keyword),
+         (r'module|file|import|define|base|section|resources|sources|data|stream|faust|address|bind|init|use|strict', token.Keyword),
          (r'flash|qspi|mono|interleaved|planar', token.Name.Builtin),
          (r'AudioSample', token.Keyword.Type),
          (r'{|}|=', token.Punctuation),

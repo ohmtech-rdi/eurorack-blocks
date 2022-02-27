@@ -26,12 +26,12 @@ class Project:
 
    def generate (self, path, root):
       for module in root.modules:
-         self.generate_module (path, module)
+         self.generate_module (path, module, root.strict)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, path, module):
+   def generate_module (self, path, module, strict):
       path_template = os.path.join (PATH_THIS, 'project_template.gyp')
       path_cpp = os.path.join (path, 'project_daisy.gyp')
 
@@ -42,6 +42,7 @@ class Project:
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = self.replace_cflags (template, strict);
       template = self.replace_includes (template, module, path);
       template = self.replace_boot_option (template, module);
       template = self.replace_section (template, module);
@@ -52,6 +53,20 @@ class Project:
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_cflags (self, template, strict):
+      lines = ''
+
+      if strict:
+         lines += '            \'-Wall\',\n'
+         lines += '            \'-Wextra\',\n'
+         lines += '            \'-Wpedantic\',\n'
+         lines += '            \'-Werror\',\n'
+
+      return template.replace ('%           cflags%', lines)
 
 
    #--------------------------------------------------------------------------

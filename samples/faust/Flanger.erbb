@@ -1,5 +1,7 @@
 // Flanger.erbb
 
+use strict
+
 module Flanger {
    sources {
       file "Flanger.erbui"
