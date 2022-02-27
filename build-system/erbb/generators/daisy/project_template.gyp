@@ -30,6 +30,10 @@
 %           target_includes%
          ],
 
+         'cflags': [
+%           cflags%
+         ],
+
          'defines': [
 %           defines.entities%
          ],
