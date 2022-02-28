@@ -84,8 +84,8 @@
             'erbb/generators/vcvrack/project.py',
 
             # generators/daisy
-            'erbb/generators/daisy/project_template.gyp',
-            'erbb/generators/daisy/project.py',
+            'erbb/generators/daisy/Makefile_template',
+            'erbb/generators/daisy/make.py',
 
             # generators/vscode
             'erbb/generators/vscode/launch_template.json',

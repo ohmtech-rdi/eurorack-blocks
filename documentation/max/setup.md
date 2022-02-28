@@ -165,10 +165,21 @@ the following way. Make sure to connect your Eurorack module to a USB port on yo
 ~/eurorack-blocks$ cd max/reverb
 ~/eurorack-blocks/max/reverb/$ erbb configure
 ~/eurorack-blocks/max/reverb/$ erbb build
+mkdir Release
+ACTION Daisy
 ...
-ninja: Entering directory `/Users/raf/Desktop/dev/eurorack-blocks/max/reverb/artifacts/daisy/out/Release'
-[198/198] LINK Reverb
-OBJCOPY Reverb
+LINK Release/Reverb.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       78164 B       128 KB     59.63%
+         DTCMRAM:          0 GB       128 KB      0.00%
+            SRAM:        9112 B       512 KB      1.74%
+          RAM_D2:       16968 B       288 KB      5.75%
+          RAM_D3:          0 GB        64 KB      0.00%
+         ITCMRAM:          0 GB        64 KB      0.00%
+           SDRAM:         64 MB        64 MB    100.00%
+       QSPIFLASH:          0 GB         8 MB      0.00%
+OBJCOPY Release/Reverb.hex
+OBJCOPY Release/Reverb.bin
 ~/eurorack-blocks/max/reverb/$ erbb install dfu
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
