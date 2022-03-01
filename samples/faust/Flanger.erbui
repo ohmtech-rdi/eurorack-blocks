@@ -4,79 +4,71 @@ module Flanger {
    width 12hp
    board kivu12
    material aluminum
-   header { label "FLANGER" }
+   header {}
+   footer {}
 
-   control speed Pot {
-      faust { bind { address "/FLANGER/0x00/Speed" } }
-      position 8.66hp, 22mm
-      style rogan.2ps
-      label "SPEED"
-   }
+   image "panel.svg"
 
    control depth Pot {
       faust { bind { address "/FLANGER/0x00/Depth" } }
-      position 3.33hp, 22mm
-      style rogan.2ps
-      label "DEPTH"
+      position 13.5mm, 25.645mm
+      style rogan.5ps
    }
 
-   control feedback Pot {
-      faust { bind { address "/FLANGER/0x00/Feedback" } }
-      position 3.33hp, 48mm
-      style rogan.2ps
-      label "FEEDBACK"
-   }
-
-   control flange_delay Pot {
-      faust { bind { address "/FLANGER/Delay Controls/Flange Delay" } }
-      position 8.66hp, 48mm
-      style rogan.2ps
-      label "DELAY"
-   }
-
-   control level Pot {
-      faust { bind { address "/FLANGER/0x00/Flanger Output Level" } }
-      position 3.33hp, 74mm
-      style rogan.2ps
-      label "LEVEL"
-   }
-
-   control invert Switch {
-      faust { bind { address "/FLANGER/0x00/Invert Flange Sum" } }
-      position 8.66hp, 74mm
-      style dailywell.2ms1
-      label "INVERT"
+   control speed Pot {
+      faust { bind { address "/FLANGER/0x00/Speed" } }
+      position 47.1mm, 25.645mm
+      style rogan.5ps
    }
 
    control led Led {
       faust { bind { address "/FLANGER/0x00/Flange LFO" } }
-      position 6hp, 61mm
+      position 51.94mm, 39.67mm
       style led.3mm.red
-      label "LFO"
+   }
+
+   control level Pot {
+      faust { bind { address "/FLANGER/0x00/Flanger Output Level" } }
+      position 30.3mm, 54.18mm
+      style rogan.2ps
+   }
+
+   control feedback Pot {
+      faust { bind { address "/FLANGER/0x00/Feedback" } }
+      position 12.41mm, 79.64mm
+      style rogan.2ps
+   }
+
+   control flange_delay Pot {
+      faust { bind { address "/FLANGER/Delay Controls/Flange Delay" } }
+      position 48.19mm, 79.64mm
+      style rogan.2ps
+   }
+
+   control invert Switch {
+      faust { bind { address "/FLANGER/0x00/Invert Flange Sum" } }
+      position 30.30mm, 82.64mm
+      style dailywell.2ms1
    }
 
    control audio_in AudioIn {
-      position 4hp, 96mm
+      position 10.16mm, 107.47mm
       style thonk.pj398sm.knurled
-      label "IN L"
       cascade audio_in2
    }
 
    control audio_in2 AudioIn {
-      position 8hp, 96mm
+      position 23.7mm, 107.47mm
       style thonk.pj398sm.knurled
-      label "IN R"
    }
 
    control audio_out AudioOut {
-      position 4hp, 111mm
+      position 37.25mm, 107.47mm
       style thonk.pj398sm.knurled
-      label "OUT L"
    }
 
    control audio_out2 AudioOut {
-      position 8hp, 111mm
+      position 50.8mm, 107.47mm
       style thonk.pj398sm.knurled
-      label "OUT R"
    }
 }
