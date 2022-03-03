@@ -6,6 +6,7 @@ module Flanger {
    material aluminum
    header {}
    footer {}
+   route manual
 
    image "panel.svg"
 
@@ -13,42 +14,49 @@ module Flanger {
       faust { bind { address "/FLANGER/0x00/Depth" } }
       position 13.5mm, 25.645mm
       style rogan.5ps
+      pin P4
    }
 
    control speed Pot {
       faust { bind { address "/FLANGER/0x00/Speed" } }
       position 47.1mm, 25.645mm
       style rogan.5ps
+      pin P5
    }
 
    control led Led {
       faust { bind { address "/FLANGER/0x00/Flange LFO" } }
       position 51.94mm, 39.67mm
       style led.3mm.red
+      pin L8
    }
 
    control level Pot {
       faust { bind { address "/FLANGER/0x00/Flanger Output Level" } }
       position 30.3mm, 54.18mm
       style rogan.2ps
+      pin P10
    }
 
    control feedback Pot {
       faust { bind { address "/FLANGER/0x00/Feedback" } }
       position 12.41mm, 79.64mm
       style rogan.2ps
+      pin P11
    }
 
    control flange_delay Pot {
       faust { bind { address "/FLANGER/Delay Controls/Flange Delay" } }
       position 48.19mm, 79.64mm
       style rogan.2ps
+      pin P12
    }
 
    control invert Switch {
       faust { bind { address "/FLANGER/0x00/Invert Flange Sum" } }
       position 30.30mm, 82.64mm
       style dailywell.2ms1
+      pins B16, B15
    }
 
    control audio_in AudioIn {
