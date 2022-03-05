@@ -1,0 +1,140 @@
+name: macOS 11
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  software_cpp:
+    name: Software C++
+    runs-on: macos-11
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install faust
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - name: test/data
+        run: erbb configure && erbb build
+        working-directory: test/data
+      - name: samples/bypass
+        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        working-directory: samples/bypass
+      - name: samples/drop
+        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        working-directory: samples/drop
+      - name: samples/reverb
+        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        working-directory: samples/reverb
+      - name: samples/kick
+        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator && erbb build simulator_xcode
+        working-directory: samples/kick
+      - name: erbb init
+        run: mkdir init && cd init && erbb init Init && erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        working-directory: samples
+
+  software_max:
+    name: Software Max/MSP/Gen~
+    runs-on: macos-11
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - name: test/max
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
+        working-directory: test/max
+      - name: test/max2
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
+        working-directory: test/max2
+
+  software_faust:
+    name: Software Faust
+    runs-on: macos-11
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install faust
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - name: samples/faust
+        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator && erbb build simulator_xcode
+        working-directory: samples/faust
+      - name: test/faust
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator_xcode
+        working-directory: test/faust
+      - name: test/faust2
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator_xcode
+        working-directory: test/faust2
+      - name: test/faust3
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator_xcode
+        working-directory: test/faust3
+
+  hardware:
+    name: Hardware
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install --cask build-system/scripts/kicad-minimal.rb
+      - run: ./blocks/audio-in-daisy/build.py
+      - run: ./blocks/audio-out-daisy/build.py
+      - run: ./blocks/button/build.py
+      - run: ./blocks/cv-in/build.py
+      - run: ./blocks/gate-in/build.py
+      - run: ./blocks/gate-out/build.py
+      - run: ./blocks/led/build.py
+      - run: ./blocks/led-bi/build.py
+      - run: ./blocks/multiplexer/build.py
+      - run: ./blocks/pot/build.py
+      - run: ./blocks/power-bus/build.py
+      - run: ./blocks/regulator-daisy/build.py
+      - run: ./blocks/slider/build.py
+      - run: ./blocks/switch/build.py
+      - run: ./blocks/trim/build.py
+      - run: ./blocks/kits/stats.py
+      - run: ./blocks/kits/build.py
+      - run: ./boards/kivu12/build.py
+
+  unit_tests:
+    name: Unit Tests
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install ninja
+      - run: python3 test/unit/configure.py
+      - run: python3 test/unit/build.py
+      - run: python3 test/unit/run.py
+
+  erbb_tests:
+    name: Erbb/Erbui Tests
+    runs-on: macos-11
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: brew install cairo libffi
+      - run: brew install --cask build-system/scripts/kicad-minimal.rb
+      - run: pip3 install -r requirements.txt
+      - run: mkdir -p ~/Library/Fonts
+      - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
+      - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
+      - run: python3 build-system/test.py
+      - run: python3 build-system/cover.py
+      - run: python3 test/vcvrack/configure.py
+      - run: python3 test/vcvrack/build.py
