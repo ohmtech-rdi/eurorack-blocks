@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include <algorithm>
+
 
 
 namespace erb
@@ -52,6 +54,10 @@ CvOut <Range> &   CvOut <Range>::operator = (float val)
    else if constexpr (Range == FloatRange::Bipolar)
    {
       impl_data = val * 0.5f + 0.5f;
+   }
+   else if constexpr (Range == FloatRange::Pitch)
+   {
+      impl_data = val * 0.1f;
    }
 
    return *this;

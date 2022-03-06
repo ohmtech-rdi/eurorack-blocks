@@ -53,6 +53,10 @@ CvIn <Range>::operator float () const
    {
       return impl_data * 2.f - 1.f;
    }
+   else if constexpr (Range == FloatRange::Pitch)
+   {
+      return impl_data * 10.f;
+   }
 }
 
 
