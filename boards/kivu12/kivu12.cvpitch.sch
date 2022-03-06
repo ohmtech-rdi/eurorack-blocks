@@ -3,7 +3,7 @@ EELAYER 30 0
 EELAYER END
 $Descr A4 11693 8268
 encoding utf-8
-Sheet 1 7
+Sheet 5 7
 Title ""
 Date ""
 Rev ""
@@ -317,7 +317,7 @@ OUT1 = - (IN1 + VREFm5) = 5V - IN1\n\nNeeds to be inverted in software when pitc
 Wire Wire Line
 	3500 3000 3500 2750
 Wire Wire Line
-	3500 2750 4150 2750
+	3500 2750 3650 2750
 Wire Wire Line
 	4150 2750 4150 3100
 Connection ~ 3500 3000
@@ -327,11 +327,49 @@ Connection ~ 4150 3100
 Wire Wire Line
 	3500 4700 3500 4450
 Wire Wire Line
-	3500 4450 4150 4450
+	3500 4450 3650 4450
 Wire Wire Line
 	4150 4450 4150 4800
 Connection ~ 3500 4700
 Wire Wire Line
 	3500 4700 3550 4700
 Connection ~ 4150 4800
+$Comp
+L Device:R R81
+U 1 1 6224F4FA
+P 3800 2750
+F 0 "R81" V 3593 2750 50  0000 C CNN
+F 1 "100k" V 3684 2750 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3730 2750 50  0001 C CNN
+F 3 "~" H 3800 2750 50  0001 C CNN
+F 4 "Resistor" H 3800 2750 50  0001 C CNN "Device"
+F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3800 2750 50  0001 C CNN "Description"
+F 6 "Yes" H 3800 2750 50  0001 C CNN "Place"
+F 7 "Digikey" H 3800 2750 50  0001 C CNN "Dist"
+F 8 "541-100KHCT-ND" H 3800 2750 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3800 2750 50  0001 C CNN "DistLink"
+	1    3800 2750
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3950 2750 4150 2750
+$Comp
+L Device:R R82
+U 1 1 6224FC76
+P 3800 4450
+F 0 "R82" V 3593 4450 50  0000 C CNN
+F 1 "100k" V 3684 4450 50  0000 C CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" V 3730 4450 50  0001 C CNN
+F 3 "~" H 3800 4450 50  0001 C CNN
+F 4 "Resistor" H 3800 4450 50  0001 C CNN "Device"
+F 5 "RES SMD 100K OHM 1% 1/10W 0603" H 3800 4450 50  0001 C CNN "Description"
+F 6 "Yes" H 3800 4450 50  0001 C CNN "Place"
+F 7 "Digikey" H 3800 4450 50  0001 C CNN "Dist"
+F 8 "541-100KHCT-ND" H 3800 4450 50  0001 C CNN "DistPartNumber"
+F 9 "https://www.digikey.de/product-detail/en/vishay-dale/CRCW0603100KFKEA/541-100KHCT-ND/1180038" H 3800 4450 50  0001 C CNN "DistLink"
+	1    3800 4450
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3950 4450 4150 4450
 $EndSCHEMATC
