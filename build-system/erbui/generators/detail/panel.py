@@ -278,12 +278,13 @@ class Panel:
       context.set_font_size (self.current_font_height)
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
+      ascent, descent, height, max_x_advance, max_y_advance = context.font_extents ()
 
       if control is not None and control.is_kind_out and not module.material.is_dark:
          self.generate_back_out_path (context, module, control)
 
       position_x_pt = position_x * MM_TO_PT - width_pt * align_x
-      position_y_pt = position_y * MM_TO_PT + height_pt * align_y
+      position_y_pt = position_y * MM_TO_PT + ascent * align_y
 
       context.move_to (position_x_pt, position_y_pt)
       context.text_path (label.text)
