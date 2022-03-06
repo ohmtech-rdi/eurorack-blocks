@@ -64,10 +64,16 @@ class Code:
             if category == 'Param':
                if control.mode is not None and control.mode.is_bipolar:
                   min_val = -1
+                  max_val = 1
+               elif control.mode is not None and control.mode.is_pitch:
+                  min_val = 0
+                  max_val = 10
+               elif control.style.is_dailywell_2ms3:
+                  min_val = 0
+                  max_val = 2
                else:
                   min_val = 0
-
-               max_val = 2 if control.style.is_dailywell_2ms3 else 1
+                  max_val = 1
 
                control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)

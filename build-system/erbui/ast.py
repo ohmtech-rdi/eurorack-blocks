@@ -945,6 +945,9 @@ class Mode (Node):
    @property
    def is_bipolar (self): return self.name == 'bipolar'
 
+   @property
+   def is_pitch (self): return self.name == 'pitch'
+
 
 # -- Style -------------------------------------------------------------------
 

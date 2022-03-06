@@ -154,6 +154,8 @@ class Code:
          preconditioning = '(%s.position_first () ? 0.f : (%s.position_center () ? 0.5f : 1.f))' % (cpp_name, cpp_name)
       elif control.mode is not None and control.mode.is_bipolar:
          preconditioning = '((%s + 1.f) * 0.5f)' % cpp_name
+      elif control.mode is not None and control.mode.is_pitch:
+         preconditioning = '(%s * 0.1f)' % cpp_name
 
       mult = max_val - min_val
       offset = min_val

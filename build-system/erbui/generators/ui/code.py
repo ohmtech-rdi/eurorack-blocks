@@ -82,6 +82,9 @@ class Code:
          elif control.mode.is_bipolar:
             control_type = '%s <erb::FloatRange::Bipolar>' % control.kind
 
+         elif control.mode.is_pitch:
+            control_type = '%s <erb::FloatRange::Pitch>' % control.kind
+
       elif control.kind in ['Led', 'LedBi', 'LedRgb']:
          if control.kind == 'Led':
             pin_name = control.pin.name

@@ -12,7 +12,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 KEYWORDS = (
    'module', 'board', 'width', 'material', 'header', 'footer', 'line',
-   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'cascade', 'mode', 'normalized', 'bipolar',
+   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'cascade', 'mode', 'normalized', 'bipolar', 'pitch',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
@@ -95,7 +95,7 @@ def style_name ():                     return list (CONTROL_STYLES)
 def style_declaration ():              return 'style', style_name
 
 # Mode
-def mode_value ():                     return ['normalized', 'bipolar']
+def mode_value ():                     return ['normalized', 'bipolar', 'pitch']
 def mode_declaration ():               return 'mode', mode_value
 
 # Cascade
