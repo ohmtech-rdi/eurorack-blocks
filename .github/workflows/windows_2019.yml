@@ -35,3 +35,22 @@ jobs:
       - name: erbb init
         run: mkdir init && cd init && erbb init Init && erbb configure && erbb build && erbb build simulator
         working-directory: samples
+
+  software_max:
+    name: Software Max/MSP/Gen~
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - name: test/max
+        run: erbb configure && erbb build simulator && erbb build
+        working-directory: test/max
+      - name: test/max2
+        run: erbb configure && erbb build simulator && erbb build
+        working-directory: test/max2
