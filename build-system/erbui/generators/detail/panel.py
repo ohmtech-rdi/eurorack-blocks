@@ -30,7 +30,9 @@ class Panel:
       self.width = None
       self.height = 128.5
 
-      self.font_family = 'D-DIN Bold'
+      self.font_family = 'D-DIN'
+      self.font_slant = cairocffi.FONT_SLANT_NORMAL
+      self.font_weight = cairocffi.FONT_WEIGHT_BOLD
 
       self.header_center_y = 5.0#mm
       self.footer_center_y = -5.0#mm
@@ -272,7 +274,7 @@ class Panel:
       elif module.material.is_dark:
          fill_gray = 1.0
 
-      context.select_font_face (self.font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
+      context.select_font_face (self.font_family, self.font_slant, self.font_weight)
       context.set_font_size (self.current_font_height)
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
