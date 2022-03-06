@@ -57,8 +57,8 @@ class Make:
       path_lds = os.path.relpath (lds_path, path_daisy)
 
       template = template.replace ('%module.name%', module.name)
-      template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root)
-      template = template.replace ('%define_PATH_LIBDAISY%', 'LIBDAISY_DIR ?= %s' % path_libdaisy)
+      template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root.replace ('\\', '/'))
+      template = template.replace ('%define_PATH_LIBDAISY%', 'LIBDAISY_DIR ?= %s' % path_libdaisy.replace ('\\', '/'))
       template = template.replace ('%LDS_PATH%', path_lds)
       template = self.replace_warnings (template, strict)
       template = self.replace_defines (template, module, module.defines)
@@ -109,11 +109,11 @@ class Make:
 
       if module.source_language == 'max':
          path_gen_dsp = os.path.join (PATH_ROOT, 'include', 'gen_dsp')
-         lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_daisy)
+         lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_daisy).replace ('\\', '/')
 
       for base in bases:
          path_base = os.path.relpath (base.path, path_daisy)
-         lines += 'FLAGS += -I%s\n' % path_base
+         lines += 'FLAGS += -I%s\n' % path_base.replace ('\\', '/')
 
       return template.replace ('%bases.entities%', lines)
 
@@ -150,10 +150,16 @@ class Make:
          add_source_path (os.path.join (path_daisy, '../module_max_alt.cpp'))
 
       def object_name (path):
-         return '$(CONFIGURATION)' + path + '.o'
+         if platform.system () == 'Windows':
+            return '$(CONFIGURATION)' + path [path.find (':') + 1:].replace ('\\', '/') + '.o'
+         else:
+            return '$(CONFIGURATION)' + path + '.o'
 
       def dep_name (path):
-         return '$(CONFIGURATION)' + path + '.d'
+         if platform.system () == 'Windows':
+            return '$(CONFIGURATION)' + path [path.find (':') + 1:].replace ('\\', '/') + '.d'
+         else:
+            return '$(CONFIGURATION)' + path + '.d'
 
       source_path_startup = os.path.abspath (os.path.join (PATH_LIBDAISY, 'core', 'startup_stm32h750xx.c'))
 
@@ -164,18 +170,18 @@ class Make:
       lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
 
       rel_path = os.path.relpath (source_path_startup, path_daisy)
-      lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path_startup), rel_path)
-      lines += '\t@echo "CC %s"\n' % rel_path.replace ('../', '')
+      lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path_startup), rel_path.replace ('\\', '/'))
+      lines += '\t@echo "CC %s"\n' % rel_path.replace ('\\', '/').replace ('../', '')
       lines += '\t@mkdir -p $(@D)\n'
-      lines += '\t@$(CC) -MMD -MP $(CFLAGS) -Wno-pedantic -Wno-missing-attributes -c -o $@ %s\n\n' % rel_path
+      lines += '\t@$(CC) -MMD -MP $(CFLAGS) -Wno-pedantic -Wno-missing-attributes -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
       lines += '-include %s\n\n' % dep_name (source_path_startup)
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_daisy)
-         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path), rel_path)
-         lines += '\t@echo "CXX %s"\n' % rel_path.replace ('../', '')
+         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path), rel_path.replace ('\\', '/'))
+         lines += '\t@echo "CXX %s"\n' % rel_path.replace ('\\', '/').replace ('../', '')
          lines += '\t@mkdir -p $(@D)\n'
-         lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path
+         lines += '\t@$(CXX) -MMD -MP $(CXXFLAGS) -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
          lines += '-include %s\n\n' % dep_name (source_path)
 
       return template.replace ('%sources%', lines)
@@ -244,8 +250,8 @@ class Make:
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_daisy)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_daisy)
 
-      inputs = os.path.join (path_erbb_gens, 'max', 'code.py') + ' '
-      inputs += os.path.join (path_erbui_gens, 'max', 'code.py') + ' '
+      inputs = os.path.join (path_erbb_gens, 'max', 'code.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'max', 'code.py').replace ('\\', '/') + ' '
       inputs += '../module_max.cpp' + ' '
       inputs += '../module_max.h'
 
@@ -259,7 +265,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_MAX: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Max"\n'
-      lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_max.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -276,8 +282,8 @@ class Make:
       path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_daisy)
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_daisy)
 
-      inputs = os.path.join (path_erbb_gens, 'faust', 'code.py') + ' '
-      inputs += os.path.join (path_erbui_gens, 'faust', 'code.py') + ' '
+      inputs = os.path.join (path_erbb_gens, 'faust', 'code.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'faust', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.dsp' % module.name
 
       outputs = '../module_faust.h' + ' '
@@ -289,7 +295,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_FAUST: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Faust"\n'
-      lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_faust.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -302,7 +308,7 @@ class Make:
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_daisy)
 
-      inputs = os.path.join (path_erbui_gens, 'ui', 'code.py') + ' '
+      inputs = os.path.join (path_erbui_gens, 'ui', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.erbui' % module.name
 
       outputs = '../%sUi.h' % module.name
@@ -311,7 +317,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_UI: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION UI"\n'
-      lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -324,7 +330,7 @@ class Make:
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_daisy)
 
-      inputs = os.path.join (path_erbui_gens, 'daisy', 'code.py') + ' '
+      inputs = os.path.join (path_erbui_gens, 'daisy', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.erbui' % module.name
 
       outputs = '../main_daisy.cpp'
@@ -333,7 +339,7 @@ class Make:
       lines += '\t@:\n'
       lines += 'ACTION_DAISY: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION Daisy"\n'
-      lines += '\t@%s ../actions/action_daisy.py\n\n' % sys.executable
+      lines += '\t@%s ../actions/action_daisy.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
@@ -353,11 +359,11 @@ class Make:
       if data_paths:
          path_erbb_gens = os.path.relpath (PATH_ERBB_GENS, path_daisy)
 
-         inputs = os.path.join (path_erbb_gens, 'data', 'code.py') + ' '
+         inputs = os.path.join (path_erbb_gens, 'data', 'code.py').replace ('\\', '/') + ' '
          inputs += '../../%s.erbb' % module.name + ' '
 
          for data_path in data_paths:
-            inputs += '%s' % os.path.relpath (data_path, path_daisy) + ' '
+            inputs += '%s' % os.path.relpath (data_path, path_daisy).replace ('\\', '/') + ' '
 
          outputs = '../%sData.h' % module.name + ' '
          outputs += '../plugin_generated_data.cpp'
@@ -366,7 +372,7 @@ class Make:
          lines += '\t@:\n'
          lines += 'ACTION_DATA: %s Makefile | $(CONFIGURATION)\n' % inputs
          lines += '\t@echo "ACTION Data"\n'
-         lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable
+         lines += '\t@%s ../actions/action_data.py\n\n' % sys.executable.replace ('\\', '/')
          lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines
