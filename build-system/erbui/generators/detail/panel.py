@@ -30,7 +30,9 @@ class Panel:
       self.width = None
       self.height = 128.5
 
-      self.font_family = 'D-DIN Bold'
+      self.font_family = 'D-DIN'
+      self.font_slant = cairocffi.FONT_SLANT_NORMAL
+      self.font_weight = cairocffi.FONT_WEIGHT_BOLD
 
       self.header_center_y = 5.0#mm
       self.footer_center_y = -5.0#mm
@@ -272,16 +274,17 @@ class Panel:
       elif module.material.is_dark:
          fill_gray = 1.0
 
-      context.select_font_face (self.font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
+      context.select_font_face (self.font_family, self.font_slant, self.font_weight)
       context.set_font_size (self.current_font_height)
 
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
+      ascent, descent, height, max_x_advance, max_y_advance = context.font_extents ()
 
       if control is not None and control.is_kind_out and not module.material.is_dark:
          self.generate_back_out_path (context, module, control)
 
       position_x_pt = position_x * MM_TO_PT - width_pt * align_x
-      position_y_pt = position_y * MM_TO_PT + height_pt * align_y
+      position_y_pt = position_y * MM_TO_PT + ascent * align_y
 
       context.move_to (position_x_pt, position_y_pt)
       context.text_path (label.text)
