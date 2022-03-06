@@ -1,0 +1,55 @@
+/*****************************************************************************
+
+      Kivu12.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Kivu12 {
+   board kivu12
+   material aluminum
+   header { label "Kivu12" }
+
+   // Compatible with Drop Panel using SYNC and FREQ
+
+   control button Button {
+      position 2hp, 75.3mm
+      style ck.d6r.black
+      pin B3
+   }
+
+   control led Led {
+      position 2hp, 85mm
+      style led.3mm.red
+      pin L1
+   }
+
+   control gate GateIn {
+      position 2hp, 96.5mm
+      style thonk.pj398sm.knurled
+      pin B5
+   }
+
+   control cvin CvIn {
+      position 10hp, 96.5mm
+      style thonk.pj398sm.knurled
+      mode pitch
+      pin CI1
+   }
+
+   control audio_out1 AudioOut {
+      position 7.33hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT L"
+      pin AO1
+   }
+
+   control audio_out2 AudioOut {
+      position 10hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT R"
+      pin AO2
+   }
+}
