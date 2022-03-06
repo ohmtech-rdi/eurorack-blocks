@@ -9,6 +9,7 @@
 
 import cairocffi
 import cairosvg
+import cffi
 import math
 import os
 import random
@@ -17,6 +18,42 @@ from ... import ast
 from ... import adapter
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+
+ffi = cffi.FFI()
+ffi.cdef('''
+   /* GLib */
+   typedef void cairo_t;
+   typedef void* gpointer;
+   void g_object_unref (gpointer object);
+
+   /* Pango and PangoCairo */
+   typedef ... PangoLayout;
+   typedef struct {
+      int x;
+      int y;
+      int width;
+      int height;
+   } PangoRectangle;
+   typedef enum {
+      PANGO_ALIGN_LEFT,
+      PANGO_ALIGN_CENTER,
+      PANGO_ALIGN_RIGHT
+   } PangoAlignment;
+   int pango_units_from_double (double d);
+   double pango_units_to_double (int i);
+   PangoLayout * pango_cairo_create_layout (cairo_t *cr);
+   void pango_cairo_show_layout (cairo_t *cr, PangoLayout *layout);
+   void pango_cairo_layout_path (cairo_t *cr, PangoLayout *layout);
+   void pango_layout_set_width (PangoLayout *layout, int width);
+   void pango_layout_set_alignment (PangoLayout *layout, PangoAlignment alignment);
+   void pango_layout_set_markup (PangoLayout *layout, const char *text, int length);
+   void pango_layout_get_extents (PangoLayout *layout, PangoRectangle *ink_rect, PangoRectangle *logical_rect);
+   int pango_layout_get_baseline (PangoLayout *layout);
+''')
+
+gobject = ffi.dlopen ('gobject-2.0')
+pango = ffi.dlopen ('pango-1.0')
+pangocairo = ffi.dlopen ('pangocairo-1.0')
 
 
 
@@ -272,19 +309,30 @@ class Panel:
       elif module.material.is_dark:
          fill_gray = 1.0
 
-      context.select_font_face (self.font_family, cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
-      context.set_font_size (self.current_font_height)
-
-      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
-
       if control is not None and control.is_kind_out and not module.material.is_dark:
          self.generate_back_out_path (context, module, control)
 
+      def gobject_ref (pointer):
+         return ffi.gc (pointer, gobject.g_object_unref)
+
+      layout = gobject_ref (pangocairo.pango_cairo_create_layout (context._pointer))
+      pango.pango_layout_set_width(layout, -1)
+      markup = '<span font_desc="%s %f">%s</span>' % (self.font_family, self.current_font_height * 0.75, label.text)
+      markup = ffi.new ('char[]', markup.encode ('utf8'))
+      pango.pango_layout_set_markup (layout, markup, -1)
+
+      ink_rect = ffi.new('PangoRectangle *')
+      logical_rect = ffi.new('PangoRectangle *')
+      pango.pango_layout_get_extents (layout, ink_rect, logical_rect)
+
+      width_pt = pango.pango_units_to_double (logical_rect.width)
+      baseline_pt = pango.pango_units_to_double (pango.pango_layout_get_baseline (layout))
+
       position_x_pt = position_x * MM_TO_PT - width_pt * align_x
-      position_y_pt = position_y * MM_TO_PT + height_pt * align_y
+      position_y_pt = position_y * MM_TO_PT + baseline_pt * (align_y - 1)
 
       context.move_to (position_x_pt, position_y_pt)
-      context.text_path (label.text)
+      pangocairo.pango_cairo_layout_path (context._pointer, layout)
       context.set_source_rgb (fill_gray, fill_gray, fill_gray)
       context.fill ()
 
@@ -297,10 +345,22 @@ class Panel:
       align_x = 0.5
       align_y = 0.5
 
-      context.select_font_face ('IndieFlower', cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
-      context.set_font_size (10)
+      def gobject_ref (pointer):
+         return ffi.gc (pointer, gobject.g_object_unref)
 
-      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (sticker.text)
+      layout = gobject_ref (pangocairo.pango_cairo_create_layout (context._pointer))
+      pango.pango_layout_set_width(layout, -1)
+      markup = '<span font_desc="%s %f">%s</span>' % ('Indie Flower', 10 * 0.75, sticker.text)
+      markup = ffi.new ('char[]', markup.encode ('utf8'))
+      pango.pango_layout_set_markup (layout, markup, -1)
+
+      ink_rect = ffi.new('PangoRectangle *')
+      logical_rect = ffi.new('PangoRectangle *')
+      pango.pango_layout_get_extents (layout, ink_rect, logical_rect)
+
+      width_pt = pango.pango_units_to_double (ink_rect.width)
+      height_pt = pango.pango_units_to_double (ink_rect.height)
+      baseline_pt = pango.pango_units_to_double (pango.pango_layout_get_baseline (layout))
 
       position_x_cpt = position_x * MM_TO_PT
       position_y_cpt = position_y * MM_TO_PT
@@ -327,8 +387,8 @@ class Panel:
          context.set_source_rgb (1.0, 1.0, 1.0)
          context.fill ()
 
-         context.move_to (position_x_pt, position_y_pt)
-         context.text_path (sticker.text)
+         context.move_to (position_x_pt, position_y_pt - baseline_pt)
+         pangocairo.pango_cairo_layout_path (context._pointer, layout)
          context.set_source_rgb (0.1, 0.1, 0.1)
          context.fill ()
 
