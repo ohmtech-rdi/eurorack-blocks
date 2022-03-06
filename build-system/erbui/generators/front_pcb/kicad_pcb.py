@@ -144,6 +144,8 @@ class KicadPcb:
 
       if platform.system () == 'Darwin':
          kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      elif platform.system () == 'Windows':
+         kicad_python_path = 'c:/Program Files/KiCad/bin/python.exe'
       else:
          kicad_python_path = 'python'
 
@@ -164,6 +166,8 @@ class KicadPcb:
 
       if platform.system () == 'Darwin':
          kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      elif platform.system () == 'Windows':
+         kicad_python_path = 'c:/Program Files/KiCad/bin/python.exe'
       else:
          kicad_python_path = 'python'
 
