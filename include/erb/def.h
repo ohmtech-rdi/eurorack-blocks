@@ -76,6 +76,7 @@
       _Pragma ("GCC diagnostic ignored \"-Wpedantic\"") \
       _Pragma ("GCC diagnostic ignored \"-Wignored-qualifiers\"") \
       _Pragma ("GCC diagnostic ignored \"-Wunused-parameter\"") \
+      _Pragma ("GCC diagnostic ignored \"-Wvla\"") \
 
    #define erb_DISABLE_WARNINGS_VCVRACK \
       _Pragma ("GCC diagnostic push") \
