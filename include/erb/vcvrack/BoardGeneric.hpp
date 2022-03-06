@@ -115,7 +115,8 @@ inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, r
 {
    _binding_inputs.push_back (BindingCvIn {
       .data_ptr = const_cast <float *> (&control.impl_data),
-      .input_ptr = &model
+      .input_ptr = &model,
+      .mode = BindingCvIn::Mode::Normalized
    });
 }
 
@@ -132,7 +133,26 @@ inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Bipolar> & control, rack
 {
    _binding_inputs.push_back (BindingCvIn {
       .data_ptr = const_cast <float *> (&control.impl_data),
-      .input_ptr = &model
+      .input_ptr = &model,
+      .mode = BindingCvIn::Mode::Bipolar
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Pitch> & control, rack::engine::Input & model)
+{
+   _binding_inputs.push_back (BindingCvIn {
+      .data_ptr = const_cast <float *> (&control.impl_data),
+      .input_ptr = &model,
+      .mode = BindingCvIn::Mode::Pitch
    });
 }
 
@@ -150,7 +170,7 @@ inline void  BoardGeneric::impl_bind (CvOut <FloatRange::Normalized> & control, 
    _binding_outputs.push_back (BindingCvOut {
       .data_ptr = &control.impl_data,
       .output_ptr = &model,
-      .bipolar = false
+      .mode = BindingCvOut::Mode::Normalized
    });
 }
 
@@ -168,7 +188,25 @@ inline void  BoardGeneric::impl_bind (CvOut <FloatRange::Bipolar> & control, rac
    _binding_outputs.push_back (BindingCvOut {
       .data_ptr = &control.impl_data,
       .output_ptr = &model,
-      .bipolar = true
+      .mode = BindingCvOut::Mode::Bipolar
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (CvOut <FloatRange::Pitch> & control, rack::engine::Output & model)
+{
+   _binding_outputs.push_back (BindingCvOut {
+      .data_ptr = &control.impl_data,
+      .output_ptr = &model,
+      .mode = BindingCvOut::Mode::Pitch
    });
 }
 
@@ -419,6 +457,23 @@ Name : impl_bind
 
 template <>
 inline void  BoardGeneric::impl_bind (Pot <FloatRange::Bipolar> & control, rack::engine::Param & model)
+{
+   _binding_inputs.push_back (BindingPot {
+      .data_ptr = const_cast <float *> (&control.impl_data),
+      .param_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (Pot <FloatRange::Pitch> & control, rack::engine::Param & model)
 {
    _binding_inputs.push_back (BindingPot {
       .data_ptr = const_cast <float *> (&control.impl_data),

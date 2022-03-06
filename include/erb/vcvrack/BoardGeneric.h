@@ -118,20 +118,29 @@ private:
 
    struct BindingCvIn
    {
+      enum class Mode
+      {
+         Normalized, Bipolar, Pitch
+      };
       void        process ();
       float *     data_ptr;
       rack::engine::Input *
                   input_ptr;
+      Mode        mode;
    };
 
    struct BindingCvOut
    {
+      enum class Mode
+      {
+         Normalized, Bipolar, Pitch
+      };
       void        process ();
       const float *
                   data_ptr;
       rack::engine::Output *
                   output_ptr;
-      bool        bipolar;
+      Mode        mode;
    };
 
    struct BindingGateIn

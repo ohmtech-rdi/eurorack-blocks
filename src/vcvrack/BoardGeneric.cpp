@@ -202,10 +202,29 @@ Name : BindingCvIn::process
 
 void  BoardGeneric::BindingCvIn::process ()
 {
-   *data_ptr = std::clamp (
-      input_ptr->getVoltage () * 0.1f + 0.5f,
-      0.f, 1.f
-   );
+   switch (mode)
+   {
+   case BindingCvIn::Mode::Normalized:
+      *data_ptr = std::clamp (
+         input_ptr->getVoltage () * 0.2f,
+         0.f, 1.f
+      );
+      break;
+
+   case BindingCvIn::Mode::Bipolar:
+      *data_ptr = std::clamp (
+         input_ptr->getVoltage () * 0.1f + 0.5f,
+         0.f, 1.f
+      );
+      break;
+
+   case BindingCvIn::Mode::Pitch:
+      *data_ptr = std::clamp (
+         input_ptr->getVoltage () * 0.1f,
+         0.f, 1.f
+      );
+      break;
+   }
 }
 
 
@@ -218,13 +237,19 @@ Name : BindingCvOut::process
 
 void  BoardGeneric::BindingCvOut::process ()
 {
-   if (bipolar)
+   switch (mode)
    {
-      output_ptr->setVoltage (*data_ptr * 10.f - 5.f);
-   }
-   else
-   {
+   case BindingCvOut::Mode::Normalized:
       output_ptr->setVoltage (*data_ptr * 5.f);
+      break;
+
+   case BindingCvOut::Mode::Bipolar:
+      output_ptr->setVoltage (*data_ptr * 10.f - 5.f);
+      break;
+
+   case BindingCvOut::Mode::Pitch:
+      output_ptr->setVoltage (*data_ptr * 10.f);
+      break;
    }
 }
 
