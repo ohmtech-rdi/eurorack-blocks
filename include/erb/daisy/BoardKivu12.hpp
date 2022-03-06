@@ -38,8 +38,6 @@ namespace erb
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-
-
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
@@ -48,7 +46,8 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_preprocess ()
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_preprocess ()
 {
    // Addr0 Gpio0 - B10 (9)
    // Addr1 Gpio0 - B11 (10)
@@ -95,7 +94,8 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_preprocess (GpiPin /* pin */)
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_preprocess (GpiPin /* pin */)
 {
    // nothing
    // BX are preprocessed in the board level preprocess above
@@ -109,9 +109,22 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_preprocess (AdcPin pin)
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_preprocess (AdcPin pin)
 {
-   if ((pin.index >= CI1.index) && (pin.index <= CI8.index))
+   if (constexpr (Ci1Mode == BoardKivu12CiMode::_0_10V) && (pin.index == CI1.index))
+   {
+      const auto norm_val = to_float_norm (_adc.read (pin.index));
+      // 2x OpAmp in inverter adder with voltage reference: not inverted
+      _analog_inputs [pin.index] = norm_val;
+   }
+   else if (constexpr (Ci2Mode == BoardKivu12CiMode::_0_10V) && (pin.index == CI2.index))
+   {
+      const auto norm_val = to_float_norm (_adc.read (pin.index));
+      // 2x OpAmp in inverter adder with voltage reference: not inverted
+      _analog_inputs [pin.index] = norm_val;
+   }
+   else if ((pin.index >= CI1.index) && (pin.index <= CI8.index))
    {
       const auto norm_val = to_float_norm (_adc.read (pin.index));
       // OpAmp in inverter adder with voltage reference
@@ -144,7 +157,8 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_preprocess (AudioInPin pin)
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_preprocess (AudioInPin pin)
 {
    scale (
       _audio_inputs [pin.index],
@@ -161,7 +175,8 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_postprocess (GpoPin pin)
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_postprocess (GpoPin pin)
 {
    _gpio_outputs [pin.index].write (_digital_outputs [pin.index]);
 }
@@ -174,7 +189,8 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_postprocess (DacPin pin)
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_postprocess (DacPin pin)
 {
    if (pin.index <= CO2.index)
    {
@@ -214,7 +230,8 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_postprocess (AudioOutPin pin)
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_postprocess (AudioOutPin pin)
 {
    scale (
       _submodule.raw_audio_outputs [pin.index],
@@ -231,7 +248,8 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  BoardKivu12::impl_postprocess ()
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::impl_postprocess ()
 {
    _led_driver.SwapBuffersAndTransmit ();
 }
@@ -250,7 +268,8 @@ Name : set_b_mux_addr
 ==============================================================================
 */
 
-void  BoardKivu12::set_b_mux_addr ()
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
+void  BoardKivu12 <Ci1Mode, Ci2Mode>::set_b_mux_addr ()
 {
    _gpio_b_mux [0].write ((_b_mux_addr & 1) != 0);
    _gpio_b_mux [1].write ((_b_mux_addr & 2) != 0);

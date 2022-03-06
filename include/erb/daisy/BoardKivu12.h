@@ -28,6 +28,13 @@ namespace erb
 
 
 
+enum class BoardKivu12CiMode  // CI jumpers
+{
+   _m5_5V,  // -5..5V
+   _0_10V   // 0..10V
+};
+
+template <BoardKivu12CiMode Ci1Mode, BoardKivu12CiMode Ci2Mode>
 class BoardKivu12
 {
 
