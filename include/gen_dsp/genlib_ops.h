@@ -66,9 +66,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #		define GENLIB_IS_DENORM_FLOAT(v)	(v)
 #		define GENLIB_FIX_DENORM_FLOAT(v)	(v)
 #	else
-#		ifdef WIN32
+/*
+ohmtech-rdi: __FLT_MIN__ is a pre-defined macro
+*/
+/*#		ifdef WIN32
 #			define __FLT_MIN__	(FLT_MIN)
-#		endif
+#		endif*/
 #		define GENLIB_IS_DENORM_FLOAT(v)	((v)!=0.&&fabs(v)<__FLT_MIN__)
 #		define GENLIB_FIX_DENORM_FLOAT(v)	((v)=GENLIB_IS_DENORM_FLOAT(v)?0.f:(v))
 #	endif // GENLIB_NO_DENORM_TEST
