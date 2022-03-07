@@ -54,3 +54,32 @@ jobs:
       - name: test/max2
         run: erbb configure && erbb build simulator && erbb build && erbb build hardware
         working-directory: test/max2
+
+  software_faust:
+    name: Software Faust
+    runs-on: windows-2019
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - run: curl https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-win64.exe --location --output Faust-2.37.3-win64.exe
+      - run: ./Faust-2.37.3-win64.exe //S
+      - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
+      - run: cat ~/.bash_profile
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - name: samples/faust
+        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator
+        working-directory: samples/faust
+      - name: test/faust
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
+        working-directory: test/faust
+      - name: test/faust2
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
+        working-directory: test/faust2
+      - name: test/faust3
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
+        working-directory: test/faust3
