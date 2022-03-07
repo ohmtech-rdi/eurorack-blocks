@@ -10,6 +10,7 @@
 import json
 import math
 import os
+import platform
 import subprocess
 from soundfile import SoundFile
 
@@ -85,6 +86,10 @@ class Code:
             if file_extension == '.dsp':
                faust_dsp = os.path.abspath (file.path)
 
+      if platform.system () == 'Windows':
+         # For some reason JSON file is not generated if 'faust_dsp' path contains '\'
+         faust_dsp = faust_dsp.replace ('\\', '/')
+
       subprocess.check_call (
          [
             'faust',
@@ -98,6 +103,16 @@ class Code:
       )
 
       faust_dsp_json = os.path.join (path, '%s.json' % os.path.basename (faust_dsp))
+
+      if platform.system () == 'Windows':
+         # The JSON file generated contains illegal characters, so preprocess it
+         with open (faust_dsp_json, 'r', encoding='utf-8') as f:
+            content = f.read ()
+
+         content = content.replace ('\\', '/')
+
+         with open (faust_dsp_json, 'w', encoding='utf-8') as f:
+            f.write (content)
 
       with open (faust_dsp_json, 'r', encoding='utf-8') as f:
          faust_json = json.load (f)
