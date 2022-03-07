@@ -1,20 +1,66 @@
 {
-  "tasks": [
-    {
-      "command": "erbb build daisy debug",
-      "group": {
-        "isDefault": true,
-        "kind": "build"
+   "version": "2.0.0",
+   "type": "shell",
+   "presentation": {
+      "echo": true,
+      "reveal": "always",
+      "focus": false,
+      "panel": "dedicated"
+   },
+   "tasks": [
+      {
+         "label": "Build Simulator - Debug",
+         "type": "shell",
+         "command": "erbb build simulator debug",
+         "group": {
+            "kind": "build"
+            "isDefault": true,
+         },
+         "options": {
+           "cwd": "${workspaceFolder}"
+         },
+         "problemMatcher": [
+           "$gcc"
+         ]
       },
-      "label": "build",
-      "options": {
-        "cwd": "${workspaceFolder}"
+      {
+         "label": "Build Simulator - Release",
+         "type": "shell",
+         "command": "erbb build simulator release",
+         "group": "build",
+         "options": {
+           "cwd": "${workspaceFolder}"
+         },
+         "problemMatcher": [
+           "$gcc"
+         ]
       },
-      "problemMatcher": [
-        "$gcc"
-      ],
-      "type": "shell"
-    },
-  ],
-  "version": "2.0.0"
+      {
+         "label": "Build Firmware - Debug",
+         "type": "shell",
+         "command": "erbb build daisy debug",
+         "group": {
+            "kind": "build"
+            "isDefault": true,
+         },
+         "options": {
+           "cwd": "${workspaceFolder}"
+         },
+         "problemMatcher": [
+           "$gcc"
+         ]
+      },
+      {
+         "label": "Build Firmware - Release",
+         "type": "shell",
+         "command": "erbb build daisy release",
+         "group": "build",
+         "options": {
+           "cwd": "${workspaceFolder}"
+         },
+         "problemMatcher": [
+           "$gcc"
+         ]
+      }
+   ]
 }

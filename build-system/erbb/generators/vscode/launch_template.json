@@ -1,35 +1,88 @@
 {
-  "configurations": [
-    {
-      "configFiles": [
-        "interface/stlink.cfg",
-        "target/stm32h7x.cfg"
-      ],
-      "cwd": "${workspaceFolder}",
-      "debuggerArgs": [
-        "-d",
-        "${workspaceRoot}"
-      ],
-      "executable": "%executable_debug%",
-      "interface": "swd",
-      "name": "Cortex Debug",
-      "openOCDLaunchCommands": [
-        "init",
-        "reset init"
-      ],
-      "preLaunchTask": "build",
-      "preRestartCommands": [
-        "load",
-        "enable breakpoint",
-        "monitor reset"
-      ],
-      "request": "launch",
-      "runToMain": true,
-      "servertype": "openocd",
-      "showDevDebugOutput": true,
-      "svdFile": "%svd_file%",
-      "type": "cortex-debug"
-    }
-  ],
-  "version": "0.2.0"
+   "version": "0.2.0",
+   "configurations": [
+      {
+         "name": "Launch Firmware Release",
+         "configFiles": [
+            "interface/stlink.cfg",
+            "target/stm32h7x.cfg"
+         ],
+         "cwd": "${workspaceFolder}",
+         "debuggerArgs": [
+            "-d",
+            "${workspaceRoot}"
+         ],
+         "executable": "%executable_debug%",
+         "interface": "swd",
+         "openOCDLaunchCommands": [
+            "init",
+            "reset init"
+         ],
+         "preLaunchTask": "Build Firmware - Release",
+         "preRestartCommands": [
+            "load",
+            "enable breakpoint",
+            "monitor reset"
+         ],
+         "request": "launch",
+         "runToMain": true,
+         "servertype": "openocd",
+         "showDevDebugOutput": true,
+         "svdFile": "%svd_file%",
+         "type": "cortex-debug"
+      },
+      {
+         "name": "Launch Firmware Debug",
+         "configFiles": [
+            "interface/stlink.cfg",
+            "target/stm32h7x.cfg"
+         ],
+         "cwd": "${workspaceFolder}",
+         "debuggerArgs": [
+            "-d",
+            "${workspaceRoot}"
+         ],
+         "executable": "%executable_debug%",
+         "interface": "swd",
+         "openOCDLaunchCommands": [
+            "init",
+            "reset init"
+         ],
+         "preLaunchTask": "Build Firmware - Debug",
+         "preRestartCommands": [
+            "load",
+            "enable breakpoint",
+            "monitor reset"
+         ],
+         "request": "launch",
+         "runToMain": true,
+         "servertype": "openocd",
+         "showDevDebugOutput": true,
+         "svdFile": "%svd_file%",
+         "type": "cortex-debug"
+      },
+      {
+         "name": "Launch Simulator Debug",
+         "type": "cppdbg",
+         "request": "launch",
+         "args": [],
+         "stopAtEntry": false,
+         "cwd": "${workspaceFolder}",
+         "environment": [],
+         "externalConsole": false,
+         "logging": {
+            "engineLogging": false
+         },
+         "preLaunchTask": "Build Simulator - Debug",
+
+         "osx": {
+            "MIMode": "lldb",
+            "program": "/Applications/Rack.app/Contents/MacOS/Rack"
+         },
+         "windows": {
+            "MIMode": "gdb",
+            "program": "C:/Program Files/VCV/Rack.exe"
+         }
+      }
+   ]
 }
