@@ -56,8 +56,8 @@ class Action:
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      template = template.replace ('%PATH_ROOT%', PATH_ROOT)
-      template = template.replace ('%PATH_PROJECT%', os.path.abspath (path))
+      template = template.replace ('%PATH_ROOT%', PATH_ROOT.replace ('\\', '/'))
+      template = template.replace ('%PATH_PROJECT%', os.path.abspath (path).replace ('\\', '/'))
       template = template.replace ('%module.name%', module.name)
 
       with open (path_py, 'w', encoding='utf-8') as file:
