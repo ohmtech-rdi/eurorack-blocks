@@ -2,17 +2,35 @@
 
 ## Requirements
 
-Make sure you have the following requirements before starting:
+Make sure you have the following requirements before starting.
+You then only need minimum knowledge on how the terminal works to get going.
+
+### All platforms
 
 - A [GitHub account](https://github.com/join)
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
-- [Homebrew](https://brew.sh) on macOS X
-- [Xcode](https://developer.apple.com/xcode/) on macOS X
-- [Faust](https://faust.grame.fr/downloads/)
 - [VCV Rack](https://vcvrack.com/Rack)
 
-You then only need minimum knowledge on how the terminal works to get going.
+### macOS
+
+- macOS at least version 10.15 (Catalina)
+- The [Homebrew](https://brew.sh) package manager
+- The [Xcode](https://developer.apple.com/xcode/) IDE and build environment
+
+### Linux
+
+- Linux Ubuntu 20.04
+
+### Windows
+
+- Windows at least version 10
+- The [Git Bash](https://git-scm.com/download) shell
+- The [Chocolatey](https://chocolatey.org) package manager
+- The [MSYS2](https://www.msys2.org) software distribution and building platform
+
+All commands on Windows are expecting the use of Git Bash.
+They are not compatible with Cmd or PowerShell.
 
 
 ## Setting up Faust
@@ -21,17 +39,31 @@ The Faust compiler comes with some additional programs, but also a set of header
 that Faust headers are available to the development environment.
 In general it is best to install it with your package manager. This will make sure that both
 the Faust programs and development environment are correctly installed.
-This is typically done like this on macOS:
+
+### macOS
 
 ```
 brew install faust
 ```
 
-or on Linux:
+### Linux
 
 ```
 sudo apt-get install faust
 ```
+
+### Windows
+
+Download the [Faust Windows installer](https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-win64.exe)
+and follows the on-screen instructions.
+
+Then add the Faust install path to your `PATH` by running the following command into Git Bash:
+
+```
+echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
+```
+
+You need to close and open a new Git Bash shell to make sure your environment change is properly updated.
 
 
 ## Cloning
@@ -70,8 +102,8 @@ Then:
 
 This will install all the needed dependencies. You would typically re-run this command when
 upgrading `eurorack-blocks`.
-In particular, this will install Kicad. Don't worry if you already have installed this
-application! The setup script won't overwrite your installation.
+If you prefer to install everything manually, just navigate the `erbb` Python script
+to the `setup` function to see what get installed and how, depending on your platform.
 
 You can now start to use `eurorack-blocks` with Faust 🎉
 
@@ -83,47 +115,18 @@ Let's test a sample. We'll use the Faust sample.
 ```shell-session
 ~/eurorack-blocks$ cd samples/faust
 ~/eurorack-blocks/samples/faust$ erbb configure
-```
-
-If you inspect the `faust` folder, it now contains an `artifacts` directory, with some files.
-
-```{image} setup-configure.png
-:width: 100%
-:align: center
-```
-
-## Building in Xcode
-
-If you are using Xcode, a `project_vcvrack.xcodeproj` has been created,
-which is the project to use to develop and test in the VCV Rack simulator.
-
-This will open the project in Xcode:
-
-```shell-session
-~/eurorack-blocks/samples/faust$ open artifacts/project_vcvrack.xcodeproj
-```
-
-Press {guilabel}`⌘B` to build.
-
-The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
-
-## Building from the command line
-
-Alternatively, you can build the VCV Rack module using the command line.
-
-```shell-session
 ~/eurorack-blocks/samples/faust$ erbb build simulator
 mkdir Release
 ACTION Faust
 ACTION UI
+COPY include/erb/vcvrack/resource/rogan.5ps.svg
 ...
-CXX plugin_vcvrack.cpp
+CXX dsp/ReverbSc.cpp
 LINK plugin.dylib
 PACKAGE Release Flanger
 INSTALL /Users/raf/Documents/Rack/plugins-v1/Flanger/
 ```
 
-The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
 
 ## Testing in VCV Rack
 

@@ -41,11 +41,6 @@ be supported.
 Eurorack-blocks is maintained by essentially one individual which obviously is not enough
 given the scope of this project.
 
-Here is a list of the most pressing topics that needs help:
-- Adding Windows support
-- Bringing better VSCode support
-- Making sure Linux workflow is effective
-
 If you can help, we will really appreciate it.
 Contact us on [Daisy Slack](https://join.slack.com/t/es-daisy/shared_invite/zt-f9cfm1g4-DgdCok1h1Rj4fpX90~IOww)
 so we can coordinate the tasks.
