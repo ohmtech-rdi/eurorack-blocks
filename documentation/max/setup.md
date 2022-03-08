@@ -2,24 +2,35 @@
 
 ## Requirements
 
-Make sure you have the following requirements before starting:
+Make sure you have the following requirements before starting.
+You then only need minimum knowledge on how the terminal works to get going.
+
+### All platforms
 
 - A [GitHub account](https://github.com/join)
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
-- [Homebrew](https://brew.sh) on macOS X
-- [Xcode](https://developer.apple.com/xcode/) on macOS X
-- [Max](https://cycling74.com/products/max)
 - [VCV Rack](https://vcvrack.com/Rack)
+- [Max](https://cycling74.com/products/max)
 
-You then only need minimum knowledge on how the terminal works to get going.
+### macOS
+
+- macOS at least version 10.15 (Catalina)
+- The [Homebrew](https://brew.sh) package manager
+- The [Xcode](https://developer.apple.com/xcode/) IDE and build environment
+
+### Windows
+
+- Windows at least version 10
+- The [Git Bash](https://git-scm.com/download) shell
+- The [Chocolatey](https://chocolatey.org) package manager
+- The [MSYS2](https://www.msys2.org) software distribution and building platform
+
+All commands on Windows are expecting the use of Git Bash.
+They are not compatible with Cmd or PowerShell.
 
 Your Max installation **needs to have a valid authorization** for `gen~` code to be exported,
 on which Eurorack-blocks relies.
-
-```{note}
-Windows is not supported for now.
-```
 
 
 ## What is Gen?
@@ -101,9 +112,8 @@ Then:
 
 This will install all the needed dependencies. You would typically re-run this command when
 upgrading `eurorack-blocks`.
-
-In particular, this will install Kicad. Don't worry if you already have installed this
-application! The setup script won't overwrite your installation.
+If you prefer to install everything manually, just navigate the `erbb` Python script
+to the `setup` function to see what get installed and how, depending on your platform.
 
 
 ## Adding the Eurorack-blocks Max package
