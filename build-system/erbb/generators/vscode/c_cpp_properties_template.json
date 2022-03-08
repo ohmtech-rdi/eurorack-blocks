@@ -1,0 +1,47 @@
+{
+   "version": 4,
+   "configurations": [
+      {
+         "name": "Simulator",
+         "includePath": [
+%           includes_simulator%
+         ],
+         "defines": [
+            "erb_TARGET_VCV_RACK",
+            "erb_SAMPLE_RATE=48014",
+            "erb_BUFFER_SIZE=48"
+         ],
+         "intelliSenseMode": "gcc-x64",
+         "browse": {
+            "path": [
+               "${workspaceRoot}"
+            ],
+            "limitSymbolsToIncludedHeaders": true,
+            "databaseFilename": ""
+         },
+         "cStandard": "gnu11",
+         "cppStandard": "gnu++20"
+      },
+      {
+         "name": "Firmware",
+         "includePath": [
+%           includes_firmware%
+         ],
+         "defines": [
+            "erb_TARGET_DAISY",
+            "erb_SAMPLE_RATE=48014",
+            "erb_BUFFER_SIZE=48"
+         ],
+         "intelliSenseMode": "gcc-x64",
+         "browse": {
+            "path": [
+               "${workspaceRoot}"
+            ],
+            "limitSymbolsToIncludedHeaders": true,
+            "databaseFilename": ""
+         },
+         "cStandard": "gnu11",
+         "cppStandard": "gnu++20"
+      }
+   ]
+}
