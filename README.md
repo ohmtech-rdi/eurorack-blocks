@@ -69,9 +69,10 @@ raf:bypass$ erbb configure 👈 Generate IDE projects
 raf:bypass$ ls -l artifacts/
 drwxr-xr-x  7 raf  staff  224 Feb  9 18:31 actions
 drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 daisy 👈 Daisy firmware build files
-drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 simulator 👈 Simulator build files on Linux
+drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 simulator 👈 Simulator build files
+-rw-r--r--  1 raf  staff  109 Feb  9 18:31 Bypass.code-workspace 👈 Visual Studio Code Workspace
 drwxr-xr-x  3 raf  staff   96 Feb  9 18:31 project_vcvrack.xcodeproj 👈 Simulator Xcode Project
-raf:bypass$ erbb build simulator 👈 Build the simulator for VCV Rack (or build from Xcode)
+raf:bypass$ erbb build simulator 👈 Build the simulator for VCV Rack
 ...
 ** BUILD SUCCEEDED **
 raf:bypass$ open /Applications/Rack.app 👈 Test in VCV Rack and iterate
