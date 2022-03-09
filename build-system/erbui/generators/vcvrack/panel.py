@@ -7,11 +7,17 @@
 
 
 
-import cairocffi
 import math
 import os
+import platform
+import sys
 
 from ..detail.panel import Panel as detailPanel
+
+if platform.system () == 'Windows' and sys.version_info >= (3, 8):
+   # Starting from 3.8, Python no longer searches for DLLs in PATH
+   os.add_dll_directory (r"C:\msys64\mingw64\bin")
+import cairocffi
 
 
 

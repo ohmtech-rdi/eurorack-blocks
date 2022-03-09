@@ -7,14 +7,23 @@
 
 
 
-import cairocffi
-import cairosvg
+
 import math
 import os
+import platform
 import random
+import sys
 
 from ... import ast
 from ... import adapter
+
+if platform.system () == 'Windows' and sys.version_info >= (3, 8):
+   # Starting from 3.8, Python no longer searches for DLLs in PATH
+   os.add_dll_directory (r"C:\msys64\mingw64\bin")
+import cairocffi
+import cairosvg
+
+
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 
