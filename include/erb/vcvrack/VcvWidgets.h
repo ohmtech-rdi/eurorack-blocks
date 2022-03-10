@@ -90,6 +90,30 @@ struct Rogan1Ps : rack::Rogan
 
 
 
+struct SifamDbn151 : rack::Rogan
+{
+   SifamDbn151 () {
+      shadow->blurRadius = 5;
+      setSvg (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, "res/sifam.dbn151.white.svg")
+      ));
+   }
+};
+
+
+
+struct SifamDrn111 : rack::Rogan
+{
+   SifamDrn111 () {
+      shadow->blurRadius = 5;
+      setSvg (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, "res/sifam.drn111.white.svg")
+      ));
+   }
+};
+
+
+
 struct SongHuei9 : rack::app::SvgKnob
 {
    SongHuei9 () {

@@ -962,7 +962,7 @@ class Style (Scope):
 
    @property
    def is_alpha_9mm (self):
-      return self.is_rogan
+      return self.is_rogan or self.is_sifam
 
    @property
    def is_rogan (self):
@@ -987,6 +987,26 @@ class Style (Scope):
    @property
    def is_rogan_1ps (self):
       return self.name == 'rogan.1ps'
+
+   @property
+   def is_sifam (self):
+      return self.is_sifam_dbn151 or self.is_sifam_drn111
+
+   @property
+   def is_sifam_dbn151 (self):
+      return self.is_sifam_dbn151_white
+
+   @property
+   def is_sifam_dbn151_white (self):
+      return self.name == 'sifam.dbn151.white'
+
+   @property
+   def is_sifam_drn111 (self):
+      return self.is_sifam_drn111_white
+
+   @property
+   def is_sifam_drn111_white (self):
+      return self.name == 'sifam.drn111.white'
 
    @property
    def is_songhuei_9mm (self):

@@ -23,6 +23,7 @@ UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
 CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
 CONTROL_STYLES = (
    'rogan.6ps', 'rogan.5ps', 'rogan.3ps', 'rogan.2ps', 'rogan.1ps',
+   'sifam.dbn151.white', 'sifam.drn111.white',
    'songhuei.9mm',
    'dailywell.2ms1', 'dailywell.2ms3',
    'led.3mm.green_red', 'led.3mm.rgb', 'led.3mm.red', 'led.3mm.green', 'led.3mm.yellow', 'led.3mm.orange',

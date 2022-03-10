@@ -234,6 +234,14 @@ class Panel:
          radius = 14.38 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
+      elif style.is_sifam_dbn151:
+         radius = 18.5 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif style.is_sifam_drn111:
+         radius = 14.2 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
       elif style.is_songhuei_9mm:
          radius = 6.5 * 0.5
          return Panel.Box (radius, radius, radius, radius)
