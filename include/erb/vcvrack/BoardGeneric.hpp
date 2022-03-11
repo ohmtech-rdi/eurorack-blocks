@@ -115,7 +115,8 @@ inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, r
 {
    _binding_inputs.push_back (BindingCvIn {
       .data_ptr = const_cast <float *> (&control.impl_data),
-      .input_ptr = &model
+      .input_ptr = &model,
+      .bipolar = false
    });
 }
 
@@ -132,7 +133,8 @@ inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Bipolar> & control, rack
 {
    _binding_inputs.push_back (BindingCvIn {
       .data_ptr = const_cast <float *> (&control.impl_data),
-      .input_ptr = &model
+      .input_ptr = &model,
+      .bipolar = true
    });
 }
 
@@ -405,7 +407,8 @@ inline void  BoardGeneric::impl_bind (Pot <FloatRange::Normalized> & control, ra
 {
    _binding_inputs.push_back (BindingPot {
       .data_ptr = const_cast <float *> (&control.impl_data),
-      .param_ptr = &model
+      .param_ptr = &model,
+      .bipolar = false
    });
 }
 
@@ -422,7 +425,8 @@ inline void  BoardGeneric::impl_bind (Pot <FloatRange::Bipolar> & control, rack:
 {
    _binding_inputs.push_back (BindingPot {
       .data_ptr = const_cast <float *> (&control.impl_data),
-      .param_ptr = &model
+      .param_ptr = &model,
+      .bipolar = true
    });
 }
 

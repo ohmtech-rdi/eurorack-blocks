@@ -122,6 +122,7 @@ private:
       float *     data_ptr;
       rack::engine::Input *
                   input_ptr;
+      bool        bipolar;
    };
 
    struct BindingCvOut
@@ -235,6 +236,7 @@ private:
       float *     data_ptr;
       rack::engine::Param *
                   param_ptr;
+      bool        bipolar;
    };
 
    struct BindingSwitch
