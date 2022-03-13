@@ -202,10 +202,14 @@ Name : BindingCvIn::process
 
 void  BoardGeneric::BindingCvIn::process ()
 {
-   *data_ptr = std::clamp (
-      input_ptr->getVoltage () * 0.1f + 0.5f,
-      0.f, 1.f
-   );
+   if (bipolar)
+   {
+      *data_ptr = input_ptr->getVoltage () * 0.2f;
+   }
+   else
+   {
+      *data_ptr = input_ptr->getVoltage () * 0.1f + 0.5f;
+   }
 }
 
 
@@ -348,10 +352,9 @@ Name : BindingPot::process
 
 void  BoardGeneric::BindingPot::process ()
 {
-   *data_ptr = std::clamp (
-      param_ptr->getValue (),
-      0.f, 1.f
-   );
+   // already acknowledging unipolar or bipolar, as this is set when
+   // configure the pot in the simulator.
+   *data_ptr = param_ptr->getValue ();
 }
 
 

@@ -45,6 +45,7 @@ Name : operator float
 template <FloatRange Range>
 CvIn <Range>::operator float () const
 {
+#if defined (erb_TARGET_DAISY)
    if constexpr (Range == FloatRange::Normalized)
    {
       return impl_data;
@@ -53,6 +54,14 @@ CvIn <Range>::operator float () const
    {
       return impl_data * 2.f - 1.f;
    }
+
+#elif defined (erb_TARGET_VCV_RACK)
+   return impl_data;
+
+#else
+   #error
+
+#endif
 }
 
 
