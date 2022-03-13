@@ -37,11 +37,11 @@ AudioIn::AudioIn (const Buffer & buffer)
 
 /*
 ==============================================================================
-Name : operator Buffer
+Name : operator const Buffer &
 ==============================================================================
 */
 
-AudioIn::operator Buffer () const
+AudioIn::operator const Buffer & () const
 {
    return impl_data;
 }
