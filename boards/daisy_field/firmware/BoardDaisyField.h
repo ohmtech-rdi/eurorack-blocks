@@ -34,7 +34,7 @@ class BoardDaisyField
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardDaisyField ();
+   inline         BoardDaisyField ();
    virtual        ~BoardDaisyField () = default;
 
    // Digital Inputs
@@ -209,7 +209,7 @@ private:
 
 
 
-#include "erb/daisy/BoardDaisyField.hpp"
+#include "BoardDaisyField.hpp"
 
 
 

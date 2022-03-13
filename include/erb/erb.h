@@ -29,22 +29,6 @@
 #include "erb/SdramPtr.h"
 #include "erb/Switch.h"
 
-#if defined (erb_TARGET_DAISY)
-   #include "erb/daisy/BoardDaisyField.h"
-   #include "erb/daisy/BoardDaisyMicropatch.h"
-   #include "erb/daisy/BoardDaisySeed.h"
-   #include "erb/daisy/BoardKivu12.h"
-
-#elif defined (erb_TARGET_VCV_RACK)
-   #include "erb/vcvrack/BoardDaisyField.h"
-   #include "erb/vcvrack/BoardDaisyMicropatch.h"
-   #include "erb/vcvrack/BoardDaisySeed.h"
-   #include "erb/vcvrack/BoardKivu12.h"
-
-#else
-   #error Unknown erb target
-#endif
-
 #include "erb/detail/fnc.h"
 
 

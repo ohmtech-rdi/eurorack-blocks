@@ -34,7 +34,7 @@ class BoardDaisyMicropatch
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardDaisyMicropatch () = default;
+   inline         BoardDaisyMicropatch () = default;
    virtual        ~BoardDaisyMicropatch () = default;
 
    // Digital Inputs
@@ -201,7 +201,7 @@ private:
 
 
 
-#include "erb/daisy/BoardDaisyMicropatch.hpp"
+#include "BoardDaisyMicropatch.hpp"
 
 
 

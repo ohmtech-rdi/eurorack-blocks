@@ -16,12 +16,8 @@
 
    'sources': [
       # headers
-      'vcvrack/BoardDaisyField.h',
-      'vcvrack/BoardDaisyMicropatch.h',
-      'vcvrack/BoardDaisySeed.h',
       'vcvrack/BoardGeneric.h',
       'vcvrack/BoardGeneric.hpp',
-      'vcvrack/BoardKivu12.h',
       'vcvrack/VcvWidgets.h',
 
       # sources

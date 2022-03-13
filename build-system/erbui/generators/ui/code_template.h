@@ -19,13 +19,21 @@
 
 #include "erb/erb.h"
 
+#if defined (erb_TARGET_DAISY)
+   #include "%module.board.firmware.path%"
+
+#elif defined (erb_TARGET_VCV_RACK)
+   #include "%module.board.simulator.path%"
+
+#endif
+
 
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 struct %module.name%Ui
 {
-   erb::%type(module.board)% board;
+   %type(module.board)% board;
 
 %entities%
 };

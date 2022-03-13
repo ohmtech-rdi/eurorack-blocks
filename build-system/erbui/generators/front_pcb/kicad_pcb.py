@@ -16,6 +16,8 @@ from . import s_expression
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 PANEL_HEIGHT = 128.5#mm
 HP_TO_MM = 5.08#mm
@@ -42,7 +44,13 @@ class KicadPcb:
 
       board = module.board.name if module.board is not None else 'board.null'
 
-      self.base = self.load (os.path.join (PATH_THIS, board, '%s.kicad_pcb' % board))
+      if module.board:
+         board_definition, board_path = self.load_board_definition (module)
+         pcb_path = os.path.join (board_path, board_definition ['hardware'])
+      else:
+         pcb_path = os.path.join (PATH_THIS, 'board.null', 'board.null.kicad_pcb')
+
+      self.base = self.load (pcb_path)
 
       route = 'wire'
       if module.route is not None:
@@ -661,3 +669,26 @@ class KicadPcb:
             property.entities [2] = s_expression.FloatLiteral (y)
 
 
+   #--------------------------------------------------------------------------
+
+   def load_board_definition (self, module):
+
+      module_board = 'daisy_seed' if module.board is None else module.board.name
+
+      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
+
+      try:
+         file = open (path_definition, 'r', encoding='utf-8')
+      except OSError:
+         err = error.Error ()
+         context = module.board.source_context
+         err.add_error ("Undefined board '%s'" % context, context)
+         err.add_context (context)
+         raise err
+
+      with file:
+         board_definition = eval (file.read ())
+
+      board_path = os.path.dirname (path_definition)
+
+      return (board_definition, board_path)

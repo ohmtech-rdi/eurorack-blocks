@@ -34,7 +34,7 @@ class BoardDaisySeed
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardDaisySeed () = default;
+   inline         BoardDaisySeed () = default;
    virtual        ~BoardDaisySeed () = default;
 
    // Digital Inputs
@@ -227,7 +227,7 @@ private:
 
 
 
-#include "erb/daisy/BoardDaisySeed.hpp"
+#include "BoardDaisySeed.hpp"
 
 
 
