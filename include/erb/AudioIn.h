@@ -33,7 +33,7 @@ public:
    inline         AudioIn (const Buffer & data);
    virtual        ~AudioIn () = default;
 
-   inline         operator Buffer () const;
+   inline         operator const Buffer & () const;
 
    inline std::size_t
                   size () const;
