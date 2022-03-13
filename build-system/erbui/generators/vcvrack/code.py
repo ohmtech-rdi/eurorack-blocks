@@ -221,6 +221,8 @@ class Code:
          'rogan.2ps': 'erb::Rogan2Ps',
          'rogan.1ps': 'erb::Rogan1Ps',
          'songhuei.9mm': 'erb::SongHuei9',
+         'sifam.drn111.white': 'erb::SifamDrn111',
+         'sifam.dbn151.white': 'erb::SifamDbn151',
          'dailywell.2ms1': 'erb::Dailywell2Ms1',
          'dailywell.2ms3': 'erb::Dailywell2Ms3',
          'led.3mm.red': 'MediumLight <RedLight>',

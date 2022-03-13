@@ -269,6 +269,18 @@ class KicadPcb:
             dist_pn = ''
             dist_link = 'https://www.thonk.co.uk/shop/ttpots/'
 
+         elif part == 'sifam.dbn151.white':
+            description = 'White Large Skirt D - Sifam Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/intellijel-white-knobs/'
+
+         elif part == 'sifam.drn111.white':
+            description = 'White Small Skirt D - Sifam Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/intellijel-white-knobs/'
+
          elif part == 'dailywell.2ms1':
             description = 'DW1 - SPDT ON-ON - Dailywell Sub-mini Toggle Switch'
             dist = 'Thonk'
