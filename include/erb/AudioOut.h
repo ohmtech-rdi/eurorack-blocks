@@ -36,6 +36,8 @@ public:
    inline AudioOut &
                   operator = (const Buffer & buffer);
 
+   inline         operator Buffer & ();
+
    inline std::size_t
                   size () const;
    inline float & operator [] (std::size_t index);
