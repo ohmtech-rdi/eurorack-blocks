@@ -8,7 +8,9 @@
 
 
 {
-   'class': 'BoardDaisyField',
+   'class': 'erb::BoardDaisyField',
+   'simulator': 'simulator/BoardDaisyField.h',
+   'firmware': 'firmware/BoardDaisyField.h',
    'pins': {
       'CI1': {
          'accept': ['CvIn'],

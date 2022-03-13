@@ -18,6 +18,7 @@ PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 class Code:
    def __init__ (self):
       self._board_definition = {}
+      self._board_path = None
 
 
    #--------------------------------------------------------------------------
@@ -36,10 +37,20 @@ class Code:
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      self._board_definition = self.load_board_definition (module)
+      self._board_definition, self._board_path = self.load_board_definition (module)
       board_class = self._board_definition ['class']
+      board_firmware = self._board_definition ['firmware']
+      board_simulator = self._board_definition ['simulator']
+
+      firmware_path = os.path.join (self._board_path, board_firmware)
+      simulator_path = os.path.join (self._board_path, board_simulator)
+
+      firmware_path = os.path.relpath (firmware_path, os.path.dirname (path))
+      simulator_path = os.path.relpath (simulator_path, os.path.dirname (path))
 
       template = template.replace ('%module.name%', module.name)
+      template = template.replace ('%module.board.firmware.path%', firmware_path)
+      template = template.replace ('%module.board.simulator.path%', simulator_path)
       template = template.replace ('%type(module.board)%', board_class)
 
       entities_content = self.generate_entities (module.entities)
@@ -160,4 +171,6 @@ class Code:
       with file:
          board_definition = eval (file.read ())
 
-      return board_definition
+      board_path = os.path.dirname (path_definition)
+
+      return (board_definition, board_path)

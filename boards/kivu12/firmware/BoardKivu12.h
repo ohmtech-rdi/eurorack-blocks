@@ -34,7 +34,7 @@ class BoardKivu12
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-                  BoardKivu12 ();
+   inline         BoardKivu12 ();
    virtual        ~BoardKivu12 () = default;
 
    // Digital Inputs
@@ -275,7 +275,7 @@ private:
 
 
 
-#include "erb/daisy/BoardKivu12.hpp"
+#include "BoardKivu12.hpp"
 
 
 

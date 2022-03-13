@@ -8,7 +8,9 @@
 
 
 {
-   'class': 'BoardDaisyMicropatch',
+   'class': 'erb::BoardDaisyMicropatch',
+   'simulator': 'simulator/BoardDaisyMicropatch.h',
+   'firmware': 'firmware/BoardDaisyMicropatch.h',
    'pins': {
       'CI1': {
          'accept': ['CvIn'],
