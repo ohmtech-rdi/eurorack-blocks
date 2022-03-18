@@ -163,26 +163,6 @@
          'accept': ['Led', 'LedBi', 'LedRgb'],
          'bind': 'l(15)',
       },
-      'L17': {
-         'type': 'pwm',
-         'accept': ['Led', 'LedBi', 'LedRgb'],
-         'bind': 'l(16)',
-      },
-      'L18': {
-         'type': 'pwm',
-         'accept': ['Led', 'LedBi', 'LedRgb'],
-         'bind': 'l(17)',
-      },
-      'L19': {
-         'type': 'pwm',
-         'accept': ['Led', 'LedBi', 'LedRgb'],
-         'bind': 'l(18)',
-      },
-      'L20': {
-         'type': 'pwm',
-         'accept': ['Led', 'LedBi', 'LedRgb'],
-         'bind': 'l(19)',
-      },
 
       #--- Left Header
 
@@ -323,7 +303,7 @@
       'GO': ['GO1', 'GO2'],
       'AI': ['AI1', 'AI2'],
       'AO': ['AO1', 'AO2'],
-      'L': ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15', 'L16', 'L17', 'L18', 'L19', 'L20'],
+      'L': ['L1', 'L2', 'L3', 'L4', 'L5', 'L6', 'L7', 'L8', 'L9', 'L10', 'L11', 'L12', 'L13', 'L14', 'L15', 'L16'],
       'P': ['P1', 'P2', 'P3', 'P4', 'P5', 'P6', 'P7', 'P8', 'P9', 'P10', 'P11', 'P12'],
       'B': ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B8', 'B9', 'B10', 'B11', 'B12', 'B13', 'B14', 'B15', 'B16'],
    },
