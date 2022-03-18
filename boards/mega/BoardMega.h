@@ -13,6 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#if defined (erb_TARGET_DAISY)
+   #error Board mega doesn't support Daisy firmware builds
+#endif
+
 #include "erb/vcvrack/BoardGeneric.h"
 
 

@@ -8,8 +8,7 @@
 
 {
    'class': 'erb::BoardMega',
-   'simulator': 'simulator/BoardMega.h',
-   'firmware': '',
+   'include': 'BoardMega.h',
    'width': 42, # hp
    'pins': {
       'DII1': {
