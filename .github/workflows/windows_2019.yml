@@ -17,6 +17,9 @@ jobs:
           submodules: recursive
       - run: python3 build-system/install.py
       - run: erbb setup
+      - name: test/micropatch
+        run: erbb configure && erbb build && erbb build simulator
+        working-directory: test/micropatch
       - name: test/data
         run: erbb configure && erbb build && erbb build simulator && erbb build hardware
         working-directory: test/data

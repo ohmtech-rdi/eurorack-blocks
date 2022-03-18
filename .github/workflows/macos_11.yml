@@ -18,6 +18,9 @@ jobs:
       - run: brew install faust
       - run: python3 build-system/install.py
       - run: erbb setup
+      - name: test/micropatch
+        run: erbb configure && erbb build && erbb build simulator && erbb build simulator_xcode
+        working-directory: test/micropatch
       - name: test/data
         run: erbb configure && erbb build
         working-directory: test/data
