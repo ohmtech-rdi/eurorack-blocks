@@ -44,6 +44,17 @@ class Identifier (Token):
       return self.value
 
 
+class IdentifierSynthesized (Identifier):
+   def __init__ (self, value):
+      node = lambda: None
+      node.value = value
+      node.position = 0
+      parser = lambda: None
+      parser.input = value
+      parser.file_name = None
+      super (IdentifierSynthesized, self).__init__ (parser, node)
+
+
 #-- Keyword -----------------------------------------------------------------
 #
 #  Keyword is a kind of Token which name is used in the programming language.
