@@ -42,10 +42,7 @@ class KicadPcb:
    def generate_module (self, path, module):
       path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
 
-      board_definition, board_path = self.load_board_definition (module)
-      pcb_path = os.path.join (board_path, board_definition ['pcb'])
-
-      self.base = self.load (pcb_path)
+      self.base = self.load (module.board.pcb.path)
 
       route = 'wire'
       if module.route is not None:
@@ -674,28 +671,3 @@ class KicadPcb:
             y = float (property.entities [2].value) + position.y.mm
             property.entities [1] = s_expression.FloatLiteral (x)
             property.entities [2] = s_expression.FloatLiteral (y)
-
-
-   #--------------------------------------------------------------------------
-
-   def load_board_definition (self, module):
-
-      module_board = 'default' if module.board is None else module.board.name
-
-      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
-
-      try:
-         file = open (path_definition, 'r', encoding='utf-8')
-      except OSError:
-         err = error.Error ()
-         context = module.board.source_context
-         err.add_error ("Undefined board '%s'" % context, context)
-         err.add_context (context)
-         raise err
-
-      with file:
-         board_definition = eval (file.read ())
-
-      board_path = os.path.dirname (path_definition)
-
-      return (board_definition, board_path)
