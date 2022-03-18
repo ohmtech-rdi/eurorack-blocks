@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      BoardMega.h
+      BoardDefault.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -14,7 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #if defined (erb_TARGET_DAISY)
-   #error Board mega doesn't support Daisy firmware builds
+   #error BoardDefault does not support Daisy firmware builds
 #endif
 
 #include "erb/vcvrack/BoardGeneric.h"
@@ -26,18 +26,18 @@ namespace erb
 
 
 
-class BoardMega
+class BoardDefault
 :  public BoardGeneric
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         BoardMega () : BoardGeneric (
+   inline         BoardDefault () : BoardGeneric (
       128, 128, 4,   // digital/analog/audio inputs
       128, 128, 4    // digital/analog/audio outputs
    ) {}
-   virtual        ~BoardMega () override = default;
+   virtual        ~BoardDefault () override = default;
 
    // Digital Inputs
    inline const uint8_t &
@@ -79,16 +79,16 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  BoardMega (const BoardMega & rhs) = delete;
-                  BoardMega (BoardMega && rhs) = delete;
-   BoardMega &    operator = (const BoardMega & rhs) = delete;
-   BoardMega &    operator = (BoardMega && rhs) = delete;
-   bool           operator == (const BoardMega & rhs) const = delete;
-   bool           operator != (const BoardMega & rhs) const = delete;
+                  BoardDefault (const BoardDefault & rhs) = delete;
+                  BoardDefault (BoardDefault && rhs) = delete;
+   BoardDefault &    operator = (const BoardDefault & rhs) = delete;
+   BoardDefault &    operator = (BoardDefault && rhs) = delete;
+   bool           operator == (const BoardDefault & rhs) const = delete;
+   bool           operator != (const BoardDefault & rhs) const = delete;
 
 
 
-}; // class BoardMega
+}; // class BoardDefault
 
 
 

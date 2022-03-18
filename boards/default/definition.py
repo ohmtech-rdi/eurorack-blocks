@@ -7,9 +7,10 @@
 
 
 {
-   'class': 'erb::BoardMega',
-   'include': 'BoardMega.h',
-   'width': 42, # hp
+   'class': 'erb::BoardDefault',
+   'include': 'BoardDefault.h',
+   'pcb': 'default.kicad_pcb',
+   'width': 12, # hp
    'pins': {
       'DII1': {
          'accept': ['Button', 'GateIn', 'Switch'],
