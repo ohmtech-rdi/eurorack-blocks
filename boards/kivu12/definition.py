@@ -10,7 +10,7 @@
 {
    'class': 'erb::BoardKivu12',
    'include': 'BoardKivu12.h',
-   'hardware': 'hardware/kivu12.kicad_pcb',
+   'pcb': 'hardware/kivu12.kicad_pcb',
    'width': 12, # hp
    'pins': {
 
