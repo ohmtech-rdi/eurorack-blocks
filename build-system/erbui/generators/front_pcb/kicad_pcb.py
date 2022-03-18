@@ -46,7 +46,7 @@ class KicadPcb:
 
       if module.board:
          board_definition, board_path = self.load_board_definition (module)
-         pcb_path = os.path.join (board_path, board_definition ['hardware'])
+         pcb_path = os.path.join (board_path, board_definition ['pcb'])
       else:
          pcb_path = os.path.join (PATH_THIS, 'board.null', 'board.null.kicad_pcb')
 
