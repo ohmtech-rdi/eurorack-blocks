@@ -42,13 +42,8 @@ class KicadPcb:
    def generate_module (self, path, module):
       path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
 
-      board = module.board.name if module.board is not None else 'board.null'
-
-      if module.board:
-         board_definition, board_path = self.load_board_definition (module)
-         pcb_path = os.path.join (board_path, board_definition ['pcb'])
-      else:
-         pcb_path = os.path.join (PATH_THIS, 'board.null', 'board.null.kicad_pcb')
+      board_definition, board_path = self.load_board_definition (module)
+      pcb_path = os.path.join (board_path, board_definition ['pcb'])
 
       self.base = self.load (pcb_path)
 
@@ -685,7 +680,7 @@ class KicadPcb:
 
    def load_board_definition (self, module):
 
-      module_board = 'daisy_seed' if module.board is None else module.board.name
+      module_board = 'default' if module.board is None else module.board.name
 
       path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
 
