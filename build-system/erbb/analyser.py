@@ -19,9 +19,7 @@ from difflib import get_close_matches
 class Analyser:
 
    def __init__ (self):
-      self._board_definition = {}
-      self._used_pins = {} # map from physical pin number to declaration
-      self._cascade_index = 0
+      pass
 
    #--------------------------------------------------------------------------
 
