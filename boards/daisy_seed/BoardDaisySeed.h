@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      %module.name%Ui.h
+      BoardDaisySeed.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -11,22 +11,16 @@
 
 
 
-// !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
-
-
-
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/erb.h"
-#include "%module.board.include.path%"
+#if defined (erb_TARGET_DAISY)
+   #include "firmware/BoardDaisySeed.h"
+
+#elif defined (erb_TARGET_VCV_RACK)
+   #include "simulator/BoardDaisySeed.h"
+
+#endif
 
 
 
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-struct %module.name%Ui
-{
-   %type(module.board)% board;
-
-%entities%
-};
+/*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

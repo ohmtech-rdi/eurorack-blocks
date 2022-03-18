@@ -9,8 +9,7 @@
 
 {
    'class': 'erb::BoardDaisySeed',
-   'simulator': 'simulator/BoardDaisySeed.h',
-   'firmware': 'firmware/BoardDaisySeed.h',
+   'include': 'BoardDaisySeed.h',
    'pins': {
       'Pin0': {
          'type': 'gpio',

@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      %module.name%Ui.h
+      BoardKivu12.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -11,22 +11,16 @@
 
 
 
-// !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
-
-
-
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/erb.h"
-#include "%module.board.include.path%"
+#if defined (erb_TARGET_DAISY)
+   #include "firmware/BoardKivu12.h"
+
+#elif defined (erb_TARGET_VCV_RACK)
+   #include "simulator/BoardKivu12.h"
+
+#endif
 
 
 
-/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-struct %module.name%Ui
-{
-   %type(module.board)% board;
-
-%entities%
-};
+/*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
