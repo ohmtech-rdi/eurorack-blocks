@@ -94,6 +94,9 @@
   )
 
   (net 0 "")
+  (net 1 +3V3 )
+  (net 2 GND )
+  %nets%
 
   (net_class Default "This is the default net class."
     (clearance 0.1524)

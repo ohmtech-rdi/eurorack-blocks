@@ -150,7 +150,7 @@ class Code:
 
    def load_board_definition (self, module):
 
-      module_board = 'daisy_seed' if module.board is None else module.board.name
+      module_board = 'default' if module.board is None else module.board.name
 
       path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
 

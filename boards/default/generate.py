@@ -27,11 +27,11 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 """
 ==============================================================================
-Name : generate
+Name : generate_definition
 ==============================================================================
 """
 
-def generate ():
+def generate_definition ():
 
    nbr_digital_input = 128
    nbr_analog_input = 128
@@ -48,10 +48,10 @@ def generate ():
    content += "#\n"
    content += "#Tab=3########################################################################\n\n\n"
    content += "{\n"
-   content += "   'class': 'erb::BoardMega',\n"
-   content += "   'simulator': 'simulator/BoardMega.h',\n"
-   content += "   'firmware': '',\n"
-   content += "   'width': 42, # hp\n"
+   content += "   'class': 'erb::BoardDefault',\n"
+   content += "   'include': 'BoardDefault.h',\n"
+   content += "   'pcb': 'default.kicad_pcb',\n"
+   content += "   'width': 12, # hp\n"
    content += "   'pins': {\n"
 
    for i in range (nbr_digital_input):
@@ -124,6 +124,73 @@ def generate ():
    definition_py = os.path.join (PATH_THIS, 'definition.py')
    with open (definition_py, 'w', encoding='utf-8') as file:
       file.write (content)
+
+
+
+"""
+==============================================================================
+Name : generate_pcb
+==============================================================================
+"""
+
+def generate_pcb ():
+
+   nbr_digital_input = 128
+   nbr_analog_input = 128
+   nbr_audio_input = 4
+   nbr_digital_output = 128
+   nbr_analog_output = 128
+   nbr_audio_output = 4
+
+   net_index = 3
+
+   kicad_template_pcb = os.path.join (PATH_THIS, 'default_template.kicad_pcb')
+   with open (kicad_template_pcb, 'r', encoding='utf-8') as file:
+      content = file.read ()
+
+   nets = ''
+
+   for i in range (nbr_digital_input):
+      nets += '  (net %d "Net-(DII%d-Pad1)")\n' % (net_index, (i + 1))
+      net_index += 1
+
+   for i in range (nbr_analog_input):
+      nets += '  (net %d "Net-(ANI%d-Pad1)")\n' % (net_index, (i + 1))
+      net_index += 1
+
+   for i in range (nbr_audio_input):
+      nets += '  (net %d "Net-(AUI%d-Pad1)")\n' % (net_index, (i + 1))
+      net_index += 1
+
+   for i in range (nbr_digital_output):
+      nets += '  (net %d "Net-(DIO%d-Pad1)")\n' % (net_index, (i + 1))
+      net_index += 1
+
+   for i in range (nbr_analog_output):
+      nets += '  (net %d "Net-(ANO%d-Pad1)")\n' % (net_index, (i + 1))
+      net_index += 1
+
+   for i in range (nbr_audio_output):
+      nets += '  (net %d "Net-(AUO%d-Pad1)")\n' % (net_index, (i + 1))
+      net_index += 1
+
+   content = content.replace ('  %nets%\n', nets)
+
+   kicad_pcb = os.path.join (PATH_THIS, 'default.kicad_pcb')
+   with open (kicad_pcb, 'w', encoding='utf-8') as file:
+      file.write (content)
+
+
+
+"""
+==============================================================================
+Name : generate
+==============================================================================
+"""
+
+def generate ():
+   generate_definition ()
+   generate_pcb ()
 
 
 

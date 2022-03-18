@@ -51,7 +51,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AudioInPinNC
    }
 
    control audio_in2 AudioIn {
@@ -61,7 +60,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AudioInPinNC
    }
 
    control audio_out AudioOut {
@@ -71,7 +69,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AudioOutPinNC
    }
 
    control button Button {
@@ -81,7 +78,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin PinNC
    }
 
    control cv_in CvIn {
@@ -91,7 +87,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AdcPinNC
    }
 
    control gate_in GateIn {
@@ -101,7 +96,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin PinNC
    }
 
    control gate_out GateOut {
@@ -111,7 +105,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin PinNC
    }
 
    control led Led {
@@ -121,7 +114,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin PinNC
    }
 
    control led_bi LedBi {
@@ -131,7 +123,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control pot Pot {
@@ -141,7 +132,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AdcPinNC
    }
 
    control switch_ Switch {
@@ -151,7 +141,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control trim Trim {
@@ -162,105 +151,90 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "B" { positioning bottom }
-      pin AdcPinNC
    }
 
    control rogan_6ps Pot {
       position 20mm, 65mm
       style rogan.6ps
       label "rogan.6ps" { positioning bottom }
-      pin AdcPinNC
    }
 
    control rogan_5ps Pot {
       position 50mm, 65mm
       style rogan.5ps
       label "rogan.5ps" { positioning bottom }
-      pin AdcPinNC
    }
 
    control rogan_3ps Pot {
       position 73mm, 65mm
       style rogan.3ps
       label "rogan.3ps" { positioning bottom }
-      pin AdcPinNC
    }
 
    control rogan_2ps Pot {
       position 93mm, 65mm
       style rogan.2ps
       label "rogan.2ps" { positioning bottom }
-      pin AdcPinNC
    }
 
    control rogan_1ps Pot {
       position 110mm, 65mm
       style rogan.1ps
       label "rogan.1ps" { positioning bottom }
-      pin AdcPinNC
    }
 
    control dailywell_2ms1 Switch {
       position 10mm, 90mm
       style dailywell.2ms1
       label "dailywell.2ms1" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control dailywell_2ms3 Switch {
       position 30mm, 90mm
       style dailywell.2ms3
       label "dailywell.2ms3" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control led_3mm_red Led {
       position 52mm, 85mm
       style led.3mm.red
       label "led.3mm.red" { positioning bottom }
-      pin PinNC
    }
 
    control led_3mm_green Led {
       position 79mm, 85mm
       style led.3mm.green
       label "led.3mm.green" { positioning bottom }
-      pin PinNC
    }
 
    control led_3mm_yellow Led {
       position 52mm, 95mm
       style led.3mm.yellow
       label "led.3mm.yellow" { positioning bottom }
-      pin PinNC
    }
 
    control led_3mm_green_red LedBi {
       position 79mm, 95mm
       style led.3mm.green_red
       label "led.3mm.green_red" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control led_3mm_rgb LedRgb {
       position 110mm, 100mm
       style led.3mm.rgb
       label "led.3mm.rgb" { positioning bottom }
-      pins PinNC, PinNC, PinNC
    }
 
    control tl1105 Button {
       position 95mm, 85mm
       style tl1105
       label "tl1105" { positioning bottom }
-      pin PinNC
    }
 
    control ck_d6_black Button {
       position 110mm, 85mm
       style ck.d6r.black
       label "ck.d6r.black" { positioning bottom }
-      pin PinNC
    }
 
    control dailywell_2ms1_90ccw Switch {
@@ -271,7 +245,6 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "90°ccw" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control dailywell_2ms1_m90cw Switch {
@@ -282,20 +255,17 @@ module VcvRack {
       label "T" { positioning top }
       label "R" { positioning right }
       label "90°" { positioning bottom }
-      pins PinNC, PinNC
    }
 
    control thonk_pj398sm_knurled CvIn {
       position 55mm, 110mm
       style thonk.pj398sm.knurled
       label "thonk.pj398sm.knurled" { positioning bottom }
-      pin AdcPinNC
    }
 
    control thonk_pj398sm_hex CvIn {
       position 85mm, 110mm
       style thonk.pj398sm.hex
       label "thonk.pj398sm.hex" { positioning bottom }
-      pin AdcPinNC
    }
 }
