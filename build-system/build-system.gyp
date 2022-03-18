@@ -124,7 +124,6 @@
             'erbui/generators/front_pcb/kicad_pcb.py',
             'erbui/generators/front_pcb/s_expression.py',
             'erbui/generators/front_pcb/alpha.9mm/alpha.9mm.kicad_pcb',
-            'erbui/generators/front_pcb/board.null/board.null.kicad_pcb',
             'erbui/generators/front_pcb/dailywell.2ms/dailywell.2ms.kicad_pcb',
             'erbui/generators/front_pcb/led.3mm/led.3mm.kicad_pcb',
             'erbui/generators/front_pcb/led.3mm.bi/led.3mm.bi.kicad_pcb',
