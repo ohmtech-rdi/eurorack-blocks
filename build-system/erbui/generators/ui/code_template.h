@@ -18,14 +18,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/erb.h"
-
-#if defined (erb_TARGET_DAISY)
-   #include "%module.board.firmware.path%"
-
-#elif defined (erb_TARGET_VCV_RACK)
-   #include "%module.board.simulator.path%"
-
-#endif
+#include "%module.board.include.path%"
 
 
 

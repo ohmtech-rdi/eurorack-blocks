@@ -39,18 +39,13 @@ class Code:
 
       self._board_definition, self._board_path = self.load_board_definition (module)
       board_class = self._board_definition ['class']
-      board_firmware = self._board_definition ['firmware']
-      board_simulator = self._board_definition ['simulator']
+      board_include = self._board_definition ['include']
 
-      firmware_path = os.path.join (self._board_path, board_firmware)
-      simulator_path = os.path.join (self._board_path, board_simulator)
-
-      firmware_path = os.path.relpath (firmware_path, os.path.dirname (path))
-      simulator_path = os.path.relpath (simulator_path, os.path.dirname (path))
+      include_path = os.path.join (self._board_path, board_include)
+      include_path = os.path.relpath (include_path, os.path.dirname (path))
 
       template = template.replace ('%module.name%', module.name)
-      template = template.replace ('%module.board.firmware.path%', firmware_path)
-      template = template.replace ('%module.board.simulator.path%', simulator_path)
+      template = template.replace ('%module.board.include.path%', include_path)
       template = template.replace ('%type(module.board)%', board_class)
 
       entities_content = self.generate_entities (module.entities)
