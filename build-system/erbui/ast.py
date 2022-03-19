@@ -81,6 +81,9 @@ class Node:
    def is_board_pin_type (self): return isinstance (self, BoardPinType)
 
    @property
+   def is_board_pin_array (self): return isinstance (self, BoardPinArray)
+
+   @property
    def is_board_kind (self): return isinstance (self, BoardKind)
 
    @property
@@ -241,6 +244,15 @@ class StringLiteral (Literal):
 
 
 
+class IntegerLiteral (Literal):
+   def __init__ (self, literal):
+      assert isinstance (literal, adapter.Literal)
+      super (IntegerLiteral, self).__init__ (literal)
+
+   @property
+   def value (self): return int (self.literal.value)
+
+
 class FloatLiteral (Literal):
    def __init__ (self, literal):
       assert isinstance (literal, adapter.Literal)
@@ -248,7 +260,6 @@ class FloatLiteral (Literal):
 
    @property
    def value (self): return float (self.literal.value)
-
 
 
 class DistanceLiteral (Literal):
@@ -433,7 +444,8 @@ class Module (Scope):
 
 class Board (Scope):
    def __init__ (self, identifier):
-      assert isinstance (identifier, adapter.Identifier)
+      if identifier != None:
+         assert isinstance (identifier, adapter.Identifier)
       super (Board, self).__init__ ()
       self.identifier = identifier
 
@@ -492,6 +504,9 @@ class Board (Scope):
                board_pool.add (BoardPoolPin (adapter.IdentifierSynthesized (pin)))
             self.add (board_pool)
 
+
+   @property
+   def inline (self): return self.identifier == None
 
    @property
    def name (self): return self.identifier.name
@@ -622,6 +637,38 @@ class BoardPin (Scope):
 
    @property
    def name (self): return self.identifier.name
+
+   @property
+   def accept (self):
+      entities = [e for e in self.entities if e.is_board_pin_accept]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def bind (self):
+      entities = [e for e in self.entities if e.is_board_pin_bind]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def type_ (self):
+      entities = [e for e in self.entities if e.is_board_pin_type]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+
+# -- BoardPinArray -----------------------------------------------------------
+
+class BoardPinArray (Scope):
+   def __init__ (self, identifier, end_range):
+      assert isinstance (identifier, adapter.Identifier)
+      assert isinstance (end_range, IntegerLiteral)
+      super (BoardPinArray, self).__init__ ()
+      self.identifier = identifier
+      self.end_range = end_range
 
    @property
    def accept (self):
