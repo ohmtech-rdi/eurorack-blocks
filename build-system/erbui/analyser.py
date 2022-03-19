@@ -7,6 +7,7 @@
 
 
 
+import re
 from . import adapter
 from . import ast
 from . import error
@@ -44,7 +45,10 @@ class Analyser:
       elif module.board == None:
          module.add (ast.Board (adapter.IdentifierSynthesized ('default')))
 
-      module.board.load_builtin ()
+      if not module.board.inline:
+         module.board.load_builtin ()
+
+      self.expand_pin_arrays (module)
 
       self.exclude_pins (module)
 
@@ -67,6 +71,31 @@ class Analyser:
       self.make_cascade_eval_list (module)
 
       self.resolve_module_faust_addresses (module)
+
+
+   #--------------------------------------------------------------------------
+
+   def expand_pin_arrays (self, module):
+      pin_arrays = [e for e in module.board.entities if e.is_board_pin_array]
+      for pin_array in pin_arrays:
+         match = re.search (r'\d+$', pin_array.identifier.name)
+         if match is None:
+            err = error.Error ()
+            err.add_error ("Pins cannot find range start in '%s'" % pin_array.identifier.name, pin_array.identifier)
+            err.add_context (pin_array.identifier)
+            raise err
+         base = pin_array.identifier.name [: -len (match.group ())]
+         start_range = int (match.group ())
+         end_range = int (pin_array.end_range.value)
+
+         for index in range (start_range, end_range + 1):
+            board_pin = ast.BoardPin (adapter.IdentifierSynthesized ('%s%d' % (base, index)))
+            board_pin.add (pin_array.accept)
+            bind_str = eval ("f'%s'" % pin_array.bind.expression)
+            board_pin.add (ast.BoardPinBind (ast.StringLiteral.synthesize (bind_str)))
+            if pin_array.type_:
+               board_pin.add (pin_array.type_)
+            module.board.add (board_pin)
 
 
    #--------------------------------------------------------------------------
