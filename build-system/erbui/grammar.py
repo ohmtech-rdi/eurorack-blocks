@@ -40,6 +40,7 @@ def comment ():                        return _(r'(/\*(.|\n)*?\*/)|(//.*)')
 
 # Literals
 def string_literal ():                 return _(r'\".*\"')
+def integer_literal ():                return _(r'[0-9]+')
 def float_literal ():                  return _(r'[0-9\.]+')
 def float_mm_literal ():               return _(r'[0-9\.]+mm')
 def float_cm_literal ():               return _(r'[0-9\.]+cm')
@@ -170,9 +171,28 @@ def route_declaration ():              return 'route', route_mode
 # Module Width
 def width_declaration ():              return 'width', distance_declaration
 
-# Module Board
+# Module Board Reference
 def board_name ():                     return name
 def board_declaration ():              return 'board', board_name
+
+# Module Board Inline
+def board_class_declaration ():        return 'class', string_literal
+def board_include_declaration ():      return 'include', string_literal
+def board_pcb_declaration ():          return 'pcb', string_literal
+def board_pin_kind ():                 return list (CONTROL_KINDS)
+def board_pin_kinds ():                return board_pin_kind, ZeroOrMore (',', board_pin_kind)
+def board_pin_bind_declaration ():     return 'bind', string_literal
+def board_pin_type_name ():            return ['gpio', 'pwm', 'dac']
+def board_pin_type_declaration ():     return 'type', board_pin_type_name
+def board_pin_entities ():             return ZeroOrMore ([board_pin_bind_declaration, board_pin_type_declaration])
+def board_pin_body ():                 return '{', board_pin_entities, '}'
+def board_pin_name ():                 return name
+def board_pin_declaration ():          return 'pin', board_pin_name, board_pin_kinds, board_pin_body
+def board_pin_range ():                return '..', integer_literal
+def board_pins_declaration ():         return 'pins', board_pin_name, board_pin_range, board_pin_kinds, board_pin_body
+def board_entities ():                 return ZeroOrMore ([board_class_declaration, board_include_declaration, board_pcb_declaration, width_declaration, board_pin_declaration, board_pins_declaration])
+def board_body ():                     return '{', board_entities, '}'
+def board_inline_declaration ():       return 'board', board_body
 
 # Module Material
 def material_color ():                 return ['natural', 'black', 'white']
@@ -180,7 +200,7 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration, route_declaration, mod_faust_declaration])
+def module_entities ():                return ZeroOrMore ([board_declaration, board_inline_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration, route_declaration, mod_faust_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name
