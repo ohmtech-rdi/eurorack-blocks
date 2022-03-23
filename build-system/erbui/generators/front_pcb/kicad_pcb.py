@@ -389,13 +389,17 @@ class KicadPcb:
          component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.kicad_pcb'))
 
       elif control.style.is_dailywell_2ms:
+         if control.style.is_dailywell_2ms1 and control.kind == 'Button':
+            component_name = 'dailywell.2ms1'
+         else:
+            component_name = 'dailywell.2ms'
          rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
          if rotation == 0:
-            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.kicad_pcb'))
+            component = self.load_component (os.path.join (PATH_THIS, component_name, '%s.kicad_pcb' % component_name))
          elif rotation == 90:
-            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.r90.kicad_pcb'))
+            component = self.load_component (os.path.join (PATH_THIS, component_name, '%s.r90.kicad_pcb' % component_name))
          elif rotation == 270:
-            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.r270.kicad_pcb'))
+            component = self.load_component (os.path.join (PATH_THIS, component_name, '%s.r270.kicad_pcb' % component_name))
          else:
             print ('unsupported rotation %d for %s' % (rotation, control.style.name))
 
