@@ -586,14 +586,14 @@ class KicadPcb:
    def relink_pads (self, component, control):
       name_map = {}
       if control.is_pin_single:
-         name_map ['Net-(Pin0-Pad1)'] = 'Net-(%s-Pad1)' % control.pin.name
+         name_map ['Net-(Pin0-Pad1)'] = control.pin.name
       else:
          names = control.pins.names
          for index, name in enumerate (names):
-            name_map ['Net-(Pin%d-Pad1)' % index] = 'Net-(%s-Pad1)' % name
+            name_map ['Net-(Pin%d-Pad1)' % index] = name
 
       if control.cascade_from is not None:
-         name_map ['Net-(Cascade0-Pad1)'] = 'Net-(%s-Pad1)' % control.cascade_from.reference.pin.name
+         name_map ['Net-(Cascade0-Pad1)'] = control.cascade_from.reference.pin.name
 
       for element in component.entities:
          element_name = element.entities [0].value
