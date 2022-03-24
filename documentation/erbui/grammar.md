@@ -114,11 +114,36 @@ A `board` defines the [board](../../boards/) used for the back panel. Each board
 a specific set of digital, analog and audio pins and their associated names for both inputs and
 outputs.
 
+A `board` definition can be be made inline as well, and is typically used for custom boards.
+
 ### Grammar
 
-> _board-declaration_ → **`board`** [identifier](./lexical.md#identifiers)
+> _board-declaration_ → **`board`** [identifier](./lexical.md#identifiers) \
+> _board-declaration_ → **`board`** **`{`** board-entity<sub>_0+_</sub> **`}`** \
+> _board-entity_ → board-class-declaration \
+> _board-entity_ → board-include-declaration \
+> _board-entity_ → board-pcb-declaration \
+> _board-entity_ → board-pin-declaration \
+> _board-entity_ → board-pins-declaration \
+> _board-class-declaration_ → **`class`** [string-literal](./lexical.md#string-literals) \
+> _board-include-declaration_ → **`include`** [string-literal](./lexical.md#string-literals) \
+> _board-pcb-declaration_ → **`pcb`** [string-literal](./lexical.md#string-literals) \
+> _board-pin-declaration_ → **`pin`** [identifier](./lexical.md#identifiers) board-pin-clause \
+> _board-pins-declaration_ → **`pins`** [identifier](./lexical.md#identifiers) board-pin-range board-pin-clause \
+> _board-pin-range_ → **`..`** [integer-literal](./lexical.md#integer-literals) \
+> _board-pin-clause_ → board-pin-kinds-declaration **`{`** board-pin-entity<sub>_0+_</sub> **`}`** \
+> _board-pin-entity_ → board-pin-bind-declaration \
+> _board-pin-entity_ → board-pin-type-declaration \
+> _board-pin-kinds-declaration_ → [control-kind](../controls/README.md) \
+> _board-pin-kinds-declaration_ → [control-kind](../controls/README.md) **`,`** board-pin-kinds-declaration \
+> _board-pin-bind-declaration_ → **`bind`** [string-literal](./lexical.md#string-literals) \
+> _board-pin-type-declaration_ → **`type`** board-pin-type-name \
+> _board-pin-type-name_ → **`gpio`** \
+> _board-pin-type-name_ → **`pwm`** \
+> _board-pin-type-name_ → **`dac`**
 
 See individual [boards](../boards/) reference for the available pins configuration for each board.
+Inline boards replicate the board `definition.py` python format, but using `erbui` syntax.
 
 
 ## `width`
