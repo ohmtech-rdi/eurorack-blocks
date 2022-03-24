@@ -52,6 +52,9 @@ class Visitor (PTNodeVisitor):
    def visit_string_literal (self, node, children):
       return ast.StringLiteral (self.to_literal (node))
 
+   def visit_integer_literal (self, node, children):
+      return ast.IntegerLiteral (self.to_literal (node))
+
    def visit_float_literal (self, node, children):
       return ast.FloatLiteral (self.to_literal (node))
 
@@ -115,6 +118,109 @@ class Visitor (PTNodeVisitor):
 
    def visit_board_name (self, node, children):
       return self.visit_identifier (node, children)
+
+
+   #-- Board Inline ----------------------------------------------------------
+
+   def visit_board_inline_declaration (self, node, children):
+      board = ast.Board (None)
+
+      if children.board_body:
+         entities = children.board_body [0]
+         board.add (entities)
+
+      return board
+
+   def visit_board_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_board_entities (self, node, children):
+      return list (children)
+
+   def visit_board_class_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      board_class = ast.BoardClass (string_literal)
+      return board_class
+
+   def visit_board_include_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      dir_name = os.path.dirname (self.filename)
+      file_path = os.path.join (dir_name, string_literal.value)
+      file_path_str = str (file_path)
+      board_include = ast.BoardInclude (file_path_str, string_literal)
+      return board_include
+
+   def visit_board_pcb_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      dir_name = os.path.dirname (self.filename)
+      file_path = os.path.join (dir_name, string_literal.value)
+      file_path_str = str (file_path)
+      board_pcb = ast.BoardPcb (file_path_str, string_literal)
+      return board_pcb
+
+   def visit_board_pin_declaration (self, node, children):
+      board_pin_name = children.board_pin_name [0]
+      board_pin = ast.BoardPin (board_pin_name)
+
+      if children.board_pin_kinds:
+         entities = children.board_pin_kinds [0]
+         board_pin.add (entities)
+
+      if children.board_pin_body:
+         entities = children.board_pin_body [0]
+         board_pin.add (entities)
+
+      return board_pin
+
+   def visit_board_pin_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_board_pin_kinds (self, node, children):
+      board_pin_kinds = []
+      for board_pin_kind in children.board_pin_kind:
+         board_pin_kinds.append (board_pin_kind)
+      board_pin_accept = ast.BoardPinAccept (board_pin_kinds)
+      return board_pin_accept
+
+   def visit_board_pin_kind (self, node, children):
+      return self.to_keyword (node)
+
+   def visit_board_pin_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_board_pin_entities (self, node, children):
+      return list (children)
+
+   def visit_board_pin_bind_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      board_pin_bind = ast.BoardPinBind (string_literal)
+      return board_pin_bind
+
+   def visit_board_pin_type_declaration (self, node, children):
+      board_pin_type_name = children.board_pin_type_name [0]
+      board_pin_type = ast.BoardPinType (board_pin_type_name)
+      return board_pin_type
+
+   def visit_board_pin_type_name (self, node, children):
+      return self.to_keyword (node)
+
+   def visit_board_pins_declaration (self, node, children):
+      board_pin_name = children.board_pin_name [0]
+      board_pin_range = children.board_pin_range [0]
+      board_pin = ast.BoardPinArray (board_pin_name, board_pin_range)
+
+      if children.board_pin_kinds:
+         entities = children.board_pin_kinds [0]
+         board_pin.add (entities)
+
+      if children.board_pin_body:
+         entities = children.board_pin_body [0]
+         board_pin.add (entities)
+
+      return board_pin
+
+      def visit_board_pin_range (self, node, children):
+         return self.visit_literal (node, children)
 
 
 
