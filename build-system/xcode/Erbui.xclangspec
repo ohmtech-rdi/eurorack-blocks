@@ -16,6 +16,7 @@
                 "control", "label", "positioning", "sticker", "image", "pin", "pins", "cascade", "mode",
                 "position", "rotation", "offset", "style",
                 "route", "wire", "manual",
+                "faust", "init", "address", "property", "value",
                 "class", "include", "pcb", "bind", "type", "gpio", "pwm", "dac",
             );
             Type = "xcode.syntax.keyword";
