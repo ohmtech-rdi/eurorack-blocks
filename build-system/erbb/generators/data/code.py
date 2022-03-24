@@ -20,7 +20,7 @@ PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 class Code:
    def __init__ (self):
-      self._board_definition = {}
+      pass
 
 
    #--------------------------------------------------------------------------

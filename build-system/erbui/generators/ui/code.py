@@ -17,8 +17,7 @@ PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 class Code:
    def __init__ (self):
-      self._board_definition = {}
-      self._board_path = None
+      pass
 
 
    #--------------------------------------------------------------------------
@@ -37,18 +36,13 @@ class Code:
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()
 
-      self._board_definition, self._board_path = self.load_board_definition (module)
-      board_class = self._board_definition ['class']
-      board_include = self._board_definition ['include']
-
-      include_path = os.path.join (self._board_path, board_include)
-      include_path = os.path.relpath (include_path, os.path.dirname (path))
+      include_path = os.path.relpath (module.board.include.path, os.path.dirname (path))
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%module.board.include.path%', include_path)
-      template = template.replace ('%type(module.board)%', board_class)
+      template = template.replace ('%type(module.board)%', module.board.class_.name)
 
-      entities_content = self.generate_entities (module.entities)
+      entities_content = self.generate_entities (module, module.entities)
       template = template.replace ('%entities%', entities_content)
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
@@ -57,12 +51,12 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_entities (self, entities):
+   def generate_entities (self, module, entities):
       content = ''
 
       for entity in entities:
          if entity.is_control:
-            content += self.generate_control (entity)
+            content += self.generate_control (module, entity)
 
       for entity in entities:
          if entity.is_alias:
@@ -73,7 +67,7 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def generate_control (self, control):
+   def generate_control (self, module, control):
 
       if control.kind in ['Pot', 'Trim', 'CvIn', 'CvOut']:
          if control.mode is None:
@@ -94,7 +88,7 @@ class Code:
          else:
             pin_name = control.pins.names [0]
 
-         pin_type = self._board_definition ['pins'][pin_name]['type']
+         pin_type = module.board.pin (pin_name).type_.name
          if pin_type == 'gpio':
             control_type = '%s <erb::PinType::Gpio>' % control.kind
          elif pin_type == 'pwm':
@@ -111,23 +105,10 @@ class Code:
       else:
          control_type = control.kind
 
-      def pin_name (name):
-         pin_desc = self._board_definition ['pins'][name]
-         if control.is_input:
-            if 'bind.input' in pin_desc:
-               return pin_desc ['bind.input']
-            else:
-               return pin_desc ['bind']
-         else:
-            if 'bind.output' in pin_desc:
-               return pin_desc ['bind.output']
-            else:
-               return pin_desc ['bind']
-
       if control.is_pin_single:
-         args =  'board.%s' % pin_name (control.pin.name)
+         args =  'board.%s' % module.board.pin (control.pin.name).bind.expression
       elif control.is_pin_multiple:
-         args = ', '.join (map (lambda name: 'board.%s' % pin_name (name), control.pins.names))
+         args = ', '.join (map (lambda name: 'board.%s' % module.board.pin (name).bind.expression, control.pins.names))
 
       if control.kind == 'GateOut' or control.kind.startswith ('Led'):
          args += ', board.clock ()'
@@ -144,28 +125,3 @@ class Code:
       source_code = '   decltype (%s) & %s { %s };\n' % (alias.reference.name, alias.name, alias.reference.name)
 
       return source_code
-
-
-   #--------------------------------------------------------------------------
-
-   def load_board_definition (self, module):
-
-      module_board = 'default' if module.board is None else module.board.name
-
-      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
-
-      try:
-         file = open (path_definition, 'r', encoding='utf-8')
-      except OSError:
-         err = error.Error ()
-         context = module.board.source_context
-         err.add_error ("Undefined board '%s'" % context, context)
-         err.add_context (context)
-         raise err
-
-      with file:
-         board_definition = eval (file.read ())
-
-      board_path = os.path.dirname (path_definition)
-
-      return (board_definition, board_path)

@@ -119,6 +119,8 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       control.entities.append (pin)
       module.entities.append (control)
 
+      module.board.load_builtin ()
+
       gen = KicadPcb ()
       gen.generate_module (PATH_ARTIFACTS, module)
 

@@ -23,8 +23,6 @@ PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 class Analyser:
 
    def __init__ (self):
-      self._board_definition = {}
-      self._used_pins = {} # map from physical pin number to declaration
       self._excluded_pins = []
       self._cascade_index = 0
 
@@ -41,17 +39,22 @@ class Analyser:
    def analyse_module (self, module):
       assert module.is_module
 
-      self._board_definition = self.load_board_definition (module)
+      if module.super_identifier != None:
+         module.add (ast.Board (module.super_identifier))
+      elif module.board == None:
+         module.add (ast.Board (adapter.IdentifierSynthesized ('default')))
+
+      module.board.load_builtin ()
 
       self.exclude_pins (module)
 
       self.set_auto_board_width (module)
 
       for control in module.controls:
-         self.update_pools (control)
+         self.update_pools (module, control)
 
       for control in module.controls:
-         self.allocate_pin (control)
+         self.allocate_pin (module, control)
 
       self.make_unused_pins (module)
 
@@ -72,32 +75,22 @@ class Analyser:
       epins = [e for e in module.entities if e.is_exclude_pins]
       for epin in epins:
          for name in epin.names:
-            for pool in self._board_definition ['pools']:
-               if name in self._board_definition ['pools'][pool]:
-                  self._board_definition ['pools'][pool].remove (name)
+            for pool in module.board.pools:
+               pin = pool.find_pin (name)
+               if pin != None:
+                  pin.mark_unavailable ()
                   self._excluded_pins.append (name)
 
 
    #--------------------------------------------------------------------------
 
    def set_auto_board_width (self, module):
-      if 'width' not in self._board_definition:
+      if module.board.width == None:
          return # board doesn't support fixed width
-
-      board_width = self._board_definition ['width']
-
-      def generate_literal (value):
-         node = lambda: None
-         node.value = value
-         node.position = None
-         return adapter.Literal (None, node)
 
       entities = [e for e in module.entities if e.is_width]
       if len (entities) == 0:
-         literal = generate_literal ('%shp' % board_width)
-         distance_literal = ast.DistanceLiteral (literal, 'hp')
-         width = ast.Width (distance_literal)
-         module.entities.append (width)
+         module.entities.append (module.board.width)
 
 
    #--------------------------------------------------------------------------
@@ -155,20 +148,11 @@ class Analyser:
    def analyse_pin (self, module, control, pin):
       assert pin.is_pin
 
-      pins = self._board_definition ['pins'];
+      pin_names = module.board.pin_names
 
-      if pin.name not in pins.keys ():
-         raise error.unknown_pin (pin, pins.keys ())
+      if pin.name not in pin_names:
+         raise error.unknown_pin (pin, pin_names)
 
-      pin_description = pins [pin.name]
-
-      if 'physical.location' in pin_description:
-         hw_pin = pin_description ['physical.location']
-
-         if hw_pin in self._used_pins:
-            raise error.already_used_pin (pin, self._used_pins [hw_pin])
-
-         self._used_pins [hw_pin] = pin
 
    #--------------------------------------------------------------------------
 
@@ -357,59 +341,36 @@ class Analyser:
 
    #--------------------------------------------------------------------------
 
-   def load_board_definition (self, module):
-      module_board = 'default' if module.board is None else module.board.name
-
-      path_definition = os.path.join (PATH_BOARDS, module_board, 'definition.py')
-
-      try:
-         file = open (path_definition, 'r', encoding='utf-8')
-      except OSError:
-         err = error.Error ()
-         context = module.board.source_context
-         err.add_error ("Undefined board '%s'" % context, context)
-         err.add_context (context)
-         raise err
-
-      with file:
-         board_definition = eval (file.read ())
-
-      return board_definition
-
-
-   #--------------------------------------------------------------------------
-
-   def update_pools (self, control):
-      if 'pools' not in self._board_definition:
+   def update_pools (self, module, control):
+      if len (module.board.pools) == 0:
          return # board doesn't support auto pin allocation
 
       pins = [e for e in control.entities if e.is_pin]
       for pin in pins:
-         self.remove_pools_pin (pin.name)
+         self.remove_pools_pin (module, pin.name)
 
       pin_arrays = [e for e in control.entities if e.is_pin_array]
       for pin_array in pin_arrays:
          for pin_name in pin_array.names:
-            self.remove_pools_pin (pin_name)
+            self.remove_pools_pin (module, pin_name)
 
 
    #--------------------------------------------------------------------------
 
-   def remove_pools_pin (self, pin_name):
-      pools = self._board_definition ['pools']
-      for key, value in pools.items ():
-         if pin_name in value:
-            value.remove (pin_name)
+   def remove_pools_pin (self, module, pin_name):
+      for pool in module.board.pools:
+         pin = pool.find_pin (pin_name)
+         if pin != None:
+            pin.mark_unavailable ()
 
 
    #--------------------------------------------------------------------------
 
-   def allocate_pin (self, control):
-      if 'pools' not in self._board_definition:
+   def allocate_pin (self, module, control):
+      if len (module.board.pools) == 0:
          return # board doesn't support auto pin allocation
 
-      pools = self._board_definition ['pools']
-      control_pools = self._board_definition ['kinds'][control.kind]['pools']
+      control_pools = module.board.kind (control.kind).pools.names
 
       def generate_identifier (name):
          node = lambda: None
@@ -430,12 +391,14 @@ class Analyser:
 
          if nbr_pins == 0:
             pool_type = control_pools [0]
-            pool = pools [pool_type]
+            pool = module.board.pool (pool_type).available_pins
             if len (pool) == 0:
                raise_pool_empty (pool_type)
 
-            pin_name = pool.pop (0)
-            pin = ast.Pin (generate_identifier (pin_name))
+            pool_pin = pool [0]
+            pool_pin.mark_unavailable ()
+            pin_identifier = pool_pin.identifier
+            pin = ast.Pin (pin_identifier)
             control.entities.append (pin)
 
       elif control.is_pin_multiple:
@@ -445,12 +408,14 @@ class Analyser:
          if nbr_pin_arrays == 0:
             identifiers = []
             for pool_type in control_pools:
-               pool = pools [pool_type]
+               pool = module.board.pool (pool_type).available_pins
                if len (pool) == 0:
                   raise_pool_empty (pool_type)
 
-               pin_name = pool.pop (0)
-               identifiers.append (generate_identifier (pin_name))
+               pool_pin = pool [0]
+               pool_pin.mark_unavailable ()
+               pin_identifier = pool_pin.identifier
+               identifiers.append (pin_identifier)
 
             pin_array = ast.Pins (identifiers)
             control.entities.append (pin_array)
@@ -459,13 +424,13 @@ class Analyser:
    #--------------------------------------------------------------------------
 
    def make_unused_pins (self, module):
-      if 'pools' not in self._board_definition:
+      if len (module.board.pools) == 0:
          return # board doesn't support auto pin allocation
 
       module.unused_pins = []
-      pools = self._board_definition ['pools']
-      for key, value in pools.items ():
-         module.unused_pins.extend (value)
+
+      for pool in module.board.pools:
+         module.unused_pins.extend (pool.pin_names)
 
       module.unused_pins.extend (self._excluded_pins)
 

@@ -7,8 +7,13 @@
 
 
 
+import os
 from . import adapter
 from . import grammar
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
 
 
@@ -53,6 +58,39 @@ class Node:
 
    @property
    def is_board (self): return isinstance (self, Board)
+
+   @property
+   def is_board_class (self): return isinstance (self, BoardClass)
+
+   @property
+   def is_board_include (self): return isinstance (self, BoardInclude)
+
+   @property
+   def is_board_pcb (self): return isinstance (self, BoardPcb)
+
+   @property
+   def is_board_pin (self): return isinstance (self, BoardPin)
+
+   @property
+   def is_board_pin_accept (self): return isinstance (self, BoardPinAccept)
+
+   @property
+   def is_board_pin_bind (self): return isinstance (self, BoardPinBind)
+
+   @property
+   def is_board_pin_type (self): return isinstance (self, BoardPinType)
+
+   @property
+   def is_board_kind (self): return isinstance (self, BoardKind)
+
+   @property
+   def is_board_kind_pools (self): return isinstance (self, BoardKindPools)
+
+   @property
+   def is_board_pool (self): return isinstance (self, BoardPool)
+
+   @property
+   def is_board_pool_pin (self): return isinstance (self, BoardPoolPin)
 
    @property
    def is_width (self): return isinstance (self, Width)
@@ -219,6 +257,11 @@ class DistanceLiteral (Literal):
       super (DistanceLiteral, self).__init__ (literal)
       self.unit = unit
 
+   @staticmethod
+   def synthesize (value, unit):
+      literal = adapter.LiteralSynthesized ('%s%s' % (value, unit))
+      return DistanceLiteral (literal, unit)
+
    @property
    def value (self): return float (self.literal.value [:-2])
 
@@ -316,8 +359,6 @@ class Module (Scope):
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
-      elif self.super_identifier:
-         return self.super_identifier
       else:
          return None
 
@@ -390,14 +431,135 @@ class Module (Scope):
 
 # -- Board -------------------------------------------------------------------
 
-class Board (Node):
+class Board (Scope):
    def __init__ (self, identifier):
       assert isinstance (identifier, adapter.Identifier)
       super (Board, self).__init__ ()
       self.identifier = identifier
 
+   def load_builtin (self):
+      path_definition = os.path.join (PATH_BOARDS, self.identifier.name, 'definition.py')
+      board_path = os.path.dirname (path_definition)
+
+      try:
+         file = open (path_definition, 'r', encoding='utf-8')
+      except OSError:
+         err = error.Error ()
+         context = self.source_context
+         err.add_error ("Undefined board '%s'" % context, context)
+         err.add_context (context)
+         raise err
+
+      with file:
+         board_def = eval (file.read ())
+
+      self.add (BoardClass (StringLiteral.synthesize (board_def ['class'])))
+
+      board_include_path = os.path.join (board_path, board_def ['include'])
+      self.add (BoardInclude (board_include_path, StringLiteral.synthesize (board_def ['include'])))
+
+      if 'pcb' in board_def:
+         board_pcb_path = os.path.join (board_path, board_def ['pcb'])
+         self.add (BoardPcb (board_pcb_path, StringLiteral.synthesize (board_def ['pcb'])))
+
+      if 'width' in board_def:
+         self.add (Width (DistanceLiteral.synthesize (board_def ['width'], 'hp')))
+
+      pins_def = board_def ['pins']
+      for pin_name in pins_def:
+         board_pin = BoardPin (adapter.IdentifierSynthesized (pin_name))
+         pin_desc = pins_def [pin_name]
+         board_pin.add (BoardPinAccept (list (map (lambda x: adapter.BuiltIn (x), pin_desc ['accept']))))
+         board_pin.add (BoardPinBind (StringLiteral.synthesize (pin_desc ['bind'])))
+         if 'type' in pin_desc:
+            board_pin.add (BoardPinType (adapter.BuiltIn (pin_desc ['type'])))
+         self.add (board_pin)
+
+      if 'kinds' in board_def:
+         kinds_def = board_def ['kinds']
+         for kind_name in kinds_def:
+            board_kind = BoardKind (adapter.BuiltIn (kind_name))
+            kind_desc = kinds_def [kind_name]
+            board_kind.add (BoardKindPools (list (map (lambda x: adapter.IdentifierSynthesized (x), kind_desc ['pools']))))
+            self.add (board_kind)
+
+      if 'pools' in board_def:
+         pools_def = board_def ['pools']
+         for pool_name in pools_def:
+            board_pool = BoardPool (adapter.IdentifierSynthesized (pool_name))
+            pin_arr = pools_def [pool_name]
+            for pin in pin_arr:
+               board_pool.add (BoardPoolPin (adapter.IdentifierSynthesized (pin)))
+            self.add (board_pool)
+
+
    @property
    def name (self): return self.identifier.name
+
+   @property
+   def class_ (self):
+      entities = [e for e in self.entities if e.is_board_class]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def include (self):
+      entities = [e for e in self.entities if e.is_board_include]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def pcb (self):
+      entities = [e for e in self.entities if e.is_board_pcb]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def width (self):
+      entities = [e for e in self.entities if e.is_width]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   def pin (self, name):
+      entities = [e for e in self.entities if e.is_board_pin and e.name == name]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def pins (self):
+      entities = [e for e in self.entities if e.is_board_pin]
+      return entities
+
+   @property
+   def pin_names (self):
+      names = [e.name for e in self.entities if e.is_board_pin]
+      return names
+
+   @property
+   def kinds (self):
+      entities = [e for e in self.entities if e.is_board_kind]
+      return entities
+
+   def kind (self, name):
+      entities = [e for e in self.entities if e.is_board_kind and e.name == name]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def pools (self):
+      entities = [e for e in self.entities if e.is_board_pool]
+      return entities
+
+   def pool (self, name):
+      entities = [e for e in self.entities if e.is_board_pool and e.name == name]
+      assert (len (entities) == 1)
+      return entities [0]
 
    @property
    def source_context (self):
@@ -408,6 +570,206 @@ class Board (Node):
          return adapter.SourceContext.from_token (self.identifier)
 
       return super (Board, self).source_context_part (part) # pragma: no cover
+
+
+# -- BoardClass --------------------------------------------------------------
+
+class BoardClass (Node):
+   def __init__ (self, string_literal):
+      assert isinstance (string_literal, StringLiteral)
+      super (BoardClass, self).__init__ ()
+      self.string_literal = string_literal
+
+   @property
+   def name (self): return self.string_literal.value
+
+
+# -- BoardInclude ------------------------------------------------------------
+
+class BoardInclude (Node):
+   def __init__ (self, filepath, string_literal):
+      assert isinstance (filepath, str)
+      assert isinstance (string_literal, StringLiteral)
+      super (BoardInclude, self).__init__ ()
+      self.filepath = filepath
+      self.string_literal = string_literal
+
+   @property
+   def path (self): return self.filepath
+
+
+# -- BoardPcb ----------------------------------------------------------------
+
+class BoardPcb (Node):
+   def __init__ (self, filepath, string_literal):
+      assert isinstance (filepath, str)
+      assert isinstance (string_literal, StringLiteral)
+      super (BoardPcb, self).__init__ ()
+      self.filepath = filepath
+      self.string_literal = string_literal
+
+   @property
+   def path (self): return self.filepath
+
+
+# -- BoardPin ----------------------------------------------------------------
+
+class BoardPin (Scope):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (BoardPin, self).__init__ ()
+      self.identifier = identifier
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def accept (self):
+      entities = [e for e in self.entities if e.is_board_pin_accept]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def bind (self):
+      entities = [e for e in self.entities if e.is_board_pin_bind]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def type_ (self):
+      entities = [e for e in self.entities if e.is_board_pin_type]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+
+# -- BoardPinAccept ----------------------------------------------------------
+
+class BoardPinAccept (Node):
+   def __init__ (self, keywords):
+      assert isinstance (keywords, list)
+      super (BoardPinAccept, self).__init__ ()
+      self.keywords = keywords
+
+   @property
+   def kinds (self): return [k.value for k in self.keywords]
+
+
+# -- BoardPinBind ------------------------------------------------------------
+
+class BoardPinBind (Node):
+   def __init__ (self, string_literal):
+      assert isinstance (string_literal, StringLiteral)
+      super (BoardPinBind, self).__init__ ()
+      self.string_literal = string_literal
+
+   @property
+   def expression (self): return self.string_literal.value
+
+
+# -- BoardPinType ------------------------------------------------------------
+
+class BoardPinType (Node):
+   def __init__ (self, keyword):
+      assert isinstance (keyword, adapter.Keyword)
+      super (BoardPinType, self).__init__ ()
+      self.keyword = keyword
+
+   @property
+   def name (self): return self.keyword.value
+
+
+# -- BoardKind ---------------------------------------------------------------
+
+class BoardKind (Scope):
+   def __init__ (self, keyword):
+      assert isinstance (keyword, adapter.Keyword)
+      super (BoardKind, self).__init__ ()
+      self.keyword = keyword
+
+   @property
+   def name (self): return self.keyword.value
+
+   @property
+   def pools (self):
+      entities = [e for e in self.entities if e.is_board_kind_pools]
+      assert (len (entities) == 1)
+      return entities [0]
+
+
+# -- BoardKindPools ----------------------------------------------------------
+
+class BoardKindPools (Node):
+   def __init__ (self, identifiers):
+      assert isinstance (identifiers, list)
+      super (BoardKindPools, self).__init__ ()
+      self.identifiers = identifiers
+
+   @property
+   def names (self): return [ ident.name for ident in self.identifiers ]
+
+
+# -- BoardPool ---------------------------------------------------------------
+
+class BoardPool (Scope):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (BoardPool, self).__init__ ()
+      self.identifier = identifier
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def pins (self):
+      entities = [e for e in self.entities if e.is_board_pool_pin]
+      assert (len (entities) >= 1)
+      return entities
+
+   @property
+   def pin_names (self):
+      names = [e.name for e in self.entities if e.is_board_pool_pin]
+      assert (len (names) >= 1)
+      return names
+
+   def find_pin (self, name):
+      pins = [e for e in self.entities if e.is_board_pool_pin and e.name == name ]
+      assert len (pins) <= 1
+      if pins:
+         return pins [0]
+      else:
+         return None
+
+   def has_pin (self, name):
+      names = [e.name for e in self.entities if e.is_board_pool_pin]
+      return name in names
+
+   @property
+   def available_pins (self):
+      entities = [e for e in self.entities if e.is_board_pool_pin and e.available]
+      return entities
+
+
+# -- BoardPoolPin ------------------------------------------------------------
+
+class BoardPoolPin (Node):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (BoardPoolPin, self).__init__ ()
+      self.identifier = identifier
+      self.is_available = True
+
+   @property
+   def name (self): return self.identifier.name
+
+   def mark_unavailable (self):
+      self.is_available = False
+
+   @property
+   def available (self): return self.is_available
+
 
 
 # -- Material ----------------------------------------------------------------
