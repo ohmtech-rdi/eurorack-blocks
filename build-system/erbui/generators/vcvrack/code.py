@@ -179,7 +179,7 @@ class Code:
 
             elif category == 'Light':
                index = nbr_lights
-               nbr_lights += 1
+               nbr_lights += control.nbr_pins
 
             lines += '   add%s (create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d));\n' % (
                func_category, category, widget, control.position.x.mm, control.position.y.mm, index
