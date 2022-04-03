@@ -226,11 +226,11 @@ class Panel:
          radius = 18.47 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
-      elif style.is_rogan_2ps:
+      elif style.is_rogan_2_skirted:
          radius = 15.75 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
-      elif style.is_rogan_1ps:
+      elif style.is_rogan_1_skirted:
          radius = 14.38 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 

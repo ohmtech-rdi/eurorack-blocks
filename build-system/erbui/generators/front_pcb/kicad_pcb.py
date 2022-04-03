@@ -249,6 +249,24 @@ class KicadPcb:
             dist_pn = ''
             dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
 
+         elif part == 'rogan.2s.black':
+            description = '2S - Medium Encoder BLACK (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'rogan.1s':
+            description = '1S - Small Encoder WHITE (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
+         elif part == 'rogan.1s.black':
+            description = '1S - Small Encoder BLACK (D Shaft) - Rogan PT Plastic Knob'
+            dist = 'Thonk'
+            dist_pn = ''
+            dist_link = 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/'
+
          elif part == 'alpha.9mm':
             description = 'B100K - D shaft - Alpha Vertical 9mm Potentiometer'
             dist = 'Thonk'
