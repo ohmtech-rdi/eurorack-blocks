@@ -215,14 +215,14 @@ class Code:
 
    def control_style_to_widget (self, control):
       style_widget_map = {
-         'rogan.6ps': 'erb::Rogan6Ps',
-         'rogan.5ps': 'erb::Rogan5Ps',
-         'rogan.3ps': 'erb::Rogan3Ps',
-         'rogan.2ps': 'erb::Rogan2Ps',
-         'rogan.1ps': 'erb::Rogan1Ps',
+         'rogan.6ps': 'erb::AlphaPot <erb::Rogan6Ps>',
+         'rogan.5ps': 'erb::AlphaPot <erb::Rogan5Ps>',
+         'rogan.3ps': 'erb::AlphaPot <erb::Rogan3Ps>',
+         'rogan.2ps': 'erb::AlphaPot <erb::Rogan2Ps>',
+         'rogan.1ps': 'erb::AlphaPot <erb::Rogan1Ps>',
          'songhuei.9mm': 'erb::SongHuei9',
-         'sifam.drn111.white': 'erb::SifamDrn111',
-         'sifam.dbn151.white': 'erb::SifamDbn151',
+         'sifam.drn111.white': 'erb::AlphaPot <erb::SifamDrn111>',
+         'sifam.dbn151.white': 'erb::AlphaPot <erb::SifamDbn151>',
          'dailywell.2ms1': 'erb::Dailywell2Ms1',
          'dailywell.2ms3': 'erb::Dailywell2Ms3',
          'led.3mm.red': 'MediumLight <RedLight>',
