@@ -30,86 +30,44 @@ namespace erb
 
 
 
-struct Rogan6Ps : rack::Rogan
-{
-   Rogan6Ps () {
+template <typename KnobTrait>
+struct AlphaPot: rack::app::SvgKnob {
+   AlphaPot() {
+      minAngle = -0.83f * float (M_PI);
+      maxAngle = 0.83f * float (M_PI);
       shadow->blurRadius = 5;
       setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/rogan.6ps.svg")
+         rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
       ));
    }
 };
 
-
-
-struct Rogan5Ps : rack::Rogan
-{
-   Rogan5Ps () {
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/rogan.5ps.svg")
-      ));
-   }
+struct Rogan6Ps {
+   static constexpr const char * resource_0 = "res/rogan.6ps.svg";
 };
 
-
-
-struct Rogan3Ps : rack::Rogan
-{
-   Rogan3Ps () {
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/rogan.3ps.svg")
-      ));
-   }
+struct Rogan5Ps {
+   static constexpr const char * resource_0 = "res/rogan.5ps.svg";
 };
 
-
-
-struct Rogan2Ps : rack::Rogan
-{
-   Rogan2Ps () {
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/rogan.2ps.svg")
-      ));
-   }
+struct Rogan3Ps {
+   static constexpr const char * resource_0 = "res/rogan.3ps.svg";
 };
 
-
-
-struct Rogan1Ps : rack::Rogan
-{
-   Rogan1Ps () {
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/rogan.1ps.svg")
-      ));
-   }
+struct Rogan2Ps {
+   static constexpr const char * resource_0 = "res/rogan.2ps.svg";
 };
 
-
-
-struct SifamDbn151 : rack::Rogan
-{
-   SifamDbn151 () {
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/sifam.dbn151.white.svg")
-      ));
-   }
+struct Rogan1Ps {
+   static constexpr const char * resource_0 = "res/rogan.1ps.svg";
 };
 
+struct SifamDbn151 {
+   static constexpr const char * resource_0 = "res/sifam.dbn151.white.svg";
+};
 
-
-struct SifamDrn111 : rack::Rogan
-{
-   SifamDrn111 () {
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/sifam.drn111.white.svg")
-      ));
-   }
+struct SifamDrn111 {
+   static constexpr const char * resource_0 = "res/sifam.drn111.white.svg";
 };
 
 
