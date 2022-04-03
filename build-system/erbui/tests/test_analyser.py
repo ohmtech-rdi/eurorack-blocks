@@ -35,7 +35,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      module.entities.append (control)
+      module.add (control)
 
       analyser = Analyser ()
       analyser.make_cascade_eval_list (module)
@@ -52,14 +52,14 @@ class TestAnalyser (unittest.TestCase):
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      module.entities.append (control)
+      module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
@@ -80,15 +80,15 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      module.entities.append (control)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
@@ -110,30 +110,30 @@ class TestAnalyser (unittest.TestCase):
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in3'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in4'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in4'),
          mock.keyword ('CvIn')
       )
-      module.entities.append (control)
+      module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
@@ -156,31 +156,31 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in4'),
          mock.keyword ('CvIn')
       )
-      module.entities.append (control)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in4'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in3'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
@@ -204,30 +204,30 @@ class TestAnalyser (unittest.TestCase):
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in4'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in3'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in4'),
          mock.keyword ('CvIn')
       )
-      module.entities.append (control)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
       cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.entities.append (cascade_to)
-      module.entities.append (control)
+      control.add (cascade_to)
+      module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
