@@ -122,8 +122,8 @@
     (fp_text value TestPoint (at 0 -1.75) (layer B.Fab)
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
-    (fp_circle (center 0 0) (end 1.25 0) (layer B.CrtYd) (width 0.05))
     (fp_circle (center 0 0) (end 0 -0.95) (layer B.SilkS) (width 0.12))
+    (fp_circle (center 0 0) (end 1.25 0) (layer B.CrtYd) (width 0.05))
     (fp_text user %R (at 0 1.65) (layer B.Fab)
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
     )
@@ -131,7 +131,7 @@
       (net 2 "Net-(Pin0-Pad1)"))
   )
 
-  (module Switch_Thonk:SW_SPST_CKD6R (layer F.Cu) (tedit 60B9596D) (tstamp 60B9B5C5)
+  (module Switch_Thonk:SW_SPST_CKD6R locked (layer F.Cu) (tedit 60B9596D) (tstamp 60B9B5C5)
     (at 0 0)
     (path /5FD27819)
     (fp_text reference ZZ1 (at 0 7.2) (layer F.SilkS) hide
