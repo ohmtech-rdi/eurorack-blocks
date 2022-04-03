@@ -198,6 +198,8 @@ class Code:
          'Button': 'Param',
          'CvIn': 'Input',
          'CvOut': 'Output',
+         'Encoder': 'Param',
+         'EncoderButton': 'Param',
          'GateIn': 'Input',
          'GateOut': 'Output',
          'Led': 'Light',
