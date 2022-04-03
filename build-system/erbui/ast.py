@@ -1269,7 +1269,7 @@ class Control (Scope):
 
    @property
    def is_pin_multiple (self):
-      return self.kind == 'Switch' or self.kind == 'LedBi' or self.kind == 'LedRgb'
+      return self.kind == 'Encoder' or self.kind == 'EncoderButton' or self.kind == 'Switch' or self.kind == 'LedBi' or self.kind == 'LedRgb'
 
    @property
    def pins (self):
@@ -1279,7 +1279,11 @@ class Control (Scope):
 
    @property
    def nbr_pins (self):
-      if self.kind == 'Switch':
+      if self.kind == 'Encoder':
+         return 2
+      elif self.kind == 'EncoderButton':
+         return 3
+      elif self.kind == 'Switch':
          return 2
       elif self.kind == 'LedBi':
          return 2
@@ -1308,8 +1312,10 @@ class Control (Scope):
 
    @property
    def compound_properties (self):
-      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
+      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
          return []
+      elif self.kind == 'EncoderButton':
+         return ['encoder', 'button']
       elif self.kind == 'LedBi':
          return ['r', 'g']
       elif self.kind == 'LedRgb':
@@ -1319,7 +1325,7 @@ class Control (Scope):
 
    @property
    def is_input (self):
-      return self.kind in ['AudioIn', 'Button', 'CvIn', 'GateIn', 'Pot', 'Switch', 'Trim']
+      return self.kind in ['AudioIn', 'Button', 'CvIn', 'Encoder', 'EncoderButton', 'GateIn', 'Pot', 'Switch', 'Trim']
 
    @property
    def is_output (self):
@@ -1508,6 +1514,19 @@ class Style (Scope):
    @property
    def is_ck_d6r_black (self):
       return self.name == 'ck.d6r.black'
+
+   @property
+   def is_bourns_pec11r (self):
+      return self.is_bourns_pec11r_n or self.is_bourns_pec11r_s
+
+   @property
+   def is_bourns_pec11r_n (self):
+      return self.is_knob and self.parent.kind == 'Encoder'
+
+   @property
+   def is_bourns_pec11r_s (self):
+      return self.is_knob and self.parent.kind == 'EncoderButton'
+
 
 
 
