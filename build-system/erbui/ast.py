@@ -1371,6 +1371,10 @@ class Style (Scope):
 
    @property
    def is_alpha_9mm (self):
+      return self.is_knob and self.parent.kind == 'Pot'
+
+   @property
+   def is_knob (self):
       return self.is_rogan or self.is_sifam
 
    @property
