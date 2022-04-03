@@ -205,14 +205,14 @@ class KicadPcb:
             parts [part_name] = 1
 
       for control in module.controls:
-         style_name = control.style.name
-         inc_part (style_name)
-         if style_name.startswith ('rogan.'):
+         inc_part (control.style.name)
+
+         if control.style.is_alpha_9mm:
             inc_part ('alpha.9mm')
-         elif style_name.startswith ('thonk.pj398sm.'):
+         elif control.style.is_thonk_pj398sm:
             inc_part ('thonk.pj398sm')
-         elif style_name == 'tl1105':
-            inc_part ('1rblk')
+         elif control.style.is_tl1105:
+            inc_part ('1rblk') # button cap
 
       bom = 'Description;Quantity;Distributor;Distributor Part Nbr;Distributor Link\n'
 
