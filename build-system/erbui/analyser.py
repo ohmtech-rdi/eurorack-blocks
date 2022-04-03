@@ -119,7 +119,7 @@ class Analyser:
 
       entities = [e for e in module.entities if e.is_width]
       if len (entities) == 0:
-         module.entities.append (module.board.width)
+         module.add (module.board.width)
 
 
    #--------------------------------------------------------------------------
@@ -252,7 +252,7 @@ class Analyser:
       cascade_from = ast.CascadeFrom ()
       cascade_from.reference = control_from
       cascade_from.index = self._cascade_index
-      control.entities.append (cascade_from)
+      control.add (cascade_from)
       self._cascade_index += 1
 
 
@@ -428,7 +428,7 @@ class Analyser:
             pool_pin.mark_unavailable ()
             pin_identifier = pool_pin.identifier
             pin = ast.Pin (pin_identifier)
-            control.entities.append (pin)
+            control.add (pin)
 
       elif control.is_pin_multiple:
          pin_arrays = [e for e in control.entities if e.is_pin_array]
@@ -447,7 +447,7 @@ class Analyser:
                identifiers.append (pin_identifier)
 
             pin_array = ast.Pins (identifiers)
-            control.entities.append (pin_array)
+            control.add (pin_array)
 
 
    #--------------------------------------------------------------------------

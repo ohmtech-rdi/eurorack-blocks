@@ -71,8 +71,8 @@ class TestGeneratorFrontPcb (unittest.TestCase):
 
    def test_003 (self):
       module = ast.Module (mock.identifier ('test_generator_front_pcb_003'), None)
-      module.entities.append (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
-      module.entities.append (ast.Board (mock.identifier ("kivu12")))
+      module.add (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
+      module.add (ast.Board (mock.identifier ("kivu12")))
 
       control = ast.Control (
          mock.identifier ('test'),
@@ -82,12 +82,12 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          ast.DistanceLiteral (mock.literal ('5hp'), 'hp'),
          ast.DistanceLiteral (mock.literal ('32mm'), 'mm'),
       )
-      control.entities.append (position)
+      control.add (position)
       style = ast.Style (mock.keyword ('songhuei.9mm'))
-      control.entities.append (style)
+      control.add (style)
       pin = ast.Pin (mock.identifier ('P1'))
-      control.entities.append (pin)
-      module.entities.append (control)
+      control.add (pin)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('test'),
@@ -97,12 +97,12 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          ast.DistanceLiteral (mock.literal ('5hp'), 'hp'),
          ast.DistanceLiteral (mock.literal ('64mm'), 'mm'),
       )
-      control.entities.append (position)
+      control.add (position)
       style = ast.Style (mock.keyword ('rogan.6ps'))
-      control.entities.append (style)
+      control.add (style)
       pin = ast.Pin (mock.identifier ('P2'))
-      control.entities.append (pin)
-      module.entities.append (control)
+      control.add (pin)
+      module.add (control)
 
       control = ast.Control (
          mock.identifier ('test'),
@@ -112,12 +112,12 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          ast.DistanceLiteral (mock.literal ('5hp'), 'hp'),
          ast.DistanceLiteral (mock.literal ('96mm'), 'mm'),
       )
-      control.entities.append (position)
+      control.add (position)
       style = ast.Style (mock.keyword ('thonk.pj398sm.hex'))
-      control.entities.append (style)
+      control.add (style)
       pin = ast.Pin (mock.identifier ('CI1'))
-      control.entities.append (pin)
-      module.entities.append (control)
+      control.add (pin)
+      module.add (control)
 
       module.board.load_builtin ()
 
