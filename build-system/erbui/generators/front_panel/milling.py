@@ -116,6 +116,7 @@ class Milling:
    #
    # Reference:
    # Alpha: https://www.thonk.co.uk/wp-content/uploads/2017/05/Alpha-D-shaft.pdf
+   # Bourns: https://www.bourns.com/docs/Product-Datasheets/PEC11R.pdf
    # SongHuei: https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf
    # DailyWell: https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf
    # Thonkiconn: https://www.thonk.co.uk/wp-content/uploads/2018/07/Thonkiconn_Jack_Datasheet-new.jpg
@@ -123,6 +124,9 @@ class Milling:
 
    def get_drill_size (self, style):
       if style.is_alpha_9mm:
+         return 7.5
+
+      elif style.is_bourns_pec11r:
          return 7.5
 
       elif style.is_songhuei_9mm:
