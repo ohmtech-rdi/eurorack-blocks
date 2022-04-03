@@ -47,7 +47,7 @@ The Board provide the following features:
 - 8 CV In `CI1..CI8`:
    - Either with ±5V levels,
    - Or 2 (CI1 and CI2) with optional 0..10V levels, selectable with a jumper, to support CV Pitch and ADSR
-- 2 CV Out ±5V `CO1..CO2`,
+- 2 CV Out 0..5V `CO1..CO2`,
 - 2 Audio In ±5V `AI1..AI2`,
 - 2 Audio Out ±5V `AO1..AO2`.
 
