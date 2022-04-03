@@ -58,8 +58,20 @@ struct Rogan2Ps {
    static constexpr const char * resource_0 = "res/rogan.2ps.svg";
 };
 
+struct Rogan2SBlack {
+   static constexpr const char * resource_0 = "res/rogan.2s.black.svg";
+};
+
 struct Rogan1Ps {
    static constexpr const char * resource_0 = "res/rogan.1ps.svg";
+};
+
+struct Rogan1S {
+   static constexpr const char * resource_0 = "res/rogan.1s.svg";
+};
+
+struct Rogan1SBlack {
+   static constexpr const char * resource_0 = "res/rogan.1s.black.svg";
 };
 
 struct SifamDbn151 {
