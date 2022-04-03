@@ -213,6 +213,8 @@ class KicadPcb:
             inc_part ('thonk.pj398sm')
          elif control.style.is_tl1105:
             inc_part ('1rblk') # button cap
+         elif control.style.is_bourns_pec11r_n:
+            inc_part ('bourns.pec11r.n')
 
       bom = 'Description;Quantity;Distributor;Distributor Part Nbr;Distributor Link\n'
 
@@ -338,6 +340,12 @@ class KicadPcb:
             dist = 'Digikey'
             dist_pn = 'EG1882-ND'
             dist_link = 'https://www.digikey.com/en/products/detail/e-switch/1RBLK/271579'
+
+         elif part == 'bourns.pec11r.n':
+            description = 'ROTARY ENCODER MECHANICAL 24PPR'
+            dist = 'Digikey'
+            dist_pn = 'PEC11R-4220F-N0024'
+            dist_link = 'https://www.digikey.de/en/products/detail/bourns-inc/PEC11R-4220F-N0024/4699220'
 
          elif part == 'led.3mm.red':
             description = 'LED RED DIFFUSED T-1 T/H'
