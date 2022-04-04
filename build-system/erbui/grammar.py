@@ -22,7 +22,7 @@ KEYWORDS = (
 UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
 CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
 CONTROL_STYLES = (
-   'rogan.6ps', 'rogan.5ps', 'rogan.3ps', 'rogan.2ps', 'rogan.1ps',
+   'rogan.6ps', 'rogan.5ps', 'rogan.3ps', 'rogan.2ps', 'rogan.1ps', 'rogan.2s.black', 'rogan.1s.black', 'rogan.1s',
    'sifam.dbn151.white', 'sifam.drn111.white',
    'songhuei.9mm',
    'dailywell.2ms1', 'dailywell.2ms3',

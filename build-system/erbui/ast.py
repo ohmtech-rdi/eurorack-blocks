@@ -1379,7 +1379,7 @@ class Style (Scope):
 
    @property
    def is_rogan (self):
-      return self.is_rogan_6ps or self.is_rogan_5ps or self.is_rogan_3ps or self.is_rogan_2ps or self.is_rogan_1ps
+      return self.is_rogan_6ps or self.is_rogan_5ps or self.is_rogan_3ps or self.is_rogan_2_skirted or self.is_rogan_1_skirted
 
    @property
    def is_rogan_6ps (self):
@@ -1394,12 +1394,32 @@ class Style (Scope):
       return self.name == 'rogan.3ps'
 
    @property
+   def is_rogan_2_skirted (self):
+      return self.is_rogan_2ps or self.is_rogan_2s_black
+
+   @property
    def is_rogan_2ps (self):
       return self.name == 'rogan.2ps'
 
    @property
+   def is_rogan_2s_black (self):
+      return self.name == 'rogan.2s.black'
+
+   @property
+   def is_rogan_1_skirted (self):
+      return self.is_rogan_1ps or self.is_rogan_1s or self.is_rogan_1s_black
+
+   @property
    def is_rogan_1ps (self):
       return self.name == 'rogan.1ps'
+
+   @property
+   def is_rogan_1s (self):
+      return self.name == 'rogan.1s'
+
+   @property
+   def is_rogan_1s_black (self):
+      return self.name == 'rogan.1s.black'
 
    @property
    def is_sifam (self):
