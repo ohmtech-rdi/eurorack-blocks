@@ -215,32 +215,46 @@ class Code:
    #--------------------------------------------------------------------------
 
    def control_style_to_widget (self, control):
-      style_widget_map = {
-         'rogan.6ps': 'erb::AlphaPot <erb::Rogan6Ps>',
-         'rogan.5ps': 'erb::AlphaPot <erb::Rogan5Ps>',
-         'rogan.3ps': 'erb::AlphaPot <erb::Rogan3Ps>',
-         'rogan.2ps': 'erb::AlphaPot <erb::Rogan2Ps>',
-         'rogan.1ps': 'erb::AlphaPot <erb::Rogan1Ps>',
-         'rogan.2s.black': 'erb::AlphaPot <erb::Rogan2SBlack>',
-         'rogan.1s': 'erb::AlphaPot <erb::Rogan1S>',
-         'rogan.1s.black': 'erb::AlphaPot <erb::Rogan1SBlack>',
-         'songhuei.9mm': 'erb::SongHuei9',
-         'sifam.drn111.white': 'erb::AlphaPot <erb::SifamDrn111>',
-         'sifam.dbn151.white': 'erb::AlphaPot <erb::SifamDbn151>',
-         'dailywell.2ms1': 'erb::Dailywell2Ms1',
-         'dailywell.2ms3': 'erb::Dailywell2Ms3',
-         'led.3mm.red': 'MediumLight <RedLight>',
-         'led.3mm.green': 'MediumLight <GreenLight>',
-         'led.3mm.yellow': 'MediumLight <YellowLight>',
-         'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
-         'led.3mm.green_red': 'MediumLight <GreenRedLight>',
-         'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
-         'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
-         'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6r.black': 'CKD6',
-         'tl1105': 'TL1105',
-      }
+      if control.kind in ['Pot', 'Encoder']:
+         widget_map = {
+            'Pot': 'erb::AlphaPot',
+            'Encoder': 'erb::BournsPec11r',
+         }
+         widget = widget_map [control.kind]
 
-      return style_widget_map [control.style.name]
+         knob_trait_map = {
+            'rogan.6ps': 'erb::Rogan6Ps',
+            'rogan.5ps': 'erb::Rogan5Ps',
+            'rogan.3ps': 'erb::Rogan3Ps',
+            'rogan.2ps': 'erb::Rogan2Ps',
+            'rogan.1ps': 'erb::Rogan1Ps',
+            'rogan.2s.black': 'erb::Rogan2SBlack',
+            'rogan.1s': 'erb::Rogan1S',
+            'rogan.1s.black': 'erb::Rogan1SBlack',
+            'sifam.drn111.white': 'erb::SifamDrn111',
+            'sifam.dbn151.white': 'erb::SifamDbn151',
+         }
+         knob = knob_trait_map [control.style.name]
+
+         return '%s <%s>' % (widget, knob)
+
+      else:
+         style_widget_map = {
+            'songhuei.9mm': 'erb::SongHuei9',
+            'dailywell.2ms1': 'erb::Dailywell2Ms1',
+            'dailywell.2ms3': 'erb::Dailywell2Ms3',
+            'led.3mm.red': 'MediumLight <RedLight>',
+            'led.3mm.green': 'MediumLight <GreenLight>',
+            'led.3mm.yellow': 'MediumLight <YellowLight>',
+            'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
+            'led.3mm.green_red': 'MediumLight <GreenRedLight>',
+            'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
+            'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
+            'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
+            'ck.d6r.black': 'CKD6',
+            'tl1105': 'TL1105',
+         }
+
+         return style_widget_map [control.style.name]
 
 
