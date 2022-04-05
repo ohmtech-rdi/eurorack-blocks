@@ -11,7 +11,7 @@ try {
    modulePath = args [0]
    maxApi.post(`module: ${modulePath}`);
    const build = spawn(
-      'bash', ['-l', '-c', 'erbb configure; erbb build simulator'],
+      process.env.SHELL, ['-l', '-c', 'erbb configure && erbb build simulator'],
       { cwd: modulePath }
    )
 
