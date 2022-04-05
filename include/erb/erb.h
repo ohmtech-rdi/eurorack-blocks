@@ -19,6 +19,7 @@
 #include "erb/Button.h"
 #include "erb/CvIn.h"
 #include "erb/CvOut.h"
+#include "erb/Encoder.h"
 #include "erb/FloatRange.h"
 #include "erb/GateIn.h"
 #include "erb/GateOut.h"
