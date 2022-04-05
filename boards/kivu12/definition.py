@@ -218,67 +218,67 @@
       #--- Right Header
 
       'B1': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(0)',
       },
       'B2': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(1)',
       },
       'B3': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(2)',
       },
       'B4': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(3)',
       },
       'B5': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(4)',
       },
       'B6': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(5)',
       },
       'B7': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(6)',
       },
       'B8': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(7)',
       },
       'B9': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(8)',
       },
       'B10': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(9)',
       },
       'B11': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(10)',
       },
       'B12': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(11)',
       },
       'B13': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(12)',
       },
       'B14': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(13)',
       },
       'B15': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(14)',
       },
       'B16': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'b(15)',
       },
    },
@@ -294,6 +294,7 @@
       'Pot': {'pools': ['P']},
       'Trim': {'pools': ['P']},
       'Button': {'pools': ['B']},
+      'Encoder': {'pools': ['B', 'B']},
       'GateIn': {'pools': ['B']},
       'Switch': {'pools': ['B', 'B']},
    },

@@ -13,515 +13,515 @@
    'width': 12, # hp
    'pins': {
       'DII1': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(0)',
       },
       'DII2': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(1)',
       },
       'DII3': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(2)',
       },
       'DII4': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(3)',
       },
       'DII5': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(4)',
       },
       'DII6': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(5)',
       },
       'DII7': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(6)',
       },
       'DII8': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(7)',
       },
       'DII9': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(8)',
       },
       'DII10': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(9)',
       },
       'DII11': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(10)',
       },
       'DII12': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(11)',
       },
       'DII13': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(12)',
       },
       'DII14': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(13)',
       },
       'DII15': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(14)',
       },
       'DII16': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(15)',
       },
       'DII17': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(16)',
       },
       'DII18': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(17)',
       },
       'DII19': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(18)',
       },
       'DII20': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(19)',
       },
       'DII21': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(20)',
       },
       'DII22': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(21)',
       },
       'DII23': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(22)',
       },
       'DII24': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(23)',
       },
       'DII25': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(24)',
       },
       'DII26': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(25)',
       },
       'DII27': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(26)',
       },
       'DII28': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(27)',
       },
       'DII29': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(28)',
       },
       'DII30': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(29)',
       },
       'DII31': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(30)',
       },
       'DII32': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(31)',
       },
       'DII33': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(32)',
       },
       'DII34': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(33)',
       },
       'DII35': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(34)',
       },
       'DII36': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(35)',
       },
       'DII37': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(36)',
       },
       'DII38': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(37)',
       },
       'DII39': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(38)',
       },
       'DII40': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(39)',
       },
       'DII41': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(40)',
       },
       'DII42': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(41)',
       },
       'DII43': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(42)',
       },
       'DII44': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(43)',
       },
       'DII45': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(44)',
       },
       'DII46': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(45)',
       },
       'DII47': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(46)',
       },
       'DII48': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(47)',
       },
       'DII49': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(48)',
       },
       'DII50': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(49)',
       },
       'DII51': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(50)',
       },
       'DII52': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(51)',
       },
       'DII53': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(52)',
       },
       'DII54': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(53)',
       },
       'DII55': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(54)',
       },
       'DII56': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(55)',
       },
       'DII57': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(56)',
       },
       'DII58': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(57)',
       },
       'DII59': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(58)',
       },
       'DII60': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(59)',
       },
       'DII61': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(60)',
       },
       'DII62': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(61)',
       },
       'DII63': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(62)',
       },
       'DII64': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(63)',
       },
       'DII65': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(64)',
       },
       'DII66': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(65)',
       },
       'DII67': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(66)',
       },
       'DII68': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(67)',
       },
       'DII69': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(68)',
       },
       'DII70': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(69)',
       },
       'DII71': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(70)',
       },
       'DII72': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(71)',
       },
       'DII73': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(72)',
       },
       'DII74': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(73)',
       },
       'DII75': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(74)',
       },
       'DII76': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(75)',
       },
       'DII77': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(76)',
       },
       'DII78': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(77)',
       },
       'DII79': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(78)',
       },
       'DII80': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(79)',
       },
       'DII81': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(80)',
       },
       'DII82': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(81)',
       },
       'DII83': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(82)',
       },
       'DII84': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(83)',
       },
       'DII85': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(84)',
       },
       'DII86': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(85)',
       },
       'DII87': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(86)',
       },
       'DII88': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(87)',
       },
       'DII89': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(88)',
       },
       'DII90': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(89)',
       },
       'DII91': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(90)',
       },
       'DII92': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(91)',
       },
       'DII93': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(92)',
       },
       'DII94': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(93)',
       },
       'DII95': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(94)',
       },
       'DII96': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(95)',
       },
       'DII97': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(96)',
       },
       'DII98': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(97)',
       },
       'DII99': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(98)',
       },
       'DII100': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(99)',
       },
       'DII101': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(100)',
       },
       'DII102': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(101)',
       },
       'DII103': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(102)',
       },
       'DII104': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(103)',
       },
       'DII105': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(104)',
       },
       'DII106': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(105)',
       },
       'DII107': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(106)',
       },
       'DII108': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(107)',
       },
       'DII109': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(108)',
       },
       'DII110': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(109)',
       },
       'DII111': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(110)',
       },
       'DII112': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(111)',
       },
       'DII113': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(112)',
       },
       'DII114': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(113)',
       },
       'DII115': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(114)',
       },
       'DII116': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(115)',
       },
       'DII117': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(116)',
       },
       'DII118': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(117)',
       },
       'DII119': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(118)',
       },
       'DII120': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(119)',
       },
       'DII121': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(120)',
       },
       'DII122': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(121)',
       },
       'DII123': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(122)',
       },
       'DII124': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(123)',
       },
       'DII125': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(124)',
       },
       'DII126': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(125)',
       },
       'DII127': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(126)',
       },
       'DII128': {
-         'accept': ['Button', 'GateIn', 'Switch'],
+         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],
          'bind': 'dii(127)',
       },
       'ANI1': {
@@ -2233,6 +2233,7 @@
       'Pot': {'pools': ['ANI']},
       'Trim': {'pools': ['ANI']},
       'Button': {'pools': ['DII']},
+      'Encoder': {'pools': ['DII', 'DII']},
       'GateIn': {'pools': ['DII']},
       'Switch': {'pools': ['DII', 'DII']},
    },
