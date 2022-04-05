@@ -1,0 +1,21 @@
+// Sampler4.erbb
+
+module Sampler4 {
+
+   sources {
+      file "Sampler4.cpp"
+      file "Sampler4.h"
+      file "Sampler4.erbui"
+   }
+
+   resources {
+      data sample01 AudioSample { file "media/sample01.wav" }
+      data sample02 AudioSample { file "media/sample02.wav" }
+      data sample03 AudioSample { file "media/sample03.wav" }
+      data sample04 AudioSample { file "media/sample04.wav" }
+      data sample05 AudioSample { file "media/sample05.wav" }
+      data sample06 AudioSample { file "media/sample06.wav" }
+      data sample07 AudioSample { file "media/sample07.wav" }
+      data sample08 AudioSample { file "media/sample08.wav" }
+   }
+}
