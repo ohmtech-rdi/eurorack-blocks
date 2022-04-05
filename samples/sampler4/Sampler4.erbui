@@ -6,14 +6,35 @@ module Sampler4 {
    material aluminum
    header { label "Sampler4" }
 
-   control select_1 Encoder {
+   label "TRK1" {
+      position 2hp, 20mm
+   }
+
+   control track1_select Encoder {
       position 2hp, 26mm
       style rogan.1s
       label "SEL"
    }
 
+   control track1_trigger_button Button {
+      position 2hp, 75.3mm
+      style ck.d6r.black
+   }
+
+   control track1_trigger_led Led {
+      position 2hp, 85mm
+      style led.3mm.red
+   }
+
+   control track1_trigger_gate GateIn {
+      position 2hp, 96.5mm
+      style thonk.pj398sm.knurled
+      label "TRIG"
+   }
+
+
    control audio_out AudioOut {
-      position 6hp, 111mm
+      position 10hp, 111mm
       style thonk.pj398sm.knurled
       label "OUT"
    }

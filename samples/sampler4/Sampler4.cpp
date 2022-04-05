@@ -3,10 +3,16 @@
 #include "Sampler4.h"
 
 
+Sampler4::Track::Track (erb::Encoder & select_, erb::Button & trigger_button_, erb::Led <erb::PinType::Pwm> & trigger_led_, erb::GateIn & trigger_gate_)
+:  select (select_)
+,  trigger_button (trigger_button_)
+,  trigger_led (trigger_led_)
+,  trigger_gate (trigger_gate_)
+{
+}
+
 void  Sampler4::init ()
 {
-   // This function is called once, before the first 'process' is called.
-   // you can setup your module here.
 }
 
 
@@ -17,6 +23,6 @@ void  Sampler4::process ()
 
    for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
    {
-      ui.audio_out [i] = ui.audio_in [i];
+      ui.audio_out [i] = 0.f;
    }
 }
