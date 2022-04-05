@@ -1,0 +1,20 @@
+// Sampler4.erbui
+
+module Sampler4 {
+   width 12hp
+   board kivu12
+   material aluminum
+   header { label "Sampler4" }
+
+   control select_1 Encoder {
+      position 2hp, 26mm
+      style rogan.1s
+      label "SEL"
+   }
+
+   control audio_out AudioOut {
+      position 6hp, 111mm
+      style thonk.pj398sm.knurled
+      label "OUT"
+   }
+}
