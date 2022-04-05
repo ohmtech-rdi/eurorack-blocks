@@ -130,7 +130,7 @@ class Code:
       lines = ''
 
       for control in module.controls:
-         if control.kind in ['Button', 'CvIn', 'GateIn', 'Pot', 'Switch', 'Trim']:
+         if control.kind in ['Button', 'CvIn', 'Encoder', 'GateIn', 'Pot', 'Switch', 'Trim']:
             if control.name in module_max_def ['params']:
                param_val = self.make_mapping_input (control, None, module_max_def ['params'][control.name]['min'], module_max_def ['params'][control.name]['max'])
 
@@ -148,6 +148,8 @@ class Code:
          pass
       elif control.kind in ['Button']:
          preconditioning = '(%s.held () ? 1.f : 0.f)' % cpp_name
+      elif control.kind in ['Encoder']:
+         preconditioning = 'float (int (%s))' % cpp_name
       elif control.kind in ['GateIn']:
          preconditioning = '(bool (%s) ? 1.f : 0.f)' % cpp_name
       elif control.kind in ['Switch']:
