@@ -65,6 +65,8 @@ class FaustWidget:
          pass
       elif control.kind in ['Button']:
          preconditioning = 'float (%s.pressed ())' % name
+      elif control.kind in ['Encoder']:
+         preconditioning = 'float (int (%s))' % name
       elif control.kind in ['Switch']:
          preconditioning = '(%s.position_first () ? 0.f : (%s.position_center () ? 0.5f : 1.f))' % (name, name)
 
