@@ -42,6 +42,18 @@ struct AlphaPot: rack::app::SvgKnob {
    }
 };
 
+template <typename KnobTrait>
+struct BournsPec11r: rack::app::SvgKnob {
+   BournsPec11r() {
+      minAngle = -0.83f * float (M_PI);
+      maxAngle = 0.83f * float (M_PI);
+      shadow->blurRadius = 5;
+      setSvg (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
+      ));
+   }
+};
+
 struct Rogan6Ps {
    static constexpr const char * resource_0 = "res/rogan.6ps.svg";
 };
