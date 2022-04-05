@@ -135,6 +135,16 @@ private:
       bool        bipolar;
    };
 
+   struct BindingEncoder
+   {
+      void        process ();
+      uint8_t *   data_inc_ptr;
+      uint8_t *   data_dec_ptr;
+      int         previous = 0;
+      rack::engine::Param *
+                  param_ptr;
+   };
+
    struct BindingGateIn
    {
       void        process ();
@@ -253,6 +263,7 @@ private:
       BindingAudioIn,
       BindingButton,
       BindingCvIn,
+      BindingEncoder,
       BindingGateIn,
       BindingPot,
       BindingSwitch

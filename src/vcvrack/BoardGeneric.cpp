@@ -236,6 +236,24 @@ void  BoardGeneric::BindingCvOut::process ()
 
 /*
 ==============================================================================
+Name : BindingEncoder::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingEncoder::process ()
+{
+   auto cur = int (param_ptr->getValue ());
+
+   *data_inc_ptr = (cur > previous) ? 1 : 0;
+   *data_dec_ptr = (cur < previous) ? 1 : 0;
+
+   previous = cur;
+}
+
+
+
+/*
+==============================================================================
 Name : BindingGateIn::process
 ==============================================================================
 */
