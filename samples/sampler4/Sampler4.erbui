@@ -16,6 +16,16 @@ module Sampler4 {
       label "SEL"
    }
 
+   control track1_select_inc Led {
+      position 1hp, 50mm
+      style led.3mm.red
+   }
+
+   control track1_select_dec Led {
+      position 3hp, 50mm
+      style led.3mm.red
+   }
+
    control track1_trigger_button Button {
       position 2hp, 75.3mm
       style ck.d6r.black
