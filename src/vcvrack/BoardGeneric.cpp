@@ -242,9 +242,10 @@ Name : BindingEncoder::process
 
 void  BoardGeneric::BindingEncoder::process ()
 {
-   auto cur = int (param_ptr->getValue ());
+   auto cur = int (std::round (param_ptr->getValue ()));
 
    *data_inc_ptr = (cur > previous) ? 1 : 0;
+   //*data_inc_ptr = 1;
    *data_dec_ptr = (cur < previous) ? 1 : 0;
 
    previous = cur;

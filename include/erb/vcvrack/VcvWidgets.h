@@ -45,14 +45,51 @@ struct AlphaPot: rack::app::SvgKnob {
 };
 
 template <typename KnobTrait>
-struct BournsPec11r: rack::app::SvgKnob {
+struct BournsPec11r: rack::app::Knob {
+   rack::widget::FramebufferWidget* fb;
+   rack::CircularShadow* shadow;
+   rack::widget::TransformWidget* tw;
+   rack::widget::SvgWidget* sw;
+
    BournsPec11r() {
-      minAngle = -0.83f * float (M_PI);
-      maxAngle = 0.83f * float (M_PI);
+      fb = new rack::widget::FramebufferWidget;
+      addChild (fb);
+
+      shadow = new rack::CircularShadow;
+      fb->addChild (shadow);
+      shadow->box.size = rack::math::Vec();
       shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
+
+      tw = new rack::widget::TransformWidget;
+      fb->addChild (tw);
+
+      sw = new rack::widget::SvgWidget;
+      tw->addChild (sw);
+
+      sw->setSvg (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
       ));
+      tw->box.size = sw->box.size;
+      fb->box.size = sw->box.size;
+      box.size = sw->box.size;
+      shadow->box.size = sw->box.size;
+      shadow->box.pos = rack::math::Vec(0, sw->box.size.y * 0.10);
+   }
+
+   void  onChange(const rack::event::Change& e) {
+      if (paramQuantity){
+         float angle = paramQuantity->getValue ();
+         angle = std::fmod (angle, 2 * M_PI);
+         tw->identity ();
+         // Rotate SVG
+         rack::math::Vec center = sw->box.getCenter ();
+         tw->translate (center);
+         tw->rotate (angle);
+         tw->translate (center.neg ());
+         fb->dirty = true;
+      }
+
+      Knob::onChange (e);
    }
 };
 
