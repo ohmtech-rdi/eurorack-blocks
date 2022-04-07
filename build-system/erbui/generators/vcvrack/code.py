@@ -63,15 +63,22 @@ class Code:
 
             if category == 'Param':
                if control.mode is not None and control.mode.is_bipolar:
-                  min_val = -1
+                  min_val = '-1'
+               elif control.kind == 'Encoder':
+                  min_val = '- std::numeric_limits <float>::infinity ()'
                else:
-                  min_val = 0
+                  min_val = '0'
 
-               max_val = 2 if control.style.is_dailywell_2ms3 else 1
+               if control.style.is_dailywell_2ms3:
+                  max_val = '2'
+               elif control.kind == 'Encoder':
+                  max_val = 'std::numeric_limits <float>::infinity ()'
+               else:
+                  max_val = '1'
 
                control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, %f, %f, 0.f);\n\n' % (nbr_params, min_val, max_val)
+               controls_bind_config += '   configParam (%d, %s, %s, 0.f);\n\n' % (nbr_params, min_val, max_val)
                nbr_params += 1
 
             elif category == 'Input':

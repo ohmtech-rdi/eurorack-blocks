@@ -24,6 +24,7 @@ erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
 erb_RESTORE_WARNINGS
 
+#include <limits>
 #include <type_traits>
 
 
