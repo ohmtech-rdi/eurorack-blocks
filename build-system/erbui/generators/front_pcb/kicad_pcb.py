@@ -222,7 +222,7 @@ class KicadPcb:
          component = self.rotate (component, control)
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
-         component = self.rename_cascade (component, control.cascade_to.index)
+         component = self.rename_cascade_to (component, control.cascade_to.index)
          component = self.relink_nets (component, control)
          for element in component.entities:
             self.base.add (element)
@@ -232,7 +232,7 @@ class KicadPcb:
          component = self.rotate (component, control)
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
-         component = self.rename_cascade (component, control.cascade_from.index)
+         component = self.rename_cascade_from (component, control.cascade_from.index)
          component = self.relink_nets (component, control)
          for element in component.entities:
             self.base.add (element)
@@ -369,13 +369,25 @@ class KicadPcb:
 
 
    #--------------------------------------------------------------------------
-   # Rename graphic text cascade pin (if any) to actual pin name
+   # Rename graphic text 'cascade_to' pin (if any) to actual pin name
 
-   def rename_cascade (self, component, cascade_index):
+   def rename_cascade_to (self, component, cascade_index):
+      return self.rename_cascade (component, 'cascade_to', cascade_index)
 
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text 'cascade_from' pin (if any) to actual pin name
+
+   def rename_cascade_from (self, component, cascade_index):
+      return self.rename_cascade (component, 'cascade_from', cascade_index)
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_cascade (self, component, cascade_type, cascade_index):
       for gr_text_node in component.filter_kind ('gr_text'):
          text = gr_text_node.entities [1].value
-         if text == 'cascade':
+         if text == cascade_type:
             gr_text_node.entities [1].value = 'K%d' % (cascade_index + 1)
 
       return component
