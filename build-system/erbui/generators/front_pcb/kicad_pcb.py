@@ -44,11 +44,7 @@ class KicadPcb:
 
       self.base = self.load (module.board.pcb.path)
 
-      route = 'wire'
-      if module.route is not None:
-         route = module.route.mode
-
-      remove_all_pads = route == 'manual'
+      remove_all_pads = not module.route.is_wire
       self.remove_board_pads (module, remove_all_pads)
 
       self.collect_nets ()
@@ -59,12 +55,9 @@ class KicadPcb:
       writer = s_expression.Writer ()
       writer.write (self.base, path_pcb)
 
-
-      if route == 'wire':
+      if module.route.is_wire:
          self.fill_zones (path, module)
          self.generate_module_gerber (path, module)
-      elif route == 'manual':
-         pass # nothing
 
 
    #--------------------------------------------------------------------------
