@@ -49,7 +49,7 @@ class KicadPcb:
          route = module.route.mode
 
       remove_all_pads = route == 'manual'
-      self.remove_pads (module, remove_all_pads)
+      self.remove_board_pads (module, remove_all_pads)
 
       self.collect_nets ()
 
@@ -67,72 +67,55 @@ class KicadPcb:
          pass # nothing
 
 
-
    #--------------------------------------------------------------------------
+   # Remove wire pads and associated traces either:
+   # - When the associated pin is unused
+   # - Or always, when 'all' is True
 
-   def remove_pads (self, module, all=False):
+   def remove_board_pads (self, module, all=False):
       net_numbers = []
-      def filter_func (node):
-         if isinstance (node, s_expression.List) and node.entities \
-            and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value in ['module'] \
-            and isinstance (node.entities [1], s_expression.Symbol) \
-            and 'TestPoint:TestPoint_Pad' in node.entities [1].value:
-            remove = False
-            net_number = None
-            for sub_node in node.entities:
-               if isinstance (sub_node, s_expression.List) and sub_node.entities \
-                  and isinstance (sub_node.entities [0], s_expression.Symbol) \
-                  and sub_node.entities [0].value in ['fp_text'] \
-                  and sub_node.entities [1].value in ['reference', 'user'] \
-                  and sub_node.entities [2].value in module.unused_pins:
-                     remove = True
 
-               if isinstance (sub_node, s_expression.List) and sub_node.entities \
-                  and isinstance (sub_node.entities [0], s_expression.Symbol) \
-                  and sub_node.entities [0].value in ['pad']:
-                  for ssub_node in sub_node.entities:
-                     if isinstance (ssub_node, s_expression.List) and ssub_node.entities \
-                        and isinstance (ssub_node.entities [0], s_expression.Symbol) \
-                        and ssub_node.entities [0].value in ['net']:
-                           net_number = ssub_node.entities [1].value
-            if remove or all:
+      # filter pins to remove and collect net numbers of traces to remove
+      def filter_module (node):
+         if node.kind == 'module' and node.entities [1].value.startswith ('TestPoint:TestPoint_Pad'):
+            pad_node = node.first_kind ('pad')
+            net_node = pad_node.first_kind ('net')
+            net_number = net_node.entities [1].value
+
+            if all:
                net_numbers.append (net_number)
                return False
 
+            for fp_text_node in node.filter_kind ('fp_text'):
+               if fp_text_node.entities [1].value in ['reference', 'user'] \
+                  and fp_text_node.entities [2].value in module.unused_pins:
+                     net_numbers.append (net_number)
+                     return False
+
          return True
 
-      self.base.entities = list (filter (filter_func, self.base.entities))
+      self.base.entities = list (filter (filter_module, self.base.entities))
 
-      self.remove_nets (net_numbers)
+      # filter segments (traces) with matchin net number to remove
+      def filter_segment (node):
+         if node.kind == 'segment':
+            net_node = node.first_kind ('net')
+            net_number = net_node.entities [1].value
+            if net_number in net_numbers:
+               return False
+         return True
+
+      self.base.entities = list (filter (filter_segment, self.base.entities))
 
 
    #--------------------------------------------------------------------------
-
-   def remove_nets (self, nets):
-      def filter_func (node):
-         if isinstance (node, s_expression.List) and node.entities \
-            and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value in ['segment']:
-            for sub_node in node.entities:
-               if isinstance (sub_node, s_expression.List) and sub_node.entities \
-                  and isinstance (sub_node.entities [0], s_expression.Symbol) \
-                  and sub_node.entities [0].value in ['net'] \
-                  and sub_node.entities [1].value in nets:
-                  return False
-         return True
-
-      self.base.entities = list (filter (filter_func, self.base.entities))
-
-
-   #--------------------------------------------------------------------------
+   # Make a map from net name (pin name) to net number
 
    def collect_nets (self):
       self.nets = {}
-      for element in self.base.entities:
-         if isinstance (element, s_expression.List) \
-            and element.entities [0].value == 'net':
-            self.nets [element.entities [2].value] = element.entities [1].value
+
+      for net_node in self.base.filter_kind ('net'):
+         self.nets [net_node.entities [2].value] = net_node.entities [1].value
 
 
    #--------------------------------------------------------------------------
@@ -302,6 +285,10 @@ class KicadPcb:
 
 
    #--------------------------------------------------------------------------
+   # Load a PCB and filter out all the unrelevant PCB description
+   # Return a s_expression.List of:
+   # - Power (GND and +3V3) nets only,
+   # - modules, text and segments (traces)
 
    def load_component (self, path):
 
@@ -309,81 +296,37 @@ class KicadPcb:
          if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
             return False
 
-         if isinstance (node, s_expression.List) and node.entities \
-            and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class']:
+         if node.kind in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class']:
             return False
 
-         if isinstance (node, s_expression.List) and node.entities \
-            and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value in ['net']:
-               if len (node.entities) == 3:
-                  if node.entities [2].value == 'GND':
-                     return True
-                  elif node.entities [2].value == '+3V3':
-                     return True
-                  else:
-                     return False
-               else:
-                  return False
+         if node.kind == 'net':
+            return node.entities [2].value in ['GND', '+3V3']
 
+         # keep all the rest (modules, text, etc.)
          return True
 
       component = self.load (path)
       component.entities = list (filter (filter_func, component.entities))
 
-      #self.remove_net_recursive (component)
-
       return component
 
 
    #--------------------------------------------------------------------------
-
-   def remove_net_recursive (self, node):
-      def filter_func (node):
-         if isinstance (node, s_expression.List) and node.entities \
-            and isinstance (node.entities [0], s_expression.Symbol) \
-            and node.entities [0].value == 'net':
-               if len (node.entities) == 3:
-                  if node.entities [2].value == 'GND':
-                     return True
-                  elif node.entities [2].value == '+3V3':
-                     return True
-                  else:
-                     return False
-               else:
-                  return False
-         return True
-
-      for element in node.entities:
-         if isinstance (element, s_expression.List):
-            element.entities = list (filter (filter_func, element.entities))
-            self.remove_net_recursive (element)
-
-
-   #--------------------------------------------------------------------------
+   # Rename all module references (including pads)
+   # by preprending the control name, to ensure
+   # unique components reference names for the DRC checker.
 
    def rename_references (self, component, control):
-      for element in component.entities:
-         entity = element.entities [0]
-         element_name = entity.value
-         if element_name in ['module']:
-            self.rename_reference (element, control.name)
+      for module_node in component.filter_kind ('module'):
+         for fp_text_node in module_node.filter_kind ('fp_text'):
+            if fp_text_node.entities [1].value == 'reference':
+               fp_text_node.entities [2].value = control.name + fp_text_node.entities [2].value
 
       return component
 
 
    #--------------------------------------------------------------------------
-
-   def rename_reference (self, element, control_name):
-      for property in element.entities:
-         if isinstance (property, s_expression.List) \
-            and property.entities [0].value == 'fp_text' \
-            and property.entities [1].value == 'reference':
-            property.entities [2].value = control_name + property.entities [2].value
-
-
-   #--------------------------------------------------------------------------
+   # Rename graphic text pin to actual pin name
 
    def rename_pins (self, component, control):
       name_map = {}
@@ -394,17 +337,16 @@ class KicadPcb:
          for index, name in enumerate (names):
             name_map ['pin%d' % index] = name
 
-      for element in component.entities:
-         element_name = element.entities [0].value
-         if element_name in ['gr_text']:
-            element_text = element.entities [1].value
-            if element_text in name_map:
-               element.entities [1].value = name_map [element_text]
+      for gr_text_node in component.filter_kind ('gr_text'):
+         text = gr_text_node.entities [1].value
+         if text in name_map:
+            gr_text_node.entities [1].value = name_map [text]
 
       return component
 
 
    #--------------------------------------------------------------------------
+   # Relink pads nets of component to the one of the board
 
    def relink_pads (self, component, control):
       name_map = {}
@@ -418,79 +360,50 @@ class KicadPcb:
       if control.cascade_from is not None:
          name_map ['Net-(Cascade0-Pad1)'] = control.cascade_from.reference.pin.name
 
-      for element in component.entities:
-         element_name = element.entities [0].value
-         if element_name in ['module']:
-            self.relink_pad (element, name_map)
+      for module_node in component.filter_kind ('module'):
+         for pad_node in module_node.filter_kind ('pad'):
+            net_node = pad_node.first_kind ('net')
+            if net_node != None:
+               net_name = net_node.entities [2].value
+               if net_name in name_map:
+                  pin_name = name_map [net_name]
+                  net_node.entities [1].value = self.nets [pin_name]
+                  net_node.entities [2].value = pin_name
 
       return component
 
 
    #--------------------------------------------------------------------------
-
-   def relink_pad (self, element, name_map):
-      for property in element.entities:
-         if isinstance (property, s_expression.List) \
-            and property.entities [0].value == 'pad':
-            self.relink_pad_net (property, name_map)
-
-
-   #--------------------------------------------------------------------------
-
-   def relink_pad_net (self, element, name_map):
-      for property in element.entities:
-         if isinstance (property, s_expression.List) \
-            and property.entities [0].value == 'net' \
-            and property.entities [2].value in name_map:
-            property.entities [2].value = name_map [property.entities [2].value]
-            property.entities [1].value = self.nets [property.entities [2].value]
-
-
-   #--------------------------------------------------------------------------
+   # Rename graphic text cascade pin (if any) to actual pin name
 
    def rename_cascade (self, component, cascade_index):
-      for element in component.entities:
-         element_name = element.entities [0].value
-         if element_name in ['gr_text']:
-            element_text = element.entities [1].value
-            if element_text == 'cascade':
-               element.entities [1].value = 'K%d' % (cascade_index + 1)
+
+      for gr_text_node in component.filter_kind ('gr_text'):
+         text = gr_text_node.entities [1].value
+         if text == 'cascade':
+            gr_text_node.entities [1].value = 'K%d' % (cascade_index + 1)
 
       return component
 
 
    #--------------------------------------------------------------------------
+   # Move top level objects module, gr_text and segment (traces) to their
+   # new position
 
    def move (self, component, position):
-      for element in component.entities:
-         pass
-         element_name = element.entities [0].value
-         if element_name in ['module', 'gr_text']:
-            self.move_at (element, position)
-         elif element_name == 'segment':
-            self.move_segment (element, position)
+
+      for node in component.filter_kinds (['module', 'gr_text']):
+         at_node = node.first_kind ('at')
+         x = float (at_node.entities [1].value) + position.x.mm
+         y = float (at_node.entities [2].value) + position.y.mm
+         at_node.entities [1] = s_expression.FloatLiteral (x)
+         at_node.entities [2] = s_expression.FloatLiteral (y)
+
+      for node in component.filter_kind ('segment'):
+         for endpoint in node.filter_kinds (['start', 'end']):
+            x = float (endpoint.entities [1].value) + position.x.mm
+            y = float (endpoint.entities [2].value) + position.y.mm
+            endpoint.entities [1] = s_expression.FloatLiteral (x)
+            endpoint.entities [2] = s_expression.FloatLiteral (y)
+
       return component
-
-
-   #--------------------------------------------------------------------------
-
-   def move_at (self, element, position):
-      for property in element.entities:
-         if isinstance (property, s_expression.List) \
-            and property.entities [0].value == 'at':
-            x = float (property.entities [1].value) + position.x.mm
-            y = float (property.entities [2].value) + position.y.mm
-            property.entities [1] = s_expression.FloatLiteral (x)
-            property.entities [2] = s_expression.FloatLiteral (y)
-
-
-   #--------------------------------------------------------------------------
-
-   def move_segment (self, element, position):
-      for property in element.entities:
-         if isinstance (property, s_expression.List) \
-            and property.entities [0].value in ['start', 'end']:
-            x = float (property.entities [1].value) + position.x.mm
-            y = float (property.entities [2].value) + position.y.mm
-            property.entities [1] = s_expression.FloatLiteral (x)
-            property.entities [2] = s_expression.FloatLiteral (y)
