@@ -1489,7 +1489,11 @@ class Style (Scope):
 
    @property
    def is_led_3mm (self):
-      return self.is_led_3mm_red or self.is_led_3mm_green or self.is_led_3mm_yellow or self.is_led_3mm_orange or self.is_led_3mm_green_red or self.is_led_3mm_rgb
+      return self.is_led_3mm_mono or self.is_led_3mm_green_red or self.is_led_3mm_rgb
+
+   @property
+   def is_led_3mm_mono (self):
+      return self.is_led_3mm_red or self.is_led_3mm_green or self.is_led_3mm_yellow or self.is_led_3mm_orange
 
    @property
    def is_led_3mm_red (self):

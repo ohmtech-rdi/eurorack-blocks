@@ -211,7 +211,11 @@ class KicadPcb:
             components.append (self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb')))
 
       elif control.style.is_led_3mm:
-         if control.style.is_led_3mm_green_red:
+         if control.style.is_led_3mm_mono:
+            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.base.kicad_pcb')))
+            if module.route.is_wire:
+               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb')))
+         elif control.style.is_led_3mm_green_red:
             components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.base.kicad_pcb')))
             if module.route.is_wire:
                components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb')))
@@ -220,9 +224,7 @@ class KicadPcb:
             if module.route.is_wire:
                components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb')))
          else:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb')))
+            print ('unsupported led block %s' % control.style.name)
 
       else:
          print ('unsupported block %s' % control.style.name)
