@@ -117,6 +117,9 @@ class List (Node):
    def filter_kind (self, kind):
       return [e for e in self.entities if e.kind == kind]
 
+   def filter_kinds (self, kinds):
+      return [e for e in self.entities if e.kind in kinds]
+
    def first_kind (self, kind):
       return next (iter (self.filter_kind (kind)), None)
 

@@ -3,7 +3,7 @@
   (general
     (thickness 1.6)
     (drawings 1)
-    (tracks 2)
+    (tracks 1)
     (zones 0)
     (modules 1)
     (nets 2)
@@ -108,14 +108,14 @@
     (add_net "Net-(Pin0-Pad1)")
   )
 
-  (module TestPoint:TestPoint_Pad_D1.5mm (layer B.Cu) (tedit 5A0F774F) (tstamp 60BC93E3)
-    (at 1.9 1.8)
+  (module TestPoint:TestPoint_Pad_D1.5mm (layer B.Cu) (tedit 5A0F774F) (tstamp 60B90EA5)
+    (at 0 -3)
     (descr "SMD pad as test Point, diameter 1.5mm")
     (tags "test point SMD pad")
-    (path /60BC9738)
+    (path /60B91AE3)
     (attr virtual)
-    (fp_text reference ZZ2 (at 0 1.648) (layer B.SilkS) hide
-      (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
+    (fp_text reference Pin0 (at 0 1.648) (layer F.SilkS) hide
+      (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value TestPoint (at 0 -1.75) (layer B.Fab)
       (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
@@ -129,11 +129,10 @@
       (net 1 "Net-(Pin0-Pad1)"))
   )
 
-  (gr_text cascade_to (at 1.4 0.1) (layer B.SilkS) (tstamp 60BC9433)
-    (effects (font (size 1 1) (thickness 0.15)) (justify right mirror))
+  (gr_text pin (at -0.95 -3) (layer B.SilkS) (tstamp 608A8C55)
+    (effects (font (size 1 1) (thickness 0.15)) (justify left mirror))
   )
 
-  (segment (start 1.9 -1.1) (end 1.9 1.8) (width 0.635) (layer B.Cu) (net 1))
-  (segment (start 0 -3) (end 1.9 -1.1) (width 0.635) (layer B.Cu) (net 1))
+  (segment (start 0 -4.92) (end 0 -3) (width 0.635) (layer B.Cu) (net 1))
 
 )

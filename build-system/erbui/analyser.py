@@ -47,6 +47,9 @@ class Analyser:
       if not module.board.inline:
          module.board.load_builtin ()
 
+      if module.route == None:
+         module.add (ast.Route (adapter.BuiltIn ('wire')))
+
       self.expand_pin_arrays (module)
 
       self.exclude_pins (module)
