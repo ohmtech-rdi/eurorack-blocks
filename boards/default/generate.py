@@ -151,27 +151,27 @@ def generate_pcb ():
    nets = ''
 
    for i in range (nbr_digital_input):
-      nets += '  (net %d "Net-(DII%d-Pad1)")\n' % (net_index, (i + 1))
+      nets += '  (net %d "DII%d")\n' % (net_index, (i + 1))
       net_index += 1
 
    for i in range (nbr_analog_input):
-      nets += '  (net %d "Net-(ANI%d-Pad1)")\n' % (net_index, (i + 1))
+      nets += '  (net %d "ANI%d")\n' % (net_index, (i + 1))
       net_index += 1
 
    for i in range (nbr_audio_input):
-      nets += '  (net %d "Net-(AUI%d-Pad1)")\n' % (net_index, (i + 1))
+      nets += '  (net %d "AUI%d")\n' % (net_index, (i + 1))
       net_index += 1
 
    for i in range (nbr_digital_output):
-      nets += '  (net %d "Net-(DIO%d-Pad1)")\n' % (net_index, (i + 1))
+      nets += '  (net %d "DIO%d")\n' % (net_index, (i + 1))
       net_index += 1
 
    for i in range (nbr_analog_output):
-      nets += '  (net %d "Net-(ANO%d-Pad1)")\n' % (net_index, (i + 1))
+      nets += '  (net %d "ANO%d")\n' % (net_index, (i + 1))
       net_index += 1
 
    for i in range (nbr_audio_output):
-      nets += '  (net %d "Net-(AUO%d-Pad1)")\n' % (net_index, (i + 1))
+      nets += '  (net %d "AUO%d")\n' % (net_index, (i + 1))
       net_index += 1
 
    content = content.replace ('  %nets%\n', nets)

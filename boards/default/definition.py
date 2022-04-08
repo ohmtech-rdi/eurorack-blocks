@@ -10,6 +10,7 @@
    'class': 'erb::BoardDefault',
    'include': 'BoardDefault.h',
    'pcb': 'default.kicad_pcb',
+   'net': 'default.net',
    'width': 12, # hp
    'pins': {
       'DII1': {

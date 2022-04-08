@@ -50,6 +50,17 @@ class Node:
    @property
    def is_list (self): return isinstance (self, List)
 
+   # kind
+   # return foo in the s-expression (foo ... ) or None
+
+   @property
+   def kind (self):
+      if self.is_list and self.entities and self.entities [0].is_symbol:
+         return self.entities [0].value
+      else:
+         return None
+
+
 class Symbol (Node):
    def __init__ (self, value):
       super (Symbol, self).__init__ ()
@@ -92,6 +103,7 @@ class List (Node):
       self.entities = []
 
    def __eq__ (self, other):
+      if other is None: return False
       if not other.is_list: return False
       if len (self.entities) != len (other.entities): return False
       for pair in zip (self.entities, other.entities):
@@ -101,6 +113,17 @@ class List (Node):
    def add (self, entity):
       entity.parent = self
       self.entities.append (entity)
+
+   def filter_kind (self, kind):
+      return [e for e in self.entities if e.kind == kind]
+
+   def first_kind (self, kind):
+      return next (iter (self.filter_kind (kind)), None)
+
+   def property (self, kind):
+      node = self.first_kind (kind)
+      if node is None: return None
+      return node.entities [1].value
 
 
 #--- Visitor -----------------------------------------------------------------

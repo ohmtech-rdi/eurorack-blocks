@@ -17,7 +17,7 @@
                 "position", "rotation", "offset", "style",
                 "route", "wire", "manual",
                 "faust", "init", "address", "property", "value",
-                "class", "include", "pcb", "bind", "type", "gpio", "pwm", "dac",
+                "class", "include", "pcb", "net", "bind", "type", "gpio", "pwm", "dac",
             );
             Type = "xcode.syntax.keyword";
         };

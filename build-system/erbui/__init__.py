@@ -19,6 +19,7 @@ from .generators.daisy.code import Code as daisyCode
 from .generators.front_panel.milling import Milling as front_panelMilling
 from .generators.front_panel.printing import Printing as front_panelPrinting
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
+from .generators.front_pcb.bom import Bom as front_pcbBom
 from .generators.max.code import Code as maxCode
 from .generators.faust.code import Code as faustCode
 
@@ -211,6 +212,7 @@ def generate_front_pcb (path, ast):
    if not os.path.exists (path_hardware):
       os.makedirs (path_hardware)
    generate_front_pcb_kicad_pcb (path_hardware, ast)
+   generate_front_pcb_bom (path_hardware, ast)
 
 
 
@@ -222,6 +224,18 @@ Name: generate_front_pcb_kicad_pcb
 
 def generate_front_pcb_kicad_pcb (path, ast):
    generator = kicad_pcbKicadPcb ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_pcb_bom
+==============================================================================
+"""
+
+def generate_front_pcb_bom (path, ast):
+   generator = front_pcbBom ()
    generator.generate (path, ast)
 
 
