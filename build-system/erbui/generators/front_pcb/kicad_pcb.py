@@ -195,15 +195,7 @@ class KicadPcb:
          component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.kicad_pcb'))
 
       elif control.style.is_dailywell_2ms:
-         rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
-         if rotation == 0:
-            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.kicad_pcb'))
-         elif rotation == 90:
-            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.r90.kicad_pcb'))
-         elif rotation == 270:
-            component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.r270.kicad_pcb'))
-         else:
-            print ('unsupported rotation %d for %s' % (rotation, control.style.name))
+         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.kicad_pcb'))
 
       elif control.style.is_led_3mm:
          if control.style.is_led_3mm_green_red:
@@ -216,6 +208,7 @@ class KicadPcb:
       else:
          print ('unsupported block %s' % control.style.name)
 
+      component = self.rotate (component, control)
       component = self.move (component, control.position)
       component = self.rename_references (component, control)
       component = self.rename_pins (component, control)
@@ -226,6 +219,7 @@ class KicadPcb:
 
       if control.cascade_to is not None:
          component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.do.kicad_pcb'))
+         component = self.rotate (component, control)
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_to.index)
@@ -235,6 +229,7 @@ class KicadPcb:
 
       if control.cascade_from is not None:
          component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.di.kicad_pcb'))
+         component = self.rotate (component, control)
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_from.index)
@@ -382,6 +377,49 @@ class KicadPcb:
          text = gr_text_node.entities [1].value
          if text == 'cascade':
             gr_text_node.entities [1].value = 'K%d' % (cascade_index + 1)
+
+      return component
+
+
+   #--------------------------------------------------------------------------
+   # Rotate top level objects module, gr_text and segment (traces) to their
+   # new position
+
+   def rotate (self, component, control):
+
+      rotation_deg = (control.rotation.degree + 360) % 360 if control.rotation else 0
+      rotation_rad = float (rotation_deg) * 2.0 * math.pi / 360.0
+
+      # axis is top/down in pcb coordinates: invert rotation angle
+      cos_a = math.cos (- rotation_rad)
+      sin_a = math.sin (- rotation_rad)
+
+      def rot (x, y):
+         return (
+            x * cos_a - y * sin_a,
+            x * sin_a + y * cos_a
+         )
+
+      for node in component.filter_kinds (['module', 'gr_text']):
+         at_node = node.first_kind ('at')
+         x = float (at_node.entities [1].value)
+         y = float (at_node.entities [2].value)
+         if len (at_node.entities) == 3:
+            at_node.entities.append (s_expression.FloatLiteral (0))
+         angle = float (at_node.entities [3].value)
+         x, y = rot (x, y)
+         angle = (angle + rotation_deg + 360) % 360
+         at_node.entities [1] = s_expression.FloatLiteral (x)
+         at_node.entities [2] = s_expression.FloatLiteral (y)
+         at_node.entities [3] = s_expression.FloatLiteral (angle)
+
+      for node in component.filter_kind ('segment'):
+         for endpoint in node.filter_kinds (['start', 'end']):
+            x = float (endpoint.entities [1].value)
+            y = float (endpoint.entities [2].value)
+            x, y = rot (x, y)
+            endpoint.entities [1] = s_expression.FloatLiteral (x)
+            endpoint.entities [2] = s_expression.FloatLiteral (y)
 
       return component
 
