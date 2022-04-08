@@ -1254,4 +1254,36 @@ Text GLabel 6650 3550 0    50   Output ~ 0
 AI2
 Text GLabel 6650 3650 0    50   Output ~ 0
 AI1
+$Comp
+L Mechanical:MountingHole H1
+U 1 1 62504A2B
+P 3000 4900
+F 0 "H1" H 3100 4946 50  0000 L CNN
+F 1 "Header1" H 3100 4855 50  0000 L CNN
+F 2 "Empty:Empty" H 3000 4900 50  0001 C CNN
+F 3 "~" H 3000 4900 50  0001 C CNN
+F 4 "CONN HEADER VERT 36POS 2.54MM" H 3000 4900 50  0001 C CNN "Description"
+F 5 "No" H 3000 4900 50  0001 C CNN "Place"
+F 6 "Digikey" H 3000 4900 50  0001 C CNN "Dist"
+F 7 "S1011E-36-ND" H 3000 4900 50  0001 C CNN "DistPartNumber"
+F 8 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PBC36SAAN/859621" H 3000 4900 50  0001 C CNN "DistLink"
+	1    3000 4900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Mechanical:MountingHole H2
+U 1 1 62502D00
+P 3000 5100
+F 0 "H2" H 3100 5146 50  0000 L CNN
+F 1 "Header2" H 3100 5055 50  0000 L CNN
+F 2 "Empty:Empty" H 3000 5100 50  0001 C CNN
+F 3 "~" H 3000 5100 50  0001 C CNN
+F 4 "CONN HEADER VERT 36POS 2.54MM" H 3000 5100 50  0001 C CNN "Description"
+F 5 "No" H 3000 5100 50  0001 C CNN "Place"
+F 6 "Digikey" H 3000 5100 50  0001 C CNN "Dist"
+F 7 "S1011E-36-ND" H 3000 5100 50  0001 C CNN "DistPartNumber"
+F 8 "https://www.digikey.de/en/products/detail/sullins-connector-solutions/PBC36SAAN/859621" H 3000 5100 50  0001 C CNN "DistLink"
+	1    3000 5100
+	1    0    0    -1  
+$EndComp
 $EndSCHEMATC
