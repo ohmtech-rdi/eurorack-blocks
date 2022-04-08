@@ -73,6 +73,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       module = ast.Module (mock.identifier ('test_generator_front_pcb_003'), None)
       module.add (ast.Width (ast.DistanceLiteral (mock.literal ('10hp'), 'hp')))
       module.add (ast.Board (mock.identifier ("kivu12")))
+      module.add (ast.Route (mock.keyword ("wire")))
 
       control = ast.Control (
          mock.identifier ('test'),
