@@ -219,7 +219,7 @@ class KicadPcb:
       component = self.move (component, control.position)
       component = self.rename_references (component, control)
       component = self.rename_pins (component, control)
-      component = self.relink_pads (component, control)
+      component = self.relink_nets (component, control)
 
       for element in component.entities:
          self.base.add (element)
@@ -229,7 +229,7 @@ class KicadPcb:
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_to.index)
-         component = self.relink_pads (component, control)
+         component = self.relink_nets (component, control)
          for element in component.entities:
             self.base.add (element)
 
@@ -238,7 +238,7 @@ class KicadPcb:
          component = self.move (component, control.position)
          component = self.rename_references (component, control)
          component = self.rename_cascade (component, control.cascade_from.index)
-         component = self.relink_pads (component, control)
+         component = self.relink_nets (component, control)
          for element in component.entities:
             self.base.add (element)
 
@@ -296,11 +296,8 @@ class KicadPcb:
          if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
             return False
 
-         if node.kind in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class']:
+         if node.kind in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class', 'net']:
             return False
-
-         if node.kind == 'net':
-            return node.entities [2].value in ['GND', '+3V3']
 
          # keep all the rest (modules, text, etc.)
          return True
@@ -346,9 +343,9 @@ class KicadPcb:
 
 
    #--------------------------------------------------------------------------
-   # Relink pads nets of component to the one of the board
+   # Relink nets of component to the one of the board
 
-   def relink_pads (self, component, control):
+   def relink_nets (self, component, control):
       name_map = {}
       if control.is_pin_single:
          name_map ['Net-(Pin0-Pad1)'] = control.pin.name
@@ -356,6 +353,9 @@ class KicadPcb:
          names = control.pins.names
          for index, name in enumerate (names):
             name_map ['Net-(Pin%d-Pad1)' % index] = name
+
+      name_map ['GND'] = 'GND'
+      name_map ['+3V3'] = '+3V3'
 
       if control.cascade_from is not None:
          name_map ['Net-(Cascade0-Pad1)'] = control.cascade_from.reference.pin.name
