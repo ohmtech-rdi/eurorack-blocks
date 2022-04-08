@@ -24,7 +24,6 @@ PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 class Analyser:
 
    def __init__ (self):
-      self._excluded_pins = []
       self._cascade_index = 0
 
    #--------------------------------------------------------------------------
@@ -108,7 +107,6 @@ class Analyser:
                pin = pool.find_pin (name)
                if pin != None:
                   pin.mark_unavailable ()
-                  self._excluded_pins.append (name)
 
 
    #--------------------------------------------------------------------------
@@ -459,9 +457,16 @@ class Analyser:
       module.unused_pins = []
 
       for pool in module.board.pools:
-         module.unused_pins.extend (pool.pin_names)
+         for pin in pool.pins:
+            if pin.available:
+               # if it is still available at this stage, then it is not used
+               module.unused_pins.append (pin.name)
 
-      module.unused_pins.extend (self._excluded_pins)
+      # add excluded pins (not available but unused as well)
+      exclude_pinss = [e for e in module.entities if e.is_exclude_pins]
+      for exclude_pins in exclude_pinss:
+         module.unused_pins.extend (exclude_pins.names)
+
 
 
    #--------------------------------------------------------------------------
