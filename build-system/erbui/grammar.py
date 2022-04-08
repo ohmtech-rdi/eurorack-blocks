@@ -179,6 +179,7 @@ def board_declaration ():              return 'board', board_name
 def board_class_declaration ():        return 'class', string_literal
 def board_include_declaration ():      return 'include', string_literal
 def board_pcb_declaration ():          return 'pcb', string_literal
+def board_net_declaration ():          return 'net', string_literal
 def board_pin_kind ():                 return list (CONTROL_KINDS)
 def board_pin_kinds ():                return board_pin_kind, ZeroOrMore (',', board_pin_kind)
 def board_pin_bind_declaration ():     return 'bind', string_literal
@@ -190,7 +191,7 @@ def board_pin_name ():                 return name
 def board_pin_declaration ():          return 'pin', board_pin_name, board_pin_kinds, board_pin_body
 def board_pin_range ():                return '..', integer_literal
 def board_pins_declaration ():         return 'pins', board_pin_name, board_pin_range, board_pin_kinds, board_pin_body
-def board_entities ():                 return ZeroOrMore ([board_class_declaration, board_include_declaration, board_pcb_declaration, width_declaration, board_pin_declaration, board_pins_declaration])
+def board_entities ():                 return ZeroOrMore ([board_class_declaration, board_include_declaration, board_pcb_declaration, board_net_declaration, width_declaration, board_pin_declaration, board_pins_declaration])
 def board_body ():                     return '{', board_entities, '}'
 def board_inline_declaration ():       return 'board', board_body
 

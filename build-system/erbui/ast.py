@@ -69,6 +69,9 @@ class Node:
    def is_board_pcb (self): return isinstance (self, BoardPcb)
 
    @property
+   def is_board_net (self): return isinstance (self, BoardNet)
+
+   @property
    def is_board_pin (self): return isinstance (self, BoardPin)
 
    @property
@@ -474,6 +477,10 @@ class Board (Scope):
          board_pcb_path = os.path.join (board_path, board_def ['pcb'])
          self.add (BoardPcb (board_pcb_path, StringLiteral.synthesize (board_def ['pcb'])))
 
+      if 'net' in board_def:
+         board_net_path = os.path.join (board_path, board_def ['net'])
+         self.add (BoardNet (board_net_path, StringLiteral.synthesize (board_def ['net'])))
+
       if 'width' in board_def:
          self.add (Width (DistanceLiteral.synthesize (board_def ['width'], 'hp')))
 
@@ -526,6 +533,15 @@ class Board (Scope):
    @property
    def pcb (self):
       entities = [e for e in self.entities if e.is_board_pcb]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def net (self):
+      entities = [e for e in self.entities if e.is_board_net]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -620,6 +636,20 @@ class BoardPcb (Node):
       assert isinstance (filepath, str)
       assert isinstance (string_literal, StringLiteral)
       super (BoardPcb, self).__init__ ()
+      self.filepath = filepath
+      self.string_literal = string_literal
+
+   @property
+   def path (self): return self.filepath
+
+
+# -- BoardNet ----------------------------------------------------------------
+
+class BoardNet (Node):
+   def __init__ (self, filepath, string_literal):
+      assert isinstance (filepath, str)
+      assert isinstance (string_literal, StringLiteral)
+      super (BoardNet, self).__init__ ()
       self.filepath = filepath
       self.string_literal = string_literal
 
