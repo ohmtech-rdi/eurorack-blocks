@@ -602,8 +602,10 @@ class Visitor (PTNodeVisitor):
    #-- Style -----------------------------------------------------------------
 
    def visit_style_declaration (self, node, children):
-      style_name = children.style_name [0]
-      style = ast.Style (style_name)
+      style_names = []
+      for style_name in children.style_name:
+         style_names.append (style_name)
+      style = ast.Style (style_names)
 
       return style
 

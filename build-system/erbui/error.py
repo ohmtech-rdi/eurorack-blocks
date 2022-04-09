@@ -331,8 +331,6 @@ class ParseError (Error):
                expected ['keywords'].append ("'{}'".format (rule_name))
             elif rule_name in grammar.CONTROL_KINDS:
                expected ['control_kinds'].append ("'{}'".format (rule_name))
-            elif rule_name in grammar.CONTROL_STYLES:
-               expected ['control_styles'].append ("'{}'".format (rule_name))
             elif rule_name in grammar.SYMBOLS:
                expected ['symbols'].append ("'{}'".format (rule_name))
             else:
