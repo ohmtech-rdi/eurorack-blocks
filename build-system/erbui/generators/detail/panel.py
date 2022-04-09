@@ -154,7 +154,7 @@ class Panel:
       old_current_font_height = self.current_font_height
       self.current_font_height = 8.5#pt
 
-      box = self.get_style_box (control.style)
+      box = self.get_control_box (control)
       rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
 
       box.rotate (rotation)
@@ -207,66 +207,98 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
+   def get_control_box (self, control):
+      for part in control.parts:
+         box = self.get_part_box (part)
+         if box is not None:
+            return box
+
+      assert False # no box found
+
+
+   #--------------------------------------------------------------------------
+
    # Reference:
    # Rogan: https://rogancorp.com/product/pt-series-pointer-control-knobs/
    # Dailywell: https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf
    # Thonkiconn: https://www.thonk.co.uk/wp-content/uploads/2018/07/Thonkiconn_Jack_Datasheet-new.jpg
    # C&K: https://www.thonk.co.uk/wp-content/uploads/2015/01/CK-Switch.pdf
+   # Sifam/Selco: https://s3-us-west-2.amazonaws.com/selco-website-production/resources/KnobCatalog.Final.pdf
 
-   def get_style_box (self, style):
-      if style.is_rogan_6ps:
-         radius = 31.75 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_rogan_5ps:
-         radius = 21.33 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_rogan_3ps:
-         radius = 18.47 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_rogan_2_skirted:
-         radius = 15.75 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_rogan_1_skirted:
-         radius = 14.38 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_sifam_dbn151:
-         radius = 18.5 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_sifam_drn111:
-         radius = 14.2 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_songhuei_9mm:
-         radius = 6.5 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_dailywell_2ms:
-         return Panel.Box (3.5, 4.0, 3.5, 4.0)
-
-      elif style.is_led_3mm:
-         radius = 3.0 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_thonk_pj398sm:
+   def get_part_box (self, part):
+      if part.startswith ('thonk.pj398sm.nut'):
          radius = 8.0 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
-      elif style.is_ck_d6r_black:
+      elif part.startswith ('befaco.bananuts'):
+         radius = 8.0 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.6ps.dshaft':
+         radius = 31.75 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.5ps.dshaft':
+         radius = 21.33 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.3ps.dshaft':
+         radius = 18.47 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.2ps.dshaft':
+         radius = 15.75 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.1ps.dshaft':
+         radius = 14.38 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.2p.dshaft':
+         radius = 12.75 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part == 'rogan.1p.dshaft':
+         radius = 11.43 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('sifam.dbn15'):
+         radius = 18.5 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('sifam.drn11'):
+         radius = 14.2 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('sifam.db15'):
+         radius = 15.5 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('sifam.dr11'):
+         radius = 11.5 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('songhuei.9mm'):
+         radius = 6.5 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('dailywell.2ms'):
+         return Panel.Box (3.5, 4.0, 3.5, 4.0)
+
+      elif part.startswith ('led.tht.3mm') or part.startswith ('led.smt.3mm'):
+         radius = 3.0 * 0.5
+         return Panel.Box (radius, radius, radius, radius)
+
+      elif part.startswith ('ck.d6r'):
          radius = 9.0 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
-      elif style.is_tl1105:
+      elif part == '1rblk':
          radius = 5.5 * 0.5
          return Panel.Box (radius, radius, radius, radius)
 
       else:
-         raise Exception ('unsupported control style %s' % style.value)
+         return None
 
 
    #--------------------------------------------------------------------------
@@ -361,7 +393,7 @@ class Panel:
          align_y = 0.5
 
       elif label.positioning is None:
-         if control.style.is_thonk_pj398sm: # top
+         if control.kind in ['AudioIn', 'AudioOut', 'CvIn', 'CvOut', 'GateIn', 'GateOut']: # top
             position_y -= self.current_box.top + self.positioning_margin
             align_x = 0.5
             align_y = 0

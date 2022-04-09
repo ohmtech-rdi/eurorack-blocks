@@ -76,10 +76,12 @@ class Milling:
 
    def generate_control (self, msp, control):
 
-      drill_size = self.get_drill_size (control.style)
-      drill_radius = drill_size / 2
+      for part in control.parts:
+         drill_size = self.get_drill_size (part)
+         if drill_size is not None:
+            drill_radius = drill_size / 2
 
-      msp.add_circle ((control.position.x.mm, PANEL_HEIGHT - control.position.y.mm), drill_radius)
+            msp.add_circle ((control.position.x.mm, PANEL_HEIGHT - control.position.y.mm), drill_radius)
 
 
    #--------------------------------------------------------------------------
@@ -121,27 +123,20 @@ class Milling:
    # Thonkiconn: https://www.thonk.co.uk/wp-content/uploads/2018/07/Thonkiconn_Jack_Datasheet-new.jpg
    # C&K: https://www.thonk.co.uk/wp-content/uploads/2015/01/CK-Switch.pdf
 
-   def get_drill_size (self, style):
-      if style.is_alpha_9mm:
-         return 7.5
-
-      elif style.is_songhuei_9mm:
-         return 6.8
-
-      elif style.is_dailywell_2ms:
-         return 4.95
-
-      elif style.is_led_3mm:
-         return 3.1
-
-      elif style.is_thonk_pj398sm:
+   def get_drill_size (self, part):
+      if part == 'thonk.pj398sm':
          return 6.5
-
-      elif style.is_ck_d6r:
+      elif part.startswith ('alpha.9mm'):
+         return 7.5
+      elif part.startswith ('songhuei.9mm'):
+         return 6.8
+      elif part.startswith ('dailywell.2ms'):
+         return 4.95
+      elif part.startswith ('led.tht.3mm'):
+         return 3.1
+      elif part.startswith ('ck.d6r'):
          return 9.6
-
-      elif style.is_tl1105:
+      elif part == '1rblk':
          return 5.2
-
       else:
-         raise Exception ('unsupported control style %s' % style.value)
+         return None
