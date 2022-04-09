@@ -201,6 +201,58 @@ def already_used_pin (pin, previous_pin):
 
 
 
+#-- unknown_style ------------------------------------------------------------
+#
+#  Build an unknown style error.
+#  - 'style': the style which name is not known
+#  - 'style_names' an iteratable style names that are potential candidates for
+#    correction.
+
+def unknown_style (style, style_names):
+   assert isinstance (style, adapter.Keyword)
+
+   err = Error ()
+   context = adapter.SourceContext.from_token (style)
+   err.add_error ("Unknown style '%s'" % context, context)
+   err.add_context (context)
+
+   matches = get_close_matches (str (context), style_names, n=1, cutoff=0.5)
+
+   if matches:
+      builtin = adapter.BuiltIn (matches [0])
+      sc = adapter.SourceContext.from_token (builtin)
+      context = adapter.SourceContext.from_token (style)
+      err.add_note ("did you mean '%s'?" % sc, sc)
+      err.add_context_fixit (context, "%s" % sc)
+
+   return err
+
+
+
+#-- incompatible_style -------------------------------------------------------
+#
+#  Build an incompatible style error.
+#  - 'style': the style which name is not known
+#  - 'style_names' an iteratable style names that is the current styles
+#    selection
+
+def incompatible_style (style, style_names):
+   assert isinstance (style, adapter.Keyword)
+
+   err = Error ()
+   context = adapter.SourceContext.from_token (style)
+   err.add_error ("Incompatible style '%s'" % context, context)
+   err.add_context (context)
+
+   computed_style = ', '.join (style_names)
+   builtin = adapter.BuiltIn (computed_style)
+   sc = adapter.SourceContext.from_token (builtin)
+   err.add_note ("for selected styles '%s'" % computed_style, sc)
+
+   return err
+
+
+
 #-- missing_required ---------------------------------------------------------
 #
 #  Build a missing required error for properties that are just to be defined

@@ -11,6 +11,7 @@ import re
 from . import adapter
 from . import ast
 from . import error
+from .analysers import style
 
 import os
 from difflib import get_close_matches
@@ -33,6 +34,9 @@ class Analyser:
 
       for module in global_namespace.modules:
          self.analyse_module (module)
+
+      analyser_style = style.AnalyserStyle ()
+      analyser_style.analyse (global_namespace)
 
    #--------------------------------------------------------------------------
 
