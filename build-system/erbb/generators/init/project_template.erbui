@@ -19,13 +19,13 @@ module %Name% {
 
    control audio_in AudioIn {
       position 6hp, 96mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN"
    }
 
    control audio_out AudioOut {
       position 6hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT"
    }
 
