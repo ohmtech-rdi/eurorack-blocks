@@ -37,12 +37,6 @@
                 "aluminum", "brushed_aluminum", "aluminum_coated", "natural", "white", "black",
                 "center", "left", "top", "right", "bottom",
                 "normalized", "bipolar",
-                "rogan.6ps", "rogan.5ps", "rogan.3ps", "rogan.2ps", "rogan.1ps", "rogan.2s.black", "rogan.1s", "rogan.1s.black",
-                "songhuei.9mm",
-                "dailywell.2ms1", "dailywell.2ms3",
-                "led.3mm.green_red", "led.3mm.rgb", "led.3mm.red", "led.3mm.green", "led.3mm.yellow", "led.3mm.orange",
-                "thonk.pj398sm.knurled", "thonk.pj398sm.hex",
-                "tl1105", "ck.d6r.black",
             );
             Type = "xcode.syntax.identifier.type.system";
         };
