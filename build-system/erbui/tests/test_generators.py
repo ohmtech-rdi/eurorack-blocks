@@ -91,8 +91,10 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('rogan.6ps'))
+      style = ast.Style ([mock.keyword ('6ps')])
       control.add (style)
+      control.parts.append ('alpha.9mm.dshaft')
+      control.parts.append ('rogan.6ps.dshaft')
 
       label = ast.Label (ast.StringLiteral (mock.literal ('Test Center')))
       positioning = ast.Positioning (mock.keyword ('center'))
@@ -132,8 +134,9 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('dailywell.2ms1'))
+      style = ast.Style ([mock.keyword ('on_on')])
       control.add (style)
+      control.parts.append ('dailywell.2ms1')
 
       rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°ccw'), '°ccw'))
       control.add (rotation)
@@ -151,8 +154,9 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('dailywell.2ms3'))
+      style = ast.Style ([mock.keyword ('on_off_on')])
       control.add (style)
+      control.parts.append ('dailywell.2ms3')
 
       rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°cw'), '°cw'))
       control.add (rotation)
@@ -170,8 +174,9 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('dailywell.2ms3'))
+      style = ast.Style ([mock.keyword ('on_off_on')])
       control.add (style)
+      control.parts.append ('dailywell.2ms1')
 
       rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('180°'), '°'))
       control.add (rotation)
@@ -189,8 +194,10 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('thonk.pj398sm.knurled'))
+      style = ast.Style ([mock.keyword ('knurled')])
       control.add (style)
+      control.parts.append ('thonk.pj398sm')
+      control.parts.append ('thonk.pj398sm.nut.knurled')
 
       label = ast.Label (ast.StringLiteral (mock.literal ('OUT')))
       positioning = ast.Positioning (mock.keyword ('top'))
