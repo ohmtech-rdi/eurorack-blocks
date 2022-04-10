@@ -11,28 +11,30 @@
 
 ```erbui
 module Example {
-   control arm Button {             // 1.
-      position 19.2mm, 111mm        // 2.
-      style tl1105                  // 3.
-      label "ARM"                   // 4.
-      pin Pin1                      // 5.
+   control arm Button {       // 1.
+      position 19.2mm, 111mm  // 2.
+      style tl1105            // 3.
+      label "ARM"             // 4.
+      pin Pin1                // 5.
    }
 }
 ```
 
 1. Creates a button control with name `arm`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the button style, and is one of:
-- [`tl1105`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)
-- [`ck.d6r.black`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- [`tl1105, black`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559), this is the default if `style` is omitted,
+- [`ck, d6r, black`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- [`ck, d6r, white`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- [`ck, d6r, red`](https://www.thonk.co.uk/shop/radio-music-switch/)
 
 The `tl1105` button is typically mounted with a [cap](https://www.digikey.de/product-detail/en/e-switch/1RBLK/EG1882-ND/271579).
 
-The `ck.d6r.black` is typically used in sequencers, or to enhance the performing experience:
+The `ck, d6r, black` is typically used in sequencers, or to enhance the performing experience:
 
 <img  src="https://www.thonk.co.uk/wp-content/uploads/2015/01/Radio_Switch_Black.jpg">
 
@@ -94,8 +96,10 @@ style <name>
 ```
 
 Where `<name>` is one of:
-- [`tl1105`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)
-- [`ck.d6r.black`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- [`tl1105, black`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)
+- [`ck, d6, black`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- [`ck, d6, white`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- [`ck, d6, red`](https://www.thonk.co.uk/shop/radio-music-switch/)
 
 More details can be found in [`style`](../language/grammar.md#style) documentation.
 

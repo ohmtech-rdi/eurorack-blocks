@@ -14,7 +14,7 @@ or a [PWM](https://en.wikipedia.org/wiki/Pulse-width_modulation) driver.
 module Example {
    control sync_led LedRgb {        // 1.
       position 19.2mm, 111mm        // 2.
-      style style led.3mm.rgb       // 3.
+      style smt, rgb                // 3.
       label "SYNC"                  // 4.
       pins Pin1, Pin2, Pin3         // 5.
    }
@@ -23,7 +23,7 @@ module Example {
 
 1. Creates a LED with name `sync_led`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pins to use:
    - First pin denotes the *red* pin,
@@ -32,7 +32,7 @@ module Example {
    If not set, the system will choose them automatically.
 
 `style` is the LED style, and is one of:
-- `led.3mm.rgb`
+- `smt, 3mm, rgb`, this is the default if `style` is omitted,
 
 ### `c++`
 
@@ -90,7 +90,7 @@ style <name>
 ```
 
 Where `<name>` is one of:
-- `led.3mm.rgb`
+- `smt, 3mm, rgb`
 
 More details can be found in [`style`](../language/grammar.md#style) documentation.
 

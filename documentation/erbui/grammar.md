@@ -338,7 +338,9 @@ as a style of knob.
 
 ### Grammar
 
-> _style-declaration_ → **`style`** style-name
+> _style-declaration_ → **`style`** style-argument-list \
+> _style-argument-list_ → style-name \
+> _style-argument-list_ → style-name **`,`** style-argument-list
 
 See individual [controls](../controls/README.md) reference for a list of supported styles for each control.
 

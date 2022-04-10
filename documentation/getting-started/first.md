@@ -39,19 +39,19 @@ module LowPass {
 
    control freq Pot {      // 1
       position 6hp, 34mm   // 2
-      style rogan.6ps      // 3
+      style rogan, xlarge  // 3
       label "FREQ"         // 4
    }
 
    control audio_in AudioIn {
       position 6hp, 96mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN"
    }
 
    control audio_out AudioOut {
       position 6hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT"
    }
 }
@@ -61,8 +61,9 @@ module LowPass {
 2. Give it a position, first is on the horizontal axis, and second is on the vertical axis.
    Note that both have units, with `hp` being the Eurorack HP for convenience.
    Since half of 12HP is 6HP, this will place the pot at the horizontal center in the module
-3. Let's give it a style, which here is the knob style. `rogan.6ps` is the name of the knob used
-   in many Mutable Instruments and Make Noise modules
+3. Let's give it a style, which here is the knob style. `rogan` is the brand of the knobs used
+   in many Mutable Instruments and Make Noise modules,
+      and `xlarge` indicates we want to use one that has a big size in their series of knobs
 4. Give it an optional label, which will be printed on the front panel aluminum
 
 You can already build the project using {guilabel}`⌘B` and run VCV Rack to see what it looks like.

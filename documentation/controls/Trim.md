@@ -11,11 +11,11 @@
 
 ```erbui
 module Example {
-   control freq Trim {               // 1.
-      position 19.2mm, 111mm        // 2.
-      style rogan.6ps               // 3.
-      label "FREQ"                  // 4.
-      pin AdcPin1                   // 5.
+   control freq Trim {        // 1.
+      position 19.2mm, 111mm  // 2.
+      style tall              // 3.
+      label "FREQ"            // 4.
+      pin AdcPin1             // 5.
    }
 }
 ```
@@ -24,12 +24,22 @@ module Example {
 
 1. Creates a button control with name `arm`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the knob style, and is one of:
-- `songhuei.9mm`
+- `songhuei, 9mm, tall`, this is the default if `style` is omitted,
+- `songhuei, 9mm, tall, center_detent`,
+- `songhuei, 9mm, small`,
+- `songhuei, 9mm, small, center_detent`.
+
+```{note}
+You don't need to give all those keywords to make a selection.
+The style engine takes the best match from your list of styles.
+```
+
+For example `style small` will select automatically the SongHuei small trim, without center detent.
 
 > Trim photo is from the [Thonk shop](https://www.thonk.co.uk/shop/ttpots/).
 
@@ -88,7 +98,10 @@ style <name>
 ```
 
 Where `<name>` is one of:
-- `songhuei.9mm`
+- `songhuei, 9mm, tall`,
+- `songhuei, 9mm, tall, center_detent`,
+- `songhuei, 9mm, small`,
+- `songhuei, 9mm, small, center_detent`.
 
 More details can be found in [`style`](../language/grammar.md#style) documentation.
 

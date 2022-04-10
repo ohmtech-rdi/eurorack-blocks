@@ -11,13 +11,13 @@
 
 ```erbui
 module Example {
-   control vco_amp CvIn {           // 1.
-      position 19.2mm, 111mm        // 2.
-      style thonk.pj398sm.knurled   // 3.
-      label "AMP"                   // 4.
-      mode bipolar                  // 5.
-      cascade vco_amp2              // 6.
-      pin AdcPin1                   // 7.
+   control vco_amp CvIn {     // 1.
+      position 19.2mm, 111mm  // 2.
+      style knurled           // 3.
+      label "AMP"             // 4.
+      mode bipolar            // 5.
+      cascade vco_amp2        // 6.
+      pin AdcPin1             // 7.
    }
 }
 ```
@@ -26,15 +26,15 @@ module Example {
 
 1. Creates a CV input control with name `vco_amp`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional mode for the control, bipolar by default,
 6. Sets the optional cascade control for the control,
 7. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the nut style, and is one of:
-- `thonk.pj398sm.knurled`,
-- `thonk.pj398sm.hex`.
+- `hex`, this is the default if `style` is omitted,
+- `knurled`.
 
 > Nuts and washers photos are from the [Thonk shop](https://www.thonk.co.uk/shop/3-5mm-jacks/).
 
@@ -93,8 +93,8 @@ style <name>
 ```
 
 Where `<name>` is one of:
-- `thonk.pj398sm.knurled`,
-- `thonk.pj398sm.hex`.
+- `knurled`,
+- `hex`.
 
 More details can be found in [`style`](../language/grammar.md#style) documentation.
 

@@ -44,7 +44,7 @@ emphasize-lines: 2, 3
 ---
 control sync_button Button {
    position 2hp, 75.3mm
-   style ck.d6r.black
+   style ck, d6r, black
 }
 ```
 
@@ -58,10 +58,20 @@ Those distances always come with a unit, like `hp`, `mm` or `cm`.
 A `hp` is the [Doepfer defined](https://doepfer.de/a100_man/a100m_e.htm)
 Eurorack HP distance, which defines 1HP = 5.08mm.
 
-The only argument of `style`, `ck.d6r.black`, defines the hardware component to use.
-Here, `ck.d6r.black` denotes the
+The arguments of `style`, `ck`, `d6r` and `black`, define the hardware components to use.
+Here, it denotes the
 [C&K D6 series](https://www.ckswitches.com/products/switches/product-details/Keyswitch/D6/),
 variant R (round button), in black color.
+
+The style represents a set of intents on how should look and feel a particular control.
+Those intents are passed to the style engine, which finds the best match for this set of intents.
+This way, the style engine can also deduce some styles automatically for you. For example,
+if you specify `style red` for a `Led`, then the style engine will automatically choose a 3mm red LED
+for you, as 3mm is what is most commonly used in the Eurorack world.
+
+Style is an abstraction that goes in pair with the `manufacturer` concept (coming soon),
+which allows the style engine to select a set of hardware components that matches
+best a manufacturer components stocks and processes.
 
 The `style` is dependent on the control type, here `Button`. For each control type, you can
 visit its control reference, which lists the available styles. For example [here is the control
@@ -81,7 +91,7 @@ emphasize-lines: 4
 ---
 control freq_pot Pot {
    position 6hp, 34mm
-   style rogan.6ps
+   style rogan, 6ps
    label "FREQ"
 }
 ```
@@ -105,7 +115,7 @@ emphasize-lines: 5, 6
 ---
 control mute_hp Switch {
    position 6hp, 62mm
-   style dailywell.2ms1
+   style on_on
    rotation 90°ccw
    label "MUTE" { positioning left }
    label "HP" { positioning right }
@@ -132,13 +142,13 @@ declaration in your Erbui file, so if you have the following file:
 ```{code-block} erbui
 control audio_in_left AudioIn {
    position 2hp, 111mm
-   style thonk.pj398sm.knurled
+   style knurled
    label "IN L"
 }
 
 control audio_in_right AudioIn {
    position 4.66hp, 111mm
-   style thonk.pj398sm.knurled
+   style knurled
    label "IN R"
 }
 ```
@@ -158,14 +168,14 @@ emphasize-lines: 5
 ---
 control audio_in_left AudioIn {
    position 2hp, 111mm
-   style thonk.pj398sm.knurled
+   style knurled
    label "IN L"
    cascade audio_in_right
 }
 
 control audio_in_right AudioIn {
    position 4.66hp, 111mm
-   style thonk.pj398sm.knurled
+   style knurled
    label "IN R"
 }
 ```
@@ -179,13 +189,13 @@ declaration in your Erbui file, so if you have the following file:
 ```{code-block} erbui
 control audio_out_left AudioOut {
    position 7.33hp, 111mm
-   style thonk.pj398sm.knurled
+   style knurled
    label "OUT L"
 }
 
 control audio_out_right AudioOut {
    position 10hp, 111mm
-   style thonk.pj398sm.knurled
+   style knurled
    label "OUT R"
 }
 ```
@@ -230,7 +240,7 @@ For example, if you have the following Erbui description:
 ```{code-block} erbui
 control state_led LedBi {
    position 7.33hp, 85mm
-   style led.3mm.green_red
+   style green_red
 }
 ```
 
@@ -264,7 +274,7 @@ emphasize-lines: 2
 control feedback_trim Trim {
    mode bipolar
    position 7.33hp, 80.8mm
-   style songhuei.9mm
+   style songhuei, tall
    label "–/+" { positioning top }
 }
 ```

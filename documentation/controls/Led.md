@@ -12,26 +12,26 @@ or a [PWM](https://en.wikipedia.org/wiki/Pulse-width_modulation) driver.
 
 ```erbui
 module Example {
-   control sync_led Led {           // 1.
-      position 19.2mm, 111mm        // 2.
-      style style led.3mm.red       // 3.
-      label "SYNC"                  // 4.
-      pin Pin1                      // 5.
+   control sync_led Led {     // 1.
+      position 19.2mm, 111mm  // 2.
+      style red               // 3.
+      label "SYNC"            // 4.
+      pin Pin1                // 5.
    }
 }
 ```
 
 1. Creates a LED with name `sync_led`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 `style` is the LED style, and is one of:
-- `led.3mm.red`
-- `led.3mm.green`
-- `led.3mm.yellow`
-- `led.3mm.orange`
+- `tht, 3mm, red`, this is the default if `style` is omitted,
+- `tht, 3mm, green`,
+- `tht, 3mm, yellow`,
+- `tht, 3mm, orange`.
 
 ### `c++`
 
@@ -89,10 +89,10 @@ style <name>
 ```
 
 Where `<name>` is one of:
-- `led.3mm.red`,
-- `led.3mm.green`,
-- `led.3mm.yellow`,
-- `led.3mm.orange`.
+- `tht, 3mm, red`,
+- `tht, 3mm, green`,
+- `tht, 3mm, yellow`,
+- `tht, 3mm, orange`.
 
 More details can be found in [`style`](../language/grammar.md#style) documentation.
 

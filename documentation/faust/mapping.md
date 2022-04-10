@@ -65,25 +65,25 @@ module Phaser {
    
    control audio_in AudioIn {
       position 4hp, 96mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN L"
    }
 
    control audio_in2 AudioIn {
       position 8hp, 96mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN R"
    }
 
    control audio_out AudioOut {
       position 4hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT L"
    }
 
    control audio_out2 AudioOut {
       position 8hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT R"
    }
 ```
@@ -122,7 +122,7 @@ emphasize-lines: 2
    control speed Pot {
       faust { bind { address "/PHASER2/0x00/Speed" } }
       position 6hp, 34mm
-      style rogan.6ps
+      style rogan, 6ps
       label "FREQ"
    }
 ```
@@ -188,7 +188,7 @@ module Phaser {
    control speed Pot {
       faust { bind { address "/PHASER2/0x00/Speed" } }
       position 6hp, 34mm
-      style rogan.6ps
+      style rogan, 6ps
       label "FREQ"
    }
 ```
@@ -222,7 +222,6 @@ emphasize-lines: 2-5
          bind { property g address "/Phaser/LED Green" }
       }
       position 10hp, 80mm
-      style led.3mm.red_green
       label "LED"
    }
 ```
@@ -243,7 +242,6 @@ emphasize-lines: 4
          init { property g value 0.5 }
       }
       position 10hp, 80mm
-      style led.3mm.red_green
       label "LED"
    }
 ```

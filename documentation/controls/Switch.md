@@ -11,12 +11,12 @@
 
 ```erbui
 module Example {
-   control mode Switch {            // 1.
-      position 19.2mm, 111mm        // 2.
-      style dailywell.2ms3          // 3.
-      label "ARM"                   // 4.
-      rotation 90°ccw               // 5.
-      pins Pin1, Pin2               // 6.
+   control mode Switch {      // 1.
+      position 19.2mm, 111mm  // 2.
+      style on_off_on         // 3.
+      label "ARM"             // 4.
+      rotation 90°ccw         // 5.
+      pins Pin1, Pin2         // 6.
    }
 }
 ```
@@ -32,16 +32,17 @@ module Example {
    If not set, the system will choose them automatically.
 
 `style` is the button style, and is one of:
-- `dailywell.2ms1`, which is a SPDT On-On (2 positions) switch
-- `dailywell.2ms3`, which is a SPDT On-Off-On (3 positions) switch
+- `dailywell, 2ms3, on_off_on`, which is a SPDT On-Off-On (3 positions) switch, this is the default if `style` is omitted,
+- `dailywell, 2ms1, on_on`, which is a SPDT On-On (2 positions) switch.
 
-The `tl1105` button is typically mounted with a [cap](https://www.digikey.de/product-detail/en/e-switch/1RBLK/EG1882-ND/271579).
+```{note}
+You don't need to give all those keywords to make a selection.
+The style engine takes the best match from your list of styles.
+```
 
-The `ck.d6r.black` is typically used in sequencers, or to enhance the performing experience:
+For example `style on_on` will select automatically the Dailywell SPDT 2-positions switch.
 
-<img  src="https://www.thonk.co.uk/wp-content/uploads/2015/01/Radio_Switch_Black.jpg">
-
-> C&K D6R Black photo is from the [Thonk shop](https://www.thonk.co.uk/shop/radio-music-switch/).
+> Dailywell mini toggle switches photo is from the [Thonk shop](https://www.thonk.co.uk/shop/sub-mini-toggle-switches/).
 
 ### `c++`
 
@@ -105,8 +106,8 @@ style <name>
 ```
 
 Where `<name>` is one of:
-- [`tl1105`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)
-- [`ck.d6r.black`](https://www.thonk.co.uk/shop/radio-music-switch/)
+- `dailywell, 2ms3, on_off_on`,
+- `dailywell, 2ms1, on_on`.
 
 More details can be found in [`style`](../language/grammar.md#style) documentation.
 
