@@ -14,28 +14,28 @@ module Kivu12 {
 
    control go1 GateOut {
       position 7.33hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "GO1"
       pin GO1
    }
 
    control go2 GateOut {
       position 7.33hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "GO2"
       pin GO2
    }
 
    control audio_out1 AudioOut {
       position 7.33hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT L"
       pin AO1
    }
 
    control audio_out2 AudioOut {
       position 10hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT R"
       pin AO2
    }

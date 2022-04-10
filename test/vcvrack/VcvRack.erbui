@@ -46,7 +46,7 @@ module VcvRack {
 
    control audio_in AudioIn {
       position 10mm, 20mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -55,7 +55,7 @@ module VcvRack {
 
    control audio_in2 AudioIn {
       position 30mm, 20mm
-      style thonk.pj398sm.hex
+      style hex
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -64,7 +64,7 @@ module VcvRack {
 
    control audio_out AudioOut {
       position 50mm, 20mm
-      style thonk.pj398sm.hex
+      style hex
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -82,7 +82,7 @@ module VcvRack {
 
    control cv_in CvIn {
       position 90mm, 20mm
-      style thonk.pj398sm.hex
+      style hex
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -91,7 +91,7 @@ module VcvRack {
 
    control gate_in GateIn {
       position 110mm, 20mm
-      style thonk.pj398sm.hex
+      style hex
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -100,7 +100,7 @@ module VcvRack {
 
    control gate_out GateOut {
       position 10mm, 40mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -109,7 +109,7 @@ module VcvRack {
 
    control led Led {
       position 30mm, 40mm
-      style led.3mm.red
+      style red
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -118,7 +118,7 @@ module VcvRack {
 
    control led_bi LedBi {
       position 50mm, 40mm
-      style led.3mm.green_red
+      style green_red
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -127,7 +127,7 @@ module VcvRack {
 
    control pot Pot {
       position 70mm, 40mm
-      style rogan.1ps
+      style 1ps
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -136,7 +136,7 @@ module VcvRack {
 
    control switch_ Switch {
       position 90mm, 40mm
-      style dailywell.2ms1
+      style 2ms1
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -146,7 +146,6 @@ module VcvRack {
    control trim Trim {
       mode bipolar
       position 110mm, 40mm
-      style songhuei.9mm
       label "L" { positioning left }
       label "T" { positioning top }
       label "R" { positioning right }
@@ -155,73 +154,73 @@ module VcvRack {
 
    control rogan_6ps Pot {
       position 20mm, 65mm
-      style rogan.6ps
+      style 6ps
       label "rogan.6ps" { positioning bottom }
    }
 
    control rogan_5ps Pot {
       position 50mm, 65mm
-      style rogan.5ps
+      style 5ps
       label "rogan.5ps" { positioning bottom }
    }
 
    control rogan_3ps Pot {
       position 73mm, 65mm
-      style rogan.3ps
+      style 3ps
       label "rogan.3ps" { positioning bottom }
    }
 
    control rogan_2ps Pot {
       position 93mm, 65mm
-      style rogan.2ps
+      style 2ps
       label "rogan.2ps" { positioning bottom }
    }
 
    control rogan_1ps Pot {
       position 110mm, 65mm
-      style rogan.1ps
+      style 1ps
       label "rogan.1ps" { positioning bottom }
    }
 
    control dailywell_2ms1 Switch {
       position 10mm, 90mm
-      style dailywell.2ms1
+      style 2ms1
       label "dailywell.2ms1" { positioning bottom }
    }
 
    control dailywell_2ms3 Switch {
       position 30mm, 90mm
-      style dailywell.2ms3
+      style 2ms3
       label "dailywell.2ms3" { positioning bottom }
    }
 
    control led_3mm_red Led {
       position 52mm, 85mm
-      style led.3mm.red
+      style red
       label "led.3mm.red" { positioning bottom }
    }
 
    control led_3mm_green Led {
       position 79mm, 85mm
-      style led.3mm.green
+      style green
       label "led.3mm.green" { positioning bottom }
    }
 
    control led_3mm_yellow Led {
       position 52mm, 95mm
-      style led.3mm.yellow
+      style yellow
       label "led.3mm.yellow" { positioning bottom }
    }
 
    control led_3mm_green_red LedBi {
       position 79mm, 95mm
-      style led.3mm.green_red
+      style green_red
       label "led.3mm.green_red" { positioning bottom }
    }
 
    control led_3mm_rgb LedRgb {
       position 110mm, 100mm
-      style led.3mm.rgb
+      style rgb
       label "led.3mm.rgb" { positioning bottom }
    }
 
@@ -233,13 +232,13 @@ module VcvRack {
 
    control ck_d6_black Button {
       position 110mm, 85mm
-      style ck.d6r.black
+      style ck, d6r
       label "ck.d6r.black" { positioning bottom }
    }
 
    control dailywell_2ms1_90ccw Switch {
       position 10mm, 110mm
-      style dailywell.2ms1
+      style 2ms1
       rotation 90°ccw
       label "L" { positioning left }
       label "T" { positioning top }
@@ -249,7 +248,7 @@ module VcvRack {
 
    control dailywell_2ms1_m90cw Switch {
       position 30mm, 110mm
-      style dailywell.2ms1
+      style 2ms1
       rotation 90°
       label "L" { positioning left }
       label "T" { positioning top }
@@ -259,13 +258,13 @@ module VcvRack {
 
    control thonk_pj398sm_knurled CvIn {
       position 55mm, 110mm
-      style thonk.pj398sm.knurled
-      label "thonk.pj398sm.knurled" { positioning bottom }
+      style knurled
+      label "knurled" { positioning bottom }
    }
 
    control thonk_pj398sm_hex CvIn {
       position 85mm, 110mm
-      style thonk.pj398sm.hex
-      label "thonk.pj398sm.hex" { positioning bottom }
+      style hex
+      label "hex" { positioning bottom }
    }
 }

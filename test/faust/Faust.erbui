@@ -8,19 +8,19 @@ module Faust {
 
    control freq Pot {
       position 6hp, 34mm
-      style rogan.6ps
+      style rogan, 6ps
       label "FREQ"
    }
 
    control audio_in AudioIn {
       position 6hp, 96mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN"
    }
 
    control audio_out AudioOut {
       position 6hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT"
    }
 }
