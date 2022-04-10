@@ -8,13 +8,13 @@ module Faust {
 
    control audio_out AudioOut {
       position 4hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT L"
    }
 
    control audio_out2 AudioOut {
       position 8hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT R"
    }
 }
