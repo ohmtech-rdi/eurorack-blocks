@@ -64,10 +64,13 @@ class Code:
             if category == 'Param':
                if control.mode is not None and control.mode.is_bipolar:
                   min_val = -1
+                  max_val = 1
+               elif control.parts [0] == 'dailywell.2ms3':
+                  min_val = 0
+                  max_val = 2
                else:
                   min_val = 0
-
-               max_val = 2 if control.style.is_dailywell_2ms3 else 1
+                  max_val = 1
 
                control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
@@ -156,9 +159,9 @@ class Code:
             if func_category == 'Light':
                func_category = 'Child'
 
-            widget = self.control_style_to_widget (control)
+            widget = self.control_to_widget (control)
 
-            if control.style.is_dailywell_2ms:
+            if control.parts [0].startswith ('dailywell.2ms'):
                if control.rotation is None:
                   rotation = 0
                else:
@@ -213,33 +216,86 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def control_style_to_widget (self, control):
-      style_widget_map = {
-         'rogan.6ps': 'erb::AlphaPot <erb::Rogan6Ps>',
-         'rogan.5ps': 'erb::AlphaPot <erb::Rogan5Ps>',
-         'rogan.3ps': 'erb::AlphaPot <erb::Rogan3Ps>',
-         'rogan.2ps': 'erb::AlphaPot <erb::Rogan2Ps>',
-         'rogan.1ps': 'erb::AlphaPot <erb::Rogan1Ps>',
-         'rogan.2s.black': 'erb::AlphaPot <erb::Rogan2SBlack>',
-         'rogan.1s': 'erb::AlphaPot <erb::Rogan1S>',
-         'rogan.1s.black': 'erb::AlphaPot <erb::Rogan1SBlack>',
-         'songhuei.9mm': 'erb::SongHuei9',
-         'sifam.drn111.white': 'erb::AlphaPot <erb::SifamDrn111>',
-         'sifam.dbn151.white': 'erb::AlphaPot <erb::SifamDbn151>',
-         'dailywell.2ms1': 'erb::Dailywell2Ms1',
-         'dailywell.2ms3': 'erb::Dailywell2Ms3',
-         'led.3mm.red': 'MediumLight <RedLight>',
-         'led.3mm.green': 'MediumLight <GreenLight>',
-         'led.3mm.yellow': 'MediumLight <YellowLight>',
-         'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
-         'led.3mm.green_red': 'MediumLight <GreenRedLight>',
-         'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
-         'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
-         'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6r.black': 'CKD6',
-         'tl1105': 'TL1105',
-      }
+   def control_to_widget (self, control):
+      for part in control.parts:
+         widget = self.control_part_to_widget (part)
+         if widget is not None:
+            return widget
 
-      return style_widget_map [control.style.name]
+      assert False
 
 
+   #--------------------------------------------------------------------------
+
+   def control_part_to_widget (self, part):
+      if part == 'thonk.pj398sm.nut.hex':
+         return 'erb::ThonkPj398SmHex'
+
+      elif part == 'thonk.pj398sm.nut.knurled':
+         return 'erb::ThonkPj398SmKnurled'
+
+      elif part.startswith ('rogan.6ps'):
+         return 'erb::AlphaPot <erb::Rogan6Ps>'
+
+      elif part.startswith ('rogan.5ps'):
+         return 'erb::AlphaPot <erb::Rogan5Ps>'
+
+      elif part.startswith ('rogan.3ps'):
+         return 'erb::AlphaPot <erb::Rogan3Ps>'
+
+      elif part.startswith ('rogan.2ps'):
+         return 'erb::AlphaPot <erb::Rogan2Ps>'
+
+      elif part.startswith ('rogan.1ps'):
+         return 'erb::AlphaPot <erb::Rogan1Ps>'
+
+      elif part.startswith ('rogan.2s.black'):
+         return 'erb::AlphaPot <erb::Rogan2SBlack>'
+
+      elif part.startswith ('rogan.1s.black'):
+         return 'erb::AlphaPot <erb::Rogan1SBlack>'
+
+      elif part.startswith ('rogan.1s'):
+         return 'erb::AlphaPot <erb::Rogan1S>'
+
+      elif part.startswith ('songhuei.9mm'):
+         return 'erb::SongHuei9'
+
+      elif part == 'sifam.c151.white':
+         return 'erb::AlphaPot <erb::SifamDbn151>'
+
+      elif part == 'sifam.c111.white':
+         return 'erb::AlphaPot <erb::SifamDrn111>'
+
+      elif part == 'dailywell.2ms1':
+         return 'erb::Dailywell2Ms1'
+
+      elif part == 'dailywell.2ms3':
+         return 'erb::Dailywell2Ms3'
+
+      elif part == 'led.tht.3mm.red':
+         return 'MediumLight <RedLight>'
+
+      elif part == 'led.tht.3mm.green':
+         return 'MediumLight <GreenLight>'
+
+      elif part == 'led.tht.3mm.yellow':
+         return 'MediumLight <YellowLight>'
+
+      elif part == 'led.tht.3mm.orange':
+         return 'MediumLight <YellowLight>' # orange is missing
+
+      elif part == 'led.tht.3mm.green_red':
+         return 'MediumLight <GreenRedLight>'
+
+      elif part == 'led.smt.3mm.rgb':
+         return 'MediumLight <RedGreenBlueLight>'
+
+      elif part == 'ck.d6r.black':
+         return 'CKD6'
+
+      elif part == '1rblk':
+         return 'TL1105'
+
+      else:
+         return None
