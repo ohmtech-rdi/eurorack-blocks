@@ -171,63 +171,13 @@ class KicadPcb:
    def generate_control (self, module, control):
       components = []
 
-      if control.style.is_alpha_9mm:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.wire.kicad_pcb')))
+      for part in control.parts:
+         rel_paths = self.generate_control_part (module, control, part)
+         for rel_path in rel_paths:
+            path = (PATH_THIS, *rel_path)
+            components.append (self.load_component (os.path.join (*path)))
 
-      elif control.style.is_songhuei_9mm:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.wire.kicad_pcb')))
-
-      elif control.style.is_thonk_pj398sm:
-         if control.cascade_from is not None:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-cascade.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-cascade.wire.kicad_pcb')))
-               components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.di.kicad_pcb')))
-         else:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-gnd.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-gnd.wire.kicad_pcb')))
-            if control.cascade_to is not None:
-               if module.route.is_wire:
-                  components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.do.kicad_pcb')))
-
-      elif control.style.is_ck_d6r:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.wire.kicad_pcb')))
-
-      elif control.style.is_tl1105:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.wire.kicad_pcb')))
-
-      elif control.style.is_dailywell_2ms:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb')))
-
-      elif control.style.is_led_3mm:
-         if control.style.is_led_3mm_mono:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb')))
-         elif control.style.is_led_3mm_green_red:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb')))
-         elif control.style.is_led_3mm_rgb:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb')))
-         else:
-            print ('unsupported led block %s' % control.style.name)
-
-      else:
-         print ('unsupported block %s' % control.style.name)
+      assert components
 
       for component in components:
          component = self.rotate (component, control)
@@ -241,6 +191,68 @@ class KicadPcb:
          component = self.relink_nets (component, control)
          for element in component.entities:
             self.base.add (element)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_part (self, module, control, part):
+      rel_paths = []
+
+      if part == 'thonk.pj398sm':
+         if control.cascade_from is not None:
+            rel_paths.append (('thonk.pj398sm', 'thonk.pj398sm.tn-cascade.base.kicad_pcb'))
+            if module.route.is_wire:
+               rel_paths.append (('thonk.pj398sm', 'thonk.pj398sm.tn-cascade.wire.kicad_pcb'))
+               rel_paths.append (('thonk.pj398sm', 'thonk.pj398sm.di.kicad_pcb'))
+         else:
+            rel_paths.append (('thonk.pj398sm', 'thonk.pj398sm.tn-gnd.base.kicad_pcb'))
+            if module.route.is_wire:
+               rel_paths.append (('thonk.pj398sm', 'thonk.pj398sm.tn-gnd.wire.kicad_pcb'))
+            if control.cascade_to is not None:
+               if module.route.is_wire:
+                  rel_paths.append (('thonk.pj398sm', 'thonk.pj398sm.do.kicad_pcb'))
+
+      elif part == 'alpha.9mm.dshaft':
+         rel_paths.append (('alpha.9mm', 'alpha.9mm.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('alpha.9mm', 'alpha.9mm.wire.kicad_pcb'))
+
+      elif part.startswith ('songhuei.9mm'):
+         rel_paths.append (('songhuei.9mm', 'songhuei.9mm.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('songhuei.9mm', 'songhuei.9mm.wire.kicad_pcb'))
+
+      elif part.startswith ('ck.d6r'):
+         rel_paths.append (('ckd6r', 'ckd6r.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('ckd6r', 'ckd6r.wire.kicad_pcb'))
+
+      elif part == 'tl1105':
+         rel_paths.append (('tl1105', 'tl1105.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('tl1105', 'tl1105.wire.kicad_pcb'))
+
+      elif part.startswith ('dailywell.2ms'):
+         rel_paths.append (('dailywell.2ms', 'dailywell.2ms.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb'))
+
+      elif part in ['led.tht.3mm.red', 'led.tht.3mm.green', 'led.tht.3mm.yellow', 'led.tht.3mm.orange']:
+         rel_paths.append (('led.3mm', 'led.3mm.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('led.3mm', 'led.3mm.wire.kicad_pcb'))
+
+      elif part == 'led.tht.3mm.green_red':
+         rel_paths.append (('led.3mm.bi', 'led.3mm.bi.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb'))
+
+      elif part == 'led.smt.3mm.rgb':
+         rel_paths.append (('led.3mm.rgb', 'led.3mm.rgb.base.kicad_pcb'))
+         if module.route.is_wire:
+            rel_paths.append (('led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb'))
+
+      return rel_paths
 
 
    #--------------------------------------------------------------------------

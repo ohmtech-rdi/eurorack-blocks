@@ -145,14 +145,8 @@ class Bom:
             name_quantity_map [part_name] = 1
 
       for control in module.controls:
-         inc_part (control.style.name)
-
-         if control.style.is_alpha_9mm:
-            inc_part ('alpha.9mm')
-         elif control.style.is_thonk_pj398sm:
-            inc_part ('thonk.pj398sm')
-         elif control.style.is_tl1105:
-            inc_part ('1rblk') # button cap
+         for part in control.parts:
+            inc_part (part)
 
       parts = []
 
@@ -170,7 +164,7 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def generate_alpha_9mm (self):
+   def generate_alpha_9mm_dshaft (self):
       return {
          'description': 'B100K - D shaft - Alpha Vertical 9mm Potentiometer',
          'remarks': 'Choose 50K or 10K if 100K is not available',
@@ -179,9 +173,9 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/alpha-9mm-pots-dshaft/',
       }
 
-   def generate_songhuei_9mm (self):
+   def generate_songhuei_9mm_tall (self):
       return {
-         'description': 'B100K (or 50K or 10K) - Song Huei TALL Trimmer Potentiometer',
+         'description': 'B100K - Song Huei TALL Trimmer Potentiometer',
          'remarks': 'Choose 50K or 10K if 100K is not available',
          'distributor': 'Thonk',
          'part_number': '',
@@ -198,7 +192,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/thonkiconn/',
       }
 
-   def generate_thonk_pj398sm_knurled (self):
+   def generate_thonk_pj398sm_nut_knurled (self):
       return {
          'description': 'Knurled Nuts',
          'remarks': 'One nut bag contains already 50 pieces',
@@ -207,7 +201,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/thonkiconn/',
       }
 
-   def generate_thonk_pj398sm_hex (self):
+   def generate_thonk_pj398sm_nut_hex (self):
       return {
          'description': 'Hex Nuts',
          'remarks': 'One nut bag contains already 50 pieces',
@@ -216,9 +210,27 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/thonkiconn/',
       }
 
+   def generate_befaco_bananuts_black (self):
+      return {
+         'description': 'Bananuts - Black',
+         'remarks': 'One nut bag contains already 25 pieces. Order bananuts wrench tool',
+         'distributor': 'Thonk',
+         'part_number': '',
+         'url': 'https://www.thonk.co.uk/shop/bananuts/',
+      }
+
+   def generate_befaco_bananuts_red (self):
+      return {
+         'description': 'Bananuts - Red',
+         'remarks': 'One nut bag contains already 25 pieces. Order bananuts wrench tool',
+         'distributor': 'Thonk',
+         'part_number': '',
+         'url': 'https://www.thonk.co.uk/shop/bananuts/',
+      }
+
    #--------------------------------------------------------------------------
 
-   def generate_rogan_6ps (self):
+   def generate_rogan_6ps_dshaft (self):
       return {
          'description': '6PS - X-Large Pointer (D Shaft) - Rogan PT Plastic Knob',
          'distributor': 'Thonk',
@@ -226,7 +238,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_5ps (self):
+   def generate_rogan_5ps_dshaft (self):
       return {
          'description': '5PS - Larger Pointer (D Shaft) - Rogan PT Plastic Knob',
          'distributor': 'Thonk',
@@ -234,7 +246,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_3ps (self):
+   def generate_rogan_3ps_dshaft (self):
       return {
          'description': '3PS - Large Pointer (D Shaft) - Rogan PT Plastic Knob',
          'distributor': 'Thonk',
@@ -242,7 +254,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_2ps (self):
+   def generate_rogan_2ps_dshaft (self):
       return {
          'description': '2PS - Medium Pointer (D Shaft) - Rogan PT Plastic Knob',
          'distributor': 'Thonk',
@@ -250,7 +262,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_2s_black (self):
+   def generate_rogan_2s_dshaft_black (self):
       return {
          'description': '2S - Medium Encoder BLACK (D Shaft) - Rogan PT Plastic Knob',
          'remarks': 'Choose Black',
@@ -259,7 +271,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_1ps (self):
+   def generate_rogan_1ps_dshaft (self):
       return {
          'description': '1PS - Small Pointer (D Shaft) - Rogan PT Plastic Knob',
          'distributor': 'Thonk',
@@ -267,7 +279,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_1s (self):
+   def generate_rogan_1s_dshaft (self):
       return {
          'description': '1S - Small Encoder WHITE (D Shaft) - Rogan PT Plastic Knob',
          'remarks': 'Choose white',
@@ -276,7 +288,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/',
       }
 
-   def generate_rogan_1s_black (self):
+   def generate_rogan_1s_dshaft_black (self):
       return {
          'description': '1S - Small Encoder BLACK (D Shaft) - Rogan PT Plastic Knob',
          'remarks': 'Choose black',
@@ -287,7 +299,7 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def generate_sifam_dbn151_white (self):
+   def generate_sifam_dbn150_white_dshaft (self):
       return {
          'description': 'White Large Skirt D - Sifam Plastic Knob',
          'distributor': 'Thonk',
@@ -295,7 +307,7 @@ class Bom:
          'url': 'https://www.thonk.co.uk/shop/intellijel-white-knobs/',
       }
 
-   def generate_sifam_drn111_white (self):
+   def generate_sifam_drn110_white_dshaft (self):
       return {
          'description': 'White Small Skirt D - Sifam Plastic Knob',
          'distributor': 'Thonk',
@@ -352,7 +364,7 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def generate_led_3mm_red (self):
+   def generate_led_tht_3mm_red (self):
       return {
          'description': 'LED RED DIFFUSED T-1 T/H',
          'distributor': 'Digikey',
@@ -360,7 +372,7 @@ class Bom:
          'url': 'https://www.digikey.com/en/products/detail/kingbright/WP710A10ID/2769809',
       }
 
-   def generate_led_3mm_green (self):
+   def generate_led_tht_3mm_green (self):
       return {
          'description': 'LED GREEN DIFFUSED T-1 T/H',
          'distributor': 'Digikey',
@@ -368,7 +380,7 @@ class Bom:
          'url': 'https://www.digikey.com/en/products/detail/kingbright/WP710A10GD/2769808',
       }
 
-   def generate_led_3mm_yellow (self):
+   def generate_led_tht_3mm_yellow (self):
       return {
          'description': 'LED YELLOW DIFFUSED T-1 T/H',
          'distributor': 'Digikey',
@@ -376,7 +388,7 @@ class Bom:
          'url': 'https://www.digikey.com/en/products/detail/kingbright/WP710A10YD/2769824',
       }
 
-   def generate_led_3mm_orange (self):
+   def generate_led_tht_3mm_orange (self):
       return {
          'description': 'LED ORANGE DIFFUSED T-1 T/H',
          'distributor': 'Digikey',
@@ -384,7 +396,7 @@ class Bom:
          'url': 'https://www.digikey.com/en/products/detail/kingbright/WP710A10ND/3084190',
       }
 
-   def generate_led_3mm_green_red (self):
+   def generate_led_tht_3mm_green_red (self):
       return {
          'description': 'LED GREEN/RED DIFFUSED T-1 T/H',
          'distributor': 'Digikey',
