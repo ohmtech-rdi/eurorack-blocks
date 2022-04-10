@@ -19,38 +19,38 @@ module daisy_field {
 
    control cv_in1 CvIn {
       position 128.1mm, 23.7mm
-      style thonk.pj398sm.hex
+      style hex
       pin CI1
    }
 
    control cv_in2 CvIn {
       position 128.1mm, 37.3mm
-      style thonk.pj398sm.hex
+      style hex
       pin CI2
    }
 
    control cv_in3 CvIn {
       position 143.2mm, 23.7mm
-      style thonk.pj398sm.hex
+      style hex
       pin CI3
    }
 
    control cv_in4 CvIn {
       position 143.2mm, 37.3mm
-      style thonk.pj398sm.hex
+      style hex
       pin CI4
    }
 
    control cv_out1 CvOut {
       position 158mm, 23.7mm
-      style thonk.pj398sm.hex
+      style hex
       pin CO1
       mode normalized
    }
 
    control cv_out2 CvOut {
       position 158mm, 37.3mm
-      style thonk.pj398sm.hex
+      style hex
       pin CO2
       mode normalized
    }
@@ -59,13 +59,13 @@ module daisy_field {
 
    control gate_in GateIn {
       position 174.5mm, 23.7mm
-      style thonk.pj398sm.hex
+      style hex
       pin GI
    }
 
    control gate_out GateOut {
       position 174.5mm, 37.3mm
-      style thonk.pj398sm.hex
+      style hex
       pin GO
    }
 
@@ -73,97 +73,97 @@ module daisy_field {
 
    control led1 Led {
       position 27.3mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L1
    }
 
    control pot1 Pot {
       position 27.3mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P1
    }
 
    control led2 Led {
       position 50mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L2
    }
 
    control pot2 Pot {
       position 50mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P2
    }
 
    control led3 Led {
       position 72.8mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L3
    }
 
    control pot3 Pot {
       position 72.8mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P3
    }
 
    control led4 Led {
       position 95.5mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L4
    }
 
    control pot4 Pot {
       position 95.5mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P4
    }
 
    control led5 Led {
       position 118.2mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L5
    }
 
    control pot5 Pot {
       position 118.2mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P5
    }
 
    control led6 Led {
       position 140.9mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L6
    }
 
    control pot6 Pot {
       position 140.9mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P6
    }
 
    control led7 Led {
       position 163.6mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L7
    }
 
    control pot7 Pot {
       position 163.6mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P7
    }
 
    control led8 Led {
       position 186.3mm, 50mm
-      style led.3mm.yellow
+      style yellow
       pin L8
    }
 
    control pot8 Pot {
       position 186.3mm, 61.3mm
-      style rogan.2ps
+      style rogan, 2ps
       pin P8
    }
 
@@ -185,28 +185,28 @@ module daisy_field {
 
    control audio_in1 AudioIn {
       position 6.4mm, 23.7mm
-      style thonk.pj398sm.hex
+      style hex
       pin AI1
       label "IN L"
    }
 
    control audio_in2 AudioIn {
       position 6.4mm, 37.3mm
-      style thonk.pj398sm.hex
+      style hex
       pin AI2
       label "IN R"
    }
 
    control audio_out1 AudioOut {
       position 206.9mm, 23.7mm
-      style thonk.pj398sm.hex
+      style hex
       pin AO1
       label "OUT L"
    }
 
    control audio_out2 AudioOut {
       position 206.9mm, 37.3mm
-      style thonk.pj398sm.hex
+      style hex
       pin AO2
       label "OUT R"
    }
