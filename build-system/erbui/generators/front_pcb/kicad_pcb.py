@@ -329,7 +329,11 @@ class KicadPcb:
       for module_node in component.filter_kind ('module'):
          for fp_text_node in module_node.filter_kind ('fp_text'):
             if fp_text_node.entities [1].value == 'reference':
-               fp_text_node.entities [2].value = control.name + fp_text_node.entities [2].value
+               if fp_text_node.entities [2].value == 'ZZ1':
+                  # component to set proper reference for centroid
+                  fp_text_node.entities [2].value = control.reference
+               else:
+                  fp_text_node.entities [2].value = control.name + fp_text_node.entities [2].value
 
       return component
 

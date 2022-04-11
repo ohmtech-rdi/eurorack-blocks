@@ -136,27 +136,48 @@ class Bom:
 
    def generate_controls (self, module):
 
-      name_quantity_map = {} # control.style.name: quantity
+      ref_part_name_ref_map = {}
+      noref_part_name_ref_map = {}
 
-      def inc_part (part_name):
-         if part_name in name_quantity_map:
-            name_quantity_map [part_name] += 1
+      def inc_ref_part (part_name, reference):
+         if part_name in ref_part_name_ref_map:
+            ref_part_name_ref_map [part_name].append (reference)
          else:
-            name_quantity_map [part_name] = 1
+            ref_part_name_ref_map [part_name] = [reference]
+
+      def inc_noref_part (part_name, for_reference):
+         if part_name in noref_part_name_ref_map:
+            noref_part_name_ref_map [part_name].append (for_reference)
+         else:
+            noref_part_name_ref_map [part_name] = [for_reference]
 
       for control in module.controls:
-         for part in control.parts:
-            inc_part (part)
+         for index, part in enumerate (control.parts):
+            if index == 0:
+               inc_ref_part (part, control.reference) # PCB part
+            else:
+               inc_noref_part (part, control.reference) # decoration
 
       parts = []
 
-      for name, quantity in name_quantity_map.items ():
-         func_name = 'generate_%s' % name.replace ('.', '_')
+      for part_name, references in ref_part_name_ref_map.items ():
+         func_name = 'generate_%s' % part_name.replace ('.', '_')
          part = getattr (self, func_name)()
-         part ['quantity'] = quantity
-         part ['references'] = ''
+         part ['quantity'] = len (references)
+         part ['references'] = ', '.join (references)
          if 'remarks' not in part:
             part ['remarks'] = ''
+         parts.append (part)
+
+      for part_name, references in noref_part_name_ref_map.items ():
+         func_name = 'generate_%s' % part_name.replace ('.', '_')
+         part = getattr (self, func_name)()
+         part ['quantity'] = len (references)
+         part ['references'] = ''
+         if 'remarks' in part:
+            part ['remarks'] += '. For ' + ', '.join (references)
+         else:
+            part ['remarks'] = 'For ' + ', '.join (references)
          parts.append (part)
 
       return parts
