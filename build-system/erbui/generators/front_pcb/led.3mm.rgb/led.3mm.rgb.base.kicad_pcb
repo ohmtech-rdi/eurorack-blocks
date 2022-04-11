@@ -120,8 +120,8 @@
     (tags "LED Cree PLCC-4")
     (path /60BBD1E1)
     (attr smd)
-    (fp_text reference ZZ1 (at 0 -2.65) (layer F.SilkS) hide
-      (effects (font (size 1 1) (thickness 0.15)))
+    (fp_text reference ZZ1 (at 0 -2.0955) (layer F.SilkS)
+      (effects (font (size 0.8 0.8) (thickness 0.12)))
     )
     (fp_text value LED_RGBA (at 0 2.65) (layer F.Fab)
       (effects (font (size 1 1) (thickness 0.15)))
