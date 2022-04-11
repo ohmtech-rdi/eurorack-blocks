@@ -105,6 +105,7 @@ class ErbuiLexer(RegexLexer):
          (r'[0-9\.]+cm', token.Literal.Number),
          (r'[0-9\.]+', token.Literal.Number),
          (r'style', token.Keyword, 'style'),
+         (r'manufacturer', token.Keyword, 'manufacturer'),
          (r'module|board|width|material|header|footer|line|control|label|sticker|image|pin|pins|cascade|mode|positioning|position|rotation|offset|route|faust|address|bind|init|value|property|exclude|extends|alias|file|class|include|pcb|net|type|gpio|pwm|dac', token.Keyword),
          (r'center|left|top|right|bottom|normalized|bipolar|wire|manual|natural|black|white|aluminum|brushed_aluminum|aluminum_coated', token.Name.Builtin),
          (r'AudioIn|AudioOut|Button|CvIn|CvOut|GateIn|GateOut|LedBi|LedRgb|Led|Pot|Switch|Trim', token.Keyword.Type),
@@ -116,6 +117,11 @@ class ErbuiLexer(RegexLexer):
          (r'//.*?$', token.Comment.Singleline),
          (r',', token.Punctuation),
          (r'(?!\b({})\b)([a-zA-Z0-9_]\w*)', token.Name.Builtin),
+         (r'.', token.Text),
+      ],
+      'manufacturer': [
+         (r'//.*?$', token.Comment.Singleline),
+         (r'(?!\b({})\b)([a-zA-Z]\w*)', token.Name.Builtin),
          (r'.', token.Text),
       ],
    }
