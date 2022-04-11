@@ -1219,6 +1219,7 @@ class Control (Scope):
       super (Control, self).__init__ ()
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
+      self.reference = None
 
    @staticmethod
    def typename (): return 'control'
