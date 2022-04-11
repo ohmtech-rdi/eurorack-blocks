@@ -44,6 +44,9 @@ class Analyser:
    def analyse_module (self, module):
       assert module.is_module
 
+      if module.manufacturer == None:
+         module.add (ast.Manufacturer (adapter.BuiltIn ('diy')))
+
       self.analyse_board (module)
 
       if module.route == None:

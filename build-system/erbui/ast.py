@@ -57,6 +57,9 @@ class Node:
    def is_module (self): return isinstance (self, Module)
 
    @property
+   def is_manufacturer (self): return isinstance (self, Manufacturer)
+
+   @property
    def is_board (self): return isinstance (self, Board)
 
    @property
@@ -368,6 +371,15 @@ class Module (Scope):
       return super (Module, self).source_context_part (part) # pragma: no cover
 
    @property
+   def manufacturer (self):
+      entities = [e for e in self.entities if e.is_manufacturer]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
    def board (self):
       entities = [e for e in self.entities if e.is_board]
       assert (len (entities) <= 1)
@@ -441,6 +453,21 @@ class Module (Scope):
    def aliases (self):
       entities = [e for e in self.entities if e.is_alias]
       return entities
+
+
+# -- Manufacturer ------------------------------------------------------------
+
+class Manufacturer (Scope):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (Manufacturer, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @staticmethod
+   def typename (): return 'manufacturer'
+
+   @property
+   def name (self): return self.keyword_name.value
 
 
 # -- Board -------------------------------------------------------------------

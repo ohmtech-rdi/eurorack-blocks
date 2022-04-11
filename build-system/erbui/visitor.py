@@ -107,6 +107,19 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Manufacturer ----------------------------------------------------------
+
+   def visit_manufacturer_declaration (self, node, children):
+      manufacturer_name = children.manufacturer_name [0]
+
+      manufacturer = ast.Manufacturer (manufacturer_name)
+
+      return manufacturer
+
+   def visit_manufacturer_name (self, node, children):
+      return self.to_keyword (node)
+
+
    #-- Board -----------------------------------------------------------------
 
    def visit_board_declaration (self, node, children):
