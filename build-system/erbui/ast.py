@@ -451,6 +451,7 @@ class Board (Scope):
          assert isinstance (identifier, adapter.Identifier)
       super (Board, self).__init__ ()
       self.identifier = identifier
+      self.references = []
 
    def load_builtin (self):
       path_definition = os.path.join (PATH_BOARDS, self.identifier.name, 'definition.py')
