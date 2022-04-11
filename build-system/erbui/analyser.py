@@ -105,6 +105,30 @@ class Analyser:
          reference = comp_node.property ('ref')
          module.board.references.append (reference)
 
+      index_j = 1
+      index_sw = 1
+      index_d = 1
+      index_rv = 1
+
+      def alloc_ref (control, base, index):
+         while '%s%d' % (base, index) in module.board.references:
+            index += 1
+         control.reference = '%s%d' % (base, index)
+         module.board.references.append (control.reference)
+         return index + 1
+
+      for control in module.controls:
+         if control.kind in ['AudioIn', 'AudioOut', 'CvIn', 'CvOut', 'GateIn', 'GateOut']:
+            index_j = alloc_ref (control, 'J', index_j)
+         elif control.kind in ['Button', 'Switch']:
+            index_sw = alloc_ref (control, 'SW', index_sw)
+         elif control.kind in ['Led', 'LedBi', 'LedRgb']:
+            index_d = alloc_ref (control, 'D', index_d)
+         elif control.kind in ['Pot', 'Trim']:
+            index_rv = alloc_ref (control, 'RV', index_rv)
+         else:
+            assert False
+
 
    #--------------------------------------------------------------------------
 
