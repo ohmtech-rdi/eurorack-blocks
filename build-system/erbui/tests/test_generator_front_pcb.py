@@ -79,6 +79,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          mock.identifier ('test'),
          mock.keyword ('Trim')
       )
+      control.reference = 'RV1'
       position = ast.Position (
          ast.DistanceLiteral (mock.literal ('5hp'), 'hp'),
          ast.DistanceLiteral (mock.literal ('32mm'), 'mm'),
@@ -95,6 +96,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          mock.identifier ('test'),
          mock.keyword ('Pot')
       )
+      control.reference = 'RV2'
       position = ast.Position (
          ast.DistanceLiteral (mock.literal ('5hp'), 'hp'),
          ast.DistanceLiteral (mock.literal ('64mm'), 'mm'),
@@ -112,6 +114,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          mock.identifier ('test'),
          mock.keyword ('CvIn')
       )
+      control.reference = 'J1'
       position = ast.Position (
          ast.DistanceLiteral (mock.literal ('5hp'), 'hp'),
          ast.DistanceLiteral (mock.literal ('96mm'), 'mm'),
