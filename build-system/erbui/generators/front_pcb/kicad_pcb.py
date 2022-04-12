@@ -40,7 +40,6 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def generate_module (self, path, module):
-      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
 
       self.base = self.load (module.board.pcb.path)
 
@@ -52,12 +51,28 @@ class KicadPcb:
       for control in module.controls:
          self.generate_control (module, control)
 
-      writer = s_expression.Writer ()
-      writer.write (self.base, path_pcb)
+      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+
+      if os.path.exists (path_pcb) and module.route.is_manual:
+         base = self.load (path_pcb)
+         def is_not_module (node):
+            return node.kind != 'module'
+         base.entities = list (filter (is_not_module, base.entities))
+
+         for module_node in self.base.filter_kind ('module'):
+            base.add (module_node)
+
+         writer = s_expression.Writer ()
+         writer.write (base, path_pcb)
+
+      else:
+         writer = s_expression.Writer ()
+         writer.write (self.base, path_pcb)
 
       if module.route.is_wire:
          self.fill_zones (path, module)
-         self.generate_module_gerber (path, module)
+
+      self.generate_module_gerber (path, module)
 
 
    #--------------------------------------------------------------------------
