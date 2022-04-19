@@ -1,15 +1,15 @@
 [submodule "submodules/kcgen"]
 	path = submodules/kcgen
-	url = git@github.com:ohmtech/kcgen.git
+	url = https://github.com/ohmtech/kcgen.git
 [submodule "submodules/kicad-libs"]
 	path = submodules/kicad-libs
-	url = git@github.com:ohmtech/kicad-libs.git
+	url = https://github.com/ohmtech/kicad-libs.git
 [submodule "submodules/libDaisy"]
 	path = submodules/libDaisy
-	url = git@github.com:electro-smith/libDaisy.git
+	url = https://github.com/electro-smith/libDaisy.git
 [submodule "submodules/vcv-rack-sdk"]
 	path = submodules/vcv-rack-sdk
-	url = git@github.com:ohmtech-rdi/vcv-rack-sdk.git
+	url = https://github.com/ohmtech-rdi/vcv-rack-sdk.git
 [submodule "submodules/gyp-next"]
 	path = submodules/gyp-next
 	url = https://github.com/nodejs/gyp-next.git
