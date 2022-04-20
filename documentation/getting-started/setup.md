@@ -7,7 +7,6 @@ You then only need minimum knowledge on how the terminal works to get going.
 
 ### All platforms
 
-- A [GitHub account](https://github.com/join)
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
 - [VCV Rack](https://vcvrack.com/Rack)
@@ -39,7 +38,7 @@ First, clone the repository. This will create a `eurorack-blocks` directory **in
 
 
 ```shell-session
-~$ git clone --recurse-submodules git@github.com:ohmtech-rdi/eurorack-blocks.git
+~$ git clone --recurse-submodules https://github.com/ohmtech-rdi/eurorack-blocks.git
 ~$ cd eurorack-blocks
 ~/eurorack-blocks$
 ```
