@@ -169,78 +169,78 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def generate_control (self, module, control):
-      components = []
-
-      if control.style.is_alpha_9mm:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.wire.kicad_pcb')))
-
-      elif control.style.is_songhuei_9mm:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.wire.kicad_pcb')))
-
-      elif control.style.is_thonk_pj398sm:
-         if control.cascade_from is not None:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-cascade.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-cascade.wire.kicad_pcb')))
-               components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.di.kicad_pcb')))
-         else:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-gnd.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.tn-gnd.wire.kicad_pcb')))
-            if control.cascade_to is not None:
-               if module.route.is_wire:
-                  components.append (self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.do.kicad_pcb')))
-
-      elif control.style.is_ck_d6r:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.wire.kicad_pcb')))
-
-      elif control.style.is_tl1105:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.wire.kicad_pcb')))
-
-      elif control.style.is_dailywell_2ms:
-         components.append (self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.base.kicad_pcb')))
-         if module.route.is_wire:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb')))
-
-      elif control.style.is_led_3mm:
-         if control.style.is_led_3mm_mono:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb')))
-         elif control.style.is_led_3mm_green_red:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb')))
-         elif control.style.is_led_3mm_rgb:
-            components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.base.kicad_pcb')))
-            if module.route.is_wire:
-               components.append (self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb')))
-         else:
-            print ('unsupported led block %s' % control.style.name)
-
+      if module.route.is_wire:
+         self.generate_control_route_wire (module, control)
       else:
-         print ('unsupported block %s' % control.style.name)
+         self.generate_control_route_manual (module, control)
 
-      for component in components:
-         component = self.rotate (component, control)
-         component = self.move (component, control.position)
-         component = self.rename_references (component, control)
-         if control.cascade_to is not None:
-            component = self.rename_cascade_to (component, control.cascade_to.index)
-         if control.cascade_from is not None:
-            component = self.rename_cascade_from (component, control.cascade_from.index)
-         component = self.rename_pins (component, control)
-         component = self.relink_nets (component, control)
-         for element in component.entities:
-            self.base.add (element)
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_route_wire (self, module, control):
+      if control.style.is_alpha_9mm:
+         component = self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.wire.kicad_pcb'))
+      elif control.style.is_songhuei_9mm:
+         component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.wire.kicad_pcb'))
+      elif control.style.is_thonk_pj398sm:
+         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.wire.kicad_pcb'))
+      elif control.style.is_ck_d6r:
+         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.wire.kicad_pcb'))
+      elif control.style.is_tl1105:
+         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.wire.kicad_pcb'))
+      elif control.style.is_dailywell_2ms:
+         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb'))
+      elif control.style.is_led_3mm_mono:
+         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb'))
+      elif control.style.is_led_3mm_green_red:
+         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb'))
+      elif control.style.is_led_3mm_rgb:
+         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb'))
+      else:
+         print ('unsupported style %s' % control.style.name)
+
+      self.generate_control_add (component, control)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_route_manual (self, module, control):
+      if control.style.is_alpha_9mm:
+         component = self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.manual.kicad_pcb'))
+      elif control.style.is_songhuei_9mm:
+         component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.manual.kicad_pcb'))
+      elif control.style.is_thonk_pj398sm:
+         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.manual.kicad_pcb'))
+      elif control.style.is_ck_d6r:
+         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.manual.kicad_pcb'))
+      elif control.style.is_tl1105:
+         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.manual.kicad_pcb'))
+      elif control.style.is_dailywell_2ms:
+         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.manual.kicad_pcb'))
+      elif control.style.is_led_3mm_mono:
+         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.manual.kicad_pcb'))
+      elif control.style.is_led_3mm_green_red:
+         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.manual.kicad_pcb'))
+      elif control.style.is_led_3mm_rgb:
+         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.manual.kicad_pcb'))
+      else:
+         print ('unsupported style %s' % control.style.name)
+
+      self.generate_control_add (component, control)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_add (self, component, control):
+      component = self.rotate (component, control)
+      component = self.move (component, control.position)
+      component = self.rename_references (component, control)
+      component = self.rename_cascade_to (component, control)
+      component = self.rename_cascade_from (component, control)
+      component = self.rename_pins (component, control)
+      component = self.relink_nets (component, control)
+      for element in component.entities:
+         self.base.add (element)
 
 
    #--------------------------------------------------------------------------
@@ -357,7 +357,9 @@ class KicadPcb:
       name_map ['GND'] = 'GND'
       name_map ['+3V3'] = '+3V3'
 
-      if control.cascade_from is not None:
+      if control.cascade_from is None:
+         name_map ['Net-(Cascade0-Pad1)'] = 'GND'
+      else:
          name_map ['Net-(Cascade0-Pad1)'] = control.cascade_from.reference.pin.name
 
       for module_node in component.filter_kind ('module'):
@@ -376,15 +378,21 @@ class KicadPcb:
    #--------------------------------------------------------------------------
    # Rename graphic text 'cascade_to' pin (if any) to actual pin name
 
-   def rename_cascade_to (self, component, cascade_index):
-      return self.rename_cascade (component, 'cascade_to', cascade_index)
+   def rename_cascade_to (self, component, control):
+      if control.cascade_to is None:
+         return self.rename_cascade (component, 'cascade_to', None)
+      else:
+         return self.rename_cascade (component, 'cascade_to', control.cascade_to.index)
 
 
    #--------------------------------------------------------------------------
    # Rename graphic text 'cascade_from' pin (if any) to actual pin name
 
-   def rename_cascade_from (self, component, cascade_index):
-      return self.rename_cascade (component, 'cascade_from', cascade_index)
+   def rename_cascade_from (self, component, control):
+      if control.cascade_from is None:
+         return self.rename_cascade (component, 'cascade_from', None)
+      else:
+         return self.rename_cascade (component, 'cascade_from', control.cascade_from.index)
 
 
    #--------------------------------------------------------------------------
@@ -393,7 +401,10 @@ class KicadPcb:
       for gr_text_node in component.filter_kind ('gr_text'):
          text = gr_text_node.entities [1].value
          if text == cascade_type:
-            gr_text_node.entities [1].value = 'K%d' % (cascade_index + 1)
+            if cascade_index is None:
+               gr_text_node.entities [1].value = '""'
+            else:
+               gr_text_node.entities [1].value = 'K%d' % (cascade_index + 1)
 
       return component
 
