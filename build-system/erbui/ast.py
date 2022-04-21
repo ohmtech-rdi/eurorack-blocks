@@ -1213,6 +1213,17 @@ class ControlFaustInit (Scope):
 # -- Control -----------------------------------------------------------------
 
 class Control (Scope):
+   class Bounds:
+      def __init__ (self, left, top, right, bottom):
+         self.left = left
+         self.top = top
+         self.right = right
+         self.bottom = bottom
+
+   class HoleCircular:
+      def __init__ (self, diameter):
+         self.diameter = diameter
+
    def __init__ (self, identifier_name, keyword_kind):
       assert isinstance (identifier_name, adapter.Identifier)
       assert isinstance (keyword_kind, adapter.Keyword)
@@ -1220,6 +1231,14 @@ class Control (Scope):
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
       self.reference = None
+
+      self.bom_parts = []
+      self.panel_holes = []
+      self.label_keepout_bounds = None
+      self.pcb = None
+      self.erb_class = None
+      self.simulator_class = None
+
 
    @staticmethod
    def typename (): return 'control'
@@ -1400,151 +1419,6 @@ class Style (Scope):
 
    @property
    def name (self): return self.keyword_name.value
-
-   @property
-   def is_alpha_9mm (self):
-      return self.is_knob and self.parent.kind == 'Pot'
-
-   @property
-   def is_knob (self):
-      return self.is_rogan or self.is_sifam
-
-   @property
-   def is_rogan (self):
-      return self.is_rogan_6ps or self.is_rogan_5ps or self.is_rogan_3ps or self.is_rogan_2_skirted or self.is_rogan_1_skirted
-
-   @property
-   def is_rogan_6ps (self):
-      return self.name == 'rogan.6ps'
-
-   @property
-   def is_rogan_5ps (self):
-      return self.name == 'rogan.5ps'
-
-   @property
-   def is_rogan_3ps (self):
-      return self.name == 'rogan.3ps'
-
-   @property
-   def is_rogan_2_skirted (self):
-      return self.is_rogan_2ps or self.is_rogan_2s_black
-
-   @property
-   def is_rogan_2ps (self):
-      return self.name == 'rogan.2ps'
-
-   @property
-   def is_rogan_2s_black (self):
-      return self.name == 'rogan.2s.black'
-
-   @property
-   def is_rogan_1_skirted (self):
-      return self.is_rogan_1ps or self.is_rogan_1s or self.is_rogan_1s_black
-
-   @property
-   def is_rogan_1ps (self):
-      return self.name == 'rogan.1ps'
-
-   @property
-   def is_rogan_1s (self):
-      return self.name == 'rogan.1s'
-
-   @property
-   def is_rogan_1s_black (self):
-      return self.name == 'rogan.1s.black'
-
-   @property
-   def is_sifam (self):
-      return self.is_sifam_dbn151 or self.is_sifam_drn111
-
-   @property
-   def is_sifam_dbn151 (self):
-      return self.is_sifam_dbn151_white
-
-   @property
-   def is_sifam_dbn151_white (self):
-      return self.name == 'sifam.dbn151.white'
-
-   @property
-   def is_sifam_drn111 (self):
-      return self.is_sifam_drn111_white
-
-   @property
-   def is_sifam_drn111_white (self):
-      return self.name == 'sifam.drn111.white'
-
-   @property
-   def is_songhuei_9mm (self):
-      return self.name == 'songhuei.9mm'
-
-   @property
-   def is_dailywell_2ms (self):
-      return self.is_dailywell_2ms1 or self.is_dailywell_2ms3
-
-   @property
-   def is_dailywell_2ms1 (self):
-      return self.name == 'dailywell.2ms1' # spdt on-on
-
-   @property
-   def is_dailywell_2ms3 (self):
-      return self.name == 'dailywell.2ms3' # spdt on-off-on
-
-   @property
-   def is_led_3mm (self):
-      return self.is_led_3mm_mono or self.is_led_3mm_green_red or self.is_led_3mm_rgb
-
-   @property
-   def is_led_3mm_mono (self):
-      return self.is_led_3mm_red or self.is_led_3mm_green or self.is_led_3mm_yellow or self.is_led_3mm_orange
-
-   @property
-   def is_led_3mm_red (self):
-      return self.name == 'led.3mm.red'
-
-   @property
-   def is_led_3mm_green (self):
-      return self.name == 'led.3mm.green'
-
-   @property
-   def is_led_3mm_yellow (self):
-      return self.name == 'led.3mm.yellow'
-
-   @property
-   def is_led_3mm_orange (self):
-      return self.name == 'led.3mm.orange'
-
-   @property
-   def is_led_3mm_green_red (self):
-      return self.name == 'led.3mm.green_red'
-
-   @property
-   def is_led_3mm_rgb (self):
-      return self.name == 'led.3mm.rgb'
-
-   @property
-   def is_thonk_pj398sm (self):
-      return self.is_thonk_pj398sm_knurled or self.is_thonk_pj398sm_hex
-
-   @property
-   def is_thonk_pj398sm_knurled (self):
-      return self.name == 'thonk.pj398sm.knurled'
-
-   @property
-   def is_thonk_pj398sm_hex (self):
-      return self.name == 'thonk.pj398sm.hex'
-
-   @property
-   def is_tl1105 (self):
-      return self.name == 'tl1105'
-
-   @property
-   def is_ck_d6r (self):
-      return self.is_ck_d6r_black
-
-   @property
-   def is_ck_d6r_black (self):
-      return self.name == 'ck.d6r.black'
-
 
 
 # -- Label -------------------------------------------------------------------
