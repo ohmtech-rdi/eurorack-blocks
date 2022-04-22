@@ -11,6 +11,8 @@ import ezdxf
 import math
 import os
 
+from ... import ast
+
 
 
 PANEL_HEIGHT = 128.5#mm
@@ -76,10 +78,13 @@ class Milling:
 
    def generate_control (self, msp, control):
 
-      drill_size = self.get_drill_size (control.style)
-      drill_radius = drill_size / 2
-
-      msp.add_circle ((control.position.x.mm, PANEL_HEIGHT - control.position.y.mm), drill_radius)
+      for panel_hole in control.panel_holes:
+         if isinstance (panel_hole, ast.Control.HoleCircular):
+            drill_size = panel_hole.diameter
+            drill_radius = drill_size * 0.5
+            msp.add_circle ((control.position.x.mm, PANEL_HEIGHT - control.position.y.mm), drill_radius)
+         else:
+            assert False
 
 
    #--------------------------------------------------------------------------
@@ -109,39 +114,3 @@ class Milling:
 
       else:
          raise Exception ('unsupported module width hp %d' % width_hp)
-
-
-
-   #--------------------------------------------------------------------------
-   #
-   # Reference:
-   # Alpha: https://www.thonk.co.uk/wp-content/uploads/2017/05/Alpha-D-shaft.pdf
-   # SongHuei: https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf
-   # DailyWell: https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf
-   # Thonkiconn: https://www.thonk.co.uk/wp-content/uploads/2018/07/Thonkiconn_Jack_Datasheet-new.jpg
-   # C&K: https://www.thonk.co.uk/wp-content/uploads/2015/01/CK-Switch.pdf
-
-   def get_drill_size (self, style):
-      if style.is_alpha_9mm:
-         return 7.5
-
-      elif style.is_songhuei_9mm:
-         return 6.8
-
-      elif style.is_dailywell_2ms:
-         return 4.95
-
-      elif style.is_led_3mm:
-         return 3.1
-
-      elif style.is_thonk_pj398sm:
-         return 6.5
-
-      elif style.is_ck_d6r:
-         return 9.6
-
-      elif style.is_tl1105:
-         return 5.2
-
-      else:
-         raise Exception ('unsupported control style %s' % style.value)
