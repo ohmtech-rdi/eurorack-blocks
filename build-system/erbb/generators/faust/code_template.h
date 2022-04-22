@@ -97,6 +97,10 @@ struct dsp_memory_manager
 {
    ~dsp_memory_manager () = default;
 
+   inline void     begin (size_t) {}
+   inline void     info (size_t, size_t, size_t) {}
+   inline void     end () {}
+
    inline void *   allocate (size_t size);
    inline void     destroy (void * ptr);
 };
