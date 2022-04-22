@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: brew install faust
+      - run: brew install faust@2.37.3
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: test/micropatch
@@ -69,7 +69,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: brew install faust
+      - run: brew install faust@2.37.3
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
