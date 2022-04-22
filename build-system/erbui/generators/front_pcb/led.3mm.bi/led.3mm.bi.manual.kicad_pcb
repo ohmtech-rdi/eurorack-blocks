@@ -117,7 +117,7 @@
     (descr "LED, diameter 3.0mm, 2 pins, diameter 3.0mm, 3 pins, http://www.kingbright.com/attachments/file/psearch/000/00/00/L-3VSURKCGKC(Ver.8A).pdf")
     (tags "LED diameter 3.0mm 2 pins diameter 3.0mm 3 pins")
     (path /5FD639C8)
-    (fp_text reference ZZ1 (at 2.54 -2.96) (layer F.SilkS) hide
+    (fp_text reference ZZ1 (at 2.54 -2.96) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value LED_Dual_ACA (at 2.54 2.96) (layer F.Fab)
