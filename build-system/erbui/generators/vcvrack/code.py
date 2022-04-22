@@ -7,6 +7,7 @@
 
 
 
+import math
 import os
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -151,12 +152,12 @@ class Code:
 
             widget = self.control_style_to_widget (control)
 
-            if control.style.is_dailywell_2ms:
-               if control.rotation is None:
-                  rotation = 0
-               else:
-                  rotation = control.rotation.degree_top_down % 360
-               widget += ' <%d>' % rotation
+            if control.rotation is None:
+               rotation = 0
+            else:
+               rotation = control.rotation.degree_top_down % 360
+
+            rotation_rad = rotation * 2.0 * math.pi / 360.0
 
             if category == 'Param':
                index = nbr_params
@@ -174,9 +175,13 @@ class Code:
                index = nbr_lights
                nbr_lights += control.nbr_pins
 
-            lines += '   add%s (create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d));\n' % (
-               func_category, category, widget, control.position.x.mm, control.position.y.mm, index
+            lines += '   {\n'
+            lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
+               category, widget, control.position.x.mm, control.position.y.mm, index
             )
+            lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
+            lines += '      add%s (control_ptr);\n' % func_category
+            lines += '   }\n'
             lines += '\n'
 
       return template.replace ('%  controls_widget%', lines)
