@@ -258,6 +258,28 @@ struct Dailywell2Ms3 : Dailywell2Ms <Rotation>
 
 
 
+struct Tl1105 : rack::TL1105
+{
+   void  rotate (float /* angle_rad */) {}
+};
+
+
+
+struct Ckd6r : rack::CKD6
+{
+   void  rotate (float /* angle_rad */) {}
+};
+
+
+
+template <typename Base>
+struct Led3mm : rack::MediumLight <Base>
+{
+   void  rotate (float /* angle_rad */) {}
+};
+
+
+
 }  // namespace erb
 
 
