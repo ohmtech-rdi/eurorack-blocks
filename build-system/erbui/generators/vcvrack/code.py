@@ -62,16 +62,9 @@ class Code:
             category = self.control_kind_to_vcv_category (control)
 
             if category == 'Param':
-               if control.mode is not None and control.mode.is_bipolar:
-                  min_val = -1
-               else:
-                  min_val = 0
-
-               max_val = 2 if control.style.is_dailywell_2ms3 else 1
-
                control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, %f, %f, 0.f);\n\n' % (nbr_params, min_val, max_val)
+               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.f);\n\n' % (nbr_params, control.name, control.name)
                nbr_params += 1
 
             elif category == 'Input':
