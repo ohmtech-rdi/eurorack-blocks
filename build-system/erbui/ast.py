@@ -451,6 +451,7 @@ class Board (Scope):
          assert isinstance (identifier, adapter.Identifier)
       super (Board, self).__init__ ()
       self.identifier = identifier
+      self.references = []
 
    def load_builtin (self):
       path_definition = os.path.join (PATH_BOARDS, self.identifier.name, 'definition.py')
@@ -1218,6 +1219,7 @@ class Control (Scope):
       super (Control, self).__init__ ()
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
+      self.reference = None
 
    @staticmethod
    def typename (): return 'control'

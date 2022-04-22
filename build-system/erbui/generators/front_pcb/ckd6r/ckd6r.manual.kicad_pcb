@@ -113,7 +113,7 @@
   (module Switch_Thonk:SW_SPST_CKD6R locked (layer F.Cu) (tedit 60B9596D) (tstamp 60B9B5C5)
     (at 0 0)
     (path /5FD27819)
-    (fp_text reference ZZ1 (at 0 7.2) (layer F.SilkS) hide
+    (fp_text reference ZZ1 (at -2.74 0.03) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value SW_Push_Dual (at 0 -7.1) (layer F.Fab)

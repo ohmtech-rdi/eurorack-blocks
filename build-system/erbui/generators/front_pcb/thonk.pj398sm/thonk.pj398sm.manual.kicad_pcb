@@ -115,7 +115,7 @@
   (module Connector_Thonk:ThonkiconnJack locked (layer F.Cu) (tedit 60CF9E73) (tstamp 608A8B61)
     (at 0 0)
     (path /5FC82E98)
-    (fp_text reference ZZ1 (at 0 -7.5) (layer F.SilkS) hide
+    (fp_text reference ZZ1 (at -2.84 -4.94) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value IN (at 0 9.3) (layer F.Fab)

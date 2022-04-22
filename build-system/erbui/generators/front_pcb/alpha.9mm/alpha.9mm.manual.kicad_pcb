@@ -2,7 +2,7 @@
 
   (general
     (thickness 1.6)
-    (drawings 1)
+    (drawings 0)
     (tracks 1)
     (zones 0)
     (modules 1)
@@ -115,7 +115,7 @@
   (module Potentiometer_Thonk:AlphaPot9ShaftD locked (layer F.Cu) (tedit 60CF9975) (tstamp 6089D0FA)
     (at 0 0)
     (path /5FCAE65B)
-    (fp_text reference ZZ1 (at 0 4.7) (layer F.SilkS) hide
+    (fp_text reference ZZ1 (at 0 4.7) (layer F.SilkS)
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (fp_text value 100k (at 0 10.1) (layer F.Fab)
@@ -141,10 +141,6 @@
     (pad 1 thru_hole oval (at -2.5 7.5) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask)
       (net 2 GND))
     (pad "" thru_hole oval (at -5.7 0) (size 2.5 1.8) (drill oval 1.8 1.1) (layers *.Cu *.Mask))
-  )
-
-  (gr_text pin (at -1.016 4.445) (layer B.SilkS)
-    (effects (font (size 1 1) (thickness 0.15)) (justify left mirror))
   )
 
   (segment (start 0 7.5) (end 0 7.62) (width 0.635) (layer B.Cu) (net 3))

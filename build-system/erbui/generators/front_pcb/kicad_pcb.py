@@ -310,14 +310,18 @@ class KicadPcb:
 
    #--------------------------------------------------------------------------
    # Rename all module references (including pads)
-   # by preprending the control name, to ensure
-   # unique components reference names for the DRC checker.
+   # by preprending the control name or setting the reference name for main
+   # component, to ensure unique components reference names for the DRC checker
+   # and standard names for workflows and processes.
 
    def rename_references (self, component, control):
       for module_node in component.filter_kind ('module'):
          for fp_text_node in module_node.filter_kind ('fp_text'):
             if fp_text_node.entities [1].value == 'reference':
-               fp_text_node.entities [2].value = control.name + fp_text_node.entities [2].value
+               if fp_text_node.entities [2].value == 'ZZ1':
+                  fp_text_node.entities [2].value = control.reference
+               else:
+                  fp_text_node.entities [2].value = control.name + fp_text_node.entities [2].value
 
       return component
 

@@ -11,6 +11,7 @@ import re
 from . import adapter
 from . import ast
 from . import error
+from .generators.front_pcb import s_expression
 
 import os
 from difflib import get_close_matches
@@ -39,13 +40,7 @@ class Analyser:
    def analyse_module (self, module):
       assert module.is_module
 
-      if module.super_identifier != None:
-         module.add (ast.Board (module.super_identifier))
-      elif module.board == None:
-         module.add (ast.Board (adapter.IdentifierSynthesized ('default')))
-
-      if not module.board.inline:
-         module.board.load_builtin ()
+      self.analyse_board (module)
 
       if module.route == None:
          module.add (ast.Route (adapter.BuiltIn ('wire')))
@@ -73,6 +68,62 @@ class Analyser:
       self.make_cascade_eval_list (module)
 
       self.resolve_module_faust_addresses (module)
+
+
+   #--------------------------------------------------------------------------
+
+   def analyse_board (self, module):
+      assert module.is_module
+
+      if module.super_identifier != None:
+         module.add (ast.Board (module.super_identifier))
+      elif module.board == None:
+         module.add (ast.Board (adapter.IdentifierSynthesized ('default')))
+
+      if not module.board.inline:
+         module.board.load_builtin ()
+
+      if module.board.net is not None:
+         self.analyse_board_net (module)
+
+
+   #--------------------------------------------------------------------------
+
+   def analyse_board_net (self, module):
+      with open (module.board.net.path, 'r', encoding='utf-8') as file:
+         content = file.read ()
+      parser = s_expression.Parser ()
+      export_node = parser.parse (content, 'kicad_pcb')
+
+      components_node = export_node.first_kind ('components')
+      comp_nodes = components_node.filter_kind ('comp')
+      for comp_node in comp_nodes:
+         reference = comp_node.property ('ref')
+         module.board.references.append (reference)
+
+      index_j = 1
+      index_sw = 1
+      index_d = 1
+      index_rv = 1
+
+      def alloc_ref (control, base, index):
+         while '%s%d' % (base, index) in module.board.references:
+            index += 1
+         control.reference = '%s%d' % (base, index)
+         module.board.references.append (control.reference)
+         return index + 1
+
+      for control in module.controls:
+         if control.kind in ['AudioIn', 'AudioOut', 'CvIn', 'CvOut', 'GateIn', 'GateOut']:
+            index_j = alloc_ref (control, 'J', index_j)
+         elif control.kind in ['Button', 'Switch']:
+            index_sw = alloc_ref (control, 'SW', index_sw)
+         elif control.kind in ['Led', 'LedBi', 'LedRgb']:
+            index_d = alloc_ref (control, 'D', index_d)
+         elif control.kind in ['Pot', 'Trim']:
+            index_rv = alloc_ref (control, 'RV', index_rv)
+         else:
+            assert False
 
 
    #--------------------------------------------------------------------------
