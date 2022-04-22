@@ -918,8 +918,8 @@ class Route (Node):
    def mode (self): return self.keyword_mode.value
 
    @property
-   def is_auto (self):
-      return self.mode == 'auto'
+   def is_manual (self):
+      return self.mode == 'manual'
 
    @property
    def is_wire (self):
