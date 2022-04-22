@@ -46,6 +46,9 @@ class Led
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = 0.f;
+   static constexpr float ValueMax = 1.f;
+
    using BindingType = typename LedBinding <Pin>::type;
    using KeyframeTargetType = typename LedKeyframeTarget <Pin>::type;
 

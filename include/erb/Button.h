@@ -28,6 +28,9 @@ class Button
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = 0.f;
+   static constexpr float ValueMax = 1.f;
+
    inline         Button (const uint8_t & data);
    virtual        ~Button () = default;
 

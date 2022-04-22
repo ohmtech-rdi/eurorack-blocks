@@ -30,6 +30,9 @@ class AudioIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = -1.f;
+   static constexpr float ValueMax = 1.f;
+
    inline         AudioIn (const Buffer & data);
    virtual        ~AudioIn () = default;
 

@@ -41,6 +41,9 @@ class LedBi
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = 0.f;
+   static constexpr float ValueMax = 1.f;
+
                   LedBi (typename Led <Pin>::BindingType data_r, typename Led <Pin>::BindingType data_g, const uint64_t & clock_ms);
    virtual        ~LedBi () = default;
 

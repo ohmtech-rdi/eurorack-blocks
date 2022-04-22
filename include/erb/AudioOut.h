@@ -30,6 +30,9 @@ class AudioOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = -1.f;
+   static constexpr float ValueMax = 1.f;
+
    inline         AudioOut (Buffer & data);
    virtual        ~AudioOut () = default;
 

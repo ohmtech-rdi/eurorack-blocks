@@ -34,6 +34,9 @@ class GateOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = 0.f;
+   static constexpr float ValueMax = 1.f;
+
                   GateOut (uint8_t & data, const uint64_t & clock_ms);
    virtual        ~GateOut () = default;
 

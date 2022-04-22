@@ -36,6 +36,8 @@ class Switch
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = 0.f;
+   static constexpr float ValueMax = float (NbrPosition) - 1.f;
 
    static_assert (NbrPosition == 2 || NbrPosition == 3);
 
