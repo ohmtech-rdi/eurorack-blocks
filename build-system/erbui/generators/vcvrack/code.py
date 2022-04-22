@@ -221,16 +221,16 @@ class Code:
          'sifam.dbn151.white': 'erb::AlphaPot <erb::SifamDbn151>',
          'dailywell.2ms1': 'erb::Dailywell2Ms1',
          'dailywell.2ms3': 'erb::Dailywell2Ms3',
-         'led.3mm.red': 'MediumLight <RedLight>',
-         'led.3mm.green': 'MediumLight <GreenLight>',
-         'led.3mm.yellow': 'MediumLight <YellowLight>',
-         'led.3mm.orange': 'MediumLight <YellowLight>', # orange is missing
-         'led.3mm.green_red': 'MediumLight <GreenRedLight>',
-         'led.3mm.rgb': 'MediumLight <RedGreenBlueLight>',
+         'led.3mm.red': 'erb::Led3mm <RedLight>',
+         'led.3mm.green': 'erb::Led3mm <GreenLight>',
+         'led.3mm.yellow': 'erb::Led3mm <YellowLight>',
+         'led.3mm.orange': 'erb::Led3mm <YellowLight>', # orange is missing
+         'led.3mm.green_red': 'erb::Led3mm <GreenRedLight>',
+         'led.3mm.rgb': 'erb::Led3mm <RedGreenBlueLight>',
          'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
          'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6r.black': 'CKD6',
-         'tl1105': 'TL1105',
+         'ck.d6r.black': 'erb::Ckd6r',
+         'tl1105': 'erb::Tl1105',
       }
 
       return style_widget_map [control.style.name]
