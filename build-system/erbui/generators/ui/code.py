@@ -97,10 +97,7 @@ class Code:
             control_type = '%s <erb::PinType::Dac>' % control.kind
 
       elif control.kind in ['Switch']:
-         if control.style.is_dailywell_2ms1:
-            control_type = '%s <2>' % control.kind
-         elif control.style.is_dailywell_2ms3:
-            control_type = '%s <3>' % control.kind
+         control_type = control.erb_class
 
       else:
          control_type = control.kind
