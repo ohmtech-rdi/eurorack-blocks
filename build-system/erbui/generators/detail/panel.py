@@ -361,7 +361,7 @@ class Panel:
          align_y = 0.5
 
       elif label.positioning is None:
-         if control.style.is_thonk_pj398sm: # top
+         if control.kind in ['AudioIn', 'AudioOut', 'CvIn', 'CvOut', 'GateIn', 'GateOut']: # top
             position_y -= self.current_box.top + self.positioning_margin
             align_x = 0.5
             align_y = 0
