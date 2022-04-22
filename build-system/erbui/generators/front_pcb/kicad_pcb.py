@@ -184,69 +184,7 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def generate_control (self, module, control):
-      if module.route.is_wire:
-         self.generate_control_route_wire (module, control)
-      else:
-         self.generate_control_route_manual (module, control)
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_control_route_wire (self, module, control):
-      if control.style.is_alpha_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.wire.kicad_pcb'))
-      elif control.style.is_songhuei_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.wire.kicad_pcb'))
-      elif control.style.is_thonk_pj398sm:
-         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.wire.kicad_pcb'))
-      elif control.style.is_ck_d6r:
-         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.wire.kicad_pcb'))
-      elif control.style.is_tl1105:
-         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.wire.kicad_pcb'))
-      elif control.style.is_dailywell_2ms:
-         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb'))
-      elif control.style.is_led_3mm_mono:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb'))
-      elif control.style.is_led_3mm_green_red:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb'))
-      elif control.style.is_led_3mm_rgb:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb'))
-      else:
-         print ('unsupported style %s' % control.style.name)
-
-      self.generate_control_add (component, control)
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_control_route_manual (self, module, control):
-      if control.style.is_alpha_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.manual.kicad_pcb'))
-      elif control.style.is_songhuei_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.manual.kicad_pcb'))
-      elif control.style.is_thonk_pj398sm:
-         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.manual.kicad_pcb'))
-      elif control.style.is_ck_d6r:
-         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.manual.kicad_pcb'))
-      elif control.style.is_tl1105:
-         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.manual.kicad_pcb'))
-      elif control.style.is_dailywell_2ms:
-         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.manual.kicad_pcb'))
-      elif control.style.is_led_3mm_mono:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.manual.kicad_pcb'))
-      elif control.style.is_led_3mm_green_red:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.manual.kicad_pcb'))
-      elif control.style.is_led_3mm_rgb:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.manual.kicad_pcb'))
-      else:
-         print ('unsupported style %s' % control.style.name)
-
-      self.generate_control_add (component, control)
-
-
-   #--------------------------------------------------------------------------
-
-   def generate_control_add (self, component, control):
+      component = control.pcb
       component = self.rotate (component, control)
       component = self.move (component, control.position)
       component = self.rename_references (component, control)
