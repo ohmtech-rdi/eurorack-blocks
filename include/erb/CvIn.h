@@ -31,6 +31,8 @@ class CvIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = FloatRangeTrait <Range>::Min;
+   static constexpr float ValueMax = FloatRangeTrait <Range>::Max;
 
    inline         CvIn (const float & data);
    virtual        ~CvIn () = default;

@@ -29,6 +29,9 @@ class CvOut
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = FloatRangeTrait <Range>::Min;
+   static constexpr float ValueMax = FloatRangeTrait <Range>::Max;
+
                   CvOut (float & data);
    virtual        ~CvOut () = default;
 

@@ -41,6 +41,9 @@ class LedRgb
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   static constexpr float ValueMin = 0.f;
+   static constexpr float ValueMax = 1.f;
+
                   LedRgb (typename Led <Pin>::BindingType data_r, typename Led <Pin>::BindingType data_g, typename Led <Pin>::BindingType data_b, const uint64_t & clock_ms);
    virtual        ~LedRgb () = default;
 
