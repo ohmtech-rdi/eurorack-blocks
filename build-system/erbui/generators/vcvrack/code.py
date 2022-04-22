@@ -150,7 +150,7 @@ class Code:
             if func_category == 'Light':
                func_category = 'Child'
 
-            widget = self.control_style_to_widget (control)
+            widget = control.simulator_class
 
             if control.rotation is None:
                rotation = 0
@@ -207,37 +207,3 @@ class Code:
       }
 
       return kind_category_map [control.kind]
-
-
-   #--------------------------------------------------------------------------
-
-   def control_style_to_widget (self, control):
-      style_widget_map = {
-         'rogan.6ps': 'erb::AlphaPot <erb::Rogan6Ps>',
-         'rogan.5ps': 'erb::AlphaPot <erb::Rogan5Ps>',
-         'rogan.3ps': 'erb::AlphaPot <erb::Rogan3Ps>',
-         'rogan.2ps': 'erb::AlphaPot <erb::Rogan2Ps>',
-         'rogan.1ps': 'erb::AlphaPot <erb::Rogan1Ps>',
-         'rogan.2s.black': 'erb::AlphaPot <erb::Rogan2SBlack>',
-         'rogan.1s': 'erb::AlphaPot <erb::Rogan1S>',
-         'rogan.1s.black': 'erb::AlphaPot <erb::Rogan1SBlack>',
-         'songhuei.9mm': 'erb::SongHuei9',
-         'sifam.drn111.white': 'erb::AlphaPot <erb::SifamDrn111>',
-         'sifam.dbn151.white': 'erb::AlphaPot <erb::SifamDbn151>',
-         'dailywell.2ms1': 'erb::Dailywell2Ms1',
-         'dailywell.2ms3': 'erb::Dailywell2Ms3',
-         'led.3mm.red': 'erb::Led3mm <RedLight>',
-         'led.3mm.green': 'erb::Led3mm <GreenLight>',
-         'led.3mm.yellow': 'erb::Led3mm <YellowLight>',
-         'led.3mm.orange': 'erb::Led3mm <YellowLight>', # orange is missing
-         'led.3mm.green_red': 'erb::Led3mm <GreenRedLight>',
-         'led.3mm.rgb': 'erb::Led3mm <RedGreenBlueLight>',
-         'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
-         'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6r.black': 'erb::Ckd6r',
-         'tl1105': 'erb::Tl1105',
-      }
-
-      return style_widget_map [control.style.name]
-
-
