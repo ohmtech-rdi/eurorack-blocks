@@ -40,6 +40,8 @@ struct AlphaPot: rack::app::SvgKnob {
          rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
       ));
    }
+
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
 struct Rogan6Ps {
@@ -94,6 +96,8 @@ struct SongHuei9 : rack::app::SvgKnob
          rack::asset::plugin (plugin_instance, "res/songhuei.9mm.svg")
       ));
    }
+
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
 
@@ -133,6 +137,8 @@ struct ThonkPj398Sm : rack::app::PortWidget
       tw->translate (center.neg ());
       fb->dirty = true;
    }
+
+   void  rotate (float /* angle_rad */) {}
 };
 
 
@@ -159,13 +165,13 @@ struct ThonkPj398SmHex : ThonkPj398Sm
 
 
 
-template <int Rotation>
 struct Dailywell2Ms : rack::app::Switch
 {
    rack::widget::FramebufferWidget * fb;
    rack::widget::TransformWidget * tw;
    rack::widget::SvgWidget * sw;
    std::vector <std::shared_ptr <rack::Svg>> frames;
+   float angle = 0.f;
 
    Dailywell2Ms () {
       fb = new rack::widget::FramebufferWidget;
@@ -178,6 +184,17 @@ struct Dailywell2Ms : rack::app::Switch
       tw->addChild (sw);
    }
 
+   void  rotate (float angle_rad_) {
+      angle = angle_rad_;
+
+      tw->identity ();
+      // Rotate SVG
+      rack::math::Vec center = sw->box.getCenter ();
+      tw->translate (center);
+      tw->rotate (angle);
+      tw->translate (center.neg ());
+}
+
    void addFrame (std::shared_ptr <rack::Svg> svg) {
       if (frames.empty ())
       {
@@ -186,23 +203,6 @@ struct Dailywell2Ms : rack::app::Switch
          fb->box.size = sw->box.size;
          box.size = sw->box.size;
 
-         float angle = 0.f;
-
-         switch (Rotation)
-         {
-         default:
-         case 0: angle = 0.f; break;
-         case 90: angle = float (M_PI * 0.5); break;
-         case 180: angle = float (M_PI); break;
-         case 270: angle = float (M_PI * 1.5); break;
-         }
-
-         tw->identity ();
-         // Rotate SVG
-         rack::math::Vec center = sw->box.getCenter ();
-         tw->translate (center);
-         tw->rotate (angle);
-         tw->translate (center.neg ());
          fb->dirty = true;
       }
 
@@ -222,15 +222,14 @@ struct Dailywell2Ms : rack::app::Switch
 
 
 
-template <int Rotation>
-struct Dailywell2Ms1 : Dailywell2Ms <Rotation>
+struct Dailywell2Ms1 : Dailywell2Ms
 {
    Dailywell2Ms1 () {
-      Dailywell2Ms <Rotation>::addFrame (APP->window->loadSvg (
+      Dailywell2Ms::addFrame (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, "res/dailywell.2ms.1.svg")
       ));
 
-      Dailywell2Ms <Rotation>::addFrame (APP->window->loadSvg (
+      Dailywell2Ms::addFrame (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, "res/dailywell.2ms.3.svg")
       ));
    }
@@ -238,19 +237,18 @@ struct Dailywell2Ms1 : Dailywell2Ms <Rotation>
 
 
 
-template <int Rotation>
-struct Dailywell2Ms3 : Dailywell2Ms <Rotation>
+struct Dailywell2Ms3 : Dailywell2Ms
 {
    Dailywell2Ms3 () {
-      Dailywell2Ms <Rotation>::addFrame (APP->window->loadSvg (
+      Dailywell2Ms::addFrame (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, "res/dailywell.2ms.1.svg")
       ));
 
-      Dailywell2Ms <Rotation>::addFrame (APP->window->loadSvg (
+      Dailywell2Ms::addFrame (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, "res/dailywell.2ms.2.svg")
       ));
 
-      Dailywell2Ms <Rotation>::addFrame (APP->window->loadSvg (
+      Dailywell2Ms::addFrame (APP->window->loadSvg (
          rack::asset::plugin (plugin_instance, "res/dailywell.2ms.3.svg")
       ));
    }
