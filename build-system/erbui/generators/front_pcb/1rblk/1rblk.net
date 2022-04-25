@@ -1,0 +1,44 @@
+(export (version D)
+  (design
+    (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/1rblk/1rblk.sch)
+    (date "2022 April 25, Monday 18:02:30")
+    (tool "Eeschema (5.1.9-0-10_14)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source 1rblk.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref H1)
+      (value CAP)
+      (footprint Empty:Empty)
+      (datasheet ~)
+      (fields
+        (field (name Description) "CAP PUSHBUTTON ROUND BLACK")
+        (field (name Device) Cap)
+        (field (name Dist) Digikey)
+        (field (name DistLink) https://www.digikey.com/en/products/detail/e-switch/1RBLK/271579)
+        (field (name DistPartNumber) EG1882-ND)
+        (field (name Place) No))
+      (libsource (lib Mechanical) (part MountingHole) (description "Mounting Hole without connection"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5FCAE65B)))
+  (libparts
+    (libpart (lib Mechanical) (part MountingHole)
+      (description "Mounting Hole without connection")
+      (docs ~)
+      (footprints
+        (fp MountingHole*))
+      (fields
+        (field (name Reference) H)
+        (field (name Value) MountingHole))))
+  (libraries
+    (library (logical Mechanical)
+      (uri "/Library/Application Support/kicad/library/Mechanical.lib")))
+  (nets))

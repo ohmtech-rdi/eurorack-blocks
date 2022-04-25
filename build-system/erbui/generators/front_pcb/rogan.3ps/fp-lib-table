@@ -1,0 +1,3 @@
+(fp_lib_table
+  (lib (name Empty)(type KiCad)(uri ${KIPRJMOD}/../../../../../submodules/kicad-libs/footprints/Empty.pretty)(options "")(descr ""))
+)
