@@ -1,0 +1,54 @@
+(export (version D)
+  (design
+    (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/thonk.pj398sm.manual/thonk.pj398sm.manual.sch)
+    (date "2022 April 25, Monday 14:27:49")
+    (tool "Eeschema (5.1.9-0-10_14)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source thonk.pj398sm.manual.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref J1)
+      (value IN)
+      (footprint Connector_Thonk:ThonkiconnJack)
+      (datasheet ~)
+      (fields
+        (field (name Description) "Thonkiconn – 3.5mm Jack Sockets")
+        (field (name Device) "Jack Connector")
+        (field (name Dist) Thonk)
+        (field (name DistLink) https://www.thonk.co.uk/shop/thonkiconn/)
+        (field (name DistPartNumber) PJ398SM)
+        (field (name Place) No))
+      (libsource (lib Connector) (part AudioJack2_SwitchT) (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5FC82E98)))
+  (libparts
+    (libpart (lib Connector) (part AudioJack2_SwitchT)
+      (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)")
+      (docs ~)
+      (footprints
+        (fp Jack*))
+      (fields
+        (field (name Reference) J)
+        (field (name Value) AudioJack2_SwitchT))
+      (pins
+        (pin (num S) (name ~) (type passive))
+        (pin (num T) (name ~) (type passive))
+        (pin (num TN) (name ~) (type passive)))))
+  (libraries
+    (library (logical Connector)
+      (uri "/Library/Application Support/kicad/library/Connector.lib")))
+  (nets
+    (net (code 1) (name GND)
+      (node (ref J1) (pin S)))
+    (net (code 2) (name Pin0)
+      (node (ref J1) (pin T)))
+    (net (code 3) (name Cascade0)
+      (node (ref J1) (pin TN)))))

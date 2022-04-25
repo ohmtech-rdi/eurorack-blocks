@@ -33,7 +33,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
    def test_001 (self):
       gen = KicadPcb ()
       component = gen.load_component (
-         os.path.join (PATH_FRONT_PCB, 'alpha.9mm', 'alpha.9mm.kicad_pcb')
+         os.path.join (PATH_FRONT_PCB, 'alpha.9mm.wire', 'alpha.9mm.wire.kicad_pcb')
       )
 
       writer = Writer ()
@@ -42,7 +42,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
    def test_002 (self):
       gen = KicadPcb ()
       component = gen.load_component (
-         os.path.join (PATH_FRONT_PCB, 'thonk.pj398sm', 'thonk.pj398sm.kicad_pcb')
+         os.path.join (PATH_FRONT_PCB, 'thonk.pj398sm.wire', 'thonk.pj398sm.wire.kicad_pcb')
       )
 
       position = ast.Position (
@@ -57,7 +57,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
    def test_002b (self):
       gen = KicadPcb ()
       component = gen.load_component (
-         os.path.join (PATH_FRONT_PCB, 'alpha.9mm', 'alpha.9mm.kicad_pcb')
+         os.path.join (PATH_FRONT_PCB, 'alpha.9mm.wire', 'alpha.9mm.wire.kicad_pcb')
       )
 
       position = ast.Position (

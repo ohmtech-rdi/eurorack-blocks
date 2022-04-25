@@ -1,0 +1,52 @@
+(export (version D)
+  (design
+    (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/led.3mm.rgb.manual/led.3mm.rgb.manual.sch)
+    (date "2022 April 25, Monday 14:21:10")
+    (tool "Eeschema (5.1.9-0-10_14)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source led.3mm.rgb.manual.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref D1)
+      (value LED_RGBA)
+      (footprint LED_SMD:LED_Cree-PLCC4_3.2x2.8mm_CCW)
+      (datasheet ~)
+      (libsource (lib Device) (part LED_RGBA) (description "RGB LED, red/green/blue/anode"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 60BBD1E1)))
+  (libparts
+    (libpart (lib Device) (part LED_RGBA)
+      (description "RGB LED, red/green/blue/anode")
+      (docs ~)
+      (footprints
+        (fp LED*)
+        (fp LED_SMD:*)
+        (fp LED_THT:*))
+      (fields
+        (field (name Reference) D)
+        (field (name Value) LED_RGBA))
+      (pins
+        (pin (num 1) (name RK) (type passive))
+        (pin (num 2) (name GK) (type passive))
+        (pin (num 3) (name BK) (type passive))
+        (pin (num 4) (name A) (type passive)))))
+  (libraries
+    (library (logical Device)
+      (uri "/Library/Application Support/kicad/library/Device.lib")))
+  (nets
+    (net (code 1) (name Pin0)
+      (node (ref D1) (pin 1)))
+    (net (code 2) (name Pin1)
+      (node (ref D1) (pin 2)))
+    (net (code 3) (name Pin2)
+      (node (ref D1) (pin 3)))
+    (net (code 4) (name +3V3)
+      (node (ref D1) (pin 4)))))

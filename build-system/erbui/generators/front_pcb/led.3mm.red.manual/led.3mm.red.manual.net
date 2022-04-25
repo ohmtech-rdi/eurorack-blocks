@@ -1,0 +1,53 @@
+(export (version D)
+  (design
+    (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/led.3mm.red.manual/led.3mm.red.manual.sch)
+    (date "2022 April 25, Monday 22:25:54")
+    (tool "Eeschema (5.1.9-0-10_14)")
+    (sheet (number 1) (name /) (tstamps /)
+      (title_block
+        (title)
+        (company)
+        (rev)
+        (date)
+        (source led.3mm.red.manual.sch)
+        (comment (number 1) (value ""))
+        (comment (number 2) (value ""))
+        (comment (number 3) (value ""))
+        (comment (number 4) (value "")))))
+  (components
+    (comp (ref D1)
+      (value LED)
+      (footprint LED_THT:LED_D3.0mm)
+      (datasheet ~)
+      (fields
+        (field (name Description) "LED RED DIFFUSED T-1 T/H")
+        (field (name Device) LED)
+        (field (name Dist) Digikey)
+        (field (name DistLink) https://www.digikey.com/en/products/detail/kingbright/WP710A10ID/2769809)
+        (field (name DistPartNumber) 754-1606-ND)
+        (field (name Place) No))
+      (libsource (lib Device) (part LED) (description "Light emitting diode"))
+      (sheetpath (names /) (tstamps /))
+      (tstamp 5FD62DCA)))
+  (libparts
+    (libpart (lib Device) (part LED)
+      (description "Light emitting diode")
+      (docs ~)
+      (footprints
+        (fp LED*)
+        (fp LED_SMD:*)
+        (fp LED_THT:*))
+      (fields
+        (field (name Reference) D)
+        (field (name Value) LED))
+      (pins
+        (pin (num 1) (name K) (type passive))
+        (pin (num 2) (name A) (type passive)))))
+  (libraries
+    (library (logical Device)
+      (uri "/Library/Application Support/kicad/library/Device.lib")))
+  (nets
+    (net (code 1) (name GND)
+      (node (ref D1) (pin 1)))
+    (net (code 2) (name Pin0)
+      (node (ref D1) (pin 2)))))

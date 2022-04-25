@@ -124,13 +124,6 @@
             'erbui/generators/front_pcb/generate_gerber.py',
             'erbui/generators/front_pcb/kicad_pcb.py',
             'erbui/generators/front_pcb/s_expression.py',
-            'erbui/generators/front_pcb/alpha.9mm/alpha.9mm.kicad_pcb',
-            'erbui/generators/front_pcb/dailywell.2ms/dailywell.2ms.kicad_pcb',
-            'erbui/generators/front_pcb/led.3mm/led.3mm.kicad_pcb',
-            'erbui/generators/front_pcb/led.3mm.bi/led.3mm.bi.kicad_pcb',
-            'erbui/generators/front_pcb/thonk.pj398sm/thonk.pj398sm.kicad_pcb',
-            'erbui/generators/front_pcb/tl1105/tl1105.kicad_pcb',
-            'erbui/generators/front_pcb/songhuei.9mm/songhuei.9mm.kicad_pcb',
 
             # generators/max
             'erbui/generators/max/code_template.cpp',
