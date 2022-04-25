@@ -10,6 +10,7 @@
 import math
 import os
 import platform
+import re
 import subprocess
 import zipfile
 from . import s_expression
@@ -41,10 +42,13 @@ class KicadPcb:
 
    def generate_module (self, path, module):
 
-      self.base = self.load (module.board.pcb.path)
+      self.base_pcb = self.load (module.board.pcb.path)
+      self.base_net = self.load (module.board.net.path)
 
       remove_all_pads = not module.route.is_wire
       self.remove_board_pads (module, remove_all_pads)
+
+      self.fetch_board_references (self.base_net)
 
       self.collect_nets ()
 
@@ -59,7 +63,7 @@ class KicadPcb:
             return node.kind != 'module'
          base.entities = list (filter (is_not_module, base.entities))
 
-         for module_node in self.base.filter_kind ('module'):
+         for module_node in self.base_pcb.filter_kind ('module'):
             base.add (module_node)
 
          writer = s_expression.Writer ()
@@ -67,12 +71,16 @@ class KicadPcb:
 
       else:
          writer = s_expression.Writer ()
-         writer.write (self.base, path_pcb)
+         writer.write (self.base_pcb, path_pcb)
 
       if module.route.is_wire:
          self.fill_zones (path, module)
 
       self.generate_module_gerber (path, module)
+
+      path_net = os.path.join (path, '%s.net' % module.name)
+      writer = s_expression.Writer ()
+      writer.write (self.base_net, path_net)
 
 
    #--------------------------------------------------------------------------
@@ -102,7 +110,7 @@ class KicadPcb:
 
          return True
 
-      self.base.entities = list (filter (filter_module, self.base.entities))
+      self.base_pcb.entities = list (filter (filter_module, self.base_pcb.entities))
 
       # filter segments (traces) with matchin net number to remove
       def filter_segment (node):
@@ -113,7 +121,7 @@ class KicadPcb:
                return False
          return True
 
-      self.base.entities = list (filter (filter_segment, self.base.entities))
+      self.base_pcb.entities = list (filter (filter_segment, self.base_pcb.entities))
 
 
    #--------------------------------------------------------------------------
@@ -122,8 +130,22 @@ class KicadPcb:
    def collect_nets (self):
       self.nets = {}
 
-      for net_node in self.base.filter_kind ('net'):
+      for net_node in self.base_pcb.filter_kind ('net'):
          self.nets [net_node.entities [2].value] = net_node.entities [1].value
+
+
+   #--------------------------------------------------------------------------
+   # Retrieve already used board references for control reference allocations
+
+   def fetch_board_references (self, export_node):
+
+      self.board_references = []
+
+      components_node = export_node.first_kind ('components')
+      comp_nodes = components_node.filter_kind ('comp')
+      for comp_node in comp_nodes:
+         reference = comp_node.property ('ref')
+         self.board_references.append (reference)
 
 
    #--------------------------------------------------------------------------
@@ -185,77 +207,151 @@ class KicadPcb:
 
    def generate_control (self, module, control):
       if module.route.is_wire:
-         self.generate_control_route_wire (module, control)
+         (base_path, component_name) = self.get_comp_path_route_wire (control.style)
       else:
-         self.generate_control_route_manual (module, control)
+         (base_path, component_name) = self.get_comp_path_route_manual (control.style)
+
+      (comp_pcb, comp_net) = self.load_pcb_net (base_path, component_name)
+      ref_map = self.make_ref_map (comp_net)
+
+      self.generate_control_add_pcb (comp_pcb, control, ref_map)
+      self.generate_control_add_net (comp_net, control, ref_map)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control_route_wire (self, module, control):
-      if control.style.is_alpha_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.wire.kicad_pcb'))
-      elif control.style.is_songhuei_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.wire.kicad_pcb'))
-      elif control.style.is_thonk_pj398sm:
-         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.wire.kicad_pcb'))
-      elif control.style.is_ck_d6r:
-         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.wire.kicad_pcb'))
-      elif control.style.is_tl1105:
-         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.wire.kicad_pcb'))
-      elif control.style.is_dailywell_2ms:
-         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.wire.kicad_pcb'))
-      elif control.style.is_led_3mm_mono:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.wire.kicad_pcb'))
-      elif control.style.is_led_3mm_green_red:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.wire.kicad_pcb'))
-      elif control.style.is_led_3mm_rgb:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.wire.kicad_pcb'))
+   def get_comp_path_route_wire (self, style):
+      if style.is_alpha_9mm:
+         return (PATH_THIS, 'alpha.9mm.wire')
+      elif style.is_songhuei_9mm:
+         return (PATH_THIS, 'songhuei.9mm.wire')
+      elif style.is_thonk_pj398sm:
+         return (PATH_THIS, 'thonk.pj398sm.wire')
+      elif style.is_ck_d6r_black:
+         return (PATH_THIS, 'ck.d6r.black.wire')
+      elif style.is_tl1105:
+         return (PATH_THIS, 'tl1105.wire')
+      elif style.is_dailywell_2ms1:
+         return (PATH_THIS, 'dailywell.2ms1.wire')
+      elif style.is_dailywell_2ms3:
+         return (PATH_THIS, 'dailywell.2ms3.wire')
+      elif style.is_led_3mm_red:
+         return (PATH_THIS, 'led.3mm.red.wire')
+      elif style.is_led_3mm_green:
+         return (PATH_THIS, 'led.3mm.green.wire')
+      elif style.is_led_3mm_yellow:
+         return (PATH_THIS, 'led.3mm.yellow.wire')
+      elif style.is_led_3mm_orange:
+         return (PATH_THIS, 'led.3mm.orange.wire')
+      elif style.is_led_3mm_green_red:
+         return (PATH_THIS, 'led.3mm.bi.green_red.wire')
+      elif style.is_led_3mm_rgb:
+         return (PATH_THIS, 'led.3mm.rgb.wire')
       else:
-         print ('unsupported style %s' % control.style.name)
-
-      self.generate_control_add (component, control)
+         print ('unsupported style %s' % style.name)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control_route_manual (self, module, control):
-      if control.style.is_alpha_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'alpha.9mm', 'alpha.9mm.manual.kicad_pcb'))
-      elif control.style.is_songhuei_9mm:
-         component = self.load_component (os.path.join (PATH_THIS, 'songhuei.9mm', 'songhuei.9mm.manual.kicad_pcb'))
-      elif control.style.is_thonk_pj398sm:
-         component = self.load_component (os.path.join (PATH_THIS, 'thonk.pj398sm', 'thonk.pj398sm.manual.kicad_pcb'))
-      elif control.style.is_ck_d6r:
-         component = self.load_component (os.path.join (PATH_THIS, 'ckd6r', 'ckd6r.manual.kicad_pcb'))
-      elif control.style.is_tl1105:
-         component = self.load_component (os.path.join (PATH_THIS, 'tl1105', 'tl1105.manual.kicad_pcb'))
-      elif control.style.is_dailywell_2ms:
-         component = self.load_component (os.path.join (PATH_THIS, 'dailywell.2ms', 'dailywell.2ms.manual.kicad_pcb'))
-      elif control.style.is_led_3mm_mono:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm', 'led.3mm.manual.kicad_pcb'))
-      elif control.style.is_led_3mm_green_red:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.bi', 'led.3mm.bi.manual.kicad_pcb'))
-      elif control.style.is_led_3mm_rgb:
-         component = self.load_component (os.path.join (PATH_THIS, 'led.3mm.rgb', 'led.3mm.rgb.manual.kicad_pcb'))
+   def get_comp_path_route_manual (self, style):
+      if style.is_alpha_9mm:
+         return (PATH_THIS, 'alpha.9mm.manual')
+      elif style.is_songhuei_9mm:
+         return (PATH_THIS, 'songhuei.9mm.manual')
+      elif style.is_thonk_pj398sm:
+         return (PATH_THIS, 'thonk.pj398sm.manual')
+      elif style.is_ck_d6r_black:
+         return (PATH_THIS, 'ck.d6r.black.manual')
+      elif style.is_tl1105:
+         return (PATH_THIS, 'tl1105.manual')
+      elif style.is_dailywell_2ms1:
+         return (PATH_THIS, 'dailywell.2ms1.manual')
+      elif style.is_dailywell_2ms3:
+         return (PATH_THIS, 'dailywell.2ms3.manual')
+      elif style.is_led_3mm_red:
+         return (PATH_THIS, 'led.3mm.red.manual')
+      elif style.is_led_3mm_green:
+         return (PATH_THIS, 'led.3mm.green.manual')
+      elif style.is_led_3mm_yellow:
+         return (PATH_THIS, 'led.3mm.yellow.manual')
+      elif style.is_led_3mm_orange:
+         return (PATH_THIS, 'led.3mm.orange.manual')
+      elif style.is_led_3mm_green_red:
+         return (PATH_THIS, 'led.3mm.bi.green_red.manual')
+      elif style.is_led_3mm_rgb:
+         return (PATH_THIS, 'led.3mm.rgb.manual')
       else:
-         print ('unsupported style %s' % control.style.name)
-
-      self.generate_control_add (component, control)
+         print ('unsupported style %s' % style.name)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control_add (self, component, control):
+   def load_pcb_net (self, base_path, component_name):
+
+      pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
+      pcb = self.load_component (pcb_path)
+
+      net_path = os.path.join (base_path, component_name, '%s.net' % component_name)
+      with open (net_path, 'r', encoding='utf-8') as file:
+         content = file.read ()
+      parser = s_expression.Parser ()
+      net = parser.parse (content, 'net')
+
+      return (pcb, net)
+
+
+   #--------------------------------------------------------------------------
+   # For each reference, find an available index for the component category
+   # (eg. RV, D, J, etc.)
+   # Algorithm is N^2 but that shouldn't be a big deal
+
+   def make_ref_map (self, export_node):
+      def alloc_ref (base):
+         index = 1
+         while '%s%d' % (base, index) in self.board_references:
+            index += 1
+         return '%s%d' % (base, index)
+
+      ref_map = {}
+
+      components_node = export_node.first_kind ('components')
+      comp_nodes = components_node.filter_kind ('comp')
+      for comp_node in comp_nodes:
+         reference = comp_node.property ('ref')
+         ref_split = list (filter (None, re.split (r'(\d+)', reference)))
+         new_reference = alloc_ref (ref_split [0])
+         ref_map [reference] = new_reference
+         self.board_references.append (new_reference)
+
+      return ref_map
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_add_pcb (self, component, control, ref_map):
       component = self.rotate (component, control)
       component = self.move (component, control.position)
-      component = self.rename_references (component, control)
+      component = self.rename_references (component, control, ref_map)
       component = self.rename_cascade_to (component, control)
       component = self.rename_cascade_from (component, control)
       component = self.rename_pins (component, control)
       component = self.relink_nets (component, control)
       for element in component.entities:
-         self.base.add (element)
+         self.base_pcb.add (element)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_add_net (self, component, control, ref_map):
+      base_components_node = self.base_net.first_kind ('components')
+
+      components_node = component.first_kind ('components')
+      comp_nodes = components_node.filter_kind ('comp')
+      for comp_node in comp_nodes:
+         ref_node = comp_node.first_kind ('ref')
+         reference = ref_node.entities [1].value
+         ref_node.entities [1].value = ref_map [reference]
+         base_components_node.add (comp_node)
 
 
    #--------------------------------------------------------------------------
@@ -325,18 +421,13 @@ class KicadPcb:
 
    #--------------------------------------------------------------------------
    # Rename all module references (including pads)
-   # by preprending the control name or setting the reference name for main
-   # component, to ensure unique components reference names for the DRC checker
-   # and standard names for workflows and processes.
 
-   def rename_references (self, component, control):
+   def rename_references (self, component, control, ref_map):
       for module_node in component.filter_kind ('module'):
          for fp_text_node in module_node.filter_kind ('fp_text'):
             if fp_text_node.entities [1].value == 'reference':
-               if fp_text_node.entities [2].value == 'ZZ1':
-                  fp_text_node.entities [2].value = control.reference
-               else:
-                  fp_text_node.entities [2].value = control.name + fp_text_node.entities [2].value
+               reference = fp_text_node.entities [2].value
+               fp_text_node.entities [2].value = ref_map [reference]
 
       return component
 
@@ -367,19 +458,19 @@ class KicadPcb:
    def relink_nets (self, component, control):
       name_map = {}
       if control.is_pin_single:
-         name_map ['Net-(Pin0-Pad1)'] = control.pin.name
+         name_map ['Pin0'] = control.pin.name
       else:
          names = control.pins.names
          for index, name in enumerate (names):
-            name_map ['Net-(Pin%d-Pad1)' % index] = name
+            name_map ['Pin%d' % index] = name
 
       name_map ['GND'] = 'GND'
       name_map ['+3V3'] = '+3V3'
 
       if control.cascade_from is None:
-         name_map ['Net-(Cascade0-Pad1)'] = 'GND'
+         name_map ['Cascade0'] = 'GND'
       else:
-         name_map ['Net-(Cascade0-Pad1)'] = control.cascade_from.reference.pin.name
+         name_map ['Cascade0'] = control.cascade_from.reference.pin.name
 
       for module_node in component.filter_kind ('module'):
          for pad_node in module_node.filter_kind ('pad'):
