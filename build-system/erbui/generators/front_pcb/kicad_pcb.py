@@ -207,46 +207,67 @@ class KicadPcb:
 
    def generate_control (self, module, control):
       if module.route.is_wire:
-         (base_path, component_name) = self.get_comp_path_route_wire (control.style)
+         component_list = self.get_comp_path_route_wire (control.style)
       else:
-         (base_path, component_name) = self.get_comp_path_route_manual (control.style)
+         component_list = self.get_comp_path_route_manual (control.style)
 
-      (comp_pcb, comp_net) = self.load_pcb_net (base_path, component_name)
-      ref_map = self.make_ref_map (comp_net)
+      for base_path, component_name in component_list:
+         comp_pcb, comp_net = self.load_pcb_net (base_path, component_name)
+         ref_map = self.make_ref_map (comp_net)
 
-      self.generate_control_add_pcb (comp_pcb, control, ref_map)
-      self.generate_control_add_net (comp_net, control, ref_map)
+         self.generate_control_add_pcb (comp_pcb, control, ref_map)
+         self.generate_control_add_net (comp_net, control, ref_map)
 
 
    #--------------------------------------------------------------------------
 
    def get_comp_path_route_wire (self, style):
-      if style.is_alpha_9mm:
-         return (PATH_THIS, 'alpha.9mm.wire')
-      elif style.is_songhuei_9mm:
-         return (PATH_THIS, 'songhuei.9mm.wire')
-      elif style.is_thonk_pj398sm:
-         return (PATH_THIS, 'thonk.pj398sm.wire')
-      elif style.is_ck_d6r_black:
-         return (PATH_THIS, 'ck.d6r.black.wire')
-      elif style.is_tl1105:
-         return (PATH_THIS, 'tl1105.wire')
-      elif style.is_dailywell_2ms1:
-         return (PATH_THIS, 'dailywell.2ms1.wire')
-      elif style.is_dailywell_2ms3:
-         return (PATH_THIS, 'dailywell.2ms3.wire')
-      elif style.is_led_3mm_red:
-         return (PATH_THIS, 'led.3mm.red.wire')
-      elif style.is_led_3mm_green:
-         return (PATH_THIS, 'led.3mm.green.wire')
-      elif style.is_led_3mm_yellow:
-         return (PATH_THIS, 'led.3mm.yellow.wire')
-      elif style.is_led_3mm_orange:
-         return (PATH_THIS, 'led.3mm.orange.wire')
-      elif style.is_led_3mm_green_red:
-         return (PATH_THIS, 'led.3mm.bi.green_red.wire')
-      elif style.is_led_3mm_rgb:
-         return (PATH_THIS, 'led.3mm.rgb.wire')
+      if style.name == 'rogan.6ps':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.6ps')]
+      elif style.name == 'rogan.5ps':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.5ps')]
+      elif style.name == 'rogan.3ps':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.3ps')]
+      elif style.name == 'rogan.2ps':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.2ps')]
+      elif style.name == 'rogan.1ps':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.1ps')]
+      elif style.name == 'rogan.2s.black':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.2s.black')]
+      elif style.name == 'rogan.1s':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.1s')]
+      elif style.name == 'rogan.1s.black':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.1s.black')]
+      elif style.name == 'sifam.dbn151.white':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'sifam.dbn151.white')]
+      elif style.name == 'sifam.drn111.white':
+         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'sifam.drn111.white')]
+      elif style.name == 'songhuei.9mm':
+         return [(PATH_THIS, 'songhuei.9mm.wire')]
+      elif style.name == 'thonk.pj398sm.knurled':
+         return [(PATH_THIS, 'thonk.pj398sm.wire'), (PATH_THIS, 'thonk.pj398sm.knurled')]
+      elif style.name == 'thonk.pj398sm.hex':
+         return [(PATH_THIS, 'thonk.pj398sm.wire'), (PATH_THIS, 'thonk.pj398sm.hex')]
+      elif style.name == 'ck.d6r.black':
+         return [(PATH_THIS, 'ck.d6r.black.wire')]
+      elif style.name == 'tl1105':
+         return [(PATH_THIS, 'tl1105.wire')]
+      elif style.name == 'dailywell.2ms1':
+         return [(PATH_THIS, 'dailywell.2ms1.wire')]
+      elif style.name == 'dailywell.2ms3':
+         return [(PATH_THIS, 'dailywell.2ms3.wire')]
+      elif style.name == 'led.3mm.red':
+         return [(PATH_THIS, 'led.3mm.red.wire')]
+      elif style.name == 'led.3mm.green':
+         return [(PATH_THIS, 'led.3mm.green.wire')]
+      elif style.name == 'led.3mm.yellow':
+         return [(PATH_THIS, 'led.3mm.yellow.wire')]
+      elif style.name == 'led.3mm.orange':
+         return [(PATH_THIS, 'led.3mm.orange.wire')]
+      elif style.name == 'led.3mm.green_red':
+         return [(PATH_THIS, 'led.3mm.bi.green_red.wire')]
+      elif style.name == 'led.3mm.rgb':
+         return [(PATH_THIS, 'led.3mm.rgb.wire')]
       else:
          print ('unsupported style %s' % style.name)
 
@@ -254,32 +275,52 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def get_comp_path_route_manual (self, style):
-      if style.is_alpha_9mm:
-         return (PATH_THIS, 'alpha.9mm.manual')
-      elif style.is_songhuei_9mm:
-         return (PATH_THIS, 'songhuei.9mm.manual')
-      elif style.is_thonk_pj398sm:
-         return (PATH_THIS, 'thonk.pj398sm.manual')
-      elif style.is_ck_d6r_black:
-         return (PATH_THIS, 'ck.d6r.black.manual')
-      elif style.is_tl1105:
-         return (PATH_THIS, 'tl1105.manual')
-      elif style.is_dailywell_2ms1:
-         return (PATH_THIS, 'dailywell.2ms1.manual')
-      elif style.is_dailywell_2ms3:
-         return (PATH_THIS, 'dailywell.2ms3.manual')
-      elif style.is_led_3mm_red:
-         return (PATH_THIS, 'led.3mm.red.manual')
-      elif style.is_led_3mm_green:
-         return (PATH_THIS, 'led.3mm.green.manual')
-      elif style.is_led_3mm_yellow:
-         return (PATH_THIS, 'led.3mm.yellow.manual')
-      elif style.is_led_3mm_orange:
-         return (PATH_THIS, 'led.3mm.orange.manual')
-      elif style.is_led_3mm_green_red:
-         return (PATH_THIS, 'led.3mm.bi.green_red.manual')
-      elif style.is_led_3mm_rgb:
-         return (PATH_THIS, 'led.3mm.rgb.manual')
+      if style.name == 'rogan.6ps':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.6ps')]
+      elif style.name == 'rogan.5ps':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.5ps')]
+      elif style.name == 'rogan.3ps':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.3ps')]
+      elif style.name == 'rogan.2ps':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.2ps')]
+      elif style.name == 'rogan.1ps':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.1ps')]
+      elif style.name == 'rogan.2s.black':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.2s.black')]
+      elif style.name == 'rogan.1s':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.1s')]
+      elif style.name == 'rogan.1s.black':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.1s.black')]
+      elif style.name == 'sifam.dbn151.white':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'sifam.dbn151.white')]
+      elif style.name == 'sifam.drn111.white':
+         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'sifam.drn111.white')]
+      elif style.name == 'songhuei.9mm':
+         return [(PATH_THIS, 'songhuei.9mm.manual')]
+      elif style.name == 'thonk.pj398sm.knurled':
+         return [(PATH_THIS, 'thonk.pj398sm.manual'), (PATH_THIS, 'thonk.pj398sm.knurled')]
+      elif style.name == 'thonk.pj398sm.hex':
+         return [(PATH_THIS, 'thonk.pj398sm.manual'), (PATH_THIS, 'thonk.pj398sm.hex')]
+      elif style.name == 'ck.d6r.black':
+         return [(PATH_THIS, 'ck.d6r.black.manual')]
+      elif style.name == 'tl1105':
+         return [(PATH_THIS, 'tl1105.manual')]
+      elif style.name == 'dailywell.2ms1':
+         return [(PATH_THIS, 'dailywell.2ms1.manual')]
+      elif style.name == 'dailywell.2ms3':
+         return [(PATH_THIS, 'dailywell.2ms3.manual')]
+      elif style.name == 'led.3mm.red':
+         return [(PATH_THIS, 'led.3mm.red.manual')]
+      elif style.name == 'led.3mm.green':
+         return [(PATH_THIS, 'led.3mm.green.manual')]
+      elif style.name == 'led.3mm.yellow':
+         return [(PATH_THIS, 'led.3mm.yellow.manual')]
+      elif style.name == 'led.3mm.orange':
+         return [(PATH_THIS, 'led.3mm.orange.manual')]
+      elif style.name == 'led.3mm.green_red':
+         return [(PATH_THIS, 'led.3mm.bi.green_red.manual')]
+      elif style.name == 'led.3mm.rgb':
+         return [(PATH_THIS, 'led.3mm.rgb.manual')]
       else:
          print ('unsupported style %s' % style.name)
 
