@@ -15,6 +15,7 @@ from .. import ast
 from . import mock
 
 from ..generators.front_pcb.kicad_pcb import KicadPcb
+from ..generators.front_pcb import s_expression
 from ..generators.front_pcb.s_expression import Writer
 
 
@@ -30,9 +31,28 @@ class TestGeneratorFrontPcb (unittest.TestCase):
       if not os.path.exists (PATH_ARTIFACTS):
          os.makedirs (PATH_ARTIFACTS)
 
+   def load_component (self, path):
+      def filter_func (node):
+         if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
+            return False
+
+         if node.kind in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class', 'net']:
+            return False
+
+         # keep all the rest (modules, text, etc.)
+         return True
+
+      with open (path, 'r', encoding='utf-8') as file:
+         content = file.read ()
+      parser = s_expression.Parser ()
+      component = parser.parse (content, 'kicad_pcb')
+      component.entities = list (filter (filter_func, component.entities))
+
+      return component
+
    def test_001 (self):
       gen = KicadPcb ()
-      component = gen.load_component (
+      component = self.load_component (
          os.path.join (PATH_FRONT_PCB, 'alpha.9mm.wire', 'alpha.9mm.wire.kicad_pcb')
       )
 
@@ -41,7 +61,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
 
    def test_002 (self):
       gen = KicadPcb ()
-      component = gen.load_component (
+      component = self.load_component (
          os.path.join (PATH_FRONT_PCB, 'thonk.pj398sm.wire', 'thonk.pj398sm.wire.kicad_pcb')
       )
 
@@ -56,7 +76,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
 
    def test_002b (self):
       gen = KicadPcb ()
-      component = gen.load_component (
+      component = self.load_component (
          os.path.join (PATH_FRONT_PCB, 'alpha.9mm.wire', 'alpha.9mm.wire.kicad_pcb')
       )
 

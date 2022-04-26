@@ -1212,12 +1212,19 @@ class ControlFaustInit (Scope):
 # -- Control -----------------------------------------------------------------
 
 class Control (Scope):
+   class Part:
+      def __init__ (self, pcb, net):
+         self.pcb = pcb
+         self.net = net
+
    def __init__ (self, identifier_name, keyword_kind):
       assert isinstance (identifier_name, adapter.Identifier)
       assert isinstance (keyword_kind, adapter.Keyword)
       super (Control, self).__init__ ()
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
+
+      self.parts = []
 
    @staticmethod
    def typename (): return 'control'

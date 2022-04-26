@@ -206,139 +206,10 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def generate_control (self, module, control):
-      if module.route.is_wire:
-         component_list = self.get_comp_path_route_wire (control.style)
-      else:
-         component_list = self.get_comp_path_route_manual (control.style)
-
-      for base_path, component_name in component_list:
-         comp_pcb, comp_net = self.load_pcb_net (base_path, component_name)
-         ref_map = self.make_ref_map (comp_net)
-
-         self.generate_control_add_pcb (comp_pcb, control, ref_map)
-         self.generate_control_add_net (comp_net, control, ref_map)
-
-
-   #--------------------------------------------------------------------------
-
-   def get_comp_path_route_wire (self, style):
-      if style.name == 'rogan.6ps':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.6ps')]
-      elif style.name == 'rogan.5ps':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.5ps')]
-      elif style.name == 'rogan.3ps':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.3ps')]
-      elif style.name == 'rogan.2ps':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.2ps')]
-      elif style.name == 'rogan.1ps':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.1ps')]
-      elif style.name == 'rogan.2s.black':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.2s.black')]
-      elif style.name == 'rogan.1s':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.1s')]
-      elif style.name == 'rogan.1s.black':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'rogan.1s.black')]
-      elif style.name == 'sifam.dbn151.white':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'sifam.dbn151.white')]
-      elif style.name == 'sifam.drn111.white':
-         return [(PATH_THIS, 'alpha.9mm.wire'), (PATH_THIS, 'sifam.drn111.white')]
-      elif style.name == 'songhuei.9mm':
-         return [(PATH_THIS, 'songhuei.9mm.wire')]
-      elif style.name == 'thonk.pj398sm.knurled':
-         return [(PATH_THIS, 'thonk.pj398sm.wire'), (PATH_THIS, 'thonk.pj398sm.knurled')]
-      elif style.name == 'thonk.pj398sm.hex':
-         return [(PATH_THIS, 'thonk.pj398sm.wire'), (PATH_THIS, 'thonk.pj398sm.hex')]
-      elif style.name == 'ck.d6r.black':
-         return [(PATH_THIS, 'ck.d6r.black.wire')]
-      elif style.name == 'tl1105':
-         return [(PATH_THIS, 'tl1105.wire'), (PATH_THIS, '1rblk')]
-      elif style.name == 'dailywell.2ms1':
-         return [(PATH_THIS, 'dailywell.2ms1.wire')]
-      elif style.name == 'dailywell.2ms3':
-         return [(PATH_THIS, 'dailywell.2ms3.wire')]
-      elif style.name == 'led.3mm.red':
-         return [(PATH_THIS, 'led.3mm.red.wire')]
-      elif style.name == 'led.3mm.green':
-         return [(PATH_THIS, 'led.3mm.green.wire')]
-      elif style.name == 'led.3mm.yellow':
-         return [(PATH_THIS, 'led.3mm.yellow.wire')]
-      elif style.name == 'led.3mm.orange':
-         return [(PATH_THIS, 'led.3mm.orange.wire')]
-      elif style.name == 'led.3mm.green_red':
-         return [(PATH_THIS, 'led.3mm.bi.green_red.wire')]
-      elif style.name == 'led.3mm.rgb':
-         return [(PATH_THIS, 'led.3mm.rgb.wire')]
-      else:
-         print ('unsupported style %s' % style.name)
-
-
-   #--------------------------------------------------------------------------
-
-   def get_comp_path_route_manual (self, style):
-      if style.name == 'rogan.6ps':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.6ps')]
-      elif style.name == 'rogan.5ps':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.5ps')]
-      elif style.name == 'rogan.3ps':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.3ps')]
-      elif style.name == 'rogan.2ps':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.2ps')]
-      elif style.name == 'rogan.1ps':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.1ps')]
-      elif style.name == 'rogan.2s.black':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.2s.black')]
-      elif style.name == 'rogan.1s':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.1s')]
-      elif style.name == 'rogan.1s.black':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'rogan.1s.black')]
-      elif style.name == 'sifam.dbn151.white':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'sifam.dbn151.white')]
-      elif style.name == 'sifam.drn111.white':
-         return [(PATH_THIS, 'alpha.9mm.manual'), (PATH_THIS, 'sifam.drn111.white')]
-      elif style.name == 'songhuei.9mm':
-         return [(PATH_THIS, 'songhuei.9mm.manual')]
-      elif style.name == 'thonk.pj398sm.knurled':
-         return [(PATH_THIS, 'thonk.pj398sm.manual'), (PATH_THIS, 'thonk.pj398sm.knurled')]
-      elif style.name == 'thonk.pj398sm.hex':
-         return [(PATH_THIS, 'thonk.pj398sm.manual'), (PATH_THIS, 'thonk.pj398sm.hex')]
-      elif style.name == 'ck.d6r.black':
-         return [(PATH_THIS, 'ck.d6r.black.manual')]
-      elif style.name == 'tl1105':
-         return [(PATH_THIS, 'tl1105.manual'), (PATH_THIS, '1rblk')]
-      elif style.name == 'dailywell.2ms1':
-         return [(PATH_THIS, 'dailywell.2ms1.manual')]
-      elif style.name == 'dailywell.2ms3':
-         return [(PATH_THIS, 'dailywell.2ms3.manual')]
-      elif style.name == 'led.3mm.red':
-         return [(PATH_THIS, 'led.3mm.red.manual')]
-      elif style.name == 'led.3mm.green':
-         return [(PATH_THIS, 'led.3mm.green.manual')]
-      elif style.name == 'led.3mm.yellow':
-         return [(PATH_THIS, 'led.3mm.yellow.manual')]
-      elif style.name == 'led.3mm.orange':
-         return [(PATH_THIS, 'led.3mm.orange.manual')]
-      elif style.name == 'led.3mm.green_red':
-         return [(PATH_THIS, 'led.3mm.bi.green_red.manual')]
-      elif style.name == 'led.3mm.rgb':
-         return [(PATH_THIS, 'led.3mm.rgb.manual')]
-      else:
-         print ('unsupported style %s' % style.name)
-
-
-   #--------------------------------------------------------------------------
-
-   def load_pcb_net (self, base_path, component_name):
-
-      pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
-      pcb = self.load_component (pcb_path)
-
-      net_path = os.path.join (base_path, component_name, '%s.net' % component_name)
-      with open (net_path, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      net = parser.parse (content, 'net')
-
-      return (pcb, net)
+      for part in control.parts:
+         ref_map = self.make_ref_map (part.net)
+         self.generate_control_add_pcb (part.pcb, control, ref_map)
+         self.generate_control_add_net (part.net, control, ref_map)
 
 
    #--------------------------------------------------------------------------
@@ -370,7 +241,6 @@ class KicadPcb:
    #--------------------------------------------------------------------------
 
    def generate_control_add_pcb (self, component, control, ref_map):
-      component = self.rotate (component, control)
       component = self.move (component, control.position)
       component = self.rename_references (component, control, ref_map)
       component = self.rename_cascade_to (component, control)
@@ -434,30 +304,6 @@ class KicadPcb:
          content = file.read ()
       parser = s_expression.Parser ()
       return parser.parse (content, 'kicad_pcb')
-
-
-   #--------------------------------------------------------------------------
-   # Load a PCB and filter out all the unrelevant PCB description
-   # Return a s_expression.List of:
-   # - Power (GND and +3V3) nets only,
-   # - modules, text and segments (traces)
-
-   def load_component (self, path):
-
-      def filter_func (node):
-         if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
-            return False
-
-         if node.kind in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class', 'net']:
-            return False
-
-         # keep all the rest (modules, text, etc.)
-         return True
-
-      component = self.load (path)
-      component.entities = list (filter (filter_func, component.entities))
-
-      return component
 
 
    #--------------------------------------------------------------------------
@@ -556,49 +402,6 @@ class KicadPcb:
                gr_text_node.entities [1].value = '""'
             else:
                gr_text_node.entities [1].value = 'K%d' % (cascade_index + 1)
-
-      return component
-
-
-   #--------------------------------------------------------------------------
-   # Rotate top level objects module, gr_text and segment (traces) to their
-   # new position
-
-   def rotate (self, component, control):
-
-      rotation_deg = (control.rotation.degree + 360) % 360 if control.rotation else 0
-      rotation_rad = float (rotation_deg) * 2.0 * math.pi / 360.0
-
-      # axis is top/down in pcb coordinates: invert rotation angle
-      cos_a = math.cos (- rotation_rad)
-      sin_a = math.sin (- rotation_rad)
-
-      def rot (x, y):
-         return (
-            x * cos_a - y * sin_a,
-            x * sin_a + y * cos_a
-         )
-
-      for node in component.filter_kinds (['module', 'gr_text']):
-         at_node = node.first_kind ('at')
-         x = float (at_node.entities [1].value)
-         y = float (at_node.entities [2].value)
-         if len (at_node.entities) == 3:
-            at_node.entities.append (s_expression.FloatLiteral (0))
-         angle = float (at_node.entities [3].value)
-         x, y = rot (x, y)
-         angle = (angle + rotation_deg + 360) % 360
-         at_node.entities [1] = s_expression.FloatLiteral (x)
-         at_node.entities [2] = s_expression.FloatLiteral (y)
-         at_node.entities [3] = s_expression.FloatLiteral (angle)
-
-      for node in component.filter_kind ('segment'):
-         for endpoint in node.filter_kinds (['start', 'end']):
-            x = float (endpoint.entities [1].value)
-            y = float (endpoint.entities [2].value)
-            x, y = rot (x, y)
-            endpoint.entities [1] = s_expression.FloatLiteral (x)
-            endpoint.entities [2] = s_expression.FloatLiteral (y)
 
       return component
 
