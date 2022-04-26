@@ -12,6 +12,7 @@ import unittest
 import traceback
 
 from .. import ast
+from .. import analyser
 from . import mock
 
 from ..generators.vcvrack.panel import Panel as vcvrackPanel
@@ -200,6 +201,10 @@ class TestGenerators (unittest.TestCase):
       module.add (control)
 
       global_namespace.add (module)
+
+      analyser_ = analyser.Analyser ()
+      analyser_.analyse (global_namespace)
+
       return global_namespace
 
 
