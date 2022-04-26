@@ -251,7 +251,7 @@ class KicadPcb:
       elif style.name == 'ck.d6r.black':
          return [(PATH_THIS, 'ck.d6r.black.wire')]
       elif style.name == 'tl1105':
-         return [(PATH_THIS, 'tl1105.wire')]
+         return [(PATH_THIS, 'tl1105.wire'), (PATH_THIS, '1rblk')]
       elif style.name == 'dailywell.2ms1':
          return [(PATH_THIS, 'dailywell.2ms1.wire')]
       elif style.name == 'dailywell.2ms3':
@@ -304,7 +304,7 @@ class KicadPcb:
       elif style.name == 'ck.d6r.black':
          return [(PATH_THIS, 'ck.d6r.black.manual')]
       elif style.name == 'tl1105':
-         return [(PATH_THIS, 'tl1105.manual')]
+         return [(PATH_THIS, 'tl1105.manual'), (PATH_THIS, '1rblk')]
       elif style.name == 'dailywell.2ms1':
          return [(PATH_THIS, 'dailywell.2ms1.manual')]
       elif style.name == 'dailywell.2ms3':
