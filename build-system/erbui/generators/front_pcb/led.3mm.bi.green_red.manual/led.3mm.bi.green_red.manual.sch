@@ -27,6 +27,7 @@ F 6 "No" H 5100 4700 50  0001 C CNN "Place"
 F 7 "Digikey" H 5100 4700 50  0001 C CNN "Dist"
 F 8 "754-1221-ND" H 5100 4700 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.de/product-detail/en/kingbright/WP3VEGW/754-1221-ND/1747620" H 5100 4700 50  0001 C CNN "DistLink"
+F 10 "erb::Led3mm <GreenRedLight>" H 5100 4700 50  0001 C CNN "Simulator"
 	1    5100 4700
 	-1   0    0    -1  
 $EndComp

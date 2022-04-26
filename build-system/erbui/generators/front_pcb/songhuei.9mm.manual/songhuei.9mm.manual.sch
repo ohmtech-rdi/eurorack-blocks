@@ -27,6 +27,7 @@ F 6 "No" H 4750 4100 50  0001 C CNN "Place"
 F 7 "Thonk" H 4750 4100 50  0001 C CNN "Dist"
 F 8 "R0904N-B100K" H 4750 4100 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.thonk.co.uk/shop/ttpots/" H 4750 4100 50  0001 C CNN "DistLink"
+F 10 "erb::SongHuei9" H 4750 4100 50  0001 C CNN "Simulator"
 	1    4750 4100
 	0    -1   1    0   
 $EndComp

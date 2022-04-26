@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/led.3mm.orange.manual/led.3mm.orange.manual.sch)
-    (date "2022 April 25, Monday 22:28:53")
+    (date "2022 April 26, Tuesday 15:22:46")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -25,7 +25,8 @@
         (field (name Dist) Digikey)
         (field (name DistLink) https://www.digikey.com/en/products/detail/kingbright/WP710A10ND/3084190)
         (field (name DistPartNumber) 754-1892-ND)
-        (field (name Place) No))
+        (field (name Place) No)
+        (field (name Simulator) "erb::Led3mm <YellowLight> /* Orange missing */"))
       (libsource (lib Device) (part LED) (description "Light emitting diode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FD62DCA)))

@@ -27,6 +27,7 @@ F 6 "No" H 5000 4700 50  0001 C CNN "Place"
 F 7 "Thonk" H 5000 4700 50  0001 C CNN "Dist"
 F 8 "DW2" H 5000 4700 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.thonk.co.uk/shop/sub-mini-toggle-switches/" H 5000 4700 50  0001 C CNN "DistLink"
+F 10 "erb::Dailywell2Ms3" H 5000 4700 50  0001 C CNN "Simulator"
 	1    5000 4700
 	1    0    0    -1  
 $EndComp

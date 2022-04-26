@@ -26,6 +26,7 @@ F 5 "5PS - Larger Pointer (D Shaft) - Rogan PT Plastic Knob" H 4350 2950 50  000
 F 6 "No" H 4350 2950 50  0001 C CNN "Place"
 F 7 "Thonk" H 4350 2950 50  0001 C CNN "Dist"
 F 8 "https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/" H 4350 2950 50  0001 C CNN "DistLink"
+F 9 "erb::AlphaPot <erb::Rogan5Ps>" V 4350 2950 50  0001 C CNN "Simulator"
 	1    4350 2950
 	0    -1   1    0   
 $EndComp

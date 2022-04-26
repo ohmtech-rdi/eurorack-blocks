@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/rogan.6ps/rogan.6ps.sch)
-    (date "2022 April 25, Monday 15:42:18")
+    (date "2022 April 26, Tuesday 15:10:49")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -24,7 +24,8 @@
         (field (name Device) Knob)
         (field (name Dist) Thonk)
         (field (name DistLink) https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/)
-        (field (name Place) No))
+        (field (name Place) No)
+        (field (name Simulator) "erb::AlphaPot <erb::Rogan6Ps>"))
       (libsource (lib Mechanical) (part MountingHole) (description "Mounting Hole without connection"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FCAE65B)))
