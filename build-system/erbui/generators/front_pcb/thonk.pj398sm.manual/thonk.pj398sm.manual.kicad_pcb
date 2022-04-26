@@ -135,4 +135,6 @@
       (net 1 GND))
   )
 
+  (gr_circle (center 0 0) (end 3.25 0) (layer Eco1.User) (width 0.12))
+
 )

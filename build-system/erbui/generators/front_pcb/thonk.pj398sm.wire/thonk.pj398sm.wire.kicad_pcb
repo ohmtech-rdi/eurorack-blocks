@@ -215,4 +215,6 @@
   (segment (start -1.9 1.9) (end -0.42 3.38) (width 0.635) (layer B.Cu) (net 3))
   (segment (start -1.9 1.8) (end -1.9 1.9) (width 0.635) (layer B.Cu) (net 3))
 
+  (gr_circle (center 0 0) (end 3.25 0) (layer Eco1.User) (width 0.12))
+
 )

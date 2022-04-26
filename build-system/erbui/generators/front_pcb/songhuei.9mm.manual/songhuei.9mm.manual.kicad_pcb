@@ -144,4 +144,6 @@
     (pad "" thru_hole oval (at -4.4 0) (size 2.5 2.9) (drill oval 1.8 2.2) (layers *.Cu *.Mask))
   )
 
+  (gr_circle (center 0 0) (end 3.4 0) (layer Eco1.User) (width 0.12))
+
 )
