@@ -150,7 +150,7 @@ class Code:
             if func_category == 'Light':
                func_category = 'Child'
 
-            widget = self.control_style_to_widget (control)
+            widget = self.get_control_widget (control)
 
             if control.rotation is None:
                rotation = 0
@@ -210,34 +210,20 @@ class Code:
 
 
    #--------------------------------------------------------------------------
+   # Returns the last non-None Simulator field
 
-   def control_style_to_widget (self, control):
-      style_widget_map = {
-         'rogan.6ps': 'erb::AlphaPot <erb::Rogan6Ps>',
-         'rogan.5ps': 'erb::AlphaPot <erb::Rogan5Ps>',
-         'rogan.3ps': 'erb::AlphaPot <erb::Rogan3Ps>',
-         'rogan.2ps': 'erb::AlphaPot <erb::Rogan2Ps>',
-         'rogan.1ps': 'erb::AlphaPot <erb::Rogan1Ps>',
-         'rogan.2s.black': 'erb::AlphaPot <erb::Rogan2SBlack>',
-         'rogan.1s': 'erb::AlphaPot <erb::Rogan1S>',
-         'rogan.1s.black': 'erb::AlphaPot <erb::Rogan1SBlack>',
-         'songhuei.9mm': 'erb::SongHuei9',
-         'sifam.drn111.white': 'erb::AlphaPot <erb::SifamDrn111>',
-         'sifam.dbn151.white': 'erb::AlphaPot <erb::SifamDbn151>',
-         'dailywell.2ms1': 'erb::Dailywell2Ms1',
-         'dailywell.2ms3': 'erb::Dailywell2Ms3',
-         'led.3mm.red': 'erb::Led3mm <RedLight>',
-         'led.3mm.green': 'erb::Led3mm <GreenLight>',
-         'led.3mm.yellow': 'erb::Led3mm <YellowLight>',
-         'led.3mm.orange': 'erb::Led3mm <YellowLight>', # orange is missing
-         'led.3mm.green_red': 'erb::Led3mm <GreenRedLight>',
-         'led.3mm.rgb': 'erb::Led3mm <RedGreenBlueLight>',
-         'thonk.pj398sm.knurled': 'erb::ThonkPj398SmKnurled',
-         'thonk.pj398sm.hex': 'erb::ThonkPj398SmHex',
-         'ck.d6r.black': 'erb::Ckd6r',
-         'tl1105': 'erb::Tl1105',
-      }
+   def get_control_widget (self, control):
+      for part in control.parts:
+         components_node = part.net.first_kind ('components')
+         comp_nodes = components_node.filter_kind ('comp')
+         for comp_node in comp_nodes:
+            fields_node = comp_node.first_kind ('fields')
+            if fields_node != None:
+               field_nodes = fields_node.filter_kind ('field')
+               for field_node in field_nodes:
+                  if field_node.property ('name') == 'Simulator':
+                     widget = field_node.entities [2].value
 
-      return style_widget_map [control.style.name]
+      assert widget is not None
 
-
+      return widget
