@@ -119,7 +119,6 @@
 
             # generators/front_panel
             'erbui/generators/front_panel/dxf.py',
-            'erbui/generators/front_panel/milling.py',
             'erbui/generators/front_panel/printing.py',
 
             # generators/front_pcb
