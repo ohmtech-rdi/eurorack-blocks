@@ -419,6 +419,13 @@ class KicadPcb:
          at_node.entities [1] = s_expression.FloatLiteral (x)
          at_node.entities [2] = s_expression.FloatLiteral (y)
 
+      for node in component.filter_kind ('gr_circle'):
+         for pos_node in node.filter_kinds (['center', 'end']):
+            x = float (pos_node.entities [1].value) + position.x.mm
+            y = float (pos_node.entities [2].value) + position.y.mm
+            pos_node.entities [1] = s_expression.FloatLiteral (x)
+            pos_node.entities [2] = s_expression.FloatLiteral (y)
+
       for node in component.filter_kind ('segment'):
          for endpoint in node.filter_kinds (['start', 'end']):
             x = float (endpoint.entities [1].value) + position.x.mm
