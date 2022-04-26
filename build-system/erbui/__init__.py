@@ -16,7 +16,7 @@ from .generators.vcvrack.panel import Panel as vcvrackPanel
 from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
 from .generators.daisy.code import Code as daisyCode
-from .generators.front_panel.milling import Milling as front_panelMilling
+from .generators.front_panel.dxf import Dxf as front_panelDxf
 from .generators.front_panel.printing import Printing as front_panelPrinting
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
 from .generators.front_pcb.bom import Bom as front_pcbBom
@@ -172,19 +172,19 @@ def generate_front_panel (path, ast):
    path_hardware = os.path.join (path, 'hardware')
    if not os.path.exists (path_hardware):
       os.makedirs (path_hardware)
-   generate_front_panel_milling (path_hardware, ast)
+   generate_front_panel_dxf (path_hardware, ast)
    generate_front_panel_printing (path_hardware, ast)
 
 
 
 """
 ==============================================================================
-Name: generate_front_panel_milling
+Name: generate_front_panel_dxf
 ==============================================================================
 """
 
-def generate_front_panel_milling (path, module):
-   generator = front_panelMilling ()
+def generate_front_panel_dxf (path, module):
+   generator = front_panelDxf ()
    generator.generate (path, module)
 
 

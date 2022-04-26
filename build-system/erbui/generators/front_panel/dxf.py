@@ -1,6 +1,6 @@
 ##############################################################################
 #
-#     milling.py
+#     dxf.py
 #     Copyright (c) 2020 Raphael DINGE
 #
 #Tab=3########################################################################
@@ -16,7 +16,7 @@ import os
 PANEL_HEIGHT = 128.5#mm
 HP_TO_MM = 5.08#mm
 
-class Milling:
+class Dxf:
 
    #--------------------------------------------------------------------------
 
@@ -76,10 +76,24 @@ class Milling:
 
    def generate_control (self, msp, control):
 
-      drill_size = self.get_drill_size (control.style)
-      drill_radius = drill_size / 2
+      for part in control.parts:
+         for node in part.pcb.filter_kind ('gr_circle'):
+            if node.property ('layer') == 'Eco1.User':
+               center_node = node.first_kind ('center')
+               center_x = float (center_node.entities [1].value)
+               center_y = float (center_node.entities [2].value)
+               end_node = node.first_kind ('end')
+               end_x = float (end_node.entities [1].value)
+               end_y = float (end_node.entities [2].value)
+               vec_x = end_x - center_x
+               vec_y = end_y - center_y
+               drill_radius = math.sqrt (vec_x * vec_x + vec_y * vec_y)
 
-      msp.add_circle ((control.position.x.mm, PANEL_HEIGHT - control.position.y.mm), drill_radius)
+               x = control.position.x.mm + center_x
+               y = control.position.y.mm + center_y
+
+               msp.add_circle ((x, PANEL_HEIGHT - y), drill_radius)
+
 
 
    #--------------------------------------------------------------------------
@@ -109,39 +123,3 @@ class Milling:
 
       else:
          raise Exception ('unsupported module width hp %d' % width_hp)
-
-
-
-   #--------------------------------------------------------------------------
-   #
-   # Reference:
-   # Alpha: https://www.thonk.co.uk/wp-content/uploads/2017/05/Alpha-D-shaft.pdf
-   # SongHuei: https://www.thonk.co.uk/wp-content/uploads/2014/10/R0904N_Thonk.pdf
-   # DailyWell: https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf
-   # Thonkiconn: https://www.thonk.co.uk/wp-content/uploads/2018/07/Thonkiconn_Jack_Datasheet-new.jpg
-   # C&K: https://www.thonk.co.uk/wp-content/uploads/2015/01/CK-Switch.pdf
-
-   def get_drill_size (self, style):
-      if style.is_alpha_9mm:
-         return 7.5
-
-      elif style.is_songhuei_9mm:
-         return 6.8
-
-      elif style.is_dailywell_2ms:
-         return 4.95
-
-      elif style.is_led_3mm:
-         return 3.1
-
-      elif style.is_thonk_pj398sm:
-         return 6.5
-
-      elif style.is_ck_d6r:
-         return 9.6
-
-      elif style.is_tl1105:
-         return 5.2
-
-      else:
-         raise Exception ('unsupported control style %s' % style.value)
