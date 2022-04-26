@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/dailywell.2ms1.manual/dailywell.2ms1.manual.sch)
-    (date "2022 April 26, Tuesday 15:16:45")
+    (date "2022 April 26, Tuesday 17:14:35")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -25,6 +25,7 @@
         (field (name Dist) Thonk)
         (field (name DistLink) https://www.thonk.co.uk/shop/sub-mini-toggle-switches/)
         (field (name DistPartNumber) DW1)
+        (field (name NbrPositions) 2)
         (field (name Place) No)
         (field (name Simulator) erb::Dailywell2Ms1))
       (libsource (lib Switch) (part SW_SPDT) (description "Switch, single pole double throw"))
