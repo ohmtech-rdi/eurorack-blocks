@@ -18,7 +18,7 @@ from ..generators.vcvrack.panel import Panel as vcvrackPanel
 from ..generators.vcvrack.manifest import Manifest as vcvrackManifest
 from ..generators.vcvrack.code import Code as vcvrackCode
 
-from ..generators.front_panel.milling import Milling as front_panelMilling
+from ..generators.front_panel.dxf import Dxf as front_panelDxf
 from ..generators.front_panel.printing import Printing as front_panelPrinting
 
 
@@ -266,7 +266,7 @@ class TestGenerators (unittest.TestCase):
          ('vcvrack_manifest', vcvrackManifest ()),
          ('vcvrack_code', vcvrackCode ()),
 
-         ('front_panel_milling', front_panelMilling ()),
+         ('front_panel_dxf', front_panelDxf ()),
          ('front_panel_printing', front_panelPrinting ()),
       ]
       roots = [
