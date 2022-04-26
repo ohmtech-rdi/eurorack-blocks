@@ -107,6 +107,9 @@
             'erbui/parser.py',
             'erbui/visitor.py',
 
+            # erbui/analysers
+            'erbui/analysers/style.py',
+
             # generators/daisy
             'erbui/generators/daisy/code_template.cpp',
             'erbui/generators/daisy/code.py',
