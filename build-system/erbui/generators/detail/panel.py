@@ -154,10 +154,7 @@ class Panel:
       old_current_font_height = self.current_font_height
       self.current_font_height = 8.5#pt
 
-      box = self.get_style_box (control.style)
-      rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
-
-      box.rotate (rotation)
+      box = self.get_control_box (control)
       self.current_box = box
 
       for label in control.labels:
@@ -179,27 +176,33 @@ class Panel:
          self.right = right
          self.bottom = bottom
 
-      #-----------------------------------------------------------------------
+      def union (self, left, top, right, bottom):
+         self.left = left if self.left is None else min (left, self.left)
+         self.top = top if self.top is None else min (top, self.top)
+         self.right = right if self.right is None else max (right, self.right)
+         self.bottom = bottom if self.bottom is None else max (bottom, self.bottom)
 
       def rotate (self, rotation):
          if rotation == 0:
             pass # nothing
 
          elif rotation == 90:
+            top = self.top
             self.top = self.right
             self.right = self.bottom
             self.bottom = self.left
-            self.left = self.top
+            self.left = top
 
          elif rotation == 180:
             self.top, self.bottom = self.top, self.bottom
             self.left, self.right = self.left, self.right
 
          elif rotation == 270:
+            left = self.left
             self.left = self.bottom
             self.bottom = self.right
             self.right = self.top
-            self.top = self.left
+            self.top = left
 
          else:
             raise Exception ('unsupported angle value %d', rotation)
@@ -207,66 +210,55 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   # Reference:
-   # Rogan: https://rogancorp.com/product/pt-series-pointer-control-knobs/
-   # Dailywell: https://www.thonk.co.uk/wp-content/uploads/2017/05/DW1-SPDT-ON-ON-2MS1T1B1M2QES.pdf
-   # Thonkiconn: https://www.thonk.co.uk/wp-content/uploads/2018/07/Thonkiconn_Jack_Datasheet-new.jpg
-   # C&K: https://www.thonk.co.uk/wp-content/uploads/2015/01/CK-Switch.pdf
+   def get_control_box (self, control):
 
-   def get_style_box (self, style):
-      if style.is_rogan_6ps:
-         radius = 31.75 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+      box = Panel.Box (None, None, None, None)
 
-      elif style.is_rogan_5ps:
-         radius = 21.33 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+      for part in control.parts:
+         for module in part.pcb.filter_kind ('module'):
+            for node in module.filter_kind ('fp_circle'):
+               if node.property ('layer') == 'Dwgs.User':
+                  center_node = node.first_kind ('center')
+                  center_x = float (center_node.entities [1].value)
+                  center_y = float (center_node.entities [2].value)
+                  end_node = node.first_kind ('end')
+                  end_x = float (end_node.entities [1].value)
+                  end_y = float (end_node.entities [2].value)
+                  vec_x = end_x - center_x
+                  vec_y = end_y - center_y
+                  radius = math.sqrt (vec_x * vec_x + vec_y * vec_y)
+                  left = center_x - radius
+                  right = center_x + radius
+                  top = center_y - radius
+                  bottom = center_y + radius
+                  box.union (left, top, right, bottom)
 
-      elif style.is_rogan_3ps:
-         radius = 18.47 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+            for node in module.filter_kind ('fp_line'):
+               if node.property ('layer') == 'Dwgs.User':
+                  start_node = node.first_kind ('start')
+                  start_x = float (start_node.entities [1].value)
+                  start_y = float (start_node.entities [2].value)
+                  end_node = node.first_kind ('end')
+                  end_x = float (end_node.entities [1].value)
+                  end_y = float (end_node.entities [2].value)
 
-      elif style.is_rogan_2_skirted:
-         radius = 15.75 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+                  box.union (start_x, start_y, start_x, start_y)
+                  box.union (end_x, end_y, end_x, end_y)
 
-      elif style.is_rogan_1_skirted:
-         radius = 14.38 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+      rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
 
-      elif style.is_sifam_dbn151:
-         radius = 18.5 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+      assert box.left is not None
+      assert box.top is not None
+      assert box.right is not None
+      assert box.bottom is not None
 
-      elif style.is_sifam_drn111:
-         radius = 14.2 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+      box.left = - box.left
+      box.top = - box.top
 
-      elif style.is_songhuei_9mm:
-         radius = 6.5 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
+      box.rotate (rotation)
 
-      elif style.is_dailywell_2ms:
-         return Panel.Box (3.5, 4.0, 3.5, 4.0)
+      return box
 
-      elif style.is_led_3mm:
-         radius = 3.0 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_thonk_pj398sm:
-         radius = 8.0 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_ck_d6r_black:
-         radius = 9.0 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      elif style.is_tl1105:
-         radius = 5.5 * 0.5
-         return Panel.Box (radius, radius, radius, radius)
-
-      else:
-         raise Exception ('unsupported control style %s' % style.value)
 
 
    #--------------------------------------------------------------------------
