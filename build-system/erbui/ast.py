@@ -1223,7 +1223,6 @@ class Control (Scope):
       super (Control, self).__init__ ()
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
-
       self.parts = []
 
    @staticmethod
@@ -1272,8 +1271,11 @@ class Control (Scope):
    @property
    def style (self):
       entities = [e for e in self.entities if e.is_style]
-      assert (len (entities) == 1)
-      return entities [0]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
 
    @property
    def rotation (self):
@@ -1395,16 +1397,13 @@ class Mode (Node):
 # -- Style -------------------------------------------------------------------
 
 class Style (Scope):
-   def __init__ (self, keyword_name):
-      assert isinstance (keyword_name, adapter.Keyword)
+   def __init__ (self, keyword_names):
+      assert isinstance (keyword_names, list)
       super (Style, self).__init__ ()
-      self.keyword_name = keyword_name
+      self.keyword_names = keyword_names
 
    @staticmethod
    def typename (): return 'style'
-
-   @property
-   def name (self): return self.keyword_name.value
 
 
 # -- Label -------------------------------------------------------------------
