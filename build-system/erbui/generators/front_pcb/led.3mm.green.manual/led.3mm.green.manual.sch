@@ -38,6 +38,7 @@ F 6 "No" H 5100 5050 50  0001 C CNN "Place"
 F 7 "Digikey" H 5100 5050 50  0001 C CNN "Dist"
 F 8 "754-1603-ND" H 5100 5050 50  0001 C CNN "DistPartNumber"
 F 9 "https://www.digikey.com/en/products/detail/kingbright/WP710A10GD/2769808" H 5100 5050 50  0001 C CNN "DistLink"
+F 10 "erb::Led3mm <GreenLight>" H 5100 5050 50  0001 C CNN "Simulator"
 	1    5100 5050
 	-1   0    0    1   
 $EndComp

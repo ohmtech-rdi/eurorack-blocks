@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/led.3mm.rgb.wire/led.3mm.rgb.wire.sch)
-    (date "2022 April 25, Monday 14:20:13")
+    (date "2022 April 26, Tuesday 15:24:35")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -26,6 +26,8 @@
       (value LED_RGBA)
       (footprint LED_SMD:LED_Cree-PLCC4_3.2x2.8mm_CCW)
       (datasheet ~)
+      (fields
+        (field (name Simulator) "erb::Led3mm <RedGreenBlueLight>"))
       (libsource (lib Device) (part LED_RGBA) (description "RGB LED, red/green/blue/anode"))
       (sheetpath (names /) (tstamps /))
       (tstamp 60BBD1E1))

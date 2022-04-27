@@ -28,6 +28,7 @@ F 7 "Digikey" H 4350 2950 50  0001 C CNN "Dist"
 F 8 "https://www.digikey.com/en/products/detail/e-switch/1RBLK/271579" H 4350 2950 50  0001 C CNN "DistLink"
 F 9 "" V 4350 2950 50  0001 C CNN "Remarks"
 F 10 "EG1882-ND" H 4350 2950 50  0001 C CNN "DistPartNumber"
+F 11 "erb::Tl1105" V 4350 2950 50  0001 C CNN "Simulator"
 	1    4350 2950
 	0    -1   1    0   
 $EndComp

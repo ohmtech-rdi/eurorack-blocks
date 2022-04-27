@@ -27,6 +27,7 @@ F 6 "No" H 4700 5300 50  0001 C CNN "Place"
 F 7 "Thonk" H 4700 5300 50  0001 C CNN "Dist"
 F 8 "https://www.thonk.co.uk/shop/radio-music-switch/" H 4700 5300 50  0001 C CNN "DistLink"
 F 9 "Choose Black" H 4700 5300 50  0001 C CNN "Remarks"
+F 10 "erb::Ckd6r" H 4700 5300 50  0001 C CNN "Simulator"
 	1    4700 5300
 	1    0    0    -1  
 $EndComp

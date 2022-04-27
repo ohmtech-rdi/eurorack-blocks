@@ -21,6 +21,7 @@ F 0 "D1" H 6200 5197 50  0000 C CNN
 F 1 "LED_RGBA" H 6200 5106 50  0000 C CNN
 F 2 "LED_SMD:LED_Cree-PLCC4_3.2x2.8mm_CCW" H 6200 4650 50  0001 C CNN
 F 3 "~" H 6200 4650 50  0001 C CNN
+F 4 "erb::Led3mm <RedGreenBlueLight>" H 6200 4700 50  0001 C CNN "Simulator"
 	1    6200 4700
 	1    0    0    -1  
 $EndComp

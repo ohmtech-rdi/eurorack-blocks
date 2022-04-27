@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/build-system/erbui/generators/front_pcb/thonk.pj398sm.hex/thonk.pj398sm.hex.sch)
-    (date "2022 April 25, Monday 18:00:19")
+    (date "2022 April 26, Tuesday 15:28:46")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -25,7 +25,8 @@
         (field (name Dist) Thonk)
         (field (name DistLink) https://www.thonk.co.uk/shop/thonkiconn/)
         (field (name Place) No)
-        (field (name Remarks) "One nut bag contains already 50 pieces"))
+        (field (name Remarks) "One nut bag contains already 50 pieces")
+        (field (name Simulator) erb::ThonkPj398SmHex))
       (libsource (lib Mechanical) (part MountingHole) (description "Mounting Hole without connection"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FCAE65B)))
