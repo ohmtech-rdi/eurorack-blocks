@@ -105,7 +105,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          ast.DistanceLiteral (mock.literal ('32mm'), 'mm'),
       )
       control.add (position)
-      style = ast.Style (mock.keyword ('songhuei.9mm'))
+      style = ast.Style ([mock.keyword ('songhuei.9mm')])
       control.add (style)
       pin = ast.Pin (mock.identifier ('P1'))
       control.add (pin)
@@ -121,7 +121,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          ast.DistanceLiteral (mock.literal ('64mm'), 'mm'),
       )
       control.add (position)
-      style = ast.Style (mock.keyword ('rogan.6ps'))
+      style = ast.Style ([mock.keyword ('rogan'), mock.keyword ('6ps')])
       control.add (style)
       pin = ast.Pin (mock.identifier ('P2'))
       control.add (pin)
@@ -137,7 +137,7 @@ class TestGeneratorFrontPcb (unittest.TestCase):
          ast.DistanceLiteral (mock.literal ('96mm'), 'mm'),
       )
       control.add (position)
-      style = ast.Style (mock.keyword ('thonk.pj398sm.hex'))
+      style = ast.Style ([mock.keyword ('thonk.pj398sm.hex')])
       control.add (style)
       pin = ast.Pin (mock.identifier ('CI1'))
       control.add (pin)
