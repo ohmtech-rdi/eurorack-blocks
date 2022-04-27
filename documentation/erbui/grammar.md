@@ -10,7 +10,7 @@ The notation used to describe the formal grammar of `erbui` has the following co
 - An arrow (→) is used to mark grammar productions and can be read as "can consist of",
 - Alternative grammar productions are either separated by verticals bars (|) or are broken into
    multiple grammar production rules lines,
-- [Keywords](./lexical.md#keywords) and [symbols](./lexical.md#symbols) are indicated using
+- [Keywords](./lexical.html#keywords) and [symbols](./lexical.html#symbols) are indicated using
    **`bold inline code`** style text,
 - Optional syntactic categories and literals are marked by a trailing subscript (<sub>_opt_</sub>),
 - Syntactic category or literal repetitions of 0 or more are marked by a trailing subscript (<sub>_0+_</sub>),
@@ -35,8 +35,8 @@ it is a set of multiple `control`, `image`, `label`, `width`, `material`, etc. _
 ### Grammar
 
 > _module-declaration_ → **`module`** module-name module-inheritance-clause<sub>_opt_</sub> **`{`** module-entity<sub>_0+_</sub> **`}`** \
-> _module-name_ → [identifier](./lexical.md#identifiers) \
-> _module-inheritance-clause_ → **`extends`** [identifier](./lexical.md#identifiers) \
+> _module-name_ → [identifier](./lexical.html#identifiers) \
+> _module-inheritance-clause_ → **`extends`** [identifier](./lexical.html#identifiers) \
 > _module-entity_ → [board-declaration](#board) \
 > _module-entity_ → [width-declaration](#width) \
 > _module-entity_ → [material-declaration](#material) \
@@ -118,25 +118,25 @@ A `board` definition can be be made inline as well, and is typically used for cu
 
 ### Grammar
 
-> _board-declaration_ → **`board`** [identifier](./lexical.md#identifiers) \
+> _board-declaration_ → **`board`** [identifier](./lexical.html#identifiers) \
 > _board-declaration_ → **`board`** **`{`** board-entity<sub>_0+_</sub> **`}`** \
 > _board-entity_ → board-class-declaration \
 > _board-entity_ → board-include-declaration \
 > _board-entity_ → board-pcb-declaration \
 > _board-entity_ → board-pin-declaration \
 > _board-entity_ → board-pins-declaration \
-> _board-class-declaration_ → **`class`** [string-literal](./lexical.md#string-literals) \
-> _board-include-declaration_ → **`include`** [string-literal](./lexical.md#string-literals) \
-> _board-pcb-declaration_ → **`pcb`** [string-literal](./lexical.md#string-literals) \
-> _board-pin-declaration_ → **`pin`** [identifier](./lexical.md#identifiers) board-pin-clause \
-> _board-pins-declaration_ → **`pins`** [identifier](./lexical.md#identifiers) board-pin-range board-pin-clause \
-> _board-pin-range_ → **`..`** [integer-literal](./lexical.md#integer-literals) \
+> _board-class-declaration_ → **`class`** [string-literal](./lexical.html#string-literals) \
+> _board-include-declaration_ → **`include`** [string-literal](./lexical.html#string-literals) \
+> _board-pcb-declaration_ → **`pcb`** [string-literal](./lexical.html#string-literals) \
+> _board-pin-declaration_ → **`pin`** [identifier](./lexical.html#identifiers) board-pin-clause \
+> _board-pins-declaration_ → **`pins`** [identifier](./lexical.html#identifiers) board-pin-range board-pin-clause \
+> _board-pin-range_ → **`..`** [integer-literal](./lexical.html#integer-literals) \
 > _board-pin-clause_ → board-pin-kinds-declaration **`{`** board-pin-entity<sub>_0+_</sub> **`}`** \
 > _board-pin-entity_ → board-pin-bind-declaration \
 > _board-pin-entity_ → board-pin-type-declaration \
 > _board-pin-kinds-declaration_ → [control-kind](../controls/README.md) \
 > _board-pin-kinds-declaration_ → [control-kind](../controls/README.md) **`,`** board-pin-kinds-declaration \
-> _board-pin-bind-declaration_ → **`bind`** [string-literal](./lexical.md#string-literals) \
+> _board-pin-bind-declaration_ → **`bind`** [string-literal](./lexical.html#string-literals) \
 > _board-pin-type-declaration_ → **`type`** board-pin-type-name \
 > _board-pin-type-name_ → **`gpio`** \
 > _board-pin-type-name_ → **`pwm`** \
@@ -157,7 +157,7 @@ Only a [specific set of integer HP widths](http://www.doepfer.de/a100_man/a100m_
 
 ### Grammar
 
-> _width-declaration_ → **`width`** [distance-literal](./lexical.md#distance-literals)
+> _width-declaration_ → **`width`** [distance-literal](./lexical.html#distance-literals)
 
 
 ## `header`
@@ -194,7 +194,7 @@ and with which the end-user can interact with.
 ### Grammar
 
 > _control-declaration_ → **`control`** control-name [control-kind](../controls/README.md) **`{`** control-entity<sub>_0+_</sub> **`}`** \
-> _control-name_ → [identifier](./lexical.md#identifiers) \
+> _control-name_ → [identifier](./lexical.html#identifiers) \
 > _control-entity_ → [mode-declaration](#mode) \
 > _control-entity_ → [position-declaration](#position) \
 > _control-entity_ → [rotation-declaration](#rotation) \
@@ -242,8 +242,8 @@ a standard library board, to give appropriate names to the entities of a module.
 
 ### Grammar
 
-> _alias-declaration_ → **`alias`** [identifier](./lexical.md#identifiers) alias-reference \
-> _alias-reference_ → [identifier](./lexical.md#identifiers)
+> _alias-declaration_ → **`alias`** [identifier](./lexical.html#identifiers) alias-reference \
+> _alias-reference_ → [identifier](./lexical.html#identifiers)
 
 
 For example:
@@ -332,13 +332,26 @@ See individual [controls](../controls/README.md) reference for a list of support
 ## `style`
 
 A `style` instructs the hardware parts to use for a `control`.
-This can represent the component part as
-mounted on the PCB as well as a decoration element that the end-user will manipulate, such
-as a style of knob.
+This can represent the component part as mounted on the PCB
+as well as one or more decoration elements that the end-user will manipulate,
+such as a style of knob.
+
+The style is given as a list of keywords, which represents the developer intent.
+The intent can represent for example the color of a LED, or the brand and size of a pot.
+
+Given a manufacturer, each control kind (_eg._ `Pot`, `Led`, `AudioIn`) as a list of sets of
+style keywords. When the developer specifies a list of keywords representing their intent,
+the style engine selects the first set of keywords in the manufacturer list which matches
+best the developer-defined set of keywords.
+
+When no style is specified, the first item of the manufacturer list is returned, which is designed
+so that the resulting combination of parts is the most popular for this control kind.
 
 ### Grammar
 
-> _style-declaration_ → **`style`** style-name
+> _style-declaration_ → **`style`** style-argument-list \
+> _style-argument-list_ → style-name \
+> _style-argument-list_ → style-name **`,`** style-argument-list
 
 See individual [controls](../controls/README.md) reference for a list of supported styles for each control.
 
@@ -360,7 +373,7 @@ An `offset` represents a relative shift from a position, typically used to repos
 
 ### Grammar
 
-> _offset-declaration_ → **`offset`** [distance-literal](./lexical.md#distance-literals) **`,`** [distance-literal](./lexical.md#distance-literals)
+> _offset-declaration_ → **`offset`** [distance-literal](./lexical.html#distance-literals) **`,`** [distance-literal](./lexical.html#distance-literals)
 
 
 ## `rotation`
@@ -370,7 +383,7 @@ typically used for [switches](../controls/Switch.md).
 
 ### Grammar
 
-> _rotation-declaration_ → **`rotation`** [rotation-literal](./lexical.md#rotation-literals)
+> _rotation-declaration_ → **`rotation`** [rotation-literal](./lexical.html#rotation-literals)
 
 See individual [controls](../controls/README.md) reference for a list of supported rotations for each control, if any.
 
@@ -382,7 +395,7 @@ Usually, the position is relative to the natural center of the control, when app
 
 ### Grammar
 
-> _position-declaration_ → **`position`** [distance-literal](./lexical.md#distance-literals) **`,`** [distance-literal](./lexical.md#distance-literals)
+> _position-declaration_ → **`position`** [distance-literal](./lexical.html#distance-literals) **`,`** [distance-literal](./lexical.html#distance-literals)
 
 See individual [controls](../controls/README.md) reference for the center definition for each control.
 
@@ -398,7 +411,7 @@ the generated front panel files for hardware production.
 
 ### Grammar
 
-> _sticker-declaration_ → **`sticker`** [string-literal](./lexical.md#string-literals) sticker-body<sub>_opt_</sub> \
+> _sticker-declaration_ → **`sticker`** [string-literal](./lexical.html#string-literals) sticker-body<sub>_opt_</sub> \
 > _sticker-body_ → **`{`** sticker-entity<sub>_0+_</sub> **`}`**  \
 > _sticker-entity_ → [position-declaration](#position) \
 > _sticker-entity_ → [positioning-declaration](#positioning) \
@@ -415,7 +428,7 @@ can be defined freely in the module with a position relative to the module.
 
 ### Grammar
 
-> _label-declaration_ → **`label`** [string-literal](./lexical.md#string-literals) label-body<sub>_opt_</sub> \
+> _label-declaration_ → **`label`** [string-literal](./lexical.html#string-literals) label-body<sub>_opt_</sub> \
 > _label-body_ → **`{`** label-entity<sub>_0+_</sub> **`}`**  \
 > _label-entity_ → [position-declaration](#position) \
 > _label-entity_ → [positioning-declaration](#positioning) \
@@ -431,7 +444,7 @@ file relative to the `erbui` file where the `image` definition takes place.
 
 ### Grammar
 
-> _image-declaration_ → **`image`** [path-literal](./lexical.md#path-literals)
+> _image-declaration_ → **`image`** [path-literal](./lexical.html#path-literals)
 
 
 ## `pin`
@@ -471,7 +484,7 @@ A `cascade` represents a link from the current [control](#control) to the refere
 ### Grammar
 
 > _cascade-declaration_ → **`cascade`** control-reference \
-> _control-reference_ → [identifier](./lexical.md#identifiers)
+> _control-reference_ → [identifier](./lexical.html#identifiers)
 
 `cascade` allows to cascade the signal from an input to another input, when that other
 input is not connected.

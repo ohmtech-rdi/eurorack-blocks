@@ -13,7 +13,7 @@
 module Example {
    control freq Pot {               // 1.
       position 19.2mm, 111mm        // 2.
-      style rogan.6ps               // 3.
+      style rogan, 6ps              // 3.
       label "FREQ"                  // 4.
       pin AdcPin1                   // 5.
    }
@@ -24,16 +24,9 @@ module Example {
 
 1. Creates a button control with name `arm`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
-
-`style` is the knob style, and is one of:
-- `rogan.6ps`
-- `rogan.5ps`
-- `rogan.3ps`
-- `rogan.2ps`
-- `rogan.1ps`
 
 > Knobs photos are from the [Thonk shop](https://www.thonk.co.uk/shop/make-noise-mutable-style-knobs/).
 
@@ -65,7 +58,7 @@ control <name> Pot { ... }
 ```
 
 Where `<name>` is the name of the control.
-More details can be found in [`control`](../language/grammar.md#control) documentation.
+More details can be found in [`control`](../erbui/grammar.html#control) documentation.
 
 ### `position` property
 
@@ -83,22 +76,24 @@ Example:
 position 2hp, 15mm
 ```
 
-More details can be found in [`position`](../language/grammar.md#position) documentation.
+More details can be found in [`position`](../erbui/grammar.html#position) documentation.
 
-### `style` property
+### `style` optional property
 
 ```
-style <name>
+style <keywords>
 ```
 
-Where `<name>` is one of:
-- `rogan.6ps`
-- `rogan.5ps`
-- `rogan.3ps`
-- `rogan.2ps`
-- `rogan.1ps`
+Where `<keywords>` is the first best matching subset of:
+- `rogan, 2ps, medium, skirt, d_shaft` (this is the default if not specified),
+- `rogan, 3ps, large, skirt, d_shaft`,
+- `rogan, 1ps, small, skirt, d_shaft`,
+- `rogan, 6ps, larger, skirt, d_shaft`,
+- `rogan, 5ps, xlarge, skirt, d_shaft`,
+- `sifam, selco, small, skirt, d_shaft, white`,
+- `sifam, selco, large, skirt, d_shaft, white`.
 
-More details can be found in [`style`](../language/grammar.md#style) documentation.
+More details can be found in [`style`](../erbui/grammar.html#style) documentation.
 
 ### `label` optional property
 
@@ -107,7 +102,7 @@ label "<text>"
 ```
 
 Where `<text>` is the text displayed.
-More details can be found in [`label`](../language/grammar.md#label) documentation.
+More details can be found in [`label`](../erbui/grammar.html#label) documentation.
 
 
 ## `c++` Member Functions Synopsys

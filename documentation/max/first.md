@@ -34,19 +34,17 @@ module LowPass {
 
    control freq Pot {      // 1
       position 6hp, 34mm   // 2
-      style rogan.6ps      // 3
+      style rogan, 6ps     // 3
       label "FREQ"         // 4
    }
 
    control audio_in AudioIn {
       position 4hp, 96mm
-      style thonk.pj398sm.knurled
       label "IN"
    }
 
    control audio_out AudioOut {
       position 4hp, 111mm
-      style thonk.pj398sm.knurled
       label "OUT"
    }
 }
@@ -57,9 +55,11 @@ The highlighted code:
 2. Give it a position, first is on the horizontal axis, and second is on the vertical axis.
    Note that both have units, with `hp` being the Eurorack HP for convenience.
    Since half of 12HP is 6HP, this will place the pot at the horizontal center in the module
-3. Let's give it a style, which here is the knob style. `rogan.6ps` is the name of the knob used
-   in many Mutable Instruments and Make Noise modules
-4. Give it an optional label, which will be printed on the front panel aluminum
+3. Let's give it a specific style, which here is the knob style. `rogan` is the brand of the knob used
+   in many Mutable Instruments and Make Noise modules, and `6ps` is the Rogan manufacturer
+   part name. You could use here `xlarge` instead. The style is optional, so you can remove
+   this line and the engine will select one default style for you.
+4. Give it an optional label, which will be printed on the front panel aluminum.
 
 Now, we have to update the `gen~` DSP code to add the low-pass filter.
 Thanks to Max, we have a large number of DSP blocks available at our fingertips!

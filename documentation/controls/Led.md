@@ -14,7 +14,7 @@ or a [PWM](https://en.wikipedia.org/wiki/Pulse-width_modulation) driver.
 module Example {
    control sync_led Led {           // 1.
       position 19.2mm, 111mm        // 2.
-      style style led.3mm.red       // 3.
+      style red                     // 3.
       label "SYNC"                  // 4.
       pin Pin1                      // 5.
    }
@@ -23,15 +23,9 @@ module Example {
 
 1. Creates a LED with name `sync_led`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
-
-`style` is the LED style, and is one of:
-- `led.3mm.red`
-- `led.3mm.green`
-- `led.3mm.yellow`
-- `led.3mm.orange`
 
 ### `c++`
 
@@ -62,7 +56,7 @@ control <name> Led { ... }
 ```
 
 Where `<name>` is the name of the control.
-More details can be found in [`control`](../language/grammar.md#control) documentation.
+More details can be found in [`control`](../erbui/grammar.html#control) documentation.
 
 ### `position` property
 
@@ -80,21 +74,21 @@ Example:
 position 2hp, 15mm
 ```
 
-More details can be found in [`position`](../language/grammar.md#position) documentation.
+More details can be found in [`position`](../erbui/grammar.html#position) documentation.
 
 ### `style` property
 
 ```
-style <name>
+style <keywords>
 ```
 
-Where `<name>` is one of:
-- `led.3mm.red`,
-- `led.3mm.green`,
-- `led.3mm.yellow`,
-- `led.3mm.orange`.
+Where `<keywords>` is the first best matching subset of:
+- `3mm, red` (this is the default if not specified),
+- `3mm, green`,
+- `3mm, yellow`,
+- `3mm, orange`.
 
-More details can be found in [`style`](../language/grammar.md#style) documentation.
+More details can be found in [`style`](../erbui/grammar.html#style) documentation.
 
 ### `label` optional property
 
@@ -103,7 +97,7 @@ label "<text>"
 ```
 
 Where `<text>` is the text displayed.
-More details can be found in [`label`](../language/grammar.md#label) documentation.
+More details can be found in [`label`](../erbui/grammar.html#label) documentation.
 
 
 ## `c++` Member Functions Synopsys

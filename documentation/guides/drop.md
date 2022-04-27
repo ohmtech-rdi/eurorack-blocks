@@ -74,7 +74,7 @@ audio inputs and outputs, or even LEDs with either one or multiple colors.
 
 ### Position and style
 
-Every `control` as at least a `position` and `style` attributes, for example:
+Every `control` as at least a `position` and optionally a `style` attribute, for example:
 
 ```{code-block} erbui
 ---
@@ -82,7 +82,7 @@ emphasize-lines: 2-3
 ---
 control sync_button Button {
    position 2hp, 75.3mm
-   style ck.d6r.black
+   style ck, d6r, black
 }
 ```
 
@@ -96,8 +96,8 @@ Those distances always come with a unit, like `hp`, `mm` or `cm`.
 A `hp` is the [Doepfer defined](https://doepfer.de/a100_man/a100m_e.htm)
 Eurorack HP distance, which defines 1HP = 5.08mm.
 
-The only argument of `style`, `ck.d6r.black`, defines the hardware component to use.
-Here, `ck.d6r.black` denotes the
+The arguments of `style`, `ck, d6r, black`, define the hardware component to use.
+Here, `ck, d6r, black` denotes the
 [C&K D6 series](https://www.ckswitches.com/products/switches/product-details/Keyswitch/D6/),
 variant R (round button), in black color.
 
@@ -119,7 +119,7 @@ emphasize-lines: 4
 ---
 control freq_pot Pot {
    position 6hp, 34mm
-   style rogan.6ps
+   style rogan, 6ps
    label "FREQ"
 }
 ```
@@ -143,7 +143,7 @@ emphasize-lines: 5-6
 ---
 control mute_hp Switch {
    position 6hp, 62mm
-   style dailywell.2ms1
+   style on_on
    rotation 90°ccw
    label "MUTE" { positioning left }
    label "HP" { positioning right }
@@ -164,7 +164,7 @@ emphasize-lines: 1
 ---
 control freq_pot Pot {
    position 6hp, 34mm
-   style rogan.6ps
+   style rogan, 6ps
    label "FREQ"
 }
 ```
@@ -207,7 +207,6 @@ emphasize-lines: 2
 control freq_trim Trim {
    mode bipolar
    position 10hp, 75.3mm
-   style songhuei.9mm
    label "–/+"
 }
 ```
