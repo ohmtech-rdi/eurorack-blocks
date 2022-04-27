@@ -18,7 +18,7 @@ module Kick {
 
    control trigger_button Button {
       position 2hp, 95.3mm
-      style tl1105
+      style small, black
       label "TRIG" {
          positioning top
       }
@@ -26,12 +26,12 @@ module Kick {
 
    control trigger_led Led {
       position 2hp, 102.1mm
-      style led.3mm.red
+      style red
    }
 
    control trigger_gate GateIn {
       position 2hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
    }
 
 
@@ -39,7 +39,7 @@ module Kick {
 
    control clock_gate GateIn {
       position 4hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "CLOCK"
    }
 
@@ -48,7 +48,7 @@ module Kick {
 
    control mute_button Button {
       position 5.3hp, 15.5mm
-      style tl1105
+      style small, black
       label "B.MUTE"
    }
 
@@ -59,7 +59,7 @@ module Kick {
 
    control mute_led Led {
       position 6.75hp, 15.5mm
-      style led.3mm.red
+      style red
    }
 
 
@@ -67,14 +67,13 @@ module Kick {
 
    control space_cv CvIn {
       position 4hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "SPACE"
    }
 
    control space_trim Trim {
       mode bipolar
       position 4hp, 81.6mm
-      style songhuei.9mm
       label "–/+" {
          positioning top
       }
@@ -87,7 +86,7 @@ module Kick {
 
    control space_pot Pot {
       position 2hp, 17.1mm
-      style rogan.2ps
+      style rogan, 2ps
       label "SPACE"
    }
 
@@ -96,13 +95,13 @@ module Kick {
 
    control body_pitch_cv CvIn {
       position 6hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "B.PITCH"
    }
 
    control body_pitch_pot Pot {
       position 28.4mm, 35.1mm
-      style rogan.5ps
+      style rogan, 5ps
       label "B.PITCH"
    }
 
@@ -111,13 +110,13 @@ module Kick {
 
    control presence_cv CvIn {
       position 8hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "PRES"
    }
 
    control presence_pot Pot {
       position 49.4mm, 17.1mm
-      style rogan.2ps
+      style rogan, 2ps
       label "PRESENCE"
    }
 
@@ -126,7 +125,7 @@ module Kick {
 
    control audio_out AudioOut {
       position 10hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT"
    }
 
@@ -135,13 +134,13 @@ module Kick {
 
    control transient_pitch_cv CvIn {
       position 6hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "T.PITCH"
    }
 
    control transient_pitch_pot Pot {
       position 11.7mm, 57.4mm
-      style rogan.2ps
+      style rogan, 2ps
       label "T.PITCH"
    }
 
@@ -150,13 +149,13 @@ module Kick {
 
    control transient_morph_cv CvIn {
       position 8hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "MORPH"
    }
 
    control transient_morph_pot Pot {
       position 35.5mm, 65.9mm
-      style rogan.5ps
+      style rogan, 5ps
       label "MORPH"
    }
 
@@ -165,14 +164,13 @@ module Kick {
 
    control transient_freq_cv CvIn {
       position 10hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "FREQ"
    }
 
    control transient_freq_trim Trim {
       mode bipolar
       position 10hp, 81.6mm
-      style songhuei.9mm
       label "–/+" {
          positioning top
       }
@@ -185,7 +183,7 @@ module Kick {
 
    control transient_freq_pot Pot {
       position 50.7mm, 46mm
-      style rogan.2ps
+      style rogan, 2ps
       label "FREQ"
    }
 }
