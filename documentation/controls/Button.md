@@ -13,7 +13,7 @@
 module Example {
    control arm Button {             // 1.
       position 19.2mm, 111mm        // 2.
-      style tl1105                  // 3.
+      style small, black            // 3.
       label "ARM"                   // 4.
       pin Pin1                      // 5.
    }
@@ -22,17 +22,9 @@ module Example {
 
 1. Creates a button control with name `arm`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
-
-`style` is the button style, and is one of:
-- [`tl1105`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)
-- [`ck.d6r.black`](https://www.thonk.co.uk/shop/radio-music-switch/)
-
-The `tl1105` button is typically mounted with a [cap](https://www.digikey.de/product-detail/en/e-switch/1RBLK/EG1882-ND/271579).
-
-The `ck.d6r.black` is typically used in sequencers, or to enhance the performing experience:
 
 <img  src="https://www.thonk.co.uk/wp-content/uploads/2015/01/Radio_Switch_Black.jpg">
 
@@ -67,7 +59,7 @@ control <name> Button { ... }
 ```
 
 Where `<name>` is the name of the control.
-More details can be found in [`control`](../language/grammar.md#control) documentation.
+More details can be found in [`control`](../erbui/grammar.html#control) documentation.
 
 ### `position` property
 
@@ -85,19 +77,19 @@ Example:
 position 2hp, 15mm
 ```
 
-More details can be found in [`position`](../language/grammar.md#position) documentation.
+More details can be found in [`position`](../erbui/grammar.html#position) documentation.
 
-### `style` property
+### `style` optional property
 
 ```
-style <name>
+style <keywords>
 ```
 
-Where `<name>` is one of:
-- [`tl1105`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)
-- [`ck.d6r.black`](https://www.thonk.co.uk/shop/radio-music-switch/)
+Where `<keywords>` is the first best matching subset of:
+- [`tl1105, small, black`](https://www.digikey.de/product-detail/en/e-switch/TL1105SPF250Q/EG1862-ND/271559)  (this is the default if not specified),
+- [`ck, d6r, black`](https://www.thonk.co.uk/shop/radio-music-switch/).
 
-More details can be found in [`style`](../language/grammar.md#style) documentation.
+More details can be found in [`style`](../erbui/grammar.html#style) documentation.
 
 ### `label` optional property
 
@@ -106,7 +98,7 @@ label "<text>"
 ```
 
 Where `<text>` is the text displayed.
-More details can be found in [`label`](../language/grammar.md#label) documentation.
+More details can be found in [`label`](../erbui/grammar.html#label) documentation.
 
 
 ## `c++` Member Functions Synopsys

@@ -10,7 +10,7 @@ The notation used to describe the formal grammar of `erbb` has the following con
 - An arrow (→) is used to mark grammar productions and can be read as "can consist of",
 - Alternative grammar productions are either separated by verticals bars (|) or are broken into
    multiple grammar production rules lines,
-- [Keywords](./lexical.md#keywords) and [symbols](./lexical.md#symbols) are indicated using
+- [Keywords](./lexical.html#keywords) and [symbols](./lexical.html#symbols) are indicated using
    **`bold inline code`** style text,
 - Optional syntactic categories and literals are marked by a trailing subscript (<sub>_opt_</sub>),
 - Syntactic category or literal repetitions of 0 or more are marked by a trailing subscript (<sub>_0+_</sub>),
@@ -46,7 +46,7 @@ it is a set of multiple `import`, `sources`, `base`, `define`, etc. _declaration
 ### Grammar
 
 > _module-declaration_ → **`module`** module-name **`{`** module-entity<sub>_0+_</sub> **`}`** \
-> _module-name_ → [identifier](./lexical.md#identifiers) \
+> _module-name_ → [identifier](./lexical.html#identifiers) \
 > _module-entity_ → [import-declaration](#import) \
 > _module-entity_ → [define-declaration](#define) \
 > _module-entity_ → [sources-declaration](#sources) \
@@ -62,7 +62,7 @@ The path is relative to the current parsed file.
 
 ### Grammar
 
-> _import-declaration_ → **`import`** [path-literal](./lexical.md#path-literals)
+> _import-declaration_ → **`import`** [path-literal](./lexical.html#path-literals)
 
 
 ## `base`
@@ -74,7 +74,7 @@ This is typically used in libraries, to disambiguate file includes with the same
 
 ### Grammar
 
-> _base-declaration_ → **`base`** [path-literal](./lexical.md#path-literals)
+> _base-declaration_ → **`base`** [path-literal](./lexical.html#path-literals)
 
 
 ## `define`
@@ -85,8 +85,8 @@ available to the `module` `sources`.
 ### Grammar
 
 > _define-declaration_ → **`define`** define-key **`=`** define-value \
-> _define-key_ → [identifier](./lexical.md#identifiers) \
-> _define-value_ → [literal](./lexical.md#literals)
+> _define-key_ → [identifier](./lexical.html#identifiers) \
+> _define-value_ → [literal](./lexical.html#literals)
 
 ### Language Bindings
 
@@ -143,7 +143,7 @@ This is typically C++ source and header files, audio sample files, but can be al
 
 ### Grammar
 
-> _file-declaration_ → **`file`** [path-literal](./lexical.md#path-literals)
+> _file-declaration_ → **`file`** [path-literal](./lexical.html#path-literals)
 
 
 ## `resources`
@@ -164,8 +164,8 @@ A `data` is an element of the module that represents a resource.
 ### Grammar
 
 > _data-declaration_ → **`data`** data-name data-type<sub>_opt_</sub> **`{`** data-entity<sub>_0+_</sub> **`}`** \
-> _data-name_ → [identifier](./lexical.md#identifiers) \
-> _data-type_ → [identifier](./lexical.md#identifiers) \
+> _data-name_ → [identifier](./lexical.html#identifiers) \
+> _data-type_ → [identifier](./lexical.html#identifiers) \
 > _data-entity_ → [file-declaration](#file) \
 > _data-entity_ → [stream-declaration](#stream)
 

@@ -81,7 +81,7 @@ class AnalyserStyle:
       styles = set ()
 
       if control.style is not None:
-         control_styles = [control.style.keyword_name]
+         control_styles = control.style.keyword_names
          for keyword in control_styles:
             if keyword.value not in manufacturer_style_set:
                raise error.unknown_style (keyword, manufacturer_style_set)

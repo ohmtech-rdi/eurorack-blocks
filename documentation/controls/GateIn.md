@@ -13,7 +13,7 @@
 module Example {
    control clock GateIn {           // 1.
       position 19.2mm, 111mm        // 2.
-      style thonk.pj398sm.knurled   // 3.
+      style knurled                 // 3.
       label "CLK"                   // 4.
       cascade sync                  // 5.
       pin Pin1                      // 6.
@@ -25,14 +25,10 @@ module Example {
 
 1. Creates a Gate input control with name `clock`,
 2. Sets the control position on the front panel,
-3. Sets the style of the control,
+3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
 5. Sets the optional cascade control for the control,
 6. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
-
-`style` is the nut style, and is one of:
-- `thonk.pj398sm.knurled`,
-- `thonk.pj398sm.hex`.
 
 > Nuts and washers photos are from the [Thonk shop](https://www.thonk.co.uk/shop/3-5mm-jacks/).
 
@@ -63,7 +59,7 @@ control <name> GateIn { ... }
 ```
 
 Where `<name>` is the name of the control.
-More details can be found in [`control`](../language/grammar.md#control) documentation.
+More details can be found in [`control`](../erbui/grammar.html#control) documentation.
 
 ### `position` property
 
@@ -81,19 +77,19 @@ Example:
 position 2hp, 15mm
 ```
 
-More details can be found in [`position`](../language/grammar.md#position) documentation.
+More details can be found in [`position`](../erbui/grammar.html#position) documentation.
 
-### `style` property
+### `style` optional property
 
 ```
-style <name>
+style <keywords>
 ```
 
-Where `<name>` is one of:
-- `thonk.pj398sm.knurled`,
-- `thonk.pj398sm.hex`.
+Where `<keywords>` is one of:
+- `knurled` (this is the default if not specified),
+- `hex`.
 
-More details can be found in [`style`](../language/grammar.md#style) documentation.
+More details can be found in [`style`](../erbui/grammar.html#style) documentation.
 
 ### `label` optional property
 
@@ -102,7 +98,7 @@ label "<text>"
 ```
 
 Where `<text>` is the text displayed.
-More details can be found in [`label`](../language/grammar.md#label) documentation.
+More details can be found in [`label`](../erbui/grammar.html#label) documentation.
 
 
 ## `c++` Member Functions Synopsys

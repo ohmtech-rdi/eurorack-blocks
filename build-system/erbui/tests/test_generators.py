@@ -92,7 +92,7 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('rogan.6ps'))
+      style = ast.Style ([mock.keyword ('rogan.6ps')])
       control.add (style)
 
       label = ast.Label (ast.StringLiteral (mock.literal ('Test Center')))
@@ -133,7 +133,7 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('dailywell.2ms1'))
+      style = ast.Style ([mock.keyword ('dailywell.2ms1')])
       control.add (style)
 
       rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°ccw'), '°ccw'))
@@ -152,7 +152,7 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('dailywell.2ms3'))
+      style = ast.Style ([mock.keyword ('dailywell.2ms3')])
       control.add (style)
 
       rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('90°cw'), '°cw'))
@@ -171,7 +171,7 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('dailywell.2ms3'))
+      style = ast.Style ([mock.keyword ('dailywell.2ms3')])
       control.add (style)
 
       rotation = ast.Rotation (ast.RotationLiteral (mock.literal ('180°'), '°'))
@@ -190,7 +190,7 @@ class TestGenerators (unittest.TestCase):
       )
       control.add (position)
 
-      style = ast.Style (mock.keyword ('thonk.pj398sm.knurled'))
+      style = ast.Style ([mock.keyword ('thonk.pj398sm.knurled')])
       control.add (style)
 
       label = ast.Label (ast.StringLiteral (mock.literal ('OUT')))

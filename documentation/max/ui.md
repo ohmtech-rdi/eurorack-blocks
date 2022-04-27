@@ -36,7 +36,7 @@ audio inputs and outputs, or even LEDs with either one or multiple colors.
 
 ### Position and style
 
-Every `control` has at least a `position` and `style` attributes, for example:
+Every `control` has at least a `position` and optionally a `style` attributes, for example:
 
 ```{code-block} erbui
 ---
@@ -44,7 +44,7 @@ emphasize-lines: 2, 3
 ---
 control sync_button Button {
    position 2hp, 75.3mm
-   style ck.d6r.black
+   style ck, d6r, black
 }
 ```
 
@@ -58,8 +58,8 @@ Those distances always come with a unit, like `hp`, `mm` or `cm`.
 A `hp` is the [Doepfer defined](https://doepfer.de/a100_man/a100m_e.htm)
 Eurorack HP distance, which defines 1HP = 5.08mm.
 
-The only argument of `style`, `ck.d6r.black`, defines the hardware component to use.
-Here, `ck.d6r.black` denotes the
+The arguments of `style`, `ck, d6r, black`, define the hardware component to use.
+Here, `ck, d6r, black` denotes the
 [C&K D6 series](https://www.ckswitches.com/products/switches/product-details/Keyswitch/D6/),
 variant R (round button), in black color.
 
@@ -81,7 +81,7 @@ emphasize-lines: 4
 ---
 control freq_pot Pot {
    position 6hp, 34mm
-   style rogan.6ps
+   style rogan, 6ps
    label "FREQ"
 }
 ```
@@ -105,7 +105,7 @@ emphasize-lines: 5, 6
 ---
 control mute_hp Switch {
    position 6hp, 62mm
-   style dailywell.2ms1
+   style on_on
    rotation 90°ccw
    label "MUTE" { positioning left }
    label "HP" { positioning right }
@@ -132,13 +132,11 @@ declaration in your Erbui file, so if you have the following file:
 ```{code-block} erbui
 control audio_in_left AudioIn {
    position 2hp, 111mm
-   style thonk.pj398sm.knurled
    label "IN L"
 }
 
 control audio_in_right AudioIn {
    position 4.66hp, 111mm
-   style thonk.pj398sm.knurled
    label "IN R"
 }
 ```
@@ -154,18 +152,16 @@ right audio input is not connected. You can do this simply using the `cascade` k
 
 ```{code-block} erbui
 ---
-emphasize-lines: 5
+emphasize-lines: 4
 ---
 control audio_in_left AudioIn {
    position 2hp, 111mm
-   style thonk.pj398sm.knurled
    label "IN L"
    cascade audio_in_right
 }
 
 control audio_in_right AudioIn {
    position 4.66hp, 111mm
-   style thonk.pj398sm.knurled
    label "IN R"
 }
 ```
@@ -179,13 +175,11 @@ declaration in your Erbui file, so if you have the following file:
 ```{code-block} erbui
 control audio_out_left AudioOut {
    position 7.33hp, 111mm
-   style thonk.pj398sm.knurled
    label "OUT L"
 }
 
 control audio_out_right AudioOut {
    position 10hp, 111mm
-   style thonk.pj398sm.knurled
    label "OUT R"
 }
 ```
@@ -230,7 +224,6 @@ For example, if you have the following Erbui description:
 ```{code-block} erbui
 control state_led LedBi {
    position 7.33hp, 85mm
-   style led.3mm.green_red
 }
 ```
 
@@ -264,7 +257,6 @@ emphasize-lines: 2
 control feedback_trim Trim {
    mode bipolar
    position 7.33hp, 80.8mm
-   style songhuei.9mm
    label "–/+" { positioning top }
 }
 ```
