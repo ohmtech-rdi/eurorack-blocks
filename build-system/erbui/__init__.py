@@ -164,16 +164,19 @@ def generate_daisy_code (path, module):
 
 """
 ==============================================================================
-Name: generate_front_panel
+Name: generate_hardware
 ==============================================================================
 """
 
-def generate_front_panel (path, ast):
+def generate_hardware (path, ast):
    path_hardware = os.path.join (path, 'hardware')
    if not os.path.exists (path_hardware):
       os.makedirs (path_hardware)
+
    generate_front_panel_dxf (path_hardware, ast)
    generate_front_panel_printing (path_hardware, ast)
+   generate_front_pcb_kicad_pcb (path_hardware, ast)
+   generate_front_pcb_bom (path_hardware, ast)
 
 
 
@@ -198,21 +201,6 @@ Name: generate_front_panel_printing
 def generate_front_panel_printing (path, ast):
    generator = front_panelPrinting ()
    generator.generate (path, ast)
-
-
-
-"""
-==============================================================================
-Name: generate_front_pcb
-==============================================================================
-"""
-
-def generate_front_pcb (path, ast):
-   path_hardware = os.path.join (path, 'hardware')
-   if not os.path.exists (path_hardware):
-      os.makedirs (path_hardware)
-   generate_front_pcb_kicad_pcb (path_hardware, ast)
-   generate_front_pcb_bom (path_hardware, ast)
 
 
 

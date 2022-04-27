@@ -267,8 +267,7 @@ def build ():
    elif target == 'hardware':
       ast_erbui = read_erbui_ast (find_erbui ())
       path_artifacts = os.path.join (cwd, 'artifacts')
-      erbui.generate_front_panel (path_artifacts, ast_erbui)
-      erbui.generate_front_pcb (path_artifacts, ast_erbui)
+      erbui.generate_hardware (path_artifacts, ast_erbui)
 
    elif target == 'simulator':
       ast_erbb = read_erbb_ast (find_erbb ())
