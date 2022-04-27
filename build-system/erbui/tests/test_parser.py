@@ -144,7 +144,7 @@ class TestParser (unittest.TestCase):
       self.assertEqual (position.y.mm, 2)
       style = control.entities [1]
       self.assertTrue (style.is_style)
-      self.assertTrue (style.is_rogan_6ps)
+      self.assertEqual (style.name, 'rogan.6ps')
 
    def test_module_005 (self):
       source = 'module Foo { width 10hp material aluminum control foo CvIn { position 1mm, 2mm style rogan.6ps label "TEST" {positioning top}}}'
