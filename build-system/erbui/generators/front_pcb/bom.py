@@ -30,22 +30,25 @@ class Bom:
 
    def generate_module (self, path, module):
 
-      path_net = os.path.join (path, '%s.net' % module.name)
-      parts = self.load_net (path_net)
-
-      line_format = '{references};{description};{remarks};{quantity};{distributor};{part_number};{url}\n'
-
-      header = {
-         'references': 'Reference',
-         'description': 'Description',
-         'remarks': 'Remarks',
-         'distributor': 'Distributor',
-         'part_number': 'Distributor Part Number',
-         'url': 'Distributor Part URL',
+      line_format = '{references};{Description};{Remarks};{quantity};{Dist};{DistPartNumber};{DistLink}\n'
+      header_map = {
+         'references': 'References',
+         'Description': 'Description',
+         'Remarks': 'Remarks',
+         'Dist': 'Distributor',
+         'DistPartNumber': 'Distributor Part Number',
+         'DistLink': 'Distributor Part URL',
          'quantity': 'Quantity'
       }
+      include_non_empty = '{Dist}'
+      projection = '{DistPartNumber};{Description}'
 
-      bom = line_format.format (**header)
+      field_names = [e for e in header_map if e not in ['references', 'quantity']]
+
+      path_net = os.path.join (path, '%s.net' % module.name)
+      parts = self.load_net (path_net, field_names, include_non_empty, projection)
+
+      bom = line_format.format (**header_map)
 
       for part in parts:
          bom += line_format.format (**part)
@@ -58,7 +61,7 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def load_net (self, path_net):
+   def load_net (self, path_net, field_names, include_non_empty, projection):
 
       key_quantity_map = {}
       def inc_key (key):
@@ -92,46 +95,30 @@ class Bom:
          fields_node = comp_node.first_kind ('fields')
          if fields_node != None:
             field_nodes = fields_node.filter_kind ('field')
-            dist = None
-            dist_part_number = ''
-            remarks = ''
-            for field_node in field_nodes:
-               if field_node.property ('name') == 'Description':
-                  description = field_node.entities [2].value
-               elif field_node.property ('name') == 'Dist':
-                  dist = field_node.entities [2].value
-               elif field_node.property ('name') == 'DistLink':
-                  dist_link = field_node.entities [2].value
-               elif field_node.property ('name') == 'DistPartNumber':
-                  dist_part_number = field_node.entities [2].value
-               elif field_node.property ('name') == 'Remarks':
-                  remarks = field_node.entities [2].value
-            if dist != None:
-               key = ' - '.join ([dist_part_number, description])
+            fields = {}
+            for field_name in field_names:
+               field_value = ''
+               for field_node in field_nodes:
+                  if field_node.property ('name') == field_name:
+                     field_value = field_node.entities [2].value
+               fields [field_name] = field_value
+
+            if include_non_empty.format (**fields):
+               key = projection.format (**fields)
                inc_key (key)
                inc_reference (key, reference)
-               key_desc_map [key] = {
-                  'description': description,
-                  'remarks': remarks,
-                  'dist': dist,
-                  'dist_link': dist_link,
-                  'dist_part_number': dist_part_number,
-               }
+               key_desc_map [key] = fields
 
       parts = []
 
       for key, quantity in key_quantity_map.items ():
-         desc = key_desc_map [key]
          references = key_references_map [key]
          part = {
-            'description': desc ['description'],
-            'remarks': desc ['remarks'],
-            'distributor': desc ['dist'],
-            'part_number': desc ['dist_part_number'],
-            'url': desc ['dist_link'],
+            'references': ', '.join (references),
             'quantity': quantity,
-            'references': ', '.join (references)
          }
+         part.update (key_desc_map [key])
+         desc = key_desc_map [key]
          parts.append (part)
 
       return parts
