@@ -46,129 +46,70 @@ class AnalyserStyle:
    #--------------------------------------------------------------------------
 
    def analyse_module (self, module):
+
+      if module.route.is_wire:
+         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'diy-wire.py')
+      else:
+         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'diy-manual.py')
+
+      module.manufacturer_base_path = os.path.dirname (manufacturer_path)
+
+      with open (manufacturer_path, 'r', encoding='utf-8') as file:
+         module.manufacturer_data = eval (file.read ())
+
+      manufacturer_style_set = self.make_manufacturer_style_set (module.manufacturer_data)
+
       for control in module.controls:
-         self.analyse_control (module, control)
+         self.analyse_control (module, control, manufacturer_style_set)
 
 
    #--------------------------------------------------------------------------
 
-   def analyse_control (self, module, control):
-      if module.route.is_wire:
-         component_list = self.get_comp_path_route_wire (control.style)
-      else:
-         component_list = self.get_comp_path_route_manual (control.style)
+   def make_manufacturer_style_set (self, manufacturer_data):
+      style_set = set ()
+      for kind, style_parts_arr in manufacturer_data ['controls'].items ():
+         for style_parts in style_parts_arr:
+            style_set = style_set.union (style_parts ['styles'])
 
-      for base_path, component_name in component_list:
-         pcb, net = self.load_pcb_net (base_path, component_name)
+      return style_set
+
+
+   #--------------------------------------------------------------------------
+
+   def analyse_control (self, module, control, manufacturer_style_set):
+
+      styles = set ()
+
+      if control.style is not None:
+         control_styles = [control.style.keyword_name]
+         for keyword in control_styles:
+            if keyword.value not in manufacturer_style_set:
+               raise error.unknown_style (keyword, manufacturer_style_set)
+            styles.add (keyword.value)
+
+      cur_common_nbr = -1
+      cur_element = None
+
+      styles_parts_arr = module.manufacturer_data ['controls'][control.kind]
+
+      for styles_parts in styles_parts_arr:
+         common_nbr = len (styles.intersection (styles_parts ['styles']))
+         if common_nbr > cur_common_nbr:
+            cur_common_nbr = common_nbr
+            cur_styles_parts = styles_parts
+
+      for unknown in styles.difference (cur_styles_parts ['styles']):
+         for keyword in control_styles:
+            if keyword.value == unknown:
+               raise error.incompatible_style (keyword, cur_styles_parts ['styles'])
+
+      component_list = cur_styles_parts ['parts']
+
+      for component_name in component_list:
+         pcb, net = self.load_pcb_net (module.manufacturer_base_path, component_name)
          self.rotate (pcb, control)
 
          control.parts.append (ast.Control.Part (pcb, net))
-
-
-   #--------------------------------------------------------------------------
-
-   def get_comp_path_route_wire (self, style):
-      if style.name == 'rogan.6ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.6ps')]
-      elif style.name == 'rogan.5ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.5ps')]
-      elif style.name == 'rogan.3ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.3ps')]
-      elif style.name == 'rogan.2ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.2ps')]
-      elif style.name == 'rogan.1ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.1ps')]
-      elif style.name == 'rogan.2s.black':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.2s.black')]
-      elif style.name == 'rogan.1s':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.1s')]
-      elif style.name == 'rogan.1s.black':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'rogan.1s.black')]
-      elif style.name == 'sifam.dbn151.white':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'sifam.dbn151.white')]
-      elif style.name == 'sifam.drn111.white':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.wire'), (PATH_FRONT_PCB, 'sifam.drn111.white')]
-      elif style.name == 'songhuei.9mm':
-         return [(PATH_FRONT_PCB, 'songhuei.9mm.wire')]
-      elif style.name == 'thonk.pj398sm.knurled':
-         return [(PATH_FRONT_PCB, 'thonk.pj398sm.wire'), (PATH_FRONT_PCB, 'thonk.pj398sm.knurled')]
-      elif style.name == 'thonk.pj398sm.hex':
-         return [(PATH_FRONT_PCB, 'thonk.pj398sm.wire'), (PATH_FRONT_PCB, 'thonk.pj398sm.hex')]
-      elif style.name == 'ck.d6r.black':
-         return [(PATH_FRONT_PCB, 'ck.d6r.black.wire')]
-      elif style.name == 'tl1105':
-         return [(PATH_FRONT_PCB, 'tl1105.wire'), (PATH_FRONT_PCB, '1rblk')]
-      elif style.name == 'dailywell.2ms1':
-         return [(PATH_FRONT_PCB, 'dailywell.2ms1.wire')]
-      elif style.name == 'dailywell.2ms3':
-         return [(PATH_FRONT_PCB, 'dailywell.2ms3.wire')]
-      elif style.name == 'led.3mm.red':
-         return [(PATH_FRONT_PCB, 'led.3mm.red.wire')]
-      elif style.name == 'led.3mm.green':
-         return [(PATH_FRONT_PCB, 'led.3mm.green.wire')]
-      elif style.name == 'led.3mm.yellow':
-         return [(PATH_FRONT_PCB, 'led.3mm.yellow.wire')]
-      elif style.name == 'led.3mm.orange':
-         return [(PATH_FRONT_PCB, 'led.3mm.orange.wire')]
-      elif style.name == 'led.3mm.green_red':
-         return [(PATH_FRONT_PCB, 'led.3mm.bi.green_red.wire')]
-      elif style.name == 'led.3mm.rgb':
-         return [(PATH_FRONT_PCB, 'led.3mm.rgb.wire')]
-      else:
-         print ('unsupported style %s' % style.name)
-
-
-   #--------------------------------------------------------------------------
-
-   def get_comp_path_route_manual (self, style):
-      if style.name == 'rogan.6ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.6ps')]
-      elif style.name == 'rogan.5ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.5ps')]
-      elif style.name == 'rogan.3ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.3ps')]
-      elif style.name == 'rogan.2ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.2ps')]
-      elif style.name == 'rogan.1ps':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.1ps')]
-      elif style.name == 'rogan.2s.black':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.2s.black')]
-      elif style.name == 'rogan.1s':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.1s')]
-      elif style.name == 'rogan.1s.black':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'rogan.1s.black')]
-      elif style.name == 'sifam.dbn151.white':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'sifam.dbn151.white')]
-      elif style.name == 'sifam.drn111.white':
-         return [(PATH_FRONT_PCB, 'alpha.9mm.manual'), (PATH_FRONT_PCB, 'sifam.drn111.white')]
-      elif style.name == 'songhuei.9mm':
-         return [(PATH_FRONT_PCB, 'songhuei.9mm.manual')]
-      elif style.name == 'thonk.pj398sm.knurled':
-         return [(PATH_FRONT_PCB, 'thonk.pj398sm.manual'), (PATH_FRONT_PCB, 'thonk.pj398sm.knurled')]
-      elif style.name == 'thonk.pj398sm.hex':
-         return [(PATH_FRONT_PCB, 'thonk.pj398sm.manual'), (PATH_FRONT_PCB, 'thonk.pj398sm.hex')]
-      elif style.name == 'ck.d6r.black':
-         return [(PATH_FRONT_PCB, 'ck.d6r.black.manual')]
-      elif style.name == 'tl1105':
-         return [(PATH_FRONT_PCB, 'tl1105.manual'), (PATH_FRONT_PCB, '1rblk')]
-      elif style.name == 'dailywell.2ms1':
-         return [(PATH_FRONT_PCB, 'dailywell.2ms1.manual')]
-      elif style.name == 'dailywell.2ms3':
-         return [(PATH_FRONT_PCB, 'dailywell.2ms3.manual')]
-      elif style.name == 'led.3mm.red':
-         return [(PATH_FRONT_PCB, 'led.3mm.red.manual')]
-      elif style.name == 'led.3mm.green':
-         return [(PATH_FRONT_PCB, 'led.3mm.green.manual')]
-      elif style.name == 'led.3mm.yellow':
-         return [(PATH_FRONT_PCB, 'led.3mm.yellow.manual')]
-      elif style.name == 'led.3mm.orange':
-         return [(PATH_FRONT_PCB, 'led.3mm.orange.manual')]
-      elif style.name == 'led.3mm.green_red':
-         return [(PATH_FRONT_PCB, 'led.3mm.bi.green_red.manual')]
-      elif style.name == 'led.3mm.rgb':
-         return [(PATH_FRONT_PCB, 'led.3mm.rgb.manual')]
-      else:
-         print ('unsupported style %s' % style.name)
 
 
    #--------------------------------------------------------------------------
