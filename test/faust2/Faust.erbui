@@ -59,7 +59,7 @@ module Faust {
          init { property g value 0.0 }
       }
       position 10hp, 80mm
-      style led.3mm.red
+      style led.3mm.green_red
       label "LED"
    }
 
