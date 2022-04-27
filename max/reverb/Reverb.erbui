@@ -7,102 +7,98 @@ module Reverb {
 
    control low_pass_freq_pot Pot {
       position 8.66hp, 28mm
-      style rogan.2ps
+      style rogan, 2ps
       label "LP FREQ"
    }
 
    control high_pass_freq_pot Pot {
       position 3.33hp, 28mm
-      style rogan.2ps
+      style rogan, 2ps
       label "HP FREQ"
    }
 
    control feedback_pot Pot {
       position 3.33hp, 54mm
-      style rogan.2ps
+      style rogan, 2ps
       label "FEEDBACK"
    }
 
    control wet_pot Pot {
       position 8.66hp, 54mm
-      style rogan.2ps
+      style rogan, 2ps
       label "DRY/WET"
    }
 
    control low_pass_freq_trim Trim {
       mode bipolar
       position 4.66hp, 80.8mm
-      style songhuei.9mm
       label "–/+" { positioning top }
    }
 
    control high_pass_freq_trim Trim {
       mode bipolar
       position 2hp, 80.8mm
-      style songhuei.9mm
       label "–/+" { positioning top }
    }
 
    control feedback_trim Trim {
       mode bipolar
       position 7.33hp, 80.8mm
-      style songhuei.9mm
       label "–/+" { positioning top }
    }
 
    control wet_trim Trim {
       mode bipolar
       position 10hp, 80.8mm
-      style songhuei.9mm
       label "–/+" { positioning top }
    }
 
    control low_pass_freq_cv CvIn {
       position 4.66hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "LP"
    }
 
    control high_pass_freq_cv CvIn {
       position 2hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "HP"
    }
 
    control feedback_cv CvIn {
       position 7.33hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "FDBK"
    }
 
    control wet_cv CvIn {
       position 10hp, 96.5mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "DRY/WET"
    }
 
    control audio_in_left AudioIn {
       position 2hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN L"
       cascade audio_in_right
    }
 
    control audio_in_right AudioIn {
       position 4.66hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "IN R"
    }
 
    control audio_out_left AudioOut {
       position 7.33hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT L"
    }
 
    control audio_out_right AudioOut {
       position 10hp, 111mm
-      style thonk.pj398sm.knurled
+      style knurled
       label "OUT R"
    }
 }
