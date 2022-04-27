@@ -173,10 +173,16 @@ def generate_hardware (path, ast):
    if not os.path.exists (path_hardware):
       os.makedirs (path_hardware)
 
-   generate_front_panel_dxf (path_hardware, ast)
-   generate_front_panel_printing (path_hardware, ast)
-   generate_front_pcb_kicad_pcb (path_hardware, ast)
-   generate_front_pcb_bom (path_hardware, ast)
+   for generator in ast.modules [0].manufacturer_data ['generators']:
+      generator_id = generator ['id']
+      if generator_id == 'front_panel/dxf':
+         generate_front_panel_dxf (path_hardware, ast)
+      elif generator_id == 'front_panel/pdf':
+         generate_front_panel_printing (path_hardware, ast)
+      elif generator_id == 'front_pcb/kicad_pcb':
+         generate_front_pcb_kicad_pcb (path_hardware, ast)
+      elif generator_id == 'front_pcb/bom':
+         generate_front_pcb_bom (path_hardware, ast)
 
 
 
