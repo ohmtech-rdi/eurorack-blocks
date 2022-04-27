@@ -97,10 +97,8 @@ class Code:
             control_type = '%s <erb::PinType::Dac>' % control.kind
 
       elif control.kind in ['Switch']:
-         if control.style.is_dailywell_2ms1:
-            control_type = '%s <2>' % control.kind
-         elif control.style.is_dailywell_2ms3:
-            control_type = '%s <3>' % control.kind
+         nbr_positions = self.get_nbr_positions (control)
+         control_type = '%s <%s>' % (control.kind, nbr_positions)
 
       else:
          control_type = control.kind
@@ -116,6 +114,23 @@ class Code:
       source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 
       return source_code
+
+
+   #--------------------------------------------------------------------------
+
+   def get_nbr_positions (self, control):
+      for part in control.parts:
+         components_node = part.net.first_kind ('components')
+         comp_nodes = components_node.filter_kind ('comp')
+         for comp_node in comp_nodes:
+            fields_node = comp_node.first_kind ('fields')
+            if fields_node != None:
+               field_nodes = fields_node.filter_kind ('field')
+               for field_node in field_nodes:
+                  if field_node.property ('name') == 'NbrPositions':
+                     return field_node.entities [2].value
+
+      assert False
 
 
    #--------------------------------------------------------------------------
