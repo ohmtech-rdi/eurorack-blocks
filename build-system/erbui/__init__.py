@@ -192,9 +192,9 @@ Name: generate_front_panel_dxf
 ==============================================================================
 """
 
-def generate_front_panel_dxf (path, module):
+def generate_front_panel_dxf (path, ast):
    generator = front_panelDxf ()
-   generator.generate (path, module)
+   generator.generate (path, ast)
 
 
 
