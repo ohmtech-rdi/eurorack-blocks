@@ -30,18 +30,14 @@ class Bom:
 
    def generate_module (self, path, module):
 
-      line_format = '{references};{Description};{Remarks};{quantity};{Dist};{DistPartNumber};{DistLink}\n'
-      header_map = {
-         'references': 'References',
-         'Description': 'Description',
-         'Remarks': 'Remarks',
-         'Dist': 'Distributor',
-         'DistPartNumber': 'Distributor Part Number',
-         'DistLink': 'Distributor Part URL',
-         'quantity': 'Quantity'
-      }
-      include_non_empty = '{Dist}'
-      projection = '{DistPartNumber};{Description}'
+      for generator in module.manufacturer_data ['generators']:
+         if generator ['id'] == 'front_pcb/bom':
+            generator_args = generator ['args']
+
+      line_format = generator_args ['line_format']
+      header_map = generator_args ['header_map']
+      include_non_empty = generator_args ['include_non_empty']
+      projection = generator_args ['projection']
 
       field_names = [e for e in header_map if e not in ['references', 'quantity']]
 
