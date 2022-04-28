@@ -77,11 +77,37 @@ class Visitor (PTNodeVisitor):
       return ast.RotationLiteral (self.to_literal (node), '°cw')
 
 
+   #-- Global Namespace ------------------------------------------------------
+
+   def visit_global_namespace_declaration (self, node, children):
+      global_namespace = ast.GlobalNamespace ()
+
+      if children.import_declaration:
+         entity = children.import_declaration [0]
+         global_namespace.add (entity)
+
+      if children.module_declaration:
+         entity = children.module_declaration [0]
+         global_namespace.add (entity)
+
+      return global_namespace
+
+
+   #-- Import ----------------------------------------------------------------
+
+   def visit_import_declaration (self, node, children):
+      string_literal = children.string_literal [0]
+      dir_name = os.path.dirname (self.filename)
+      file_path = os.path.join (dir_name, string_literal.value)
+      file_path_str = str (file_path)
+      import_ = ast.Import (file_path_str, string_literal)
+
+      return import_
+
+
    #-- Module ----------------------------------------------------------------
 
    def visit_module_declaration (self, node, children):
-      global_namespace = ast.GlobalNamespace ()
-
       module_identifier = children.module_name [0]
 
       module_base_identifier = None
@@ -89,13 +115,12 @@ class Visitor (PTNodeVisitor):
          module_base_identifier = children.module_inheritance_clause [0]
 
       module = ast.Module (module_identifier, module_base_identifier)
-      global_namespace.add (module)
 
       if children.module_body:
          entities = children.module_body [0]
          module.add (entities)
 
-      return global_namespace
+      return module
 
    def visit_module_name (self, node, children):
       return self.visit_identifier (node, children)
@@ -105,6 +130,16 @@ class Visitor (PTNodeVisitor):
 
    def visit_module_entities (self, node, children):
       return list (children)
+
+
+   #-- Manufacturer Reference ------------------------------------------------
+
+   def visit_manufacturer_reference (self, node, children):
+      manufacturer_name = children.manufacturer_name [0]
+
+      reference = ast.ManufacturerReference (manufacturer_name)
+
+      return reference
 
 
    #-- Board -----------------------------------------------------------------
