@@ -16,6 +16,7 @@ from ..generators.front_pcb import s_expression
 
 import math
 import os
+from difflib import get_close_matches
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_EBUI = os.path.dirname (PATH_THIS)
@@ -43,21 +44,45 @@ class AnalyserStyle:
    def analyse (self, global_namespace):
 
       for module in global_namespace.modules:
-         self.analyse_module (module)
+         self.analyse_module (global_namespace, module)
 
    #--------------------------------------------------------------------------
 
-   def analyse_module (self, module):
+   def analyse_module (self, global_namespace, module):
 
-      if module.route.is_wire:
-         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'DiyWire.erbui')
+      if module.manufacturer_reference:
+         manufacturer = None
+         for m in global_namespace.manufacturers:
+            if m.name == module.manufacturer_reference.name:
+               manufacturer = m
+         if manufacturer is None:
+            possible_tokens = []
+            for m in global_namespace.manufacturers:
+               possible_tokens.append (m.identifier)
+
+            def make_dict (fun, iterable):
+               return dict (zip (map (fun, iterable), iterable))
+
+            possible_names = make_dict (lambda x: x.value, possible_tokens)
+            matches = get_close_matches (module.manufacturer_reference.name, possible_names.keys ())
+
+            fixit_decl_tokens = [possible_names [match_name] for match_name in matches]
+            fixit_decls_sc = [adapter.SourceContext.from_token (f) for f in fixit_decl_tokens]
+
+            raise error.undefined_reference (module.manufacturer_reference, fixit_decls_sc)
+
+         manufacturer_path = manufacturer.identifier._parser.file_name
+
       else:
-         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'DiyManual.erbui')
+         if module.route.is_wire:
+            manufacturer_path = os.path.join (PATH_FRONT_PCB, 'DiyWire.erbui')
+         else:
+            manufacturer_path = os.path.join (PATH_FRONT_PCB, 'DiyManual.erbui')
+         gn = self.load_manufacturer (manufacturer_path)
+         manufacturer = gn.manufacturers [0]
 
       module.manufacturer_base_path = os.path.dirname (manufacturer_path)
-
-      module.manufacturer_data = self.load_manufacturer (manufacturer_path)
-
+      module.manufacturer_data = self.make_manufacturer_data (manufacturer)
       manufacturer_style_set = self.make_manufacturer_style_set (module.manufacturer_data)
 
       for control in module.controls:
@@ -72,10 +97,13 @@ class AnalyserStyle:
       with open (manufacturer_path, 'r', encoding='utf-8') as file:
           file_content = file.read ()
 
-      global_namespace = p.parse_manufacturer (file_content, manufacturer_path)
+      return p.parse_manufacturer (file_content, manufacturer_path)
 
+
+   #--------------------------------------------------------------------------
+
+   def make_manufacturer_data (self, manufacturer):
       manufacturer_data = {}
-      manufacturer = global_namespace.manufacturers [0]
 
       manufacturer_data ['generators'] = []
       for generator in manufacturer.generators:
@@ -114,6 +142,7 @@ class AnalyserStyle:
             )
 
       return manufacturer_data
+
 
    #--------------------------------------------------------------------------
 
