@@ -135,11 +135,11 @@ class Error (Exception):
 #  - 'fixit_declarations_sc' a list of source contexts for declarations
 #  that are potential candidates for correction.
 
-def undefined_reference (alias, fixit_declarations_sc):
-   assert isinstance (alias, ast.Alias)
+def undefined_reference (reference, fixit_declarations_sc):
+   assert isinstance (reference, ast.Alias) or isinstance (reference, ast.ManufacturerReference)
 
    err = Error ()
-   context = alias.source_context_part ('reference')
+   context = reference.source_context_part ('reference')
    err.add_error ("Undefined reference to '%s'" % context, context)
    err.add_context (context)
 
