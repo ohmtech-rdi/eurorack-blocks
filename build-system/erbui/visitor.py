@@ -651,8 +651,115 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Manufacturer ----------------------------------------------------------
+
+   def visit_manufacturer_declaration (self, node, children):
+      global_namespace = ast.GlobalNamespace ()
+
+      manufacturer_identifier = children.manufacturer_name [0]
+
+      manufacturer = ast.Manufacturer (manufacturer_identifier)
+      global_namespace.add (manufacturer)
+
+      if children.manufacturer_body:
+         entities = children.manufacturer_body [0]
+         manufacturer.add (entities)
+
+      return global_namespace
+
+   def visit_manufacturer_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_manufacturer_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_manufacturer_entities (self, node, children):
+      return list (children)
 
 
+   #-- Generator -------------------------------------------------------------
+
+   def visit_generator_declaration (self, node, children):
+      generator_string_literal = children.generator_name [0]
+
+      generator = ast.Generator (generator_string_literal)
+
+      if children.generator_body:
+         entities = children.generator_body [0]
+         generator.add (entities)
+
+      return generator
+
+   def visit_generator_name (self, node, children):
+      return ast.StringLiteral (self.to_literal (node))
+
+   def visit_generator_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_generator_entities (self, node, children):
+      return list (children)
 
 
+   #-- Generator Arg ---------------------------------------------------------
 
+   def visit_generator_arg_declaration (self, node, children):
+      return children [0] if children else []
+
+   def visit_generator_arg_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_generator_arg_string (self, node, children):
+      generator_arg_identifier = children.generator_arg_name [0]
+      value_string_literal = children.string_literal [0]
+      return ast.GeneratorArgString (generator_arg_identifier, value_string_literal)
+
+   def visit_generator_arg_dict (self, node, children):
+      generator_arg_identifier = children.generator_arg_name [0]
+      generator_arg = ast.GeneratorArgDict (generator_arg_identifier)
+      if children.generator_arg_dict_entities:
+         entities = children.generator_arg_dict_entities [0]
+         generator_arg.add (entities)
+      return generator_arg
+
+   def visit_generator_arg_dict_entities (self, node, children):
+      return list (children)
+
+
+   #-- Manufacturer Control --------------------------------------------------
+
+   def visit_manufacturer_control_declaration (self, node, children):
+      kinds = children.manufacturer_control_kinds [0]
+
+      control = ast.ManufacturerControl (kinds)
+
+      if children.manufacturer_control_body:
+         entities = children.manufacturer_control_body [0]
+         control.add (entities)
+
+      return control
+
+   def visit_manufacturer_control_kinds (self, node, children):
+      control_kinds = []
+      for control_kind in children.manufacturer_control_kind:
+         control_kinds.append (control_kind)
+
+      return control_kinds
+
+   def visit_manufacturer_control_kind (self, node, children):
+      return self.to_keyword (node)
+
+   def visit_manufacturer_control_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_manufacturer_control_entities (self, node, children):
+      return list (children)
+
+   def visit_manufacturer_control_parts (self, node, children):
+      parts = []
+      for part_name in children.manufacturer_control_part_name:
+         parts.append (part_name)
+
+      return ast.ManufacturerControlParts (parts)
+
+   def visit_manufacturer_control_part_name (self, node, children):
+      return self.to_keyword (node)
