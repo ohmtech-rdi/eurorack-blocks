@@ -18,6 +18,7 @@ KEYWORDS = (
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
    'route', 'wire', 'manual',
    'faust', 'address', 'init', 'value',
+   'manufacturer', 'generator', 'arg', 'parts',
 )
 UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
 CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
@@ -30,7 +31,7 @@ def name ():                           return identifier
 def comment ():                        return _(r'(/\*(.|\n)*?\*/)|(//.*)')
 
 # Literals
-def string_literal ():                 return _(r'\".*\"')
+def string_literal ():                 return _(r'(\")((?<!\\)\\\1|.)*?\1')
 def integer_literal ():                return _(r'[0-9]+')
 def float_literal ():                  return _(r'[0-9\.]+')
 def float_mm_literal ():               return _(r'[0-9\.]+mm')
@@ -199,3 +200,33 @@ def module_inheritance_clause ():      return 'extends', board_name
 def module_declaration ():             return 'module', module_name, Optional (module_inheritance_clause), module_body, EOF
 
 GRAMMAR_ROOT = module_declaration
+
+# Generator Arg
+def generator_arg_name ():             return name
+def generator_arg_string ():           return 'arg', generator_arg_name, string_literal
+def generator_arg_dict_entities ():    return ZeroOrMore ([generator_arg_string])
+def generator_arg_dict ():             return 'arg', generator_arg_name, '{', generator_arg_dict_entities, '}'
+def generator_arg_declaration ():      return [generator_arg_string, generator_arg_dict]
+
+# Generator
+def generator_entities ():             return ZeroOrMore ([generator_arg_declaration])
+def generator_body ():                 return '{', generator_entities, '}'
+def generator_name ():                 return string_literal
+def generator_declaration ():          return 'generator', generator_name, Optional (generator_body)
+
+# Manufacturer Control
+def manufacturer_control_part_name ():    return _(r'(?!\b({})\b)((\w|\.)*)')
+def manufacturer_control_parts ():        return 'parts', manufacturer_control_part_name, ZeroOrMore (',', manufacturer_control_part_name)
+def manufacturer_control_entities ():     return style_declaration, manufacturer_control_parts
+def manufacturer_control_body ():         return '{', manufacturer_control_entities, '}'
+def manufacturer_control_kind ():         return list (CONTROL_KINDS)
+def manufacturer_control_kinds ():        return manufacturer_control_kind, ZeroOrMore (',', manufacturer_control_kind)
+def manufacturer_control_declaration ():  return 'control', manufacturer_control_kinds, manufacturer_control_body
+
+# Manufacturer
+def manufacturer_entities ():          return ZeroOrMore ([generator_declaration, manufacturer_control_declaration])
+def manufacturer_body ():              return '{', manufacturer_entities, '}'
+def manufacturer_name ():              return name
+def manufacturer_declaration ():       return 'manufacturer', manufacturer_name, manufacturer_body, EOF
+
+GRAMMAR_MANUFACTURER_ROOT = manufacturer_declaration
