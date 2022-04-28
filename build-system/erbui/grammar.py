@@ -11,6 +11,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 
 KEYWORDS = (
+   'import',
    'module', 'board', 'width', 'material', 'header', 'footer', 'line',
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'cascade', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
@@ -53,6 +54,9 @@ def positioning_declaration ():        return 'positioning', positioning_name
 def pin_name ():                       return name
 def pin_declaration ():                return 'pin', pin_name
 def pins_declaration ():               return 'pins', pin_name, ZeroOrMore (',', pin_name)
+
+# Import
+def import_declaration ():             return 'import', string_literal
 
 # File
 def file_declaration ():               return 'file', string_literal
@@ -163,6 +167,10 @@ def route_declaration ():              return 'route', route_mode
 # Module Width
 def width_declaration ():              return 'width', distance_declaration
 
+# Module Manufacturer Reference
+def manufacturer_name ():              return name
+def manufacturer_reference ():         return 'manufacturer', manufacturer_name
+
 # Module Board Reference
 def board_name ():                     return name
 def board_declaration ():              return 'board', board_name
@@ -193,13 +201,15 @@ def material_name ():                  return ['aluminum', 'brushed_aluminum', '
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
-def module_entities ():                return ZeroOrMore ([board_declaration, board_inline_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration, route_declaration, mod_faust_declaration])
+def module_entities ():                return ZeroOrMore ([manufacturer_reference, board_declaration, board_inline_declaration, width_declaration, material_declaration, header_declaration, footer_declaration, line_declaration, label_declaration, sticker_declaration, image_declaration, control_declaration, alias_declaration, exclude_declaration, route_declaration, mod_faust_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_inheritance_clause ():      return 'extends', board_name
 def module_declaration ():             return 'module', module_name, Optional (module_inheritance_clause), module_body, EOF
 
-GRAMMAR_ROOT = module_declaration
+def global_namespace_declaration ():   return Optional (import_declaration), module_declaration, EOF
+
+GRAMMAR_ROOT = global_namespace_declaration
 
 # Generator Arg
 def generator_arg_name ():             return name
@@ -226,7 +236,6 @@ def manufacturer_control_declaration ():  return 'control', manufacturer_control
 # Manufacturer
 def manufacturer_entities ():          return ZeroOrMore ([generator_declaration, manufacturer_control_declaration])
 def manufacturer_body ():              return '{', manufacturer_entities, '}'
-def manufacturer_name ():              return name
 def manufacturer_declaration ():       return 'manufacturer', manufacturer_name, manufacturer_body, EOF
 
 GRAMMAR_MANUFACTURER_ROOT = manufacturer_declaration
