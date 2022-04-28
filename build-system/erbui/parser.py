@@ -35,6 +35,10 @@ class Parser:
 
       return self._analyse_ast (ast)
 
+   def parse_manufacturer (self, input_text, file_name):
+      parse_tree = self._get_parse_tree (input_text, file_name)
+      return self._get_ast (parse_tree, file_name)
+
    def _merge_super (self, module):
       if module.super_identifier is None:
          return
