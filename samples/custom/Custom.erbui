@@ -1,0 +1,44 @@
+// Custom.erbui
+
+import "manufacturer/ElectroDemo.erbui"
+
+module Custom {
+   width 12hp
+   material aluminum
+   header { label "CUSTOM" }
+
+   board {
+      class "Board"
+      include "board/Board.h"
+      pcb "board/board.kicad_pcb"
+      net "board/board.net"
+      width 12hp
+      pin P1 Pot { bind "p(0)" }
+      pin AI1 AudioIn { bind "ai(0)" }
+      pin AO1 AudioOut { bind "ao(0)" }
+   }
+
+   manufacturer ElectroDemo
+   route manual
+
+   image "Custom.svg"
+
+   control freq Pot {
+      position 6hp, 34mm
+      style rogan, 6ps
+      label "FREQ"
+      pin P1
+   }
+
+   control audio_in AudioIn {
+      position 6hp, 96mm
+      label "IN"
+      pin AI1
+   }
+
+   control audio_out AudioOut {
+      position 6hp, 111mm
+      label "OUT"
+      pin AO1
+   }
+}

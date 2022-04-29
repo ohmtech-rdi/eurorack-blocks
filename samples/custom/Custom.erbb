@@ -1,0 +1,16 @@
+// Custom.erbb
+
+module Custom {
+   import "../dsp/dsp.erbb"
+
+   sources {
+      file "Custom.cpp"
+      file "Custom.h"
+      file "Custom.erbui"
+
+      file "board/Board.h"
+      file "board/BoardFirmware.h"
+      file "board/BoardFirmware.hpp"
+      file "board/BoardSimulator.h"
+   }
+}
