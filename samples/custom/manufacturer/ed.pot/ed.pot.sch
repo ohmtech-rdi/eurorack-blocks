@@ -24,6 +24,7 @@ F 3 "~" H 4350 2950 50  0001 C CNN
 F 4 "Potentiometer" H 4350 2950 50  0001 C CNN "Device"
 F 5 "9MM POTS – VERTICAL D-SHAFT" H 4350 2950 50  0001 C CNN "Description"
 F 6 "ED-POT" H 4350 2950 50  0001 C CNN "IPN"
+F 7 "THT" H 4350 2950 50  0001 C CNN "Mounting"
 	1    4350 2950
 	0    -1   1    0   
 $EndComp

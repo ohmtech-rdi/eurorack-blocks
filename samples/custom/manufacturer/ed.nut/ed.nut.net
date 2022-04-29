@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/samples/custom/manufacturer/ed.nut/ed.nut.sch)
-    (date "2022 April 29, Friday 10:51:35")
+    (date "2022 April 29, Friday 20:21:21")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -23,6 +23,7 @@
         (field (name Description) "Knurled Nuts")
         (field (name Device) Nut)
         (field (name IPN) ED-NUT-KNURLED)
+        (field (name Mounting) Manual)
         (field (name Simulator) erb::ThonkPj398SmKnurled))
       (libsource (lib Mechanical) (part MountingHole) (description "Mounting Hole without connection"))
       (sheetpath (names /) (tstamps /))

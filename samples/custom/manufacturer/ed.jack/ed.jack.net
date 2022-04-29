@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/samples/custom/manufacturer/ed.jack/ed.jack.sch)
-    (date "2022 April 29, Friday 09:56:49")
+    (date "2022 April 29, Friday 20:20:23")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -22,7 +22,8 @@
       (fields
         (field (name Description) "ElectroDemo – 3.5mm Jack Sockets")
         (field (name Device) "Jack Connector")
-        (field (name IPN) ED-POT))
+        (field (name IPN) ED-POT)
+        (field (name Mounting) THT))
       (libsource (lib Connector) (part AudioJack2_SwitchT) (description "Audio Jack, 2 Poles (Mono / TS), Switched T Pole (Normalling)"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FC82E98)))

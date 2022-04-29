@@ -25,6 +25,7 @@ F 4 "Nut" H 4350 2950 50  0001 C CNN "Device"
 F 5 "Knurled Nuts" H 4350 2950 50  0001 C CNN "Description"
 F 6 "ED-NUT-KNURLED" H 4350 2950 50  0001 C CNN "IPN"
 F 7 "erb::ThonkPj398SmKnurled" V 4350 2950 50  0001 C CNN "Simulator"
+F 8 "Manual" V 4350 2950 50  0001 C CNN "Mounting"
 	1    4350 2950
 	0    -1   1    0   
 $EndComp

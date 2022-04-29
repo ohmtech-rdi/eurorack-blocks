@@ -24,6 +24,7 @@ F 3 "~" H 4700 4000 50  0001 C CNN
 F 4 "IDC Header" H 4700 4000 50  0001 C CNN "Device"
 F 5 "CONN HEADER VERT 10POS 2.54MM" H 4700 4000 50  0001 C CNN "Description"
 F 6 "732-2094" H 4700 4000 50  0001 C CNN "IPN"
+F 7 "THT" H 4700 4000 50  0001 C CNN "Mounting"
 	1    4700 4000
 	1    0    0    -1  
 $EndComp
@@ -54,6 +55,7 @@ F 3 "~" H 7200 4200 50  0001 C CNN
 F 4 "Ceramic Capacitor" H 7200 4200 50  0001 C CNN "Device"
 F 5 "CAP CER 10UF 25V X5R 0805" H 7200 4200 50  0001 C CNN "Description"
 F 6 "1276-2891-1" H 7200 4200 50  0001 C CNN "IPN"
+F 7 "SMT" H 7200 4200 50  0001 C CNN "Mounting"
 	1    7200 4200
 	1    0    0    -1  
 $EndComp
@@ -68,6 +70,7 @@ F 3 "~" H 7200 3700 50  0001 C CNN
 F 4 "Ceramic Capacitor" H 7200 3700 50  0001 C CNN "Device"
 F 5 "CAP CER 10UF 25V X5R 0805" H 7200 3700 50  0001 C CNN "Description"
 F 6 "1276-2891-1" H 7200 3700 50  0001 C CNN "IPN"
+F 7 "SMT" H 7200 3700 50  0001 C CNN "Mounting"
 	1    7200 3700
 	1    0    0    -1  
 $EndComp
@@ -98,6 +101,7 @@ F 4 "Ferrite Bead" H 6750 3550 50  0001 C CNN "Device"
 F 5 "FERRITE BEAD 1 KOHM 0603 1LN" H 6750 3550 50  0001 C CNN "Description"
 F 6 "Digikey" H 6750 3550 50  0001 C CNN "Dist"
 F 7 "732-1586-1" H 6750 3550 50  0001 C CNN "IPN"
+F 8 "SMT" V 6750 3550 50  0001 C CNN "Mounting"
 	1    6750 3550
 	0    1    1    0   
 $EndComp
@@ -112,6 +116,7 @@ F 3 "~" H 6250 3550 50  0001 C CNN
 F 4 "Rectifier Diode" H 6250 3550 50  0001 C CNN "Device"
 F 5 "DIODE SCHOTTKY 40V 1A SOD123" H 6250 3550 50  0001 C CNN "Description"
 F 6 "1N5819HW-FDICT" H 6250 3550 50  0001 C CNN "IPN"
+F 7 "SMT" H 6250 3550 50  0001 C CNN "Mounting"
 	1    6250 3550
 	-1   0    0    1   
 $EndComp
@@ -126,6 +131,7 @@ F 3 "~" H 6250 4350 50  0001 C CNN
 F 4 "Rectifier Diode" H 6250 4350 50  0001 C CNN "Device"
 F 5 "DIODE SCHOTTKY 40V 1A SOD123" H 6250 4350 50  0001 C CNN "Description"
 F 6 "1N5819HW-FDICT" H 6250 4350 50  0001 C CNN "IPN"
+F 7 "SMT" H 6250 4350 50  0001 C CNN "Mounting"
 	1    6250 4350
 	1    0    0    -1  
 $EndComp
@@ -141,6 +147,7 @@ F 4 "Ferrite Bead" H 6750 4350 50  0001 C CNN "Device"
 F 5 "FERRITE BEAD 1 KOHM 0603 1LN" H 6750 4350 50  0001 C CNN "Description"
 F 6 "Digikey" H 6750 4350 50  0001 C CNN "Dist"
 F 7 "732-1586-1" H 6750 4350 50  0001 C CNN "IPN"
+F 8 "SMT" H 6750 4350 50  0001 C CNN "Mounting"
 	1    6750 4350
 	0    1    1    0   
 $EndComp
