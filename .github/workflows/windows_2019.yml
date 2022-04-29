@@ -35,6 +35,9 @@ jobs:
       - name: samples/kick
         run: erbb configure && erbb build && erbb build simulator && erbb build hardware
         working-directory: samples/kick
+      - name: samples/custom
+        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
+        working-directory: samples/custom
       - name: erbb init
         run: mkdir init && cd init && erbb init Init && erbb configure && erbb build && erbb build simulator && erbb build hardware
         working-directory: samples
