@@ -15,13 +15,11 @@ module Bypass {
 
    control audio_in AudioIn {
       position 4hp, 40mm
-      style knurled
       label "IN"
    }
 
    control audio_out AudioOut {
       position 4hp, 80mm
-      style knurled
       label "OUT"
    }
 }
