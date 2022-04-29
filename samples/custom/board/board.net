@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/samples/custom/board/board.sch)
-    (date "2022 April 29, Friday 11:49:41")
+    (date "2022 April 29, Friday 20:29:57")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -114,7 +114,8 @@
       (fields
         (field (name Description) "CONN HEADER VERT 10POS 2.54MM")
         (field (name Device) "IDC Header")
-        (field (name IPN) 732-2094))
+        (field (name IPN) 732-2094)
+        (field (name Mounting) THT))
       (libsource (lib Connector_Generic) (part Conn_02x05_Odd_Even) (description "Generic connector, double row, 02x05, odd/even pin numbering scheme (row 1 odd numbers, row 2 even numbers), script generated (kicad-library-utils/schlib/autogen/connector/)"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 6095C792))
@@ -125,7 +126,8 @@
       (fields
         (field (name Description) "CAP CER 10UF 25V X5R 0805")
         (field (name Device) "Ceramic Capacitor")
-        (field (name IPN) 1276-2891-1))
+        (field (name IPN) 1276-2891-1)
+        (field (name Mounting) SMT))
       (libsource (lib Device) (part C) (description "Unpolarized capacitor"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 6095DF4D))
@@ -136,7 +138,8 @@
       (fields
         (field (name Description) "CAP CER 10UF 25V X5R 0805")
         (field (name Device) "Ceramic Capacitor")
-        (field (name IPN) 1276-2891-1))
+        (field (name IPN) 1276-2891-1)
+        (field (name Mounting) SMT))
       (libsource (lib Device) (part C) (description "Unpolarized capacitor"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 6095F9C0))
@@ -148,7 +151,8 @@
         (field (name Description) "FERRITE BEAD 1 KOHM 0603 1LN")
         (field (name Device) "Ferrite Bead")
         (field (name Dist) Digikey)
-        (field (name IPN) 732-1586-1))
+        (field (name IPN) 732-1586-1)
+        (field (name Mounting) SMT))
       (libsource (lib Device) (part Ferrite_Bead) (description "Ferrite bead"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 5FCFE7A2))
@@ -159,7 +163,8 @@
       (fields
         (field (name Description) "DIODE SCHOTTKY 40V 1A SOD123")
         (field (name Device) "Rectifier Diode")
-        (field (name IPN) 1N5819HW-FDICT))
+        (field (name IPN) 1N5819HW-FDICT)
+        (field (name Mounting) SMT))
       (libsource (lib Device) (part D_Schottky) (description "Schottky diode"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 5FCFEAAA))
@@ -170,7 +175,8 @@
       (fields
         (field (name Description) "DIODE SCHOTTKY 40V 1A SOD123")
         (field (name Device) "Rectifier Diode")
-        (field (name IPN) 1N5819HW-FDICT))
+        (field (name IPN) 1N5819HW-FDICT)
+        (field (name Mounting) SMT))
       (libsource (lib Device) (part D_Schottky) (description "Schottky diode"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 5FCFF182))
@@ -182,7 +188,8 @@
         (field (name Description) "FERRITE BEAD 1 KOHM 0603 1LN")
         (field (name Device) "Ferrite Bead")
         (field (name Dist) Digikey)
-        (field (name IPN) 732-1586-1))
+        (field (name IPN) 732-1586-1)
+        (field (name Mounting) SMT))
       (libsource (lib Device) (part Ferrite_Bead) (description "Ferrite bead"))
       (sheetpath (names /board.power/) (tstamps /6095892F/))
       (tstamp 5FCFF328)))

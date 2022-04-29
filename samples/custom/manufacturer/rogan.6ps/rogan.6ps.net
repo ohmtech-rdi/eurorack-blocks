@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/samples/custom/manufacturer/rogan.6ps/rogan.6ps.sch)
-    (date "2022 April 29, Friday 10:53:35")
+    (date "2022 April 29, Friday 20:22:17")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -23,6 +23,7 @@
         (field (name Description) "Rogan 6PS - X-Large Pointer - D Shaft")
         (field (name Device) Knob)
         (field (name IPN) ROGAN-6PS)
+        (field (name Mounting) Manual)
         (field (name Simulator) "erb::AlphaPot <erb::Rogan6Ps>"))
       (libsource (lib Mechanical) (part MountingHole) (description "Mounting Hole without connection"))
       (sheetpath (names /) (tstamps /))

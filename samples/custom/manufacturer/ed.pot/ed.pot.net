@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /Users/raf/dev/eurorack-blocks/samples/custom/manufacturer/ed.pot/ed.pot.sch)
-    (date "2022 April 29, Friday 10:52:40")
+    (date "2022 April 29, Friday 20:21:50")
     (tool "Eeschema (5.1.9-0-10_14)")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -22,7 +22,8 @@
       (fields
         (field (name Description) "9MM POTS – VERTICAL D-SHAFT")
         (field (name Device) Potentiometer)
-        (field (name IPN) ED-POT))
+        (field (name IPN) ED-POT)
+        (field (name Mounting) THT))
       (libsource (lib Device) (part R_POT) (description Potentiometer))
       (sheetpath (names /) (tstamps /))
       (tstamp 5FCAE65B)))

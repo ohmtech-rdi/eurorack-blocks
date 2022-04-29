@@ -20,6 +20,7 @@ from .generators.front_panel.dxf import Dxf as front_panelDxf
 from .generators.front_panel.printing import Printing as front_panelPrinting
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
 from .generators.front_pcb.bom import Bom as front_pcbBom
+from .generators.front_pcb.centroid import Centroid as front_pcbCentroid
 from .generators.max.code import Code as maxCode
 from .generators.faust.code import Code as faustCode
 
@@ -183,6 +184,8 @@ def generate_hardware (path, ast):
          generate_front_pcb_kicad_pcb (path_hardware, ast)
       elif generator_id == 'front_pcb/bom':
          generate_front_pcb_bom (path_hardware, ast)
+      elif generator_id == 'front_pcb/centroid':
+         generate_front_pcb_centroid (path_hardware, ast)
 
 
 
@@ -230,6 +233,18 @@ Name: generate_front_pcb_bom
 
 def generate_front_pcb_bom (path, ast):
    generator = front_pcbBom ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_pcb_centroid
+==============================================================================
+"""
+
+def generate_front_pcb_centroid (path, ast):
+   generator = front_pcbCentroid ()
    generator.generate (path, ast)
 
 

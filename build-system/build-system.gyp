@@ -123,6 +123,7 @@
 
             # generators/front_pcb
             'erbui/generators/front_pcb/bom.py',
+            'erbui/generators/front_pcb/centroid.py',
             'erbui/generators/front_pcb/DiyManual.erbui',
             'erbui/generators/front_pcb/DiyWire.erbui',
             'erbui/generators/front_pcb/fill_zones.py',

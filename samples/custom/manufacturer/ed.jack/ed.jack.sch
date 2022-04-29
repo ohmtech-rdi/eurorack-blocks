@@ -24,6 +24,7 @@ F 3 "~" H 3650 4200 50  0001 C CNN
 F 4 "Jack Connector" H 3650 4200 50  0001 C CNN "Device"
 F 5 "ElectroDemo – 3.5mm Jack Sockets" H 3650 4200 50  0001 C CNN "Description"
 F 6 "ED-POT" H 3650 4200 50  0001 C CNN "IPN"
+F 7 "THT" H 3650 4200 50  0001 C CNN "Mounting"
 	1    3650 4200
 	1    0    0    -1  
 $EndComp

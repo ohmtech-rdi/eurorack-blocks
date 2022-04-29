@@ -25,6 +25,22 @@ manufacturer ElectroDemo {
       arg include_non_empty "{IPN}"
       arg projection "{IPN}"
    }
+   generator "front_pcb/centroid" {
+      arg line_format "{IPN},{x},{y},{layer},{rotation}\n"
+      arg header_map {
+         arg IPN "Internal Part Number"
+         arg x "X"
+         arg y "Y"
+         arg layer "Layer"
+         arg rotation "Rotation"
+      }
+      arg layer_map {
+         arg top "Top"
+         arg bottom "Bottom"
+      }
+      arg mounting_key "Mounting"
+      arg mounting_value "SMT"
+   }
 
 
    // parts catalog
