@@ -99,11 +99,14 @@ raf:bypass$
 
 ## Sample Projects
 
-[<img align="right" height="200px" src="./samples/bypass/screenshot.png">](./samples/bypass/)
-[<img align="right" height="200px" src="./samples/faust/screenshot.png">](./samples/faust/)
-[<img align="right" height="200px" src="./samples/drop/screenshot.png">](./samples/drop/)
-[<img align="right" height="200px" src="./samples/reverb/screenshot.png">](./samples/reverb/)
-[<img align="right" height="200px" src="./samples/kick/screenshot.png">](./samples/kick/)
+<p align="center">
+<img height="200px" src="./samples/bypass/screenshot.png">
+<img height="200px" src="./samples/faust/screenshot.png">
+<img height="200px" src="./samples/drop/screenshot.png">
+<img height="200px" src="./samples/reverb/screenshot.png">
+<img height="200px" src="./samples/kick/screenshot.png">
+<img height="200px" src="./samples/custom/screenshot.png">
+</p>
 
 Before reading sample code, make sure to grasp the concepts in the [documentation](https://eurorack-blocks.readthedocs.io/en/latest/).
 Sample projects are a good place to continue learning:
@@ -112,7 +115,8 @@ Sample projects are a good place to continue learning:
 - [`drop`](./samples/drop/) shows the usage of almost every blocks,
 - [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory,
 - [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs,
-- [`faust`](./samples/faust/) describes how to use the Faust functional programming language.
+- [`faust`](./samples/faust/) describes how to use the Faust functional programming language,
+- [`custom`](./samples/custom/) illustrates how to use custom silkscreens, boards and manufacturers.
 
 
 ## Cycling '74 Max Patches
@@ -164,4 +168,5 @@ All files in this repository, excluding `submodules/`, are provided with the CC 
    under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
 - The [Indie Flower Font](./include/erb/vcvrack/design/indie-flower),
    under [SIL Open Font License](./include/erb/vcvrack/design/indie-flower/OFL.txt),
-- The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/).
+- The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/),
+- The [Custom panel artwork](https://svgsilh.com/image/1532531.html), under the [Creative Commons CC0 License](https://creativecommons.org/publicdomain/zero/1.0/).

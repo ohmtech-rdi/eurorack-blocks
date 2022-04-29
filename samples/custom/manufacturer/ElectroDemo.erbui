@@ -1,0 +1,41 @@
+/*****************************************************************************
+
+      ElectroDemo.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+manufacturer ElectroDemo {
+
+   // process
+
+   generator "front_panel/dxf"
+   generator "front_panel/pdf"
+   generator "front_pcb/kicad_pcb"
+   generator "front_pcb/bom" {
+      arg line_format "\"{references}\",{Description},{quantity},{IPN}\n"
+      arg header_map {
+         arg references "References"
+         arg Description "Description"
+         arg quantity "Quantity"
+         arg IPN "Internal Part Number"
+      }
+      arg include_non_empty "{IPN}"
+      arg projection "{IPN}"
+   }
+
+
+   // parts catalog
+
+   control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
+      style jack
+      parts ed.jack, ed.nut
+   }
+
+   control Pot {
+      style rogan, 6ps, xlarge, skirt
+      parts ed.pot, rogan.6ps
+   }
+}
