@@ -1,0 +1,128 @@
+/*****************************************************************************
+
+      DiyWire.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+manufacturer DiyWire {
+   generator "front_panel/dxf"
+   generator "front_panel/pdf"
+   generator "front_pcb/kicad_pcb"
+   generator "front_pcb/bom" {
+      arg line_format "{references};{Description};{Remarks};{quantity};{Dist};{DistPartNumber};{DistLink}\n"
+      arg header_map {
+         arg references "References"
+         arg Description "Description"
+         arg Remarks "Remarks"
+         arg Dist "Distributor"
+         arg DistPartNumber "Distributor Part Number"
+         arg DistLink "Distributor Part URL"
+         arg quantity "Quantity"
+      }
+      arg include_non_empty "{Dist}"
+      arg projection "{DistPartNumber};{Description}"
+   }
+
+   control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
+      style thonk.pj398sm.knurled, knurled
+      parts thonk.pj398sm.wire, thonk.pj398sm.knurled
+   }
+
+   control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
+      style thonk.pj398sm.hex, hex
+      parts thonk.pj398sm.wire, thonk.pj398sm.hex
+   }
+
+   control Button {
+      style tl1105, small, black
+      parts tl1105.wire, 1rblk
+   }
+
+   control Button {
+      style ck.d6r.black, ck, d6r, black
+      parts ck.d6r.black.wire
+   }
+
+   control Led {
+      style led.3mm.red, 3mm, red
+      parts led.3mm.red.wire
+   }
+
+   control Led {
+      style led.3mm.green, 3mm, green
+      parts led.3mm.green.wire
+   }
+
+   control Led {
+      style led.3mm.yellow, 3mm, yellow
+      parts led.3mm.yellow.wire
+   }
+
+   control Led {
+      style led.3mm.orange, 3mm, orange
+      parts led.3mm.orange.wire
+   }
+
+   control LedBi {
+      style led.3mm.green_red, 3mm, green_red
+      parts led.3mm.bi.green_red.wire
+   }
+
+   control LedRgb {
+      style led.3mm.rgb, 3mm, rgb
+      parts led.3mm.rgb.wire
+   }
+
+   control Pot {
+      style rogan.2ps, rogan, 2ps, medium, skirt, d_shaft
+      parts alpha.9mm.wire, rogan.2ps
+   }
+
+   control Pot {
+      style rogan.3ps, rogan, 3ps, large, skirt, d_shaft
+      parts alpha.9mm.wire, rogan.3ps
+   }
+
+   control Pot {
+      style rogan.1ps, rogan, 1ps, small, skirt, d_shaft
+      parts alpha.9mm.wire, rogan.1ps
+   }
+
+   control Pot {
+      style rogan.6ps, rogan, 6ps, xlarge, skirt, d_shaft
+      parts alpha.9mm.wire, rogan.6ps
+   }
+
+   control Pot {
+      style rogan.5ps, rogan, 5ps, larger, skirt, d_shaft
+      parts alpha.9mm.wire, rogan.5ps
+   }
+
+   control Pot {
+      style sifam.drn111.white, sifam, selco, small, skirt, d_shaft, white
+      parts alpha.9mm.wire, sifam.drn111.white
+   }
+
+   control Pot {
+      style sifam.dbn151.white, sifam, selco, large, skirt, d_shaft, white
+      parts alpha.9mm.wire, sifam.dbn151.white
+   }
+
+   control Switch {
+      style dailywell.2ms1, on_on
+      parts dailywell.2ms1.wire
+   }
+
+   control Switch {
+      style dailywell.2ms3, on_off_on
+      parts dailywell.2ms3.wire
+   }
+
+   control Trim {
+      style songhuei.9mm, tall
+      parts songhuei.9mm.wire
+   }
+}

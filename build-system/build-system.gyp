@@ -123,8 +123,8 @@
 
             # generators/front_pcb
             'erbui/generators/front_pcb/bom.py',
-            'erbui/generators/front_pcb/diy-manual.py',
-            'erbui/generators/front_pcb/diy-wire.py',
+            'erbui/generators/front_pcb/DiyManual.erbui',
+            'erbui/generators/front_pcb/DiyWire.erbui',
             'erbui/generators/front_pcb/fill_zones.py',
             'erbui/generators/front_pcb/generate_gerber.py',
             'erbui/generators/front_pcb/kicad_pcb.py',

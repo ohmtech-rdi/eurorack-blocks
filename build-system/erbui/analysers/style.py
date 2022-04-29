@@ -10,6 +10,8 @@
 from .. import adapter
 from .. import ast
 from .. import error
+from .. import parser
+from ..grammar import GRAMMAR_MANUFACTURER_ROOT
 from ..generators.front_pcb import s_expression
 
 import math
@@ -48,20 +50,70 @@ class AnalyserStyle:
    def analyse_module (self, module):
 
       if module.route.is_wire:
-         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'diy-wire.py')
+         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'DiyWire.erbui')
       else:
-         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'diy-manual.py')
+         manufacturer_path = os.path.join (PATH_FRONT_PCB, 'DiyManual.erbui')
 
       module.manufacturer_base_path = os.path.dirname (manufacturer_path)
 
-      with open (manufacturer_path, 'r', encoding='utf-8') as file:
-         module.manufacturer_data = eval (file.read ())
+      module.manufacturer_data = self.load_manufacturer (manufacturer_path)
 
       manufacturer_style_set = self.make_manufacturer_style_set (module.manufacturer_data)
 
       for control in module.controls:
          self.analyse_control (module, control, manufacturer_style_set)
 
+
+   #--------------------------------------------------------------------------
+
+   def load_manufacturer (self, manufacturer_path):
+      p = parser.Parser (grammar_root=GRAMMAR_MANUFACTURER_ROOT)
+
+      with open (manufacturer_path, 'r', encoding='utf-8') as file:
+          file_content = file.read ()
+
+      global_namespace = p.parse_manufacturer (file_content, manufacturer_path)
+
+      manufacturer_data = {}
+      manufacturer = global_namespace.manufacturers [0]
+
+      manufacturer_data ['generators'] = []
+      for generator in manufacturer.generators:
+         gen = {'id': generator.name, 'args': {}}
+         for arg in generator.args:
+            if isinstance (arg, ast.GeneratorArgString):
+               gen ['args'][arg.name] = arg.value
+            elif isinstance (arg, ast.GeneratorArgDict):
+               sub_args = {}
+               for item in arg.items:
+                  sub_args [item.name] = item.value
+               gen ['args'][arg.name] = sub_args
+
+         manufacturer_data ['generators'].append (gen)
+
+      manufacturer_data ['controls'] = {
+         'AudioIn': [],
+         'AudioOut': [],
+         'Button': [],
+         'CvIn': [],
+         'CvOut': [],
+         'GateIn': [],
+         'GateOut': [],
+         'Led': [],
+         'LedBi': [],
+         'LedRgb': [],
+         'Pot': [],
+         'Switch': [],
+         'Trim': [],
+      }
+
+      for control in manufacturer.controls:
+         for kind in control.kinds:
+            manufacturer_data ['controls'][kind].append (
+               {'styles': control.style, 'parts': control.parts}
+            )
+
+      return manufacturer_data
 
    #--------------------------------------------------------------------------
 

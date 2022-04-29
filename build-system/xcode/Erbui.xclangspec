@@ -18,6 +18,7 @@
                 "route", "wire", "manual",
                 "faust", "init", "address", "property", "value",
                 "class", "include", "pcb", "net", "bind", "type", "gpio", "pwm", "dac",
+                "manufacturer", "generator", "arg", "parts",
             );
             Type = "xcode.syntax.keyword";
         };

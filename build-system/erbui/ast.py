@@ -191,6 +191,30 @@ class Node:
    @property
    def is_line (self): return isinstance (self, Line)
 
+   @property
+   def is_manufacturer (self): return isinstance (self, Manufacturer)
+
+   @property
+   def is_generator (self): return isinstance (self, Generator)
+
+   @property
+   def is_generator_arg_string (self): return isinstance (self, GeneratorArgString)
+
+   @property
+   def is_generator_arg_dict (self): return isinstance (self, GeneratorArgDict)
+
+   @property
+   def is_generator_arg_dict_item (self): return isinstance (self, GeneratorArgDictItem)
+
+   @property
+   def is_generator_arg (self): return self.is_generator_arg_string or self.is_generator_arg_dict
+
+   @property
+   def is_manufacturer_control (self): return isinstance (self, ManufacturerControl)
+
+   @property
+   def is_manufacturer_control_parts (self): return isinstance (self, ManufacturerControlParts)
+
 
 
 # -- Scope -------------------------------------------------------------------
@@ -332,6 +356,11 @@ class GlobalNamespace (Scope):
    @property
    def modules (self):
       entities = [e for e in self.entities if e.is_module]
+      return entities
+
+   @property
+   def manufacturers (self):
+      entities = [e for e in self.entities if e.is_manufacturer]
       return entities
 
 
@@ -1761,3 +1790,129 @@ class Line (Scope):
    def points (self):
       entities = [e for e in self.entities if e.is_position]
       return entities
+
+
+
+# -- Manufacturer ------------------------------------------------------------
+
+class Manufacturer (Scope):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (Manufacturer, self).__init__ ()
+      self.identifier = identifier
+
+   @staticmethod
+   def typename (): return 'manufacturer'
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (Manufacturer, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def generators (self):
+      entities = [e for e in self.entities if e.is_generator]
+      return entities
+
+   @property
+   def controls (self):
+      entities = [e for e in self.entities if e.is_manufacturer_control]
+      return entities
+
+
+# -- Generator ---------------------------------------------------------------
+
+class Generator (Scope):
+   def __init__ (self, name_string_literal):
+      assert isinstance (name_string_literal, StringLiteral)
+      super (Generator, self).__init__ ()
+      self.name_string_literal = name_string_literal
+
+   @property
+   def name (self): return self.name_string_literal.value
+
+   @property
+   def args (self):
+      entities = [e for e in self.entities if e.is_generator_arg]
+      return entities
+
+
+# -- GeneratorArgString ------------------------------------------------------
+
+class GeneratorArgString (Scope):
+   def __init__ (self, identifier, value_string_literal):
+      assert isinstance (identifier, adapter.Identifier)
+      assert isinstance (value_string_literal, StringLiteral)
+      super (GeneratorArgString, self).__init__ ()
+      self.identifier = identifier
+      self.value_string_literal = value_string_literal
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def value (self):
+      return self.value_string_literal.value.replace ('\\n', '\n').replace ('\\t', '\t').replace ('\\"', '"')
+
+
+# -- GeneratorArgDict --------------------------------------------------------
+
+class GeneratorArgDict (Scope):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (GeneratorArgDict, self).__init__ ()
+      self.identifier = identifier
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def items (self):
+      entities = [e for e in self.entities if e.is_generator_arg_string]
+      return entities
+
+
+# -- ManufacturerControl -----------------------------------------------------
+
+class ManufacturerControl (Scope):
+   def __init__ (self, kind_keyword_list):
+      assert isinstance (kind_keyword_list, list)
+      super (ManufacturerControl, self).__init__ ()
+      self.kind_keyword_list = kind_keyword_list
+
+   @property
+   def kinds (self): return [e.value for e in self.kind_keyword_list]
+
+   @property
+   def style (self):
+      entities = [e for e in self.entities if e.is_style]
+      assert len (entities) == 1
+      keyword_names = entities [0].keyword_names
+      return {e.value for e in keyword_names}
+
+   @property
+   def parts (self):
+      entities = [e for e in self.entities if e.is_manufacturer_control_parts]
+      assert len (entities) == 1
+      keyword_names = entities [0].keyword_names
+      return [e.value for e in keyword_names]
+
+
+# -- ManufacturerControlParts ------------------------------------------------
+
+class ManufacturerControlParts (Scope):
+   def __init__ (self, keyword_names):
+      assert isinstance (keyword_names, list)
+      super (ManufacturerControlParts, self).__init__ ()
+      self.keyword_names = keyword_names
+
+   @staticmethod
+   def typename (): return 'parts'
