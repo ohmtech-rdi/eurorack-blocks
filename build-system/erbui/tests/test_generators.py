@@ -20,7 +20,7 @@ from ..generators.vcvrack.manifest import Manifest as vcvrackManifest
 from ..generators.vcvrack.code import Code as vcvrackCode
 
 from ..generators.front_panel.dxf import Dxf as front_panelDxf
-from ..generators.front_panel.printing import Printing as front_panelPrinting
+from ..generators.front_panel.pdf import Pdf as front_panelPdf
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -272,7 +272,7 @@ class TestGenerators (unittest.TestCase):
          ('vcvrack_code', vcvrackCode ()),
 
          ('front_panel_dxf', front_panelDxf ()),
-         ('front_panel_printing', front_panelPrinting ()),
+         ('front_panel_pdf', front_panelPdf ()),
       ]
       roots = [
          ('ast_001', self.make_ast_001 ()),
