@@ -12,6 +12,7 @@
             StartChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_";
             Chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_";
             Words = (
+                "import",
                 "module", "extends", "board", "width", "material", "header", "footer", "line", "alias", "exclude",
                 "control", "label", "positioning", "sticker", "image", "pin", "pins", "cascade", "mode",
                 "position", "rotation", "offset", "style",

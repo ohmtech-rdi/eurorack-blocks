@@ -54,7 +54,13 @@ class Node:
    def is_global_namespace (self): return isinstance (self, GlobalNamespace)
 
    @property
+   def is_import (self): return isinstance (self, Import)
+
+   @property
    def is_module (self): return isinstance (self, Module)
+
+   @property
+   def is_manufacturer_reference (self): return isinstance (self, ManufacturerReference)
 
    @property
    def is_board (self): return isinstance (self, Board)
@@ -354,6 +360,11 @@ class GlobalNamespace (Scope):
       super (GlobalNamespace, self).__init__ ()
 
    @property
+   def imports (self):
+      entities = [e for e in self.entities if e.is_import]
+      return entities
+
+   @property
    def modules (self):
       entities = [e for e in self.entities if e.is_module]
       return entities
@@ -363,6 +374,33 @@ class GlobalNamespace (Scope):
       entities = [e for e in self.entities if e.is_manufacturer]
       return entities
 
+
+# -- Import ------------------------------------------------------------------
+
+class Import (Node):
+   def __init__ (self, filepath, literal):
+      assert isinstance (filepath, str)
+      assert isinstance (literal, StringLiteral)
+      super (Import, self).__init__ ()
+      self.filepath = filepath
+      self.literal = literal
+
+   @staticmethod
+   def typename (): return 'import'
+
+   @property
+   def path (self):
+      return self.filepath
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.literal.literal)
+
+      return super (Import, self).source_context_part (part) # pragma: no cover
 
 
 # -- Module ------------------------------------------------------------------
@@ -395,6 +433,15 @@ class Module (Scope):
          return adapter.SourceContext.from_token (self.super_identifier)
 
       return super (Module, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def manufacturer_reference (self):
+      entities = [e for e in self.entities if e.is_manufacturer_reference]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
 
    @property
    def board (self):
@@ -470,6 +517,30 @@ class Module (Scope):
    def aliases (self):
       entities = [e for e in self.entities if e.is_alias]
       return entities
+
+
+# -- ManufacturerReference ---------------------------------------------------
+
+class ManufacturerReference (Node):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (ManufacturerReference, self).__init__ ()
+      self.identifier = identifier
+
+   @property
+   def name (self): return self.identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.identifier)
+      elif part == 'reference':
+         return adapter.SourceContext.from_token (self.identifier)
+
+      return super (ManufacturerReference, self).source_context_part (part) # pragma: no cover
 
 
 # -- Board -------------------------------------------------------------------

@@ -9,10 +9,11 @@
 
 from .arpeggio import ParserPython, visit_parse_tree, NoMatch
 
-from .error import ParseError
-from .grammar import GRAMMAR_ROOT, comment
+from . import error
+from .grammar import GRAMMAR_ROOT, GRAMMAR_MANUFACTURER_ROOT, comment
 from .visitor import Visitor
 from .analyser import Analyser
+from . import adapter
 
 import os
 
@@ -30,6 +31,9 @@ class Parser:
       parse_tree = self._get_parse_tree (input_text, file_name)
       ast = self._get_ast (parse_tree, file_name)
 
+      for import_ in ast.imports:
+         self._merge_import (ast, import_)
+
       for module in ast.modules:
          self._merge_super (module)
 
@@ -38,6 +42,25 @@ class Parser:
    def parse_manufacturer (self, input_text, file_name):
       parse_tree = self._get_parse_tree (input_text, file_name)
       return self._get_ast (parse_tree, file_name)
+
+   def _merge_import (self, node, import_):
+      import_path = import_.path
+      try:
+         file = open (import_path, 'r', encoding='utf-8')
+      except OSError:
+         err = error.Error ()
+         context = import_.source_context
+         err.add_error ("Cannot open file for import '%s'" % context, context)
+         err.add_context (context)
+         raise err
+
+      with file:
+         input_text = file.read ()
+
+      import_parser = Parser (grammar_root=GRAMMAR_MANUFACTURER_ROOT)
+      import_ast = import_parser.parse_manufacturer (input_text, import_path)
+
+      node.entities.extend (import_ast.entities)
 
    def _merge_super (self, module):
       if module.super_identifier is None:
@@ -68,7 +91,7 @@ class Parser:
          cst = self._parser.parse (input_text, file_name)
          return cst
       except NoMatch as err:
-         raise ParseError (err)
+         raise error.ParseError (err)
 
    def _get_ast (self, parse_tree, file_name):
       visitor = Visitor (self._parser)
