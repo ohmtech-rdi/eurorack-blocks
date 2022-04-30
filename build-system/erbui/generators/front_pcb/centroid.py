@@ -38,7 +38,7 @@ class Centroid:
       path_net = os.path.join (path, '%s.net' % module.name)
 
       left, bottom = self.find_left_bottom (module)
-      parts_pcb = self.load_pcb (path_pcb, left, bottom)
+      parts_pcb = self.load_pcb (path_pcb, left, bottom, layer_map)
 
       field_names = [e for e in header_map if e not in ['x', 'y', 'layer', 'rotation']]
       parts_net = self.load_net (path_net, field_names, mounting_key, mounting_value)
@@ -108,7 +108,7 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def load_pcb (self, path_pcb, left, bottom):
+   def load_pcb (self, path_pcb, left, bottom, layer_map):
       with open (path_pcb, 'r', encoding='utf-8') as file:
          content = file.read ()
       parser = s_expression.Parser ()
@@ -119,9 +119,9 @@ class Centroid:
       for module in root_node.filter_kind ('module'):
          layer = module.property ('layer')
          if layer == 'F.Cu':
-            layer = 'top'
+            layer = layer_map ['top']
          elif layer == 'B.Cu':
-            layer = 'bottom'
+            layer = layer_map ['bottom']
          else:
             assert False
          at_node = module.first_kind ('at')
