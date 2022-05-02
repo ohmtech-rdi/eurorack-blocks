@@ -148,7 +148,35 @@ void  BoardKivu12::impl_preprocess (AdcPin pin)
 {
    if ((pin.index >= CI1.index) && (pin.index <= CI8.index))
    {
-      const auto norm_val = to_float_norm (_adc.read (pin.index));
+      /*
+      Order of ADCs in libDaisy:
+      PIN_ADC_CTRL_1,
+      PIN_ADC_CTRL_2,
+      PIN_ADC_CTRL_3,
+      PIN_ADC_CTRL_4,
+      PIN_ADC_CTRL_8,
+      PIN_ADC_CTRL_7,
+      PIN_ADC_CTRL_5,
+      PIN_ADC_CTRL_6,
+
+      CI1 -> CV1 -> PIN_ADC_CTRL_1 -> 0
+      CI2 -> CV2 -> PIN_ADC_CTRL_2 -> 1
+      CI3 -> CV8 -> PIN_ADC_CTRL_6 -> 5
+      CI4 -> CV7 -> PIN_ADC_CTRL_5 -> 4
+      CI5 -> CV6 -> PIN_ADC_CTRL_7 -> 6
+      CI6 -> CV5 -> PIN_ADC_CTRL_8 -> 7
+      CI7 -> CV3 -> PIN_ADC_CTRL_3 -> 2
+      CI8 -> CV4 -> PIN_ADC_CTRL_4 -> 3
+      */
+
+      constexpr size_t cv_order [] = {
+         0, 1, 5, 4, 6, 7, 2, 3
+      };
+
+      const auto norm_val = to_float_norm (
+         _adc.read (cv_order [pin.index - CI1.index])
+      );
+
       // OpAmp in inverter adder with voltage reference
       _analog_inputs [pin.index] = 1.f - norm_val;
    }
