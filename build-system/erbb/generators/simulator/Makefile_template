@@ -29,11 +29,15 @@ FLAGS += -I$(PATH_ROOT)/include
 FLAGS += -I$(RACK_DIR)/include
 FLAGS += -I$(RACK_DIR)/dep/include
 
+LDFLAGS += -shared
+LDFLAGS += -L$(RACK_DIR) -lRack
+
 ifdef ARCH_MAC
-	LDFLAGS += -shared -undefined dynamic_lookup
+	LDFLAGS += -undefined dynamic_lookup
 	TARGET := plugin.dylib
-	RACK_USER_DIR ?= $(HOME)/Documents/Rack
+	RACK_USER_DIR ?= $(HOME)/Documents/Rack2
 	FLAGS += -DARCH_MAC
+	FLAGS += -Wno-c99-extensions
 	CXXFLAGS += -stdlib=libc++
 	LDFLAGS += -stdlib=libc++
 	MAC_SDK_FLAGS = -mmacosx-version-min=10.14
@@ -42,20 +46,26 @@ ifdef ARCH_MAC
 endif
 
 ifdef ARCH_LIN
-	LDFLAGS += -shared
 	TARGET := plugin.so
-	RACK_USER_DIR ?= $(HOME)/.Rack
+	RACK_USER_DIR ?= $(HOME)/.Rack2
 	FLAGS += -DARCH_LIN
+	# This prevents static variables in the DSO (dynamic shared object) from
+	# being preserved after dlclose().
+	FLAGS += -fno-gnu-unique
+	# When Rack loads a plugin, it symlinks /tmp/Rack2 to its system dir,
+	# so the plugin can link to libRack.
+	LDFLAGS += -Wl,-rpath=/tmp/Rack2
+	LDFLAGS += -static-libstdc++ -static-libgcc
 	CXXFLAGS += -Wsuggest-override
 endif
 
 ifdef ARCH_WIN
-	LDFLAGS += -shared -L$(RACK_DIR) -lRack
 	LDFLAGS += -static-libstdc++
 	TARGET := plugin.dll
-	RACK_USER_DIR ?= "$(USERPROFILE)"/Documents/Rack
+	RACK_USER_DIR ?= "$(USERPROFILE)"/Documents/Rack2
 	FLAGS += -DARCH_WIN
 	FLAGS += -D_USE_MATH_DEFINES
+	FLAGS += -municode
 	CXXFLAGS += -Wsuggest-override
 endif
 
@@ -69,7 +79,6 @@ FLAGS += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimizations
 endif
 
 %warnings%
-FLAGS += -Wno-c99-extensions
 
 FLAGS += -Derb_TARGET_VCV_RACK
 FLAGS += -Derb_BUFFER_SIZE=48
@@ -99,9 +108,9 @@ package: all resources ../plugin.json ../panel_vcvrack.svg
 	@cp ../panel_vcvrack.svg $(CONFIGURATION)/package/res/panel_vcvrack.svg
 
 install: package
-	@echo "INSTALL $(RACK_USER_DIR)/plugins-v1/%module.name%/"
-	@mkdir -p $(RACK_USER_DIR)/plugins-v1/%module.name%
-	@cp -r $(CONFIGURATION)/package/* $(RACK_USER_DIR)/plugins-v1/%module.name%/
+	@echo "INSTALL $(RACK_USER_DIR)/plugins/%module.name%/"
+	@mkdir -p $(RACK_USER_DIR)/plugins/%module.name%
+	@cp -r $(CONFIGURATION)/package/* $(RACK_USER_DIR)/plugins/%module.name%/
 
 .PHONY: package install resources
 .DEFAULT_GOAL := all
