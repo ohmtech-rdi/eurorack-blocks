@@ -139,7 +139,7 @@ Open the `Reverb.maxpat` file. If everything is correctly installed, it should l
 ```
 
 Now save your patch: this will automatically build the Reverb,
-and put the VCV Rack simulator module in the `Rack/plugins-v1` folder, ready to be used!
+and put the VCV Rack simulator module in the `Rack2/plugins` folder, ready to be used!
 
 
 ## Testing in VCV Rack

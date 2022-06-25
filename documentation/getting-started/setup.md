@@ -111,10 +111,10 @@ COPY include/erb/vcvrack/resource/rogan.5ps.svg
 CXX dsp/ReverbSc.cpp
 LINK plugin.dylib
 PACKAGE Release Drop
-INSTALL /Users/raf/Documents/Rack/plugins-v1/Drop/
+INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
 ```
 
-The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
+The build process will output the VCV Rack module in the `Rack2/plugins` folder.
 
 
 ## Testing in VCV Rack
@@ -178,7 +178,7 @@ This will open the project in Xcode:
 
 Press {guilabel}`⌘B` to build.
 
-The build process will output the VCV Rack module in the `Rack/plugins-v1` folder.
+The build process will output the VCV Rack module in the `Rack2/plugins` folder.
 
 
 ## Debugging in the simulator using Xcode
