@@ -123,7 +123,7 @@ COPY include/erb/vcvrack/resource/rogan.5ps.svg
 CXX dsp/ReverbSc.cpp
 LINK plugin.dylib
 PACKAGE Release Flanger
-INSTALL /Users/raf/Documents/Rack/plugins-v1/Flanger/
+INSTALL /Users/raf/Documents/Rack2/plugins/Flanger/
 ```
 
 
