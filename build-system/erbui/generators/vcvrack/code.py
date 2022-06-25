@@ -65,22 +65,26 @@ class Code:
             if category == 'Param':
                control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.f);\n\n' % (nbr_params, control.name, control.name)
+               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.f, "%s");\n\n' % (nbr_params, control.name, control.name, control.name)
                nbr_params += 1
 
             elif category == 'Input':
                control.vcv_input_index = nbr_inputs
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
+               controls_bind_config += '   configInput (%d, "%s");\n\n' % (nbr_inputs, control.name)
+
                nbr_inputs += 1
 
             elif category == 'Output':
                control.vcv_output_index = nbr_outputs
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
+               controls_bind_config += '   configOutput (%d, "%s");\n\n' % (nbr_outputs, control.name)
                nbr_outputs += 1
 
             elif category == 'Light':
                control.vcv_light_index = nbr_lights
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
+               controls_bind_config += '   configLight (%d, "%s");\n\n' % (nbr_lights, control.name)
                nbr_lights += control.nbr_pins
 
       template = template.replace ('%module.nbr_params%', str (nbr_params))

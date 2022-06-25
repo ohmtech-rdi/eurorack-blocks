@@ -25,7 +25,7 @@ class Manifest:
          file.write ('{\n')
          file.write ('   "slug": "ErbPlugin%s",\n' % root.modules [0].name)
          file.write ('   "name": "Erb Plugin",\n')
-         file.write ('   "version": "1.0.0",\n')
+         file.write ('   "version": "2.0.0",\n')
          file.write ('   "license": "proprietary",\n')
          file.write ('   "brand": "Erb",\n')
          file.write ('   "author": "Erb",\n')

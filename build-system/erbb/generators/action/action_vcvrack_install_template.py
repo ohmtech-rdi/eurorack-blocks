@@ -18,10 +18,10 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 if platform.system () == 'Darwin':
-   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack', 'plugins-v1'))
+   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack2', 'plugins'))
 
 elif platform.system () == 'Linux':
-   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), '.Rack', 'plugins-v1'))
+   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), '.Rack2', 'plugins'))
 
 PATH_VCV_PLUGIN = os.path.abspath (os.path.join (PATH_VCV_PLUGINS, '%module.name%'))
 PATH_VCV_PLUGIN_RES = os.path.abspath (os.path.join (PATH_VCV_PLUGIN, 'res'))
