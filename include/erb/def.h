@@ -57,6 +57,7 @@
       _Pragma ("clang diagnostic ignored \"-Wsuggest-override\"") \
       _Pragma ("clang diagnostic ignored \"-Wsuggest-destructor-override\"") \
       _Pragma ("clang diagnostic ignored \"-Wmacro-redefined\"") \
+      _Pragma ("clang diagnostic ignored \"-Wshadow-field\"") \
 
    #define erb_DISABLE_WARNINGS_FAUST_GEN \
       _Pragma ("clang diagnostic push") \
@@ -82,6 +83,7 @@
       _Pragma ("GCC diagnostic ignored \"-Wpedantic\"") \
       _Pragma ("GCC diagnostic ignored \"-Wunused-parameter\"") \
       _Pragma ("GCC diagnostic ignored \"-Wvla\"") \
+      _Pragma ("GCC diagnostic ignored \"-Wunused-variable\"") \
 
    #define erb_DISABLE_WARNINGS_FAUST_GEN \
       _Pragma ("GCC diagnostic push") \
