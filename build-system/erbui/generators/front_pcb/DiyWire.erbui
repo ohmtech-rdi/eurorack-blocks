@@ -127,12 +127,22 @@ manufacturer DiyWire {
    }
 
    control Encoder {
-      style rogan.2s, rogan, 2s, medium, skirt, d_shaft
+      style rogan.2s.black, rogan, 2s, black, medium, skirt, d_shaft
+      parts bourns.pec11r.n.wire, rogan.2s.black
+   }
+
+   control Encoder {
+      style rogan.2s, rogan, 2s, white, medium, skirt, d_shaft
       parts bourns.pec11r.n.wire, rogan.2s
    }
 
    control Encoder {
-      style rogan.1s, rogan, 1s, small, skirt, d_shaft
+      style rogan.1s.black, rogan, 1s, black, small, skirt, d_shaft
+      parts bourns.pec11r.n.wire, rogan.1s.black
+   }
+
+   control Encoder {
+      style rogan.1s, rogan, 1s, white, small, skirt, d_shaft
       parts bourns.pec11r.n.wire, rogan.1s
    }
 }
