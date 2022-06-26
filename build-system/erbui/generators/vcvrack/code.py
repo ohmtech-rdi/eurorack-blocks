@@ -223,6 +223,7 @@ class Code:
          'Button': 1,
          'CvIn': 1,
          'CvOut': 1,
+         'Encoder': 2,
          'GateIn': 1,
          'GateOut': 1,
          'Led': 1,
