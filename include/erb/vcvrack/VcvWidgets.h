@@ -45,13 +45,15 @@ struct AlphaPot: rack::app::SvgKnob {
 };
 
 template <typename KnobTrait>
-struct BournsPec11r: rack::app::Knob {
+struct EncoderWidget: rack::app::ParamWidget {
    rack::widget::FramebufferWidget* fb;
    rack::CircularShadow* shadow;
    rack::widget::TransformWidget* tw;
    rack::widget::SvgWidget* sw;
 
-   BournsPec11r() {
+   rack::engine::Param * captured_param_ptr = nullptr;
+
+   EncoderWidget() {
       fb = new rack::widget::FramebufferWidget;
       addChild (fb);
 
@@ -76,21 +78,34 @@ struct BournsPec11r: rack::app::Knob {
       shadow->box.pos = rack::math::Vec(0, sw->box.size.y * 0.10);
    }
 
-   void  onChange(const rack::event::Change& e) {
-      if (paramQuantity){
-         float angle = paramQuantity->getValue ();
-         angle = std::fmod (angle, 2 * M_PI);
-         tw->identity ();
-         // Rotate SVG
-         rack::math::Vec center = sw->box.getCenter ();
-         tw->translate (center);
-         tw->rotate (angle);
-         tw->translate (center.neg ());
-         fb->dirty = true;
-      }
+   void onButton(const ButtonEvent& e) {
+      if (e.button != GLFW_MOUSE_BUTTON_LEFT)
+         return;
 
-      Knob::onChange (e);
+      rack::math::Vec c = box.size.div(2);
+      auto rel = e.pos.minus(c);
+      float dist = rel.norm();
+      if (dist <= c.x) {
+         bool inc = rel.x >= 0.f;
+         captured_param_ptr = module->params [inc ? paramId : paramId + 1];
+         ParamWidget::onButton(e);
+      }
    }
+
+   void onDragStart(const DragStartEvent& e) {
+      if (captured_param_ptr == nullptr) return; // ignore
+
+      captured_param_ptr->setValue (5.f /* volts */);
+   }
+
+   void onDragEnd(const DragEndEvent& e) {
+      if (captured_param_ptr == nullptr) return; // ignore
+
+      captured_param_ptr->setValue (0.f /* volts */);
+      captured_param_ptr = nullptr;
+   }
+
+   void  rotate (float /* angle_rad */) {}
 };
 
 struct Rogan6Ps {
