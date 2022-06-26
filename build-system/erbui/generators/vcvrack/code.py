@@ -200,6 +200,7 @@ class Code:
          'Button': 'Param',
          'CvIn': 'Input',
          'CvOut': 'Output',
+         'Encoder': 'Param',
          'GateIn': 'Input',
          'GateOut': 'Output',
          'Led': 'Light',
