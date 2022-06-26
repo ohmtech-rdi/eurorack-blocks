@@ -140,9 +140,10 @@ private:
       void        process ();
       uint8_t *   data_inc_ptr;
       uint8_t *   data_dec_ptr;
-      int         previous = 0;
       rack::engine::Param *
-                  param_ptr;
+                  param_inc_ptr;
+      rack::engine::Param *
+                  param_dec_ptr;
    };
 
    struct BindingGateIn
