@@ -26,9 +26,9 @@ Name : ctor
 ==============================================================================
 */
 
-Encoder::Encoder (const uint8_t & data_0, const uint8_t & data_1)
-:  _inc (data_0)
-,  _dec (data_1)
+Encoder::Encoder (const uint8_t & data_a, const uint8_t & data_b)
+:  impl_data_a (data_a)
+,  impl_data_b (data_b)
 {
 }
 
@@ -42,19 +42,7 @@ Name : operator int
 
 Encoder::operator int () const
 {
-   int ret = 0;
-
-   if (_inc.pressed ())
-   {
-      ret += 1;
-   }
-
-   if (_dec.pressed ())
-   {
-      ret -= 1;
-   }
-
-   return ret;
+   return val;
 }
 
 
@@ -69,8 +57,21 @@ Name : impl_preprocess
 
 void  Encoder::impl_preprocess ()
 {
-   _inc.impl_preprocess ();
-   _dec.impl_preprocess ();
+   _state_a = (_state_a << 1) | (impl_data_a != 0);
+   _state_b = (_state_b << 1) | (impl_data_b != 0);
+
+   if ((_state_a & 0x03) == 0x02 && (_state_b & 0x03) == 0x00)
+   {
+      _val = 1;
+   }
+   else if ((_state_b & 0x03) == 0x02 && (_state_a & 0x03) == 0x00)
+   {
+      _val = -1;
+   }
+   else
+   {
+      _val = 0;
+   }
 }
 
 

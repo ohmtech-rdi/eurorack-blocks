@@ -13,8 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Button.h"
-
 #include <cstdint>
 
 
@@ -31,7 +29,7 @@ class Encoder
 
 public:
 
-                  Encoder (const uint8_t & data_0, const uint8_t & data_1);
+                  Encoder (const uint8_t & data_a, const uint8_t & data_b);
    virtual        ~Encoder () = default;
 
                   operator int () const;
@@ -40,11 +38,12 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   const uint8_t &
+                  impl_data_a;
+   const uint8_t &
+                  impl_data_b;
    void           impl_preprocess ();
    inline void    impl_postprocess () {}
-
-   Button         _inc;
-   Button         _dec;
 
 
 
@@ -57,6 +56,10 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+
+   uint8_t        _state_a = 0xff;
+   uint8_t        _state_b = 0xff;
+   int            _val = 0;
 
 
 
