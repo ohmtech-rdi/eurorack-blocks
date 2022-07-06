@@ -189,8 +189,8 @@ inline void  BoardGeneric::impl_bind (Encoder & control, rack::engine::Param & m
    auto * model_ptr = &model;
 
    _binding_inputs.push_back (BindingEncoder {
-      .data_inc_ptr = const_cast <uint8_t *> (&control._inc.impl_data),
-      .data_dec_ptr = const_cast <uint8_t *> (&control._dec.impl_data),
+      .data_a_ptr = const_cast <uint8_t *> (&control.impl_data_a),
+      .data_a_ptr = const_cast <uint8_t *> (&control.impl_data_b),
       .param_inc_ptr = &model_ptr [0],
       .param_dec_ptr = &model_ptr [1]
    });

@@ -138,8 +138,8 @@ private:
    struct BindingEncoder
    {
       void        process ();
-      uint8_t *   data_inc_ptr;
-      uint8_t *   data_dec_ptr;
+      uint8_t *   data_a_ptr;
+      uint8_t *   data_b_ptr;
       rack::engine::Param *
                   param_inc_ptr;
       rack::engine::Param *
