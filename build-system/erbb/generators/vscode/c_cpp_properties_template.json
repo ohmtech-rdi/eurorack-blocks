@@ -7,9 +7,8 @@
 %           includes_simulator%
          ],
          "defines": [
-            "erb_TARGET_VCV_RACK",
-            "erb_SAMPLE_RATE=48014",
-            "erb_BUFFER_SIZE=48"
+%           defines.entities,%
+            "erb_TARGET_VCV_RACK"
          ],
          "intelliSenseMode": "gcc-x64",
          "browse": {
@@ -28,9 +27,8 @@
 %           includes_firmware%
          ],
          "defines": [
-            "erb_TARGET_DAISY",
-            "erb_SAMPLE_RATE=48014",
-            "erb_BUFFER_SIZE=48"
+%           defines.entities,%
+            "erb_TARGET_DAISY"
          ],
          "intelliSenseMode": "gcc-x64",
          "browse": {

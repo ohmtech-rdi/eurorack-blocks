@@ -171,8 +171,16 @@ class Project:
    def replace_defines (self, template, defines):
       lines = ''
 
+      define_map = {
+         'erb_BUFFER_SIZE': '48',
+         'erb_SAMPLE_RATE': '48014',
+      }
+
       for define in defines:
-         lines += '            \'%s=%s\',\n' % (defines.key, defines.value)
+         define_map [define.key] = define.value
+
+      for key, value in define_map.items ():
+         lines += '            \'%s=%s\',\n' % (key, value)
 
       return template.replace ('%           defines.entities%', lines)
 

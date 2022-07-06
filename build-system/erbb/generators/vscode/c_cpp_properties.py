@@ -37,6 +37,7 @@ class CCppProperties:
 
       template = template.replace ('%           includes_simulator%', self.generate_module_includes_simulator (path, module))
       template = template.replace ('%           includes_firmware%', self.generate_module_includes_firmware (path, module))
+      template = template.replace ('%           defines.entities,%', self.generate_module_defines (module))
 
       with open (path_dst, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -88,3 +89,22 @@ class CCppProperties:
          paths.append (base.path)
 
       return ',\n'.join (map (lambda x: '            "${workspaceRoot}/%s"' % os.path.relpath (x, path).replace ('\\', '/'), paths))
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_module_defines (self, module):
+
+      define_map = {
+         'erb_BUFFER_SIZE': '48',
+         'erb_SAMPLE_RATE': '48014',
+      }
+
+      for define in module.defines:
+         define_map [define.key] = define.value
+
+      lines = ''
+      for key, value in define_map.items ():
+         lines += '            "%s=%s",\n' % (key, value)
+
+      return lines
