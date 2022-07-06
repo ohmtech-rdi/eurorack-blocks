@@ -3,6 +3,8 @@
 module Custom {
    import "../dsp/dsp.erbb"
 
+   define erb_BUFFER_SIZE=8
+
    sources {
       file "Custom.cpp"
       file "Custom.h"
