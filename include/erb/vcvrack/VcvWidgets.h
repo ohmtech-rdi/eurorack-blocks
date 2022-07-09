@@ -210,6 +210,8 @@ struct Dailywell2Ms : rack::app::Switch
    }
 
    void onChange (const rack::event::Change & e) override {
+      rack::ParamQuantity* paramQuantity = getParamQuantity();
+
       if (!frames.empty() && paramQuantity) {
          int index = int (std::round (paramQuantity->getValue () - paramQuantity->getMinValue ()));
          index = rack::math::clamp (index, 0, int (frames.size ()) - 1);
