@@ -82,8 +82,6 @@ endif
 %warnings%
 
 FLAGS += -Derb_TARGET_VCV_RACK
-FLAGS += -Derb_BUFFER_SIZE=48
-FLAGS += -Derb_SAMPLE_RATE=48014
 %defines.entities%
 %bases.entities%
 
