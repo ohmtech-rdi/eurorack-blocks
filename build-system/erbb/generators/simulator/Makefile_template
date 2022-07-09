@@ -13,6 +13,7 @@
 %define_PATH_ROOT%
 %define_RACK_DIR%
 %define_ARCH%
+%define_CXX%
 
 CONFIGURATION ?= Debug
 
