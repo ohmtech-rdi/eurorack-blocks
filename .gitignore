@@ -18,6 +18,7 @@ _autosave-*
 *-save.kicad_pcb
 fp-info-cache
 *-backups/
+*.kicad_prl
 
 # Don't ignore exported .net files to allow to build pcb production
 # file without launching Kicad
