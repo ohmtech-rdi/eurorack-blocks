@@ -10,7 +10,7 @@
 import os
 import unittest
 import traceback
-from ..generators.front_pcb import s_expression
+from ..generators.kicad import s_expression
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -353,6 +353,32 @@ class TestSExpression (unittest.TestCase):
       integer_literal = root.entities [0]
       self.assertTrue (integer_literal.is_integer_literal)
       self.assertEqual (integer_literal.value, -1)
+
+   def test_016 (self):
+      source = '''
+        (path "/" (page "1"))
+      '''
+      try:
+         p = s_expression.Parser ()
+         root = p.parse (source, 'test')
+      except:                                # pragma: no cover
+         self.fail (traceback.format_exc ()) # pragma: no cover
+
+      self.assertTrue (root.is_list)
+      self.assertEqual (len (root.entities), 3)
+
+   def test_016b (self):
+      source = '''
+        (path "/" (page "1\""))
+      '''
+      try:
+         p = s_expression.Parser ()
+         root = p.parse (source, 'test')
+      except:                                # pragma: no cover
+         self.fail (traceback.format_exc ()) # pragma: no cover
+
+      self.assertTrue (root.is_list)
+      self.assertEqual (len (root.entities), 3)
 
    def test_017 (self):
       source = '''
