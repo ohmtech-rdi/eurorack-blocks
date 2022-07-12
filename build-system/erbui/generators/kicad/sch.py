@@ -72,6 +72,45 @@ class Root:
 
       return root
 
+   def write (self, filepath):
+      root_node = self.generate ()
+      writer = s_expression.Writer ()
+      writer.write (root_node, filepath)
+
+   def generate (self):
+      root_node = s_expression.List.generate ('kicad_sch')
+      root_node.add (s_expression.List.generate_property ('version', self.version))
+      root_node.add (s_expression.List.generate_property ('generator', self.generator))
+      root_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+      root_node.add (s_expression.List.generate_property ('paper', self.paper))
+
+      lib_symbols_node = root_node.add (s_expression.List.generate ('lib_symbols'))
+      for lib_symbol in self.lib_symbols:
+         lib_symbols_node.add (lib_symbol.generate ())
+
+      for junction in self.junctions:
+         root_node.add (junction.generate ())
+
+      for wire in self.wires:
+         root_node.add (wire.generate ())
+
+      for global_label in self.global_labels:
+         root_node.add (global_label.generate ())
+
+      for symbol in self.symbols:
+         root_node.add (symbol.generate ())
+
+      sheet_instances_node = root_node.add (s_expression.List.generate ('sheet_instances'))
+      for sheet_instance in self.sheet_instances:
+         sheet_instances_node.add (sheet_instance.generate ())
+
+      symbol_instances_node = root_node.add (s_expression.List.generate ('symbol_instances'))
+      for symbol_instance in self.symbol_instances:
+         symbol_instances_node.add (symbol_instance.generate ())
+
+      return root_node
+
+
 
 # -- At ----------------------------------------------------------------------
 
@@ -88,10 +127,18 @@ class At:
       at = At ()
       at.x = node.entities [1].value
       at.y = node.entities [2].value
-      if (len (node.entities) >= 4):
-         at.rotation = node.entities [3].value
+      at.rotation = node.entities [3].value
 
       return at
+
+   def generate (self):
+      at_node = s_expression.List.generate ('at')
+      at_node.add (s_expression.FloatLiteral (self.x))
+      at_node.add (s_expression.FloatLiteral (self.y))
+      at_node.add (s_expression.FloatLiteral (self.rotation))
+
+      return at_node
+
 
 
 # -- Xy ----------------------------------------------------------------------
@@ -111,6 +158,20 @@ class Xy:
 
       return xy
 
+   def generate (self):
+      xy_node = s_expression.List.generate ('xy')
+      xy_node.add (s_expression.FloatLiteral (self.x))
+      xy_node.add (s_expression.FloatLiteral (self.y))
+
+      return xy_node
+
+   def generate_with_alternate_name (self, name):
+      xy_node = s_expression.List.generate (name)
+      xy_node.add (s_expression.FloatLiteral (self.x))
+      xy_node.add (s_expression.FloatLiteral (self.y))
+
+      return xy_node
+
 
 # -- Pts ----------------------------------------------------------------------
 
@@ -127,6 +188,13 @@ class Pts:
          pts.items.append (Xy.parse (xy_node))
 
       return pts
+
+   def generate (self):
+      pts_node = s_expression.List.generate ('pts')
+      for xy in self.items:
+         pts_node.add (xy.generate ())
+
+      return pts_node
 
 
 # -- Color -------------------------------------------------------------------
@@ -150,6 +218,14 @@ class Color:
 
       return color
 
+   def generate (self):
+      color_node = s_expression.List.generate ('color')
+      color_node.add (s_expression.IntegerLiteral (self.r))
+      color_node.add (s_expression.IntegerLiteral (self.g))
+      color_node.add (s_expression.IntegerLiteral (self.b))
+      color_node.add (s_expression.FloatLiteral (self.a))
+      return color_node
+
 
 # -- Stroke ------------------------------------------------------------------
 
@@ -170,6 +246,13 @@ class Stroke:
 
       return stroke
 
+   def generate (self):
+      stroke_node = s_expression.List.generate ('stroke')
+      stroke_node.add (s_expression.List.generate_property ('width', self.width))
+      stroke_node.add (s_expression.List.generate_property_symbol ('type', self.type))
+      stroke_node.add (self.color.generate ())
+      return stroke_node
+
 
 # -- Fill --------------------------------------------------------------------
 
@@ -185,6 +268,11 @@ class Fill:
       fill.type = node.property ('type')
 
       return fill
+
+   def generate (self):
+      fill_node = s_expression.List.generate ('fill')
+      fill_node.add (s_expression.List.generate_property_symbol ('type', self.type))
+      return fill_node
 
 
 # -- Polyline ----------------------------------------------------------------
@@ -205,6 +293,14 @@ class Polyline:
       polyline.fill = Fill.parse (node.first_kind ('fill'))
 
       return polyline
+
+   def generate (self):
+      polyline_node = s_expression.List.generate ('polyline')
+      polyline_node.add (self.pts.generate ())
+      polyline_node.add (self.stroke.generate ())
+      polyline_node.add (self.fill.generate ())
+      return polyline_node
+
 
 
 # -- Rectangle ---------------------------------------------------------------
@@ -228,6 +324,44 @@ class Rectangle:
 
       return rectangle
 
+   def generate (self):
+      rectangle_node = s_expression.List.generate ('rectangle')
+      rectangle_node.add (self.start.generate_with_alternate_name ('start'))
+      rectangle_node.add (self.end.generate_with_alternate_name ('end'))
+      rectangle_node.add (self.stroke.generate ())
+      rectangle_node.add (self.fill.generate ())
+      return rectangle_node
+
+
+# -- Circle ------------------------------------------------------------------
+
+class Circle:
+   def __init__ (self):
+      self.center = Xy ()
+      self.radius = None   # float
+      self.stroke = Stroke ()
+      self.fill = Fill ()
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      circle = Circle ()
+      circle.center = Xy.parse (node.first_kind ('center'))
+      circle.radius = node.property ('radius')
+      circle.stroke = Stroke.parse (node.first_kind ('stroke'))
+      circle.fill = Fill.parse (node.first_kind ('fill'))
+
+      return circle
+
+   def generate (self):
+      circle_node = s_expression.List.generate ('circle')
+      circle_node.add (self.center.generate_with_alternate_name ('center'))
+      circle_node.add (s_expression.List.generate_property ('radius', self.radius))
+      circle_node.add (self.stroke.generate ())
+      circle_node.add (self.fill.generate ())
+      return circle_node
+
 
 # -- Effects -----------------------------------------------------------------
 
@@ -248,6 +382,15 @@ class Effects:
 
       return effects
 
+   def generate (self):
+      effects_node = s_expression.List.generate ('effects')
+      effects_node.add (self.font.generate ())
+      if self.justify:
+         effects_node.add (s_expression.List.generate_property_symbol ('justify', self.justify))
+      if self.hide:
+         effects_node.add (s_expression.Symbol ('hide'))
+      return effects_node
+
 
    class Font:
       def __init__ (self):
@@ -262,6 +405,13 @@ class Effects:
 
          return font
 
+      def generate (self):
+         font_node = s_expression.List.generate ('font')
+         size_node = font_node.add (s_expression.List.generate ('size'))
+         size_node.add (s_expression.FloatLiteral (self.size))
+         size_node.add (s_expression.FloatLiteral (self.size)) # twice
+         return font_node
+
 
 # -- Property ----------------------------------------------------------------
 
@@ -271,7 +421,7 @@ class Property:
       self.value = None # str
       self.id = None    # int
       self.at = At ()
-      self.effects = Effects ()
+      self.effects = None
 
    @staticmethod
    def parse (node):
@@ -285,6 +435,16 @@ class Property:
       property.effects = Effects.parse (node.first_kind ('effects'))
 
       return property
+
+   def generate (self):
+      property_node = s_expression.List.generate ('property')
+      property_node.add (s_expression.StringLiteral (self.name))
+      property_node.add (s_expression.StringLiteral (self.value))
+      property_node.add (s_expression.List.generate_property ('id', self.id))
+      property_node.add (self.at.generate ())
+      if self.effects:
+         property_node.add (self.effects.generate ())
+      return property_node
 
 
 # -- LibSymbol ---------------------------------------------------------------
@@ -319,6 +479,20 @@ class LibSymbol:
 
       return lib_symbol
 
+   def generate (self):
+      lib_symbol_node = s_expression.List.generate ('symbol')
+      lib_symbol_node.add (s_expression.StringLiteral (self.name))
+      if self.power:
+         lib_symbol_node.add (s_expression.List.generate ('power'))
+      lib_symbol_node.add (self.pin_names.generate ())
+      lib_symbol_node.add (s_expression.List.generate_property_symbol ('in_bom', 'yes' if self.in_bom else 'no'))
+      lib_symbol_node.add (s_expression.List.generate_property_symbol ('on_board', 'yes' if self.on_board else 'no'))
+      for property in self.properties:
+         lib_symbol_node.add (property.generate ())
+      for symbol in self.symbols:
+         lib_symbol_node.add (symbol.generate ())
+      return lib_symbol_node
+
    class PinNames:
       def __init__ (self):
          self.offset = None # float
@@ -334,10 +508,17 @@ class LibSymbol:
 
          return pin_names
 
+      def generate (self):
+         pin_names_node = s_expression.List.generate ('pin_names')
+         pin_names_node.add (s_expression.List.generate_property ('offset', self.offset))
+         if self.hide:
+            pin_names_node.add (s_expression.Symbol ('hide'))
+         return pin_names_node
+
    class Symbol:
       def __init__ (self):
          self.name = None  # str
-         self.shapes = []  # list of Rectangle or Polyline
+         self.shapes = []  # list of Rectangle, Cicle or Polyline
          self.pins = []    # list of LibSymbol.Symbol.Pin
 
       @staticmethod
@@ -347,17 +528,30 @@ class LibSymbol:
          symbol = LibSymbol.Symbol ()
          symbol.name = node.entities [1].value
 
-         for shape_node in node.filter_kinds (['rectangle', 'polyline']):
+         for shape_node in node.filter_kinds (['rectangle', 'circle', 'polyline']):
             shape_kind = shape_node.entities [0].value
             if shape_kind == 'rectangle':
                symbol.shapes.append (Rectangle.parse (shape_node))
+            elif shape_kind == 'circle':
+               symbol.shapes.append (Circle.parse (shape_node))
             elif shape_kind == 'polyline':
                symbol.shapes.append (Polyline.parse (shape_node))
             else:
                assert False
 
          for pin_node in node.filter_kind ('pin'):
-            symbol.pins.append (LibSymbol.Symbol.parse (pin_node))
+            symbol.pins.append (LibSymbol.Symbol.Pin.parse (pin_node))
+
+         return symbol
+
+      def generate (self):
+         symbol_node = s_expression.List.generate ('symbol')
+         symbol_node.add (s_expression.StringLiteral (self.name))
+         for shape in self.shapes:
+            symbol_node.add (shape.generate ())
+         for pin in self.pins:
+            symbol_node.add (pin.generate ())
+         return symbol_node
 
       class Pin:
          def __init__ (self):
@@ -365,6 +559,7 @@ class LibSymbol:
             self.graphic_style = None     # str eg. line
             self.at = At ()
             self.length = None            # float
+            self.hide = None              # boolean
             self.name = LibSymbol.Symbol.Pin.Name ()
             self.number = LibSymbol.Symbol.Pin.Number ()
 
@@ -375,12 +570,25 @@ class LibSymbol:
             pin = LibSymbol.Symbol.Pin ()
             pin.electrical_type = node.entities [1].value
             pin.graphic_style = node.entities [2].value
-            pin.at.parse (node.first_kind ('at'))
+            pin.at = At.parse (node.first_kind ('at'))
             pin.length = node.property ('length')
-            pin.name.parse (node.first_kind ('name'))
-            pin.number.parse (node.first_kind ('number'))
+            pin.hide = any (e.is_symbol and e.value == 'hide' for e in node.entities)
+            pin.name = LibSymbol.Symbol.Pin.Name.parse (node.first_kind ('name'))
+            pin.number = LibSymbol.Symbol.Pin.Number.parse (node.first_kind ('number'))
 
             return pin
+
+         def generate (self):
+            pin_node = s_expression.List.generate ('pin')
+            pin_node.add (s_expression.Symbol (self.electrical_type))
+            pin_node.add (s_expression.Symbol (self.graphic_style))
+            pin_node.add (self.at.generate ())
+            pin_node.add (s_expression.List.generate_property ('length', self.length))
+            if self.hide:
+               pin_node.add (s_expression.Symbol ('hide'))
+            pin_node.add (self.name.generate ())
+            pin_node.add (self.number.generate ())
+            return pin_node
 
          class Name:
             def __init__ (self):
@@ -397,6 +605,12 @@ class LibSymbol:
 
                return name
 
+            def generate (self):
+               name_node = s_expression.List.generate ('name')
+               name_node.add (s_expression.StringLiteral (self.value))
+               name_node.add (self.effects.generate ())
+               return name_node
+
          class Number:
             def __init__ (self):
                self.value = None   # str eg. IN
@@ -411,6 +625,12 @@ class LibSymbol:
                number.effects = Effects.parse (node.first_kind ('effects'))
 
                return number
+
+            def generate (self):
+               number_node = s_expression.List.generate ('number')
+               number_node.add (s_expression.StringLiteral (self.value))
+               number_node.add (self.effects.generate ())
+               return number_node
 
 
 # -- Junction ----------------------------------------------------------------
@@ -434,6 +654,14 @@ class Junction:
 
       return junction
 
+   def generate (self):
+      junction_node = s_expression.List.generate ('junction')
+      junction_node.add (self.at.generate ())
+      junction_node.add (s_expression.List.generate_property ('diameter', self.diameter))
+      junction_node.add (self.color.generate ())
+      junction_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+      return junction_node
+
 
 # -- Wire --------------------------------------------------------------------
 
@@ -453,6 +681,13 @@ class Wire:
       wire.uuid = node.property ('uuid')
 
       return wire
+
+   def generate (self):
+      wire_node = s_expression.List.generate ('wire')
+      wire_node.add (self.pts.generate ())
+      wire_node.add (self.stroke.generate ())
+      wire_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+      return wire_node
 
 
 # -- GlobalLabel -------------------------------------------------------------
@@ -481,6 +716,18 @@ class GlobalLabel:
       global_label.property = Property.parse (node.first_kind ('property'))
 
       return global_label
+
+   def generate (self):
+      global_label_node = s_expression.List.generate ('global_label')
+      global_label_node.add (s_expression.StringLiteral (self.name))
+      global_label_node.add (s_expression.List.generate_property_symbol ('shape', self.shape))
+      global_label_node.add (self.at.generate ())
+      if self.fields_autoplaced:
+         global_label_node.add (s_expression.List.generate ('fields_autoplaced'))
+      global_label_node.add (self.effects.generate ())
+      global_label_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+      global_label_node.add (self.property.generate ())
+      return global_label_node
 
 
 # -- Symbol ------------------------------------------------------------------
@@ -518,6 +765,22 @@ class Symbol:
 
       return symbol
 
+   def generate (self):
+      symbol_node = s_expression.List.generate ('symbol')
+      symbol_node.add (s_expression.List.generate_property ('lib_id', '"%s"' % self.lib_id))
+      symbol_node.add (self.at.generate ())
+      if self.mirror:
+         symbol_node.add (s_expression.List.generate_property_symbol ('mirror', self.mirror))
+      symbol_node.add (s_expression.List.generate_property ('unit', self.unit))
+      symbol_node.add (s_expression.List.generate_property_symbol ('in_bom', 'yes' if self.in_bom else 'no'))
+      symbol_node.add (s_expression.List.generate_property_symbol ('on_board', 'yes' if self.on_board else 'no'))
+      symbol_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+      for property in self.properties:
+         symbol_node.add (property.generate ())
+      for pin in self.pins:
+         symbol_node.add (pin.generate ())
+      return symbol_node
+
    class Pin:
       def __init__ (self):
          self.name = None  # str eg. 1
@@ -532,6 +795,12 @@ class Symbol:
          pin.uuid = node.property ('uuid')
 
          return pin
+
+      def generate (self):
+         pin_node = s_expression.List.generate ('pin')
+         pin_node.add (s_expression.StringLiteral (self.name))
+         pin_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+         return pin_node
 
 
 # -- SheetInstance -----------------------------------------------------------
@@ -550,6 +819,12 @@ class SheetInstance:
       sheet_instance.page = node.property ('page')
 
       return sheet_instance
+
+   def generate (self):
+      path_node = s_expression.List.generate ('path')
+      path_node.add (s_expression.StringLiteral (self.path))
+      path_node.add (s_expression.List.generate_property ('page', '"%s"' % self.page))
+      return path_node
 
 
 # -- SymbolInstance ----------------------------------------------------------
@@ -574,3 +849,12 @@ class SymbolInstance:
       symbol_instance.footprint = node.property ('footprint')
 
       return symbol_instance
+
+   def generate (self):
+      path_node = s_expression.List.generate ('path')
+      path_node.add (s_expression.StringLiteral (self.path))
+      path_node.add (s_expression.List.generate_property ('reference', '"%s"' % self.reference))
+      path_node.add (s_expression.List.generate_property ('unit', self.unit))
+      path_node.add (s_expression.List.generate_property ('value', '"%s"' % self.value))
+      path_node.add (s_expression.List.generate_property ('footprint', '"%s"' % self.footprint))
+      return path_node

@@ -17,7 +17,7 @@ from ...arpeggio import ParserPython, visit_parse_tree, NoMatch
 #--- Grammar -----------------------------------------------------------------
 
 def symbol ():             return _(r'[^\s()]+')
-def string_literal ():     return _(r'\".*?\"')
+def string_literal ():     return _(r'\"(?:\\"|.)*?\"')
 def float_literal ():      return _(r'[-+]?[0-9]+\.[0-9]+(?=[\s()])')
 def integer_literal ():    return _(r'[-+]?[0-9]+(?=[\s()])')
 
@@ -73,7 +73,10 @@ class Symbol (Node):
 class StringLiteral (Node):
    def __init__ (self, value):
       super (StringLiteral, self).__init__ ()
-      self.value = value.strip ('"')
+      if len (value) >= 2:
+         if value [0] == '"':
+            value = value [1:-1]
+      self.value = value
 
    def __eq__ (self, other):
       if not other.is_string_literal: return False
@@ -113,6 +116,7 @@ class List (Node):
    def add (self, entity):
       entity.parent = self
       self.entities.append (entity)
+      return entity
 
    def filter_kind (self, kind):
       return [e for e in self.entities if e.kind == kind]
@@ -127,6 +131,32 @@ class List (Node):
       node = self.first_kind (kind)
       if node is None: return None
       return node.entities [1].value
+
+   @staticmethod
+   def generate (kind):
+      list = List ()
+      list.add (Symbol (kind))
+      return list
+
+   @staticmethod
+   def generate_property (kind, value):
+      list = List.generate (kind)
+      if isinstance (value, str):
+         list.add (StringLiteral (value))
+      elif isinstance (value, float):
+         list.add (FloatLiteral (value))
+      elif isinstance (value, int):
+         list.add (IntegerLiteral (value))
+      else:
+         assert False
+
+      return list
+
+   @staticmethod
+   def generate_property_symbol (kind, value):
+      list = List.generate (kind)
+      list.add (Symbol (value))
+      return list
 
 
 #--- Visitor -----------------------------------------------------------------
