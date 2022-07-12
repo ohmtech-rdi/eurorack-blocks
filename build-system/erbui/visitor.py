@@ -193,13 +193,13 @@ class Visitor (PTNodeVisitor):
       board_pcb = ast.BoardPcb (file_path_str, string_literal)
       return board_pcb
 
-   def visit_board_net_declaration (self, node, children):
+   def visit_board_sch_declaration (self, node, children):
       string_literal = children.string_literal [0]
       dir_name = os.path.dirname (self.filename)
       file_path = os.path.join (dir_name, string_literal.value)
       file_path_str = str (file_path)
-      board_net = ast.BoardNet (file_path_str, string_literal)
-      return board_net
+      board_sch = ast.BoardSch (file_path_str, string_literal)
+      return board_sch
 
    def visit_board_pin_declaration (self, node, children):
       board_pin_name = children.board_pin_name [0]
