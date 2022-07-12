@@ -23,19 +23,24 @@ PATH_FRONT_PCB = os.path.join (PATH_ERBUI, 'generators', 'front_pcb')
 class TestGeneratorKicad (unittest.TestCase):
 
    def setUp(self):
-      pass
+      if not os.path.exists (PATH_ARTIFACTS):
+         os.makedirs (PATH_ARTIFACTS)
 
    def test_000 (self):
-      sch.Root.read (os.path.join (PATH_THIS, 'test_generator_kicad_asset_001.kicad_sch'))
+      root = sch.Root.read (os.path.join (PATH_THIS, 'test_generator_kicad_asset_001.kicad_sch'))
+      root.write (os.path.join (PATH_ARTIFACTS, 'test_generator_kicad_asset_001.kicad_sch'))
 
    def test_001 (self):
-      sch.Root.read (os.path.join (PATH_FRONT_PCB, 'alpha.9mm.manual', 'alpha.9mm.manual.kicad_sch'))
+      root = sch.Root.read (os.path.join (PATH_FRONT_PCB, 'alpha.9mm.manual', 'alpha.9mm.manual.kicad_sch'))
+      root.write (os.path.join (PATH_ARTIFACTS, 'alpha.9mm.manual.kicad_sch'))
 
    def test_002 (self):
-      sch.Root.read (os.path.join (PATH_FRONT_PCB, 'alpha.9mm.wire', 'alpha.9mm.wire.kicad_sch'))
+      root = sch.Root.read (os.path.join (PATH_FRONT_PCB, 'alpha.9mm.wire', 'alpha.9mm.wire.kicad_sch'))
+      root.write (os.path.join (PATH_ARTIFACTS, 'alpha.9mm.wire.kicad_sch'))
 
    def test_003 (self):
-      sch.Root.read (os.path.join (PATH_FRONT_PCB, 'rogan.2ps', 'rogan.2ps.kicad_sch'))
+      root = sch.Root.read (os.path.join (PATH_FRONT_PCB, 'rogan.2ps', 'rogan.2ps.kicad_sch'))
+      root.write (os.path.join (PATH_ARTIFACTS, 'rogan.2ps.kicad_sch'))
 
 
 if __name__ == '__main__':
