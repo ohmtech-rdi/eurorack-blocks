@@ -63,6 +63,7 @@ class Node:
 
 class Symbol (Node):
    def __init__ (self, value):
+      assert value is not None
       super (Symbol, self).__init__ ()
       self.value = value
 
@@ -72,6 +73,7 @@ class Symbol (Node):
 
 class StringLiteral (Node):
    def __init__ (self, value):
+      assert value is not None
       super (StringLiteral, self).__init__ ()
       if len (value) >= 2:
          if value [0] == '"':
@@ -84,6 +86,7 @@ class StringLiteral (Node):
 
 class FloatLiteral (Node):
    def __init__ (self, value):
+      assert value is not None
       super (FloatLiteral, self).__init__ ()
       self.value = float (value)
 
@@ -93,6 +96,7 @@ class FloatLiteral (Node):
 
 class IntegerLiteral (Node):
    def __init__ (self, value):
+      assert value is not None
       super (IntegerLiteral, self).__init__ ()
       self.value = int (value)
 
@@ -114,6 +118,7 @@ class List (Node):
       return True
 
    def add (self, entity):
+      assert isinstance (entity, Node)
       entity.parent = self
       self.entities.append (entity)
       return entity
