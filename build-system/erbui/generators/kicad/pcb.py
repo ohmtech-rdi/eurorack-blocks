@@ -93,7 +93,7 @@ class Root:
 
       layers_node = root_node.add (s_expression.List.generate ('layers'))
       for layer in self.layers:
-         layers_node.append (layer.generate ())
+         layers_node.add (layer.generate ())
 
       root_node.add (self.setup.generate ())
 
@@ -131,7 +131,8 @@ class At:
       at = At ()
       at.x = node.entities [1].value
       at.y = node.entities [2].value
-      at.rotation = node.entities [3].value
+      if len (node.entities) >= 4:
+         at.rotation = node.entities [3].value
 
       return at
 
@@ -139,7 +140,8 @@ class At:
       at_node = s_expression.List.generate ('at')
       at_node.add (s_expression.FloatLiteral (self.x))
       at_node.add (s_expression.FloatLiteral (self.y))
-      at_node.add (s_expression.FloatLiteral (self.rotation))
+      if self.rotation:
+         at_node.add (s_expression.FloatLiteral (self.rotation))
 
       return at_node
 
@@ -175,6 +177,42 @@ class Xy:
       xy_node.add (s_expression.FloatLiteral (self.y))
 
       return xy_node
+
+
+# -- Xyz ---------------------------------------------------------------------
+
+class Xyz:
+   def __init__ (self):
+      self.x = None        # float
+      self.y = None        # float
+      self.z = None        # float
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      xyz = Xyz ()
+      xyz.x = node.entities [1].value
+      xyz.y = node.entities [2].value
+      xyz.z = node.entities [3].value
+
+      return xyz
+
+   def generate (self):
+      xyz_node = s_expression.List.generate ('xyz')
+      xyz_node.add (s_expression.FloatLiteral (self.x))
+      xyz_node.add (s_expression.FloatLiteral (self.y))
+      xyz_node.add (s_expression.FloatLiteral (self.z))
+
+      return xyz_node
+
+   def generate_with_alternate_name (self, name):
+      xyz_node = s_expression.List.generate (name)
+      xyz_node.add (s_expression.FloatLiteral (self.x))
+      xyz_node.add (s_expression.FloatLiteral (self.y))
+      xyz_node.add (s_expression.FloatLiteral (self.z))
+
+      return xyz_node
 
 
 # -- Pts ----------------------------------------------------------------------
@@ -221,13 +259,14 @@ class Effects:
    def generate (self):
       effects_node = s_expression.List.generate ('effects')
       effects_node.add (self.font.generate ())
-      effects_node.add (self.justify.generate ())
+      if self.justify:
+         effects_node.add (self.justify.generate ())
       return effects_node
 
 
    class Font:
       def __init__ (self):
-         self.size = Size ()
+         self.size = Xy ()
          self.thickness = None   # float
          self.italic = None      # boolean
 
@@ -236,7 +275,7 @@ class Effects:
          if not node: return None
 
          font = Effects.Font ()
-         font.size = Size.parse (node.first_kind ('size'))
+         font.size = Xy.parse (node.first_kind ('size'))
          font.thickness = node.property ('thickness')
          font.italic = any (e.is_symbol and e.value == 'italic' for e in node.entities)
 
@@ -244,7 +283,7 @@ class Effects:
 
       def generate (self):
          font_node = s_expression.List.generate ('font')
-         font_node.add (self.size.generate ())
+         font_node.add (self.size.generate_with_alternate_name ('size'))
          font_node.add (s_expression.List.generate_property ('thickness', self.thickness))
          if self.italic:
             font_node.add (s_expression.Symbol ('italic'))
@@ -261,7 +300,7 @@ class Effects:
 
          justify = Effects.Justify ()
          justify.type = node.entities [1].value
-         justify.mirror = any (e.is_symbol and e.value == 'italic' for e in node.entities)
+         justify.mirror = any (e.is_symbol and e.value == 'mirror' for e in node.entities)
 
          return justify
 
@@ -272,6 +311,26 @@ class Effects:
          if self.mirror:
             justify_node.add (s_expression.Symbol ('mirror'))
          return justify_node
+
+
+# -- General -----------------------------------------------------------------
+
+class General:
+   def __init__ (self):
+      self.thickness = None # float
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      general = General ()
+      general.thickness = node.property ('thickness')
+      return general
+
+   def generate (self):
+      general_node = s_expression.List.generate ('general')
+      general_node.add (s_expression.List.generate_property ('thickness', self.thickness))
+      return general_node
 
 
 # -- Layer -------------------------------------------------------------------
@@ -312,7 +371,7 @@ class Setup:
       self.pad_to_mask_clearance = None # float
       self.solder_mask_min_width = None  # float
       self.grid_origin = Xy ()
-      self.pcbplotparams = Pcbplotparams ()
+      self.pcbplotparams = Setup.Pcbplotparams ()
 
    @staticmethod
    def parse (node):
@@ -328,8 +387,10 @@ class Setup:
    def generate (self):
       setup_node = s_expression.List.generate ('setup')
       setup_node.add (s_expression.List.generate_property ('pad_to_mask_clearance', self.pad_to_mask_clearance))
-      setup_node.add (s_expression.List.generate_property ('solder_mask_min_width', self.solder_mask_min_width))
-      setup_node.add (self.grid_origin.generate_with_alternate_name ('grid_origin'))
+      if self.solder_mask_min_width:
+         setup_node.add (s_expression.List.generate_property ('solder_mask_min_width', self.solder_mask_min_width))
+      if self.grid_origin:
+         setup_node.add (self.grid_origin.generate_with_alternate_name ('grid_origin'))
       setup_node.add (self.pcbplotparams.generate ())
 
       return setup_node
@@ -372,7 +433,7 @@ class Setup:
       def parse (node):
          if not node: return None
 
-         pcbplotparams = Pcbplotparams ()
+         pcbplotparams = Setup.Pcbplotparams ()
          pcbplotparams.layerselection = node.property ('layerselection')
          pcbplotparams.disableapertmacros = node.property ('disableapertmacros')
          pcbplotparams.usegerberextensions = node.property ('usegerberextensions')
@@ -412,7 +473,7 @@ class Setup:
          pcbplotparams_node.add (s_expression.List.generate_property_symbol ('disableapertmacros', self.disableapertmacros))
          pcbplotparams_node.add (s_expression.List.generate_property_symbol ('usegerberextensions', self.usegerberextensions))
          pcbplotparams_node.add (s_expression.List.generate_property_symbol ('usegerberattributes', self.usegerberattributes))
-         pcbplotparams_node.add (s_expression.List.generate_property_symbol ('(usegerberadvancedattributes false)', self.(usegerberadvancedattributes false)))
+         pcbplotparams_node.add (s_expression.List.generate_property_symbol ('usegerberadvancedattributes', self.usegerberadvancedattributes))
          pcbplotparams_node.add (s_expression.List.generate_property_symbol ('creategerberjobfile', self.creategerberjobfile))
          pcbplotparams_node.add (s_expression.List.generate_property_symbol ('svguseinch', self.svguseinch))
          pcbplotparams_node.add (s_expression.List.generate_property ('svgprecision', self.svgprecision))
@@ -478,7 +539,7 @@ class Footprint:
       self.descr = None    # optional str eg. "SOD-123"
       self.tags = None     # optional str eg. "SOD-123"
       self.path = None     # str eg. "/00000000-0000-0000-0000-00005fcae65b"
-      self.attr = None     # symbol eg. through_hole
+      self.attr = Footprint.Attr ()
       self.fp_shapes = []
       self.pads = []
       self.models = []
@@ -497,28 +558,28 @@ class Footprint:
       footprint.descr = node.property ('descr')
       footprint.tags = node.property ('tags')
       footprint.path = node.property ('path')
-      footprint.attr = node.property ('attr')
+      footprint.attr = Footprint.Attr.parse (node.first_kind ('attr'))
 
       for fp_shape_node in node.filter_kinds (['fp_text', 'fp_line', 'fp_arc', 'fp_circle', 'fp_poly']):
          fp_shape_kind = fp_shape_node.entities [0].value
          if fp_shape_kind == 'fp_text':
-            root.fp_shapes.append (FpText.parse (fp_shape_node))
+            footprint.fp_shapes.append (Footprint.FpText.parse (fp_shape_node))
          elif fp_shape_kind == 'fp_line':
-            root.fp_shapes.append (FpLine.parse (fp_shape_node))
+            footprint.fp_shapes.append (Footprint.FpLine.parse (fp_shape_node))
          elif fp_shape_kind == 'fp_arc':
-            root.fp_shapes.append (FpArc.parse (fp_shape_node))
+            footprint.fp_shapes.append (Footprint.FpArc.parse (fp_shape_node))
          elif fp_shape_kind == 'fp_circle':
-            root.fp_shapes.append (FpCircle.parse (fp_shape_node))
+            footprint.fp_shapes.append (Footprint.FpCircle.parse (fp_shape_node))
          elif fp_shape_kind == 'fp_poly':
-            root.fp_shapes.append (FpPoly.parse (fp_shape_node))
+            footprint.fp_shapes.append (Footprint.FpPoly.parse (fp_shape_node))
          else:
             assert False
 
       for pad_node in node.filter_kind ('pad'):
-         root.pads.append (Pad.parse (pad_node))
+         footprint.pads.append (Footprint.Pad.parse (pad_node))
 
       for model_node in node.filter_kind ('model'):
-         root.models.append (Model.parse (model_node))
+         footprint.models.append (Footprint.Model.parse (model_node))
 
       return footprint
 
@@ -536,7 +597,7 @@ class Footprint:
       if self.tags:
          footprint_node.add (s_expression.List.generate_property ('tags', self.tags))
       footprint_node.add (s_expression.List.generate_property ('path', self.path))
-      footprint_node.add (s_expression.List.generate_property_symbol ('attr', self.attr))
+      footprint_node.add (self.attr.generate ())
       for fp_shape in self.fp_shapes:
          footprint_node.add (fp_shape.generate ())
       for pad in self.pads:
@@ -545,12 +606,32 @@ class Footprint:
          footprint_node.add (model.generate ())
       return footprint_node
 
+   class Attr:
+      def __init__ (self):
+         self.attributes = [] # list of symbols, eg. exclude_from_pos_files exclude_from_bom
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         attr = Footprint.Attr ()
+         for attribute in node.entities [1:]:
+            attr.attributes.append (attribute.value)
+         return attr
+
+      def generate (self):
+         attr_node = s_expression.List.generate ('attr')
+         for attribute in self.attributes:
+            attr_node.add (s_expression.Symbol (attribute))
+         return attr_node
+
    class FpText:
       def __init__ (self):
          self.name = None  # symbol, eg. reference
          self.value = None # str, eg. R1
          self.at = At ()
          self.layer = None # str, eg. "F.SilkS"
+         self.hide = None # boolean
          self.effects = Effects ()
          self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
 
@@ -561,8 +642,9 @@ class Footprint:
          fp_text = Footprint.FpText ()
          fp_text.name = node.entities [1].value
          fp_text.value = node.entities [2].value
-         fp_text.at = Pts.parse (node.first_kind ('at'))
+         fp_text.at = At.parse (node.first_kind ('at'))
          fp_text.layer = node.property ('layer')
+         fp_text.hide = any (e.is_symbol and e.value == 'hide' for e in node.entities)
          fp_text.effects = Effects.parse (node.first_kind ('effects'))
          fp_text.tstamp = node.property ('tstamp')
 
@@ -574,7 +656,9 @@ class Footprint:
          fp_text_node.add (s_expression.StringLiteral (self.value))
          fp_text_node.add (self.at.generate ())
          fp_text_node.add (s_expression.List.generate_property ('layer', self.layer))
-         fp_text_node.add (self.at.effects ())
+         if self.hide:
+            fp_text_node.add (s_expression.Symbol ('hide'))
+         fp_text_node.add (self.effects.generate ())
          fp_text_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
          return fp_text_node
 
@@ -636,7 +720,7 @@ class Footprint:
       def generate (self):
          fp_arc_node = s_expression.List.generate ('fp_arc')
          fp_arc_node.add (self.start.generate_with_alternate_name ('start'))
-         fp_arc_node.add (self.start.generate_with_alternate_name ('mid'))
+         fp_arc_node.add (self.mid.generate_with_alternate_name ('mid'))
          fp_arc_node.add (self.end.generate_with_alternate_name ('end'))
          fp_arc_node.add (s_expression.List.generate_property ('layer', self.layer))
          fp_arc_node.add (s_expression.List.generate_property ('width', self.width))
@@ -669,7 +753,7 @@ class Footprint:
 
       def generate (self):
          fp_circle_node = s_expression.List.generate ('fp_circle')
-         fp_circle_node.add (self.start.generate_with_alternate_name ('center'))
+         fp_circle_node.add (self.center.generate_with_alternate_name ('center'))
          fp_circle_node.add (self.end.generate_with_alternate_name ('end'))
          fp_circle_node.add (s_expression.List.generate_property ('layer', self.layer))
          fp_circle_node.add (s_expression.List.generate_property ('width', self.width))
@@ -711,33 +795,398 @@ class Footprint:
 
    class Pad:
       def __init__ (self):
-         self.name = None  # str eg. "1"
-         self.type = None  # symbol eg. smd, thru_hole, np_thru_hole
+         self.name = None     # str eg. "1"
+         self.type = None     # symbol eg. smd, thru_hole, np_thru_hole
+         self.shape = None    # symbol eg. oval
          self.locked = None   # boolean
          self.at = At ()
-         self.size = Size ()
-         self.drill = Drill ()
-         self.layers = None   # multiple symbols eg. *.Cu *.Mask
-         self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+         self.size = Xy ()
+         self.drill = Footprint.Pad.Drill ()
+         self.layers = Footprint.Pad.Layers ()   # multiple symbols eg. *.Cu *.Mask
+         self.net = Net ()
+         self.tstamp = None            # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
 
       @staticmethod
       def parse (node):
          if not node: return None
 
-         circle = Footprint.Circle ()
-         circle.center = Xy.parse (node.first_kind ('center'))
-         circle.radius = node.property ('radius')
-         circle.stroke = Stroke.parse (node.first_kind ('stroke'))
-         circle.fill = Fill.parse (node.first_kind ('fill'))
+         pad = Footprint.Pad ()
+         pad.name = node.entities [1].value
+         pad.type = node.entities [2].value
+         pad.shape = node.entities [3].value
+         pad.locked = any (e.is_symbol and e.value == 'locked' for e in node.entities)
+         pad.at = At.parse (node.first_kind ('at'))
+         pad.size = Xy.parse (node.first_kind ('size'))
+         pad.drill = Footprint.Pad.Drill.parse (node.first_kind ('drill'))
+         pad.layers = Footprint.Pad.Layers.parse (node.first_kind ('layers'))
+         pad.net = Net.parse (node.first_kind ('net'))
+         pad.tstamp = node.property ('tstamp')
 
-         return circle
+         return pad
 
       def generate (self):
-         circle_node = s_expression.List.generate ('circle')
-         circle_node.add (self.center.generate_with_alternate_name ('center'))
-         circle_node.add (s_expression.List.generate_property ('radius', self.radius))
-         circle_node.add (self.stroke.generate ())
-         circle_node.add (self.fill.generate ())
-         return circle_node
+         pad_node = s_expression.List.generate ('pad')
+         pad_node.add (s_expression.StringLiteral (self.name))
+         pad_node.add (s_expression.Symbol (self.type))
+         pad_node.add (s_expression.Symbol (self.shape))
+         if self.locked:
+            pad_node.add (s_expression.Symbol ('locked'))
+         pad_node.add (self.at.generate ())
+         pad_node.add (self.size.generate_with_alternate_name ('size'))
+         if self.drill:
+            pad_node.add (self.drill.generate ())
+         pad_node.add (self.layers.generate ())
+         if self.net:
+            pad_node.add (self.net.generate ())
+         pad_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+         return pad_node
+
+      class Drill:
+         def __init__ (self):
+            self.type = None     # None (circular) or symbol oval
+            self.size_x = None   # float
+            self.size_y = None   # float, only relevant when oval
+
+         @staticmethod
+         def parse (node):
+            if not node: return None
+
+            drill = Footprint.Pad.Drill ()
+            if node.entities [1].is_symbol:
+               drill.type = node.entities [1].value
+               drill.size_x = node.entities [2].value
+               drill.size_y = node.entities [3].value
+            elif node.entities [1].is_float_literal or node.entities [1].is_integer_literal:
+               drill.size_x = node.entities [1].value
+            else:
+               assert False
+
+            return drill
+
+         def generate (self):
+            drill_node = s_expression.List.generate ('drill')
+            if self.type:
+               drill_node.add (s_expression.Symbol (self.type))
+               drill_node.add (s_expression.FloatLiteral (self.size_x))
+               drill_node.add (s_expression.FloatLiteral (self.size_y))
+            else:
+               drill_node.add (s_expression.FloatLiteral (self.size_x))
+            return drill_node
+
+      class Layers:
+         def __init__ (self):
+            self.names = []
+
+         @staticmethod
+         def parse (node):
+            if not node: return None
+
+            layers = Footprint.Pad.Layers ()
+            for layer in node.entities [1:]:
+               layers.names.append (layer.value)
+            return layers
+
+         def generate (self):
+            layers_node = s_expression.List.generate ('layers')
+            for name in self.names:
+               layers_node.add (s_expression.Symbol (name))
+            return layers_node
+
+   class Model:
+      def __init__ (self):
+         self.name = None  # str, eg. "${KISYS3DMOD}/Diode_SMD.3dshapes/D_SOD-123.wrl"
+         self.offset = Xyz ()
+         self.scale = Xyz ()
+         self.rotate = Xyz ()
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         model = Footprint.Model ()
+         model.name = node.entities [1].value
+         model.offset = Xyz.parse (node.first_kind ('offset'))
+         model.scale = Xyz.parse (node.first_kind ('scale'))
+         model.rotate = Xyz.parse (node.first_kind ('rotate'))
+
+         return model
+
+      def generate (self):
+         model_node = s_expression.List.generate ('model')
+         model_node.add (s_expression.StringLiteral (self.name))
+         model_node.add (self.offset.generate_with_alternate_name ('offset'))
+         model_node.add (self.scale.generate_with_alternate_name ('scale'))
+         model_node.add (self.rotate.generate_with_alternate_name ('rotate'))
+         return model_node
 
 
+class GrCircle:
+   def __init__ (self):
+      self.center = Xy ()
+      self.end = Xy ()
+      self.layer = None  # str, eg. "F.SilkS"
+      self.width = None  # float
+      self.fill = None   # symbol, eg. none
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      gr_circle = GrCircle ()
+      gr_circle.center = Xy.parse (node.first_kind ('center'))
+      gr_circle.end = Xy.parse (node.first_kind ('end'))
+      gr_circle.layer = node.property ('layer')
+      gr_circle.width = node.property ('width')
+      gr_circle.fill = node.property ('fill')
+      gr_circle.tstamp = node.property ('tstamp')
+
+      return gr_circle
+
+   def generate (self):
+      gr_circle_node = s_expression.List.generate ('gr_circle')
+      gr_circle_node.add (self.center.generate_with_alternate_name ('center'))
+      gr_circle_node.add (self.end.generate_with_alternate_name ('end'))
+      gr_circle_node.add (s_expression.List.generate_property ('layer', self.layer))
+      gr_circle_node.add (s_expression.List.generate_property ('width', self.width))
+      gr_circle_node.add (s_expression.List.generate_property_symbol ('fill', self.fill))
+      gr_circle_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return gr_circle_node
+
+
+class GrLine:
+   def __init__ (self):
+      self.start = Xy ()
+      self.end = Xy ()
+      self.layer = None  # str, eg. "F.SilkS"
+      self.width = None  # float
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      gr_line = GrLine ()
+      gr_line.start = Xy.parse (node.first_kind ('start'))
+      gr_line.end = Xy.parse (node.first_kind ('end'))
+      gr_line.layer = node.property ('layer')
+      gr_line.width = node.property ('width')
+      gr_line.tstamp = node.property ('tstamp')
+
+      return gr_line
+
+   def generate (self):
+      gr_line_node = s_expression.List.generate ('gr_line')
+      gr_line_node.add (self.start.generate_with_alternate_name ('start'))
+      gr_line_node.add (self.end.generate_with_alternate_name ('end'))
+      gr_line_node.add (s_expression.List.generate_property ('layer', self.layer))
+      gr_line_node.add (s_expression.List.generate_property ('width', self.width))
+      gr_line_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return gr_line_node
+
+
+class GrText:
+   def __init__ (self):
+      self.value = None # str, eg. "github.com/ohmtech-rdi/eurorack-blocks"
+      self.at = At ()
+      self.layer = None # str, eg. "F.SilkS"
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+      self.effects = Effects ()
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      gr_text = GrText ()
+      gr_text.value = node.entities [1].value
+      gr_text.at = At.parse (node.first_kind ('at'))
+      gr_text.layer = node.property ('layer')
+      gr_text.tstamp = node.property ('tstamp')
+      gr_text.effects = Effects.parse (node.first_kind ('effects'))
+
+      return gr_text
+
+   def generate (self):
+      gr_text_node = s_expression.List.generate ('gr_text')
+      gr_text_node.add (s_expression.StringLiteral (self.value))
+      gr_text_node.add (self.at.generate ())
+      gr_text_node.add (s_expression.List.generate_property ('layer', self.layer))
+      gr_text_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      gr_text_node.add (self.effects.generate ())
+      return gr_text_node
+
+
+class Segment:
+   def __init__ (self):
+      self.start = Xy ()
+      self.end = Xy ()
+      self.width = None  # float
+      self.layer = None  # str, eg. "F.Cu"
+      self.net = None    # int, eg. 9
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      segment = Segment ()
+      segment.start = Xy.parse (node.first_kind ('start'))
+      segment.end = Xy.parse (node.first_kind ('end'))
+      segment.width = node.property ('width')
+      segment.layer = node.property ('layer')
+      segment.net = node.property ('net')
+      segment.tstamp = node.property ('tstamp')
+
+      return segment
+
+   def generate (self):
+      segment_node = s_expression.List.generate ('segment')
+      segment_node.add (self.start.generate_with_alternate_name ('start'))
+      segment_node.add (self.end.generate_with_alternate_name ('end'))
+      segment_node.add (s_expression.List.generate_property ('width', self.width))
+      segment_node.add (s_expression.List.generate_property ('layer', self.layer))
+      segment_node.add (s_expression.List.generate_property ('net', self.net))
+      segment_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return segment_node
+
+
+class Zone:
+   def __init__ (self):
+      self.net = None      # int, eg. 1
+      self.net_name = None # str, eg. "GND"
+      self.layer = None    # str, eg. "F.Cu"
+      self.tstamp = None   # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+      self.hatch = Zone.Hatch ()
+      self.connect_pads = Zone.ConnectPads ()
+      self.min_thickness = None  # float
+      self.fill = Zone.Fill ()
+      self.polygon = Zone.Polygon ()
+      self.filled_polygon = Zone.FilledPolygon ()
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      zone = Zone ()
+      zone.net = node.property ('net')
+      zone.net_name = node.property ('name')
+      zone.layer = node.property ('layer')
+      zone.tstamp = node.property ('tstamp')
+      zone.hatch = Zone.Hatch.parse (node.first_kind ('hatch'))
+      zone.connect_pads = Zone.ConnectPads.parse (node.first_kind ('connect_pads'))
+      zone.min_thickness = node.property ('min_thickness')
+      zone.fill = Zone.Fill.parse (node.first_kind ('fill'))
+      zone.polygon = Zone.Polygon.parse (node.first_kind ('polygon'))
+      zone.filled_polygon = Zone.FilledPolygon.parse (node.first_kind ('filled_polygon'))
+      return zone
+
+   def generate (self):
+      zone_node = s_expression.List.generate ('zone')
+      zone_node.add (s_expression.List.generate_property ('net', self.net))
+      zone_node.add (s_expression.List.generate_property ('net_name', self.net_name))
+      zone_node.add (s_expression.List.generate_property ('layer', self.layer))
+      zone_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      zone_node.add (self.hatch.generate ())
+      zone_node.add (self.connect_pads.generate ())
+      zone_node.add (s_expression.List.generate_property ('min_thickness', self.min_thickness))
+      zone_node.add (self.fill.generate ())
+      zone_node.add (self.polygon.generate ())
+      zone_node.add (self.filled_polygon.generate ())
+      return zone_node
+
+   class Hatch:
+      def __init__ (self):
+         self.display = None  # symbol, eg. edge, full
+         self.distance = None # float, not available in KiCad UI
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         hatch = Zone.Hatch ()
+         hatch.display = node.entities [1].value
+         hatch.distance = node.entities [2].value
+         return hatch
+
+      def generate (self):
+         hatch_node = s_expression.List.generate ('hatch')
+         hatch_node.add (s_expression.Symbol (self.display))
+         hatch_node.add (s_expression.FloatLiteral (self.distance))
+         return hatch_node
+
+   class ConnectPads:
+      def __init__ (self):
+         self.clearance = None # float
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         connect_pads = Zone.ConnectPads ()
+         connect_pads.clearance = node.property ('clearance')
+         return connect_pads
+
+      def generate (self):
+         connect_pads_node = s_expression.List.generate ('hatch')
+         connect_pads_node.add (s_expression.List.generate_property ('clearance', self.clearance))
+         return connect_pads_node
+
+   class Fill:
+      def __init__ (self):
+         self.active = None               # symbol eg. yes
+         self.thermal_gap = None          # float, eg.
+         self.thermal_bridge_width = None # float, eg. 0.508
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         fill = Zone.Fill ()
+         fill.active = node.entities [1].value
+         fill.thermal_gap = node.property ('thermal_gap')
+         fill.thermal_bridge_width = node.property ('thermal_bridge_width')
+         return fill
+
+      def generate (self):
+         fill_node = s_expression.List.generate ('fill')
+         fill_node.add (s_expression.Symbol (self.active))
+         fill_node.add (s_expression.List.generate_property ('thermal_gap', self.thermal_gap))
+         fill_node.add (s_expression.List.generate_property ('thermal_bridge_width', self.thermal_bridge_width))
+         return fill_node
+
+   class Polygon:
+      def __init__ (self):
+         self.pts = Pts ()
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         polygon = Zone.Polygon ()
+         polygon.pts = Pts.parse (node.first_kind ('pts'))
+         return polygon
+
+      def generate (self):
+         polygon_node = s_expression.List.generate ('polygon')
+         polygon_node.add (self.pts.generate ())
+         return polygon
+
+   class FilledPolygon:
+      def __init__ (self):
+         self.layer = None # str, eg. "F.Cu"
+         self.pts = Pts ()
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         filled_polygon = Zone.FilledPolygon ()
+         filled_polygon.layer = node.property ('layer')
+         filled_polygon.pts = Pts.parse (node.first_kind ('pts'))
+         return filled_polygon
+
+      def generate (self):
+         filled_polygon_node = s_expression.List.generate ('filled_polygon')
+         filled_polygon_node.add (s_expression.List.generate_property ('layer', self.layer))
+         filled_polygon_node.add (self.pts.generate ())
+         return filled_polygon
