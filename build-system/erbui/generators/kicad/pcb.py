@@ -7,6 +7,7 @@
 
 
 
+import math
 import os
 from . import s_expression
 
@@ -114,6 +115,70 @@ class Root:
 
       return root_node
 
+   def rotate (self, rotation):
+      for footprint in self.footprints:
+         footprint.rotate (rotation)
+
+      for gr_shape in self.gr_shapes:
+         gr_shape.rotate (rotation)
+
+      for segment in self.segments:
+         segment.rotate (rotation)
+
+      for zone in self.zones:
+         zone.rotate (rotation)
+
+   def get_bounds (self, layer):
+      bounds = Bounds (None, None, None, None)
+
+      for footprint in self.footprints:
+         bounds.union (footprint.get_bounds (layer))
+
+      for gr_shape in self.gr_shapes:
+         bounds.union (gr_shape.get_bounds (layer))
+
+      for segment in self.segments:
+         bounds.union (segment.get_bounds (layer))
+
+      for zone in self.zones:
+         bounds.union (zone.get_bounds (layer))
+
+      return bounds
+
+
+# -- Rotation ----------------------------------------------------------------
+
+class Rotation:
+   def __init__ (self, rotation_degree):
+      self.degree = rotation_degree
+      self.radian = float (self.degree) * 2.0 * math.pi / 360.0
+
+      # axis is top/down in pcb coordinates: invert rotation angle
+      self.cos_a = math.cos (- self.radian)
+      self.sin_a = math.sin (- self.radian)
+
+   def apply (self, x, y):
+      return (
+         x * self.cos_a - y * self.sin_a,
+         x * self.sin_a + y * self.cos_a
+      )
+
+
+# -- Bounds ------------------------------------------------------------------
+
+class Bounds:
+   def __init__ (self, left, top, right, bottom):
+      self.left = left
+      self.top = top
+      self.right = right
+      self.bottom = bottom
+
+   def union (self, bounds):
+      self.left = bounds.left if self.left is None else min (bounds.left, self.left)
+      self.top = bounds.top if self.top is None else min (bounds.top, self.top)
+      self.right = bounds.right if self.right is None else max (bounds.right, self.right)
+      self.bottom = bounds.bottom if self.bottom is None else max (bounds.bottom, self.bottom)
+
 
 
 # -- At ----------------------------------------------------------------------
@@ -145,6 +210,12 @@ class At:
 
       return at_node
 
+   def rotate (self, rotation):
+      self.x, self.y = rotation.apply (self.x, self.y)
+
+      if not self.rotation:
+         self.rotation = 0
+      self.rotation = (self.rotation + rotation.degree + 360) % 360
 
 
 # -- Xy ----------------------------------------------------------------------
@@ -177,6 +248,9 @@ class Xy:
       xy_node.add (s_expression.FloatLiteral (self.y))
 
       return xy_node
+
+   def rotate (self, rotation):
+      self.x, self.y = rotation.apply (self.x, self.y)
 
 
 # -- Xyz ---------------------------------------------------------------------
@@ -237,6 +311,16 @@ class Pts:
          pts_node.add (xy.generate ())
 
       return pts_node
+
+   def rotate (self, rotation):
+      for item in self.items:
+         item.x, item.y = rotation.apply (item.x, item.y)
+
+   @property
+   def bounds (self):
+      xs = [item.x for item in self.items]
+      ys = [item.y for item in self.items]
+      return Bounds (min (xs), min (ys), max (xs), max (ys))
 
 
 # -- Effects -----------------------------------------------------------------
@@ -606,6 +690,17 @@ class Footprint:
          footprint_node.add (model.generate ())
       return footprint_node
 
+   def rotate (self, rotation):
+      self.at.rotate (rotation)
+
+   def get_bounds (self, layer):
+      bounds = Bounds (None, None, None, None)
+
+      for fp_shape in self.fp_shapes:
+         bounds.union (fp_shape.get_bounds (layer))
+
+      return bounds
+
    class Attr:
       def __init__ (self):
          self.attributes = [] # list of symbols, eg. exclude_from_pos_files exclude_from_bom
@@ -662,6 +757,13 @@ class Footprint:
          fp_text_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
          return fp_text_node
 
+      def get_bounds (self, layer):
+         if self.layer != layer:
+            return Bounds (None, None, None, None)
+
+         # best effort
+         return Bounds (self.at.x, self.at.y, self.at.x, self.at.y)
+
 
    class FpLine:
       def __init__ (self):
@@ -692,6 +794,17 @@ class Footprint:
          fp_line_node.add (s_expression.List.generate_property ('width', self.width))
          fp_line_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
          return fp_line_node
+
+      def get_bounds (self, layer):
+         if self.layer != layer:
+            return Bounds (None, None, None, None)
+
+         return Bounds (
+            min (self.start.x, self.end.x),
+            min (self.start.y, self.end.y),
+            max (self.start.x, self.end.x),
+            max (self.start.y, self.end.y)
+         )
 
 
    class FpArc:
@@ -727,6 +840,18 @@ class Footprint:
          fp_arc_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
          return fp_arc_node
 
+      def get_bounds (self, layer):
+         if self.layer != layer:
+            return Bounds (None, None, None, None)
+
+         # not accurate but should be fine
+         return Bounds (
+            min (self.start.x, self.mid.x, self.end.x),
+            min (self.start.y, self.mid.y, self.end.y),
+            max (self.start.x, self.mid.x, self.end.x),
+            max (self.start.y, self.mid.y, self.end.y)
+         )
+
 
    class FpCircle:
       def __init__ (self):
@@ -761,6 +886,22 @@ class Footprint:
          fp_circle_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
          return fp_circle_node
 
+      @property
+      def radius (self):
+         vec_x = self.center.x - self.end.x
+         vec_y = self.center.y - self.end.y
+         return math.sqrt (vec_x * vec_x + vec_y * vec_y)
+
+      def get_bounds (self, layer):
+         if self.layer != layer:
+            return Bounds (None, None, None, None)
+
+         r = self.radius
+         return Bounds (
+            self.center.x - r, self.center.y - r,
+            self.center.x + r, self.center.y + r
+         )
+
 
    class FpPoly:
       def __init__ (self):
@@ -791,6 +932,12 @@ class Footprint:
          fp_poly_node.add (s_expression.List.generate_property_symbol ('fill', self.fill))
          fp_poly_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
          return fp_poly_node
+
+      def get_bounds (self, layer):
+         if self.layer != layer:
+            return Bounds (None, None, None, None)
+
+         return self.pts.bounds
 
 
    class Pad:
@@ -953,6 +1100,26 @@ class GrCircle:
       gr_circle_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       return gr_circle_node
 
+   def rotate (self, rotation):
+      self.center.rotate (rotation)
+      self.end.rotate (rotation)
+
+   @property
+   def radius (self):
+      vec_x = self.center.x - self.end.x
+      vec_y = self.center.y - self.end.y
+      return math.sqrt (vec_x * vex_x + vec_y * vec_y)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      r = self.radius
+      return Bounds (
+         self.center.x - r, self.center.y - r,
+         self.center.x + r, self.center.y + r
+      )
+
 
 class GrLine:
    def __init__ (self):
@@ -984,6 +1151,21 @@ class GrLine:
       gr_line_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       return gr_line_node
 
+   def rotate (self, rotation):
+      self.start.rotate (rotation)
+      self.end.rotate (rotation)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return Bounds (
+         min (self.start.x, self.end.x),
+         min (self.start.y, self.end.y),
+         max (self.start.x, self.end.x),
+         max (self.start.y, self.end.y)
+      )
+
 
 class GrText:
    def __init__ (self):
@@ -1014,6 +1196,16 @@ class GrText:
       gr_text_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       gr_text_node.add (self.effects.generate ())
       return gr_text_node
+
+   def rotate (self, rotation):
+      self.at.rotate (rotation)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      # best effort
+      return Bounds (self.at.x, self.at.y, self.at.x, self.at.y)
 
 
 class Segment:
@@ -1048,6 +1240,21 @@ class Segment:
       segment_node.add (s_expression.List.generate_property ('net', self.net))
       segment_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       return segment_node
+
+   def rotate (self, rotation):
+      self.start.rotate (rotation)
+      self.end.rotate (rotation)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return Bounds (
+         min (self.start.x, self.end.x),
+         min (self.start.y, self.end.y),
+         max (self.start.x, self.end.x),
+         max (self.start.y, self.end.y)
+      )
 
 
 class Zone:
@@ -1093,6 +1300,16 @@ class Zone:
       zone_node.add (self.polygon.generate ())
       zone_node.add (self.filled_polygon.generate ())
       return zone_node
+
+   def rotate (self, rotation):
+      self.polygon.rotate (rotation)
+      self.filled_polygon.rotate (rotation)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return self.polygon.pts.bounds.union (self.filled_polygon.pts.bounds)
 
    class Hatch:
       def __init__ (self):
@@ -1171,6 +1388,9 @@ class Zone:
          polygon_node.add (self.pts.generate ())
          return polygon
 
+      def rotate (self, rotation):
+         self.pts.rotate (rotation)
+
    class FilledPolygon:
       def __init__ (self):
          self.layer = None # str, eg. "F.Cu"
@@ -1190,3 +1410,6 @@ class Zone:
          filled_polygon_node.add (s_expression.List.generate_property ('layer', self.layer))
          filled_polygon_node.add (self.pts.generate ())
          return filled_polygon
+
+      def rotate (self, rotation):
+         self.pts.rotate (rotation)
