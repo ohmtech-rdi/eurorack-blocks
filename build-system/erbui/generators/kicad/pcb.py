@@ -128,6 +128,19 @@ class Root:
       for zone in self.zones:
          zone.rotate (rotation)
 
+   def translate (self, x, y):
+      for footprint in self.footprints:
+         footprint.translate (x, y)
+
+      for gr_shape in self.gr_shapes:
+         gr_shape.translate (x, y)
+
+      for segment in self.segments:
+         segment.translate (x, y)
+
+      for zone in self.zones:
+         zone.translate (x, y)
+
    def get_bounds (self, layer):
       bounds = Bounds (None, None, None, None)
 
@@ -217,6 +230,10 @@ class At:
          self.rotation = 0
       self.rotation = (self.rotation + rotation.degree + 360) % 360
 
+   def translate (self, x, y):
+      self.x += x
+      self.y += y
+
 
 # -- Xy ----------------------------------------------------------------------
 
@@ -251,6 +268,10 @@ class Xy:
 
    def rotate (self, rotation):
       self.x, self.y = rotation.apply (self.x, self.y)
+
+   def translate (self, x, y):
+      self.x += x
+      self.y += y
 
 
 # -- Xyz ---------------------------------------------------------------------
@@ -315,6 +336,11 @@ class Pts:
    def rotate (self, rotation):
       for item in self.items:
          item.x, item.y = rotation.apply (item.x, item.y)
+
+   def translate (self, x, y):
+      for item in self.items:
+         item.x += x
+         item.y += y
 
    @property
    def bounds (self):
@@ -692,6 +718,9 @@ class Footprint:
 
    def rotate (self, rotation):
       self.at.rotate (rotation)
+
+   def translate (self, x, y):
+      self.at.translate (x, y)
 
    def get_bounds (self, layer):
       bounds = Bounds (None, None, None, None)
@@ -1104,11 +1133,15 @@ class GrCircle:
       self.center.rotate (rotation)
       self.end.rotate (rotation)
 
+   def translate (self, x, y):
+      self.center.translate (x, y)
+      self.end.translate (x, y)
+
    @property
    def radius (self):
       vec_x = self.center.x - self.end.x
       vec_y = self.center.y - self.end.y
-      return math.sqrt (vec_x * vex_x + vec_y * vec_y)
+      return math.sqrt (vec_x * vec_x + vec_y * vec_y)
 
    def get_bounds (self, layer):
       if self.layer != layer:
@@ -1155,6 +1188,10 @@ class GrLine:
       self.start.rotate (rotation)
       self.end.rotate (rotation)
 
+   def translate (self, x, y):
+      self.start.translate (x, y)
+      self.end.translate (x, y)
+
    def get_bounds (self, layer):
       if self.layer != layer:
          return Bounds (None, None, None, None)
@@ -1200,6 +1237,9 @@ class GrText:
    def rotate (self, rotation):
       self.at.rotate (rotation)
 
+   def translate (self, x, y):
+      self.at.translate (x, y)
+
    def get_bounds (self, layer):
       if self.layer != layer:
          return Bounds (None, None, None, None)
@@ -1244,6 +1284,10 @@ class Segment:
    def rotate (self, rotation):
       self.start.rotate (rotation)
       self.end.rotate (rotation)
+
+   def translate (self, x, y):
+      self.start.translate (x, y)
+      self.end.translate (x, y)
 
    def get_bounds (self, layer):
       if self.layer != layer:
@@ -1304,6 +1348,10 @@ class Zone:
    def rotate (self, rotation):
       self.polygon.rotate (rotation)
       self.filled_polygon.rotate (rotation)
+
+   def translate (self, x, y):
+      self.polygon.translate (x, y)
+      self.filled_polygon.translate (x, y)
 
    def get_bounds (self, layer):
       if self.layer != layer:
@@ -1391,6 +1439,9 @@ class Zone:
       def rotate (self, rotation):
          self.pts.rotate (rotation)
 
+      def translate (self, x, y):
+         self.pts.translate (x, y)
+
    class FilledPolygon:
       def __init__ (self):
          self.layer = None # str, eg. "F.Cu"
@@ -1413,3 +1464,6 @@ class Zone:
 
       def rotate (self, rotation):
          self.pts.rotate (rotation)
+
+      def translate (self, x, y):
+         self.pts.translate (x, y)
