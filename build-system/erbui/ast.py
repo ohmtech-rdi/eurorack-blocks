@@ -412,6 +412,10 @@ class Module (Scope):
       super (Module, self).__init__ ()
       self.identifier = identifier
       self.super_identifier = super_identifier
+      self.pcb = None
+      self.sch = None
+      self.references = []
+      self.net_name_index_map = {}
       self.cascade_eval_list = []
       self.unused_pins = []
       self.faust_addresses = {}
