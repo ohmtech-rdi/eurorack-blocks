@@ -17,6 +17,7 @@ from ..generators.kicad import pcb, sch
 
 import math
 import os
+import re
 from difflib import get_close_matches
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -50,6 +51,16 @@ class AnalyserStyle:
    #--------------------------------------------------------------------------
 
    def analyse_module (self, global_namespace, module):
+
+      module.pcb = pcb.Root.read (module.board.pcb.path)
+      module.sch = sch.Root.read (module.board.sch.path)
+
+      # Retrieve already used board references for control reference allocations
+      for footprint in module.pcb.footprints:
+         module.references.append (footprint.reference)
+
+      for net in module.pcb.nets:
+         module.net_name_index_map [net.name] = net.index
 
       manufacturer_style_set = self.analyse_module_manufacturer (global_namespace, module)
 
@@ -197,7 +208,13 @@ class AnalyserStyle:
       component_list = cur_styles_parts ['parts']
 
       for component_name in component_list:
-         kicad_pcb, kicad_sch = self.load_kicad_pcb_sch (module.manufacturer_base_path, component_name)
+         kicad_pcb, kicad_sch = self.load_kicad_pcb_sch (
+            module, module.manufacturer_base_path, component_name
+         )
+         self.rename_cascade_to (kicad_pcb, control)
+         self.rename_cascade_from (kicad_pcb, control)
+         self.rename_pins (kicad_pcb, control)
+         self.relink_nets (kicad_pcb, module, control)
          self.rotate (kicad_pcb, control)
          self.translate (kicad_pcb, control)
 
@@ -206,7 +223,7 @@ class AnalyserStyle:
 
    #--------------------------------------------------------------------------
 
-   def load_kicad_pcb_sch (self, base_path, component_name):
+   def load_kicad_pcb_sch (self, module, base_path, component_name):
 
       kicad_pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
       kicad_pcb = pcb.Root.read (kicad_pcb_path)
@@ -214,7 +231,124 @@ class AnalyserStyle:
       kicad_sch_path = os.path.join (base_path, component_name, '%s.kicad_sch' % component_name)
       kicad_sch = sch.Root.read (kicad_sch_path)
 
+      ref_map = self.make_ref_map (module, kicad_pcb)
+
+      for footprint in kicad_pcb.footprints:
+         reference = footprint.reference
+         footprint.set_reference (ref_map [reference])
+
+      for symbol in kicad_sch.symbols:
+         reference = symbol.property ('Reference')
+         if reference [0] != '#':   # eg. #PWRxxx
+            symbol.set_property ('Reference', ref_map [reference])
+
+      for symbol_instance in kicad_sch.symbol_instances:
+         if reference [0] != '#':   # eg. #PWRxxx
+            symbol_instance.reference = ref_map [symbol_instance.reference]
+
       return (kicad_pcb, kicad_sch)
+
+
+   #--------------------------------------------------------------------------
+   # For each reference, find an available index for the component category
+   # (eg. RV, D, J, etc.)
+   # Algorithm is N^2 but that shouldn't be a big deal
+
+   def make_ref_map (self, module, kicad_pcb):
+      def alloc_ref (base):
+         index = 1
+         while '%s%d' % (base, index) in module.references:
+            index += 1
+         return '%s%d' % (base, index)
+
+      ref_map = {}
+
+      for footprint in kicad_pcb.footprints:
+         reference = footprint.reference
+         ref_split = list (filter (None, re.split (r'(\d+)', reference)))
+         new_reference = alloc_ref (ref_split [0])
+         ref_map [reference] = new_reference
+         module.references.append (new_reference)
+
+      return ref_map
+
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text 'cascade_to' pin (if any) to actual pin name
+
+   def rename_cascade_to (self, kicad_pcb, control):
+      if control.cascade_to is None:
+         self.rename_cascade (kicad_pcb, 'cascade_to', None)
+      else:
+         self.rename_cascade (kicad_pcb, 'cascade_to', control.cascade_to.index)
+
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text 'cascade_from' pin (if any) to actual pin name
+
+   def rename_cascade_from (self, kicad_pcb, control):
+      if control.cascade_from is None:
+         self.rename_cascade (kicad_pcb, 'cascade_from', None)
+      else:
+         self.rename_cascade (kicad_pcb, 'cascade_from', control.cascade_from.index)
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_cascade (self, kicad_pcb, cascade_type, cascade_index):
+      for gr_shape in kicad_pcb.gr_shapes:
+         if isinstance (gr_shape, pcb.GrText) and gr_shape.value == cascade_type:
+            if cascade_index is None:
+               gr_shape.value = ''
+            else:
+               gr_shape.value = 'K%d' % (cascade_index + 1)
+
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text pin to actual pin name
+
+   def rename_pins (self, kicad_pcb, control):
+      name_map = {}
+      if control.is_pin_single:
+         name_map ['pin'] = control.pin.name
+      else:
+         names = control.pins.names
+         for index, name in enumerate (names):
+            name_map ['pin%d' % index] = name
+
+      for gr_shape in kicad_pcb.gr_shapes:
+         if isinstance (gr_shape, pcb.GrText) and gr_shape.value in name_map:
+            gr_shape.value = name_map [gr_shape.value]
+
+
+   #--------------------------------------------------------------------------
+   # Relink nets of component to the one of the board
+
+   def relink_nets (self, kicad_pcb, module, control):
+      name_map = {}
+      if control.is_pin_single:
+         name_map ['Pin0'] = control.pin.name
+      else:
+         names = control.pins.names
+         for index, name in enumerate (names):
+            name_map ['Pin%d' % index] = name
+
+      name_map ['GND'] = 'GND'
+      name_map ['+3V3'] = '+3V3'
+
+      if control.cascade_from is None:
+         name_map ['Cascade0'] = 'GND'
+      else:
+         name_map ['Cascade0'] = control.cascade_from.reference.pin.name
+
+      for footprint in kicad_pcb.footprints:
+         for pad in footprint.pads:
+            if pad.net:
+               net_name = pad.net.name
+               if net_name in name_map:
+                  pin_name = name_map [net_name]
+                  pad.net.index = module.net_name_index_map [pin_name]
+                  pad.net.name = pin_name
 
 
    #--------------------------------------------------------------------------
