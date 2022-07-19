@@ -12,6 +12,7 @@ import os
 import platform
 import subprocess
 from . import s_expression
+from ..kicad import sch
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -41,8 +42,8 @@ class Bom:
 
       field_names = [e for e in header_map if e not in ['references', 'quantity']]
 
-      path_net = os.path.join (path, '%s.net' % module.name)
-      parts = self.load_net (path_net, field_names, include_non_empty, projection)
+      symbols = self.collect_symbols (module)
+      parts = self.make_parts (symbols, field_names, include_non_empty, projection)
 
       bom = line_format.format (**header_map)
 
@@ -57,7 +58,31 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def load_net (self, path_net, field_names, include_non_empty, projection):
+   def collect_symbols (self, module):
+
+      board_sch_path = module.board.sch.path
+      board_sch_base_path = os.path.abspath (os.path.dirname (board_sch_path))
+
+      symbols = []
+
+      symbols.extend (module.sch.symbols)
+
+      for sheet in module.sch.sheets:
+         sheet_file = sheet.property ('Sheet file')
+         sheet_path = os.path.join (board_sch_base_path, sheet_file)
+         sheet_sch = sch.Root.read (sheet_path)
+         symbols.extend (sheet_sch.symbols)
+
+      for control in module.controls:
+         for part in control.parts:
+            symbols.extend (part.sch.symbols)
+
+      return symbols
+
+
+   #--------------------------------------------------------------------------
+
+   def make_parts (self, symbols, field_names, include_non_empty, projection):
 
       key_quantity_map = {}
       def inc_key (key):
@@ -75,30 +100,10 @@ class Bom:
 
       key_desc_map = {}
 
-      with open (path_net, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      export_node = parser.parse (content, 'net')
-
-      # in export:components
-      # check for comp:fields:field:name:Dist if not empty
-      # use field:name:DistPartNumber for quantity count
-
-      components_node = export_node.first_kind ('components')
-      comp_nodes = components_node.filter_kind ('comp')
-      for comp_node in comp_nodes:
-         reference = comp_node.property ('ref')
-         fields_node = comp_node.first_kind ('fields')
-         if fields_node != None:
-            field_nodes = fields_node.filter_kind ('field')
-            fields = {}
-            for field_name in field_names:
-               field_value = ''
-               for field_node in field_nodes:
-                  if field_node.property ('name') == field_name:
-                     field_value = field_node.entities [2].value
-               fields [field_name] = field_value
-
+      for symbol in symbols:
+         reference = symbol.property ('Reference')
+         if symbol.in_bom and reference [0] != '#':   # eg. #PWRxxx
+            fields = {field_name: symbol.property (field_name) for field_name in field_names}
             if include_non_empty.format (**fields):
                key = projection.format (**fields)
                inc_key (key)
