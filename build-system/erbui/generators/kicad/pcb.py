@@ -716,6 +716,17 @@ class Footprint:
          footprint_node.add (model.generate ())
       return footprint_node
 
+   @property
+   def reference (self):
+      matches = [e for e in self.fp_shapes if isinstance (e, Footprint.FpText) and e.name == 'reference']
+      match = next (iter (matches), None)
+      return match.value
+
+   def set_reference (self, value):
+      matches = [e for e in self.fp_shapes if isinstance (e, Footprint.FpText) and e.name == 'reference']
+      match = next (iter (matches), None)
+      match.value = value
+
    def rotate (self, rotation):
       self.at.rotate (rotation)
 
@@ -1081,18 +1092,25 @@ class Footprint:
 
          model = Footprint.Model ()
          model.name = node.entities [1].value
-         model.offset = Xyz.parse (node.first_kind ('offset'))
-         model.scale = Xyz.parse (node.first_kind ('scale'))
-         model.rotate = Xyz.parse (node.first_kind ('rotate'))
+         model.offset = Xyz.parse (node.first_kind ('offset').entities [1])
+         model.scale = Xyz.parse (node.first_kind ('scale').entities [1])
+         model.rotate = Xyz.parse (node.first_kind ('rotate').entities [1])
 
          return model
 
       def generate (self):
          model_node = s_expression.List.generate ('model')
          model_node.add (s_expression.StringLiteral (self.name))
-         model_node.add (self.offset.generate_with_alternate_name ('offset'))
-         model_node.add (self.scale.generate_with_alternate_name ('scale'))
-         model_node.add (self.rotate.generate_with_alternate_name ('rotate'))
+
+         offset_node = model_node.add (s_expression.List.generate ('offset'))
+         offset_node.add (self.offset.generate ())
+
+         scale_node = model_node.add (s_expression.List.generate ('scale'))
+         scale_node.add (self.scale.generate ())
+
+         rotate_node = model_node.add (s_expression.List.generate ('rotate'))
+         rotate_node.add (self.rotate.generate ())
+
          return model_node
 
 
@@ -1320,7 +1338,7 @@ class Zone:
 
       zone = Zone ()
       zone.net = node.property ('net')
-      zone.net_name = node.property ('name')
+      zone.net_name = node.property ('net_name')
       zone.layer = node.property ('layer')
       zone.tstamp = node.property ('tstamp')
       zone.hatch = Zone.Hatch.parse (node.first_kind ('hatch'))
@@ -1342,7 +1360,8 @@ class Zone:
       zone_node.add (s_expression.List.generate_property ('min_thickness', self.min_thickness))
       zone_node.add (self.fill.generate ())
       zone_node.add (self.polygon.generate ())
-      zone_node.add (self.filled_polygon.generate ())
+      if self.filled_polygon:
+         zone_node.add (self.filled_polygon.generate ())
       return zone_node
 
    def rotate (self, rotation):
@@ -1392,7 +1411,7 @@ class Zone:
          return connect_pads
 
       def generate (self):
-         connect_pads_node = s_expression.List.generate ('hatch')
+         connect_pads_node = s_expression.List.generate ('connect_pads')
          connect_pads_node.add (s_expression.List.generate_property ('clearance', self.clearance))
          return connect_pads_node
 
@@ -1407,14 +1426,15 @@ class Zone:
          if not node: return None
 
          fill = Zone.Fill ()
-         fill.active = node.entities [1].value
+         fill.active = any (e.is_symbol and e.value == 'yes' for e in node.entities)
          fill.thermal_gap = node.property ('thermal_gap')
          fill.thermal_bridge_width = node.property ('thermal_bridge_width')
          return fill
 
       def generate (self):
          fill_node = s_expression.List.generate ('fill')
-         fill_node.add (s_expression.Symbol (self.active))
+         if self.active:
+            fill_node.add (s_expression.Symbol ('yes'))
          fill_node.add (s_expression.List.generate_property ('thermal_gap', self.thermal_gap))
          fill_node.add (s_expression.List.generate_property ('thermal_bridge_width', self.thermal_bridge_width))
          return fill_node
@@ -1434,7 +1454,7 @@ class Zone:
       def generate (self):
          polygon_node = s_expression.List.generate ('polygon')
          polygon_node.add (self.pts.generate ())
-         return polygon
+         return polygon_node
 
       def rotate (self, rotation):
          self.pts.rotate (rotation)
@@ -1460,7 +1480,7 @@ class Zone:
          filled_polygon_node = s_expression.List.generate ('filled_polygon')
          filled_polygon_node.add (s_expression.List.generate_property ('layer', self.layer))
          filled_polygon_node.add (self.pts.generate ())
-         return filled_polygon
+         return filled_polygon_node
 
       def rotate (self, rotation):
          self.pts.rotate (rotation)

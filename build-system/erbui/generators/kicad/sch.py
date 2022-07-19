@@ -781,6 +781,16 @@ class Symbol:
          symbol_node.add (pin.generate ())
       return symbol_node
 
+   def property (self, name):
+      matches = [e for e in self.properties if e.name == name]
+      match = next (iter (matches), None)
+      return match.value if match else None
+
+   def set_property (self, name, value):
+      matches = [e for e in self.properties if e.name == name]
+      match = next (iter (matches), None)
+      match.value = value
+
    class Pin:
       def __init__ (self):
          self.name = None  # str eg. 1
