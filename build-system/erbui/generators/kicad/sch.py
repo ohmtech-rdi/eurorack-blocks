@@ -27,6 +27,7 @@ class Root:
       self.wires = []
       self.global_labels = []
       self.symbols = []
+      self.sheets = []
       self.sheet_instances = []
       self.symbol_instances = []
 
@@ -64,11 +65,18 @@ class Root:
       for symbol_node in node.filter_kind ('symbol'):
          root.symbols.append (Symbol.parse (symbol_node))
 
-      for sheet_instance_node in node.first_kind ('sheet_instances').filter_kind ('path'):
-         root.sheet_instances.append (SheetInstance.parse (sheet_instance_node))
+      for sheet_node in node.filter_kind ('sheet'):
+         root.sheets.append (Sheet.parse (sheet_node))
 
-      for symbol_instance_node in node.first_kind ('symbol_instances').filter_kind ('path'):
-         root.symbol_instances.append (SymbolInstance.parse (symbol_instance_node))
+      sheet_instances_node = node.first_kind ('sheet_instances')
+      if sheet_instances_node:
+         for sheet_instance_node in sheet_instances_node.filter_kind ('path'):
+            root.sheet_instances.append (SheetInstance.parse (sheet_instance_node))
+
+      symbol_instances_node = node.first_kind ('symbol_instances')
+      if symbol_instances_node:
+         for symbol_instance_node in symbol_instances_node.filter_kind ('path'):
+            root.symbol_instances.append (SymbolInstance.parse (symbol_instance_node))
 
       return root
 
@@ -99,6 +107,9 @@ class Root:
 
       for symbol in self.symbols:
          root_node.add (symbol.generate ())
+
+      for sheet in self.sheets:
+         root_node.add (sheet.generate ())
 
       sheet_instances_node = root_node.add (s_expression.List.generate ('sheet_instances'))
       for sheet_instance in self.sheet_instances:
@@ -637,7 +648,7 @@ class LibSymbol:
 
 class Junction:
    def __init__ (self):
-      self.at = At ()
+      self.at = Xy ()
       self.diameter = None # float
       color = Color ()
       self.uuid = None     # str eg. '0241e922-798f-4f95-bb3e-5bdf47696699'
@@ -647,7 +658,7 @@ class Junction:
       if not node: return None
 
       junction = Junction ()
-      junction.at = At.parse (node.first_kind ('at'))
+      junction.at = Xy.parse (node.first_kind ('at'))
       junction.diameter = node.property ('diameter')
       junction.color = Color.parse (node.first_kind ('color'))
       junction.uuid = node.property ('uuid')
@@ -656,7 +667,7 @@ class Junction:
 
    def generate (self):
       junction_node = s_expression.List.generate ('junction')
-      junction_node.add (self.at.generate ())
+      junction_node.add (self.Xy.generate_with_alternate_name ('at'))
       junction_node.add (s_expression.List.generate_property ('diameter', self.diameter))
       junction_node.add (self.color.generate ())
       junction_node.add (s_expression.List.generate_property ('uuid', self.uuid))
@@ -809,6 +820,90 @@ class Symbol:
       def generate (self):
          pin_node = s_expression.List.generate ('pin')
          pin_node.add (s_expression.StringLiteral (self.name))
+         pin_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+         return pin_node
+
+
+# -- Sheet -------------------------------------------------------------------
+
+class Sheet:
+   def __init__ (self):
+      self.at = Xy ()
+      self.size = Xy ()
+      self.fields_autoplaced = None   # None or something
+      self.stroke = Stroke ()
+      self.fill = Fill ()
+      self.uuid = None     # str eg. '00000000-0000-0000-0000-00005fcae65b'
+      self.properties = []
+      self.pins = []
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      sheet = Sheet ()
+      sheet.at = Xy.parse (node.first_kind ('at'))
+      sheet.size = Xy.parse (node.first_kind ('size'))
+      sheet.fields_autoplaced = node.first_kind ('fields_autoplaced')
+      sheet.stroke = Stroke.parse (node.first_kind ('stroke'))
+      sheet.fill = Fill.parse (node.first_kind ('fill'))
+      sheet.uuid = node.property ('uuid')
+
+      for property_node in node.filter_kind ('property'):
+         sheet.properties.append (Property.parse (property_node))
+
+      for pin_node in node.filter_kind ('pin'):
+         sheet.pins.append (Sheet.Pin.parse (pin_node))
+
+      return sheet
+
+   def generate (self):
+      sheet_node = s_expression.List.generate ('sheet')
+      sheet_node.add (self.at.generate_with_alternate_name ('at'))
+      sheet_node.add (self.size.generate_with_alternate_name ('size'))
+      if self.fields_autoplaced:
+         sheet_node.add (s_expression.List.generate ('fields_autoplaced'))
+      sheet_node.add (self.stroke.generate ())
+      sheet_node.add (self.fill.generate ())
+      sheet_node.add (s_expression.List.generate_property ('uuid', self.uuid))
+      for property in self.properties:
+         sheet_node.add (property.generate ())
+      for pin in self.pins:
+         sheet_node.add (pin.generate ())
+      return sheet_node
+
+   def property (self, name):
+      matches = [e for e in self.properties if e.name == name]
+      match = next (iter (matches), None)
+      return match.value if match else None
+
+   class Pin:
+      def __init__ (self):
+         self.name = None  # str eg. "GND"
+         self.connection_type = None   # symbol eg. output
+         self.at = At ()
+         self.effects = Effects ()
+         self.uuid = None  # str eg. dbe2d61e-6998-405a-a020-ebdfdb42a92a
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         pin = Symbol.Pin ()
+         pin.name = node.entities [1].value
+         pin.connection_type = node.entities [2].value
+         pin.at = At.parse (node.first_kind ('at'))
+         pin.effects = Effects.parse (node.first_kind ('effects'))
+         pin.uuid = node.property ('uuid')
+
+         return pin
+
+      def generate (self):
+         pin_node = s_expression.List.generate ('pin')
+         pin_node.add (s_expression.StringLiteral (self.name))
+         pin_node.add (s_expression.Symbol (self.connection_type))
+         pin_node.add (self.at.generate ())
+         pin_node.add (self.effects.generate ())
          pin_node.add (s_expression.List.generate_property ('uuid', self.uuid))
          return pin_node
 
