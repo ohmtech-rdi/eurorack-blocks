@@ -67,6 +67,8 @@ class AnalyserStyle:
       for control in module.controls:
          self.analyse_control (module, control, manufacturer_style_set)
 
+      module.sch_symbols = self.collect_symbols (module)
+
 
    #--------------------------------------------------------------------------
 
@@ -365,3 +367,27 @@ class AnalyserStyle:
 
    def translate (self, kicad_pcb, control):
       kicad_pcb.translate (control.position.x.mm, control.position.y.mm)
+
+
+   #--------------------------------------------------------------------------
+
+   def collect_symbols (self, module):
+
+      board_sch_path = module.board.sch.path
+      board_sch_base_path = os.path.abspath (os.path.dirname (board_sch_path))
+
+      symbols = []
+
+      symbols.extend (module.sch.symbols)
+
+      for sheet in module.sch.sheets:
+         sheet_file = sheet.property ('Sheet file')
+         sheet_path = os.path.join (board_sch_base_path, sheet_file)
+         sheet_sch = sch.Root.read (sheet_path)
+         symbols.extend (sheet_sch.symbols)
+
+      for control in module.controls:
+         for part in control.parts:
+            symbols.extend (part.sch.symbols)
+
+      return symbols
