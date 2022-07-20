@@ -414,6 +414,7 @@ class Module (Scope):
       self.super_identifier = super_identifier
       self.pcb = None
       self.sch = None
+      self.sch_symbols = None # board, hierarchical sheets, controls
       self.references = []
       self.net_name_index_map = {}
       self.cascade_eval_list = []
