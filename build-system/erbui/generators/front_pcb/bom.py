@@ -11,7 +11,6 @@ import math
 import os
 import platform
 import subprocess
-from . import s_expression
 from ..kicad import sch
 
 
@@ -42,8 +41,7 @@ class Bom:
 
       field_names = [e for e in header_map if e not in ['references', 'quantity']]
 
-      symbols = self.collect_symbols (module)
-      parts = self.make_parts (symbols, field_names, include_non_empty, projection)
+      parts = self.make_parts (module.sch_symbols, field_names, include_non_empty, projection)
 
       bom = line_format.format (**header_map)
 
@@ -54,30 +52,6 @@ class Bom:
 
       with open (path_bom, 'w', encoding='utf-8') as file:
          file.write (bom)
-
-
-   #--------------------------------------------------------------------------
-
-   def collect_symbols (self, module):
-
-      board_sch_path = module.board.sch.path
-      board_sch_base_path = os.path.abspath (os.path.dirname (board_sch_path))
-
-      symbols = []
-
-      symbols.extend (module.sch.symbols)
-
-      for sheet in module.sch.sheets:
-         sheet_file = sheet.property ('Sheet file')
-         sheet_path = os.path.join (board_sch_base_path, sheet_file)
-         sheet_sch = sch.Root.read (sheet_path)
-         symbols.extend (sheet_sch.symbols)
-
-      for control in module.controls:
-         for part in control.parts:
-            symbols.extend (part.sch.symbols)
-
-      return symbols
 
 
    #--------------------------------------------------------------------------
