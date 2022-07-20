@@ -134,7 +134,6 @@
             'erbui/generators/front_pcb/fill_zones.py',
             'erbui/generators/front_pcb/generate_gerber.py',
             'erbui/generators/front_pcb/kicad_pcb.py',
-            'erbui/generators/front_pcb/s_expression.py',
 
             # generators/max
             'erbui/generators/max/code_template.cpp',

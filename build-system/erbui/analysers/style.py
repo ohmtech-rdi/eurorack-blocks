@@ -12,7 +12,6 @@ from .. import ast
 from .. import error
 from .. import parser
 from ..grammar import GRAMMAR_MANUFACTURER_ROOT
-from ..generators.front_pcb import s_expression
 from ..generators.kicad import pcb, sch
 
 import math

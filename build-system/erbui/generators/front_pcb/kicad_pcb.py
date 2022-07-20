@@ -13,7 +13,6 @@ import platform
 import re
 import subprocess
 import zipfile
-from . import s_expression
 from ..kicad import pcb
 
 
