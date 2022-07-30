@@ -169,20 +169,26 @@ class Make:
          else:
             return '$(CONFIGURATION)' + path + '.d'
 
-      source_path_startup = os.path.abspath (os.path.join (PATH_LIBDAISY, 'core', 'startup_stm32h750xx.c'))
+      source_extra_paths = []
+      source_extra_paths.append (os.path.abspath (os.path.join (PATH_LIBDAISY, 'core', 'startup_stm32h750xx.c')))
+      cmsis_dsp_src_path = os.path.abspath (os.path.join (PATH_LIBDAISY, 'Drivers', 'CMSIS', 'DSP', 'Source'))
+      source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'CommonTables', 'arm_common_tables.c'))
+      source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'FastMathFunctions', 'arm_cos_f32.c'))
+      source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'FastMathFunctions', 'arm_sin_f32.c'))
 
       objects = ' '.join (map (lambda x: object_name (x), source_paths))
-      objects += ' ' + object_name (source_path_startup)
+      objects += ' ' + ' '.join (map (lambda x: object_name (x), source_extra_paths))
       lines += '$(CONFIGURATION)/$(TARGET).elf: %s\n' % objects
       lines += '\t@echo "LINK $(CONFIGURATION)/$(TARGET).elf"\n'
       lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
 
-      rel_path = os.path.relpath (source_path_startup, path_daisy)
-      lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_path_startup), rel_path.replace ('\\', '/'))
-      lines += '\t@echo "CC %s"\n' % rel_path.replace ('\\', '/').replace ('../', '')
-      lines += '\t@mkdir -p $(@D)\n'
-      lines += '\t@$(CC) -MMD -MP $(CFLAGS) -Wno-pedantic -Wno-missing-attributes -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
-      lines += '-include %s\n\n' % dep_name (source_path_startup)
+      for source_extra_path in source_extra_paths:
+         rel_path = os.path.relpath (source_extra_path, path_daisy)
+         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_extra_path), rel_path.replace ('\\', '/'))
+         lines += '\t@echo "CC %s"\n' % rel_path.replace ('\\', '/').replace ('../', '')
+         lines += '\t@mkdir -p $(@D)\n'
+         lines += '\t@$(CC) -MMD -MP $(CFLAGS) -Wno-pedantic -Wno-missing-attributes -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
+         lines += '-include %s\n\n' % dep_name (source_extra_path)
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_daisy)
