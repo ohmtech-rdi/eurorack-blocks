@@ -836,7 +836,7 @@
   )
 
   (symbol (lib_id "Mechanical:MountingHole") (at 240.03 123.19 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-0000609ea577)
     (property "Reference" "H1" (id 0) (at 242.57 122.0216 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -879,7 +879,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 85.09 106.68 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-00006236dfda)
     (property "Reference" "AI1" (id 0) (at 78.74 106.68 90))
     (property "Value" "TestPoint" (id 1) (at 84.4042 105.2068 0)
@@ -895,7 +895,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 85.09 111.76 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-00006236f4a6)
     (property "Reference" "AO1" (id 0) (at 78.74 111.76 90))
     (property "Value" "TestPoint" (id 1) (at 84.4042 110.2868 0)
@@ -911,7 +911,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 85.09 116.84 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-0000626b9c4c)
     (property "Reference" "P1" (id 0) (at 78.74 116.84 90))
     (property "Value" "TestPoint" (id 1) (at 84.4042 115.3668 0)
