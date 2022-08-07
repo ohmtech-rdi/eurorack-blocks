@@ -37,38 +37,38 @@ typedef struct State {
 	Delay m_delay_10;
 	int __exception;
 	int vectorsize;
-	t_sample m_led3_color_8;
+	t_sample m_led1_gate_8;
 	t_sample m_led3_gate_11;
-	t_sample m_led3_g_13;
-	t_sample m_led3_r_12;
-	t_sample m_led1_button_7;
-	t_sample m_led1_intensity_pot_6;
-	t_sample m_led1_gate_5;
-	t_sample m_led2_button_1;
+	t_sample m_led3_r_13;
+	t_sample m_led3_g_12;
+	t_sample m_led3_color_7;
+	t_sample m_led1_intensity_trim_6;
+	t_sample m_led1_intensity_cv_5;
+	t_sample m_led1_intensity_pot_1;
 	t_sample samplerate;
 	t_sample m_led2_led_14;
-	t_sample m_led1_intensity_cv_2;
-	t_sample m_led2_gate_4;
-	t_sample m_led1_intensity_trim_3;
+	t_sample m_led2_gate_2;
+	t_sample m_led1_button_4;
+	t_sample m_led2_button_3;
 	t_sample m_led1_led_15;
 	// re-initialize all member variables;
 	inline void reset(t_param __sr, int __vs) {
 		__exception = 0;
 		vectorsize = __vs;
 		samplerate = __sr;
-		m_led2_button_1 = ((int)0);
-		m_led1_intensity_cv_2 = ((int)0);
-		m_led1_intensity_trim_3 = ((int)0);
-		m_led2_gate_4 = ((int)0);
-		m_led1_gate_5 = ((int)0);
-		m_led1_intensity_pot_6 = ((int)0);
-		m_led1_button_7 = ((int)0);
-		m_led3_color_8 = ((int)0);
+		m_led1_intensity_pot_1 = ((int)0);
+		m_led2_gate_2 = ((int)0);
+		m_led2_button_3 = ((int)0);
+		m_led1_button_4 = ((int)0);
+		m_led1_intensity_cv_5 = ((int)0);
+		m_led1_intensity_trim_6 = ((int)0);
+		m_led3_color_7 = ((int)0);
+		m_led1_gate_8 = ((int)0);
 		m_delay_9.reset("m_delay_9", ((int)48000));
 		m_delay_10.reset("m_delay_10", ((int)48000));
 		m_led3_gate_11 = ((int)0);
-		m_led3_r_12 = ((int)0);
-		m_led3_g_13 = ((int)0);
+		m_led3_g_12 = ((int)0);
+		m_led3_r_13 = ((int)0);
 		m_led2_led_14 = ((int)0);
 		m_led1_led_15 = ((int)0);
 		genlib_reset_complete(this);
@@ -89,35 +89,36 @@ typedef struct State {
 			return __exception;
 			
 		};
-		t_sample expr_510 = (((int)1) - m_led3_color_8);
-		t_sample add_360 = (m_led2_button_1 + m_led2_gate_4);
-		t_sample clamp_361 = ((add_360 <= ((int)0)) ? ((int)0) : ((add_360 >= ((int)1)) ? ((int)1) : add_360));
-		t_sample add_375 = (m_led1_button_7 + m_led1_gate_5);
-		t_sample clamp_374 = ((add_375 <= ((int)0)) ? ((int)0) : ((add_375 >= ((int)1)) ? ((int)1) : add_375));
-		t_sample mul_363 = (m_led1_intensity_trim_3 * m_led1_intensity_cv_2);
-		t_sample add_367 = (m_led1_intensity_pot_6 + mul_363);
-		t_sample clamp_371 = ((add_367 <= ((int)0)) ? ((int)0) : ((add_367 >= ((int)1)) ? ((int)1) : add_367));
-		t_sample mul_379 = (clamp_374 * clamp_371);
-		t_sample led3_gate_next_513 = fixdenorm(m_led3_color_8);
-		t_sample led3_r_next_514 = fixdenorm(m_led3_color_8);
-		t_sample led3_g_next_515 = fixdenorm(expr_510);
-		t_sample led2_led_next_516 = fixdenorm(clamp_361);
-		t_sample led1_led_next_517 = fixdenorm(mul_379);
+		t_sample expr_21 = (((int)1) - m_led3_color_7);
+		t_sample sin_1 = sin(m_led3_color_7);
+		t_sample add_14 = (m_led2_button_3 + m_led2_gate_2);
+		t_sample clamp_13 = ((add_14 <= ((int)0)) ? ((int)0) : ((add_14 >= ((int)1)) ? ((int)1) : add_14));
+		t_sample add_9 = (m_led1_button_4 + m_led1_gate_8);
+		t_sample clamp_8 = ((add_9 <= ((int)0)) ? ((int)0) : ((add_9 >= ((int)1)) ? ((int)1) : add_9));
+		t_sample mul_12 = (m_led1_intensity_trim_6 * m_led1_intensity_cv_5);
+		t_sample add_11 = (m_led1_intensity_pot_1 + mul_12);
+		t_sample clamp_10 = ((add_11 <= ((int)0)) ? ((int)0) : ((add_11 >= ((int)1)) ? ((int)1) : add_11));
+		t_sample mul_7 = (clamp_8 * clamp_10);
+		t_sample led3_gate_next_24 = fixdenorm(m_led3_color_7);
+		t_sample led3_g_next_25 = fixdenorm(expr_21);
+		t_sample led3_r_next_26 = fixdenorm(sin_1);
+		t_sample led2_led_next_27 = fixdenorm(clamp_13);
+		t_sample led1_led_next_28 = fixdenorm(mul_7);
 		// the main sample loop;
 		while ((__n--)) {
 			const t_sample in1 = (*(__in1++));
 			const t_sample in2 = (*(__in2++));
-			t_sample tap_460 = m_delay_9.read_step(((int)48000));
-			t_sample out2 = tap_460;
-			t_sample tap_432 = m_delay_10.read_step(((int)48000));
-			t_sample out1 = tap_432;
-			m_delay_9.write(in2);
-			m_led1_led_15 = led1_led_next_517;
-			m_led2_led_14 = led2_led_next_516;
-			m_led3_g_13 = led3_g_next_515;
-			m_led3_r_12 = led3_r_next_514;
-			m_led3_gate_11 = led3_gate_next_513;
-			m_delay_10.write(in1);
+			t_sample tap_5 = m_delay_9.read_step(((int)48000));
+			t_sample out1 = tap_5;
+			t_sample tap_3 = m_delay_10.read_step(((int)48000));
+			t_sample out2 = tap_3;
+			m_delay_9.write(in1);
+			m_led1_led_15 = led1_led_next_28;
+			m_led2_led_14 = led2_led_next_27;
+			m_led3_r_13 = led3_r_next_26;
+			m_led3_g_12 = led3_g_next_25;
+			m_led3_gate_11 = led3_gate_next_24;
+			m_delay_10.write(in2);
 			m_delay_9.step();
 			m_delay_10.step();
 			// assign results to output buffer;
@@ -128,29 +129,29 @@ typedef struct State {
 		return __exception;
 		
 	};
-	inline void set_led2_button(t_param _value) {
-		m_led2_button_1 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
-	};
-	inline void set_led1_intensity_cv(t_param _value) {
-		m_led1_intensity_cv_2 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
-	};
-	inline void set_led1_intensity_trim(t_param _value) {
-		m_led1_intensity_trim_3 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+	inline void set_led1_intensity_pot(t_param _value) {
+		m_led1_intensity_pot_1 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
 	};
 	inline void set_led2_gate(t_param _value) {
-		m_led2_gate_4 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+		m_led2_gate_2 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
 	};
-	inline void set_led1_gate(t_param _value) {
-		m_led1_gate_5 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
-	};
-	inline void set_led1_intensity_pot(t_param _value) {
-		m_led1_intensity_pot_6 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+	inline void set_led2_button(t_param _value) {
+		m_led2_button_3 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
 	};
 	inline void set_led1_button(t_param _value) {
-		m_led1_button_7 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+		m_led1_button_4 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+	};
+	inline void set_led1_intensity_cv(t_param _value) {
+		m_led1_intensity_cv_5 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+	};
+	inline void set_led1_intensity_trim(t_param _value) {
+		m_led1_intensity_trim_6 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
 	};
 	inline void set_led3_color(t_param _value) {
-		m_led3_color_8 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+		m_led3_color_7 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
+	};
+	inline void set_led1_gate(t_param _value) {
+		m_led1_gate_8 = (_value < 0 ? 0 : (_value > 1 ? 1 : _value));
 	};
 	
 } State;
@@ -211,14 +212,14 @@ void setparameter(CommonState *cself, long index, t_param value, void *ref) {
 void getparameter(CommonState *cself, long index, t_param *value) {
 	State *self = (State *)cself;
 	switch (index) {
-		case 0: *value = self->m_led1_button_7; break;
-		case 1: *value = self->m_led1_gate_5; break;
-		case 2: *value = self->m_led1_intensity_cv_2; break;
-		case 3: *value = self->m_led1_intensity_pot_6; break;
-		case 4: *value = self->m_led1_intensity_trim_3; break;
-		case 5: *value = self->m_led2_button_1; break;
-		case 6: *value = self->m_led2_gate_4; break;
-		case 7: *value = self->m_led3_color_8; break;
+		case 0: *value = self->m_led1_button_4; break;
+		case 1: *value = self->m_led1_gate_8; break;
+		case 2: *value = self->m_led1_intensity_cv_5; break;
+		case 3: *value = self->m_led1_intensity_pot_1; break;
+		case 4: *value = self->m_led1_intensity_trim_6; break;
+		case 5: *value = self->m_led2_button_3; break;
+		case 6: *value = self->m_led2_gate_2; break;
+		case 7: *value = self->m_led3_color_7; break;
 		
 		default: break;
 	}
@@ -301,11 +302,11 @@ void *create(t_param sr, long vs) {
 	self->__commonstate.vs = vs;
 	self->__commonstate.params = (ParamInfo *)genlib_sysmem_newptr(8 * sizeof(ParamInfo));
 	self->__commonstate.numparams = 8;
-	// initialize parameter 0 ("m_led1_button_7")
+	// initialize parameter 0 ("m_led1_button_4")
 	pi = self->__commonstate.params + 0;
 	pi->name = "led1_button";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led1_button_7;
+	pi->defaultvalue = self->m_led1_button_4;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -315,11 +316,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 1 ("m_led1_gate_5")
+	// initialize parameter 1 ("m_led1_gate_8")
 	pi = self->__commonstate.params + 1;
 	pi->name = "led1_gate";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led1_gate_5;
+	pi->defaultvalue = self->m_led1_gate_8;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -329,11 +330,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 2 ("m_led1_intensity_cv_2")
+	// initialize parameter 2 ("m_led1_intensity_cv_5")
 	pi = self->__commonstate.params + 2;
 	pi->name = "led1_intensity_cv";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led1_intensity_cv_2;
+	pi->defaultvalue = self->m_led1_intensity_cv_5;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -343,11 +344,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 3 ("m_led1_intensity_pot_6")
+	// initialize parameter 3 ("m_led1_intensity_pot_1")
 	pi = self->__commonstate.params + 3;
 	pi->name = "led1_intensity_pot";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led1_intensity_pot_6;
+	pi->defaultvalue = self->m_led1_intensity_pot_1;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -357,11 +358,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 4 ("m_led1_intensity_trim_3")
+	// initialize parameter 4 ("m_led1_intensity_trim_6")
 	pi = self->__commonstate.params + 4;
 	pi->name = "led1_intensity_trim";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led1_intensity_trim_3;
+	pi->defaultvalue = self->m_led1_intensity_trim_6;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -371,11 +372,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 5 ("m_led2_button_1")
+	// initialize parameter 5 ("m_led2_button_3")
 	pi = self->__commonstate.params + 5;
 	pi->name = "led2_button";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led2_button_1;
+	pi->defaultvalue = self->m_led2_button_3;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -385,11 +386,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 6 ("m_led2_gate_4")
+	// initialize parameter 6 ("m_led2_gate_2")
 	pi = self->__commonstate.params + 6;
 	pi->name = "led2_gate";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led2_gate_4;
+	pi->defaultvalue = self->m_led2_gate_2;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
@@ -399,11 +400,11 @@ void *create(t_param sr, long vs) {
 	pi->outputmax = 1;
 	pi->exp = 0;
 	pi->units = "";		// no units defined
-	// initialize parameter 7 ("m_led3_color_8")
+	// initialize parameter 7 ("m_led3_color_7")
 	pi = self->__commonstate.params + 7;
 	pi->name = "led3_color";
 	pi->paramtype = GENLIB_PARAMTYPE_FLOAT;
-	pi->defaultvalue = self->m_led3_color_8;
+	pi->defaultvalue = self->m_led3_color_7;
 	pi->defaultref = 0;
 	pi->hasinputminmax = false;
 	pi->inputmin = 0;
