@@ -3,7 +3,7 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 8,
-			"minor" : 2,
+			"minor" : 3,
 			"revision" : 1,
 			"architecture" : "x64",
 			"modernui" : 1
@@ -79,14 +79,14 @@
 						"fileversion" : 1,
 						"appversion" : 						{
 							"major" : 8,
-							"minor" : 2,
+							"minor" : 3,
 							"revision" : 1,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
 						"classnamespace" : "dsp.gen",
-						"rect" : [ 171.0, 623.0, 1032.0, 695.0 ],
+						"rect" : [ 200.0, 325.0, 1032.0, 695.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -115,6 +115,18 @@
 						"subpatcher_template" : "",
 						"assistshowspatchername" : 0,
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-5",
+									"maxclass" : "newobj",
+									"numinlets" : 1,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 672.0, 477.0, 24.0, 22.0 ],
+									"text" : "sin"
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"id" : "obj-31",
 									"maxclass" : "newobj",
@@ -502,7 +514,7 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-7", 0 ],
+									"destination" : [ "obj-5", 0 ],
 									"order" : 1,
 									"source" : [ "obj-16", 0 ]
 								}
@@ -601,6 +613,13 @@
 							}
 , 							{
 								"patchline" : 								{
+									"destination" : [ "obj-7", 0 ],
+									"source" : [ "obj-5", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
 									"destination" : [ "obj-22", 0 ],
 									"source" : [ "obj-6", 0 ]
 								}
@@ -618,7 +637,7 @@
 ,
 					"patching_rect" : [ 315.0, 171.0, 172.0, 22.0 ],
 					"saved_object_attributes" : 					{
-						"exportfolder" : "Macintosh HD:/Users/raf/Desktop/dev/eurorack-blocks/test/max/artifacts/",
+						"exportfolder" : "Macintosh HD:/Users/raf/dev/eurorack-blocks/test/max/artifacts/",
 						"exportname" : "module_max"
 					}
 ,
@@ -636,45 +655,45 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "eurorack-blocks.maxpat",
-				"bootpath" : "~/Desktop/dev/eurorack-blocks/max/Eurorack-blocks/patchers",
-				"patcherrelativepath" : "../../max/Eurorack-blocks/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "erb.build.js",
-				"bootpath" : "~/Desktop/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
-				"patcherrelativepath" : "../../max/Eurorack-blocks/javascript",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "erb.preprocess.js",
-				"bootpath" : "~/Desktop/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
-				"patcherrelativepath" : "../../max/Eurorack-blocks/javascript",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
 				"name" : "erb-logo.svg",
-				"bootpath" : "~/Desktop/dev/eurorack-blocks/max/Eurorack-blocks/media",
+				"bootpath" : "~/dev/eurorack-blocks/max/Eurorack-blocks/media",
 				"patcherrelativepath" : "../../max/Eurorack-blocks/media",
 				"type" : "svg",
 				"implicit" : 1
 			}
 , 			{
+				"name" : "erb.build.js",
+				"bootpath" : "~/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
+				"patcherrelativepath" : "../../max/Eurorack-blocks/javascript",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
 				"name" : "erb.mkdir.js",
-				"bootpath" : "~/Desktop/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
+				"bootpath" : "~/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
 				"patcherrelativepath" : "../../max/Eurorack-blocks/javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "erb.prepend_module_path.js",
-				"bootpath" : "~/Desktop/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
+				"bootpath" : "~/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
 				"patcherrelativepath" : "../../max/Eurorack-blocks/javascript",
 				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "erb.preprocess.js",
+				"bootpath" : "~/dev/eurorack-blocks/max/Eurorack-blocks/javascript",
+				"patcherrelativepath" : "../../max/Eurorack-blocks/javascript",
+				"type" : "TEXT",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "eurorack-blocks.maxpat",
+				"bootpath" : "~/dev/eurorack-blocks/max/Eurorack-blocks/patchers",
+				"patcherrelativepath" : "../../max/Eurorack-blocks/patchers",
+				"type" : "JSON",
 				"implicit" : 1
 			}
  ],
