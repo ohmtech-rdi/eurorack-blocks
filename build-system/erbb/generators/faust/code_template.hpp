@@ -79,6 +79,7 @@ void  %module.name%::init ()
    mydsp::fManager = &mem;
 
    mydsp::classInit (erb_SAMPLE_RATE);
+   dsp.memoryCreate();
    dsp.instanceInit (erb_SAMPLE_RATE);
    dsp.buildUserInterface (&adapter);
 }
