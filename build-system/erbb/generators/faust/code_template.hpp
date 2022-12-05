@@ -70,6 +70,26 @@ void  dsp_memory_manager::destroy (void * ptr)
 
 /*
 ==============================================================================
+Name : call_faust_mydsp_memoryCreate_if_exists
+Description :
+   Patch Faust introduction of 'memoryCreate' which introduces a breaking
+   change: the function must be called if it exists.
+==============================================================================
+*/
+
+template <typename T>
+auto  call_faust_mydsp_memoryCreate_if_exists (T & dsp, int) -> decltype (dsp.memoryCreate ())
+{
+   dsp.memoryCreate ();
+}
+
+template <typename T>
+auto  call_faust_mydsp_memoryCreate_if_exists (T & dsp, long) -> void {}
+
+
+
+/*
+==============================================================================
 Name : init
 ==============================================================================
 */
@@ -79,6 +99,7 @@ void  %module.name%::init ()
    mydsp::fManager = &mem;
 
    mydsp::classInit (erb_SAMPLE_RATE);
+   call_faust_mydsp_memoryCreate_if_exists (dsp, 0);
    dsp.instanceInit (erb_SAMPLE_RATE);
    dsp.buildUserInterface (&adapter);
 }
