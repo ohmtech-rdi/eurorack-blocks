@@ -38,7 +38,6 @@ ifdef ARCH_MAC
 	TARGET := plugin.dylib
 	RACK_USER_DIR ?= $(HOME)/Documents/Rack2
 	FLAGS += -DARCH_MAC
-	FLAGS += -Wno-c99-extensions
 	CXXFLAGS += -stdlib=libc++
 	LDFLAGS += -stdlib=libc++
 	MAC_SDK_FLAGS = -mmacosx-version-min=10.14
@@ -80,6 +79,9 @@ FLAGS += -O3 -DNDEBUG=1 -DRELEASE=1 -march=nocona -funsafe-math-optimizations
 endif
 
 %warnings%
+ifdef ARCH_MAC
+	FLAGS += -Wno-c99-extensions
+endif
 
 FLAGS += -Derb_TARGET_VCV_RACK
 %defines.entities%
