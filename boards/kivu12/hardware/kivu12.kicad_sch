@@ -1548,7 +1548,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 46.99 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060b9001e)
     (property "Reference" "P1" (id 0) (at 55.5752 46.99 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1566,7 +1566,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 49.53 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bac877)
     (property "Reference" "P2" (id 0) (at 55.5752 49.53 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1584,7 +1584,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 52.07 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bacc58)
     (property "Reference" "P3" (id 0) (at 55.5752 52.07 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1602,7 +1602,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 54.61 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bad06e)
     (property "Reference" "P4" (id 0) (at 55.5752 54.61 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1620,7 +1620,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 57.15 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bad347)
     (property "Reference" "P5" (id 0) (at 55.5752 57.15 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1638,7 +1638,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 59.69 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bad742)
     (property "Reference" "P6" (id 0) (at 55.5752 59.69 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1656,7 +1656,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 62.23 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060badb5a)
     (property "Reference" "P7" (id 0) (at 55.5752 62.23 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1674,7 +1674,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 64.77 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060badf7d)
     (property "Reference" "P8" (id 0) (at 55.5752 64.77 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1692,7 +1692,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 67.31 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bae1bb)
     (property "Reference" "P9" (id 0) (at 55.5752 67.31 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1710,7 +1710,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 69.85 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bae60b)
     (property "Reference" "P10" (id 0) (at 55.5752 69.85 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1728,7 +1728,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 72.39 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bae93d)
     (property "Reference" "P11" (id 0) (at 55.5752 72.39 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1746,7 +1746,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 50.8 74.93 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060baecac)
     (property "Reference" "P12" (id 0) (at 55.5752 74.93 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1764,9 +1764,9 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 38.1 119.38 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060baf375)
-    (property "Reference" "" (id 0) (at 42.8752 119.38 90)
+    (property "Reference" "SDCMD1" (id 0) (at 42.8752 119.38 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "TestPoint" (id 1) (at 42.8752 120.523 90)
@@ -1782,9 +1782,9 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 38.1 116.84 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060baf714)
-    (property "Reference" "" (id 0) (at 42.8752 116.84 90)
+    (property "Reference" "SDCLK1" (id 0) (at 42.8752 116.84 90)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Value" "TestPoint" (id 1) (at 42.8752 117.983 90)
@@ -1800,7 +1800,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 38.1 114.3 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bafa0a)
     (property "Reference" "SDD0" (id 0) (at 42.8752 114.3 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1818,7 +1818,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 38.1 111.76 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bafcb6)
     (property "Reference" "SDD1" (id 0) (at 42.8752 111.76 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1836,7 +1836,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 38.1 124.46 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb0036)
     (property "Reference" "SDD2" (id 0) (at 42.8752 124.46 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1854,7 +1854,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 38.1 121.92 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb02c7)
     (property "Reference" "SDD3" (id 0) (at 42.8752 121.92 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1872,7 +1872,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 49.53 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb0949)
     (property "Reference" "CI1" (id 0) (at 173.99 49.53 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1890,7 +1890,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 52.07 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb2079)
     (property "Reference" "CI2" (id 0) (at 173.99 52.07 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1908,7 +1908,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 54.61 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb23cb)
     (property "Reference" "CI3" (id 0) (at 173.99 54.61 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1926,7 +1926,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 57.15 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb25c9)
     (property "Reference" "CI4" (id 0) (at 173.99 57.15 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1944,7 +1944,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 59.69 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb283c)
     (property "Reference" "CI5" (id 0) (at 173.99 59.69 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1962,7 +1962,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 62.23 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb2bdf)
     (property "Reference" "CI6" (id 0) (at 173.99 62.23 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1980,7 +1980,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 64.77 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb2e36)
     (property "Reference" "CI7" (id 0) (at 173.99 64.77 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -1998,7 +1998,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 67.31 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb31a6)
     (property "Reference" "CI8" (id 0) (at 173.99 67.31 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2016,7 +2016,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 80.01 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb394c)
     (property "Reference" "CO1" (id 0) (at 173.99 80.01 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2034,7 +2034,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 82.55 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb3e7b)
     (property "Reference" "CO2" (id 0) (at 173.99 82.55 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2052,7 +2052,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 95.25 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb3fd9)
     (property "Reference" "GO1" (id 0) (at 173.99 95.25 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2070,7 +2070,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 97.79 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb41d5)
     (property "Reference" "GO2" (id 0) (at 173.99 97.79 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2088,7 +2088,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 92.71 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb4531)
     (property "Reference" "AI1" (id 0) (at 173.99 92.71 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2106,7 +2106,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 90.17 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb4751)
     (property "Reference" "AI2" (id 0) (at 173.99 90.17 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2124,7 +2124,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 87.63 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb49a2)
     (property "Reference" "AO1" (id 0) (at 173.99 87.63 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2142,7 +2142,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 168.91 85.09 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb4d23)
     (property "Reference" "AO2" (id 0) (at 173.99 85.09 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2160,7 +2160,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 46.99 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb51ea)
     (property "Reference" "B1" (id 0) (at 137.16 46.99 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2178,7 +2178,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 49.53 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb6042)
     (property "Reference" "B2" (id 0) (at 137.16 49.53 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2196,7 +2196,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 52.07 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb6426)
     (property "Reference" "B3" (id 0) (at 137.16 52.07 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2214,7 +2214,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 54.61 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb682a)
     (property "Reference" "B4" (id 0) (at 137.16 54.61 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2232,7 +2232,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 57.15 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb6b0c)
     (property "Reference" "B5" (id 0) (at 137.16 57.15 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2250,7 +2250,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 59.69 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb6e56)
     (property "Reference" "B6" (id 0) (at 137.16 59.69 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2268,7 +2268,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 62.23 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb7231)
     (property "Reference" "B7" (id 0) (at 137.16 62.23 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2286,7 +2286,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 64.77 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb7700)
     (property "Reference" "B8" (id 0) (at 137.16 64.77 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2304,7 +2304,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 92.71 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb7e7c)
     (property "Reference" "B9" (id 0) (at 137.16 92.71 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2322,7 +2322,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 95.25 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bb83d9)
     (property "Reference" "B10" (id 0) (at 134.62 95.25 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2340,7 +2340,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 97.79 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bba689)
     (property "Reference" "B11" (id 0) (at 134.62 97.79 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2358,7 +2358,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 100.33 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbaa04)
     (property "Reference" "B12" (id 0) (at 134.62 100.33 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2376,7 +2376,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 102.87 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbadd5)
     (property "Reference" "B13" (id 0) (at 134.62 102.87 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2394,7 +2394,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 105.41 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbb0c5)
     (property "Reference" "B14" (id 0) (at 134.62 105.41 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2412,7 +2412,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 107.95 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbb355)
     (property "Reference" "B15" (id 0) (at 134.62 107.95 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2430,7 +2430,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 129.54 110.49 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbb68c)
     (property "Reference" "B16" (id 0) (at 134.62 110.49 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2448,7 +2448,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 46.99 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbc2b8)
     (property "Reference" "L1" (id 0) (at 95.25 46.99 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2466,7 +2466,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 49.53 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbd142)
     (property "Reference" "L2" (id 0) (at 95.25 49.53 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2484,7 +2484,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 52.07 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbd510)
     (property "Reference" "L3" (id 0) (at 95.25 52.07 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2502,7 +2502,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 54.61 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbd8bb)
     (property "Reference" "L4" (id 0) (at 95.25 54.61 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2520,7 +2520,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 57.15 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbdaaf)
     (property "Reference" "L5" (id 0) (at 95.25 57.15 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2538,7 +2538,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 59.69 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbdc3a)
     (property "Reference" "L6" (id 0) (at 95.25 59.69 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2556,7 +2556,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 62.23 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbde41)
     (property "Reference" "L7" (id 0) (at 95.25 62.23 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2574,7 +2574,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 64.77 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbe1ef)
     (property "Reference" "L8" (id 0) (at 95.25 64.77 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2592,7 +2592,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 74.93 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbe3c1)
     (property "Reference" "L9" (id 0) (at 95.25 74.93 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2610,7 +2610,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 77.47 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbe7d5)
     (property "Reference" "L10" (id 0) (at 95.25 77.47 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2628,7 +2628,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 80.01 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbef20)
     (property "Reference" "L11" (id 0) (at 95.25 80.01 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2646,7 +2646,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 82.55 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbf119)
     (property "Reference" "L12" (id 0) (at 95.25 82.55 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2664,7 +2664,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 85.09 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbfc25)
     (property "Reference" "L13" (id 0) (at 95.25 85.09 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2682,7 +2682,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 87.63 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bbfe15)
     (property "Reference" "L14" (id 0) (at 95.25 87.63 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2700,7 +2700,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 90.17 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bc0073)
     (property "Reference" "L15" (id 0) (at 95.25 90.17 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2718,7 +2718,7 @@
   )
 
   (symbol (lib_id "Connector:TestPoint") (at 90.17 92.71 270) (mirror x) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bc02b4)
     (property "Reference" "L16" (id 0) (at 95.25 92.71 90)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2736,9 +2736,9 @@
   )
 
   (symbol (lib_id "power:PWR_FLAG") (at 34.29 24.13 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bc31c7)
-    (property "Reference" "" (id 0) (at 34.29 22.225 0)
+    (property "Reference" "#FLG0101" (id 0) (at 34.29 22.225 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (id 1) (at 34.29 19.7358 0))
@@ -2752,7 +2752,7 @@
   )
 
   (symbol (lib_id "power:GND") (at 34.29 24.13 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bc3430)
     (property "Reference" "#PWR0103" (id 0) (at 34.29 30.48 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2768,9 +2768,9 @@
   )
 
   (symbol (lib_id "power:PWR_FLAG") (at 45.72 24.13 0) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bc3d29)
-    (property "Reference" "" (id 0) (at 45.72 22.225 0)
+    (property "Reference" "#FLG0102" (id 0) (at 45.72 22.225 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "PWR_FLAG" (id 1) (at 45.72 19.7358 0))
@@ -2784,7 +2784,7 @@
   )
 
   (symbol (lib_id "power:+3V3") (at 45.72 24.13 180) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060bc3f42)
     (property "Reference" "#PWR0104" (id 0) (at 45.72 20.32 0)
       (effects (font (size 1.27 1.27)) hide)
@@ -2802,7 +2802,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x12") (at 33.02 59.69 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060d5bc2e)
     (property "Reference" "ZZ1" (id 0) (at 35.56 40.64 0))
     (property "Value" "PX" (id 1) (at 35.56 43.18 0))
@@ -2827,9 +2827,9 @@
   )
 
   (symbol (lib_id "power:+3V3") (at 38.1 95.25 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060d8a6b7)
-    (property "Reference" "#PWR?" (id 0) (at 34.29 95.25 0)
+    (property "Reference" "#PWR0109" (id 0) (at 34.29 95.25 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (id 1) (at 40.64 95.25 90)
@@ -2845,9 +2845,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 38.1 97.79 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060d8a8cf)
-    (property "Reference" "#PWR?" (id 0) (at 44.45 97.79 0)
+    (property "Reference" "#PWR0108" (id 0) (at 44.45 97.79 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 41.3512 97.663 90)
@@ -2863,7 +2863,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x06") (at 33.02 116.84 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060d8cda0)
     (property "Reference" "ZZ10" (id 0) (at 35.1028 106.2482 0))
     (property "Value" "SD" (id 1) (at 35.1028 108.5596 0))
@@ -2882,7 +2882,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 72.39 54.61 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060d92664)
     (property "Reference" "ZZ4" (id 0) (at 74.4728 41.4782 0))
     (property "Value" "LX" (id 1) (at 74.4728 43.7896 0))
@@ -2903,7 +2903,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 72.39 82.55 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060d9c1b6)
     (property "Reference" "ZZ12" (id 0) (at 74.4728 69.4182 0))
     (property "Value" "LX" (id 1) (at 74.4728 71.7296 0))
@@ -2924,7 +2924,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x02") (at 72.39 105.41 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060daa61d)
     (property "Reference" "J11" (id 0) (at 74.4728 99.8982 0))
     (property "Value" "GND" (id 1) (at 74.4728 102.2096 0))
@@ -2939,7 +2939,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 111.76 54.61 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060dac621)
     (property "Reference" "ZZ3" (id 0) (at 113.8428 41.4782 0))
     (property "Value" "BX" (id 1) (at 113.8428 43.7896 0))
@@ -2960,9 +2960,9 @@
   )
 
   (symbol (lib_id "power:+3V3") (at 116.84 74.93 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060db7dc4)
-    (property "Reference" "#PWR?" (id 0) (at 113.03 74.93 0)
+    (property "Reference" "#PWR0106" (id 0) (at 113.03 74.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (id 1) (at 119.38 74.93 90)
@@ -2978,7 +2978,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x04") (at 111.76 77.47 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060db7dce)
     (property "Reference" "J6" (id 0) (at 113.8428 69.4182 0))
     (property "Value" "POWER2" (id 1) (at 113.8428 71.7296 0))
@@ -2995,9 +2995,9 @@
   )
 
   (symbol (lib_id "power:+3V3") (at 116.84 77.47 270) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060db7dd8)
-    (property "Reference" "#PWR?" (id 0) (at 113.03 77.47 0)
+    (property "Reference" "#PWR0102" (id 0) (at 113.03 77.47 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "+3V3" (id 1) (at 119.38 77.47 90)
@@ -3013,9 +3013,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 116.84 80.01 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060db7de2)
-    (property "Reference" "#PWR?" (id 0) (at 123.19 80.01 0)
+    (property "Reference" "#PWR0101" (id 0) (at 123.19 80.01 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 120.0912 79.883 90)
@@ -3031,9 +3031,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 116.84 82.55 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060db7dec)
-    (property "Reference" "#PWR?" (id 0) (at 123.19 82.55 0)
+    (property "Reference" "#PWR0105" (id 0) (at 123.19 82.55 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 120.0912 82.423 90)
@@ -3049,7 +3049,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x08") (at 111.76 100.33 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060dbbb75)
     (property "Reference" "ZZ7" (id 0) (at 113.8428 87.1982 0))
     (property "Value" "BX" (id 1) (at 113.8428 89.5096 0))
@@ -3070,7 +3070,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x09") (at 151.13 57.15 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060dce168)
     (property "Reference" "ZZ2" (id 0) (at 153.2128 41.4782 0))
     (property "Value" "CIX" (id 1) (at 153.2128 43.7896 0))
@@ -3092,9 +3092,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 156.21 46.99 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060dd1c4c)
-    (property "Reference" "#PWR?" (id 0) (at 162.56 46.99 0)
+    (property "Reference" "#PWR0107" (id 0) (at 162.56 46.99 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 159.4612 46.863 90)
@@ -3110,7 +3110,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x09") (at 151.13 87.63 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060dd41eb)
     (property "Reference" "ZZ5" (id 0) (at 153.2128 71.9582 0))
     (property "Value" "ANALOG" (id 1) (at 153.2128 74.2696 0))
@@ -3132,9 +3132,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 156.21 77.47 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000060dd41f5)
-    (property "Reference" "#PWR?" (id 0) (at 162.56 77.47 0)
+    (property "Reference" "#PWR0112" (id 0) (at 162.56 77.47 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 159.4612 77.343 90)
@@ -3150,7 +3150,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_01x02") (at 33.02 95.25 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000061622a1c)
     (property "Reference" "J9" (id 0) (at 35.1028 89.7382 0))
     (property "Value" "POWER1" (id 1) (at 35.1028 92.0496 0))
@@ -3165,9 +3165,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 77.47 107.95 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-000061671f27)
-    (property "Reference" "#PWR?" (id 0) (at 83.82 107.95 0)
+    (property "Reference" "#PWR0110" (id 0) (at 83.82 107.95 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 80.7212 107.823 90)
@@ -3183,9 +3183,9 @@
   )
 
   (symbol (lib_id "power:GND") (at 77.47 105.41 90) (unit 1)
-    (in_bom yes) (on_board yes)
+    (in_bom no) (on_board yes)
     (uuid 00000000-0000-0000-0000-0000616723b5)
-    (property "Reference" "#PWR?" (id 0) (at 83.82 105.41 0)
+    (property "Reference" "#PWR0111" (id 0) (at 83.82 105.41 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Value" "GND" (id 1) (at 80.7212 105.283 90)
@@ -3275,41 +3275,41 @@
     (path "/00000000-0000-0000-0000-000060bc3d29"
       (reference "#FLG0102") (unit 1) (value "PWR_FLAG") (footprint "")
     )
+    (path "/00000000-0000-0000-0000-000060db7de2"
+      (reference "#PWR0101") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-000060db7dd8"
+      (reference "#PWR0102") (unit 1) (value "+3V3") (footprint "")
+    )
     (path "/00000000-0000-0000-0000-000060bc3430"
       (reference "#PWR0103") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-000060bc3f42"
       (reference "#PWR0104") (unit 1) (value "+3V3") (footprint "")
     )
-    (path "/00000000-0000-0000-0000-000060d8a6b7"
-      (reference "#PWR?") (unit 1) (value "+3V3") (footprint "")
-    )
-    (path "/00000000-0000-0000-0000-000060d8a8cf"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    (path "/00000000-0000-0000-0000-000060db7dec"
+      (reference "#PWR0105") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-000060db7dc4"
-      (reference "#PWR?") (unit 1) (value "+3V3") (footprint "")
-    )
-    (path "/00000000-0000-0000-0000-000060db7dd8"
-      (reference "#PWR?") (unit 1) (value "+3V3") (footprint "")
-    )
-    (path "/00000000-0000-0000-0000-000060db7de2"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
-    )
-    (path "/00000000-0000-0000-0000-000060db7dec"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR0106") (unit 1) (value "+3V3") (footprint "")
     )
     (path "/00000000-0000-0000-0000-000060dd1c4c"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR0107") (unit 1) (value "GND") (footprint "")
     )
-    (path "/00000000-0000-0000-0000-000060dd41f5"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+    (path "/00000000-0000-0000-0000-000060d8a8cf"
+      (reference "#PWR0108") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-000060d8a6b7"
+      (reference "#PWR0109") (unit 1) (value "+3V3") (footprint "")
     )
     (path "/00000000-0000-0000-0000-000061671f27"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR0110") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-0000616723b5"
-      (reference "#PWR?") (unit 1) (value "GND") (footprint "")
+      (reference "#PWR0111") (unit 1) (value "GND") (footprint "")
+    )
+    (path "/00000000-0000-0000-0000-000060dd41f5"
+      (reference "#PWR0112") (unit 1) (value "GND") (footprint "")
     )
     (path "/00000000-0000-0000-0000-000060bb4531"
       (reference "AI1") (unit 1) (value "TestPoint") (footprint "TestPoint:TestPoint_Pad_D1.5mm")
