@@ -187,11 +187,26 @@ class Bounds:
       self.bottom = bottom
 
    def union (self, bounds):
-      self.left = bounds.left if self.left is None else min (bounds.left, self.left)
-      self.top = bounds.top if self.top is None else min (bounds.top, self.top)
-      self.right = bounds.right if self.right is None else max (bounds.right, self.right)
-      self.bottom = bounds.bottom if self.bottom is None else max (bounds.bottom, self.bottom)
+      def min_opt (x, y):
+         if x is None:
+            return y
+         elif y is None:
+            return x
+         else:
+            return min (x, y)
 
+      def max_opt (x, y):
+         if x is None:
+            return y
+         elif y is None:
+            return x
+         else:
+            return max (x, y)
+
+      self.left = min_opt (bounds.left, self.left)
+      self.top = min_opt (bounds.top, self.top)
+      self.right = max_opt (bounds.right, self.right)
+      self.bottom = max_opt (bounds.bottom, self.bottom)
 
 
 # -- At ----------------------------------------------------------------------
