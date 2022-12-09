@@ -164,7 +164,12 @@ class Panel:
       old_current_font_height = self.current_font_height
       self.current_font_height = 8.5#pt
 
-      self.current_box = self.get_control_bounds (control)
+      box = self.get_control_bounds (control)
+      box.left -= control.position.x.mm
+      box.top -= control.position.y.mm
+      box.right -= control.position.x.mm
+      box.bottom -= control.position.y.mm
+      self.current_box = box
 
       for label in control.labels:
          self.generate_label (context, module, label, control)

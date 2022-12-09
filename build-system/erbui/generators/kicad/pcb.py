@@ -754,6 +754,18 @@ class Footprint:
       for fp_shape in self.fp_shapes:
          bounds.union (fp_shape.get_bounds (layer))
 
+      if bounds.left is not None:
+         bounds.left += self.at.x
+
+      if bounds.top is not None:
+         bounds.top += self.at.y
+
+      if bounds.right is not None:
+         bounds.right += self.at.x
+
+      if bounds.bottom is not None:
+         bounds.bottom += self.at.y
+
       return bounds
 
    class Attr:
