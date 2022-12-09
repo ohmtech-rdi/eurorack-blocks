@@ -244,7 +244,7 @@ class AnalyserStyle:
             symbol.set_property ('Reference', ref_map [reference])
 
       for symbol_instance in kicad_sch.symbol_instances:
-         if reference [0] != '#':   # eg. #PWRxxx
+         if symbol_instance.reference [0] != '#':   # eg. #PWRxxx
             symbol_instance.reference = ref_map [symbol_instance.reference]
 
       return (kicad_pcb, kicad_sch)
