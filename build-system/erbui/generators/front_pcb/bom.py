@@ -39,19 +39,27 @@ class Bom:
       include_non_empty = generator_args ['include_non_empty']
       projection = generator_args ['projection']
 
-      field_names = [e for e in header_map if e not in ['references', 'quantity']]
+      bom = self.make_bom (module.sch_symbols, line_format, header_map, include_non_empty, projection)
 
-      parts = self.make_parts (module.sch_symbols, field_names, include_non_empty, projection)
+      path_bom = os.path.join (path, '%s.bom.csv' % module.name)
+
+      with open (path_bom, 'w', encoding='utf-8') as file:
+         file.write (bom)
+
+
+   #--------------------------------------------------------------------------
+
+   def make_bom (self, symbols, line_format, header_map, include_non_empty, projection):
+
+      field_names = [e for e in header_map if e not in ['references', 'quantity']]
+      parts = self.make_parts (symbols, field_names, include_non_empty, projection)
 
       bom = line_format.format (**header_map)
 
       for part in parts:
          bom += line_format.format (**part)
 
-      path_bom = os.path.join (path, '%s.bom.csv' % module.name)
-
-      with open (path_bom, 'w', encoding='utf-8') as file:
-         file.write (bom)
+      return bom
 
 
    #--------------------------------------------------------------------------

@@ -34,11 +34,23 @@ class Centroid:
       mounting_key = generator_args ['mounting_key']
       mounting_value = generator_args ['mounting_value']
 
-      left, bottom = self.find_left_bottom (module)
-      parts_pcb = self.make_pcb_parts (module, left, bottom, layer_map)
+      centroid = self.make_centroid (module.pcb, module.sch_symbols, line_format, header_map, layer_map, mounting_key, mounting_value)
+
+      path_centroid = os.path.join (path, '%s.centroid.csv' % module.name)
+
+      with open (path_centroid, 'w', encoding='utf-8') as file:
+         file.write (centroid)
+
+
+   #--------------------------------------------------------------------------
+
+   def make_centroid (self, pcb, symbols, line_format, header_map, layer_map, mounting_key, mounting_value):
+
+      left, bottom = self.find_left_bottom (pcb)
+      parts_pcb = self.make_pcb_parts (pcb, left, bottom, layer_map)
 
       field_names = [e for e in header_map if e not in ['x', 'y', 'layer', 'rotation']]
-      parts_sch = self.make_sch_parts (module, field_names, mounting_key, mounting_value)
+      parts_sch = self.make_sch_parts (symbols, field_names, mounting_key, mounting_value)
 
       parts = []
       for part in parts_pcb:
@@ -52,17 +64,14 @@ class Centroid:
       for part in parts:
          centroid += line_format.format (**part)
 
-      path_centroid = os.path.join (path, '%s.centroid.csv' % module.name)
-
-      with open (path_centroid, 'w', encoding='utf-8') as file:
-         file.write (centroid)
+      return centroid
 
 
    #--------------------------------------------------------------------------
    # Find the left bottom point in the cutting layer, as coordinates
    # are oriented up.
 
-   def find_left_bottom (self, module):
+   def find_left_bottom (self, module_pcb):
 
       def gr_min (cur, new):
          if cur is None:
@@ -79,7 +88,7 @@ class Centroid:
       left = None
       bottom = None
 
-      for gr_shape in module.pcb.gr_shapes:
+      for gr_shape in module_pcb.gr_shapes:
          if isinstance (gr_shape, pcb.GrLine) and gr_shape.layer == 'Edge.Cuts':
             left = gr_min (left, gr_shape.start.x)
             bottom = gr_max (left, gr_shape.start.y)
@@ -91,11 +100,11 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def make_pcb_parts (self, module, left, bottom, layer_map):
+   def make_pcb_parts (self, pcb, left, bottom, layer_map):
 
       parts = {}
 
-      for footprint in module.pcb.footprints:
+      for footprint in pcb.footprints:
          if footprint.layer == 'F.Cu':
             layer = layer_map ['top']
          elif footprint.layer == 'B.Cu':
@@ -118,11 +127,11 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def make_sch_parts (self, module, field_names, mounting_key, mounting_value):
+   def make_sch_parts (self, symbols, field_names, mounting_key, mounting_value):
 
       parts = {}
 
-      for symbol in module.sch_symbols:
+      for symbol in symbols:
          reference = symbol.property ('Reference')
          fields = {}
          for field_name in field_names:
