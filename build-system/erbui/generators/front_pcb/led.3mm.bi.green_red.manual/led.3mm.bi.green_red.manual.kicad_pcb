@@ -91,7 +91,7 @@
     (fp_arc (start 0.98 -1.235516) (mid 2.636487 -1.987659) (end 4.212335 -1.078608) (layer "F.SilkS") (width 0.12) (tstamp c374bf97-f69f-48a4-9f06-5d6059762011))
     (fp_arc (start 4.212335 1.078608) (mid 2.636487 1.987659) (end 0.98 1.235516) (layer "F.SilkS") (width 0.12) (tstamp d6b536df-b0d2-4da1-83b9-6db2184bb4f7))
     (fp_arc (start 3.58113 1.079837) (mid 2.540117 1.5) (end 1.499039 1.08) (layer "F.SilkS") (width 0.12) (tstamp f4bfe6d7-7942-4b66-80c6-e0b27dff1a4d))
-    (fp_circle (center 0 0) (end 1.5 0) (layer "Dwgs.User") (width 0.15) (fill none) (tstamp f48a6b19-b6ef-449c-80f0-8c5db0400d52))
+    (fp_circle (center 2.54 0) (end 4.04 0) (layer "Dwgs.User") (width 0.12) (fill none) (tstamp f48a6b19-b6ef-449c-80f0-8c5db0400d52))
     (fp_line (start -1.15 -2.25) (end -1.15 2.25) (layer "F.CrtYd") (width 0.05) (tstamp 32fbc245-a6cb-4a12-9c0e-965bc0298c2c))
     (fp_line (start 6.25 -2.25) (end -1.15 -2.25) (layer "F.CrtYd") (width 0.05) (tstamp 37cfa72c-4ce7-4d20-9da6-1a2f0da9dded))
     (fp_line (start -1.15 2.25) (end 6.25 2.25) (layer "F.CrtYd") (width 0.05) (tstamp 72baafa7-a2f1-4b44-82e1-087ef2116b0f))
