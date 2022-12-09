@@ -34,9 +34,6 @@ class Centroid:
       mounting_key = generator_args ['mounting_key']
       mounting_value = generator_args ['mounting_value']
 
-      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
-      path_net = os.path.join (path, '%s.net' % module.name)
-
       left, bottom = self.find_left_bottom (module)
       parts_pcb = self.make_pcb_parts (module, left, bottom, layer_map)
 
