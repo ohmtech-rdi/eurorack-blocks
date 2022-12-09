@@ -76,8 +76,8 @@ class Bom:
 
       for symbol in symbols:
          reference = symbol.property ('Reference')
-         if symbol.in_bom and reference [0] != '#':   # eg. #PWRxxx
-            fields = {field_name: symbol.property (field_name) for field_name in field_names}
+         if symbol.in_bom and reference and reference [0] != '#':   # eg. #PWRxxx
+            fields = {field_name: symbol.property (field_name) if symbol.property (field_name) is not None else '' for field_name in field_names}
             if include_non_empty.format (**fields):
                key = projection.format (**fields)
                inc_key (key)
@@ -89,7 +89,7 @@ class Bom:
       for key, quantity in key_quantity_map.items ():
          references = key_references_map [key]
          part = {
-            'references': ', '.join (references),
+            'references': ', '.join (sorted (references)),
             'quantity': quantity,
          }
          part.update (key_desc_map [key])
