@@ -145,6 +145,40 @@ def build_bom ():
 
 """
 ==============================================================================
+Name : build_bom_digikey
+==============================================================================
+"""
+
+def build_bom_digikey ():
+   kivu12_sch = sch.Root.read (os.path.join (PATH_THIS, 'kivu12.kicad_sch'))
+   symbols = []
+   symbols.extend (kivu12_sch.symbols)
+   for sheet in kivu12_sch.sheets:
+      sheet_file = sheet.property ('Sheet file')
+      sheet_path = os.path.join (PATH_THIS, sheet_file)
+      sheet_sch = sch.Root.read (sheet_path)
+      symbols.extend (sheet_sch.symbols)
+
+   line_format = '{DistPartNumber};{quantity}\n'
+   header_map = {
+      'DistPartNumber': 'Digi-Key Part Number',
+      'quantity': 'Quantity',
+   }
+   include_non_empty = '{DistPartNumber}'
+   projection = '{DistPartNumber}'
+
+   bom_gen = bom.Bom ()
+   kivu12_bom = bom_gen.make_bom (symbols, line_format, header_map, include_non_empty, projection)
+
+   path_bom = os.path.join (PATH_ARTIFACTS, 'kivu12.bom.digikey.csv')
+
+   with open (path_bom, 'w', encoding='utf-8') as file:
+      file.write (kivu12_bom)
+
+
+
+"""
+==============================================================================
 Name : build_centroid
 ==============================================================================
 """
@@ -195,6 +229,7 @@ Name : build
 def build ():
    #build_gerber ()
    build_bom ()
+   build_bom_digikey ()
    build_centroid ()
 
 
