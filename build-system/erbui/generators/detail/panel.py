@@ -164,12 +164,7 @@ class Panel:
       old_current_font_height = self.current_font_height
       self.current_font_height = 8.5#pt
 
-      box = self.get_control_bounds (control)
-      box.left -= control.position.x.mm
-      box.top -= control.position.y.mm
-      box.right -= control.position.x.mm
-      box.bottom -= control.position.y.mm
-      self.current_box = box
+      self.current_box = self.get_control_bounds (control)
 
       for label in control.labels:
          self.generate_label (context, module, label, control)
@@ -285,7 +280,7 @@ class Panel:
 
       elif label.positioning is None:
          if control.kind in ['AudioIn', 'AudioOut', 'CvIn', 'CvOut', 'GateIn', 'GateOut']: # top
-            position_y -= self.current_box.top + self.positioning_margin
+            position_y += self.current_box.top - self.positioning_margin
             align_x = 0.5
             align_y = 0
          else: # bottom
@@ -298,12 +293,12 @@ class Panel:
          align_y = 0.5
 
       elif label.positioning.is_left:
-         position_x -= self.current_box.left + self.positioning_margin
+         position_x += self.current_box.left - self.positioning_margin
          align_x = 1
          align_y = 0.5
 
       elif label.positioning.is_top:
-         position_y -= self.current_box.top + self.positioning_margin
+         position_y += self.current_box.top - self.positioning_margin
          align_x = 0.5
          align_y = 0
 
