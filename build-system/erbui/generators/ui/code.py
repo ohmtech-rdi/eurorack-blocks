@@ -120,15 +120,10 @@ class Code:
 
    def get_nbr_positions (self, control):
       for part in control.parts:
-         components_node = part.net.first_kind ('components')
-         comp_nodes = components_node.filter_kind ('comp')
-         for comp_node in comp_nodes:
-            fields_node = comp_node.first_kind ('fields')
-            if fields_node != None:
-               field_nodes = fields_node.filter_kind ('field')
-               for field_node in field_nodes:
-                  if field_node.property ('name') == 'NbrPositions':
-                     return field_node.entities [2].value
+         for symbol in part.sch.symbols:
+            nbr_positions_field = symbol.property ('NbrPositions')
+            if nbr_positions_field is not None:
+               return nbr_positions_field
 
       assert False
 
