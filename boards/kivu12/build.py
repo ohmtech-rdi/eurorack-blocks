@@ -75,7 +75,15 @@ Description :
 
 def build ():
    if platform.system () == 'Darwin':
-      kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+      kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/3.8/bin/python3.8'
+      if not os.path.exists (kicad_python_path):
+         # pre KiCad 6
+         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
+   elif platform.system () == 'Windows':
+      kicad_python_path = 'c:/Program Files/KiCad/6.0/bin/python.exe'
+      if not os.path.exists (kicad_python_path):
+         # pre KiCad 6
+         kicad_python_path = 'c:/Program Files/KiCad/bin/python.exe'
    else:
       kicad_python_path = 'python'
 
