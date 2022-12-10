@@ -51,22 +51,24 @@ class AnalyserStyle:
 
    def analyse_module (self, global_namespace, module):
 
-      module.pcb = pcb.Root.read (module.board.pcb.path)
-      module.sch = sch.Root.read (module.board.sch.path)
+      if module.board.pcb:
+         module.pcb = pcb.Root.read (module.board.pcb.path)
+         module.sch = sch.Root.read (module.board.sch.path)
 
-      # Retrieve already used board references for control reference allocations
-      for footprint in module.pcb.footprints:
-         module.references.append (footprint.reference)
+         # Retrieve already used board references for control reference allocations
+         for footprint in module.pcb.footprints:
+            module.references.append (footprint.reference)
 
-      for net in module.pcb.nets:
-         module.net_name_index_map [net.name] = net.index
+         for net in module.pcb.nets:
+            module.net_name_index_map [net.name] = net.index
 
       manufacturer_style_set = self.analyse_module_manufacturer (global_namespace, module)
 
       for control in module.controls:
          self.analyse_control (module, control, manufacturer_style_set)
 
-      module.sch_symbols = self.collect_symbols (module)
+      if module.board.pcb:
+         module.sch_symbols = self.collect_symbols (module)
 
 
    #--------------------------------------------------------------------------
@@ -215,7 +217,8 @@ class AnalyserStyle:
          self.rename_cascade_to (kicad_pcb, control)
          self.rename_cascade_from (kicad_pcb, control)
          self.rename_pins (kicad_pcb, control)
-         self.relink_nets (kicad_pcb, module, control)
+         if module.board.pcb:
+            self.relink_nets (kicad_pcb, module, control)
          self.rotate (kicad_pcb, control)
          self.translate (kicad_pcb, control)
 
