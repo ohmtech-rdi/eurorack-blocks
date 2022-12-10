@@ -124,6 +124,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - run: brew install cairo libffi
       - run: brew install --cask build-system/scripts/kicad-minimal.rb
       - run: ./blocks/audio-in-daisy/build.py
       - run: ./blocks/audio-out-daisy/build.py
