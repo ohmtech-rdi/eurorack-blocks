@@ -17,8 +17,9 @@ jobs:
           submodules: recursive
       - run: curl https://vcvrack.com/downloads/RackFree-2.1.2-lin.zip | jar xv
       - run: chmod u+x ./Rack2Free/Rack
+      - run: sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases
       - run: sudo apt-get update
-      - run: sudo apt-get install libjack-jackd2-dev libpulse-dev
+      - run: sudo apt-get install kicad libjack-jackd2-dev libpulse-dev
       - run: python3 build-system/install.py
       - run: erbb setup
       - run: python build-system/install.py
@@ -76,8 +77,9 @@ jobs:
           submodules: recursive
       - run: curl https://vcvrack.com/downloads/RackFree-2.1.2-lin.zip | jar xv
       - run: chmod u+x ./Rack2Free/Rack
+      - run: sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases
       - run: sudo apt-get update
-      - run: sudo apt-get install libjack-jackd2-dev libpulse-dev faust
+      - run: sudo apt-get install kicad libjack-jackd2-dev libpulse-dev faust
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
@@ -109,7 +111,7 @@ jobs:
           submodules: recursive
       - run: sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases
       - run: sudo apt-get update
-      - run: sudo apt-get install kicad
+      - run: sudo apt-get install kicad libcairo2-dev libffi-dev
       - run: python blocks/audio-in-daisy/build.py
       - run: python blocks/audio-out-daisy/build.py
       - run: python blocks/button/build.py
