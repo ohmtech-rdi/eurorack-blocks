@@ -107,6 +107,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - run: sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases
       - run: sudo apt-get update
       - run: sudo apt-get install kicad
       - run: python blocks/audio-in-daisy/build.py
@@ -148,6 +149,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - run: sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases
       - run: sudo apt-get update
       - run: sudo apt-get install -y ninja-build
       - run: sudo apt-get install libglu1-mesa-dev
