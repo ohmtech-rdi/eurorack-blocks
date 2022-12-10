@@ -71,7 +71,6 @@ def main ():
    erase_coverage_data ()
 
    collect ('erbui.tests.test_parser')
-   collect ('erbui.tests.test_generators')
 
    report ()
 
