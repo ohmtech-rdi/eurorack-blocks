@@ -127,23 +127,6 @@ jobs:
       - run: brew install cairo libffi
       - run: brew install --cask build-system/scripts/kicad-minimal.rb
       - run: pip3 install -r requirements.txt
-      - run: ./blocks/audio-in-daisy/build.py
-      - run: ./blocks/audio-out-daisy/build.py
-      - run: ./blocks/button/build.py
-      - run: ./blocks/cv-in/build.py
-      - run: ./blocks/gate-in/build.py
-      - run: ./blocks/gate-out/build.py
-      - run: ./blocks/led/build.py
-      - run: ./blocks/led-bi/build.py
-      - run: ./blocks/multiplexer/build.py
-      - run: ./blocks/pot/build.py
-      - run: ./blocks/power-bus/build.py
-      - run: ./blocks/regulator-daisy/build.py
-      - run: ./blocks/slider/build.py
-      - run: ./blocks/switch/build.py
-      - run: ./blocks/trim/build.py
-      - run: ./blocks/kits/stats.py
-      - run: ./blocks/kits/build.py
       - run: ./boards/kivu12/build.py
 
   unit_tests:
