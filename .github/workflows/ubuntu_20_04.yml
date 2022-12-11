@@ -111,7 +111,7 @@ jobs:
           submodules: recursive
       - run: sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases
       - run: sudo apt-get update
-      - run: sudo apt-get install kicad libcairo2-dev libffi-dev
+      - run: sudo apt-get install kicad libcairo2-dev libffi-dev libsndfile1
       - run: pip3 install -r requirements.txt
       - run: python boards/kivu12/build.py
 
