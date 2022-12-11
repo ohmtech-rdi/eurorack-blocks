@@ -126,6 +126,7 @@ jobs:
           submodules: recursive
       - run: brew install cairo libffi
       - run: brew install --cask build-system/scripts/kicad-minimal.rb
+      - run: pip3 install -r requirements.txt
       - run: ./blocks/audio-in-daisy/build.py
       - run: ./blocks/audio-out-daisy/build.py
       - run: ./blocks/button/build.py
