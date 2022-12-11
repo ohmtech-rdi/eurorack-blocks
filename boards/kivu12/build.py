@@ -227,7 +227,11 @@ Name : build
 """
 
 def build ():
-   #build_gerber ()
+
+   if not os.path.exists (PATH_ARTIFACTS):
+      os.makedirs (PATH_ARTIFACTS)
+
+   build_gerber ()
    build_bom ()
    build_bom_digikey ()
    build_centroid ()
