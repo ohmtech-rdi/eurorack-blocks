@@ -117,6 +117,11 @@
             # generators/detail
             'erbui/generators/detail/panel.py',
 
+            # generators/kicad
+            'erbui/generators/kicad/pcb.py',
+            'erbui/generators/kicad/s_expression.py',
+            'erbui/generators/kicad/sch.py',
+
             # generators/front_panel
             'erbui/generators/front_panel/dxf.py',
             'erbui/generators/front_panel/pdf.py',
