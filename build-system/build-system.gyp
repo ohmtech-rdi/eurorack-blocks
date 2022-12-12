@@ -156,8 +156,7 @@
             # tests
             'erbui/tests/mock.py',
             'erbui/tests/test_analyser.py',
-            'erbui/tests/test_generator_front_pcb.py',
-            'erbui/tests/test_generators.py',
+            'erbui/tests/test_generator_kicad.py',
             'erbui/tests/test_parser.py',
             'erbui/tests/test_s_expression.py',
          ],
