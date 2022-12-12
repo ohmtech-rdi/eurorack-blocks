@@ -51,6 +51,7 @@ def generate_definition ():
    content += "   'class': 'erb::BoardDefault',\n"
    content += "   'include': 'BoardDefault.h',\n"
    content += "   'pcb': 'default.kicad_pcb',\n"
+   content += "   'sch': 'default.kicad_sch',\n"
    content += "   'width': 12, # hp\n"
    content += "   'pins': {\n"
 
