@@ -12,10 +12,11 @@ from .. import ast
 from .. import error
 from .. import parser
 from ..grammar import GRAMMAR_MANUFACTURER_ROOT
-from ..generators.front_pcb import s_expression
+from ..generators.kicad import pcb, sch
 
 import math
 import os
+import re
 from difflib import get_close_matches
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -49,6 +50,30 @@ class AnalyserStyle:
    #--------------------------------------------------------------------------
 
    def analyse_module (self, global_namespace, module):
+
+      if module.board.pcb:
+         module.pcb = pcb.Root.read (module.board.pcb.path)
+         module.sch = sch.Root.read (module.board.sch.path)
+
+         # Retrieve already used board references for control reference allocations
+         for footprint in module.pcb.footprints:
+            module.references.append (footprint.reference)
+
+         for net in module.pcb.nets:
+            module.net_name_index_map [net.name] = net.index
+
+      manufacturer_style_set = self.analyse_module_manufacturer (global_namespace, module)
+
+      for control in module.controls:
+         self.analyse_control (module, control, manufacturer_style_set)
+
+      if module.board.pcb:
+         module.sch_symbols = self.collect_symbols (module)
+
+
+   #--------------------------------------------------------------------------
+
+   def analyse_module_manufacturer (self, global_namespace, module):
 
       if module.manufacturer_reference:
          manufacturer = None
@@ -85,8 +110,7 @@ class AnalyserStyle:
       module.manufacturer_data = self.make_manufacturer_data (manufacturer)
       manufacturer_style_set = self.make_manufacturer_style_set (module.manufacturer_data)
 
-      for control in module.controls:
-         self.analyse_control (module, control, manufacturer_style_set)
+      return manufacturer_style_set
 
 
    #--------------------------------------------------------------------------
@@ -187,98 +211,185 @@ class AnalyserStyle:
       component_list = cur_styles_parts ['parts']
 
       for component_name in component_list:
-         pcb, net = self.load_pcb_net (module.manufacturer_base_path, component_name)
-         self.rotate (pcb, control)
-
-         control.parts.append (ast.Control.Part (pcb, net))
-
-
-   #--------------------------------------------------------------------------
-
-   def load_pcb_net (self, base_path, component_name):
-
-      pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
-      pcb = self.load_kicad_pcb (pcb_path)
-
-      net_path = os.path.join (base_path, component_name, '%s.net' % component_name)
-      net = self.load_net (net_path)
-
-      return (pcb, net)
-
-
-   #--------------------------------------------------------------------------
-   # Load a PCB and filter out all the unrelevant PCB description
-   # Return a s_expression.List of:
-   # - Power (GND and +3V3) nets only,
-   # - modules, text and segments (traces)
-
-   def load_kicad_pcb (self, path):
-      def filter_func (node):
-         if isinstance (node, s_expression.Symbol) and node.value == 'kicad_pcb':
-            return False
-
-         if node.kind in ['version', 'host', 'general', 'page', 'layers', 'setup', 'net_class', 'net']:
-            return False
-
-         # keep all the rest (modules, text, etc.)
-         return True
-
-      with open (path, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      component = parser.parse (content, 'kicad_pcb')
-      component.entities = list (filter (filter_func, component.entities))
-
-      return component
-
-
-   #--------------------------------------------------------------------------
-
-   def load_net (self, path):
-      with open (path, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      return parser.parse (content, 'net')
-
-
-   #--------------------------------------------------------------------------
-   # Rotate top level objects module, gr_text and segment (traces) to their
-   # new position
-
-   def rotate (self, component, control):
-
-      rotation_deg = (control.rotation.degree + 360) % 360 if control.rotation else 0
-      rotation_rad = float (rotation_deg) * 2.0 * math.pi / 360.0
-
-      # axis is top/down in pcb coordinates: invert rotation angle
-      cos_a = math.cos (- rotation_rad)
-      sin_a = math.sin (- rotation_rad)
-
-      def rot (x, y):
-         return (
-            x * cos_a - y * sin_a,
-            x * sin_a + y * cos_a
+         kicad_pcb, kicad_sch = self.load_kicad_pcb_sch (
+            module, module.manufacturer_base_path, component_name
          )
+         self.rename_cascade_to (kicad_pcb, control)
+         self.rename_cascade_from (kicad_pcb, control)
+         self.rename_pins (kicad_pcb, control)
+         if module.board.pcb:
+            self.relink_nets (kicad_pcb, module, control)
+         self.rotate (kicad_pcb, control)
+         self.translate (kicad_pcb, control)
 
-      for node in component.filter_kinds (['module', 'gr_text']):
-         at_node = node.first_kind ('at')
-         x = float (at_node.entities [1].value)
-         y = float (at_node.entities [2].value)
-         if len (at_node.entities) == 3:
-            at_node.entities.append (s_expression.FloatLiteral (0))
-         angle = float (at_node.entities [3].value)
-         x, y = rot (x, y)
-         angle = (angle + rotation_deg + 360) % 360
-         at_node.entities [1] = s_expression.FloatLiteral (x)
-         at_node.entities [2] = s_expression.FloatLiteral (y)
-         at_node.entities [3] = s_expression.FloatLiteral (angle)
+         control.parts.append (ast.Control.Part (kicad_pcb, kicad_sch))
 
-      for node in component.filter_kind ('segment'):
-         for endpoint in node.filter_kinds (['start', 'end']):
-            x = float (endpoint.entities [1].value)
-            y = float (endpoint.entities [2].value)
-            x, y = rot (x, y)
-            endpoint.entities [1] = s_expression.FloatLiteral (x)
-            endpoint.entities [2] = s_expression.FloatLiteral (y)
 
-      return component
+   #--------------------------------------------------------------------------
+
+   def load_kicad_pcb_sch (self, module, base_path, component_name):
+
+      kicad_pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
+      kicad_pcb = pcb.Root.read (kicad_pcb_path)
+
+      kicad_sch_path = os.path.join (base_path, component_name, '%s.kicad_sch' % component_name)
+      kicad_sch = sch.Root.read (kicad_sch_path)
+
+      ref_map = self.make_ref_map (module, kicad_pcb)
+
+      for footprint in kicad_pcb.footprints:
+         reference = footprint.reference
+         footprint.set_reference (ref_map [reference])
+
+      for symbol in kicad_sch.symbols:
+         reference = symbol.property ('Reference')
+         if reference [0] != '#':   # eg. #PWRxxx
+            symbol.set_property ('Reference', ref_map [reference])
+
+      for symbol_instance in kicad_sch.symbol_instances:
+         if symbol_instance.reference [0] != '#':   # eg. #PWRxxx
+            symbol_instance.reference = ref_map [symbol_instance.reference]
+
+      return (kicad_pcb, kicad_sch)
+
+
+   #--------------------------------------------------------------------------
+   # For each reference, find an available index for the component category
+   # (eg. RV, D, J, etc.)
+   # Algorithm is N^2 but that shouldn't be a big deal
+
+   def make_ref_map (self, module, kicad_pcb):
+      def alloc_ref (base):
+         index = 1
+         while '%s%d' % (base, index) in module.references:
+            index += 1
+         return '%s%d' % (base, index)
+
+      ref_map = {}
+
+      for footprint in kicad_pcb.footprints:
+         reference = footprint.reference
+         ref_split = list (filter (None, re.split (r'(\d+)', reference)))
+         new_reference = alloc_ref (ref_split [0])
+         ref_map [reference] = new_reference
+         module.references.append (new_reference)
+
+      return ref_map
+
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text 'cascade_to' pin (if any) to actual pin name
+
+   def rename_cascade_to (self, kicad_pcb, control):
+      if control.cascade_to is None:
+         self.rename_cascade (kicad_pcb, 'cascade_to', None)
+      else:
+         self.rename_cascade (kicad_pcb, 'cascade_to', control.cascade_to.index)
+
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text 'cascade_from' pin (if any) to actual pin name
+
+   def rename_cascade_from (self, kicad_pcb, control):
+      if control.cascade_from is None:
+         self.rename_cascade (kicad_pcb, 'cascade_from', None)
+      else:
+         self.rename_cascade (kicad_pcb, 'cascade_from', control.cascade_from.index)
+
+
+   #--------------------------------------------------------------------------
+
+   def rename_cascade (self, kicad_pcb, cascade_type, cascade_index):
+      for gr_shape in kicad_pcb.gr_shapes:
+         if isinstance (gr_shape, pcb.GrText) and gr_shape.value == cascade_type:
+            if cascade_index is None:
+               gr_shape.value = ''
+            else:
+               gr_shape.value = 'K%d' % (cascade_index + 1)
+
+
+   #--------------------------------------------------------------------------
+   # Rename graphic text pin to actual pin name
+
+   def rename_pins (self, kicad_pcb, control):
+      name_map = {}
+      if control.is_pin_single:
+         name_map ['pin'] = control.pin.name
+      else:
+         names = control.pins.names
+         for index, name in enumerate (names):
+            name_map ['pin%d' % index] = name
+
+      for gr_shape in kicad_pcb.gr_shapes:
+         if isinstance (gr_shape, pcb.GrText) and gr_shape.value in name_map:
+            gr_shape.value = name_map [gr_shape.value]
+
+
+   #--------------------------------------------------------------------------
+   # Relink nets of component to the one of the board
+
+   def relink_nets (self, kicad_pcb, module, control):
+      name_map = {}
+      if control.is_pin_single:
+         name_map ['Pin0'] = control.pin.name
+      else:
+         names = control.pins.names
+         for index, name in enumerate (names):
+            name_map ['Pin%d' % index] = name
+
+      name_map ['GND'] = 'GND'
+      name_map ['+3V3'] = '+3V3'
+
+      if control.cascade_from is None:
+         name_map ['Cascade0'] = 'GND'
+      else:
+         name_map ['Cascade0'] = control.cascade_from.reference.pin.name
+
+      for footprint in kicad_pcb.footprints:
+         for pad in footprint.pads:
+            if pad.net:
+               net_name = pad.net.name
+               if net_name in name_map:
+                  pin_name = name_map [net_name]
+                  pad.net.index = module.net_name_index_map [pin_name]
+                  pad.net.name = pin_name
+
+
+   #--------------------------------------------------------------------------
+   # Rotate top level objects to their new position
+
+   def rotate (self, kicad_pcb, control):
+      rotation_degree = (control.rotation.degree + 360) % 360 if control.rotation else 0
+      rotation = pcb.Rotation (rotation_degree)
+      kicad_pcb.rotate (rotation)
+
+
+   #--------------------------------------------------------------------------
+   # Translate top level objects to their new position
+
+   def translate (self, kicad_pcb, control):
+      kicad_pcb.translate (control.position.x.mm, control.position.y.mm)
+
+
+   #--------------------------------------------------------------------------
+
+   def collect_symbols (self, module):
+
+      board_sch_path = module.board.sch.path
+      board_sch_base_path = os.path.abspath (os.path.dirname (board_sch_path))
+
+      symbols = []
+
+      symbols.extend (module.sch.symbols)
+
+      for sheet in module.sch.sheets:
+         sheet_file = sheet.property ('Sheet file')
+         sheet_path = os.path.join (board_sch_base_path, sheet_file)
+         sheet_sch = sch.Root.read (sheet_path)
+         symbols.extend (sheet_sch.symbols)
+
+      for control in module.controls:
+         for part in control.parts:
+            symbols.extend (part.sch.symbols)
+
+      return symbols

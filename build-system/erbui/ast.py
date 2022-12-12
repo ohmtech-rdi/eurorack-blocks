@@ -75,7 +75,7 @@ class Node:
    def is_board_pcb (self): return isinstance (self, BoardPcb)
 
    @property
-   def is_board_net (self): return isinstance (self, BoardNet)
+   def is_board_sch (self): return isinstance (self, BoardSch)
 
    @property
    def is_board_pin (self): return isinstance (self, BoardPin)
@@ -412,6 +412,11 @@ class Module (Scope):
       super (Module, self).__init__ ()
       self.identifier = identifier
       self.super_identifier = super_identifier
+      self.pcb = None
+      self.sch = None
+      self.sch_symbols = None # board, hierarchical sheets, controls
+      self.references = []
+      self.net_name_index_map = {}
       self.cascade_eval_list = []
       self.unused_pins = []
       self.faust_addresses = {}
@@ -577,9 +582,9 @@ class Board (Scope):
          board_pcb_path = os.path.join (board_path, board_def ['pcb'])
          self.add (BoardPcb (board_pcb_path, StringLiteral.synthesize (board_def ['pcb'])))
 
-      if 'net' in board_def:
-         board_net_path = os.path.join (board_path, board_def ['net'])
-         self.add (BoardNet (board_net_path, StringLiteral.synthesize (board_def ['net'])))
+      if 'sch' in board_def:
+         board_sch_path = os.path.join (board_path, board_def ['sch'])
+         self.add (BoardSch (board_sch_path, StringLiteral.synthesize (board_def ['sch'])))
 
       if 'width' in board_def:
          self.add (Width (DistanceLiteral.synthesize (board_def ['width'], 'hp')))
@@ -640,8 +645,8 @@ class Board (Scope):
          return None
 
    @property
-   def net (self):
-      entities = [e for e in self.entities if e.is_board_net]
+   def sch (self):
+      entities = [e for e in self.entities if e.is_board_sch]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -743,13 +748,13 @@ class BoardPcb (Node):
    def path (self): return self.filepath
 
 
-# -- BoardNet ----------------------------------------------------------------
+# -- BoardSch ----------------------------------------------------------------
 
-class BoardNet (Node):
+class BoardSch (Node):
    def __init__ (self, filepath, string_literal):
       assert isinstance (filepath, str)
       assert isinstance (string_literal, StringLiteral)
-      super (BoardNet, self).__init__ ()
+      super (BoardSch, self).__init__ ()
       self.filepath = filepath
       self.string_literal = string_literal
 
@@ -1313,9 +1318,9 @@ class ControlFaustInit (Scope):
 
 class Control (Scope):
    class Part:
-      def __init__ (self, pcb, net):
+      def __init__ (self, pcb, sch):
          self.pcb = pcb
-         self.net = net
+         self.sch = sch
 
    def __init__ (self, identifier_name, keyword_kind):
       assert isinstance (identifier_name, adapter.Identifier)
