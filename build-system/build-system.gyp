@@ -117,6 +117,11 @@
             # generators/detail
             'erbui/generators/detail/panel.py',
 
+            # generators/kicad
+            'erbui/generators/kicad/pcb.py',
+            'erbui/generators/kicad/s_expression.py',
+            'erbui/generators/kicad/sch.py',
+
             # generators/front_panel
             'erbui/generators/front_panel/dxf.py',
             'erbui/generators/front_panel/pdf.py',
@@ -129,7 +134,6 @@
             'erbui/generators/front_pcb/fill_zones.py',
             'erbui/generators/front_pcb/generate_gerber.py',
             'erbui/generators/front_pcb/kicad_pcb.py',
-            'erbui/generators/front_pcb/s_expression.py',
 
             # generators/max
             'erbui/generators/max/code_template.cpp',
@@ -152,8 +156,7 @@
             # tests
             'erbui/tests/mock.py',
             'erbui/tests/test_analyser.py',
-            'erbui/tests/test_generator_front_pcb.py',
-            'erbui/tests/test_generators.py',
+            'erbui/tests/test_generator_kicad.py',
             'erbui/tests/test_parser.py',
             'erbui/tests/test_s_expression.py',
          ],

@@ -11,7 +11,6 @@ import re
 from . import adapter
 from . import ast
 from . import error
-from .generators.front_pcb import s_expression
 from .analysers import style
 
 import os

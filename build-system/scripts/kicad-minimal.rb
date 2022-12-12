@@ -1,27 +1,22 @@
 cask "kicad-minimal" do
-  version "5.1.12-1"
-  sha256 "c7398a2f19e4f5d345c9678f81c36501a1f01d22044f289670cce6ccf744d25b"
+  version "6.0.9-0"
+  sha256 "b6371b9fc9f68ec0b0e4c8bd4e81871f6de49156ec75ba632854d155cfb02cbe"
 
-  url "https://github.com/ohmtech-rdi/kicad-releases-mirror/releases/download/5.1.12-1/kicad-minimal-5.1.12-1-10_14.dmg",
+  url "https://github.com/ohmtech-rdi/kicad-releases-mirror/releases/download/6.0.9-0/kicad-minimal-6.0.9-0.dmg",
       verified: "github.com/"
   name "KiCad"
   desc "Electronics design automation suite"
   homepage "https://kicad.org/"
 
-  depends_on macos: ">= :mojave"
+  depends_on macos: ">= :catalina"
 
-  app "KiCad/kicad.app",            target: "KiCad/kicad.app"
-  app "KiCad/bitmap2component.app", target: "KiCad/bitmap2component.app"
-  app "KiCad/eeschema.app",         target: "KiCad/eeschema.app"
-  app "KiCad/gerbview.app",         target: "KiCad/gerbview.app"
-  app "KiCad/pcb_calculator.app",   target: "KiCad/pcb_calculator.app"
-  app "KiCad/pcbnew.app",           target: "KiCad/pcbnew.app"
-  app "KiCad/pl_editor.app",        target: "KiCad/pl_editor.app"
+  suite "KiCad"
+  artifact "demos", target: "/Library/Application Support/kicad/demos"
 
-  uninstall rmdir: [
+  zap trash: [
     "/Library/Application Support/kicad",
-    "#{appdir}/KiCad",
+    "~/Library/Application Support/kicad",
+    "~/Library/Preferences/kicad",
+    "~/Library/Preferences/org.kicad-pcb.*",
   ]
-
-  zap trash: "~/Library/Preferences/kicad"
 end

@@ -11,7 +11,7 @@ module Custom {
       class "Board"
       include "board/Board.h"
       pcb "board/board.kicad_pcb"
-      net "board/board.net"
+      sch "board/board.kicad_sch"
       width 12hp
       pin P1 Pot { bind "p(0)" }
       pin AI1 AudioIn { bind "ai(0)" }

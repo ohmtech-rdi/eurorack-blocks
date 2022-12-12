@@ -11,6 +11,8 @@ import ezdxf
 import math
 import os
 
+from ..kicad import pcb
+
 
 
 PANEL_HEIGHT = 128.5#mm
@@ -77,22 +79,20 @@ class Dxf:
    def generate_control (self, msp, control):
 
       for part in control.parts:
-         for node in part.pcb.filter_kind ('gr_circle'):
-            if node.property ('layer') == 'Eco1.User':
-               center_node = node.first_kind ('center')
-               center_x = float (center_node.entities [1].value)
-               center_y = float (center_node.entities [2].value)
-               end_node = node.first_kind ('end')
-               end_x = float (end_node.entities [1].value)
-               end_y = float (end_node.entities [2].value)
-               vec_x = end_x - center_x
-               vec_y = end_y - center_y
-               drill_radius = math.sqrt (vec_x * vec_x + vec_y * vec_y)
+         self.generate_control_part (msp, control, part)
 
-               x = control.position.x.mm + center_x
-               y = control.position.y.mm + center_y
 
-               msp.add_circle ((x, PANEL_HEIGHT - y), drill_radius)
+   #--------------------------------------------------------------------------
+
+   def generate_control_part (self, msp, control, part):
+      pcb_root = part.pcb
+
+      for gr_shape in part.pcb.gr_shapes:
+         if isinstance (gr_shape, pcb.GrCircle) and gr_shape.layer == 'Eco1.User':
+            msp.add_circle (
+               (gr_shape.center.x, PANEL_HEIGHT - gr_shape.center.y),
+               gr_shape.radius
+            )
 
 
 

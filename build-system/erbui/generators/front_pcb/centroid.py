@@ -11,7 +11,7 @@ import math
 import os
 import platform
 import subprocess
-from . import s_expression
+from ..kicad import pcb
 
 
 class Centroid:
@@ -34,26 +34,7 @@ class Centroid:
       mounting_key = generator_args ['mounting_key']
       mounting_value = generator_args ['mounting_value']
 
-      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
-      path_net = os.path.join (path, '%s.net' % module.name)
-
-      left, bottom = self.find_left_bottom (module)
-      parts_pcb = self.load_pcb (path_pcb, left, bottom, layer_map)
-
-      field_names = [e for e in header_map if e not in ['x', 'y', 'layer', 'rotation']]
-      parts_net = self.load_net (path_net, field_names, mounting_key, mounting_value)
-
-      parts = []
-      for part in parts_pcb:
-         if part in parts_net:
-            dict = parts_pcb [part]
-            dict.update (parts_net [part])
-            parts.append (dict)
-
-      centroid = line_format.format (**header_map)
-
-      for part in parts:
-         centroid += line_format.format (**part)
+      centroid = self.make_centroid (module.pcb, module.sch_symbols, line_format, header_map, layer_map, mounting_key, mounting_value)
 
       path_centroid = os.path.join (path, '%s.centroid.csv' % module.name)
 
@@ -63,7 +44,34 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def find_left_bottom (self, module):
+   def make_centroid (self, pcb, symbols, line_format, header_map, layer_map, mounting_key, mounting_value):
+
+      left, bottom = self.find_left_bottom (pcb)
+      parts_pcb = self.make_pcb_parts (pcb, left, bottom, layer_map)
+
+      field_names = [e for e in header_map if e not in ['x', 'y', 'layer', 'rotation']]
+      parts_sch = self.make_sch_parts (symbols, field_names, mounting_key, mounting_value)
+
+      parts = []
+      for part in parts_pcb:
+         if part in parts_sch:
+            dict = parts_pcb [part]
+            dict.update (parts_sch [part])
+            parts.append (dict)
+
+      centroid = line_format.format (**header_map)
+
+      for part in parts:
+         centroid += line_format.format (**part)
+
+      return centroid
+
+
+   #--------------------------------------------------------------------------
+   # Find the left bottom point in the cutting layer, as coordinates
+   # are oriented up.
+
+   def find_left_bottom (self, module_pcb):
 
       def gr_min (cur, new):
          if cur is None:
@@ -80,60 +88,34 @@ class Centroid:
       left = None
       bottom = None
 
-      with open (module.board.pcb.path, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      root_node = parser.parse (content, 'kicad_pcb')
-
-      gr_line_nodes = root_node.filter_kind ('gr_line')
-
-      for gr_line_node in gr_line_nodes:
-         layer_node = gr_line_node.first_kind ('layer')
-         layer_node_value = layer_node.entities [1].value
-         if layer_node_value == 'Edge.Cuts':
-            start_node = gr_line_node.first_kind ('start')
-            x = start_node.entities [1].value
-            y = start_node.entities [2].value
-            left = gr_min (left, x)
-            bottom = gr_max (bottom, y)
-
-            end_node = gr_line_node.first_kind ('end')
-            x = end_node.entities [1].value
-            y = end_node.entities [2].value
-            left = gr_min (left, x)
-            bottom = gr_max (bottom, y)
+      for gr_shape in module_pcb.gr_shapes:
+         if isinstance (gr_shape, pcb.GrLine) and gr_shape.layer == 'Edge.Cuts':
+            left = gr_min (left, gr_shape.start.x)
+            bottom = gr_max (left, gr_shape.start.y)
+            left = gr_min (left, gr_shape.end.x)
+            bottom = gr_max (bottom, gr_shape.end.y)
 
       return (left, bottom)
 
 
    #--------------------------------------------------------------------------
 
-   def load_pcb (self, path_pcb, left, bottom, layer_map):
-      with open (path_pcb, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      root_node = parser.parse (content, 'kicad_pcb')
+   def make_pcb_parts (self, pcb, left, bottom, layer_map):
 
       parts = {}
 
-      for module in root_node.filter_kind ('module'):
-         layer = module.property ('layer')
-         if layer == 'F.Cu':
+      for footprint in pcb.footprints:
+         if footprint.layer == 'F.Cu':
             layer = layer_map ['top']
-         elif layer == 'B.Cu':
+         elif footprint.layer == 'B.Cu':
             layer = layer_map ['bottom']
          else:
             assert False
-         at_node = module.first_kind ('at')
-         x = float (at_node.entities [1].value) - left
-         y = bottom - float (at_node.entities [2].value)
-         rotation = float (at_node.entities [3].value) if len (at_node.entities) == 4 else 0
-         fp_text_nodes = module.filter_kind ('fp_text')
-         reference = None
-         for fp_text_node in fp_text_nodes:
-            if fp_text_node.entities [1].value == 'reference':
-               reference = fp_text_node.entities [2].value
-         parts [reference] = {
+
+         x = footprint.at.x - left
+         y = bottom - footprint.at.y
+         rotation = footprint.at.rotation if footprint.at.rotation else 0
+         parts [footprint.reference] = {
             'layer': layer,
             'x': x,
             'y': y,
@@ -145,34 +127,17 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def load_net (self, path_net, field_names, mounting_key, mounting_value):
-
-      with open (path_net, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      export_node = parser.parse (content, 'net')
+   def make_sch_parts (self, symbols, field_names, mounting_key, mounting_value):
 
       parts = {}
 
-      components_node = export_node.first_kind ('components')
-      comp_nodes = components_node.filter_kind ('comp')
-      for comp_node in comp_nodes:
-         reference = comp_node.property ('ref')
-         fields_node = comp_node.first_kind ('fields')
-         if fields_node != None:
-            field_nodes = fields_node.filter_kind ('field')
-            fields = {}
-            place = False
-            for field_name in field_names:
-               field_value = ''
-               for field_node in field_nodes:
-                  if field_node.property ('name') == field_name:
-                     field_value = field_node.entities [2].value
-                  if field_node.property ('name') == mounting_key:
-                     place = field_node.entities [2].value == mounting_value
-               fields [field_name] = field_value
-
-            if place:
-               parts [reference]= fields
+      for symbol in symbols:
+         reference = symbol.property ('Reference')
+         fields = {}
+         for field_name in field_names:
+            fields [field_name] = symbol.property (field_name)
+         place = symbol.property (mounting_key) == mounting_value
+         if place:
+            parts [reference] = fields
 
       return parts

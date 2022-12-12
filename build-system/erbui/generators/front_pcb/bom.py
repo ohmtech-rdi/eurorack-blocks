@@ -11,7 +11,7 @@ import math
 import os
 import platform
 import subprocess
-from . import s_expression
+from ..kicad import sch
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -39,15 +39,7 @@ class Bom:
       include_non_empty = generator_args ['include_non_empty']
       projection = generator_args ['projection']
 
-      field_names = [e for e in header_map if e not in ['references', 'quantity']]
-
-      path_net = os.path.join (path, '%s.net' % module.name)
-      parts = self.load_net (path_net, field_names, include_non_empty, projection)
-
-      bom = line_format.format (**header_map)
-
-      for part in parts:
-         bom += line_format.format (**part)
+      bom = self.make_bom (module.sch_symbols, line_format, header_map, include_non_empty, projection)
 
       path_bom = os.path.join (path, '%s.bom.csv' % module.name)
 
@@ -57,7 +49,22 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def load_net (self, path_net, field_names, include_non_empty, projection):
+   def make_bom (self, symbols, line_format, header_map, include_non_empty, projection):
+
+      field_names = [e for e in header_map if e not in ['references', 'quantity']]
+      parts = self.make_parts (symbols, field_names, include_non_empty, projection)
+
+      bom = line_format.format (**header_map)
+
+      for part in parts:
+         bom += line_format.format (**part)
+
+      return bom
+
+
+   #--------------------------------------------------------------------------
+
+   def make_parts (self, symbols, field_names, include_non_empty, projection):
 
       key_quantity_map = {}
       def inc_key (key):
@@ -75,30 +82,10 @@ class Bom:
 
       key_desc_map = {}
 
-      with open (path_net, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      export_node = parser.parse (content, 'net')
-
-      # in export:components
-      # check for comp:fields:field:name:Dist if not empty
-      # use field:name:DistPartNumber for quantity count
-
-      components_node = export_node.first_kind ('components')
-      comp_nodes = components_node.filter_kind ('comp')
-      for comp_node in comp_nodes:
-         reference = comp_node.property ('ref')
-         fields_node = comp_node.first_kind ('fields')
-         if fields_node != None:
-            field_nodes = fields_node.filter_kind ('field')
-            fields = {}
-            for field_name in field_names:
-               field_value = ''
-               for field_node in field_nodes:
-                  if field_node.property ('name') == field_name:
-                     field_value = field_node.entities [2].value
-               fields [field_name] = field_value
-
+      for symbol in symbols:
+         reference = symbol.property ('Reference')
+         if symbol.in_bom and reference and reference [0] != '#':   # eg. #PWRxxx
+            fields = {field_name: symbol.property (field_name) if symbol.property (field_name) is not None else '' for field_name in field_names}
             if include_non_empty.format (**fields):
                key = projection.format (**fields)
                inc_key (key)
@@ -110,7 +97,7 @@ class Bom:
       for key, quantity in key_quantity_map.items ():
          references = key_references_map [key]
          part = {
-            'references': ', '.join (references),
+            'references': ', '.join (sorted (references)),
             'quantity': quantity,
          }
          part.update (key_desc_map [key])
