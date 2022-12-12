@@ -218,15 +218,10 @@ class Code:
 
    def get_control_widget (self, control):
       for part in control.parts:
-         components_node = part.net.first_kind ('components')
-         comp_nodes = components_node.filter_kind ('comp')
-         for comp_node in comp_nodes:
-            fields_node = comp_node.first_kind ('fields')
-            if fields_node != None:
-               field_nodes = fields_node.filter_kind ('field')
-               for field_node in field_nodes:
-                  if field_node.property ('name') == 'Simulator':
-                     widget = field_node.entities [2].value
+         for symbol in part.sch.symbols:
+            simulator_field = symbol.property ('Simulator')
+            if simulator_field is not None:
+               widget = simulator_field
 
       assert widget is not None
 

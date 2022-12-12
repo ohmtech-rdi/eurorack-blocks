@@ -16,6 +16,7 @@ import sys
 
 from ... import ast
 from ... import adapter
+from ..kicad import pcb
 
 if platform.system () == 'Windows' and sys.version_info >= (3, 8):
    # Starting from 3.8, Python no longer searches for DLLs in PATH
@@ -163,7 +164,11 @@ class Panel:
       old_current_font_height = self.current_font_height
       self.current_font_height = 8.5#pt
 
-      box = self.get_control_box (control)
+      box = self.get_control_bounds (control)
+      box.left -= control.position.x.mm
+      box.top -= control.position.y.mm
+      box.right -= control.position.x.mm
+      box.bottom -= control.position.y.mm
       self.current_box = box
 
       for label in control.labels:
@@ -177,97 +182,14 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   class Box:
-      def __init__ (self, left, top, right, bottom):
-         # distances from center, always positive
-         self.left = left
-         self.top = top
-         self.right = right
-         self.bottom = bottom
+   def get_control_bounds (self, control):
 
-      def union (self, left, top, right, bottom):
-         self.left = left if self.left is None else min (left, self.left)
-         self.top = top if self.top is None else min (top, self.top)
-         self.right = right if self.right is None else max (right, self.right)
-         self.bottom = bottom if self.bottom is None else max (bottom, self.bottom)
-
-      def rotate (self, rotation):
-         if rotation == 0:
-            pass # nothing
-
-         elif rotation == 90:
-            top = self.top
-            self.top = self.right
-            self.right = self.bottom
-            self.bottom = self.left
-            self.left = top
-
-         elif rotation == 180:
-            self.top, self.bottom = self.top, self.bottom
-            self.left, self.right = self.left, self.right
-
-         elif rotation == 270:
-            left = self.left
-            self.left = self.bottom
-            self.bottom = self.right
-            self.right = self.top
-            self.top = left
-
-         else:
-            raise Exception ('unsupported angle value %d', rotation)
-
-
-   #--------------------------------------------------------------------------
-
-   def get_control_box (self, control):
-
-      box = Panel.Box (None, None, None, None)
+      bounds = pcb.Bounds (None, None, None, None)
 
       for part in control.parts:
-         for module in part.pcb.filter_kind ('module'):
-            for node in module.filter_kind ('fp_circle'):
-               if node.property ('layer') == 'Dwgs.User':
-                  center_node = node.first_kind ('center')
-                  center_x = float (center_node.entities [1].value)
-                  center_y = float (center_node.entities [2].value)
-                  end_node = node.first_kind ('end')
-                  end_x = float (end_node.entities [1].value)
-                  end_y = float (end_node.entities [2].value)
-                  vec_x = end_x - center_x
-                  vec_y = end_y - center_y
-                  radius = math.sqrt (vec_x * vec_x + vec_y * vec_y)
-                  left = center_x - radius
-                  right = center_x + radius
-                  top = center_y - radius
-                  bottom = center_y + radius
-                  box.union (left, top, right, bottom)
+         bounds.union (part.pcb.get_bounds ('Dwgs.User'))
 
-            for node in module.filter_kind ('fp_line'):
-               if node.property ('layer') == 'Dwgs.User':
-                  start_node = node.first_kind ('start')
-                  start_x = float (start_node.entities [1].value)
-                  start_y = float (start_node.entities [2].value)
-                  end_node = node.first_kind ('end')
-                  end_x = float (end_node.entities [1].value)
-                  end_y = float (end_node.entities [2].value)
-
-                  box.union (start_x, start_y, start_x, start_y)
-                  box.union (end_x, end_y, end_x, end_y)
-
-      rotation = (control.rotation.degree_top_down + 360) % 360 if control.rotation else 0
-
-      assert box.left is not None
-      assert box.top is not None
-      assert box.right is not None
-      assert box.bottom is not None
-
-      box.left = - box.left
-      box.top = - box.top
-
-      box.rotate (rotation)
-
-      return box
-
+      return bounds
 
 
    #--------------------------------------------------------------------------
@@ -363,7 +285,7 @@ class Panel:
 
       elif label.positioning is None:
          if control.kind in ['AudioIn', 'AudioOut', 'CvIn', 'CvOut', 'GateIn', 'GateOut']: # top
-            position_y -= self.current_box.top + self.positioning_margin
+            position_y += self.current_box.top - self.positioning_margin
             align_x = 0.5
             align_y = 0
          else: # bottom
@@ -376,12 +298,12 @@ class Panel:
          align_y = 0.5
 
       elif label.positioning.is_left:
-         position_x -= self.current_box.left + self.positioning_margin
+         position_x += self.current_box.left - self.positioning_margin
          align_x = 1
          align_y = 0.5
 
       elif label.positioning.is_top:
-         position_y -= self.current_box.top + self.positioning_margin
+         position_y += self.current_box.top - self.positioning_margin
          align_x = 0.5
          align_y = 0
 
