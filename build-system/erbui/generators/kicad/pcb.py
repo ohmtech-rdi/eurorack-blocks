@@ -28,6 +28,7 @@ class Root:
       self.nets = []
       self.footprints = []
       self.gr_shapes = []
+      self.vias = []
       self.segments = []
       self.zones = []
 
@@ -72,6 +73,9 @@ class Root:
          else:
             assert False
 
+      for via_node in node.filter_kind ('via'):
+         root.vias.append (Via.parse (via_node))
+
       for segment_node in node.filter_kind ('segment'):
          root.segments.append (Segment.parse (segment_node))
 
@@ -106,6 +110,9 @@ class Root:
 
       for gr_shape in self.gr_shapes:
          root_node.add (gr_shape.generate ())
+
+      for via in self.vias:
+         root_node.add (via.generate ())
 
       for segment in self.segments:
          root_node.add (segment.generate ())
@@ -1291,6 +1298,68 @@ class GrText:
 
       # best effort
       return Bounds (self.at.x, self.at.y, self.at.x, self.at.y)
+
+
+class Via:
+   def __init__ (self):
+      self.locked = None   # boolean
+      self.at = Xy ()
+      self.size = None     # float
+      self.drill = None    # float
+      self.layers = []     # [str], eg. "F.Cu" "B.Cu"
+      self.free = None     # boolean
+      self.net = None      # int, eg. 9
+      self.tstamp = None   # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      via = Via ()
+      via.locked = any (e.is_symbol and e.value == 'locked' for e in node.entities)
+      via.at = At.parse (node.first_kind ('at'))
+      via.size = node.property ('size')
+      via.drill = node.property ('drill')
+      via.layers = [e.value for e in node.first_kind ('layers').entities [1:]]
+      via.free = node.first_kind ('free') != None
+      via.net = node.property ('net')
+      via.tstamp = node.property ('tstamp')
+
+      return via
+
+   def generate (self):
+      via_node = s_expression.List.generate ('via')
+      if self.locked:
+         via_node.add (s_expression.Symbol ('locked'))
+      via_node.add (self.at.generate ())
+      via_node.add (s_expression.List.generate_property ('size', self.size))
+      via_node.add (s_expression.List.generate_property ('drill', self.drill))
+      layers_node = s_expression.List.generate ('layers')
+      for layer in self.layers:
+         layers_node.add (s_expression.StringLiteral (layer))
+      via_node.add (layers_node)
+      if self.free:
+         via_node.add (s_expression.List.generate ('free'))
+      via_node.add (s_expression.List.generate_property ('net', self.net))
+      via_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return via_node
+
+   def rotate (self, rotation):
+      pass # nothing
+
+   def translate (self, x, y):
+      self.at.translate (x, y)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return Bounds (
+         self.at.x - self.size * 0.5,
+         self.at.y - self.size * 0.5,
+         self.at.x + self.size * 0.5,
+         self.at.y + self.size * 0.5
+      )
 
 
 class Segment:
