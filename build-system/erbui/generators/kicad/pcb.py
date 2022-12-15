@@ -983,7 +983,7 @@ class Footprint:
          if not node: return None
 
          fp_poly = Footprint.FpPoly ()
-         fp_polypts = Pts.parse (node.first_kind ('pts'))
+         fp_poly.pts = Pts.parse (node.first_kind ('pts'))
          fp_poly.layer = node.property ('layer')
          fp_poly.width = node.property ('width')
          fp_poly.fill = node.property ('fill')
