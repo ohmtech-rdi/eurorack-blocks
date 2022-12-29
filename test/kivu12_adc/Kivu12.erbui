@@ -14,14 +14,14 @@ module Kivu12 {
 
    control freq_pot Pot {
       position 7.33hp, 111mm
-      style knurled
+      style rogan
       label "FREQ"
       pin P1
    }
 
    control freq2_pot Pot {
       position 7.33hp, 111mm
-      style knurled
+      style rogan
       label "FREQ"
       pin P2
    }
