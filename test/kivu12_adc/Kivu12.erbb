@@ -8,6 +8,8 @@
 use strict
 
 module Kivu12 {
+   section qspi
+
    sources {
       file "Kivu12.cpp"
       file "Kivu12.h"
