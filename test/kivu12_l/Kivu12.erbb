@@ -1,0 +1,18 @@
+/*****************************************************************************
+
+      Kivu12.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+use strict
+
+module Kivu12 {
+   // section qspi
+
+   sources {
+      file "Kivu12.cpp"
+      file "Kivu12.h"
+      file "Kivu12.erbui"
+   }
+}
