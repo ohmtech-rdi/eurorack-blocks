@@ -16,6 +16,7 @@
 #include "erb/Button.h"
 
 #include <cstdint>
+#include <cstddef>
 
 
 
@@ -29,7 +30,7 @@ enum class SwitchPosition
    First, Center, Last
 };
 
-template <size_t NbrPosition>
+template <std::size_t NbrPosition>
 class Switch
 {
 

@@ -24,7 +24,7 @@ namespace erb
 
 
 
-template <size_t MaxSize>
+template <std::size_t MaxSize>
 class MonotonicMemoryPool
 {
 
@@ -34,8 +34,8 @@ public:
                   MonotonicMemoryPool () = default;
    virtual        ~MonotonicMemoryPool () = default;
 
-   size_t         allocate (size_t alignment, size_t size);
-   size_t         allocate_npos_on_error (size_t alignment, size_t size);
+   std::size_t    allocate (size_t alignment, std::size_t size);
+   std::size_t    allocate_npos_on_error (std::size_t alignment, std::size_t size);
 
 
 
@@ -48,7 +48,7 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-   std::atomic <size_t>
+   std::atomic <std::size_t>
                   _pos = 0;
 
 

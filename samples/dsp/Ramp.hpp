@@ -28,7 +28,7 @@ Name : ctor
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 Ramp <nbr_steps>::Ramp (float initial_value)
 {
    reset (initial_value);
@@ -42,7 +42,7 @@ Name : reset
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 void  Ramp <nbr_steps>::reset (float initial_value)
 {
    _current = initial_value;
@@ -59,7 +59,7 @@ Name : operator =
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 Ramp <nbr_steps> &   Ramp <nbr_steps>::operator = (float value)
 {
    constexpr float scale = 1.f / float (nbr_steps);
@@ -79,7 +79,7 @@ Name : process
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 float  Ramp <nbr_steps>::process ()
 {
    if (!active ()) return _current; // abort
@@ -98,7 +98,7 @@ Name : operator float
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 Ramp <nbr_steps>::operator float () const
 {
    return _current;
@@ -112,7 +112,7 @@ Name : active
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 bool  Ramp <nbr_steps>::active () const
 {
    return _cur_step > 0;
@@ -126,7 +126,7 @@ Name : target
 ==============================================================================
 */
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 float Ramp <nbr_steps>::target () const
 {
    return _target;

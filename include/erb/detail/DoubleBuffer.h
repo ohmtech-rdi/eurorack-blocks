@@ -15,6 +15,8 @@
 
 #include "erb/Buffer.h"
 
+#include <cstddef>
+
 
 
 namespace erb
@@ -37,13 +39,15 @@ public:
    inline DoubleBuffer &
                   operator = (const Buffer & buffer);
 
-   inline size_t  size () const;
-   inline float & operator [] (size_t index);
+   inline std::size_t
+                  size () const;
+   inline float & operator [] (std::size_t index);
    inline const float &
-                  operator [] (size_t index) const;
+                  operator [] (std::size_t index) const;
    inline void    fill (float val);
 
-   inline size_t  tell () const;
+   inline std::size_t
+                  tell () const;
    inline void    push (float spl);
    inline float   pull ();
 
@@ -62,8 +66,8 @@ private:
 
    std::array <Buffer, 2>
                   _buffers = {};
-   size_t         _cur_buf = 0;
-   size_t         _cur_index = 0;
+   std::size_t    _cur_buf = 0;
+   std::size_t    _cur_index = 0;
 
 
 

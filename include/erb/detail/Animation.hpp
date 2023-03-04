@@ -28,7 +28,7 @@ Name : set
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::set (T value)
 {
    _value = value;
@@ -44,7 +44,7 @@ Name : set
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 Animation <T, NbrKeyframes> & Animation <T, NbrKeyframes>::set (std::initializer_list <Keyframe> keyframes)
 {
    _nbr_blocks = std::min (keyframes.size (), NbrKeyframes);
@@ -79,7 +79,7 @@ Name : loop
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 Animation <T, NbrKeyframes> & Animation <T, NbrKeyframes>::loop ()
 {
    _loop_flag = true;
@@ -99,7 +99,7 @@ Name : start
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 Animation <T, NbrKeyframes> & Animation <T, NbrKeyframes>::start (TimePoint current_time)
 {
    _start_time = current_time;
@@ -115,7 +115,7 @@ Name : stop
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 Animation <T, NbrKeyframes> & Animation <T, NbrKeyframes>::stop ()
 {
    _nbr_blocks = 0;
@@ -132,7 +132,7 @@ Name : get
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 T Animation <T, NbrKeyframes>::get (TimePoint current_time)
 {
    if (_nbr_blocks > 0)
@@ -158,7 +158,7 @@ Name : pulse
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::pulse (TimePoint start_time, Duration duration, TransitionFunction function, T val1, T val2)
 {
    set (val1);
@@ -178,7 +178,7 @@ Name : pulse_twice
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::pulse_twice (TimePoint start_time, Duration duration, TransitionFunction function, T val1, T val2)
 {
    set (val1);
@@ -200,7 +200,7 @@ Name : pulse_thrice
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::pulse_thrice (TimePoint start_time, Duration duration, TransitionFunction function, T val1, T val2)
 {
    set (val1);
@@ -224,7 +224,7 @@ Name : blink
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::blink (TimePoint start_time, Duration period, TransitionFunction function, T val1, T val2)
 {
    set ({
@@ -255,7 +255,7 @@ Name : process_one_shot
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::process_one_shot (TimePoint current_time)
 {
    auto position = current_time - _start_time;
@@ -277,7 +277,7 @@ Name : process_loop
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::process_loop (TimePoint current_time)
 {
    uint64_t position;
@@ -303,10 +303,10 @@ Name : process_blocks
 ==============================================================================
 */
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 void  Animation <T, NbrKeyframes>::process_blocks (uint64_t position)
 {
-   for (size_t i = 0 ; i < _nbr_blocks ; ++i)
+   for (std::size_t i = 0 ; i < _nbr_blocks ; ++i)
    {
       auto && block = _blocks [i];
 

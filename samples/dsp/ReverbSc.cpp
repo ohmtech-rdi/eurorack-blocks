@@ -75,7 +75,7 @@ void  ReverbSc::reset ()
 {
    auto & delay_lines = *_delay_lines_sptr;
 
-   for (size_t d = 0 ; d < delay_lines.size () ; ++d)
+   for (std::size_t d = 0 ; d < delay_lines.size () ; ++d)
    {
       auto & delay = delay_lines [d];
       auto & state = _delay_states [d];
@@ -122,7 +122,7 @@ ReverbSc::Frame   ReverbSc::process (Frame in)
 
    auto out = Frame { 0.f, 0.f };
 
-   for (size_t d = 0 ; d < delay_lines.size () ; ++d)
+   for (std::size_t d = 0 ; d < delay_lines.size () ; ++d)
    {
       auto & delay = delay_lines [d];
       auto & state = _delay_states [d];
@@ -131,7 +131,7 @@ ReverbSc::Frame   ReverbSc::process (Frame in)
 
       float integral;
       float frac = std::modf (state.read_pos, &integral);
-      size_t read_pos = size_t (integral);
+      std::size_t read_pos = std::size_t (integral);
 
       auto vm1 = read (delay, read_pos, -1);
       auto v0  = read (delay, read_pos, 0);
@@ -238,10 +238,10 @@ Name : read
 ==============================================================================
 */
 
-float ReverbSc::read (const DelayLine & delay, size_t pos, int offset)
+float ReverbSc::read (const DelayLine & delay, std::size_t pos, int offset)
 {
    auto past_pos = int (pos + delay.buf.size ()) + offset;
-   size_t read_pos = size_t (past_pos) % delay.buf.size ();
+   std::size_t read_pos = std::size_t (past_pos) % delay.buf.size ();
 
    return delay.buf [read_pos];
 }
@@ -254,7 +254,7 @@ Name : update_rand_seg
 ==============================================================================
 */
 
-void  ReverbSc::update_rand_seg (size_t delay_idx)
+void  ReverbSc::update_rand_seg (std::size_t delay_idx)
 {
    auto & state = _delay_states [delay_idx];
    const auto & param = _params [delay_idx];
@@ -262,7 +262,7 @@ void  ReverbSc::update_rand_seg (size_t delay_idx)
    state.rand_line_cnt = param.rand_line_cnt;
    state.rand_val = (state.rand_val * 15625 + 1) & 0xFFFF;
 
-   size_t time_spl
+   std::size_t time_spl
       = param.time_spl
       + (param.time_mod_spl * state.rand_val) / 65535
       - param.time_mod_spl / 2;

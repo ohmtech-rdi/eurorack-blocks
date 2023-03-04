@@ -17,6 +17,7 @@
 #include <chrono>
 #include <initializer_list>
 
+#include <cstddef>
 #include <cstdint>
 
 
@@ -39,7 +40,7 @@ float             ease_in_out (float t);
 
 
 
-template <typename T, size_t NbrKeyframes>
+template <typename T, std::size_t NbrKeyframes>
 class Animation
 {
 

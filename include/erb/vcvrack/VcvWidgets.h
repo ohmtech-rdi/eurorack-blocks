@@ -19,6 +19,8 @@ erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
 erb_RESTORE_WARNINGS
 
+#include <cstddef>
+
 
 
 extern rack::Plugin * plugin_instance;
@@ -215,7 +217,7 @@ struct Dailywell2Ms : rack::app::Switch
       if (!frames.empty() && paramQuantity) {
          int index = int (std::round (paramQuantity->getValue () - paramQuantity->getMinValue ()));
          index = rack::math::clamp (index, 0, int (frames.size ()) - 1);
-         sw->setSvg(frames [size_t (index)]);
+         sw->setSvg(frames [std::size_t (index)]);
          fb->dirty = true;
       }
       ParamWidget::onChange(e);

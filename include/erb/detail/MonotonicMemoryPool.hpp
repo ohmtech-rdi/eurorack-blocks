@@ -32,12 +32,12 @@ Name : allocate
 ==============================================================================
 */
 
-template <size_t MaxSize>
-size_t   MonotonicMemoryPool <MaxSize>::allocate (size_t alignment, size_t size)
+template <std::size_t MaxSize>
+std::size_t MonotonicMemoryPool <MaxSize>::allocate (std::size_t alignment, size_t size)
 {
-   size_t pos = allocate_npos_on_error (alignment, size);
+   std::size_t pos = allocate_npos_on_error (alignment, size);
 
-   if (pos == size_t (-1))
+   if (pos == std::size_t (-1))
    {
 #if defined (erb_TARGET_DAISY)
       asm ("bkpt 255");
@@ -60,8 +60,8 @@ Name : allocate_npos_on_error
 ==============================================================================
 */
 
-template <size_t MaxSize>
-size_t   MonotonicMemoryPool <MaxSize>::allocate_npos_on_error (size_t alignment, size_t size)
+template <std::size_t MaxSize>
+std::size_t MonotonicMemoryPool <MaxSize>::allocate_npos_on_error (std::size_t alignment, std::size_t size)
 {
    const size_t mask = alignment - 1;
    const size_t max_needed_size = size + mask;
@@ -70,10 +70,10 @@ size_t   MonotonicMemoryPool <MaxSize>::allocate_npos_on_error (size_t alignment
    if (pos + max_needed_size > MaxSize)
    {
       _pos = pos; // not concurrent-safe
-      return size_t (-1);
+      return std::size_t (-1);
    }
 
-   const size_t aligned_pos = (pos + mask) & ~mask;
+   const std::size_t aligned_pos = (pos + mask) & ~mask;
 
    return aligned_pos;
 }

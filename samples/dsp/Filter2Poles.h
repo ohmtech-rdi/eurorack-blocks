@@ -45,7 +45,7 @@ public:
 
    void           reset ();
 
-   void           process (float * dst_ptr, const float * src_ptr, size_t nbr_spl);
+   void           process (float * dst_ptr, const float * src_ptr, std::size_t nbr_spl);
    inline float   process (float x);
 
 

@@ -40,7 +40,7 @@ public:
    template <typename T, class... Args>
    static T *     allocate (Args &&... args);
 
-   static void *  allocate_bytes_nullptr_on_error (size_t size);
+   static void *  allocate_bytes_nullptr_on_error (std::size_t size);
 
 
 
@@ -57,8 +57,8 @@ protected:
 
 private:
 
-   void *         allocate_raw (size_t alignment, size_t size);
-   void *         allocate_raw_nullptr_on_error (size_t alignment, size_t size);
+   void *         allocate_raw (std::size_t alignment, std::size_t size);
+   void *         allocate_raw_nullptr_on_error (std::size_t alignment, std::size_t size);
 
 #if defined (erb_TARGET_DAISY)
    uint8_t *      _sram_memory_pool_storage = nullptr;

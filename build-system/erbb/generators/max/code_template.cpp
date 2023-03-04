@@ -15,6 +15,8 @@
 
 #include "%module.name%.h"
 
+#include <cstddef>
+
 
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -32,8 +34,8 @@ void  %module.name%::init ()
    struct MaxErbDataAdapter
    {
       // as in genlib.cpp t_erb_sample_data
-      size_t frames;
-      size_t channels;
+      std::size_t frames;
+      std::size_t channels;
       const void * data; // interleaved 32-bit floats
    };
 
