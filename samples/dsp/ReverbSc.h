@@ -18,6 +18,8 @@
 #include <array>
 #include <utility>
 
+#include <cstddef>
+
 
 
 namespace dsp
@@ -60,16 +62,16 @@ private:
 
    struct Params
    {
-      size_t         time_spl;
-      size_t         time_mod_spl;
-      size_t         rand_line_cnt;
-      size_t         seed;
+      std::size_t    time_spl;
+      std::size_t    time_mod_spl;
+      std::size_t    rand_line_cnt;
+      std::size_t    seed;
    };
 
    static constexpr float max_sample_freq = 48014.f;
    static constexpr size_t max_time_spl
       = 4127 + size_t (max_sample_freq * 0.0017f) + 17 /* 16.5 */;
-   static constexpr size_t nbr_delays = 8;
+   static constexpr std::size_t nbr_delays = 8;
 
    struct DelayLine
    {
@@ -81,12 +83,12 @@ private:
 
    struct DelayState
    {
-      size_t         time_spl = 0;
-      size_t         write_pos = 0;
+      std::size_t    time_spl = 0;
+      std::size_t    write_pos = 0;
       float          read_pos = 0;
       float          read_pos_step = 0;
-      size_t         rand_val = 0;
-      size_t         rand_line_cnt = 0;
+      std::size_t    rand_val = 0;
+      std::size_t    rand_line_cnt = 0;
       float          filter_state = 0.f;
    };
 
@@ -95,8 +97,8 @@ private:
 
    void           update_low_pass ();
    void           write (DelayLine & delay, DelayState & state, float val);
-   float          read (const DelayLine & delay, size_t pos, int offset);
-   void           update_rand_seg (size_t delay_idx);
+   float          read (const DelayLine & delay, std::size_t pos, int offset);
+   void           update_rand_seg (std::size_t delay_idx);
 
    static constexpr float
                   _junction_pressure_scale = 0.25f;

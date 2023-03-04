@@ -32,7 +32,7 @@ Name : allocate_bytes_auto
 ==============================================================================
 */
 
-void *   allocate_bytes_auto (size_t size)
+void *   allocate_bytes_auto (std::size_t size)
 {
    void * ptr = Sram::allocate_bytes_nullptr_on_error (size);
 
@@ -64,15 +64,15 @@ Name : scale
 ==============================================================================
 */
 
-template <size_t NbrChannels>
+template <std::size_t NbrChannels>
 void  scale (std::array <Buffer, NbrChannels> & buffers, float * const * in, float gain)
 {
-   for (size_t i = 0 ; i < buffers.size () ; ++i)
+   for (std::size_t i = 0 ; i < buffers.size () ; ++i)
    {
       auto & buffer = buffers [i];
       const auto & in_arr = in [i];
 
-      for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
+      for (std::size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
       {
          buffer [j] = gain * in_arr [j];
       }
@@ -87,15 +87,15 @@ Name : scale
 ==============================================================================
 */
 
-template <size_t NbrChannels>
+template <std::size_t NbrChannels>
 void  scale (float ** out, const std::array <Buffer, NbrChannels> & buffers, float gain)
 {
-   for (size_t i = 0 ; i < buffers.size () ; ++i)
+   for (std::size_t i = 0 ; i < buffers.size () ; ++i)
    {
       auto & out_arr = out [i];
       const auto & buffer = buffers [i];
 
-      for (size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
+      for (std::size_t j = 0 ; j < erb_BUFFER_SIZE ; ++j)
       {
          out_arr [j] = gain * buffer [j];
       }
@@ -112,7 +112,7 @@ Name : scale
 
 void  scale (Buffer & out, const float * in, float gain)
 {
-   for (size_t i = 0 ; i < out.size () ; ++i)
+   for (std::size_t i = 0 ; i < out.size () ; ++i)
    {
       out [i] = gain * in [i];
    }
@@ -128,7 +128,7 @@ Name : scale
 
 void  scale (float * out, const Buffer & in, float gain)
 {
-   for (size_t i = 0 ; i < in.size () ; ++i)
+   for (std::size_t i = 0 ; i < in.size () ; ++i)
    {
       out [i] = gain * in [i];
    }

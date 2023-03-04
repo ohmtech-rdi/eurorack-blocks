@@ -69,7 +69,7 @@ Name : size
 ==============================================================================
 */
 
-size_t   DoubleBuffer::size () const
+std::size_t DoubleBuffer::size () const
 {
    return _buffers [_cur_buf].size ();
 }
@@ -82,7 +82,7 @@ Name : operator []
 ==============================================================================
 */
 
-float &  DoubleBuffer::operator [] (size_t index)
+float &  DoubleBuffer::operator [] (std::size_t index)
 {
    return _buffers [_cur_buf][index];
 }
@@ -94,7 +94,7 @@ Name : operator []
 ==============================================================================
 */
 
-const float &  DoubleBuffer::operator [] (size_t index) const
+const float &  DoubleBuffer::operator [] (std::size_t index) const
 {
    return _buffers [_cur_buf][index];
 }
@@ -120,7 +120,7 @@ Name : tell
 ==============================================================================
 */
 
-size_t  DoubleBuffer::tell () const
+std::size_t DoubleBuffer::tell () const
 {
    return _cur_index;
 }

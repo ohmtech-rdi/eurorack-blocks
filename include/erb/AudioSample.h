@@ -23,7 +23,7 @@ namespace erb
 
 
 
-template <class T, size_t Length, size_t NbrChannels>
+template <class T, std::size_t Length, std::size_t NbrChannels>
 struct AudioSampleInterleaved
 {
    struct Frame
@@ -38,7 +38,7 @@ struct AudioSampleInterleaved
 
 
 
-template <class T, size_t Length, size_t NbrChannels>
+template <class T, std::size_t Length, std::size_t NbrChannels>
 struct AudioSamplePlanar
 {
    struct Channel
@@ -53,7 +53,7 @@ struct AudioSamplePlanar
 
 
 
-template <class T, size_t Length>
+template <class T, std::size_t Length>
 struct AudioSampleMono
 {
    float          sample_rate;

@@ -46,7 +46,7 @@ public:
    void           set_mode (Mode mode);
    void           set_highpass_freq (float freq);
 
-   void           process (float * const out [], const float * const in [], size_t size);
+   void           process (float * const out [], const float * const in [], std::size_t size);
 
    State          state ();
 

@@ -69,7 +69,7 @@ Name : size
 ==============================================================================
 */
 
-size_t   AudioOut::size () const
+std::size_t AudioOut::size () const
 {
    return impl_data.size ();
 }
@@ -82,7 +82,7 @@ Name : operator []
 ==============================================================================
 */
 
-float &  AudioOut::operator [] (size_t index)
+float &  AudioOut::operator [] (std::size_t index)
 {
    return impl_data [index];
 }

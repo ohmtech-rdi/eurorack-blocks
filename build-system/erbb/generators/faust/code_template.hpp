@@ -42,7 +42,7 @@ Name : allocate
 ==============================================================================
 */
 
-void *   dsp_memory_manager::allocate (size_t size)
+void *   dsp_memory_manager::allocate (std::size_t size)
 {
    return erb::allocate_bytes_auto (size);
 }

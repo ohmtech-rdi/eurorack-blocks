@@ -50,7 +50,7 @@ Name : impl_bind
 template <>
 inline void  BoardGeneric::impl_bind (AudioIn & control, rack::engine::Input & model)
 {
-   size_t audio_input_index = _rack_audio_inputs.size ();
+   std::size_t audio_input_index = _rack_audio_inputs.size ();
 
    auto & double_buffer = _double_buffer_inputs [audio_input_index];
 
@@ -73,7 +73,7 @@ Name : impl_bind
 template <>
 inline void  BoardGeneric::impl_bind (AudioOut & control, rack::engine::Output & model)
 {
-   size_t audio_output_index = _rack_audio_outputs.size ();
+   std::size_t audio_output_index = _rack_audio_outputs.size ();
 
    auto & double_buffer = _double_buffer_outputs [audio_output_index];
 

@@ -90,16 +90,16 @@ Name : process
 ==============================================================================
 */
 
-void  DropDsp::process (float * const out [], const float * const in [], size_t size)
+void  DropDsp::process (float * const out [], const float * const in [], std::size_t size)
 {
    for (auto & filter : _filters) filter.update ();
 
-   for (size_t i = 0 ; i < size ; ++i)
+   for (std::size_t i = 0 ; i < size ; ++i)
    {
       _active.process ();
       _mode.process ();
 
-      for (size_t c = 0 ; c < NBR_CHANNELS ; ++c)
+      for (std::size_t c = 0 ; c < NBR_CHANNELS ; ++c)
       {
          auto & filter = _filters [c];
          auto in_chn = in [c];

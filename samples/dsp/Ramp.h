@@ -22,7 +22,7 @@ namespace dsp
 
 
 
-template <size_t nbr_steps>
+template <std::size_t nbr_steps>
 class Ramp
 {
 

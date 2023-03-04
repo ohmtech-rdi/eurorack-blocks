@@ -22,7 +22,7 @@ namespace erb
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-BoardGeneric::BoardGeneric (size_t nbr_digital_inputs, size_t nbr_analog_inputs, size_t nbr_audio_inputs, size_t nbr_digital_outputs, size_t nbr_analog_outputs, size_t nbr_audio_outputs)
+BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs)
 :  _digital_inputs (nbr_digital_inputs, 0)
 ,  _analog_inputs (nbr_analog_inputs, 0.f)
 ,  _audio_inputs (nbr_audio_inputs, Buffer {})
@@ -71,7 +71,7 @@ Name : impl_pull_audio_inputs
 
 void  BoardGeneric::impl_pull_audio_inputs ()
 {
-   for (size_t i = 0 ; i < _rack_audio_inputs.size () ; ++i)
+   for (std::size_t i = 0 ; i < _rack_audio_inputs.size () ; ++i)
    {
       auto & double_buffer = _double_buffer_inputs [i];
       auto & audio_input = *_rack_audio_inputs [i];
@@ -92,7 +92,7 @@ Name : impl_push_audio_outputs
 
 void  BoardGeneric::impl_push_audio_outputs ()
 {
-   for (size_t i = 0 ; i < _rack_audio_outputs.size () ; ++i)
+   for (std::size_t i = 0 ; i < _rack_audio_outputs.size () ; ++i)
    {
       auto & double_buffer = _double_buffer_outputs [i];
       auto & audio_output = *_rack_audio_outputs [i];

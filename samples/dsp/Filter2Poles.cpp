@@ -245,9 +245,9 @@ Name : process
 ==============================================================================
 */
 
-void  Filter2Poles::process (float * dst_ptr, const float * src_ptr, size_t nbr_spl)
+void  Filter2Poles::process (float * dst_ptr, const float * src_ptr, std::size_t nbr_spl)
 {
-   for (size_t i = 0 ; i < nbr_spl ; ++i)
+   for (std::size_t i = 0 ; i < nbr_spl ; ++i)
    {
       dst_ptr [i] = process (src_ptr [i]);
    }
