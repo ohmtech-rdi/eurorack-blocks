@@ -159,7 +159,7 @@ def build_bom_digikey ():
       sheet_sch = sch.Root.read (sheet_path)
       symbols.extend (sheet_sch.symbols)
 
-   line_format = '{DistPartNumber};{quantity}\n'
+   line_format = '{DistPartNumber},{quantity}\n'
    header_map = {
       'DistPartNumber': 'Digi-Key Part Number',
       'quantity': 'Quantity',
