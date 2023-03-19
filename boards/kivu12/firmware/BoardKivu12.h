@@ -22,6 +22,9 @@
 #include <array>
 
 
+#undef erb_USE_DAISY_IMPL
+#define erb_USE_ERB_IMPL
+
 
 namespace erb
 {
@@ -171,7 +174,9 @@ protected:
 
 private:
 
-   inline void    set_b_mux_addr ();
+#if defined (erb_USE_DAISY_IMPL)
+   using ShiftRegister = daisy::ShiftRegister4021 <1 /* DS */, 2 /* Parallel */>;
+#endif
 
    SubmoduleDaisyPatchSm
                   _submodule;
@@ -196,12 +201,12 @@ private:
                      {SubmoduleDaisyPatchSm::B9},  // GATE IN 2
                   }};
 
-   std::array <GpioOutputDaisy, 3>
-                  _gpio_b_mux = {{        // B Gate mux address
-                     {SubmoduleDaisyPatchSm::A3},
-                     {SubmoduleDaisyPatchSm::A2},
-                     {SubmoduleDaisyPatchSm::A9},
-                  }};
+#if defined (erb_USE_ERB_IMPL)
+   GpioOutputDaisy
+                  _gpio_b_sr4021_clock = {SubmoduleDaisyPatchSm::A2};
+   GpioOutputDaisy
+                  _gpio_b_sr4021_latch = {SubmoduleDaisyPatchSm::A9};
+#endif
 
    std::array <GpioOutputDaisy, 2>
                   _gpio_outputs = {{
@@ -250,8 +255,9 @@ private:
 
    daisy::LedDriverPca9685 <2, true>
                   _led_driver;
-
-   uint8_t        _b_mux_addr = 0;
+#if defined (erb_USE_DAISY_IMPL)
+   ShiftRegister  _shift_register;
+#endif
 
 
 
