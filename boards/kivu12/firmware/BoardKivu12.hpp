@@ -250,12 +250,12 @@ void  BoardKivu12::impl_postprocess (DacPin pin)
       // GND.
       // For this reason, the logic is inverted, and we need to adapt
       // the gamma too.
-      // from 4068 to 4094 it is on instead of off, so convert normalized
-      // range from 0 to 4067.
+      // from 4036 to 4094 it is on instead of off, so convert normalized
+      // range from 0 to 4035.
 
       auto val = _analog_outputs [pin.index];
       auto linear = 1.f - val * val * val;
-      auto linear_u12 = uint16_t (std::clamp (linear, 0.f, 1.f) * 4067.f);
+      auto linear_u12 = uint16_t (std::clamp (linear, 0.f, 1.f) * 4035.f);
 
       // LEDO-L8 LED1-L7 LED2-L6 ... LED7-L1
       // LED8-L9 LED9-L10 LED10-L11 ... LED15-L16
