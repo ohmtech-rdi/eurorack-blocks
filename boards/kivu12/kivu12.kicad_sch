@@ -975,6 +975,7 @@
 
 
   (no_connect (at 176.53 26.67) (uuid 4ae2b568-2552-46cf-b3cb-3feada0a525a))
+  (no_connect (at 158.75 77.47) (uuid 4e5125be-33d5-4872-9336-8ac4160a8f8e))
 
   (text "Just needed for BOM\nThey are:\n- 4x 2x5 female socket for the DPSM\n- 1x 1x36 Male header\n- 8x Jumpers"
     (at 246.38 57.15 0)
@@ -1054,7 +1055,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 6136da0c-f3f3-407f-abeb-73462df5683f)
   )
-  (label "GATE_MUX_ADDR_C" (at 158.75 82.55 180)
+  (label "GATE_SR_LATCH" (at 158.75 82.55 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid 6609787c-ef60-4a48-8a13-6d87fdd9c4c2)
   )
@@ -1094,7 +1095,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 999d2bf0-d3b5-4ffe-9a04-953458756f94)
   )
-  (label "GATE_MUX_ADDR_B" (at 158.75 74.93 180)
+  (label "GATE_SR_CLOCK" (at 158.75 74.93 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid ae4964e0-5fb6-4103-9bc4-1ad1451f0c4f)
   )
@@ -1109,14 +1110,6 @@
   (label "ADC_MUX_ADDR_B" (at 31.75 152.4 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid c2b39d82-6d29-4481-8eb9-8819cf713aad)
-  )
-  (label "GATE_MUX_ADDR_A" (at 158.75 77.47 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid c89ab2f8-3b1f-4766-97bb-db0bae137c37)
-  )
-  (label "GATE_MUX_ADDR_A" (at 85.09 170.18 180)
-    (effects (font (size 1.27 1.27)) (justify right bottom))
-    (uuid cced99d6-4249-455b-9456-6c4eea59a74c)
   )
   (label "CV_OR_PITCH_ADSR2" (at 158.75 36.83 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
@@ -1142,7 +1135,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid eee06177-2dae-4e74-a01f-bd2c477a150f)
   )
-  (label "GATE_MUX_ADDR_C" (at 85.09 175.26 180)
+  (label "GATE_SR_LATCH" (at 85.09 175.26 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid f48609da-a618-4268-a169-5b829d307dbe)
   )
@@ -1150,7 +1143,7 @@
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid f9155bd3-f036-4537-85c0-bfa98374dcdd)
   )
-  (label "GATE_MUX_ADDR_B" (at 85.09 172.72 180)
+  (label "GATE_SR_CLOCK" (at 85.09 172.72 180)
     (effects (font (size 1.27 1.27)) (justify right bottom))
     (uuid ffbca877-287b-4969-9ddf-3a7d4282990e)
   )
@@ -3830,18 +3823,6 @@
     (property "Sheet file" "kivu12.gates.kicad_sch" (id 1) (at 85.09 178.3846 0)
       (effects (font (size 1.27 1.27)) (justify left top))
     )
-    (pin "A" input (at 85.09 170.18 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 6ccfd089-d805-4787-b187-0bd850a39baf)
-    )
-    (pin "B" input (at 85.09 172.72 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 6be56287-7ccd-42b7-aa37-935a1752cadb)
-    )
-    (pin "C" input (at 85.09 175.26 180)
-      (effects (font (size 1.27 1.27)) (justify left))
-      (uuid 45f2b9a2-19b4-4e65-8035-6ddbb1566abf)
-    )
     (pin "GND" input (at 107.95 175.26 0)
       (effects (font (size 1.27 1.27)) (justify right))
       (uuid 0173b7a6-6019-4e9b-80c1-4905690e79b2)
@@ -3921,6 +3902,14 @@
     (pin "3V3" input (at 107.95 172.72 0)
       (effects (font (size 1.27 1.27)) (justify right))
       (uuid 2a07f5a5-7709-43f0-835e-aab4fe3349cc)
+    )
+    (pin "CLOCK" input (at 85.09 172.72 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid f3233f03-1762-495a-a23a-562b4331e718)
+    )
+    (pin "LATCH" input (at 85.09 175.26 180)
+      (effects (font (size 1.27 1.27)) (justify left))
+      (uuid d2175a5d-4301-445a-b6a4-28e14cefd6ff)
     )
   )
 
@@ -4392,6 +4381,12 @@
     (path "/00000000-0000-0000-0000-00006095892f/00000000-0000-0000-0000-00005fcff328"
       (reference "L2") (unit 1) (value "Ferrite_Bead") (footprint "Inductor_SMD:L_0603_1608Metric")
     )
+    (path "/00000000-0000-0000-0000-000060958bfe/82553b7b-c84a-48f8-9d39-d10a95d00032"
+      (reference "R1") (unit 1) (value "1K") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/770ccc82-3d5c-4b0a-b0e0-ded04fb9c4a4"
+      (reference "R2") (unit 1) (value "1K") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
     (path "/00000000-0000-0000-0000-000060958bfe/00000000-0000-0000-0000-00006096181f"
       (reference "R4") (unit 1) (value "100k") (footprint "Resistor_SMD:R_0603_1608Metric")
     )
@@ -4515,17 +4510,65 @@
     (path "/00000000-0000-0000-0000-0000608db245/00000000-0000-0000-0000-00006224fc76"
       (reference "R82") (unit 1) (value "100k") (footprint "Resistor_SMD:R_0603_1608Metric")
     )
+    (path "/00000000-0000-0000-0000-000060958bfe/f2085987-7c76-4ff8-9aa7-18ca1efdf565"
+      (reference "R84") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/2dc3d0d0-8b5b-411a-8647-713c967006df"
+      (reference "R85") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/0a6f3932-1e72-477c-8eac-9be588f1cdf1"
+      (reference "R86") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/ba210f35-64d9-449c-be38-94168bb82f72"
+      (reference "R87") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/81a97559-d3d4-449d-91ab-a57fa1158918"
+      (reference "R88") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/87f11fa2-ae56-4e61-92b9-2860c7aca4b9"
+      (reference "R89") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/94c3ef21-8293-4758-807d-a34c29effd8a"
+      (reference "R90") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/93f31d30-0541-43fa-894e-37559aa16097"
+      (reference "R91") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/babf4be3-e801-47cc-8080-d1264dca2374"
+      (reference "R92") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/57efddca-1d6b-4f5c-b73f-f5e525705528"
+      (reference "R93") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/f09979c3-8227-4499-8deb-e31f7b8bdb36"
+      (reference "R94") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/621ccc6c-066c-4e2b-a8a2-8903e37ef5fd"
+      (reference "R95") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/5d401222-6a33-4834-aab2-8277c7af83b1"
+      (reference "R96") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/6cf952f8-1fb1-4c7c-9e9c-f3f700a93d9f"
+      (reference "R97") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/7fbb2e29-07d0-4d24-81df-b9be5c060bff"
+      (reference "R98") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
+    (path "/00000000-0000-0000-0000-000060958bfe/72f453e7-c7d4-456e-b546-9e6a7b9b39e0"
+      (reference "R99") (unit 1) (value "1M") (footprint "Resistor_SMD:R_0603_1608Metric")
+    )
     (path "/00000000-0000-0000-0000-00006093b89c/00000000-0000-0000-0000-000060946352"
       (reference "U1") (unit 1) (value "4051") (footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm")
     )
     (path "/00000000-0000-0000-0000-00006093b89c/00000000-0000-0000-0000-000060946394"
       (reference "U2") (unit 1) (value "4051") (footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm")
     )
-    (path "/00000000-0000-0000-0000-000060958bfe/00000000-0000-0000-0000-00006095de74"
-      (reference "U3") (unit 1) (value "4051") (footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm")
+    (path "/00000000-0000-0000-0000-000060958bfe/65257d55-0cd8-47f1-acfa-0975bb197ea3"
+      (reference "U3") (unit 1) (value "4021") (footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm")
     )
-    (path "/00000000-0000-0000-0000-000060958bfe/00000000-0000-0000-0000-000060a214ca"
-      (reference "U4") (unit 1) (value "4051") (footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm")
+    (path "/00000000-0000-0000-0000-000060958bfe/f6de3bd0-0d9e-409c-8b35-128e810a9e52"
+      (reference "U4") (unit 1) (value "4021") (footprint "Package_SO:TSSOP-16_4.4x5mm_P0.65mm")
     )
     (path "/00000000-0000-0000-0000-0000609afc8b/00000000-0000-0000-0000-000060ad63f1"
       (reference "U6") (unit 1) (value "PCA9685PW") (footprint "Package_SO:TSSOP-28_4.4x9.7mm_P0.65mm")

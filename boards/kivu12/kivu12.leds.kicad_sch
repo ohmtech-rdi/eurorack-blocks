@@ -1141,7 +1141,7 @@
     (property "DistPartNumber" "478-7018-1-ND" (id 8) (at 97.79 64.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "DistLink" "https://www.digikey.de/product-detail/en/kemet/C0603C102J5GACTU/399-3293-1-ND/608488" (id 9) (at 97.79 64.77 0)
+    (property "DistLink" "https://www.digikey.de/en/products/detail/kyocera-avx/06033C104KAT4A/3247517" (id 9) (at 97.79 64.77 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 08494f93-80ff-47b2-b0f6-04abe149dc54))

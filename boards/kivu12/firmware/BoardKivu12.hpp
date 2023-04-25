@@ -70,7 +70,14 @@ BoardKivu12::BoardKivu12 ()
       led_dma_buffer_a, led_dma_buffer_b
    );
 
-   set_b_mux_addr ();
+#if defined (erb_USE_DAISY_IMPL)
+   ShiftRegister::Config sr_config;
+   sr_config.clk = SubmoduleDaisyPatchSm::A2;
+   sr_config.latch = SubmoduleDaisyPatchSm::A9;
+   sr_config.data [0] = SubmoduleDaisyPatchSm::B9;
+   sr_config.data [1] = SubmoduleDaisyPatchSm::B10;
+   _shift_register.Init (sr_config);
+#endif
 }
 
 
@@ -85,41 +92,70 @@ Name : impl_preprocess
 
 void  BoardKivu12::impl_preprocess ()
 {
-   // Addr0 Gpio0 - B10 (9)
-   // Addr1 Gpio0 - B11 (10)
-   // Addr2 Gpio0 - B12 (11)
-   // Addr3 Gpio0 - B9  (8)
-   // Addr4 Gpio0 - B13 (12)
-   // Addr5 Gpio0 - B16 (15)
-   // Addr6 Gpio0 - B14 (13)
-   // Addr7 Gpio0 - B15 (14)
+#if defined (erb_USE_ERB_IMPL)
+   /*
+   _gpio_inputs [1]
+   B1  D4
+   B2  D5
+   B3  D6
+   B4  D7
+   B5  D3
+   B6  D2
+   B7  D1
+   B8  D0
 
-   // Addr0 Gpio1 - B2 (1)
-   // Addr1 Gpio1 - B3 (2)
-   // Addr2 Gpio1 - B4 (3)
-   // Addr3 Gpio1 - B1 (0)
-   // Addr4 Gpio1 - B5 (4)
-   // Addr5 Gpio1 - B8 (7)
-   // Addr6 Gpio1 - B6 (5)
-   // Addr7 Gpio1 - B7 (6)
+   _gpio_inputs [0]
+   B9  D4
+   B10 D5
+   B11 D6
+   B12 D7
+   B13 D3
+   B14 D2
+   B15 D1
+   B16 D0
+   */
 
    constexpr size_t gpio0_order [] = {
-      9, 10, 11, 8, 12, 15, 13, 14
+      11, 10, 9, 8, 12, 13, 14, 15
    };
    constexpr size_t gpio1_order [] = {
-      1, 2, 3, 0, 4, 7, 5, 6
+      3, 2, 1, 0, 4, 5, 6, 7
    };
 
-   // GI: BJT => inverted
-   _digital_inputs [gpio0_order [_b_mux_addr]] = !_gpio_inputs [0].read ();
-   _digital_inputs [gpio1_order [_b_mux_addr]] = !_gpio_inputs [1].read ();
+   _gpio_b_sr4021_clock.write (false);
+   _gpio_b_sr4021_latch.write (true);
+   daisy::System::DelayTicks (1);
 
-   // set address for next read in next preprocess, in 1ms or so
-   _b_mux_addr = (_b_mux_addr + 1) % 8;
-   set_b_mux_addr ();
+   _gpio_b_sr4021_latch.write (false);
 
-   // a full cycle has a length of 8, which represent at worst a 8ms latency
-   // with the default 48 sample buffer and 48kHz sample rate.
+   for (std::size_t i = 0 ; i < 8 ; ++i)
+   {
+      _gpio_b_sr4021_clock.write (false);
+      daisy::System::DelayTicks (100);
+
+      // GI: BJT => inverted
+      _digital_inputs [gpio0_order [i]] = !_gpio_inputs [0].read ();
+      _digital_inputs [gpio1_order [i]] = !_gpio_inputs [1].read ();
+
+      _gpio_b_sr4021_clock.write (true);
+      daisy::System::DelayTicks (1);
+   }
+
+#elif defined (erb_USE_DAISY_IMPL)
+   _shift_register.Update ();
+
+   constexpr size_t gpio_order [] = {
+      3, 2, 1, 0, 4, 5, 6, 7,
+      11, 10, 9, 8, 12, 13, 14, 15
+   };
+
+   for (std::size_t i = 0 ; i < 16 ; ++i)
+   {
+      // GI: BJT => inverted
+      _digital_inputs [gpio_order [i]] = !_shift_register.State (i);
+   }
+
+#endif
 }
 
 
@@ -308,19 +344,6 @@ void  BoardKivu12::impl_postprocess ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : set_b_mux_addr
-==============================================================================
-*/
-
-void  BoardKivu12::set_b_mux_addr ()
-{
-   _gpio_b_mux [0].write ((_b_mux_addr & 1) != 0);
-   _gpio_b_mux [1].write ((_b_mux_addr & 2) != 0);
-   _gpio_b_mux [2].write ((_b_mux_addr & 4) != 0);
-}
 
 
 
