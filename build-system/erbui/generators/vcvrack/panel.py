@@ -42,6 +42,7 @@ class Panel:
       path_svg = os.path.join (path, 'panel_vcvrack.svg')
 
       surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
+      surface.set_document_unit (cairocffi.SVG_UNIT_PT)
       context = cairocffi.Context (surface)
 
       panel = detailPanel ()
