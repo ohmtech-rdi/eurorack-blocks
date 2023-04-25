@@ -751,6 +751,11 @@ class Footprint:
 
    def rotate (self, rotation):
       self.at.rotate (rotation)
+      # pads need to be rotated as well for some reason
+      for pad in self.pads:
+         if not pad.at.rotation:
+            pad.at.rotation = 0
+         pad.at.rotation = (pad.at.rotation + rotation.degree + 360) % 360
 
    def translate (self, x, y):
       self.at.translate (x, y)
