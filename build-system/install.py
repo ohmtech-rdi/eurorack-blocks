@@ -46,6 +46,10 @@ if __name__ == '__main__':
          elif 'zsh' in shell:
             profile_path = os.path.join (os.path.expanduser ('~'), '.zshrc')
 
+         elif 'fish' in shell:
+            profile_path = os.path.join (os.path.expanduser ('~'), '.config', 'fish', 'config.fish')
+            init_path = os.path.join (PATH_THIS, 'init.fish')
+
          else:
             print ('Shell %s is not supported' % shell)
             sys.exit (1)
