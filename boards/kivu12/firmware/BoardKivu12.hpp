@@ -124,7 +124,7 @@ void  BoardKivu12::impl_preprocess ()
 
    _gpio_b_sr4021_clock.write (false);
    _gpio_b_sr4021_latch.write (true);
-   daisy::System::DelayTicks (1);
+   daisy::System::DelayTicks (100);
 
    _gpio_b_sr4021_latch.write (false);
 
@@ -138,7 +138,7 @@ void  BoardKivu12::impl_preprocess ()
       _digital_inputs [gpio1_order [i]] = !_gpio_inputs [1].read ();
 
       _gpio_b_sr4021_clock.write (true);
-      daisy::System::DelayTicks (1);
+      daisy::System::DelayTicks (100);
    }
 
 #elif defined (erb_USE_DAISY_IMPL)
