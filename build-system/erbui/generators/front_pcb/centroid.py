@@ -33,8 +33,9 @@ class Centroid:
       layer_map = generator_args ['layer_map']
       mounting_key = generator_args ['mounting_key']
       mounting_value = generator_args ['mounting_value']
+      distance_format = generator_args ['distance_format']
 
-      centroid = self.make_centroid (module.pcb, module.sch_symbols, line_format, header_map, layer_map, mounting_key, mounting_value)
+      centroid = self.make_centroid (generator_args, module.pcb, module.sch_symbols)
 
       path_centroid = os.path.join (path, '%s.centroid.csv' % module.name)
 
@@ -44,13 +45,16 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def make_centroid (self, pcb, symbols, line_format, header_map, layer_map, mounting_key, mounting_value):
-
-      left, bottom = self.find_left_bottom (pcb)
-      parts_pcb = self.make_pcb_parts (pcb, left, bottom, layer_map)
+   def make_centroid (self, args, pcb, symbols):
+      line_format = args ['line_format']
+      header_map = args ['header_map']
 
       field_names = [e for e in header_map if e not in ['x', 'y', 'layer', 'rotation']]
-      parts_sch = self.make_sch_parts (symbols, field_names, mounting_key, mounting_value)
+      field_names.append ('ReelRotation')
+      parts_sch = self.make_sch_parts (args, symbols, field_names)
+
+      origin_x, origin_y = self.find_origin (args, pcb)
+      parts_pcb = self.make_pcb_parts (args, pcb, origin_x, origin_y, parts_sch)
 
       parts = []
       for part in parts_pcb:
@@ -68,10 +72,13 @@ class Centroid:
 
 
    #--------------------------------------------------------------------------
-   # Find the left bottom point in the cutting layer, as coordinates
-   # are oriented up.
+   # Find the corner point in the cutting layer.
 
-   def find_left_bottom (self, module_pcb):
+   def find_origin (self, args, module_pcb):
+
+      origin_name = args ['position']['origin']
+      if origin_name == 'absolute':
+         return (0, 0)  # no need for corner detection
 
       def gr_min (cur, new):
          if cur is None:
@@ -86,21 +93,59 @@ class Centroid:
             return max (cur, new)
 
       left = None
+      top = None
+      right = None
       bottom = None
 
       for gr_shape in module_pcb.gr_shapes:
          if isinstance (gr_shape, pcb.GrLine) and gr_shape.layer == 'Edge.Cuts':
-            left = gr_min (left, gr_shape.start.x)
-            bottom = gr_max (left, gr_shape.start.y)
-            left = gr_min (left, gr_shape.end.x)
-            bottom = gr_max (bottom, gr_shape.end.y)
+            left = gr_min (left, min (gr_shape.start.x, gr_shape.end.x))
+            top = gr_min (top, min (gr_shape.start.y, gr_shape.end.y))
+            right = gr_max (right, max (gr_shape.start.x, gr_shape.end.x))
+            bottom = gr_max (bottom, max (gr_shape.start.y, gr_shape.end.y))
 
-      return (left, bottom)
+      if origin_name == 'corner-left-top':
+         return (left, top)
+
+      elif origin_name == 'corner-left-bottom':
+         return (left, bottom)
+
+      else:
+         raise Exception ('unsupported position origin "%s"' % origin_name)
 
 
    #--------------------------------------------------------------------------
 
-   def make_pcb_parts (self, pcb, left, bottom, layer_map):
+   def make_pcb_parts (self, args, pcb, origin_x, origin_y, parts_sch):
+
+      layer_map = args ['layer_map']
+      distance_format = args ['distance_format']
+      position_y_axis_orientation = args ['position']['y_axis_orientation']
+      rotation_y_axis_orientation = args ['rotation']['y_axis_orientation']
+      rotation_zero = args ['rotation']['zero']
+      rotation_range_min = int (args ['rotation']['range']['min'])
+      rotation_range_max = int (args ['rotation']['range']['max'])
+
+      if position_y_axis_orientation == 'upward':
+         y_mul = -1
+      elif position_y_axis_orientation == 'downward':
+         y_mul = 1
+      else:
+         raise Exception ('unsupported y_axis_orientation "%s"' % position_y_axis_orientation)
+
+      if rotation_y_axis_orientation == 'upward':
+         rot_mul = 1
+      elif rotation_y_axis_orientation == 'downward':
+         rot_mul = -1
+      else:
+         raise Exception ('unsupported y_axis_orientation "%s"' % position_y_axis_orientation)
+
+      if rotation_zero == 'native':
+         rot_mul_offset = 0
+      elif rotation_zero == 'reel':
+         rot_mul_offset = 1
+      else:
+         raise Exception ('unsupported y_axis_orientation "%s"' % position_y_axis_orientation)
 
       parts = {}
 
@@ -112,13 +157,26 @@ class Centroid:
          else:
             assert False
 
-         x = footprint.at.x - left
-         y = bottom - footprint.at.y
+         reel_rotation = 0
+         if footprint.reference in parts_sch:
+            reel_rotation_str = parts_sch [footprint.reference]['ReelRotation']
+            if reel_rotation_str is not None:
+               reel_rotation = int (reel_rotation_str)
+
+         x = footprint.at.x - origin_x
+         y = (footprint.at.y - origin_y) * y_mul
          rotation = footprint.at.rotation if footprint.at.rotation else 0
+         rotation -= reel_rotation * rot_mul_offset
+         rotation *= rot_mul
+         if rotation < rotation_range_min:
+            rotation += 360
+         if rotation > rotation_range_max:
+            rotation -= 360
+
          parts [footprint.reference] = {
             'layer': layer,
-            'x': x,
-            'y': y,
+            'x': distance_format.format (distance = x),
+            'y': distance_format.format (distance = y),
             'rotation': rotation
          }
 
@@ -127,7 +185,10 @@ class Centroid:
 
    #--------------------------------------------------------------------------
 
-   def make_sch_parts (self, symbols, field_names, mounting_key, mounting_value):
+   def make_sch_parts (self, args, symbols, field_names):
+
+      mounting_key = args ['mounting_key']
+      mounting_value = args ['mounting_value']
 
       parts = {}
 
