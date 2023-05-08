@@ -40,6 +40,19 @@ manufacturer ElectroDemo {
       }
       arg mounting_key "Mounting"
       arg mounting_value "SMT"
+      arg distance_format "{distance:.2f}"
+      arg position {
+         arg origin "corner-left-bottom"
+         arg y_axis_orientation "upward"
+      }
+      arg rotation {
+         arg y_axis_orientation "upward"
+         arg zero "reel"
+         arg range {
+            arg min "0"
+            arg max "360"
+         }
+      }
    }
 
 
