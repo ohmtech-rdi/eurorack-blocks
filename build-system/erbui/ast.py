@@ -1952,7 +1952,7 @@ class GeneratorArgDict (Scope):
 
    @property
    def items (self):
-      entities = [e for e in self.entities if e.is_generator_arg_string]
+      entities = [e for e in self.entities if e.is_generator_arg]
       return entities
 
 

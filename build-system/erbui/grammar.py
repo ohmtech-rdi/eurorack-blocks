@@ -214,7 +214,7 @@ GRAMMAR_ROOT = global_namespace_declaration
 # Generator Arg
 def generator_arg_name ():             return name
 def generator_arg_string ():           return 'arg', generator_arg_name, string_literal
-def generator_arg_dict_entities ():    return ZeroOrMore ([generator_arg_string])
+def generator_arg_dict_entities ():    return ZeroOrMore ([generator_arg_string, generator_arg_dict])
 def generator_arg_dict ():             return 'arg', generator_arg_name, '{', generator_arg_dict_entities, '}'
 def generator_arg_declaration ():      return [generator_arg_string, generator_arg_dict]
 
