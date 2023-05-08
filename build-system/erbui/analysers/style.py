@@ -131,15 +131,23 @@ class AnalyserStyle:
 
       manufacturer_data ['generators'] = []
       for generator in manufacturer.generators:
+
+         def visit (item):
+            if isinstance (item, ast.GeneratorArgString):
+               return { item.name: item.value }
+            elif isinstance (item, ast.GeneratorArgDict):
+               sub_args = {}
+               for sub_item in item.items:
+                  sub_args.update (visit (sub_item))
+               return { item.name: sub_args }
+
          gen = {'id': generator.name, 'args': {}}
+
          for arg in generator.args:
             if isinstance (arg, ast.GeneratorArgString):
-               gen ['args'][arg.name] = arg.value
+               gen ['args'].update (visit (arg))
             elif isinstance (arg, ast.GeneratorArgDict):
-               sub_args = {}
-               for item in arg.items:
-                  sub_args [item.name] = item.value
-               gen ['args'][arg.name] = sub_args
+               gen ['args'].update (visit (arg))
 
          manufacturer_data ['generators'].append (gen)
 

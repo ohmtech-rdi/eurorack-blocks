@@ -179,6 +179,42 @@ def build_bom_digikey ():
 
 """
 ==============================================================================
+Name : build_bom_jlcpcb
+==============================================================================
+"""
+
+def build_bom_jlcpcb ():
+   kivu12_sch = sch.Root.read (os.path.join (PATH_THIS, 'kivu12.kicad_sch'))
+   symbols = []
+   symbols.extend (kivu12_sch.symbols)
+   for sheet in kivu12_sch.sheets:
+      sheet_file = sheet.property ('Sheet file')
+      sheet_path = os.path.join (PATH_THIS, sheet_file)
+      sheet_sch = sch.Root.read (sheet_path)
+      symbols.extend (sheet_sch.symbols)
+
+   line_format = '{Value},"{references}",{Package},{JlcPcbPartNumber}\n'
+   header_map = {
+      'Value': 'Comment',
+      'references': 'Designator',
+      'Package': 'Footprint',
+      'JlcPcbPartNumber': 'JLCPCB Part #',
+   }
+   include_non_empty = '{JlcPcbPartNumber}'
+   projection = '{JlcPcbPartNumber}'
+
+   bom_gen = bom.Bom ()
+   kivu12_bom = bom_gen.make_bom (symbols, line_format, header_map, include_non_empty, projection)
+
+   path_bom = os.path.join (PATH_ARTIFACTS, 'kivu12.bom.jlcpcb.csv')
+
+   with open (path_bom, 'w', encoding='utf-8') as file:
+      file.write (kivu12_bom)
+
+
+
+"""
+==============================================================================
 Name : build_centroid
 ==============================================================================
 """
@@ -195,25 +231,98 @@ def build_centroid ():
       sheet_sch = sch.Root.read (sheet_path)
       symbols.extend (sheet_sch.symbols)
 
-   line_format = '{Reference},{x},{y},{layer},{rotation}\n'
-   header_map = {
-      'Reference': 'Reference',
-      'x': 'X',
-      'y': 'Y',
-      'layer': 'Layer',
-      'rotation': 'Rotation',
+   args = {
+      'line_format': '{Reference},{x},{y},{layer},{rotation}\n',
+      'header_map': {
+         'Reference': 'Reference',
+         'x': 'X',
+         'y': 'Y',
+         'layer': 'Layer',
+         'rotation': 'Rotation',
+      },
+      'layer_map': {
+         'top': 'Top',
+         'bottom': 'Bottom',
+      },
+      'mounting_key': 'Place',
+      'mounting_value': 'Yes',
+      'distance_format': '{distance:.2f}',
+      'position': {
+         'origin': 'corner-left-bottom',
+         'y_axis_orientation': 'upward',
+      },
+      'rotation': {
+         'y_axis_orientation': 'upward',
+         'zero': 'native',
+         'range': {
+            'min': '0',
+            'max': '360',
+         },
+      },
    }
-   layer_map = {
-      'top': 'Top',
-      'bottom': 'Bottom',
-   }
-   mounting_key = 'Place'
-   mounting_value = 'Yes'
 
    centroid_gen = centroid.Centroid ()
-   kivu12_centroid = centroid_gen.make_centroid (kivu12_pcb, symbols, line_format, header_map, layer_map, mounting_key, mounting_value)
+   kivu12_centroid = centroid_gen.make_centroid (args, kivu12_pcb, symbols)
 
    path_centroid = os.path.join (PATH_ARTIFACTS, 'kivu12.centroid.csv')
+
+   with open (path_centroid, 'w', encoding='utf-8') as file:
+      file.write (kivu12_centroid)
+
+
+
+"""
+==============================================================================
+Name : build_centroid_jlcpcb
+==============================================================================
+"""
+
+def build_centroid_jlcpcb ():
+   kivu12_pcb = pcb.Root.read (os.path.join (PATH_THIS, 'kivu12.kicad_pcb'))
+   kivu12_sch = sch.Root.read (os.path.join (PATH_THIS, 'kivu12.kicad_sch'))
+
+   symbols = []
+   symbols.extend (kivu12_sch.symbols)
+   for sheet in kivu12_sch.sheets:
+      sheet_file = sheet.property ('Sheet file')
+      sheet_path = os.path.join (PATH_THIS, sheet_file)
+      sheet_sch = sch.Root.read (sheet_path)
+      symbols.extend (sheet_sch.symbols)
+
+   args = {
+      'line_format': '{Reference},{x},{y},{layer},{rotation}\n',
+      'header_map': {
+         'Reference': 'Designator',
+         'x': 'Mid X',
+         'y': 'Mid Y',
+         'layer': 'Layer',
+         'rotation': 'Rotation',
+      },
+      'layer_map': {
+         'top': 'T',
+         'bottom': 'B',
+      },
+      'mounting_key': 'Place',
+      'mounting_value': 'Yes',
+      'distance_format': '{distance:.4f}mm',
+      'position': {
+         'origin': 'absolute',
+         'y_axis_orientation': 'upward',
+      },
+      'rotation': {
+         'y_axis_orientation': 'upward',
+         'zero': 'reel',
+         'range': {
+            'min': '0',
+            'max': '360',
+         },
+      },
+   }
+
+   centroid_gen = centroid.Centroid ()
+   kivu12_centroid = centroid_gen.make_centroid (args, kivu12_pcb, symbols)
+
+   path_centroid = os.path.join (PATH_ARTIFACTS, 'kivu12.centroid.jlcpcb.csv')
 
    with open (path_centroid, 'w', encoding='utf-8') as file:
       file.write (kivu12_centroid)
@@ -234,7 +343,9 @@ def build ():
    build_gerber ()
    build_bom ()
    build_bom_digikey ()
+   build_bom_jlcpcb ()
    build_centroid ()
+   build_centroid_jlcpcb ()
 
 
 

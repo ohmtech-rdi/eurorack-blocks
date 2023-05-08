@@ -76,9 +76,9 @@ class Bom:
       key_references_map = {}
       def inc_reference (key, reference):
          if key in key_references_map:
-            key_references_map [key].append (reference)
+            key_references_map [key].add (reference)
          else:
-            key_references_map [key] = [reference]
+            key_references_map [key] = {reference}
 
       key_desc_map = {}
 
