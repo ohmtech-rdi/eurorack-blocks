@@ -1,0 +1,461 @@
+/*****************************************************************************
+
+      Kivu12.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Kivu12 {
+   board kivu12
+   material aluminum black
+   width 14hp
+   header { label "KIVU12 DEV" }
+
+   route manual
+
+   control L1 Led {
+      position 3mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L1"
+      pin L1
+   }
+
+   control L2 Led {
+      position 6.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L2"
+      pin L2
+   }
+
+   control L3 Led {
+      position 10mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L3"
+      pin L3
+   }
+
+   control L4 Led {
+      position 13.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L4"
+      pin L4
+   }
+
+   control L5 Led {
+      position 17mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L5"
+      pin L5
+   }
+
+   control L6 Led {
+      position 20.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L6"
+      pin L6
+   }
+
+   control L7 Led {
+      position 24mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L7"
+      pin L7
+   }
+
+   control L8 Led {
+      position 27.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L8"
+      pin L8
+   }
+
+   control L9 Led {
+      position 33mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L9"
+      pin L9
+   }
+
+   control L10 Led {
+      position 36.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L10"
+      pin L10
+   }
+
+   control L11 Led {
+      position 40mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L11"
+      pin L11
+   }
+
+   control L12 Led {
+      position 43.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L12"
+      pin L12
+   }
+
+   control L13 Led {
+      position 47mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L13"
+      pin L13
+   }
+
+   control L14 Led {
+      position 50.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L14"
+      pin L14
+   }
+
+   control L15 Led {
+      position 54mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L15"
+      pin L15
+   }
+
+   control L16 Led {
+      position 57.5mm, 14.5mm
+      rotation 90°ccw
+      style red
+      label "L16"
+      pin L16
+   }
+
+   control B1 Button {
+      position 9mm, 22mm
+      rotation 90°ccw
+      style small
+      label "B1"
+      pin B1
+   }
+
+   control B2 GateIn {
+      position 20mm, 22mm
+      rotation 90°ccw
+      style knurled
+      label "B2"
+      pin B2
+   }
+
+   control B3 Button {
+      position 9mm, 32mm
+      rotation 90°ccw
+      style small
+      label "B3"
+      pin B3
+   }
+
+   control B4 GateIn {
+      position 20mm, 32mm
+      rotation 90°ccw
+      style knurled
+      label "B4"
+      pin B4
+   }
+
+   control B5 Button {
+      position 9mm, 42mm
+      rotation 90°ccw
+      style small
+      label "B5"
+      pin B5
+   }
+
+   control B6 GateIn {
+      position 20mm, 42mm
+      rotation 90°ccw
+      style knurled
+      label "B6"
+      pin B6
+   }
+
+   control B7 Button {
+      position 9mm, 52mm
+      rotation 90°ccw
+      style small
+      label "B7"
+      pin B7
+   }
+
+   control B8 GateIn {
+      position 20mm, 52mm
+      rotation 90°ccw
+      style knurled
+      label "B8"
+      pin B8
+   }
+
+   control B9 Button {
+      position 9mm, 62mm
+      rotation 90°ccw
+      style small
+      label "B9"
+      pin B9
+   }
+
+   control B10 GateIn {
+      position 20mm, 62mm
+      rotation 90°ccw
+      style knurled
+      label "B10"
+      pin B10
+   }
+
+   control B11 Button {
+      position 9mm, 72mm
+      rotation 90°ccw
+      style small
+      label "B11"
+      pin B11
+   }
+
+   control B12 GateIn {
+      position 20mm, 72mm
+      rotation 90°ccw
+      style knurled
+      label "B12"
+      pin B12
+   }
+
+   control B13 Button {
+      position 9mm, 82mm
+      rotation 90°ccw
+      style small
+      label "B13"
+      pin B13
+   }
+
+   control B14 GateIn {
+      position 20mm, 82mm
+      rotation 90°ccw
+      style knurled
+      label "B14"
+      pin B14
+   }
+
+   control B15 Button {
+      position 9mm, 92mm
+      rotation 90°ccw
+      style small
+      label "B15"
+      pin B15
+   }
+
+   control B16 GateIn {
+      position 20mm, 92mm
+      rotation 90°ccw
+      style knurled
+      label "B16"
+      pin B16
+   }
+
+   control P1 Trim {
+      position 35.5mm, 22mm
+      label "P1"
+      pin P1
+   }
+
+   control P2 Trim {
+      position 50mm, 22mm
+      label "P2"
+      pin P2
+   }
+
+   control P3 Trim {
+      position 67.5mm, 22mm
+      label "P3"
+      pin P3
+   }
+
+   control P4 Trim {
+      position 82mm, 22mm
+      label "P4"
+      pin P4
+   }
+
+   control P5 Trim {
+      position 35.5mm, 35mm
+      label "P5"
+      pin P5
+   }
+
+   control P6 Trim {
+      position 50mm, 35mm
+      label "P6"
+      pin P6
+   }
+
+   control P7 Trim {
+      position 67.5mm, 35mm
+      label "P7"
+      pin P7
+   }
+
+   control P8 Trim {
+      position 82mm, 35mm
+      label "P8"
+      pin P8
+   }
+
+   control P9 Trim {
+      position 35.5mm, 48mm
+      label "P9"
+      pin P9
+   }
+
+   control P10 Trim {
+      position 50mm, 48mm
+      label "P10"
+      pin P10
+   }
+
+   control P11 Trim {
+      position 67.5mm, 48mm
+      label "P11"
+      pin P11
+   }
+
+   control P12 Trim {
+      position 82mm, 48mm
+      label "P12"
+      pin P12
+   }
+
+   control CO1 CvOut {
+      position 42.5mm, 62mm
+      rotation 90°ccw
+      style knurled
+      label "CO1"
+      pin CO1
+   }
+
+   control CO2 CvOut {
+      position 42.5mm, 72mm
+      rotation 90°ccw
+      style knurled
+      label "CO2"
+      pin CO2
+   }
+
+   control GO1 GateOut {
+      position 42.5mm, 82mm
+      rotation 90°ccw
+      style knurled
+      label "GO1"
+      pin GO1
+   }
+
+   control GO2 GateOut {
+      position 42.5mm, 92mm
+      rotation 90°ccw
+      style knurled
+      label "GO2"
+      pin GO2
+   }
+
+   control CI1 CvIn {
+      position 67.5mm, 62mm
+      rotation 90°ccw
+      label "CI1"
+      pin CI1
+   }
+
+   control CI2 CvIn {
+      position 82mm, 62mm
+      rotation 90°ccw
+      label "CI2"
+      pin CI2
+   }
+
+   control CI3 CvIn {
+      position 67.5mm, 72mm
+      rotation 90°ccw
+      label "CI3"
+      pin CI3
+   }
+
+   control CI4 CvIn {
+      position 82mm, 72mm
+      rotation 90°ccw
+      label "CI4"
+      pin CI4
+   }
+
+   control CI5 CvIn {
+      position 67.5mm, 82mm
+      rotation 90°ccw
+      label "CI5"
+      pin CI5
+   }
+
+   control CI6 CvIn {
+      position 82mm, 82mm
+      rotation 90°ccw
+      label "CI6"
+      pin CI6
+   }
+
+   control CI7 CvIn {
+      position 67.5mm, 92mm
+      rotation 90°ccw
+      label "CI7"
+      pin CI7
+   }
+
+   control CI8 CvIn {
+      position 82mm, 92mm
+      rotation 90°ccw
+      label "CI8"
+      pin CI8
+   }
+
+   control AI1 AudioIn {
+      position 2hp, 111mm
+      style knurled
+      label "AI1"
+      pin AI1
+   }
+
+   control AI2 AudioIn {
+      position 4.66hp, 111mm
+      style knurled
+      label "AI2"
+      pin AI2
+   }
+
+   control AO1 AudioOut {
+      position 7.33hp, 111mm
+      style knurled
+      label "AO1"
+      pin AO1
+   }
+
+   control AO2 AudioOut {
+      position 10hp, 111mm
+      style knurled
+      label "AO2"
+      pin AO2
+   }
+}
