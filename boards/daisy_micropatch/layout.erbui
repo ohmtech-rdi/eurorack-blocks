@@ -144,13 +144,13 @@ module daisy_micropatch {
       style knurled
       pin AI1
       label "IN L"
-      cascade audio_in2
    }
 
    control audio_in2 AudioIn {
       position 18.6667mm, 112.65mm
       style knurled
       pin AI2
+      normalling audio_in1
       label "IN R"
    }
 
