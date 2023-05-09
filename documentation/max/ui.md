@@ -148,7 +148,7 @@ the Erbui transpiler will report an error.
 
 One neat thing you can do with audio inputs, is to cascade them. For example using the
 previous example, you might want your right audio input to take the left audio input, if the
-right audio input is not connected. You can do this simply using the `cascade` keyword:
+right audio input is not connected. You can do this simply using the `normalling` keyword:
 
 ```{code-block} erbui
 ---
@@ -157,11 +157,11 @@ emphasize-lines: 4
 control audio_in_left AudioIn {
    position 2hp, 111mm
    label "IN L"
-   cascade audio_in_right
 }
 
 control audio_in_right AudioIn {
    position 4.66hp, 111mm
+   normalling audio_in_left
    label "IN R"
 }
 ```
