@@ -14,7 +14,7 @@
             Words = (
                 "import",
                 "module", "extends", "board", "width", "material", "header", "footer", "line", "alias", "exclude",
-                "control", "label", "positioning", "sticker", "image", "pin", "pins", "cascade", "mode",
+                "control", "label", "positioning", "sticker", "image", "pin", "pins", "normalling", "mode",
                 "position", "rotation", "offset", "style",
                 "route", "wire", "manual",
                 "faust", "init", "address", "property", "value",
