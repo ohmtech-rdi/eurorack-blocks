@@ -129,7 +129,7 @@ void  ErbModule::process (const ProcessArgs & /* args */)
 {
    bool process_flag = module.ui.board.impl_need_process ();
 
-%  cascade_process%
+%  normalling_process%
    module.ui.board.impl_pull_audio_inputs ();
 
    if (process_flag)

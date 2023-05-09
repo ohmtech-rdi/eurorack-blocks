@@ -25,7 +25,7 @@ PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 class Analyser:
 
    def __init__ (self):
-      self._cascade_index = 0
+      self._normalling_index = 0
 
    #--------------------------------------------------------------------------
 
@@ -69,7 +69,7 @@ class Analyser:
       for alias in module.aliases:
          self.resolve_alias (module, alias)
 
-      self.make_cascade_eval_list (module)
+      self.make_normalling_eval_list (module)
 
       self.resolve_module_faust_addresses (module)
 
@@ -180,8 +180,8 @@ class Analyser:
 
          self.analyse_pins (module, control, pin_array)
 
-      if control.cascade_to is not None:
-         self.resolve_cascade (module, control, control.cascade_to)
+      if control.normalling_from is not None:
+         self.resolve_normalling (module, control, control.normalling_from)
 
       self.resolve_control_faust_addresses (module, control)
 
@@ -236,12 +236,12 @@ class Analyser:
 
    #--------------------------------------------------------------------------
 
-   def resolve_cascade (self, module, control_from, cascade_to):
+   def resolve_normalling (self, module, control_to, normalling_from):
       control = None
 
       for entity in module.entities:
          if entity.is_control:
-            if cascade_to.identifier.name == entity.name:
+            if normalling_from.identifier.name == entity.name:
                control = entity
 
       if control is None:
@@ -254,20 +254,20 @@ class Analyser:
             return dict (zip (map (fun, iterable), iterable))
 
          possible_names = make_dict (lambda x: x.value, possible_tokens)
-         matches = get_close_matches (cascade_to.identifier.name, possible_names.keys ())
+         matches = get_close_matches (normalling_from.identifier.name, possible_names.keys ())
 
          fixit_decl_tokens = [possible_names [match_name] for match_name in matches]
          fixit_decls_sc = [adapter.SourceContext.from_token (f) for f in fixit_decl_tokens]
 
-         raise error.undefined_reference (cascade_to, fixit_decls_sc)
+         raise error.undefined_reference (normalling_from, fixit_decls_sc)
 
-      cascade_to.reference = control
-      cascade_to.index = self._cascade_index
-      cascade_from = ast.CascadeFrom ()
-      cascade_from.reference = control_from
-      cascade_from.index = self._cascade_index
-      control.add (cascade_from)
-      self._cascade_index += 1
+      normalling_from.reference = control
+      normalling_from.index = self._normalling_index
+      normalling_to = ast.NormallingTo ()
+      normalling_to.reference = control_to
+      normalling_to.index = self._normalling_index
+      control.add (normalling_to)
+      self._normalling_index += 1
 
 
    #--------------------------------------------------------------------------
@@ -487,61 +487,61 @@ class Analyser:
 
    #--------------------------------------------------------------------------
 
-   def make_cascade_eval_list (self, module):
+   def make_normalling_eval_list (self, module):
       for control in module.controls:
          if control.is_kind_in:
-            self.visit_cascade (module, control)
+            self.visit_normalling (module, control)
 
 
    #--------------------------------------------------------------------------
 
-   def visit_cascade (self, module, control):
-      if self.is_cascade_visited (control):
+   def visit_normalling (self, module, control):
+      if self.is_normalling_visited (control):
          return
 
-      if self.is_cascade_visiting (control):
+      if self.is_normalling_visiting (control):
          err = error.Error ()
          context = module.source_context
-         err.add_error ("Cascade loop", context)
+         err.add_error ("Normalling loop", context)
          err.add_context (context)
          raise err
 
-      self.mark_cascade_visiting (control)
+      self.mark_normalling_visiting (control)
 
-      if control.cascade_to is not None:
-         control_next = control.cascade_to.reference
-         self.visit_cascade (module, control_next)
+      if control.normalling_to is not None:
+         control_next = control.normalling_to.reference
+         self.visit_normalling (module, control_next)
 
-      self.remove_cascade_visiting (control)
-      self.mark_cascade_visited (control)
-      module.cascade_eval_list.insert (0, control)
-
-
-   #--------------------------------------------------------------------------
-
-   def mark_cascade_visiting (self, control):
-      setattr (control, '_cascade_visiting', None)
+      self.remove_normalling_visiting (control)
+      self.mark_normalling_visited (control)
+      module.normalling_eval_list.insert (0, control)
 
 
    #--------------------------------------------------------------------------
 
-   def remove_cascade_visiting (self, control):
-      delattr (control, '_cascade_visiting')
+   def mark_normalling_visiting (self, control):
+      setattr (control, '_normalling_visiting', None)
 
 
    #--------------------------------------------------------------------------
 
-   def is_cascade_visiting (self, control):
-      return hasattr (control, '_cascade_visiting')
+   def remove_normalling_visiting (self, control):
+      delattr (control, '_normalling_visiting')
 
 
    #--------------------------------------------------------------------------
 
-   def mark_cascade_visited (self, control):
-      setattr (control, '_cascade_visited', None)
+   def is_normalling_visiting (self, control):
+      return hasattr (control, '_normalling_visiting')
 
 
    #--------------------------------------------------------------------------
 
-   def is_cascade_visited (self, control):
-      return hasattr (control, '_cascade_visited')
+   def mark_normalling_visited (self, control):
+      setattr (control, '_normalling_visited', None)
+
+
+   #--------------------------------------------------------------------------
+
+   def is_normalling_visited (self, control):
+      return hasattr (control, '_normalling_visited')

@@ -222,8 +222,8 @@ class AnalyserStyle:
          kicad_pcb, kicad_sch = self.load_kicad_pcb_sch (
             module, module.manufacturer_base_path, component_name
          )
-         self.rename_cascade_to (kicad_pcb, control)
-         self.rename_cascade_from (kicad_pcb, control)
+         self.rename_normalling_to (kicad_pcb, control)
+         self.rename_normalling_from (kicad_pcb, control)
          self.rename_pins (kicad_pcb, control)
          if module.board.pcb:
             self.relink_nets (kicad_pcb, module, control)
@@ -286,34 +286,34 @@ class AnalyserStyle:
 
 
    #--------------------------------------------------------------------------
-   # Rename graphic text 'cascade_to' pin (if any) to actual pin name
+   # Rename graphic text 'normalling_to' pin (if any) to actual pin name
 
-   def rename_cascade_to (self, kicad_pcb, control):
-      if control.cascade_to is None:
-         self.rename_cascade (kicad_pcb, 'cascade_to', None)
+   def rename_normalling_to (self, kicad_pcb, control):
+      if control.normalling_to is None:
+         self.rename_normalling (kicad_pcb, 'normalling_to', None)
       else:
-         self.rename_cascade (kicad_pcb, 'cascade_to', control.cascade_to.index)
+         self.rename_normalling (kicad_pcb, 'normalling_to', control.normalling_to.index)
 
 
    #--------------------------------------------------------------------------
-   # Rename graphic text 'cascade_from' pin (if any) to actual pin name
+   # Rename graphic text 'normalling_from' pin (if any) to actual pin name
 
-   def rename_cascade_from (self, kicad_pcb, control):
-      if control.cascade_from is None:
-         self.rename_cascade (kicad_pcb, 'cascade_from', None)
+   def rename_normalling_from (self, kicad_pcb, control):
+      if control.normalling_from is None:
+         self.rename_normalling (kicad_pcb, 'normalling_from', None)
       else:
-         self.rename_cascade (kicad_pcb, 'cascade_from', control.cascade_from.index)
+         self.rename_normalling (kicad_pcb, 'normalling_from', control.normalling_from.index)
 
 
    #--------------------------------------------------------------------------
 
-   def rename_cascade (self, kicad_pcb, cascade_type, cascade_index):
+   def rename_normalling (self, kicad_pcb, normalling_type, normalling_index):
       for gr_shape in kicad_pcb.gr_shapes:
-         if isinstance (gr_shape, pcb.GrText) and gr_shape.value == cascade_type:
-            if cascade_index is None:
+         if isinstance (gr_shape, pcb.GrText) and gr_shape.value == normalling_type:
+            if normalling_index is None:
                gr_shape.value = ''
             else:
-               gr_shape.value = 'K%d' % (cascade_index + 1)
+               gr_shape.value = 'K%d' % (normalling_index + 1)
 
 
    #--------------------------------------------------------------------------
@@ -348,10 +348,10 @@ class AnalyserStyle:
       name_map ['GND'] = 'GND'
       name_map ['+3V3'] = '+3V3'
 
-      if control.cascade_from is None:
-         name_map ['Cascade0'] = 'GND'
+      if control.normalling_from is None:
+         name_map ['Normalling0'] = 'GND'
       else:
-         name_map ['Cascade0'] = control.cascade_from.reference.pin.name
+         name_map ['Normalling0'] = control.normalling_from.reference.pin.name
 
       for footprint in kicad_pcb.footprints:
          for pad in footprint.pads:

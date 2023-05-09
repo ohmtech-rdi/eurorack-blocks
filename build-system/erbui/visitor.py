@@ -563,15 +563,15 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
-   #-- Cascade ---------------------------------------------------------------
+   #-- Normalling ------------------------------------------------------------
 
-   def visit_cascade_declaration (self, node, children):
-      cascade_reference = children.cascade_reference [0]
-      cascade = ast.CascadeTo (cascade_reference)
+   def visit_normalling_declaration (self, node, children):
+      normalling_reference = children.normalling_reference [0]
+      normalling = ast.NormallingFrom (normalling_reference)
 
-      return cascade
+      return normalling
 
-   def visit_cascade_reference (self, node, children):
+   def visit_normalling_reference (self, node, children):
       return self.visit_identifier (node, children)
 
 

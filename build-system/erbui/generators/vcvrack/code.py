@@ -38,7 +38,7 @@ class Code:
       template = template.replace ('%module.name%', module.name)
 
       template = self.replace_config_controls_bind (template, module.entities);
-      template = self.replace_cascade_process (template, module.cascade_eval_list);
+      template = self.replace_normalling_process (template, module.normalling_eval_list);
       template = self.replace_controls_preprocess (template, module.entities);
       template = self.replace_controls_postprocess (template, module.entities);
       template = self.replace_controls_widget (template, module.entities);
@@ -99,17 +99,17 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def replace_cascade_process (self, template, controls):
+   def replace_normalling_process (self, template, controls):
       lines = ''
 
       for control in controls:
-         if control.cascade_from is not None:
+         if control.normalling_from is not None:
             lines += '   if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
             lines += '   {\n'
-            lines += '      inputs [%d].setVoltage (inputs [%d].getVoltage ());\n' % (control.vcv_input_index, control.cascade_from.reference.vcv_input_index)
+            lines += '      inputs [%d].setVoltage (inputs [%d].getVoltage ());\n' % (control.vcv_input_index, control.normalling_from.reference.vcv_input_index)
             lines += '   }\n'
 
-      return template.replace ('%  cascade_process%', lines)
+      return template.replace ('%  normalling_process%', lines)
 
 
    #--------------------------------------------------------------------------
