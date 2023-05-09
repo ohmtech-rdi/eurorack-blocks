@@ -61,12 +61,12 @@ module Flanger {
    control audio_in AudioIn {
       position 10.16mm, 107.47mm
       style knurled
-      cascade audio_in2
    }
 
    control audio_in2 AudioIn {
       position 23.7mm, 107.47mm
       style knurled
+      normalling audio_in
    }
 
    control audio_out AudioOut {
