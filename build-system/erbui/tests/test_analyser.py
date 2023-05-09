@@ -19,17 +19,17 @@ from . import mock
 
 class TestAnalyser (unittest.TestCase):
 
-   def test_cascade_000 (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_000'), None)
+   def test_normalling_000 (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_000'), None)
 
       analyser = Analyser ()
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 0)
+      self.assertEqual (len (module.normalling_eval_list), 0)
 
 
-   def test_cascade_001 (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_001'), None)
+   def test_normalling_001 (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_001'), None)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
@@ -38,21 +38,21 @@ class TestAnalyser (unittest.TestCase):
       module.add (control)
 
       analyser = Analyser ()
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 1)
-      self.assertEqual (module.cascade_eval_list [0].name, 'cv_in1')
+      self.assertEqual (len (module.normalling_eval_list), 1)
+      self.assertEqual (module.normalling_eval_list [0].name, 'cv_in1')
 
 
-   def test_cascade_002 (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_001'), None)
+   def test_normalling_002 (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_001'), None)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
@@ -63,18 +63,18 @@ class TestAnalyser (unittest.TestCase):
 
       analyser = Analyser ()
       for control in module.controls:
-         if control.cascade_to is not None:
-            analyser.resolve_cascade (module, control, control.cascade_to)
+         if control.normalling_to is not None:
+            analyser.resolve_normalling (module, control, control.normalling_to)
 
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 2)
-      self.assertEqual (module.cascade_eval_list [0].name, 'cv_in1')
-      self.assertEqual (module.cascade_eval_list [1].name, 'cv_in2')
+      self.assertEqual (len (module.normalling_eval_list), 2)
+      self.assertEqual (module.normalling_eval_list [0].name, 'cv_in2')
+      self.assertEqual (module.normalling_eval_list [1].name, 'cv_in1')
 
 
-   def test_cascade_002b (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_001'), None)
+   def test_normalling_002b (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_001'), None)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
@@ -86,47 +86,47 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      control.add (normalling_from)
       module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
-         if control.cascade_to is not None:
-            analyser.resolve_cascade (module, control, control.cascade_to)
+         if control.normalling_to is not None:
+            analyser.resolve_normalling (module, control, control.normalling_to)
 
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 2)
-      self.assertEqual (module.cascade_eval_list [0].name, 'cv_in1')
-      self.assertEqual (module.cascade_eval_list [1].name, 'cv_in2')
+      self.assertEqual (len (module.normalling_eval_list), 2)
+      self.assertEqual (module.normalling_eval_list [0].name, 'cv_in1')
+      self.assertEqual (module.normalling_eval_list [1].name, 'cv_in2')
 
 
-   def test_cascade_003 (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_001'), None)
+   def test_normalling_003 (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_001'), None)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in3'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in4'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
@@ -137,20 +137,20 @@ class TestAnalyser (unittest.TestCase):
 
       analyser = Analyser ()
       for control in module.controls:
-         if control.cascade_to is not None:
-            analyser.resolve_cascade (module, control, control.cascade_to)
+         if control.normalling_to is not None:
+            analyser.resolve_normalling (module, control, control.normalling_to)
 
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 4)
-      self.assertEqual (module.cascade_eval_list [0].name, 'cv_in1')
-      self.assertEqual (module.cascade_eval_list [1].name, 'cv_in2')
-      self.assertEqual (module.cascade_eval_list [2].name, 'cv_in3')
-      self.assertEqual (module.cascade_eval_list [3].name, 'cv_in4')
+      self.assertEqual (len (module.normalling_eval_list), 4)
+      self.assertEqual (module.normalling_eval_list [0].name, 'cv_in4')
+      self.assertEqual (module.normalling_eval_list [1].name, 'cv_in3')
+      self.assertEqual (module.normalling_eval_list [2].name, 'cv_in2')
+      self.assertEqual (module.normalling_eval_list [3].name, 'cv_in1')
 
 
-   def test_cascade_003b (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_001'), None)
+   def test_normalling_003b (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_001'), None)
 
       control = ast.Control (
          mock.identifier ('cv_in4'),
@@ -162,57 +162,57 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in4'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in3'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      control.add (normalling_from)
       module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
-         if control.cascade_to is not None:
-            analyser.resolve_cascade (module, control, control.cascade_to)
+         if control.normalling_to is not None:
+            analyser.resolve_normalling (module, control, control.normalling_to)
 
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 4)
-      self.assertEqual (module.cascade_eval_list [0].name, 'cv_in1')
-      self.assertEqual (module.cascade_eval_list [1].name, 'cv_in2')
-      self.assertEqual (module.cascade_eval_list [2].name, 'cv_in3')
-      self.assertEqual (module.cascade_eval_list [3].name, 'cv_in4')
+      self.assertEqual (len (module.normalling_eval_list), 4)
+      self.assertEqual (module.normalling_eval_list [0].name, 'cv_in1')
+      self.assertEqual (module.normalling_eval_list [1].name, 'cv_in2')
+      self.assertEqual (module.normalling_eval_list [2].name, 'cv_in3')
+      self.assertEqual (module.normalling_eval_list [3].name, 'cv_in4')
 
 
-   def test_cascade_003c (self):
-      module = ast.Module (mock.identifier ('test_analyser_cascade_001'), None)
+   def test_normalling_003c (self):
+      module = ast.Module (mock.identifier ('test_analyser_normalling_001'), None)
 
       control = ast.Control (
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in4'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in3'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'))
+      control.add (normalling_from)
       module.add (control)
 
       control = ast.Control (
@@ -225,22 +225,22 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      cascade_to = ast.CascadeTo (mock.identifier ('cv_in2'))
-      control.add (cascade_to)
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      control.add (normalling_from)
       module.add (control)
 
       analyser = Analyser ()
       for control in module.controls:
-         if control.cascade_to is not None:
-            analyser.resolve_cascade (module, control, control.cascade_to)
+         if control.normalling_to is not None:
+            analyser.resolve_normalling (module, control, control.normalling_to)
 
-      analyser.make_cascade_eval_list (module)
+      analyser.make_normalling_eval_list (module)
 
-      self.assertEqual (len (module.cascade_eval_list), 4)
-      self.assertEqual (module.cascade_eval_list [0].name, 'cv_in1')
-      self.assertEqual (module.cascade_eval_list [1].name, 'cv_in2')
-      self.assertEqual (module.cascade_eval_list [2].name, 'cv_in3')
-      self.assertEqual (module.cascade_eval_list [3].name, 'cv_in4')
+      self.assertEqual (len (module.normalling_eval_list), 4)
+      self.assertEqual (module.normalling_eval_list [0].name, 'cv_in1')
+      self.assertEqual (module.normalling_eval_list [1].name, 'cv_in4')
+      self.assertEqual (module.normalling_eval_list [2].name, 'cv_in2')
+      self.assertEqual (module.normalling_eval_list [3].name, 'cv_in3')
 
 
 if __name__ == '__main__':

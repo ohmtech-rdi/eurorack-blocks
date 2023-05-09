@@ -97,13 +97,13 @@ module Max {
       position 2hp, 111mm
       style knurled
       label "IN L"
-      cascade audio_in_right
    }
 
    control audio_in_right AudioIn {
       position 4.66hp, 111mm
       style knurled
       label "IN R"
+      normalling audio_in_left
    }
 
    control audio_out_left AudioOut {
