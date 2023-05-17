@@ -14,11 +14,14 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/AudioIn.h"
+#include "erb/AudioInJackDetection.h"
 #include "erb/AudioOut.h"
 #include "erb/Button.h"
 #include "erb/CvIn.h"
+#include "erb/CvInJackDetection.h"
 #include "erb/CvOut.h"
 #include "erb/GateIn.h"
+#include "erb/GateInJackDetection.h"
 #include "erb/GateOut.h"
 #include "erb/Led.h"
 #include "erb/LedBi.h"
@@ -57,6 +60,32 @@ inline void  BoardGeneric::impl_bind (AudioIn & control, rack::engine::Input & m
    _binding_inputs.push_back (BindingAudioIn {
       .data_ptr = const_cast <Buffer *> (&control.impl_data),
       .db_ptr = &double_buffer
+   });
+
+   _rack_audio_inputs.push_back (&model);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (AudioInJackDetection & control, rack::engine::Input & model)
+{
+   std::size_t audio_input_index = _rack_audio_inputs.size ();
+
+   auto & double_buffer = _double_buffer_inputs [audio_input_index];
+
+   _binding_inputs.push_back (BindingAudioInJackDetection {
+      .board_ptr = this,
+      .data_ptr = const_cast <Buffer *> (&control.impl_data),
+      .npr_ptr = const_cast <uint8_t *> (&control.impl_npr),
+      .db_ptr = &double_buffer,
+      .input_ptr = &model
    });
 
    _rack_audio_inputs.push_back (&model);
@@ -116,7 +145,27 @@ inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Normalized> & control, r
    _binding_inputs.push_back (BindingCvIn {
       .data_ptr = const_cast <float *> (&control.impl_data),
       .input_ptr = &model,
-      .bipolar = false
+      .bipolar = false,
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (CvInJackDetection <FloatRange::Normalized> & control, rack::engine::Input & model)
+{
+   _binding_inputs.push_back (BindingCvInJackDetection {
+      .board_ptr = this,
+      .data_ptr = const_cast <float *> (&control.impl_data),
+      .npr_ptr = const_cast <uint8_t *> (&control.impl_npr),
+      .input_ptr = &model,
+      .bipolar = false,
    });
 }
 
@@ -133,6 +182,26 @@ inline void  BoardGeneric::impl_bind (CvIn <FloatRange::Bipolar> & control, rack
 {
    _binding_inputs.push_back (BindingCvIn {
       .data_ptr = const_cast <float *> (&control.impl_data),
+      .input_ptr = &model,
+      .bipolar = true
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (CvInJackDetection <FloatRange::Bipolar> & control, rack::engine::Input & model)
+{
+   _binding_inputs.push_back (BindingCvInJackDetection {
+      .board_ptr = this,
+      .data_ptr = const_cast <float *> (&control.impl_data),
+      .npr_ptr = const_cast <uint8_t *> (&control.impl_npr),
       .input_ptr = &model,
       .bipolar = true
    });
@@ -187,6 +256,25 @@ inline void  BoardGeneric::impl_bind (GateIn & control, rack::engine::Input & mo
 {
    _binding_inputs.push_back (BindingGateIn {
       .data_ptr = const_cast <uint8_t *> (&control.impl_data),
+      .input_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (GateInJackDetection & control, rack::engine::Input & model)
+{
+   _binding_inputs.push_back (BindingGateInJackDetection {
+      .board_ptr = this,
+      .data_ptr = const_cast <uint8_t *> (&control.impl_data),
+      .npr_ptr = const_cast <uint8_t *> (&control.impl_npr),
       .input_ptr = &model
    });
 }

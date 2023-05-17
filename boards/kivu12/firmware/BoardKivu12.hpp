@@ -334,6 +334,11 @@ Name : impl_postprocess
 
 void  BoardKivu12::impl_postprocess ()
 {
+   // Linear congruential generator
+   _npr_rand_state = _npr_rand_state * 1103515245 + 12345;
+   _npr = _npr_rand_state >> 31;
+   _gpio_npr.write (_npr != 0);
+
    _led_driver.SwapBuffersAndTransmit ();
 }
 
