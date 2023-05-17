@@ -9,6 +9,10 @@ CairoSVG>=2.6.0
 
 ezdxf>=1.0.2
 
+# Kicad module generation from SVG
+
+svg2mod>=1.2
+
 # AudioSample generation
 
 SoundFile>=0.12.1
