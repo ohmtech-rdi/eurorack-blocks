@@ -16,7 +16,7 @@ KEYWORDS = (
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'normalling', 'nothing', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
-   'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
+   'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb',
    'route', 'wire', 'manual',
    'faust', 'address', 'init', 'value',
    'manufacturer', 'generator', 'arg', 'parts',
@@ -198,7 +198,7 @@ def board_inline_declaration ():       return 'board', board_body
 
 # Module Material
 def material_color ():                 return ['natural', 'black', 'white']
-def material_name ():                  return ['aluminum', 'brushed_aluminum', 'aluminum_coated']
+def material_name ():                  return ['aluminum', 'brushed_aluminum', 'aluminum_coated', 'pcb']
 def material_declaration ():           return 'material', material_name, Optional (material_color)
 
 # Module
