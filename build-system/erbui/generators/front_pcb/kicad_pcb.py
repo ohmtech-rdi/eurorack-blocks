@@ -11,6 +11,7 @@ import math
 import os
 import platform
 import re
+import shutil
 import subprocess
 import zipfile
 from ..kicad import pcb
@@ -133,6 +134,10 @@ class KicadPcb:
 
    def generate_module_gerber (self, path, module):
       path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+      gerber_dir = os.path.join (path, 'gerber')
+
+      if os.path.exists (gerber_dir):
+         shutil.rmtree (gerber_dir)
 
       if platform.system () == 'Darwin':
          kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/3.8/bin/python3.8'
@@ -163,7 +168,6 @@ class KicadPcb:
 
       path_zip = os.path.join (path, '%s.gerber.zip' % module.name)
       zip_file = zipfile.ZipFile (path_zip, 'w', zipfile.ZIP_DEFLATED)
-      gerber_dir = os.path.join (path, 'gerber')
       zipdir (gerber_dir, zip_file)
       zip_file.close ()
 
