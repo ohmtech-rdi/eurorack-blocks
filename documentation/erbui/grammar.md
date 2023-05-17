@@ -484,9 +484,11 @@ A `normalling` represents a link from the current [control](#control) to the ref
 ### Grammar
 
 > _normalling-declaration_ → **`normalling`** control-reference \
+> _normalling-declaration_ → **`normalling`** **`nothing`** \
 > _control-reference_ → [identifier](./lexical.html#identifiers)
 
-`normalling` allows to take the signal of an unplugged input from another input.
+`normalling` allows to take the signal of an unplugged input from another input, or "nothing".
+Nothing allows to detect jack detection.
 
 For example:
 
