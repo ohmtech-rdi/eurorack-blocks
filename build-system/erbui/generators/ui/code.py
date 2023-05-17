@@ -69,11 +69,11 @@ class Code:
 
    def generate_control (self, module, control):
 
-      if control.kind in ['Pot', 'Trim', 'CvIn', 'CvOut']:
+      if control.kind in ['Pot', 'Trim', 'CvOut']:
          if control.mode is None:
             if control.kind in ['Pot', 'Trim']:
                control_type = '%s <erb::FloatRange::Normalized>' % control.kind
-            elif control.kind in ['CvIn', 'CvOut']:
+            elif control.kind in ['CvOut']:
                control_type = '%s <erb::FloatRange::Bipolar>' % control.kind
 
          elif control.mode.is_normalized:
@@ -81,6 +81,27 @@ class Code:
 
          elif control.mode.is_bipolar:
             control_type = '%s <erb::FloatRange::Bipolar>' % control.kind
+
+      elif control.kind in ['CvIn']:
+         if control.mode is None: # default
+            range = 'erb::FloatRange::Bipolar'
+         elif control.mode.is_normalized:
+            range = 'erb::FloatRange::Normalized'
+         elif control.mode.is_bipolar:
+            range = 'erb::FloatRange::Bipolar'
+
+         if control.normalling_from is not None and control.normalling_from.is_nothing:
+            base_control = 'CvInJackDetection'
+         else:
+            base_control = 'CvIn'
+
+         control_type = '%s <%s>' % (base_control, range)
+
+      elif control.kind in ['GateIn', 'AudioIn']:
+         if control.normalling_from is not None and control.normalling_from.is_nothing:
+            control_type = '%sJackDetection' % control.kind
+         else:
+            control_type = control.kind
 
       elif control.kind in ['Led', 'LedBi', 'LedRgb']:
          if control.kind == 'Led':
@@ -110,6 +131,9 @@ class Code:
 
       if control.kind == 'GateOut' or control.kind.startswith ('Led'):
          args += ', board.clock ()'
+
+      if control.kind in ['AudioIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
+         args += ', board.npr ()'
 
       source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 
