@@ -9,7 +9,7 @@
 
 module Drop {
    board kivu12
-   material aluminum
+   material pcb
    header { label "DROP" }
 
    line {

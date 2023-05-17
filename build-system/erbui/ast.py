@@ -980,7 +980,7 @@ class Material (Node):
 
    @property
    def is_dark (self):
-      return self.is_aluminum_black or self.is_brushed_aluminum_black or self.is_aluminum_coated_black
+      return self.is_aluminum_black or self.is_brushed_aluminum_black or self.is_aluminum_coated_black or self.is_pcb
 
    @property
    def is_aluminum_natural (self):
@@ -1005,6 +1005,10 @@ class Material (Node):
    @property
    def is_aluminum_coated_black (self):
       return self.type == 'aluminum_coated' and self.color == 'black'
+
+   @property
+   def is_pcb (self):
+      return self.type == 'pcb'
 
 
 # -- Route -------------------------------------------------------------------

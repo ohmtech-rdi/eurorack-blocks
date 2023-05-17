@@ -38,6 +38,8 @@ class Pdf:
    #--------------------------------------------------------------------------
 
    def generate_module (self, path, module):
+      if module.material.is_pcb: return # not needed
+
       path_pdf = os.path.join (path, '%s.pdf' % module.name)
 
       surface = cairocffi.PDFSurface (path_pdf, module.width.pt, MODULE_HEIGHT * MM_TO_PT)

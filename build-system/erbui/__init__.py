@@ -18,6 +18,7 @@ from .generators.vcvrack.code import Code as vcvrackCode
 from .generators.daisy.code import Code as daisyCode
 from .generators.front_panel.dxf import Dxf as front_panelDxf
 from .generators.front_panel.pdf import Pdf as front_panelPdf
+from .generators.front_panel.pcb import Pcb as front_panelPcb
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
 from .generators.front_pcb.bom import Bom as front_pcbBom
 from .generators.front_pcb.centroid import Centroid as front_pcbCentroid
@@ -180,6 +181,8 @@ def generate_hardware (path, ast):
          generate_front_panel_dxf (path_hardware, ast)
       elif generator_id == 'front_panel/pdf':
          generate_front_panel_pdf (path_hardware, ast)
+      elif generator_id == 'front_panel/pcb':
+         generate_front_panel_pcb (path_hardware, ast)
       elif generator_id == 'front_pcb/kicad_pcb':
          generate_front_pcb_kicad_pcb (path_hardware, ast)
       elif generator_id == 'front_pcb/bom':
@@ -209,6 +212,18 @@ Name: generate_front_panel_pdf
 
 def generate_front_panel_pdf (path, ast):
    generator = front_panelPdf ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_panel_pcb
+==============================================================================
+"""
+
+def generate_front_panel_pcb (path, ast):
+   generator = front_panelPcb ()
    generator.generate (path, ast)
 
 

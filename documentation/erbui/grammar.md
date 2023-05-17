@@ -89,6 +89,7 @@ A `material` defines the actual material used to produce the module front panel.
 ### Grammar
 
 > _material-declaration_ → **`material`** material-name material-color<sub>_opt_</sub> \
+> _material-name_ → **`pcb`** \
 > _material-name_ → **`aluminum`** \
 > _material-name_ → **`brushed_aluminum`** \
 > _material-color_ → **`natural`** \

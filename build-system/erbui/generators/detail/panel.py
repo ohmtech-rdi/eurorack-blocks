@@ -101,7 +101,7 @@ class Panel:
       if material.is_aluminum_natural or material.is_brushed_aluminum_natural:
          panel_gray = 0.9
 
-      elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black:
+      elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black or material.is_pcb:
          panel_gray = 0.1
 
       elif material.is_aluminum_coated_white:
@@ -360,7 +360,7 @@ class Panel:
       if material.is_aluminum_natural or material.is_brushed_aluminum_natural or material.is_aluminum_coated_white:
          line_gray = 0.0
 
-      elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black:
+      elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black or material.is_pcb:
          line_gray = 1.0
 
       context.set_source_rgb (line_gray, line_gray, line_gray)

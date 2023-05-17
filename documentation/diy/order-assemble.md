@@ -2,11 +2,12 @@
 
 ## Overview
 
-The front panel consists of a PCB and an aluminum panel you need to assemble together.
+The front panel consists of a PCB and a panel you need to assemble together.
 The nuts or screws you have on the jack components or pots are what secure the
-aluminum panel to the PCB.
-You can reinforce your building using a special Erbui item representing a screw hole to do so (coming soon),
-but most of the times you wouldn't need this for a prototype. 
+panel to the PCB.
+
+The panel itself can be produced using either the FR-4 material (the material used in PCBs)
+or aluminum. FR-4 is cheaper, while aluminum is more expensive but also more robust.
 
 For simplicity of soldering, and making the process more inclusive, all parts are THT components
 except rare exceptions (when a component is only available in a SMD package, such as
@@ -33,17 +34,16 @@ drwxr-xr-x  12 raf  staff     384 Feb 17 09:07 gerber
 
 - `Kick.bom.csv` is the Bill of Materials (BOM) of the components you need to buy,
 - `Kick.dxf` is the CAD file used by the milling/drilling machines for your front aluminum panel,
-- `Kick-gerber.zip` represents the PCB informations for the manufacturer. You typically
+- `Kick.gerber.zip` represents the PCB informations for the manufacturer. You typically
    upload this file to your PCB manufacturer,
 - `Kick.pdf` is the PDF file to print your design (usually using the UV printing technology)
    on your front aluminum panel.
 
 
-
 ## Ordering the PCB
 
 Go to your favorite PCB manufacturer, here [Beta-layout](https://eu.beta-layout.com/pcb/) in Europe,
-and use the `Kick-gerber.zip` file
+and use the `Kick.gerber.zip` file
 (usually using drag & drop), to upload the PCB gerber files.
 Depending on your PCB manufacturer, this shoud look like this:
 
@@ -100,7 +100,57 @@ And since Electrosmith is also the producer of the Daisy Patch Submodule, you ca
 conveniently order your entire module parts in one single place. Isn't that nice?
 
 
-## Ordering the Front Aluminum Panel
+## Ordering the Front FR-4 Panel
+
+The cheapest way to produce a front panel is to produce it like a PCB, using the FR-4 base
+material. Typically, you would order it with a black solder mask, and white silkscreen.
+
+For this you need to specify the `pcb` `material`:
+
+```{code-block} erbui
+---
+emphasize-lines: 6
+---
+// Kick.erbui
+
+module Kick {
+   width 12hp
+   board kivu12
+   material pcb
+   header { label "Kick" }
+   ...
+}
+```
+
+To order this, follow the same procedure explained upper in "Ordering the PCB" but load
+the `Kick.panel.gerber.zip` file instead.
+
+Then you might want to select black fo the solder mask color (sometimes called just "PCB color")
+and white for the silkscreen color.
+
+This would be typically look like this, here illustrated using the
+[JLCPCB](https://cart.jlcpcb.com/quote) service in China:
+
+```{image} order-assemble-pcb2.png
+:width: 50%
+:align: center
+```
+
+```{note}
+By default, PCB produced by JLCPCB have a surface finish that contains lead.
+This requires special handling (you cannot just put the PCB to the trash).
+Instead, use their "LeadFree HASL" surface finish, which is bit more expensive
+but less dangerous, as shown in the screenshot above.
+```
+
+Note also that technically, one should order the PCB with a 2mm thickness to comply with the
+Eurorack mechanical specifications, but this is a lot more expensive, and 1.6mm is good
+enough.
+
+
+## Ordering the Front Aluminum Panel (alternative)
+
+A more expensive option, yet more robust over time is to make the front panel in aluminum.
 
 Go to your favorite aluminum front panel manufacturer,
 here [Schaeffer AG](https://www.schaeffer-ag.de/en/) in Europe,

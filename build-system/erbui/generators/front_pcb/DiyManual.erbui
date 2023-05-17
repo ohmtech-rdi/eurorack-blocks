@@ -8,6 +8,7 @@
 
 
 manufacturer DiyManual {
+   generator "front_panel/pcb"
    generator "front_panel/dxf"
    generator "front_panel/pdf"
    generator "front_pcb/kicad_pcb"
