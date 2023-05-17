@@ -31,9 +31,19 @@ manufacturer DiyManual {
       parts thonk.pj398sm.manual, thonk.pj398sm.knurled
    }
 
+   control AudioIn, CvIn, GateIn {
+      style thonk.pj398sm.knurled, knurled, erb.normalling.nothing
+      parts thonk.pj398sm.manual.npr, thonk.pj398sm.knurled
+   }
+
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style thonk.pj398sm.hex, hex
       parts thonk.pj398sm.manual, thonk.pj398sm.hex
+   }
+
+   control AudioIn, CvIn, GateIn {
+      style thonk.pj398sm.hex, hex, erb.normalling.nothing
+      parts thonk.pj398sm.manual.npr, thonk.pj398sm.hex
    }
 
    control Button {
