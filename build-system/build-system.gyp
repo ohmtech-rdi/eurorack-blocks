@@ -124,6 +124,7 @@
 
             # generators/front_panel
             'erbui/generators/front_panel/dxf.py',
+            'erbui/generators/front_panel/pcb.py',
             'erbui/generators/front_panel/pdf.py',
 
             # generators/front_pcb
