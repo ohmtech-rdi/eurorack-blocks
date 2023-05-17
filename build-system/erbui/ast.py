@@ -1645,15 +1645,23 @@ class Pins (Node):
 # -- NormallingFrom ----------------------------------------------------------
 
 class NormallingFrom (Node):
-   def __init__ (self, identifier):
-      assert isinstance (identifier, adapter.Identifier)
+   def __init__ (self, kw_or_ident):
+      assert isinstance (kw_or_ident, adapter.Identifier) or isinstance (kw_or_ident, adapter.Keyword)
       super (NormallingFrom, self).__init__ ()
-      self.identifier = identifier
+      if isinstance (kw_or_ident, adapter.Identifier):
+         self.identifier = kw_or_ident
+      elif isinstance (kw_or_ident, adapter.Keyword):
+         self.identifier = None
+      else:
+         assert False
       self.reference = None
       self.index = 0
 
    @staticmethod
    def typename (): return 'normalling_from'
+
+   @property
+   def is_nothing (self): return self.identifier is None
 
    @property
    def name (self): return self.identifier.name

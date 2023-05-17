@@ -144,6 +144,10 @@ void  BoardGeneric::impl_postprocess ()
       );
    }
 
+   // Linear congruential generator
+   _npr_rand_state = _npr_rand_state * 1103515245 + 12345;
+   _npr = _npr_rand_state >> 31;
+
    _clock.tick ();
 }
 
@@ -164,6 +168,26 @@ Name : BindingAudioIn::process
 void  BoardGeneric::BindingAudioIn::process ()
 {
    *data_ptr = *db_ptr;
+}
+
+
+
+/*
+==============================================================================
+Name : BindingAudioInJackDetection::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingAudioInJackDetection::process ()
+{
+   if (input_ptr->isConnected ())
+   {
+      *data_ptr = *db_ptr;
+   }
+   else
+   {
+      data_ptr->fill (board_ptr->npr () != 0);
+   }
 }
 
 
@@ -216,6 +240,33 @@ void  BoardGeneric::BindingCvIn::process ()
 
 /*
 ==============================================================================
+Name : BindingCvInJackDetection::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingCvInJackDetection::process ()
+{
+   if (input_ptr->isConnected ())
+   {
+      if (bipolar)
+      {
+         *data_ptr = input_ptr->getVoltage () * 0.2f;
+      }
+      else
+      {
+         *data_ptr = input_ptr->getVoltage () * 0.1f + 0.5f;
+      }
+   }
+   else
+   {
+      *data_ptr = float (board_ptr->npr () != 0);
+   }
+}
+
+
+
+/*
+==============================================================================
 Name : BindingCvOut::process
 ==============================================================================
 */
@@ -243,6 +294,26 @@ Name : BindingGateIn::process
 void  BoardGeneric::BindingGateIn::process ()
 {
    *data_ptr = input_ptr->getVoltage () > 0.1f;
+}
+
+
+
+/*
+==============================================================================
+Name : BindingGateInJackDetection::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingGateInJackDetection::process ()
+{
+   if (input_ptr->isConnected ())
+   {
+      *data_ptr = input_ptr->getVoltage () > 0.1f;
+   }
+   else
+   {
+      *data_ptr = board_ptr->npr () != 0;
+   }
 }
 
 

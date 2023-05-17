@@ -15,7 +15,7 @@ module Example {
       position 19.2mm, 111mm        // 2.
       style knurled                 // 3.
       label "CLK"                   // 4.
-      normalling sync               // 5.
+      normalling nothing            // 5.
       pin Pin1                      // 6.
    }
 }
@@ -42,12 +42,16 @@ struct Example
    ExampleUi ui;
    
    void process () {
-      auto clock_fired = ui.clock.triggered ();  // 1.
+      if (ui.clock.plugged ())                      // 1.
+      {
+         auto clock_fired = ui.clock.triggered ();  // 2.
+      }
    }
 }
 ```
 
-1. Checks if the gate was triggered.
+1. Checks if the gate jack connector is plugged, only available with `normalling nothing`,
+2. Checks if the gate was triggered.
 
 
 ## `erbui` Control Reference

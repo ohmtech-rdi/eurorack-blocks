@@ -566,10 +566,18 @@ class Visitor (PTNodeVisitor):
    #-- Normalling ------------------------------------------------------------
 
    def visit_normalling_declaration (self, node, children):
-      normalling_reference = children.normalling_reference [0]
-      normalling = ast.NormallingFrom (normalling_reference)
+
+      if children.normalling_nothing:
+         normalling = ast.NormallingFrom (children.normalling_nothing [0])
+      elif children.normalling_reference:
+         normalling = ast.NormallingFrom (children.normalling_reference [0])
+      else:
+         assert False
 
       return normalling
+
+   def visit_normalling_nothing (self, node, children):
+      return self.to_keyword (node)
 
    def visit_normalling_reference (self, node, children):
       return self.visit_identifier (node, children)

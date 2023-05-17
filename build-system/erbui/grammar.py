@@ -13,7 +13,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 KEYWORDS = (
    'import',
    'module', 'board', 'width', 'material', 'header', 'footer', 'line',
-   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'normalling', 'mode', 'normalized', 'bipolar',
+   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'normalling', 'nothing', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
@@ -98,7 +98,8 @@ def mode_declaration ():               return 'mode', mode_value
 
 # Normalling
 def normalling_reference ():           return name
-def normalling_declaration ():         return 'normalling', normalling_reference
+def normalling_nothing ():             return 'nothing'
+def normalling_declaration ():         return 'normalling', [normalling_nothing, normalling_reference]
 
 # Alias
 def alias_name ():                     return name

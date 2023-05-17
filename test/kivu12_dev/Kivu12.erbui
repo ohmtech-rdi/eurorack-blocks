@@ -248,6 +248,7 @@ module Kivu12 {
    }
 
    control B14 GateIn {
+      normalling nothing
       position 20mm, 82mm
       rotation 90°ccw
       style knurled
@@ -264,6 +265,7 @@ module Kivu12 {
    }
 
    control B16 GateIn {
+      normalling nothing
       position 20mm, 92mm
       rotation 90°ccw
       style knurled
@@ -404,6 +406,7 @@ module Kivu12 {
    }
 
    control CI5 CvIn {
+      normalling nothing
       position 67.5mm, 82mm
       rotation 90°ccw
       label "CI5"
@@ -418,6 +421,7 @@ module Kivu12 {
    }
 
    control CI7 CvIn {
+      normalling nothing
       position 67.5mm, 92mm
       rotation 90°ccw
       label "CI7"
@@ -439,6 +443,7 @@ module Kivu12 {
    }
 
    control AI2 AudioIn {
+      normalling nothing
       position 4.66hp, 111mm
       style knurled
       label "AI2"

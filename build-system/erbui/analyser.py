@@ -237,36 +237,41 @@ class Analyser:
    #--------------------------------------------------------------------------
 
    def resolve_normalling (self, module, control_to, normalling_from):
-      control = None
 
-      for entity in module.entities:
-         if entity.is_control:
-            if normalling_from.identifier.name == entity.name:
-               control = entity
+      if normalling_from.is_nothing:
+         control = None
 
-      if control is None:
-         possible_tokens = []
+      else:
+         control = None
          for entity in module.entities:
             if entity.is_control:
-               possible_tokens.append (entity.identifier_name)
+               if normalling_from.name == entity.name:
+                  control = entity
 
-         def make_dict (fun, iterable):
-            return dict (zip (map (fun, iterable), iterable))
+         if control is None:
+            possible_tokens = []
+            for entity in module.entities:
+               if entity.is_control:
+                  possible_tokens.append (entity.identifier_name)
 
-         possible_names = make_dict (lambda x: x.value, possible_tokens)
-         matches = get_close_matches (normalling_from.identifier.name, possible_names.keys ())
+            def make_dict (fun, iterable):
+               return dict (zip (map (fun, iterable), iterable))
 
-         fixit_decl_tokens = [possible_names [match_name] for match_name in matches]
-         fixit_decls_sc = [adapter.SourceContext.from_token (f) for f in fixit_decl_tokens]
+            possible_names = make_dict (lambda x: x.value, possible_tokens)
+            matches = get_close_matches (normalling_from.identifier.name, possible_names.keys ())
 
-         raise error.undefined_reference (normalling_from, fixit_decls_sc)
+            fixit_decl_tokens = [possible_names [match_name] for match_name in matches]
+            fixit_decls_sc = [adapter.SourceContext.from_token (f) for f in fixit_decl_tokens]
+
+            raise error.undefined_reference (normalling_from, fixit_decls_sc)
 
       normalling_from.reference = control
       normalling_from.index = self._normalling_index
       normalling_to = ast.NormallingTo ()
       normalling_to.reference = control_to
       normalling_to.index = self._normalling_index
-      control.add (normalling_to)
+      if control is not None:
+         control.add (normalling_to)
       self._normalling_index += 1
 
 
@@ -496,7 +501,7 @@ class Analyser:
    #--------------------------------------------------------------------------
 
    def visit_normalling (self, module, control):
-      if self.is_normalling_visited (control):
+      if self.is_normalling_visited (control) or control is None:
          return
 
       if self.is_normalling_visiting (control):

@@ -70,6 +70,9 @@ public:
    inline const uint64_t &
                   clock () { return _submodule.clock (); }
 
+   inline const uint8_t &
+                  npr () { return _npr; }
+
    template <typename F>
    inline void    run (F && f) { _submodule.run (std::forward <F> (f)); }
 
@@ -258,6 +261,12 @@ private:
 #if defined (erb_USE_DAISY_IMPL)
    ShiftRegister  _shift_register;
 #endif
+
+   GpioOutputDaisy
+                  _gpio_npr = {SubmoduleDaisyPatchSm::A3};
+
+   uint8_t        _npr = 0;
+   uint32_t       _npr_rand_state = 0;
 
 
 

@@ -56,6 +56,9 @@ public:
    inline const uint64_t &
                   clock () { return _clock.ms (); }
 
+   inline const uint8_t &
+                  npr () { return _npr; }
+
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -101,6 +104,19 @@ private:
                   db_ptr;
    };
 
+   struct BindingAudioInJackDetection
+   {
+      void        process ();
+      BoardGeneric *
+                  board_ptr;
+      Buffer *    data_ptr;
+      uint8_t *   npr_ptr;
+      const DoubleBuffer *
+                  db_ptr;
+      rack::engine::Input *
+                  input_ptr;
+   };
+
    struct BindingAudioOut
    {
       void        process ();
@@ -127,6 +143,18 @@ private:
       bool        bipolar;
    };
 
+   struct BindingCvInJackDetection
+   {
+      void        process ();
+      BoardGeneric *
+                  board_ptr;
+      float *     data_ptr;
+      uint8_t *   npr_ptr;
+      rack::engine::Input *
+                  input_ptr;
+      bool        bipolar;
+   };
+
    struct BindingCvOut
    {
       void        process ();
@@ -141,6 +169,17 @@ private:
    {
       void        process ();
       uint8_t *   data_ptr;
+      rack::engine::Input *
+                  input_ptr;
+   };
+
+   struct BindingGateInJackDetection
+   {
+      void        process ();
+      BoardGeneric *
+                  board_ptr;
+      uint8_t *   data_ptr;
+      uint8_t *   npr_ptr;
       rack::engine::Input *
                   input_ptr;
    };
@@ -253,9 +292,12 @@ private:
 
    using BindingInputs = std::vector <std::variant <
       BindingAudioIn,
+      BindingAudioInJackDetection,
       BindingButton,
       BindingCvIn,
+      BindingCvInJackDetection,
       BindingGateIn,
+      BindingGateInJackDetection,
       BindingPot,
       BindingSwitch
    >>;
@@ -284,6 +326,9 @@ private:
                   _double_buffer_outputs;
    std::vector <rack::engine::Output *>
                   _rack_audio_outputs;
+
+   uint8_t        _npr = 0;
+   uint32_t       _npr_rand_state = 0;
 
 
 

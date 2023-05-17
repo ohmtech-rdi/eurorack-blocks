@@ -200,6 +200,9 @@ class AnalyserStyle:
                raise error.unknown_style (keyword, manufacturer_style_set)
             styles.add (keyword.value)
 
+      if control.normalling_from is not None and control.normalling_from.is_nothing:
+         styles.add ('erb.normalling.nothing')
+
       cur_common_nbr = -1
       cur_element = None
 
@@ -350,6 +353,8 @@ class AnalyserStyle:
 
       if control.normalling_from is None:
          name_map ['Normalling0'] = 'GND'
+      elif control.normalling_from.is_nothing:
+         name_map ['Normalling0'] = 'NPR0'
       else:
          name_map ['Normalling0'] = control.normalling_from.reference.pin.name
 
@@ -361,6 +366,19 @@ class AnalyserStyle:
                   pin_name = name_map [net_name]
                   pad.net.index = module.net_name_index_map [pin_name]
                   pad.net.name = pin_name
+               else:
+                  # net not associated with board, prefix with control name
+                  # to avoid net name clashing, and add to base pcb net list
+                  pad.net.name = '%s-%s' % (control.name, pad.net.name)
+                  if pad.net.name in module.net_name_index_map:
+                     pad.net.index = module.net_name_index_map [pad.net.name]
+                  else:
+                     pad.net.index = -1
+                     for net in module.pcb.nets:
+                        pad.net.index = max (pad.net.index, net.index + 1)
+                     module.net_name_index_map [pad.net.name] = pad.net.index
+                     module.pcb.nets.append (pad.net)
+
 
 
    #--------------------------------------------------------------------------
