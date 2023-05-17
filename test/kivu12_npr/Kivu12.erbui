@@ -1,0 +1,34 @@
+/*****************************************************************************
+
+      Kivu12.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Kivu12 {
+   board kivu12
+   material aluminum
+   header { label "Kivu12" }
+
+   control cvin CvIn {
+      position 6hp, 56.5mm
+      style knurled
+      pin CI1
+   }
+
+   control cvin2 CvIn {
+      position 6hp, 96.5mm
+      style knurled
+      normalling nothing
+      pin CI2
+   }
+
+   control audio_out1 AudioOut {
+      position 6hp, 111mm
+      style knurled
+      label "OUT"
+      pin AO1
+   }
+}

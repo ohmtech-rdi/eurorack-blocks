@@ -34,7 +34,7 @@ void  Kivu12::process ()
       ui.AO2 [i] = osc2.process ();
    }
 
-#elif 1
+#elif 0
    const float phase_step = 0.25f * erb_BUFFER_SIZE / erb_SAMPLE_RATE;
    phase += phase_step;
    if (phase > 1.f)
@@ -105,7 +105,7 @@ void  Kivu12::process ()
    ui.L15 = ui.B15.held ();
    ui.L16 = ui.B16;
 
-#elif 1
+#elif 0
    const float phase_step = 0.25f * erb_BUFFER_SIZE / erb_SAMPLE_RATE;
    phase += phase_step;
    if (phase > 1.f)
@@ -124,6 +124,24 @@ void  Kivu12::process ()
    ui.L6 = std::abs (ui.CI6);
    ui.L7 = std::abs (ui.CI7);
    ui.L8 = std::abs (ui.CI8);
+
+#elif 1
+   ui.L1 = ui.B14.plugged ();
+   ui.L2 = ui.B14;
+   ui.L3 = ui.B16.plugged ();
+   ui.L4 = ui.B16;
+   ui.L5 = ui.CI5.plugged ();
+   ui.L6 = ui.CI5;
+   ui.L7 = ui.CI7.plugged ();
+   ui.L8 = ui.CI7;
+   ui.L9 = ui.AI2.plugged ();
+   ui.L10 = ui.AI2 [0];
+   ui.L11 = 0;
+   ui.L12 = 0;
+   ui.L13 = 0;
+   ui.L14 = 0;
+   ui.L15 = 0;
+   ui.L16 = 0;
 
 #endif
 }
