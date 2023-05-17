@@ -30,6 +30,8 @@ class Dxf:
    #--------------------------------------------------------------------------
 
    def generate_module (self, path, module):
+      if module.material.is_pcb: return # not needed
+
       path_dxf = os.path.join (path, '%s.dxf' % module.name)
 
       doc = ezdxf.new (units=ezdxf.units.MM)
