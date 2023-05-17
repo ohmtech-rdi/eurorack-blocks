@@ -41,9 +41,11 @@ void  Drop::process ()
       : DropDsp::Mode::HighPass;
 
    dsp.set_mode (mode);
-   float freq_norm
-      = float (ui.freq_pot)
-      + float (ui.freq_cv) * float (ui.freq_trim);
+   float freq_norm = ui.freq_pot;
+   if (ui.freq_cv.plugged ())
+   {
+      freq_norm += float (ui.freq_cv) * float (ui.freq_trim);
+   }
    if (freq_norm > 1.f) freq_norm = 1.f;
    if (freq_norm < 0.f) freq_norm = 0.f;
 

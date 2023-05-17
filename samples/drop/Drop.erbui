@@ -89,6 +89,7 @@ module Drop {
 
    control freq_cv CvIn {
       position 10hp, 96.5mm
+      normalling nothing
       style knurled
       label "FREQ"
    }
