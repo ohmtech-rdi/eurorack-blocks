@@ -15,7 +15,7 @@ module Example {
       position 19.2mm, 111mm        // 2.
       style knurled                 // 3.
       label "CLK"                   // 4.
-      cascade sync                  // 5.
+      normalling sync               // 5.
       pin Pin1                      // 6.
    }
 }
@@ -27,7 +27,7 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the optional cascade control for the control,
+5. Sets the optional normalling control for the control,
 6. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 > Nuts and washers photos are from the [Thonk shop](https://www.thonk.co.uk/shop/3-5mm-jacks/).

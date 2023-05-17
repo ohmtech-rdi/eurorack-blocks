@@ -134,11 +134,11 @@
   )
 
 
-  (global_label "Cascade0" (shape output) (at 97.79 109.22 0) (fields_autoplaced)
+  (global_label "Normalling0" (shape output) (at 97.79 109.22 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
     (uuid 15be8011-7986-4255-8433-67fa52b65a9b)
-    (property "Intersheet References" "${INTERSHEET_REFS}" (id 0) (at 0 0 0)
-      (effects (font (size 1.27 1.27)) hide)
+    (property "Intersheet References" "${INTERSHEET_REFS}" (id 0) (at 111.6652 109.1406 0)
+      (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
   (global_label "Pin0" (shape output) (at 97.79 106.68 0) (fields_autoplaced)

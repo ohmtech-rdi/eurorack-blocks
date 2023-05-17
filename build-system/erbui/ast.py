@@ -171,10 +171,10 @@ class Node:
    def is_pin_array (self): return isinstance (self, Pins)
 
    @property
-   def is_cascade_to (self): return isinstance (self, CascadeTo)
+   def is_normalling_to (self): return isinstance (self, NormallingTo)
 
    @property
-   def is_cascade_from (self): return isinstance (self, CascadeFrom)
+   def is_normalling_from (self): return isinstance (self, NormallingFrom)
 
    @property
    def is_positioning (self): return isinstance (self, Positioning)
@@ -417,7 +417,7 @@ class Module (Scope):
       self.sch_symbols = None # board, hierarchical sheets, controls
       self.references = []
       self.net_name_index_map = {}
-      self.cascade_eval_list = []
+      self.normalling_eval_list = []
       self.unused_pins = []
       self.faust_addresses = {}
 
@@ -1433,8 +1433,8 @@ class Control (Scope):
          return 1
 
    @property
-   def cascade_to (self):
-      entities = [e for e in self.entities if e.is_cascade_to]
+   def normalling_to (self):
+      entities = [e for e in self.entities if e.is_normalling_to]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -1442,8 +1442,8 @@ class Control (Scope):
          return None
 
    @property
-   def cascade_from (self):
-      entities = [e for e in self.entities if e.is_cascade_from]
+   def normalling_from (self):
+      entities = [e for e in self.entities if e.is_normalling_from]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -1642,18 +1642,18 @@ class Pins (Node):
 
 
 
-# -- CascadeTo ---------------------------------------------------------------
+# -- NormallingFrom ----------------------------------------------------------
 
-class CascadeTo (Node):
+class NormallingFrom (Node):
    def __init__ (self, identifier):
       assert isinstance (identifier, adapter.Identifier)
-      super (CascadeTo, self).__init__ ()
+      super (NormallingFrom, self).__init__ ()
       self.identifier = identifier
       self.reference = None
       self.index = 0
 
    @staticmethod
-   def typename (): return 'cascade_to'
+   def typename (): return 'normalling_from'
 
    @property
    def name (self): return self.identifier.name
@@ -1666,20 +1666,20 @@ class CascadeTo (Node):
       if part == 'name':
          return adapter.SourceContext.from_token (self.identifier)
 
-      return super (CascadeTo, self).source_context_part (part) # pragma: no cover
+      return super (NormallingFrom, self).source_context_part (part) # pragma: no cover
 
 
 
-# -- CascadeFrom -------------------------------------------------------------
+# -- NormallingTo ------------------------------------------------------------
 
-class CascadeFrom (Node):
+class NormallingTo (Node):
    def __init__ (self):
-      super (CascadeFrom, self).__init__ ()
+      super (NormallingTo, self).__init__ ()
       self.reference = None
       self.index = 0
 
    @staticmethod
-   def typename (): return 'cascade_from'
+   def typename (): return 'normalling_to'
 
 
 

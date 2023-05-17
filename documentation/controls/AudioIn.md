@@ -11,12 +11,12 @@
 
 ```erbui
 module Example {
-   control in_left AudioIn {        // 1.
+   control in_right AudioIn {        // 1.
       position 19.2mm, 111mm        // 2.
       style knurled                 // 3.
       label "IN L"                  // 4.
-      cascade in_right              // 5.
-      pin AudioInPinLeft            // 6.
+      normalling in_left            // 5.
+      pin AudioInPinRight           // 6.
    }
 }
 ```
@@ -27,7 +27,7 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the optional cascade control for the control,
+5. Sets the optional normalling control for the control,
 6. Sets the optional physical board pin to use. If not set, the system will choose it automatically.
 
 > Nuts and washers photos are from the [Thonk shop](https://www.thonk.co.uk/shop/3-5mm-jacks/).

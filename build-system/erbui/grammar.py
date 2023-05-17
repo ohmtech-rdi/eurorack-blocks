@@ -13,7 +13,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 KEYWORDS = (
    'import',
    'module', 'board', 'width', 'material', 'header', 'footer', 'line',
-   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'cascade', 'mode', 'normalized', 'bipolar',
+   'control', 'label', 'sticker', 'image', 'pin', 'pins', 'normalling', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black',
@@ -96,9 +96,9 @@ def style_declaration ():              return 'style', style_name, ZeroOrMore ('
 def mode_value ():                     return ['normalized', 'bipolar']
 def mode_declaration ():               return 'mode', mode_value
 
-# Cascade
-def cascade_reference ():              return name
-def cascade_declaration ():            return 'cascade', cascade_reference
+# Normalling
+def normalling_reference ():           return name
+def normalling_declaration ():         return 'normalling', normalling_reference
 
 # Alias
 def alias_name ():                     return name
@@ -131,7 +131,7 @@ def ctrl_faust_body ():                return '{', ctrl_faust_entities, '}'
 def ctrl_faust_declaration ():         return 'faust', ctrl_faust_body
 
 # Control
-def control_entities ():               return ZeroOrMore ([mode_declaration, position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration, pins_declaration, pin_declaration, cascade_declaration, ctrl_faust_declaration])
+def control_entities ():               return ZeroOrMore ([mode_declaration, position_declaration, rotation_declaration, style_declaration, label_declaration, image_declaration, pins_declaration, pin_declaration, normalling_declaration, ctrl_faust_declaration])
 def control_body ():                   return '{', control_entities, '}'
 def control_kind ():                   return list (CONTROL_KINDS)
 def control_name ():                   return name
