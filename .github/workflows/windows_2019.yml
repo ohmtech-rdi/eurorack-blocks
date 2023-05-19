@@ -17,6 +17,7 @@ jobs:
           submodules: recursive
       - run: python3 build-system/install.py
       - run: erbb setup
+      - run: cd /c/msys64/mingw64/ && find
       - uses: actions/upload-artifact@v3
         with:
           name: msys64_mingw64_include
