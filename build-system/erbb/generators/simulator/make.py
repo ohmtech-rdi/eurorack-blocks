@@ -55,8 +55,10 @@ class Make:
          arch = 'ARCH_LIN := 1\nARCH := lin'
          cxx = '' # default
       elif platform.system () == 'Windows':
+         PATH_GPP = os.path.join (PATH_BUILD_SYSTEM, 'lib', 'g++.exe')
+         path_cxx = os.path.relpath (PATH_GPP, path_simulator)
          arch = 'ARCH_WIN := 1\nARCH := win\nARCH_WIN_64 := 1\nBITS := 64'
-         cxx = 'CXX = %s' % os.path.join (PATH_BUILD_SYSTEM, 'lib', 'g++.exe').replace ('\\', '/')
+         cxx = 'CXX = %s' % path_cxx.replace ('\\', '/')
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root.replace ('\\', '/'))
