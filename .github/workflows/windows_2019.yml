@@ -5,8 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  collect_lib_gcc:
-    name: Collect lib/gcc
+  collect_include_cpp:
+    name: Collect include/c++
     runs-on: windows-2019
     defaults:
       run:
@@ -19,5 +19,5 @@ jobs:
       - run: erbb setup
       - uses: actions/upload-artifact@v3
         with:
-          name: msys64_mingw64_lib_gcc
-          path: C:/msys64/mingw64/lib/gcc/
+          name: msys64_mingw64_include_cpp
+          path: C:/msys64/mingw64/include/c++/
