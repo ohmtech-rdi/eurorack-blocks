@@ -182,7 +182,7 @@ def setup ():
    elif platform.system () == 'Windows':
       subprocess.check_call ('choco install gcc-arm-embedded', shell=True)
       subprocess.check_call ('choco install kicad --version=6.0.6', shell=True)
-      subprocess.check_call ('c:/msys64/usr/bin/bash -lc "pacman -S --needed base-devel mingw-w64-x86_64-toolchain mingw-w64-x86_64-cairo --noconfirm"', shell=True)
+      subprocess.check_call ('c:/msys64/usr/bin/bash -lc "pacman -S --needed base-devel mingw-w64-x86_64-toolchain --noconfirm"', shell=True)
       subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
       subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf c:/windows/fonts', shell=True, cwd=PATH_ROOT)
       subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf c:/windows/fonts', shell=True, cwd=PATH_ROOT)
