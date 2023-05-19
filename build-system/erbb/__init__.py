@@ -24,7 +24,7 @@ sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp-next', 'pylib'))
 import gyp
 
 if platform.system () == 'Windows':
-   MAKE_CMD = os.path.join (PATH_BUILD_SYSTEM, 'lib', 'mingw32-make.exe')
+   MAKE_CMD = os.path.join (PATH_BUILD_SYSTEM, 'bin', 'mingw32-make.exe')
 else:
    MAKE_CMD = 'make'
 
