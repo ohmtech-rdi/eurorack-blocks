@@ -20,16 +20,17 @@ from ..detail.panel import Panel as detailPanel
 from ..kicad import pcb as kicadPcb
 from ..kicad import s_expression
 
-if platform.system () == 'Windows' and sys.version_info >= (3, 8):
-   # Starting from 3.8, Python no longer searches for DLLs in PATH
-   os.add_dll_directory (r"C:\msys64\mingw64\bin")
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
+
+if platform.system () == 'Windows'
+   os.add_dll_directory (os.path.join (PATH_BUILD_SYSTEM, 'lib'))
 import cairocffi
 
 from svg2mod.importer import Svg2ModImport
 from svg2mod.exporter import (DEFAULT_DPI, Svg2ModExportPretty)
 from svg2mod.coloredlogger import logger
 
-PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_GENERATORS = os.path.abspath (os.path.dirname (PATH_THIS))
 
 MM_TO_PT = 72.0 / 25.4
