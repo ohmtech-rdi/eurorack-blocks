@@ -18,10 +18,10 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
 
 if platform.system () == 'Windows':
+   os.environ ['PATH'] += ';%s' % (os.path.join (PATH_BUILD_SYSTEM, 'lib'))
    if sys.version_info >= (3, 8):
       os.add_dll_directory (os.path.join (PATH_BUILD_SYSTEM, 'lib'))
-   else:
-      os.environ ['PATH'] += ';%s' % (os.path.join (PATH_BUILD_SYSTEM, 'lib'))
+
 import cairocffi
 
 
