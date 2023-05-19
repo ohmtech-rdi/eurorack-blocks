@@ -5,8 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  software_cpp:
-    name: Software C++
+  collect_libcairo:
+    name: Collect libcairo
     runs-on: windows-2019
     defaults:
       run:
@@ -15,142 +15,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: choco install vcvrack
       - run: python3 build-system/install.py
       - run: erbb setup
-      - name: test/micropatch
-        run: erbb configure && erbb build && erbb build simulator
-        working-directory: test/micropatch
-      - name: test/data
-        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: test/data
-      - name: samples/bypass
-        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: samples/bypass
-      - name: samples/drop
-        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: samples/drop
-      - name: samples/reverb
-        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: samples/reverb
-      - name: samples/kick
-        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: samples/kick
-      - name: samples/custom
-        run: erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: samples/custom
-      - name: erbb init
-        run: mkdir init && cd init && erbb init Init && erbb configure && erbb build && erbb build simulator && erbb build hardware
-        working-directory: samples
-      - name: VCV Rack headless run
-        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n' && cat $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check micropatch
-        run: grep "Loaded ErbPluginMicropatch" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check bypass
-        run: grep "Loaded ErbPluginBypass" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check drop
-        run: grep "Loaded ErbPluginDrop" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check reverb
-        run: grep "Loaded ErbPluginReverb" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check kick
-        run: grep "Loaded ErbPluginKick" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check custom
-        run: grep "Loaded ErbPluginCustom" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check init
-        run: grep "Loaded ErbPluginInit" $USERPROFILE/Documents/Rack2/log.txt
-
-  software_max:
-    name: Software Max/MSP/Gen~
-    runs-on: windows-2019
-    defaults:
-      run:
-        shell: bash -l {0} # Source profile for each step
-    steps:
-      - uses: actions/checkout@v2
+      - uses: actions/upload-artifact@v3
         with:
-          submodules: recursive
-      - run: choco install vcvrack
-      - run: python3 build-system/install.py
-      - run: erbb setup
-      - name: test/max
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/max
-      - name: test/max2
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/max2
-      - name: VCV Rack headless run
-        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n' && cat $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check max
-        run: grep "Loaded ErbPluginMax" $USERPROFILE/Documents/Rack2/log.txt
-
-  software_faust_2_37_3:
-    name: Software Faust 2.37.3
-    runs-on: windows-2019
-    defaults:
-      run:
-        shell: bash -l {0} # Source profile for each step
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - run: curl https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-win64.exe --location --output Faust-2.37.3-win64.exe
-      - run: ./Faust-2.37.3-win64.exe //S
-      - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
-      - run: cat ~/.bash_profile
-      - run: choco install vcvrack
-      - run: python3 build-system/install.py
-      - run: erbb setup
-      - name: samples/faust
-        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator
-        working-directory: samples/faust
-      - name: test/faust
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/faust
-      - name: test/faust2
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/faust2
-      - name: test/faust3
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/faust3
-      - name: VCV Rack headless run
-        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n' && cat $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check faust
-        run: grep "Loaded ErbPluginFaust" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check flanger
-        run: grep "Loaded ErbPluginFlanger" $USERPROFILE/Documents/Rack2/log.txt
-
-  software_faust:
-    name: Software Faust
-    runs-on: windows-2019
-    defaults:
-      run:
-        shell: bash -l {0} # Source profile for each step
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - run: curl https://github.com/grame-cncm/faust/releases/download/2.41.1/Faust-2.41.1-win64.exe --location --output Faust-2.41.1-win64.exe
-      - run: ./Faust-2.41.1-win64.exe //S
-      - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
-      - run: cat ~/.bash_profile
-      - run: choco install vcvrack
-      - run: python3 build-system/install.py
-      - run: erbb setup
-      - name: samples/faust
-        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator
-        working-directory: samples/faust
-      - name: test/faust
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/faust
-      - name: test/faust2
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/faust2
-      - name: test/faust3
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware
-        working-directory: test/faust3
-      - name: VCV Rack headless run
-        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n' && cat $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check faust
-        run: grep "Loaded ErbPluginFaust" $USERPROFILE/Documents/Rack2/log.txt
-      - name: Check flanger
-        run: grep "Loaded ErbPluginFlanger" $USERPROFILE/Documents/Rack2/log.txt
+          name: msys64_mingw64_bin
+          path: C:/msys64/mingw64/bin/
