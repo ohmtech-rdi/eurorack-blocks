@@ -5,8 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  collect_libcairo:
-    name: Collect libcairo
+  collect_lib_gcc:
+    name: Collect lib/gcc
     runs-on: windows-2019
     defaults:
       run:
@@ -19,5 +19,5 @@ jobs:
       - run: erbb setup
       - uses: actions/upload-artifact@v3
         with:
-          name: msys64_mingw64_bin
-          path: C:/msys64/mingw64/bin/
+          name: msys64_mingw64_lib_gcc
+          path: C:/msys64/mingw64/lib/gcc/
