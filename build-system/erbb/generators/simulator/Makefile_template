@@ -92,6 +92,7 @@ CFLAGS += $(FLAGS)
 CXXFLAGS += $(FLAGS)
 
 
+$(info CXX=$(CXX))
 
 all: $(CONFIGURATION)/$(TARGET)
 
