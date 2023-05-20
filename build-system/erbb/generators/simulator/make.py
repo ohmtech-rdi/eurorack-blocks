@@ -15,6 +15,7 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
 PATH_ERBB_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbb', 'generators')
 PATH_ERBUI_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbui', 'generators')
+PATH_BUILD_SYSTEM = os.path.join (PATH_ROOT, 'build-system')
 PATH_RACK = os.path.join (PATH_ROOT, 'submodules', 'vcv-rack-sdk')
 
 
@@ -54,8 +55,10 @@ class Make:
          arch = 'ARCH_LIN := 1\nARCH := lin'
          cxx = '' # default
       elif platform.system () == 'Windows':
+         PATH_GPP = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin', 'g++.exe')
+         path_cxx = os.path.relpath (PATH_GPP, path_simulator)
          arch = 'ARCH_WIN := 1\nARCH := win\nARCH_WIN_64 := 1\nBITS := 64'
-         cxx = '' # default
+         cxx = 'CXX = %s' % path_cxx.replace ('\\', '/')
 
       template = template.replace ('%module.name%', module.name)
       template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root.replace ('\\', '/'))

@@ -18,6 +18,12 @@ import sys
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (PATH_THIS))
+
+if platform.system () == 'Windows':
+   MAKE_CMD = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin', 'mingw32-make.exe')
+else:
+   MAKE_CMD = 'make'
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp-next', 'pylib'))
 import gyp
@@ -348,7 +354,7 @@ def build_daisy_all (path, configuration):
    os.environ ['CONFIGURATION'] = configuration
 
    cmd = [
-      'make',
+      MAKE_CMD,
       '--jobs',
       '--directory=%s' % os.path.join (path_artifacts, 'daisy')
    ]
@@ -379,7 +385,7 @@ def build_libdaisy ():
    print ('BUILD libDaisy')
 
    cmd = [
-      'make',
+      MAKE_CMD,
       '--jobs',
       '--silent',
       '--directory=%s' % os.path.join (PATH_ROOT, 'submodules', 'libDaisy'),
@@ -490,7 +496,7 @@ def build_simulator_make_target (target, path, configuration):
    os.environ ["CONFIGURATION"] = configuration
 
    cmd = [
-      'make',
+      MAKE_CMD,
       '--jobs',
       '--directory=%s' % os.path.join (path_artifacts, 'simulator'),
       'install'
