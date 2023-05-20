@@ -2,7 +2,6 @@
 
 BUILD_SYSTEM_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]:-${(%):-%x}}" )" &> /dev/null && pwd )
 export PATH=$PATH:$BUILD_SYSTEM_DIR/scripts
-export PATH=$PATH:/c/msys64/mingw64/bin
 
 _erbb_complete()
 {
