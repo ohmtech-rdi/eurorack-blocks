@@ -213,6 +213,13 @@ class Panel:
       xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
       ascent, descent, height, max_x_advance, max_y_advance = context.font_extents ()
 
+      if platform.system () == 'Windows':
+         # for some reason, cairo extents are exactly 2 points more on windows
+         width_pt -= 2
+         # for some reason, ascent and descent are rounded up on windows
+         # correct by approximating the real ascent for vertical alignment
+         ascent *= self.current_font_height / (ascent + descent)
+
       if control is not None and control.is_kind_out and not module.material.is_dark:
          self.generate_back_out_path (context, module, control)
 
