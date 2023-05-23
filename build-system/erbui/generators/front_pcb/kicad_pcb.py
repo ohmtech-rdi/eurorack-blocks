@@ -18,6 +18,8 @@ from ..kicad import pcb
 
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
 PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
 
@@ -104,25 +106,25 @@ class KicadPcb:
 
    #--------------------------------------------------------------------------
 
+   def get_kicad_python_path (self):
+      if platform.system () == 'Darwin':
+         return os.path.join (PATH_TOOLCHAIN, 'KiCad.app', 'Contents', 'Frameworks', 'Python.framework', 'Versions', '3.8', 'bin', 'python3.8')
+
+      elif platform.system () == 'Windows':
+         return 'c:/Program Files/KiCad/6.0/bin/python.exe'
+
+      else:
+         return 'python'
+
+
+   #--------------------------------------------------------------------------
+
    def fill_zones (self, path, module):
       path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
 
-      if platform.system () == 'Darwin':
-         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/3.8/bin/python3.8'
-         if not os.path.exists (kicad_python_path):
-            # pre KiCad 6
-            kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
-      elif platform.system () == 'Windows':
-         kicad_python_path = 'c:/Program Files/KiCad/6.0/bin/python.exe'
-         if not os.path.exists (kicad_python_path):
-            # pre KiCad 6
-            kicad_python_path = 'c:/Program Files/KiCad/bin/python.exe'
-      else:
-         kicad_python_path = 'python'
-
       subprocess.check_call (
          [
-            kicad_python_path,
+            self.get_kicad_python_path (),
             os.path.join (PATH_THIS, 'fill_zones.py'),
             path_pcb
          ],
@@ -139,22 +141,9 @@ class KicadPcb:
       if os.path.exists (gerber_dir):
          shutil.rmtree (gerber_dir)
 
-      if platform.system () == 'Darwin':
-         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/3.8/bin/python3.8'
-         if not os.path.exists (kicad_python_path):
-            # pre KiCad 6
-            kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
-      elif platform.system () == 'Windows':
-         kicad_python_path = 'c:/Program Files/KiCad/6.0/bin/python.exe'
-         if not os.path.exists (kicad_python_path):
-            # pre KiCad 6
-            kicad_python_path = 'c:/Program Files/KiCad/bin/python.exe'
-      else:
-         kicad_python_path = 'python'
-
       subprocess.check_call (
          [
-            kicad_python_path,
+            self.get_kicad_python_path (),
             os.path.join (PATH_THIS, 'generate_gerber.py'),
             path, path_pcb
          ],
