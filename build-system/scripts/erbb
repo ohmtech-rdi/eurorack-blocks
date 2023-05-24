@@ -182,12 +182,7 @@ def setup ():
       subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Windows':
-      setup.install_msys2_mingw64 ()
-      setup.install_kicad_windows ()
-      setup.install_gnu_arm_embedded_windows ()
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf c:/windows/fonts', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf c:/windows/fonts', shell=True, cwd=PATH_ROOT)
+      subprocess.check_call ('c:/msys64/usr/bin/bash -lc "pacman -S --needed mingw-w64-x86_64-dfu-util --noconfirm"', shell=True)
 
    else:
       print ('Error: Platform %s unsupported' % platform.system ())
