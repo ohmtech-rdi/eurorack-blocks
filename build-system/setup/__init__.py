@@ -91,13 +91,13 @@ Name: install_msys2_mingw64
 def install_msys2_mingw64 ():
    name = 'msys2_mingw64.zip'
    download (
-      'https://github.com/ohmtech-rdi/erb-toolchain-msys2-mingw64/releases/download/v0.1/%s' % name,
+      'https://github.com/ohmtech-rdi/erb-toolchain-msys2-mingw64/releases/download/v0.2/%s' % name,
       name
    )
 
    print ('Extracting %s...            ' % name)
    with zipfile.ZipFile (os.path.join (PATH_TOOLCHAIN, name), 'r') as zip_ref:
-      zip_ref.extractall (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64'))
+      zip_ref.extractall (os.path.join (PATH_TOOLCHAIN))
 
 
 
