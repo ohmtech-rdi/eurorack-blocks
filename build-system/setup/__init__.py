@@ -12,6 +12,7 @@ import sys
 import tarfile
 import time
 import urllib.request
+import zipfile
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
