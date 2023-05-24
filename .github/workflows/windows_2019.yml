@@ -5,8 +5,8 @@ on:
     branches: [ main ]
 
 jobs:
-  collect_lib_dll:
-    name: Collect lib/dll*
+  collect:
+    name: Collect
     runs-on: windows-2019
     defaults:
       run:
@@ -19,5 +19,5 @@ jobs:
       - run: erbb setup
       - uses: actions/upload-artifact@v3
         with:
-          name: msys64_mingw64_lib_dll
-          path: C:/msys64/mingw64/lib/dll*
+          name: msys64_mingw64_dfu_util
+          path: C:/msys64/mingw64/
