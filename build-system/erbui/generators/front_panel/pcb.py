@@ -366,7 +366,7 @@ class Pcb:
          return os.path.join (PATH_TOOLCHAIN, 'KiCad.app', 'Contents', 'Frameworks', 'Python.framework', 'Versions', '3.8', 'bin', 'python3.8')
 
       elif platform.system () == 'Windows':
-         return 'c:/Program Files/KiCad/6.0/bin/python.exe'
+         return os.path.join (PATH_TOOLCHAIN, 'KiCad', '6.0', 'bin', 'python.exe')
 
       else:
          return 'python'
