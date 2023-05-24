@@ -96,5 +96,24 @@ def install_msys2_mingw64 ():
    )
 
    print ('Extracting %s...            ' % name)
-   with zipfile.ZipFile (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64.zip'), 'r') as zip_ref:
+   with zipfile.ZipFile (os.path.join (PATH_TOOLCHAIN, name), 'r') as zip_ref:
       zip_ref.extractall (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64'))
+
+
+
+"""
+==============================================================================
+Name: install_gnu_arm_embedded_windows
+==============================================================================
+"""
+
+def install_gnu_arm_embedded_windows ():
+   name = 'gcc-arm-none-eabi-10.3-2021.10-win32.zip'
+   download (
+      'https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/%s' % name,
+      name
+   )
+
+   print ('Extracting %s...            ' % name)
+   with zipfile.ZipFile (os.path.join (PATH_TOOLCHAIN, name), 'r') as zip_ref:
+      zip_ref.extractall (PATH_TOOLCHAIN)

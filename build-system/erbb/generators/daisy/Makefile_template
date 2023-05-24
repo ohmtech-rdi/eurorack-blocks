@@ -19,15 +19,14 @@ CONFIGURATION ?= Debug
 
 
 # Toolchain
-CC = arm-none-eabi-gcc
-CXX = arm-none-eabi-g++
-GDB = arm-none-eabi-gdb
-AS = arm-none-eabi-gcc -x assembler-with-cpp
-CP = arm-none-eabi-objcopy
-SZ = arm-none-eabi-size
-HEX = arm-none-eabi-objcopy -O ihex
-BIN = arm-none-eabi-objcopy -O binary -S
-
+%define_CC%
+%define_CXX%
+%define_GDB%
+%define_AS%
+%define_CP%
+%define_SZ%
+%define_HEX%
+%define_BIN%
 
 
 # C standard

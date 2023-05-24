@@ -19,9 +19,10 @@ import sys
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (PATH_THIS))
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 
 if platform.system () == 'Windows':
-   MAKE_CMD = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin', 'mingw32-make.exe')
+   MAKE_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'mingw32-make.exe')
 else:
    MAKE_CMD = 'make'
 
@@ -391,7 +392,15 @@ def build_libdaisy ():
       '--directory=%s' % os.path.join (PATH_ROOT, 'submodules', 'libDaisy'),
    ]
 
-   subprocess.check_call (cmd)
+   if platform.system () == 'Windows':
+      PATH_ARM_BIN = os.path.join (PATH_TOOLCHAIN, 'gcc-arm-none-eabi-10.3-2021.10', 'bin')
+      env = dict (
+         os.environ,
+         **{'GCC_PATH': PATH_ARM_BIN}
+      )
+      subprocess.check_call (cmd, env=env)
+   else:
+      subprocess.check_call (cmd)
 
 
 
