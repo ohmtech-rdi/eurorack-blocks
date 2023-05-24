@@ -169,7 +169,7 @@ def setup ():
 
    if platform.system () == 'Darwin':
       setup.install_kicad_macos ()
-      subprocess.check_call ('brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
+      subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
       subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
       subprocess.check_call ('mkdir -p ~/Library/Fonts', shell=True)
       subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts', shell=True, cwd=PATH_ROOT)
