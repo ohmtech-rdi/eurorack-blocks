@@ -23,8 +23,14 @@ PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 
 if platform.system () == 'Windows':
    MAKE_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'mingw32-make.exe')
+   DFU_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'dfu-util.exe')
+   OPENOCD_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'openocd.exe')
+   OPENOCD_SCRIPTS = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'share', 'openocd', 'script')
 else:
    MAKE_CMD = 'make'
+   DFU_CMD = 'dfu-util'
+   OPENOCD_CMD = 'openocd'
+   OPENOCD_SCRIPTS = '/usr/local/share/openocd/scripts'
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp-next', 'pylib'))
 import gyp
@@ -583,7 +589,7 @@ def deploy_dfu_util (name, section, file_bin):
       assert False
 
    cmd = [
-      'dfu-util',
+      DFU_CMD,
       '-a', '0',
       '-i', '0',
       '-s', '%s:leave' % section_address,
@@ -608,8 +614,8 @@ def deploy_openocd (name, file_elf):
       sys.exit ('Unknown target %s' % name)
 
    cmd = [
-      'openocd',
-      '--search', '/usr/local/share/openocd/scripts',
+      OPENOCD_CMD,
+      '--search', OPENOCD_SCRIPTS,
       '--file', 'interface/stlink.cfg',
       '--file', 'target/stm32h7x.cfg',
       '--command', 'program %s verify reset exit' % file_elf
