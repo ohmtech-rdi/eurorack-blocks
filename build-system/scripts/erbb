@@ -14,8 +14,6 @@ import random
 import shutil
 import subprocess
 import sys
-import urllib.request
-import zipfile
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
@@ -184,19 +182,7 @@ def setup ():
       subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Windows':
-
-      def show_progress (block_num, block_size, total_size):
-         print ('Downloading toolchain... %s%%' % round (block_num * block_size / total_size * 100, 2), end="\r")
-      urllib.request.urlretrieve (
-         'https://github.com/ohmtech-rdi/erb-toolchain-msys2-mingw64/releases/download/v0.1/msys2_mingw64.zip',
-         os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64.zip'),
-         show_progress
-      )
-
-      print ('Extracting toolchain...            ')
-      with zipfile.ZipFile (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64.zip'), 'r') as zip_ref:
-         zip_ref.extractall (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64'))
-
+      setup.install_msys2_mingw64 ()
       subprocess.check_call ('choco install gcc-arm-embedded', shell=True)
       subprocess.check_call ('choco install kicad --version=6.0.6', shell=True)
       subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
