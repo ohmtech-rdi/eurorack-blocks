@@ -25,7 +25,6 @@ You then only need minimum knowledge on how the terminal works to get going.
 
 - Windows at least version 10
 - The [Git Bash](https://git-scm.com/download) shell
-- The [Chocolatey](https://chocolatey.org) package manager
 
 All commands on Windows are expecting the use of Git Bash.
 They are not compatible with Cmd or PowerShell.
