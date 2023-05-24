@@ -76,7 +76,7 @@ Name : get_kicad_python_path
 ==============================================================================
 """
 
-def get_kicad_python_path (self):
+def get_kicad_python_path ():
    if platform.system () == 'Darwin':
       return os.path.join (PATH_TOOLCHAIN, 'KiCad.app', 'Contents', 'Frameworks', 'Python.framework', 'Versions', '3.8', 'bin', 'python3.8')
 
