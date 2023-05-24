@@ -65,6 +65,25 @@ def install_kicad_macos ():
 
 """
 ==============================================================================
+Name: install_kicad_windows
+==============================================================================
+"""
+
+def install_kicad_windows ():
+   name = 'kicad_minimal_windows_6.0.11-0.tar.gz'
+   download (
+      'https://github.com/ohmtech-rdi/erb-toolchain-windows-kicad-6/releases/download/v0.1/%s' % name,
+      name
+   )
+
+   print ('Extracting %s...            ' % name)
+   with tarfile.open (os.path.join (PATH_TOOLCHAIN, name), mode='r:gz') as tf:
+      tf.extractall (PATH_TOOLCHAIN)
+
+
+
+"""
+==============================================================================
 Name: install_msys2_mingw64
 ==============================================================================
 """
