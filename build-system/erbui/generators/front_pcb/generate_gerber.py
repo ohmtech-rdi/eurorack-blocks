@@ -20,7 +20,7 @@ PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 if platform.system () == 'Darwin':
    sys.path.insert (0, os.path.join (PATH_TOOLCHAIN, 'KiCad.app', 'Contents', 'Frameworks', 'Python.framework', 'Versions', '3.8', 'lib', 'python3.8', 'site-packages'))
 elif platform.system () == 'Windows':
-   sys.path.insert(0, "c:/Program Files/KiCad/6.0/bin/Lib/site-packages/")
+   sys.path.insert (0, os.path.join (PATH_TOOLCHAIN, 'KiCad', '6.0', 'bin', 'Lib', 'site-packages'))
 
 import pcbnew
 
