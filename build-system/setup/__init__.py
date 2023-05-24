@@ -59,3 +59,41 @@ def install_kicad_macos ():
    print ('Extracting %s...            ' % name)
    with tarfile.open (os.path.join (PATH_TOOLCHAIN, name), mode='r:gz') as tf:
       tf.extractall (PATH_TOOLCHAIN)
+
+
+
+"""
+==============================================================================
+Name: install_kicad_windows
+==============================================================================
+"""
+
+def install_kicad_windows ():
+   name = 'kicad_minimal_windows_6.0.11-0.tar.gz'
+   download (
+      'https://github.com/ohmtech-rdi/erb-toolchain-windows-kicad-6/releases/download/v0.1/%s' % name,
+      name
+   )
+
+   print ('Extracting %s...            ' % name)
+   with tarfile.open (os.path.join (PATH_TOOLCHAIN, name), mode='r:gz') as tf:
+      tf.extractall (PATH_TOOLCHAIN)
+
+
+
+"""
+==============================================================================
+Name: install_msys2_mingw64
+==============================================================================
+"""
+
+def install_msys2_mingw64 ():
+   name = 'msys2_mingw64.zip'
+   download (
+      'https://github.com/ohmtech-rdi/erb-toolchain-msys2-mingw64/releases/download/v0.1/%s' % name,
+      name
+   )
+
+   print ('Extracting %s...            ' % name)
+   with zipfile.ZipFile (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64.zip'), 'r') as zip_ref:
+      zip_ref.extractall (os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64'))
