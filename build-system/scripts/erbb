@@ -160,14 +160,15 @@ def usage ():
 #-- setup --------------------------------------------------------------------
 
 def setup ():
+   import setup
+
+   PATH_TOOLCHAIN = os.path.abspath (os.path.join (PATH_ROOT, 'build-system', 'toolchain'))
+   if os.path.exists (PATH_TOOLCHAIN):
+      shutil.rmtree (PATH_TOOLCHAIN)
+   os.makedirs (PATH_TOOLCHAIN)
+
    if platform.system () == 'Darwin':
-      if 'CI' in os.environ:
-         subprocess.check_call ('brew install --cask kicad-minimal.rb', shell=True, cwd=PATH_THIS)
-      else:
-         kicad_err = subprocess.call ('brew install --cask kicad.rb', shell=True, cwd=PATH_THIS)
-         if kicad_err != 0:
-            # probably already installed
-            print ('Skipping Kicad Install')
+      setup.install_kicad_macos ()
       subprocess.check_call ('brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
       subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
       subprocess.check_call ('mkdir -p ~/Library/Fonts', shell=True)
@@ -183,10 +184,6 @@ def setup ():
       subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Windows':
-      PATH_TOOLCHAIN = os.path.abspath (os.path.join (PATH_ROOT, 'build-system', 'toolchain'))
-      if os.path.exists (PATH_TOOLCHAIN):
-         shutil.rmtree (PATH_TOOLCHAIN)
-      os.makedirs (PATH_TOOLCHAIN)
 
       def show_progress (block_num, block_size, total_size):
          print ('Downloading toolchain... %s%%' % round (block_num * block_size / total_size * 100, 2), end="\r")

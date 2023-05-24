@@ -1,4 +1,4 @@
-#!/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7
+##############################################################################
 #
 #     fill_zones.py
 #
@@ -8,15 +8,17 @@
 
 ##### IMPORT #################################################################
 
-from __future__ import print_function
 import os
 import platform
 import subprocess
 import sys
 
-if platform.system () == 'Darwin':
-   sys.path.insert(0, "/Applications/Kicad/kicad.app/Contents/Frameworks/python/site-packages/")
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 
+if platform.system () == 'Darwin':
+   sys.path.insert (0, os.path.join (PATH_TOOLCHAIN, 'KiCad.app', 'Contents', 'Frameworks', 'Python.framework', 'Versions', '3.8', 'lib', 'python3.8', 'site-packages'))
 elif platform.system () == 'Windows':
    sys.path.insert(0, "c:/Program Files/KiCad/6.0/bin/Lib/site-packages/")
 

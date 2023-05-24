@@ -154,6 +154,9 @@
             'erbui/generators/vcvrack/manifest.py',
             'erbui/generators/vcvrack/panel.py',
 
+            # setup
+            'setup/__init__.py',
+
             # tests
             'erbui/tests/mock.py',
             'erbui/tests/test_analyser.py',
