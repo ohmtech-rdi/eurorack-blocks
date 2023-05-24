@@ -151,7 +151,6 @@ jobs:
         with:
           submodules: recursive
       - run: brew install cairo libffi
-      - run: brew install --cask build-system/scripts/kicad-minimal.rb
       - run: pip3 install -r requirements.txt
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
