@@ -28,8 +28,10 @@ if sys.version_info < (3, 7):
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ARTIFACTS = os.path.join (PATH_THIS, 'artifacts')
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
+PATH_BUILD_SYSTEM = os.path.join (PATH_ROOT, 'build-system')
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 
-sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
+sys.path.insert (0, PATH_BUILD_SYSTEM)
 from erbui.generators.front_pcb import bom
 from erbui.generators.front_pcb import centroid
 from erbui.generators.kicad import pcb
@@ -70,6 +72,24 @@ def compress_gerber ():
 
 """
 ==============================================================================
+Name : get_kicad_python_path
+==============================================================================
+"""
+
+def get_kicad_python_path (self):
+   if platform.system () == 'Darwin':
+      return os.path.join (PATH_TOOLCHAIN, 'KiCad.app', 'Contents', 'Frameworks', 'Python.framework', 'Versions', '3.8', 'bin', 'python3.8')
+
+   elif platform.system () == 'Windows':
+      return os.path.join (PATH_TOOLCHAIN, 'KiCad', '6.0', 'bin', 'python.exe')
+
+   else:
+      return 'python'
+
+
+
+"""
+==============================================================================
 Name : build_gerber
 Description :
    The python executable bundled in Kicad 5.1.9 was not compiled with zlib.
@@ -79,22 +99,9 @@ Description :
 """
 
 def build_gerber ():
-   if platform.system () == 'Darwin':
-      kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/3.8/bin/python3.8'
-      if not os.path.exists (kicad_python_path):
-         # pre KiCad 6
-         kicad_python_path = '/Applications/KiCad/kicad.app/Contents/Frameworks/Python.framework/Versions/2.7/bin/python2.7'
-   elif platform.system () == 'Windows':
-      kicad_python_path = 'c:/Program Files/KiCad/6.0/bin/python.exe'
-      if not os.path.exists (kicad_python_path):
-         # pre KiCad 6
-         kicad_python_path = 'c:/Program Files/KiCad/bin/python.exe'
-   else:
-      kicad_python_path = 'python'
-
    subprocess.check_call (
       [
-         kicad_python_path,
+         get_kicad_python_path (),
          os.path.join (PATH_THIS, 'generate.py'),
       ],
       cwd = PATH_THIS
