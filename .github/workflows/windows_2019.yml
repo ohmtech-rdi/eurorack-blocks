@@ -19,5 +19,7 @@ jobs:
       - run: erbb setup
       - uses: actions/upload-artifact@v3
         with:
-          name: msys64_mingw64_dfu_util
-          path: C:/msys64/mingw64/bin/
+          name: msys64_mingw64_openocd
+          path: |
+            C:/msys64/mingw64/bin/
+            C:/msys64/mingw64/share/openocd/

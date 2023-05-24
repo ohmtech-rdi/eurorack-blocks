@@ -182,7 +182,7 @@ def setup ():
       subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Windows':
-      subprocess.check_call ('c:/msys64/usr/bin/bash -lc "pacman -S --needed mingw-w64-x86_64-dfu-util --noconfirm"', shell=True)
+      subprocess.check_call ('c:/msys64/usr/bin/bash -lc "pacman -S --needed mingw-w64-x86_64-openocd --noconfirm"', shell=True)
 
    else:
       print ('Error: Platform %s unsupported' % platform.system ())
