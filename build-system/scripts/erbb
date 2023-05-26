@@ -168,6 +168,15 @@ def setup ():
    if platform.system () == 'Darwin':
       setup.install_kicad_macos ()
       subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
+      pip_verbose_with_tags = subprocess.check_output (
+         [sys.executable, '-m', 'pip', 'debug', '--verbose'],
+         stderr=subprocess.DEVNULL
+      ).decode (sys.stdout.encoding)
+      # for freetype-py, libfreetype.dylib is part of the wheel iff tags are
+      # compatible with py3-none-macosx_10_9_universal2, which is not always
+      # the case. If not, install freetype.
+      if 'py3-none-macosx_10_9_universal2\n' not in pip_verbose_with_tags:
+         subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install freetype', shell=True)
 
    elif platform.system () == 'Linux':
       subprocess.check_call ('sudo apt-get update', shell=True)
