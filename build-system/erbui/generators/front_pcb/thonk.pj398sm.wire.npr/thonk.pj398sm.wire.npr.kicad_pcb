@@ -248,7 +248,7 @@
   (gr_text "pin" (at -0.95 -3) (layer "B.SilkS") (tstamp 00000000-0000-0000-0000-0000608a8c55)
     (effects (font (size 1 1) (thickness 0.15)) (justify left mirror))
   )
-  (gr_text "normalling_from" (at -1.4 0.1) (layer "B.SilkS") (tstamp 00000000-0000-0000-0000-000060b90fda)
+  (gr_text "NPR" (at -1.4 0.1) (layer "B.SilkS") (tstamp 00000000-0000-0000-0000-000060b90fda)
     (effects (font (size 1 1) (thickness 0.15)) (justify left mirror))
   )
   (gr_text "normalling_to" (at 1.4 0.1) (layer "B.SilkS") (tstamp 00000000-0000-0000-0000-000060bc9433)
