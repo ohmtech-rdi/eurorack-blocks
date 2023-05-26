@@ -4,6 +4,7 @@
 
 cairocffi>=1.4.0,<1.5.0
 CairoSVG>=2.6.0
+freetype-py>=2.4.0
 
 # DXF generation
 

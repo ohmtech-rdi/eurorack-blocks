@@ -168,30 +168,30 @@ def setup ():
    if platform.system () == 'Darwin':
       setup.install_kicad_macos ()
       subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('mkdir -p ~/Library/Fonts', shell=True)
-      subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts', shell=True, cwd=PATH_ROOT)
+      pip_verbose_with_tags = subprocess.check_output (
+         [sys.executable, '-m', 'pip', 'debug', '--verbose'],
+         stderr=subprocess.DEVNULL
+      ).decode (sys.stdout.encoding)
+      # for freetype-py, libfreetype.dylib is part of the wheel iff tags are
+      # compatible with py3-none-macosx_10_9_universal2, which is not always
+      # the case. If not, install freetype.
+      if 'py3-none-macosx_10_9_universal2\n' not in pip_verbose_with_tags:
+         subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install freetype', shell=True)
 
    elif platform.system () == 'Linux':
       subprocess.check_call ('sudo apt-get update', shell=True)
       subprocess.check_call ('sudo apt-get install -y gcc-arm-none-eabi libglu1-mesa-dev libcairo2-dev libffi-dev python3-dev kicad dfu-util openocd', shell=True)
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('mkdir -p ~/.local/share/fonts/', shell=True)
-      subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf ~/.local/share/fonts', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Windows':
       setup.install_msys2_mingw64 ()
       setup.install_kicad_windows ()
       setup.install_gnu_arm_embedded_windows ()
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('cp include/erb/vcvrack/design/d-din/*.otf c:/windows/fonts', shell=True, cwd=PATH_ROOT)
-      subprocess.check_call ('cp include/erb/vcvrack/design/indie-flower/*.ttf c:/windows/fonts', shell=True, cwd=PATH_ROOT)
 
    else:
       print ('Error: Platform %s unsupported' % platform.system ())
       sys.exit (1)
+
+   subprocess.check_call ('python3 -m pip install -r requirements.txt', shell=True, cwd=PATH_ROOT)
 
 
 

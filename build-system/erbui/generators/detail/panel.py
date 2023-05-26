@@ -20,6 +20,8 @@ from ..kicad import pcb
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
+PATH_ROOT = os.path.abspath (os.path.dirname (PATH_BUILD_SYSTEM))
+
 
 if platform.system () == 'Windows':
    bin_dir = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin')
@@ -27,8 +29,12 @@ if platform.system () == 'Windows':
    if sys.version_info >= (3, 8):
       os.add_dll_directory (bin_dir)
 
+PATH_FONT_DDIN_BOLD = os.path.join (PATH_ROOT, 'include', 'erb', 'vcvrack', 'design', 'd-din', 'D-DIN-Bold.otf')
+PATH_FONT_SCRIPT = os.path.join (PATH_ROOT, 'include', 'erb', 'vcvrack', 'design', 'indie-flower', 'IndieFlower-Regular.ttf')
+
 import cairocffi
 import cairosvg
+import freetype
 
 
 
@@ -41,10 +47,6 @@ class Panel:
    def __init__ (self):
       self.width = None
       self.height = 128.5
-
-      self.font_family = 'D-DIN'
-      self.font_slant = cairocffi.FONT_SLANT_NORMAL
-      self.font_weight = cairocffi.FONT_WEIGHT_BOLD
 
       self.header_center_y = 5.0#mm
       self.footer_center_y = -5.0#mm
@@ -207,18 +209,16 @@ class Panel:
       elif module.material.is_dark:
          fill_gray = 1.0
 
-      context.select_font_face (self.font_family, self.font_slant, self.font_weight)
-      context.set_font_size (self.current_font_height)
+      width_pt, _, _, _ = self.measure_text (
+         context, PATH_FONT_DDIN_BOLD, self.current_font_height, label.text
+      )
 
-      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (label.text)
-      ascent, descent, height, max_x_advance, max_y_advance = context.font_extents ()
-
-      if platform.system () == 'Windows':
-         # for some reason, cairo extents are exactly 2 points more on windows
-         width_pt -= 2
-         # for some reason, ascent and descent are rounded up on windows
-         # correct by approximating the real ascent for vertical alignment
-         ascent *= self.current_font_height / (ascent + descent)
+      # Base ascent and descent on characters that are going to be used
+      # Freetype ascender/descender is hinted and far from Quartz values
+      _, _, ascent, descent = self.measure_text (
+         context, PATH_FONT_DDIN_BOLD, self.current_font_height,
+         'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890'
+      )
 
       if control is not None and control.is_kind_out and not module.material.is_dark:
          self.generate_back_out_path (context, module, control)
@@ -226,10 +226,10 @@ class Panel:
       position_x_pt = position_x * MM_TO_PT - width_pt * align_x
       position_y_pt = position_y * MM_TO_PT + ascent * align_y
 
-      context.move_to (position_x_pt, position_y_pt)
-      context.text_path (label.text)
-      context.set_source_rgb (fill_gray, fill_gray, fill_gray)
-      context.fill ()
+      with context:
+         context.translate (position_x_pt, position_y_pt)
+         context.set_source_rgb (fill_gray, fill_gray, fill_gray)
+         self.draw_text (context, PATH_FONT_DDIN_BOLD, self.current_font_height, label.text)
 
 
    #--------------------------------------------------------------------------
@@ -240,10 +240,9 @@ class Panel:
       align_x = 0.5
       align_y = 0.5
 
-      context.select_font_face ('IndieFlower', cairocffi.FONT_SLANT_NORMAL, cairocffi.FONT_WEIGHT_NORMAL)
-      context.set_font_size (10)
-
-      xbearing, ybearing, width_pt, height_pt, dx, dy = context.text_extents (sticker.text)
+      width_pt, height_pt, _, _ = self.measure_text (
+         context, PATH_FONT_SCRIPT, 10, sticker.text
+      )
 
       position_x_cpt = position_x * MM_TO_PT
       position_y_cpt = position_y * MM_TO_PT
@@ -271,9 +270,8 @@ class Panel:
          context.fill ()
 
          context.move_to (position_x_pt, position_y_pt)
-         context.text_path (sticker.text)
          context.set_source_rgb (0.1, 0.1, 0.1)
-         context.fill ()
+         self.draw_text (context, PATH_FONT_SCRIPT, 10, sticker.text)
 
 
    #--------------------------------------------------------------------------
@@ -397,6 +395,136 @@ class Panel:
             context.scale (0.75)
 
             surface.draw (tree)
+
+
+   #-- curve_quadratic_to -------------------------------------------------------
+
+   def curve_quadratic_to (self, context, x1, y1, x2, y2):
+      x0, y0 = context.get_current_point ()
+      context.curve_to (
+         x1 * 2.0 / 3.0 + x0 * 1.0 / 3.0, y1 * 2.0 / 3.0 + y0 * 1.0 / 3.0,
+         x1 * 2.0 / 3.0 + x2 * 1.0 / 3.0, y1 * 2.0 / 3.0 + y2 * 1.0 / 3.0,
+         x2, y2
+      )
+
+
+   #--------------------------------------------------------------------------
+
+   def draw_glyph (self, context, glyph, x, y):
+      outline = glyph.outline
+      outline_data = list (zip (outline.points, outline.tags))
+
+      def tag_on (pts, index):
+         return freetype.FT_Curve_Tag (pts [index][1]) == freetype.FT_Curve_Tag_On
+
+      def tag_cubic (pts, index):
+         return freetype.FT_Curve_Tag (pts [index][1]) == freetype.FT_Curve_Tag_Cubic
+
+      context.new_path ()
+
+      start = 0
+      end = 0
+
+      for i in range (len (outline.contours)):
+         end = outline.contours [i]
+         points = outline_data [start:end+1] # end inclusive
+         points.append (points [0]) # close contour
+
+         # Decompose in segments and bezier arcs
+         segments = [[points [0],],]
+         for j in range (1, len (points)):
+            segments [-1].append (points [j])
+            if tag_on (points, j) and j < len (points)-1:
+               segments.append ([points[j],])
+
+         # Draw each segment
+         context.move_to (x + points [0][0][0] / 64, y - points [0][0][1] / 64)
+
+         for segment in segments:
+            if len (segment) == 2:
+               context.line_to (x + segment [1][0][0] / 64, y - segment [1][0][1] / 64)
+
+            elif len (segment) == 3: # Truetype
+               self.curve_quadratic_to (
+                  context,
+                  x + segment [1][0][0] / 64, y - segment[1][0][1] / 64,
+                  x + segment [2][0][0] / 64, y - segment[2][0][1] / 64
+               )
+
+            elif len (segment) == 4 and tag_cubic (segment, 1) and tag_cubic (segment, 2):
+               context.curve_to (
+                  x + segment [1][0][0] / 64, y - segment [1][0][1] / 64,
+                  x + segment [2][0][0] / 64, y - segment [2][0][1] / 64,
+                  x + segment [3][0][0] / 64, y - segment [3][0][1] / 64,
+               )
+            else: # Truetype successive conic
+               for j in range (1, len (segment) - 1):
+                  # Create virtual "on" point in between
+                  middle_x = (segment [j][0][0] + segment [j + 1][0][0]) * 0.5
+                  middle_y = (segment [j][0][1] + segment [j + 1][0][1]) * 0.5
+                  self.curve_quadratic_to (
+                     context,
+                     x + segment [j][0][0] / 64, y - segment[j][0][1] / 64,
+                     x + middle_x / 64, y - middle_y / 64
+                  )
+
+         start = end+1
+
+      context.fill ()
+
+
+   #--------------------------------------------------------------------------
+
+   def draw_text (self, context, font_path, font_size, text):
+      face = freetype.Face (font_path)
+      face.set_char_size (int (font_size * 64))
+      pc = 0
+      x = 0
+      y = 0
+      for c in text:
+         face.load_char (c, freetype.FT_LOAD_NO_HINTING)
+         glyph = face.glyph
+         kerning = face.get_kerning (pc, c)
+         x += kerning.x / 64.0
+         self.draw_glyph (context, glyph, x, y)
+         x += glyph.advance.x / 64.0
+         pc = c
+
+
+
+   #--------------------------------------------------------------------------
+
+   def measure_text (self, context, font_path, font_size, text):
+      face = freetype.Face (font_path)
+      face.set_char_size (int (font_size * 64))
+      pc = 0
+      width = 0.0
+      x = 0.0
+      x_min = 0.0
+      x_max = 0.0
+      y_min = 0.0
+      y_max = 0.0
+      for c in text:
+         face.load_char (c, freetype.FT_LOAD_NO_HINTING)
+         glyph = face.glyph
+         outline = glyph.outline
+         kerning = face.get_kerning (pc, c)
+         bbox = glyph.outline.get_bbox ()
+         x += kerning.x
+         x_min = min (x_min, x + bbox.xMin)
+         x_max = max (x_max, x + bbox.xMax)
+         y_min = min (y_min, bbox.yMin)
+         y_max = max (y_max, bbox.yMax)
+         x += glyph.advance.x
+         pc = c
+
+      width = (x_max - x_min) / 64.0
+      height = (y_max - y_min) / 64.0
+      ascent = y_max / 64.0
+      descent = - y_min / 64.0
+
+      return (width, height, ascent, descent)
+
 
 
 #-----------------------------------------------------------------------------
