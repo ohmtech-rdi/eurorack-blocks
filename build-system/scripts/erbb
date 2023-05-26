@@ -168,22 +168,21 @@ def setup ():
    if platform.system () == 'Darwin':
       setup.install_kicad_macos ()
       subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Linux':
       subprocess.check_call ('sudo apt-get update', shell=True)
       subprocess.check_call ('sudo apt-get install -y gcc-arm-none-eabi libglu1-mesa-dev libcairo2-dev libffi-dev python3-dev kicad dfu-util openocd', shell=True)
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
 
    elif platform.system () == 'Windows':
       setup.install_msys2_mingw64 ()
       setup.install_kicad_windows ()
       setup.install_gnu_arm_embedded_windows ()
-      subprocess.check_call ('pip3 install -r requirements.txt', shell=True, cwd=PATH_ROOT)
 
    else:
       print ('Error: Platform %s unsupported' % platform.system ())
       sys.exit (1)
+
+   subprocess.check_call ('python3 -m pip install -r requirements.txt', shell=True, cwd=PATH_ROOT)
 
 
 
