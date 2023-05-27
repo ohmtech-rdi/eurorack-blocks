@@ -7,11 +7,20 @@
 
 
 
-import ezdxf
 import math
 import os
+import sys
 
 from ..kicad import pcb
+
+PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_BUILD_SYSTEM = os.path.join (PATH_ROOT, 'build-system')
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
+PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
+
+sys.path.insert (0, PATH_PY3_PACKAGES)
+import ezdxf
 
 
 

@@ -23,6 +23,7 @@ from ..kicad import s_expression
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
 PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
+PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
 
 if platform.system () == 'Windows':
    bin_dir = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin')
@@ -30,6 +31,7 @@ if platform.system () == 'Windows':
    if sys.version_info >= (3, 8):
       os.add_dll_directory (bin_dir)
 
+sys.path.insert (0, PATH_PY3_PACKAGES)
 import cairocffi
 
 from svg2mod.importer import Svg2ModImport
