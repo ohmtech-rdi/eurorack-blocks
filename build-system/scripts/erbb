@@ -191,7 +191,8 @@ def setup ():
       print ('Error: Platform %s unsupported' % platform.system ())
       sys.exit (1)
 
-   subprocess.check_call ('python3 -m pip install -r requirements.txt', shell=True, cwd=PATH_ROOT)
+   setup.install_python_requirements ()
+   setup.check ()
 
 
 
