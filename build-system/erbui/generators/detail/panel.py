@@ -21,7 +21,8 @@ from ..kicad import pcb
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS))))
 PATH_ROOT = os.path.abspath (os.path.dirname (PATH_BUILD_SYSTEM))
-
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
+PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
 
 if platform.system () == 'Windows':
    bin_dir = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin')
@@ -32,6 +33,7 @@ if platform.system () == 'Windows':
 PATH_FONT_DDIN_BOLD = os.path.join (PATH_ROOT, 'include', 'erb', 'vcvrack', 'design', 'd-din', 'D-DIN-Bold.otf')
 PATH_FONT_SCRIPT = os.path.join (PATH_ROOT, 'include', 'erb', 'vcvrack', 'design', 'indie-flower', 'IndieFlower-Regular.ttf')
 
+sys.path.insert (0, PATH_PY3_PACKAGES)
 import cairocffi
 import cairosvg
 import freetype

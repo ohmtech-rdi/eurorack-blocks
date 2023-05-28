@@ -8,13 +8,19 @@
 
 
 import os
-from soundfile import SoundFile
+import sys
 
 from ... import error
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
 PATH_BOARDS = os.path.join (PATH_ROOT, 'boards')
+PATH_BUILD_SYSTEM = os.path.join (PATH_ROOT, 'build-system')
+PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
+PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
+
+sys.path.insert (0, PATH_PY3_PACKAGES)
+from soundfile import SoundFile
 
 
 

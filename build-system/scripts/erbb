@@ -174,7 +174,7 @@ def setup ():
       ).decode (sys.stdout.encoding)
       # for freetype-py, libfreetype.dylib is part of the wheel iff tags are
       # compatible with py3-none-macosx_10_9_universal2, which is not always
-      # the case. If not, install freetype.
+      # the case, in particular for versions of pip before 22.2. If not, install freetype.
       if 'py3-none-macosx_10_9_universal2\n' not in pip_verbose_with_tags:
          subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install freetype', shell=True)
 
@@ -191,7 +191,8 @@ def setup ():
       print ('Error: Platform %s unsupported' % platform.system ())
       sys.exit (1)
 
-   subprocess.check_call ('python3 -m pip install -r requirements.txt', shell=True, cwd=PATH_ROOT)
+   setup.install_python_requirements ()
+   setup.check ()
 
 
 
