@@ -108,6 +108,25 @@ def install_msys2_mingw64 ():
 
 """
 ==============================================================================
+Name: install_gnu_arm_embedded_macos
+==============================================================================
+"""
+
+def install_gnu_arm_embedded_macos ():
+   name = 'gcc-arm-none-eabi-10.3-2021.10-mac.tar.bz2'
+   download (
+      'https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/%s' % name,
+      name
+   )
+
+   print ('Extracting %s...            ' % name)
+   with tarfile.open (os.path.join (PATH_TOOLCHAIN, name), mode='r:bz2') as tf:
+      tf.extractall (PATH_TOOLCHAIN)
+
+
+
+"""
+==============================================================================
 Name: install_gnu_arm_embedded_windows
 ==============================================================================
 """

@@ -167,7 +167,8 @@ def setup ():
 
    if platform.system () == 'Darwin':
       setup.install_kicad_macos ()
-      subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install armmbed/formulae/arm-none-eabi-gcc cairo libffi dfu-util openocd', shell=True)
+      setup.install_gnu_arm_embedded_macos ()
+      subprocess.check_call ('HOMEBREW_NO_AUTO_UPDATE=1 brew install cairo libffi dfu-util openocd', shell=True)
 
    elif platform.system () == 'Linux':
       subprocess.check_call ('sudo apt-get update', shell=True)
