@@ -62,7 +62,18 @@ class Make:
       template = template.replace ('%define_PATH_ROOT%', 'PATH_ROOT ?= %s' % path_root.replace ('\\', '/'))
       template = template.replace ('%define_PATH_LIBDAISY%', 'LIBDAISY_DIR ?= %s' % path_libdaisy.replace ('\\', '/'))
 
-      if platform.system () == 'Windows':
+      if platform.system () == 'Darwin':
+         PATH_ARM_BIN = os.path.join (PATH_TOOLCHAIN, 'gcc-arm-none-eabi-10.3-2021.10', 'bin')
+         template = template.replace ('%define_CC%', 'CC = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-gcc'))
+         template = template.replace ('%define_CXX%', 'CXX = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-g++'))
+         template = template.replace ('%define_GDB%', 'GDB = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-gdb'))
+         template = template.replace ('%define_AS%', 'AS = %s -x assembler-with-cpp' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-gcc'))
+         template = template.replace ('%define_CP%', 'CP = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-objcopy'))
+         template = template.replace ('%define_SZ%', 'SZ = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-size'))
+         template = template.replace ('%define_HEX%', 'HEX = %s -O ihex' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-objcopy'))
+         template = template.replace ('%define_BIN%', 'BIN = %s -O binary -S' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-objcopy'))
+
+      elif platform.system () == 'Windows':
          PATH_ARM_BIN = os.path.join (PATH_TOOLCHAIN, 'gcc-arm-none-eabi-10.3-2021.10', 'bin')
          template = template.replace ('%define_CC%', 'CC = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-gcc').replace ('\\', '/'))
          template = template.replace ('%define_CXX%', 'CXX = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-g++').replace ('\\', '/'))
@@ -72,6 +83,7 @@ class Make:
          template = template.replace ('%define_SZ%', 'SZ = %s' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-size').replace ('\\', '/'))
          template = template.replace ('%define_HEX%', 'HEX = %s -O ihex' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-objcopy').replace ('\\', '/'))
          template = template.replace ('%define_BIN%', 'BIN = %s -O binary -S' % os.path.join (PATH_ARM_BIN, 'arm-none-eabi-objcopy').replace ('\\', '/'))
+
       else:
          template = template.replace ('%define_CC%', 'CC = arm-none-eabi-gcc')
          template = template.replace ('%define_CXX%', 'CXX = arm-none-eabi-g++')

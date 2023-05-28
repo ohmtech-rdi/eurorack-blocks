@@ -398,7 +398,7 @@ def build_libdaisy ():
       '--directory=%s' % os.path.join (PATH_ROOT, 'submodules', 'libDaisy'),
    ]
 
-   if platform.system () == 'Windows':
+   if platform.system () in ['Darwin', 'Windows']:
       PATH_ARM_BIN = os.path.join (PATH_TOOLCHAIN, 'gcc-arm-none-eabi-10.3-2021.10', 'bin')
       env = dict (
          os.environ,
