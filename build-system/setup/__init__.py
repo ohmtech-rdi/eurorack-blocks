@@ -195,11 +195,11 @@ def install_python_requirements ():
 
 """
 ==============================================================================
-Name: check
+Name: check_toolchain
 ==============================================================================
 """
 
-def check ():
+def check_toolchain ():
    print ('Checking toolchain...')
 
    if platform.system () == 'Windows':

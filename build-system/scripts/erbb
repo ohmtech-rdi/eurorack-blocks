@@ -184,7 +184,7 @@ def setup ():
       sys.exit (1)
 
    setup.install_python_requirements ()
-   setup.check ()
+   setup.check_toolchain ()
 
 
 
