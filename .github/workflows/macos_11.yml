@@ -155,6 +155,7 @@ jobs:
       - run: mkdir -p ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
       - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
+      - run: python3 -m pip install coverage
       - run: python3 build-system/test.py
       - run: python3 build-system/cover.py
       - run: python3 test/vcvrack/configure.py
