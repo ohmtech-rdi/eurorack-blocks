@@ -13,9 +13,13 @@ You then only need minimum knowledge on how the terminal works to get going.
 
 ### macOS
 
-- macOS at least version 10.15 (Catalina)
-- The [Homebrew](https://brew.sh) package manager
+- macOS 10.11 (Big Sur) or later recommended
 - The [Xcode](https://developer.apple.com/xcode/) IDE and build environment
+
+```{note}
+macOS 10.15 (Catalina) has limited support. Some tools do not always work
+properly, so macOS 11 (Big Sur) or later is recommended.
+```
 
 ### Linux
 
