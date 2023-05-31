@@ -13,6 +13,7 @@ import shutil
 import subprocess
 import sys
 import tarfile
+import tempfile
 import time
 import urllib.request
 import zipfile
@@ -139,6 +140,137 @@ def install_kicad_windows ():
 
 """
 ==============================================================================
+Name: install_toolchain_macos
+==============================================================================
+"""
+
+def install_toolchain_macos ():
+   macos_version = platform.mac_ver ()[0].split ('.')
+   macos_version_major = int (macos_version [0])
+   macos_version_minor = int (macos_version [1])
+
+   if macos_version_major >= 11:
+      name = 'toolchain_big_sur.tar.gz'
+   elif macos_version_major == 10 and macos_version_minor == 15:
+      name = 'toolchain_catalina.tar.gz'
+   else:
+      assert False
+
+   download (
+      'https://github.com/ohmtech-rdi/erb-toolchain-macos/releases/download/v0.1/%s' % name,
+      name
+   )
+
+   print ('Extracting %s...            ' % name)
+   with tarfile.open (os.path.join (PATH_TOOLCHAIN, name), mode='r:gz') as tf:
+      tf.extractall (PATH_TOOLCHAIN)
+
+   class LibraryNode:
+      def __init__ (self, filepath):
+         self.filepath = filepath
+         self.children = []
+         self.marked = False
+
+   library_nodes = []
+
+   for file in os.listdir (os.fsencode (os.path.join (PATH_TOOLCHAIN, 'bin'))):
+      filename = os.fsdecode (file)
+      filepath = os.path.join (PATH_TOOLCHAIN, 'bin', filename)
+      if os.path.islink (filepath): continue # skip symlinks
+
+      subprocess.check_call (
+         ['install_name_tool', '-id', filepath, filepath],
+         stderr=subprocess.DEVNULL
+      )
+      library_node = LibraryNode (filepath)
+      output = subprocess.check_output (['otool', '-L', filepath]).decode (sys.stdout.encoding)
+      lines = output.split ('\n')
+      for line in lines:
+         line = line.strip ()
+         path = line.split (' ')[0]
+         if '@@ERB@@' in path:
+            lib = path.split ('/')[-1]
+            lib_path = os.path.join (PATH_TOOLCHAIN, 'bin', lib)
+            subprocess.check_call (
+               ['install_name_tool', '-change', path, lib_path, filepath],
+               stderr=subprocess.DEVNULL
+            )
+            library_node.children.append (lib_path)
+      library_nodes.append (library_node)
+
+   # code signing requires children of a dylib to be already signed before
+   # signing the parent dylib.
+   # Use topological sort to achieve this.
+
+   library_sorted = []
+
+   def visit (node): # assume no cycles
+      if node.marked: return
+      for child in node.children:
+         for library_node in library_nodes:
+            if library_node.filepath == child:
+               visit (library_node)
+      node.marked = True
+      library_sorted.insert (0, node)
+
+   for library_node in library_nodes:
+      visit (library_node)
+
+   library_sorted.reverse ()
+
+   for lib in library_sorted:
+      codesign_adhoc_macos (lib.filepath)
+
+
+
+"""
+==============================================================================
+Name: codesign_adhoc_macos
+==============================================================================
+"""
+
+def codesign_adhoc_macos (filepath):
+
+   if os.path.islink (filepath):
+      return
+
+   ret = subprocess.call (
+      [
+         'codesign', '--sign', '-',
+         '--force',
+         filepath
+      ],
+      stderr=subprocess.DEVNULL,
+      stdout=subprocess.DEVNULL
+   )
+   if ret == 0:
+      return # OK
+
+   # (this comment from homebrew signing process)
+   # If codesigning fail, it may be a bug in Apple's codesign utility
+   # A known workaround is to copy the file to another inode, then move it back
+   # erasing the previous file. Then sign again.
+
+   filename = filepath.split ('/')[-1]
+
+   with tempfile.TemporaryDirectory () as dir:
+      shutil.copy (filepath, os.path.join (dir, filename))
+      shutil.move (os.path.join (dir, filename), filepath)
+
+   subprocess.check_call (
+      [
+         'codesign', '--sign', '-',
+         '--force',
+         filepath
+      ],
+      stderr=subprocess.DEVNULL,
+      stdout=subprocess.DEVNULL
+   )
+
+
+
+"""
+==============================================================================
 Name: install_msys2_mingw64
 ==============================================================================
 """
@@ -252,7 +384,10 @@ Name: check_toolchain
 def check_toolchain ():
    print ('Checking toolchain...')
 
-   if platform.system () == 'Windows':
+   if platform.system () == 'Darwin':
+      os.environ ['DYLD_FALLBACK_LIBRARY_PATH'] = os.path.join (PATH_TOOLCHAIN, 'bin')
+
+   elif platform.system () == 'Windows':
       bin_dir = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin')
       os.environ ['PATH'] = '%s;%s' % (bin_dir, os.environ ['PATH'])
       if sys.version_info >= (3, 8):
