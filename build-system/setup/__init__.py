@@ -27,6 +27,56 @@ PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
 
 """
 ==============================================================================
+Name: check_environment
+==============================================================================
+"""
+
+def check_environment ():
+   if platform.system () == 'Darwin':
+      check_environment_macos ()
+
+
+
+"""
+==============================================================================
+Name: check_environment_macos
+==============================================================================
+"""
+
+def check_environment_macos ():
+   macos_version = platform.mac_ver ()[0].split ('.')
+   macos_version_major = int (macos_version [0])
+   macos_version_minor = int (macos_version [1])
+
+   if macos_version_major >= 11:
+      pass # all good
+   elif macos_version_major == 10 and macos_version_minor == 15:
+      print ('\033[33mWarning: macOS %d.%d has limited support.\033[0m' % (macos_version_major, macos_version_minor))
+      print ('\033[90mDebugging with a ST-link v3 might not work properly, for example.')
+      print ('Please consider upgrading to macOS Big Sur or later.\033[0m')
+   else:
+      print ('\033[91mSorry, macOS %d.%d is not supported.\033[0m' % (macos_version_major, macos_version_minor))
+      print ('Please consider upgrading to macOS Big Sur or later.')
+      sys.exit (1)
+
+   try:
+      subprocess.check_call (
+         ['/usr/bin/xcodebuild', '-version'],
+         stdout=subprocess.DEVNULL,
+         stderr=subprocess.DEVNULL
+      )
+   except:
+      print ('\033[91mError: Xcode is not installed.\033[0m')
+      print ('\033[90mXcode tools like make or xcodebuild are required.')
+      print ('You can find it here:\033[0m')
+      print ('\033[94mhttps://developer.apple.com/xcode/\033[0m')
+      print ('Please install Xcode.')
+      sys.exit (1)
+
+
+
+"""
+==============================================================================
 Name: download
 ==============================================================================
 """

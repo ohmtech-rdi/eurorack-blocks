@@ -160,6 +160,8 @@ def usage ():
 def setup ():
    import setup
 
+   setup.check_environment ()
+
    PATH_TOOLCHAIN = os.path.abspath (os.path.join (PATH_ROOT, 'build-system', 'toolchain'))
    if os.path.exists (PATH_TOOLCHAIN):
       shutil.rmtree (PATH_TOOLCHAIN)
