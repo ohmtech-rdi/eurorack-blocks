@@ -19,7 +19,9 @@ PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (os.path.dirname (os.path.d
 PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
 
-if platform.system () == 'Windows':
+if platform.system () == 'Darwin':
+   os.environ ['DYLD_FALLBACK_LIBRARY_PATH'] = os.path.join (PATH_TOOLCHAIN, 'bin')
+elif platform.system () == 'Windows':
    bin_dir = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin')
    os.environ ['PATH'] = '%s;%s' % (bin_dir, os.environ ['PATH'])
    if sys.version_info >= (3, 8):
