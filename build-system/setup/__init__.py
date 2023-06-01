@@ -157,7 +157,7 @@ def install_toolchain_macos ():
       assert False
 
    download (
-      'https://github.com/ohmtech-rdi/erb-toolchain-macos/releases/download/v0.1/%s' % name,
+      'https://github.com/ohmtech-rdi/erb-toolchain-macos/releases/download/v0.2/%s' % name,
       name
    )
 
