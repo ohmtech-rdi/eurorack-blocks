@@ -274,6 +274,13 @@ struct Ckd6r : rack::CKD6
 
 
 
+struct Davies1900hBlack : rack::Davies1900hBlackKnob
+{
+   void  rotate (float /* angle_rad */) {}
+};
+
+
+
 template <typename Base>
 struct Led3mm : rack::MediumLight <Base>
 {

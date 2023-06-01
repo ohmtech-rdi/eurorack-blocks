@@ -122,6 +122,11 @@ manufacturer DiyManual {
       parts alpha.9mm.manual, sifam.dbn151.white
    }
 
+   control Pot {
+      style davies, 1900h, d_shaft, black
+      parts alpha.9mm.manual, davies.1900h.black
+   }
+
    control Switch {
       style dailywell.2ms1, on_on
       parts dailywell.2ms1.manual
