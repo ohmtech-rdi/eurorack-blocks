@@ -21,11 +21,17 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (PATH_THIS))
 PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 
-if platform.system () == 'Windows':
+if platform.system () == 'Darwin':
+   MAKE_CMD = 'make'
+   DFU_CMD = os.path.join (PATH_TOOLCHAIN, 'bin', 'dfu-util')
+   OPENOCD_CMD = os.path.join (PATH_TOOLCHAIN, 'bin', 'openocd')
+   OPENOCD_SCRIPTS = os.path.join (PATH_TOOLCHAIN, 'share', 'openocd', 'scripts')
+
+elif platform.system () == 'Windows':
    MAKE_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'mingw32-make.exe')
    DFU_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'dfu-util.exe')
    OPENOCD_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'openocd.exe')
-   OPENOCD_SCRIPTS = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'share', 'openocd', 'script')
+   OPENOCD_SCRIPTS = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'share', 'openocd', 'scripts')
 else:
    MAKE_CMD = 'make'
    DFU_CMD = 'dfu-util'

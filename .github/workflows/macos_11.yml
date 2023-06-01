@@ -146,15 +146,16 @@ jobs:
   erbb_tests:
     name: Erbb/Erbui Tests
     runs-on: macos-11
+    defaults:
+      run:
+        shell: bash -l {0} # Source profile for each step
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: brew install cairo libffi
-      - run: pip3 install -r requirements.txt
-      - run: mkdir -p ~/Library/Fonts
-      - run: cp include/erb/vcvrack/design/d-din/*.otf ~/Library/Fonts
-      - run: cp include/erb/vcvrack/design/indie-flower/*.ttf ~/Library/Fonts
+      - run: python3 build-system/install.py
+      - run: erbb setup
+      - run: python3 -m pip install coverage
       - run: python3 build-system/test.py
       - run: python3 build-system/cover.py
       - run: python3 test/vcvrack/configure.py

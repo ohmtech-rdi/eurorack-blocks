@@ -18,7 +18,3 @@ svg2mod>=1.2
 
 SoundFile>=0.12.1
 numpy>=1.21.0
-
-# Coverage
-
-coverage
