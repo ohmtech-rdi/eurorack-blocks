@@ -26,6 +26,13 @@ namespace erb
 
 
 
+#if defined (erb_TARGET_DAISY)
+std::aligned_storage <erb_SRAM_MEM_POOL_SIZE>::type __attribute__((section(".heap")))
+   erb_sram_memory_pool_storage;
+#endif
+
+
+
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
@@ -44,7 +51,7 @@ Name : ctor
 
 Sram::Sram ()
 #if defined (erb_TARGET_DAISY)
-:  _sram_memory_pool_storage (new uint8_t [erb_SRAM_MEM_POOL_SIZE])
+:  _sram_memory_pool_storage (reinterpret_cast <uint8_t *> (&erb_sram_memory_pool_storage))
 #endif
 {
 }
