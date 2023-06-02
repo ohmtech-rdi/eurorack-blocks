@@ -36,9 +36,15 @@ class Launch:
          template = file.read ()
 
       path_artifacts = os.path.join (path, 'artifacts')
-      file_elf_debug = os.path.abspath (os.path.join (path_artifacts, 'daisy', 'Debug', '%s.elf' % module.name))
+      file_elf_release = os.path.abspath (
+         os.path.join (path_artifacts, 'daisy', 'Release', '%s.elf' % module.name)
+      )
+      file_elf_debug = os.path.abspath (
+         os.path.join (path_artifacts, 'daisy', 'Debug', '%s.elf' % module.name)
+      )
       file_svd = os.path.abspath (os.path.join (PATH_THIS, 'svd', 'STM32H750x.svd'))
 
+      template = template.replace ('%executable_release%', file_elf_release)
       template = template.replace ('%executable_debug%', file_elf_debug)
       template = template.replace ('%svd_file%', file_svd)
 
