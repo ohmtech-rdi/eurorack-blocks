@@ -31,7 +31,7 @@
 // If not defined, it will take the entire Daisy AXI SRAM memory, so 512KB.
 
 #if !defined (erb_SRAM_MEM_POOL_SIZE)
-   #define erb_SRAM_MEM_POOL_SIZE 0x80000
+   #define erb_SRAM_MEM_POOL_SIZE 0x7d000
 #endif
 
 
