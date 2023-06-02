@@ -12,7 +12,7 @@
             "-d",
             "${workspaceRoot}"
          ],
-         "executable": "%executable_debug%",
+         "executable": "%executable_release%",
          "interface": "swd",
          "openOCDLaunchCommands": [
             "init",
