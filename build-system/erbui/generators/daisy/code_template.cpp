@@ -17,7 +17,13 @@
 
 erb_DISABLE_WARNINGS_DAISY
 #include "daisy.h"
+#include <stm32h750xx.h>
 erb_RESTORE_WARNINGS
+
+
+#if defined (erb_SEMIHOSTING)
+extern "C" void initialise_monitor_handles ();
+#endif
 
 
 
@@ -31,6 +37,15 @@ Name : main
 
 int main ()
 {
+#if defined (erb_SEMIHOSTING)
+   if (CoreDebug->DHCSR & 0x01)
+   {
+      initialise_monitor_handles ();
+
+      printf ("erb: semihosting activated\n");
+   }
+#endif
+
    // Enable FZ (flush-to-zero) denormal behavior
    uint32_t fpscr = __get_FPSCR ();
    fpscr |= 0x01000000; // FZ bit
