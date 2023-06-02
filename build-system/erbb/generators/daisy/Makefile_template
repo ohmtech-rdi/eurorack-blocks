@@ -69,6 +69,10 @@ ifeq ($(CONFIGURATION),Release)
 FLAGS += -O3 -DNDEBUG=1 -DRELEASE=1 -funsafe-math-optimizations
 endif
 
+ifdef SEMIHOSTING
+	FLAGS += -Derb_SEMIHOSTING=1
+endif
+
 %warnings%
 
 FLAGS += -Derb_TARGET_DAISY
@@ -83,9 +87,19 @@ CXXFLAGS += -fno-exceptions -fno-rtti -fno-unwind-tables
 CXXFLAGS += -Wno-register -Wno-volatile
 
 LDFLAGS += -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard
-LDFLAGS += --specs=nano.specs --specs=nosys.specs
+LDFLAGS += --specs=nano.specs
+ifdef SEMIHOSTING
+	LDFLAGS += --specs=rdimon.specs
+else
+	LDFLAGS += --specs=nosys.specs
+endif
 LDFLAGS += -T%LDS_PATH%
-LDFLAGS += -lc -lm -lnosys
+LDFLAGS += -lc -lm
+ifdef SEMIHOSTING
+   LDFLAGS += -lrdimon
+else
+   LDFLAGS += -lnosys
+endif
 LDFLAGS += -ldaisy -L$(LIBDAISY_DIR)/build
 LDFLAGS += -Wl,-Map=$(CONFIGURATION)/$(TARGET).map,--cref
 LDFLAGS += -Wl,--gc-sections

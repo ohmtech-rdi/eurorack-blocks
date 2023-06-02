@@ -359,12 +359,14 @@ Name : build_daisy_all
 ==============================================================================
 """
 
-def build_daisy_all (path, configuration):
+def build_daisy_all (path, configuration, semihosting):
    path_artifacts = os.path.join (path, 'artifacts')
 
    build_libdaisy ()
 
    os.environ ['CONFIGURATION'] = configuration
+   if semihosting:
+      os.environ ['SEMIHOSTING'] = '1'
 
    cmd = [
       MAKE_CMD,
@@ -382,8 +384,8 @@ Name : build_daisy_target
 ==============================================================================
 """
 
-def build_daisy_target (target, path, configuration):
-   build_daisy_all (path, configuration)
+def build_daisy_target (target, path, configuration, semihosting):
+   build_daisy_all (path, configuration, semihosting)
 
 
 
