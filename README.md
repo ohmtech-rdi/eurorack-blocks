@@ -85,7 +85,7 @@ raf:bypass$ erbb build 👈 Build the firmware
 ninja: Entering directory `.../eurorack-blocks/samples/bypass/artifacts/daisy/out/Release'
 [191/191] LINK Bypass
 OBJCOPY Bypass
-raf:bypass$ erbb install dfu 👈 Upload the firmware
+raf:bypass$ erbb install 👈 Upload the firmware
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Press Enter to continue...
