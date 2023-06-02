@@ -237,10 +237,14 @@ def build ():
 
    target = 'daisy'
    configuration = 'release'
+   semihosting_opt = ''
+
    if len (sys.argv) >= 3:
       target = sys.argv [2]
    if len (sys.argv) >= 4:
       configuration = sys.argv [3]
+   if len (sys.argv) >= 5:
+      semihosting_opt = sys.argv [4]
 
    if configuration == 'release':
       configuration = 'Release'
@@ -251,10 +255,19 @@ def build ():
       usage ()
       sys.exit (1)
 
+   if semihosting_opt == 'semihosting':
+      semihosting = True
+   elif semihosting_opt == '':
+      semihosting = False
+   else:
+      print ("Error: Unknown option %s\n" % semihosting_opt)
+      usage ()
+      sys.exit (1)
+
    if target == 'daisy':
       ast_erbb = read_erbb_ast (find_erbb ())
       module = ast_erbb.modules [0].name
-      erbb.build_daisy_target (module, cwd, configuration)
+      erbb.build_daisy_target (module, cwd, configuration, semihosting)
 
    elif target == 'gerber':
       ast_erbui = read_erbui_ast (find_erbui ())
