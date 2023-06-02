@@ -531,14 +531,52 @@ def build_simulator_make_target (target, path, configuration):
 
 """
 ==============================================================================
+Name : stlink_plugged
+==============================================================================
+"""
+
+def stlink_plugged ():
+   import serial.tools.list_ports
+
+   # taken front openocd scripts/interface/stlink.cfg
+   stlink_vid_pids = [
+      (0x0483, 0x3744),
+      (0x0483, 0x3748),
+      (0x0483, 0x374b),
+      (0x0483, 0x374d),
+      (0x0483, 0x374e),
+      (0x0483, 0x374f),
+      (0x0483, 0x3752),
+      (0x0483, 0x3753),
+      (0x0483, 0x3754),
+   ]
+
+   for port in serial.tools.list_ports.comports ():
+      if (port.vid, port.pid) in stlink_vid_pids:
+         return True
+
+   return False
+
+
+
+"""
+==============================================================================
 Name : deploy
 ==============================================================================
 """
 
-def deploy (name, section, path, configuration, force_dfu_util=False):
+def deploy (name, section, path, configuration, mode):
    path_artifacts = os.path.join (path, 'artifacts')
 
-   if shutil.which ('openocd') is not None and not force_dfu_util:
+   if mode == 'auto':
+      if section != 'flash':
+         mode = 'dfu'
+      elif stlink_plugged ():
+         mode = 'openocd'
+      else:
+         mode = 'dfu'
+
+   if mode == 'openocd':
       if section != 'flash':
          print ('Install option \'openocd\' doesn\'t support programming to %s.' % section)
          print ('Please use option \'dfu\' instead.')
@@ -546,7 +584,8 @@ def deploy (name, section, path, configuration, force_dfu_util=False):
 
       file_elf = os.path.join (path_artifacts, 'daisy', configuration, '%s.elf' % name)
       deploy_openocd (name, file_elf)
-   else:
+
+   elif mode == 'dfu':
       file_bin = os.path.join (path_artifacts, 'daisy', configuration, '%s.bin' % name)
       deploy_dfu_util (name, section, file_bin)
 
