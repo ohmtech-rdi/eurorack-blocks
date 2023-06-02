@@ -313,7 +313,7 @@ def install ():
 
    cwd = os.getcwd ()
 
-   mode = 'openocd'
+   mode = 'auto'
    configuration = 'release'
    if len (sys.argv) >= 3:
       mode = sys.argv [2]
@@ -329,11 +329,7 @@ def install ():
       usage ()
       sys.exit (1)
 
-   if mode == 'openocd':
-      force_dfu_util = False
-   elif mode == 'dfu':
-      force_dfu_util = True
-   else:
+   if mode not in ['auto', 'openocd', 'dfu']:
       print ("Error: Unknown mode %s\n" % mode)
       usage ()
       sys.exit (1)
@@ -341,7 +337,7 @@ def install ():
    ast_erbb = read_erbb_ast (find_erbb ())
    module = ast_erbb.modules [0].name
    section = ast_erbb.modules [0].section.name
-   erbb.deploy (module, section, cwd, configuration, force_dfu_util=force_dfu_util)
+   erbb.deploy (module, section, cwd, configuration, mode)
 
 
 

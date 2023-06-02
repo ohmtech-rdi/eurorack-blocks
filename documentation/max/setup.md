@@ -191,7 +191,7 @@ Memory region         Used Size  Region Size  %age Used
        QSPIFLASH:          0 GB         8 MB      0.00%
 OBJCOPY Release/Reverb.hex
 OBJCOPY Release/Reverb.bin
-~/eurorack-blocks/max/reverb/$ erbb install dfu
+~/eurorack-blocks/max/reverb/$ erbb install
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Press Enter to continue...
