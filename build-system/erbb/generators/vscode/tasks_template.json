@@ -38,7 +38,7 @@
       {
          "label": "Build Firmware - Debug",
          "type": "shell",
-         "command": "erbb build daisy debug",
+         "command": "erbb build daisy debug semihosting",
          "group": {
             "kind": "build"
             "isDefault": true,
@@ -53,7 +53,7 @@
       {
          "label": "Build Firmware - Release",
          "type": "shell",
-         "command": "erbb build daisy release",
+         "command": "erbb build daisy release semihosting",
          "group": "build",
          "options": {
            "cwd": "${workspaceFolder}"
