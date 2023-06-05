@@ -37,6 +37,10 @@ else:
    OPENOCD_CMD = 'openocd'
    OPENOCD_SCRIPTS = '/usr/local/share/openocd/scripts'
 
+sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
+import setup
+
+
 from .parser import Parser
 from .generators.action.action import Action
 from .generators.init.project import Project as initProject
@@ -585,6 +589,10 @@ def deploy (name, section, path, configuration, programmer):
       file_bin = os.path.join (path_artifacts, 'daisy', configuration, '%s.bin' % name)
       deploy_dfu_util (name, section, file_bin)
 
+   elif mode == 'simulator':
+      package_path = os.path.join (path_artifacts, 'simulator', configuration, 'package')
+      deploy_simulator (name, package_path)
+
 
 
 """
@@ -665,5 +673,78 @@ def deploy_openocd (name, file_elf):
    ]
 
    subprocess.check_call (cmd)
+
+   print ('OK.')
+
+
+
+"""
+==============================================================================
+Name : deploy_simulator
+==============================================================================
+"""
+
+def deploy_simulator (name, path, configuration):
+   path_artifacts = os.path.join (path, 'artifacts')
+   package_path = os.path.join (path_artifacts, 'simulator', configuration, 'package')
+
+   if not os.path.exists (package_path):
+      sys.exit ('Unknown target %s' % name)
+
+   if platform.system () == 'Darwin':
+      vcv_plugins_path = os.path.abspath (
+         os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack2', 'plugins')
+      )
+
+   elif platform.system () == 'Windows':
+      vcv_plugins_path = os.path.abspath (
+         os.path.join (os.environ ['USERPROFILE'], 'Documents', 'Rack2', 'plugins')
+      )
+
+   elif platform.system () == 'Linux':
+      vcv_plugins_path = os.path.abspath (
+         os.path.join (os.path.expanduser ("~"), '.Rack2', 'plugins')
+      )
+
+   vcv_plugin_path = os.path.join (vcv_plugins_path, name)
+   vcv_plugin_res_path = os.path.join (vcv_plugin_path, 'red')
+
+   if not os.path.exists (vcv_plugin_path):
+      os.makedirs (vcv_plugin_path)
+
+   if platform.system () == 'Darwin':
+      plugin_path = os.path.join (vcv_plugin_path, 'plugin.dylib')
+      shutil.copyfile (
+         os.path.join (package_path, 'plugin.dylib'),
+         plugin_path
+      )
+
+      subprocess.check_call (
+         ['install_name_tool', '-id', plugin_path, plugin_path],
+         stderr=subprocess.DEVNULL
+      )
+
+      setup.codesign_adhoc_macos (plugin_path)
+
+   elif platform.system () == 'Windows':
+      shutil.copyfile (
+         os.path.join (package_path, 'plugin.dll'),
+         os.path.join (vcv_plugin_path, 'plugin.dll')
+      )
+
+   elif platform.system () == 'Linux':
+      shutil.copyfile (
+         os.path.join (package_path, 'plugin.so'),
+         os.path.join (vcv_plugin_path, 'plugin.so')
+      )
+
+
+   if os.path.exists (vcv_plugin_res_path):
+      shutil.rmtree (vcv_plugin_res_path)
+
+      shutil.copytree (
+         os.path.join (package_path, 'res'),
+         vcv_plugin_res_path
+      )
 
    print ('OK.')

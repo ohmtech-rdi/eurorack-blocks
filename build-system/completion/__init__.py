@@ -33,6 +33,7 @@ def build_hardware ():                 return 'hardware', ZeroOrMore ([only_gerb
 
 def install_firmware ():               return 'firmware', ZeroOrMore ([configuration, programmer])
 def install_bootloader ():             return 'bootloader'
+def install_simulator ():              return 'simulator', ZeroOrMore ([configuration])
 
 def setup ():
    if platform.system () == 'Darwin':
@@ -45,7 +46,7 @@ def setup ():
 def init ():                           return 'init', ZeroOrMore ([name, language])
 def configure ():                      return 'configure'
 def build ():                          return 'build', [build_simulator, build_firmware, build_hardware]
-def install ():                        return 'install', [install_firmware, install_bootloader]
+def install ():                        return 'install', [install_firmware, install_bootloader, install_simulator]
 
 def commands ():                       return [setup, init, configure, build, install]
 

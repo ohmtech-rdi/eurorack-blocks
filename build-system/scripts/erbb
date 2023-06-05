@@ -364,6 +364,8 @@ def install (args):
       install_firmware (args)
    elif target == 'bootloader':
       install_bootloader (args)
+   elif target == 'simulator':
+      install_simulator (args)
 
 
 
@@ -399,6 +401,26 @@ def install_bootloader (args):
    import erbb
 
    erbb.deploy_bootloader ()
+
+
+
+#-- install_simulator ---------------------------------------------------------
+
+def install_simulator (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   if not hasattr (args, 'configuration'):
+      configuration = 'Release'
+   elif args.configuration == 'release':
+      configuration = 'Release'
+   elif args.configuration == 'debug':
+      configuration = 'Debug'
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   module = ast_erbb.modules [0].name
+   erbb.deploy_simulator (module, cwd, configuration)
 
 
 
@@ -571,6 +593,18 @@ def parse_args_install (parent):
    parser_bootloader = subparsers.add_parser (
       'bootloader',
       help='install the bootloader'
+   )
+
+   parser_simulator = subparsers.add_parser (
+      'simulator',
+      help='install the simulator'
+   )
+
+   parser_simulator.add_argument(
+      '--configuration', '-c',
+      default = 'release',
+      choices = ['debug', 'release'],
+      help = 'the build configuration to use, defaults to release'
    )
 
 
