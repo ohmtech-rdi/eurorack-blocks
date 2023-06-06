@@ -138,9 +138,16 @@ class Code:
       for control in module.controls:
          if control.kind in ['Button', 'CvIn', 'GateIn', 'Pot', 'Switch', 'Trim']:
             if control.name in module_max_def ['params']:
-               param_val = self.make_mapping_input (control, None, module_max_def ['params'][control.name]['min'], module_max_def ['params'][control.name]['max'])
+               param_val = self.make_mapping_input (
+                  control, None,
+                  module_max_def ['params'][control.name]['min'],
+                  module_max_def ['params'][control.name]['max']
+               )
+               lines += '   state.set_%s (%s);\n' % (control.name, param_val)
 
-            lines += '  state.set_%s (%s);\n' % (control.name, param_val)
+         if control.kind in ['AudioIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
+            cpp_name = 'ui.' + control.name
+            lines += '   state.set_%s_plugged (%s.plugged ());\n' % (control.name, cpp_name)
 
       return lines
 
@@ -178,7 +185,7 @@ class Code:
                cpp_name = 'ui.' + control.name
                state_name = module_max_def ['histories'][control.name]['internal']
                state_expr = self.make_mapping_output (control, state_name)
-               lines += '  %s = %s;\n' % (cpp_name, state_expr)
+               lines += '   %s = %s;\n' % (cpp_name, state_expr)
             else:
                print ('\033[33mwarning:\033[0m non mapped %s %s' % (control.kind, control.name))
 
@@ -188,7 +195,7 @@ class Code:
                if max_name in module_max_def ['histories'] and 'internal' in module_max_def ['histories'][max_name]:
                   cpp_name = 'ui.' + control.name + '.' + property_
                   state_name = module_max_def ['histories'][max_name]['internal']
-                  lines += '  %s = state.%s;\n' % (cpp_name, state_name)
+                  lines += '   %s = state.%s;\n' % (cpp_name, state_name)
                else:
                   print ('\033[33mwarning:\033[0m non mapped %s %s' % (control.kind, max_name))
 
@@ -198,7 +205,7 @@ class Code:
                if max_name in module_max_def ['histories'] and 'internal' in module_max_def ['histories'][max_name]:
                   cpp_name = 'ui.' + control.name + '.' + property_
                   state_name = module_max_def ['histories'][max_name]['internal']
-                  lines += '  %s = state.%s;\n' % (cpp_name, state_name)
+                  lines += '   %s = state.%s;\n' % (cpp_name, state_name)
                else:
                   print ('\033[33mwarning:\033[0m non mapped %s %s' % (control.kind, max_name))
 
