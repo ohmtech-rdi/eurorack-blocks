@@ -235,6 +235,29 @@ When using output controls, make sure that the control name in Erbui
 **doesn't end with a digit**! Just give it another name, or append a `_` character.
 ```
 
+### Jack Detection
+
+[`AudioIn`](../controls/AudioIn), [`CvIn`](../controls/CvIn) and [`GateIn`](../controls/GateIn)
+supports jack detection by specifying the `normalling nothing` property:
+
+```{code-block} erbui
+control clock GateIn {
+   position 7.33hp, 85mm
+   normalling nothing
+}
+```
+
+You can then use {guilabel}`param <name>_plugged` in your patcher
+where `<name>` is the name of the control in your Erbui file. The value will be `1` if and only
+of a jack is plugged into the physical input.
+
+In the example above, you would have a {guilabel}`param clock_plugged` box in your gen patch.
+
+```{important}
+Make sure to ignore the values of the input control when it is not plugged, as
+it is noise.
+```
+
 That's it, this is all you need to know about how to map your front panel controls to your
 gen patch. Eurorack-blocks takes care of all the rest!
 
