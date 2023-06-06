@@ -115,7 +115,7 @@ def read_erbui_ast (filepath):
 #-- usage --------------------------------------------------------------------
 
 def usage ():
-   print ('usage: erbb.py <command> [<args>]\n')
+   print ('usage: erbb <command> [<args>]\n')
    print ('command:')
    print ('   setup           Install all dependencies')
    print ('   init            Create a new project in current directory')
@@ -125,6 +125,7 @@ def usage ():
    print ('   bootloader      Install the QSPI bootloader on the Daisy hardware')
    print ('   max             Cycling\'74 Max commands')
    print ('   faust           Faust commands')
+   print ('   calibrate       Calibrate the module')
    print ('')
    print ('init [<name>]')
    print ('   name:           Name of project, random name if not specified')
@@ -134,6 +135,7 @@ def usage ():
    print ('      daisy        Daisy firmware (default)')
    print ('      gerber       Front panel PCB files from Kicad file only')
    print ('      hardware     Front panel hardware files')
+   print ('      calibrator   Calibrator firmware')
    print ('      simulator    Simulator plug-in module')
    print ('   configuration:')
    print ('      debug        Debug configuration')
@@ -279,6 +281,11 @@ def build ():
       path_artifacts = os.path.join (cwd, 'artifacts')
       erbui.generate_hardware (path_artifacts, ast_erbui)
 
+   elif target == 'calibrator':
+      ast_erbb = read_erbb_ast (find_erbb ())
+      module = ast_erbb.modules [0].name
+      erbb.build_calibration_target (module, cwd)
+
    elif target == 'simulator':
       ast_erbb = read_erbb_ast (find_erbb ())
       module = ast_erbb.modules [0].name
@@ -417,7 +424,6 @@ def calibrate ():
    cwd = os.getcwd ()
    ast_erbb = read_erbb_ast (find_erbb ())
    module = ast_erbb.modules [0].name
-   erbb.build_calibration_target (module, cwd)
    erbb.run_calibration_openocd (module, cwd)
 
 

@@ -37,7 +37,7 @@ class Make:
 
    def generate_module (self, path, module):
       path_template = os.path.join (PATH_THIS, 'Makefile_template')
-      path_configuration = os.path.join (path, 'artifacts', 'configuration')
+      path_configuration = os.path.join (path, 'artifacts', 'calibration')
       path_makefile = os.path.join (path_configuration, 'Makefile')
 
       if not os.path.exists (path_configuration):
@@ -185,7 +185,7 @@ class Make:
 
    def replace_actions (self, template, module, path_configuration):
       lines = ''
-      lines += self.replace_actions_ui (module, path_daisy)
+      lines += self.replace_actions_ui (module, path_configuration)
       lines += self.replace_actions_calibrator (module, path_configuration)
 
       return template.replace ('%target_actions%', lines)

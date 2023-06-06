@@ -722,7 +722,7 @@ def run_calibration_openocd (name, path):
    path_artifacts = os.path.join (path, 'artifacts')
 
    file_elf = os.path.join (path_artifacts, 'calibration', 'Release', '%s.elf' % name)
-   assert os.path.exists (file_elf):
+   assert os.path.exists (file_elf)
 
    cmd = [
       OPENOCD_CMD,
