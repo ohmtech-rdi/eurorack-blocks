@@ -53,10 +53,10 @@ class Code:
          if entity.is_control and entity.is_input:
             for sub_entity in entity.entities:
                if sub_entity.is_pin:
-                  lines += '      module.ui.board.impl_preprocess (BoardType::%s);\n' % sub_entity.name
+                  lines += '      module_ui.board.impl_preprocess (BoardType::%s);\n' % sub_entity.name
                elif sub_entity.is_pin_array:
                   for name in sub_entity.names:
-                     lines += '      module.ui.board.impl_preprocess (BoardType::%s);\n' % name
+                     lines += '      module_ui.board.impl_preprocess (BoardType::%s);\n' % name
 
 
       return template.replace ('%     board_preprocess%', lines)
@@ -67,16 +67,14 @@ class Code:
    def replace_board_postprocess (self, template, entities):
       lines = ''
 
-      board_type = 'decltype (module.ui.board)'
-
       for entity in entities:
          if entity.is_control and entity.is_output:
             for sub_entity in entity.entities:
                if sub_entity.is_pin:
-                  lines += '      module.ui.board.impl_postprocess (BoardType::%s);\n' % sub_entity.name
+                  lines += '      module_ui.board.impl_postprocess (BoardType::%s);\n' % sub_entity.name
                elif sub_entity.is_pin_array:
                   for name in sub_entity.names:
-                     lines += '      module.ui.board.impl_postprocess (BoardType::%s);\n' % name
+                     lines += '      module_ui.board.impl_postprocess (BoardType::%s);\n' % name
 
 
       return template.replace ('%     board_postprocess%', lines)
@@ -89,7 +87,7 @@ class Code:
 
       for entity in entities:
          if entity.is_control:
-            lines += '      module.ui.%s.impl_preprocess ();\n' % entity.name
+            lines += '      module_ui.%s.impl_preprocess ();\n' % entity.name
 
       return template.replace ('%     controls_preprocess%', lines)
 
@@ -101,7 +99,7 @@ class Code:
 
       for entity in entities:
          if entity.is_control:
-            lines += '      module.ui.%s.impl_postprocess ();\n' % entity.name
+            lines += '      module_ui.%s.impl_postprocess ();\n' % entity.name
 
       return template.replace ('%     controls_postprocess%', lines)
 

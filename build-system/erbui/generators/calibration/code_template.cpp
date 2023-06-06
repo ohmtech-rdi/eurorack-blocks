@@ -76,6 +76,8 @@ int main ()
 
    %module.name%Ui module_ui;
 
+   using BoardType = decltype (module_ui.board);
+
    module_ui.board.deactivate_npr ();
 
    {
