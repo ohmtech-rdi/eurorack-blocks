@@ -65,6 +65,6 @@ class Code:
       for control in module.controls:
          if control.kind == 'CvIn':
             cv_in_index = cv_ins.index (control.pin.name)
-            lines += '   data.cv_ins [%d] = calibrate (module_ui, module_ui.%s, "%s");\n' % (cv_in_index, control.name, control.name)
+            lines += '   data.cv_ins [%d] = calibrate (module_ui, module_ui.%s, "%s", "%s");\n' % (cv_in_index, control.name, control.name, control.pin.name)
 
       return template.replace ('%  controls_calibrate%', lines)

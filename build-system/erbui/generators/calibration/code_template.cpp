@@ -77,10 +77,10 @@ Name : calibrate
 */
 
 template <typename CvInType>
-CalibrationData::CvIn   calibrate (%module.name%Ui & module_ui, CvInType & cv_in, const char * control_name_0)
+CalibrationData::CvIn   calibrate (%module.name%Ui & module_ui, CvInType & cv_in, const char * control_name_0, const char * pin_name_0)
 {
    char line_0 [256];
-   sprintf (line_0, "Unplug %s, press enter to continue\n", control_name_0);
+   sprintf (line_0, "Unplug %s (%s), press enter to continue\n", control_name_0, pin_name_0);
    scanf ("%s", line_0);
 
    float ideal = 0.5f;
