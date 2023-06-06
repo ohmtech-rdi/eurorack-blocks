@@ -145,6 +145,9 @@ class Code:
                )
                lines += '   state.set_%s (%s);\n' % (control.name, param_val)
 
+         if control.kind in ['AudioIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
+            cpp_name = 'ui.' + control.name
+            lines += '   state.set_%s_plugged (%s.plugged ());\n' % (control.name, cpp_name)
 
       return lines
 
