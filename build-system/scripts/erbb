@@ -409,6 +409,19 @@ def faust_init ():
 
 
 
+#-- calibrate ----------------------------------------------------------------
+
+def calibrate ():
+   import erbb
+
+   cwd = os.getcwd ()
+   ast_erbb = read_erbb_ast (find_erbb ())
+   module = ast_erbb.modules [0].name
+   erbb.build_calibration_target (module, cwd)
+   erbb.run_calibration_openocd (module, cwd)
+
+
+
 #-- main ---------------------------------------------------------------------
 
 def main ():
@@ -446,6 +459,9 @@ def main ():
 
             elif command == 'faust':
                faust ()
+
+            elif command == 'calibrate':
+               calibrate ()
 
             else:
                print ("Error: Unknown command %s\n" % command)

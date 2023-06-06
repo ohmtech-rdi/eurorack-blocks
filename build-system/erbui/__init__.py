@@ -16,6 +16,7 @@ from .generators.vcvrack.panel import Panel as vcvrackPanel
 from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
 from .generators.daisy.code import Code as daisyCode
+from .generators.calibration.code import Code as calibrationCode
 from .generators.front_panel.dxf import Dxf as front_panelDxf
 from .generators.front_panel.pdf import Pdf as front_panelPdf
 from .generators.front_panel.pcb import Pcb as front_panelPcb
@@ -161,6 +162,18 @@ Name: generate_daisy_code
 def generate_daisy_code (path, module):
    generator = daisyCode ()
    generator.generate (path, module)
+
+
+
+"""
+==============================================================================
+Name: generate_calibration
+==============================================================================
+"""
+
+def generate_calibration (path, ast):
+   generator = calibrationCode ()
+   generator.generate (path, ast)
 
 
 

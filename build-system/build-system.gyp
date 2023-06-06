@@ -34,6 +34,7 @@
             'erbb/tests/test_parser.py',
 
             # generators/action
+            'erbb/generators/action/action_calibration_template.py',
             'erbb/generators/action/action_daisy_template.py',
             'erbb/generators/action/action_data_template.py',
             'erbb/generators/action/action_faust_template.py',
@@ -96,6 +97,10 @@
             'erbb/generators/vscode/tasks.py',
             'erbb/generators/vscode/workspace_template.json',
             'erbb/generators/vscode/workspace.py',
+
+            # generators/calibration
+            'erbb/generators/calibration/Makefile_template',
+            'erbb/generators/calibration/make.py',
 
             # erbui
             'erbui/__init__.py',

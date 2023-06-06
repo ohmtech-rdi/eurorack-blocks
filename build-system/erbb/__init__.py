@@ -46,6 +46,7 @@ from .generators.action.action import Action
 from .generators.init.project import Project as initProject
 from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
+from .generators.calibration.make import Make as calibrationMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.workspace import Workspace as vscodeWorkspace
@@ -202,6 +203,7 @@ def configure (path, ast):
    configure_simulator_make (path, ast)
    configure_daisy (path, ast)
    configure_vscode (path, ast)
+   configure_calibration (path, ast)
 
 
 
@@ -336,6 +338,18 @@ Name: configure_vscode_workspace
 
 def configure_vscode_workspace (path, ast):
    generator = vscodeWorkspace ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: configure_calibration
+==============================================================================
+"""
+
+def configure_calibration (path, ast):
+   generator = calibrationMake ()
    generator.generate (path, ast)
 
 
@@ -531,6 +545,30 @@ def build_simulator_make_target (target, path, configuration):
 
 """
 ==============================================================================
+Name : build_calibration_target
+==============================================================================
+"""
+
+def build_calibration_target (target, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   build_libdaisy ()
+
+   os.environ ['CONFIGURATION'] = 'Release'
+   os.environ ['SEMIHOSTING'] = '1'
+
+   cmd = [
+      MAKE_CMD,
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'calibration')
+   ]
+
+   subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
 Name : stlink_plugged
 ==============================================================================
 """
@@ -666,6 +704,31 @@ def deploy_openocd (name, file_elf):
       '--file', 'interface/stlink.cfg',
       '--file', 'target/stm32h7x.cfg',
       '--command', 'program %s verify reset exit' % file_elf
+   ]
+
+   subprocess.check_call (cmd)
+
+   print ('OK.')
+
+
+
+"""
+==============================================================================
+Name : run_calibration_openocd
+==============================================================================
+"""
+
+def run_calibration_openocd (name, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   file_elf = os.path.join (path_artifacts, 'calibration', 'Release', '%s.elf' % name)
+   assert os.path.exists (file_elf):
+
+   cmd = [
+      OPENOCD_CMD,
+      '--search', OPENOCD_SCRIPTS,
+      '--file', 'interface/stlink.cfg',
+      '--file', 'target/stm32h7x.cfg',
    ]
 
    subprocess.check_call (cmd)
