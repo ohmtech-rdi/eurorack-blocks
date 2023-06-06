@@ -1,0 +1,110 @@
+/*****************************************************************************
+
+      Max.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+// Compatible with kivu12 Dev board
+
+module Max {
+   board kivu12
+   material aluminum
+   header { label "MAX TEST NPR" }
+
+   control l1_led Led {
+      position 2hp, 40mm
+      style 3mm, red
+      label "L1"
+      pin L1
+   }
+
+   control l2_led Led {
+      position 4hp, 40mm
+      style 3mm, red
+      label "L2"
+      pin L2
+   }
+
+   control l3_led Led {
+      position 6hp, 40mm
+      style 3mm, red
+      label "L3"
+      pin L3
+   }
+
+   control l4_led Led {
+      position 8hp, 40mm
+      style 3mm, red
+      label "L4"
+      pin L4
+   }
+
+   control l5_led Led {
+      position 10hp, 40mm
+      style 3mm, red
+      label "L5"
+      pin L5
+   }
+
+   control b14_gate_in GateIn {
+      position 2hp, 85mm
+      style knurled
+      label "B14"
+      normalling nothing
+      pin B14
+   }
+
+   control b16_gate_in GateIn {
+      position 4.66hp, 85mm
+      style knurled
+      label "B16"
+      normalling nothing
+      pin B16
+   }
+
+   control ci5_cv_in CvIn {
+      position 7.33hp, 85mm
+      style knurled
+      label "CI5"
+      normalling nothing
+      pin CI5
+   }
+
+   control ci7_cv_in CvIn {
+      position 10hp, 85mm
+      style knurled
+      label "CI7"
+      normalling nothing
+      pin CI7
+   }
+
+   control ai1_audio_in AudioIn {
+      position 2hp, 111mm
+      style knurled
+      label "AI1"
+      pin AI1
+   }
+
+   control ai2_audio_in AudioIn {
+      position 4.66hp, 111mm
+      style knurled
+      label "AI2"
+      normalling nothing
+      pin AI2
+   }
+
+   control ao1_audio_out AudioOut {
+      position 7.33hp, 111mm
+      style knurled
+      label "AO1"
+   }
+
+   control ao2_audio_out AudioOut {
+      position 10hp, 111mm
+      style knurled
+      label "AO2"
+   }
+}
