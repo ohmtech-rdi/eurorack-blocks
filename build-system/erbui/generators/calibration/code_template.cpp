@@ -25,6 +25,77 @@ extern "C" void initialise_monitor_handles ();
 
 /*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+
+struct CalibrationData
+{
+   struct CvIn
+   {
+      float mul;
+      float offset;
+   };
+
+   std::array <CvIn, 256> cv_ins;
+};
+
+
+
+/*
+==============================================================================
+Name : sample_cv_in
+==============================================================================
+*/
+
+template <typename CvInType>
+float sample_cv_in (%module.name%Ui & module_ui, CvInType & cv_in)
+{
+   using BoardType = decltype (module_ui.board);
+
+   const size_t nbr_loop = 100;
+   double avg = 0.0;
+
+   for (size_t i = 0 ; i < nbr_loop ; ++i)
+   {
+      module_ui.board.impl_preprocess ();
+
+%     board_preprocess%
+      avg += double (cv_in.impl_data);
+
+      module_ui.board.impl_postprocess ();
+
+      daisy::System::Delay (1);
+   }
+
+   return float (avg / double (nbr_loop));
+}
+
+
+
+/*
+==============================================================================
+Name : calibrate
+==============================================================================
+*/
+
+template <typename CvInType>
+CalibrationData::CvIn   calibrate (%module.name%Ui & module_ui, CvInType & cv_in, const char * control_name_0)
+{
+   char line_0 [256];
+   sprintf (line_0, "Unplug %s, press enter to continue\n", control_name_0);
+   scanf ("%s", line_0);
+
+   float ideal = 0.5f;
+   auto sampled = sample_cv_in (module_ui, cv_in);
+   auto diff = ideal - sampled;
+
+   sprintf (line_0, "   0V: diff=%f\n", diff);
+
+   write (STDOUT_FILENO, line_0, strlen (line_0));
+
+   return { .mul = 0.f, .offset = diff };
+}
+
+
+
 /*
 ==============================================================================
 Name : main
@@ -76,19 +147,13 @@ int main ()
 
    %module.name%Ui module_ui;
 
-   using BoardType = decltype (module_ui.board);
-
    module_ui.board.deactivate_npr ();
 
-   {
-      module_ui.board.impl_preprocess ();
+   CalibrationData data;
 
-%     board_preprocess%
-%     controls_preprocess%
-      //module.process ();
+%  controls_calibrate%
 
-%     controls_postprocess%
-%     board_postprocess%
-      module_ui.board.impl_postprocess ();
-   }
+   const uint32_t address_offset = 0;
+   qspi.Erase (address_offset, address_offset + sizeof (data));
+   qspi.Write (address_offset, sizeof (data), reinterpret_cast <uint8_t *> (&data));
 }

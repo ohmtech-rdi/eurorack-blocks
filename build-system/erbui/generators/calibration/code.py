@@ -35,10 +35,8 @@ class Code:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
-      template = self.replace_board_preprocess (template, module.entities);
-      template = self.replace_board_postprocess (template, module.entities);
-      template = self.replace_controls_preprocess (template, module.entities);
-      template = self.replace_controls_postprocess (template, module.entities);
+      template = self.replace_board_preprocess (template, module);
+      template = self.replace_controls_calibrate (template, module);
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -46,61 +44,27 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def replace_board_preprocess (self, template, entities):
+   def replace_board_preprocess (self, template, module):
       lines = ''
 
-      for entity in entities:
-         if entity.is_control and entity.is_input:
-            for sub_entity in entity.entities:
-               if sub_entity.is_pin:
-                  lines += '      module_ui.board.impl_preprocess (BoardType::%s);\n' % sub_entity.name
-               elif sub_entity.is_pin_array:
-                  for name in sub_entity.names:
-                     lines += '      module_ui.board.impl_preprocess (BoardType::%s);\n' % name
-
+      for control in module.controls:
+         if control.kind == 'CvIn':
+            lines += '      module_ui.board.impl_preprocess (BoardType::%s);\n' % control.pin.name
 
       return template.replace ('%     board_preprocess%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def replace_board_postprocess (self, template, entities):
+   def replace_controls_calibrate (self, template, module):
       lines = ''
 
-      for entity in entities:
-         if entity.is_control and entity.is_output:
-            for sub_entity in entity.entities:
-               if sub_entity.is_pin:
-                  lines += '      module_ui.board.impl_postprocess (BoardType::%s);\n' % sub_entity.name
-               elif sub_entity.is_pin_array:
-                  for name in sub_entity.names:
-                     lines += '      module_ui.board.impl_postprocess (BoardType::%s);\n' % name
+      cv_in_pool = module.board.kind ('CvIn').pools.names [0]
+      cv_ins = module.board.pool (cv_in_pool).pin_names
 
+      for control in module.controls:
+         if control.kind == 'CvIn':
+            cv_in_index = cv_ins.index (control.pin.name)
+            lines += '   data.cv_ins [%d] = calibrate (module_ui, module_ui.%s, "%s");\n' % (cv_in_index, control.name, control.name)
 
-      return template.replace ('%     board_postprocess%', lines)
-
-
-   #--------------------------------------------------------------------------
-
-   def replace_controls_preprocess (self, template, entities):
-      lines = ''
-
-      for entity in entities:
-         if entity.is_control:
-            lines += '      module_ui.%s.impl_preprocess ();\n' % entity.name
-
-      return template.replace ('%     controls_preprocess%', lines)
-
-
-   #--------------------------------------------------------------------------
-
-   def replace_controls_postprocess (self, template, entities):
-      lines = ''
-
-      for entity in entities:
-         if entity.is_control:
-            lines += '      module_ui.%s.impl_postprocess ();\n' % entity.name
-
-      return template.replace ('%     controls_postprocess%', lines)
-
-
+      return template.replace ('%  controls_calibrate%', lines)
