@@ -115,6 +115,10 @@
             # erbui/analysers
             'erbui/analysers/style.py',
 
+            # generators/calibration
+            'erbui/generators/calibration/code_template.cpp',
+            'erbui/generators/calibration/code.py',
+
             # generators/daisy
             'erbui/generators/daisy/code_template.cpp',
             'erbui/generators/daisy/code.py',

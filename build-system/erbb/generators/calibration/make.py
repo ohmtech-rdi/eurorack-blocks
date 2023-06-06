@@ -107,11 +107,6 @@ class Make:
 
       add_source_path (os.path.join (path_configuration, 'calibrator.cpp'))
 
-      for source in sources:
-         for file in source.files:
-            if file.path.endswith ('.cpp'):
-               add_source_path (file.path)
-
       def object_name (path):
          if platform.system () == 'Windows':
             return '$(CONFIGURATION)' + path [path.find (':') + 1:].replace ('\\', '/') + '.o'
@@ -190,9 +185,32 @@ class Make:
 
    def replace_actions (self, template, module, path_configuration):
       lines = ''
+      lines += self.replace_actions_ui (module, path_daisy)
       lines += self.replace_actions_calibrator (module, path_configuration)
 
       return template.replace ('%target_actions%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_ui (self, module, path_configuration):
+      lines = ''
+
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_configuration)
+
+      inputs = os.path.join (path_erbui_gens, 'ui', 'code.py').replace ('\\', '/') + ' '
+      inputs += '../../%s.erbui' % module.name
+
+      outputs = '../%sUi.h' % module.name
+
+      lines += '%s:  ACTION_UI\n' % outputs
+      lines += '\t@:\n'
+      lines += 'ACTION_UI: %s Makefile | $(CONFIGURATION)\n' % inputs
+      lines += '\t@echo "ACTION UI"\n'
+      lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable.replace ('\\', '/')
+      lines += 'ACTIONS += %s\n\n' % outputs
+
+      return lines
 
 
    #--------------------------------------------------------------------------
