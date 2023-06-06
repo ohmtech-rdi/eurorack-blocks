@@ -147,7 +147,7 @@ int main ()
 
    %module.name%Ui module_ui;
 
-   module_ui.board.deactivate_npr ();
+   module_ui.board.impl_deactivate_npr ();
 
    CalibrationData data;
 

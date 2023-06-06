@@ -86,6 +86,25 @@ BoardKivu12::BoardKivu12 ()
 
 /*
 ==============================================================================
+Name : impl_deactivate_npr
+==============================================================================
+*/
+
+void  BoardKivu12::impl_deactivate_npr ()
+{
+   // Turn NPR into an input pin to not disturb readings
+   _gpio_npr.impl_deinit ();
+
+   GpioInputDaisy npr {SubmoduleDaisyPatchSm::A3};
+   npr.read ();
+
+   _npr_active_flag = false;
+}
+
+
+
+/*
+==============================================================================
 Name : impl_preprocess
 ==============================================================================
 */
@@ -334,10 +353,13 @@ Name : impl_postprocess
 
 void  BoardKivu12::impl_postprocess ()
 {
-   // Linear congruential generator
-   _npr_rand_state = _npr_rand_state * 1103515245 + 12345;
-   _npr = _npr_rand_state >> 31;
-   _gpio_npr.write (_npr != 0);
+   if (_npr_active_flag)
+   {
+      // Linear congruential generator
+      _npr_rand_state = _npr_rand_state * 1103515245 + 12345;
+      _npr = _npr_rand_state >> 31;
+      _gpio_npr.write (_npr != 0);
+   }
 
    _led_driver.SwapBuffersAndTransmit ();
 }

@@ -51,6 +51,19 @@ void  GpioOutputDaisy::write (bool val)
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : impl_deinit
+Description :
+   Hack for NPR deactivation. Do not use pin after this call.
+==============================================================================
+*/
+
+void  GpioOutputDaisy::impl_deinit ()
+{
+   dsy_gpio_deinit (&_impl);
+}
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

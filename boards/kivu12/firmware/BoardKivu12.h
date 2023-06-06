@@ -155,6 +155,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+   inline void    impl_deactivate_npr ();
+
    inline void    impl_preprocess ();
    inline void    impl_preprocess (GpiPin pin);
    inline void    impl_preprocess (AdcPin pin);
@@ -267,6 +269,7 @@ private:
 
    uint8_t        _npr = 0;
    uint32_t       _npr_rand_state = 0;
+   bool           _npr_active_flag = true;
 
 
 
