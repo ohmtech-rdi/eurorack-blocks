@@ -220,16 +220,16 @@ class Make:
 
       path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_configuration)
 
-      inputs = os.path.join (path_erbui_gens, 'calibrator', 'code.py').replace ('\\', '/') + ' '
+      inputs = os.path.join (path_erbui_gens, 'calibration', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.erbui' % module.name
 
       outputs = 'calibrator.cpp'
 
-      lines += '%s:  ACTION_CALIBRATOR\n' % outputs
+      lines += '%s:  ACTION_CALIBRATION\n' % outputs
       lines += '\t@:\n'
-      lines += 'ACTION_CALIBRATOR: %s Makefile | $(CONFIGURATION)\n' % inputs
-      lines += '\t@echo "ACTION Calibrator"\n'
-      lines += '\t@%s ../actions/action_calibrator.py\n\n' % sys.executable.replace ('\\', '/')
+      lines += 'ACTION_CALIBRATION: %s Makefile | $(CONFIGURATION)\n' % inputs
+      lines += '\t@echo "ACTION Calibration"\n'
+      lines += '\t@%s ../actions/action_calibration.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines

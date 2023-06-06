@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "%module.name%Ui.h"
+#include "../%module.name%Ui.h"
 
 #include "erb/def.h"
 
