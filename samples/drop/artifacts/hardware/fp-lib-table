@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name Local)(type KiCad)(uri ${KIPRJMOD})(options "")(descr ""))
+  (lib (name Logo_Erb)(type KiCad)(uri ${KIPRJMOD}/../../../../submodules/kicad-libs/footprints/Logo_Erb.pretty)(options "")(descr ""))
+)
