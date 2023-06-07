@@ -12,6 +12,8 @@ module Drop {
    material pcb
    header { label "DROP" }
 
+   route manual
+
    line {
       position 10hp, 83.7mm
       position 10hp, 88.1mm
