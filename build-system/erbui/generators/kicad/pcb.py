@@ -11,6 +11,7 @@ import hashlib
 import math
 import os
 import pickle
+import tempfile
 from . import s_expression
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
@@ -63,8 +64,11 @@ class Root:
          root_node = parser.parse (content, filepath)
 
          ret = Root.parse (root_node)
-         with open (path_cache, 'wb') as file:
+         with tempfile.NamedTemporaryFile (mode='wb', delete=False, dir=PATH_ARTIFACTS) as file:
+            tmppath = file.name
             pickle.dump (ret, file)
+         os.replace (tmppath, path_cache)
+
          return ret
 
    @staticmethod
