@@ -33,6 +33,13 @@ Name: check_environment
 """
 
 def check_environment ():
+   if ' ' in PATH_ROOT:
+      # make doesn't support spaces in paths, and libDaisy depends on it
+      print ('\033[91mError: The path to eurorack-blocks contains an unsupported space character.\033[0m')
+      print ('\033[90mThe "make" program doesn\'t support it, unfortunately.\033[0m')
+      print ('Please move the eurorack-blocks folder elsewhere and run this command again.')
+      sys.exit (1)
+
    if platform.system () == 'Darwin':
       check_environment_macos ()
 
