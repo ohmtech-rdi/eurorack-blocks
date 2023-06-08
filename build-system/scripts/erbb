@@ -186,6 +186,7 @@ def setup ():
       sys.exit (1)
 
    setup.install_python_requirements ()
+   setup.optimize_kicad_pcb_sch_read ()
    setup.check_toolchain ()
 
 

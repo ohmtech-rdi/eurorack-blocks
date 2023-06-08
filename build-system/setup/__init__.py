@@ -23,6 +23,7 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (PATH_THIS))
 PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
 PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
+PATH_FRONT_PCB = os.path.join (PATH_BUILD_SYSTEM, 'erbui', 'generators', 'front_pcb')
 
 
 
@@ -379,6 +380,45 @@ def install_python_requirements ():
       ],
       cwd=PATH_PY3_PACKAGES
    )
+
+
+
+"""
+==============================================================================
+Name: optimize_kicad_pcb_sch_read
+==============================================================================
+"""
+
+def optimize_kicad_pcb_sch_read ():
+   print ('Optimizing erbb...')
+
+   sys.path.insert (0, PATH_BUILD_SYSTEM)
+   from erbui.generators.kicad import pcb, sch
+
+   from erbui.grammar import GRAMMAR_MANUFACTURER_ROOT
+   from erbui import parser
+
+   pcb.Root.read (os.path.join (PATH_ROOT, 'boards', 'kivu12', 'hardware', 'kivu12.kicad_pcb'))
+   sch.Root.read (os.path.join (PATH_ROOT, 'boards', 'kivu12', 'hardware', 'kivu12.kicad_sch'))
+
+   p = parser.Parser (grammar_root=GRAMMAR_MANUFACTURER_ROOT)
+
+   parts = set ()
+
+   for lib in ['DiyWire.erbui', 'DiyManual.erbui']:
+      manufacturer_path = os.path.join (PATH_FRONT_PCB, lib)
+      with open (manufacturer_path, 'r', encoding='utf-8') as file:
+         file_content = file.read ()
+      gn = p.parse_manufacturer (file_content, manufacturer_path)
+      manufacturer = gn.manufacturers [0]
+
+      for control in manufacturer.controls:
+         for part in control.parts:
+            parts.add (part)
+
+   for part in parts:
+      pcb.Root.read (os.path.join (PATH_FRONT_PCB, part, '%s.kicad_pcb' % part))
+      sch.Root.read (os.path.join (PATH_FRONT_PCB, part, '%s.kicad_sch' % part))
 
 
 
