@@ -197,6 +197,7 @@ def init ():
    import erbui
 
    cwd = os.getcwd ()
+   erbb.check_environment (cwd)
 
    name = 'Foo'
    if len (sys.argv) >= 3:
@@ -217,6 +218,7 @@ def configure ():
    import erbui
 
    cwd = os.getcwd ()
+   erbb.check_environment (cwd)
 
    ast_erbb = read_erbb_ast (find_erbb ())
    ast_erbui = read_erbui_ast (find_erbui ())
@@ -234,6 +236,7 @@ def build ():
    import erbui
 
    cwd = os.getcwd ()
+   erbb.check_environment (cwd)
 
    target = 'daisy'
    configuration = 'release'
@@ -362,6 +365,7 @@ def max_init ():
    import erbb
 
    cwd = os.getcwd ()
+   erbb.check_environment (cwd)
 
    name = 'Foo'
    if len (sys.argv) >= 4:
@@ -396,6 +400,7 @@ def faust_init ():
    import erbb
 
    cwd = os.getcwd ()
+   erbb.check_environment (cwd)
 
    name = 'Foo'
    if len (sys.argv) >= 4:

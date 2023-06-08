@@ -61,6 +61,22 @@ from .generators.faust.project import Project as faustProject
 
 """
 ==============================================================================
+Name: check_environment
+==============================================================================
+"""
+
+def check_environment (path):
+   if ' ' in path:
+      # make doesn't support spaces in paths
+      print ('\033[91mError: The path to this project contains an unsupported space character.\033[0m')
+      print ('\033[90mThe "make" program doesn\'t support it, unfortunately.\033[0m')
+      print ('Please move your project folder elsewhere and run this command again.')
+      sys.exit (1)
+
+
+
+"""
+==============================================================================
 Name: parse
 ==============================================================================
 """
