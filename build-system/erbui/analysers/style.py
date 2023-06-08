@@ -14,6 +14,7 @@ from .. import parser
 from ..grammar import GRAMMAR_MANUFACTURER_ROOT
 from ..generators.kicad import pcb, sch
 
+import copy
 import math
 import os
 import re
@@ -37,7 +38,8 @@ class AnalyserStyle:
    # C&K: https://www.thonk.co.uk/wp-content/uploads/2015/01/CK-Switch.pdf
 
    def __init__ (self):
-      pass
+      self._pcb_cache = {}
+      self._sch_cache = {}
 
 
    #--------------------------------------------------------------------------
@@ -239,11 +241,10 @@ class AnalyserStyle:
    #--------------------------------------------------------------------------
 
    def load_kicad_pcb_sch (self, module, base_path, component_name):
-
       kicad_pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
-      kicad_pcb = pcb.Root.read (kicad_pcb_path)
-
       kicad_sch_path = os.path.join (base_path, component_name, '%s.kicad_sch' % component_name)
+
+      kicad_pcb = pcb.Root.read (kicad_pcb_path)
       kicad_sch = sch.Root.read (kicad_sch_path)
 
       ref_map = self.make_ref_map (module, kicad_pcb)

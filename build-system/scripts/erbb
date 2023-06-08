@@ -215,13 +215,11 @@ def init ():
 
 def configure ():
    import erbb
-   import erbui
 
    cwd = os.getcwd ()
    erbb.check_environment (cwd)
 
    ast_erbb = read_erbb_ast (find_erbb ())
-   ast_erbui = read_erbui_ast (find_erbui ())
 
    erbb.generate_gyp (cwd, ast_erbb)
    erbb.configure (cwd, ast_erbb)

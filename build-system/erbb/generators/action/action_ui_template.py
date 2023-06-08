@@ -37,7 +37,9 @@ def find_erbui ():
       if file.endswith ('.erbui'):
          return os.path.join (PATH_PROJECT, file)
 
-   return None
+   print ("\033[91mfatal error:\033[0m No erbui file found")
+   sys.exit (1)
+
 
 if __name__ == '__main__':
    try:
@@ -46,6 +48,12 @@ if __name__ == '__main__':
 
       ast = erbui.parse (find_erbui ())
       erbui.generate_ui (artifacts_path, ast)
+
+   except erbui.error.Error as error:
+      if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():
+         error.color ()
+      print (str (error), file=sys.stderr)
+      sys.exit (1)
 
    except subprocess.CalledProcessError as error:
       print ('Action exited with %d' % error.returncode, file = sys.stderr)

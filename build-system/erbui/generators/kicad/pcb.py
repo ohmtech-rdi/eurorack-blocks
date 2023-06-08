@@ -7,11 +7,14 @@
 
 
 
+import hashlib
 import math
 import os
+import pickle
 from . import s_expression
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
+PATH_ARTIFACTS = os.path.join (PATH_THIS, 'artifacts')
 
 
 
@@ -34,12 +37,35 @@ class Root:
 
    @staticmethod
    def read (filepath):
-      with open (filepath, 'r', encoding='utf-8') as file:
-         content = file.read ()
-      parser = s_expression.Parser ()
-      root_node = parser.parse (content, filepath)
+      if not os.path.exists (PATH_ARTIFACTS):
+         os.makedirs (PATH_ARTIFACTS)
 
-      return Root.parse (root_node)
+      path_cache = os.path.join (
+         PATH_ARTIFACTS,
+         hashlib.sha1 (filepath.encode ()).hexdigest ()
+      )
+
+      if os.path.exists (path_cache):
+         use_cache = os.path.getmtime (path_cache) > os.path.getmtime (filepath) \
+            or os.path.getmtime (path_cache) > os.path.getmtime (PATH_THIS)
+      else:
+         use_cache = False
+
+      if use_cache:
+         with open (path_cache, 'rb') as file:
+            return pickle.load (file)
+
+      else:
+         with open (filepath, 'r', encoding='utf-8') as file:
+            content = file.read ()
+
+         parser = s_expression.Parser ()
+         root_node = parser.parse (content, filepath)
+
+         ret = Root.parse (root_node)
+         with open (path_cache, 'wb') as file:
+            pickle.dump (ret, file)
+         return ret
 
    @staticmethod
    def parse (node):
