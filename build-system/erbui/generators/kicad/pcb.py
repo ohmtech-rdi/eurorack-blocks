@@ -38,6 +38,8 @@ class Root:
 
    @staticmethod
    def read (filepath):
+      assert os.path.isabs (filepath)
+
       if not os.path.exists (PATH_ARTIFACTS):
          os.makedirs (PATH_ARTIFACTS)
 
