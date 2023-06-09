@@ -216,13 +216,11 @@ def init ():
 
 def configure ():
    import erbb
-   import erbui
 
    cwd = os.getcwd ()
    erbb.check_environment (cwd)
 
    ast_erbb = read_erbb_ast (find_erbb ())
-   ast_erbui = read_erbui_ast (find_erbui ())
 
    erbb.generate_gyp (cwd, ast_erbb)
    erbb.configure (cwd, ast_erbb)
@@ -268,28 +266,26 @@ def build ():
       usage ()
       sys.exit (1)
 
+   ast_erbb = read_erbb_ast (find_erbb ())
+   ast_erbui = read_erbui_ast (find_erbui ())
+
    if target == 'daisy':
-      ast_erbb = read_erbb_ast (find_erbb ())
       module = ast_erbb.modules [0].name
       erbb.build_daisy_target (module, cwd, configuration, semihosting)
 
    elif target == 'gerber':
-      ast_erbui = read_erbui_ast (find_erbui ())
       path_artifacts = os.path.join (cwd, 'artifacts')
       erbui.generate_front_pcb_gerber (path_artifacts, ast_erbui)
 
    elif target == 'hardware':
-      ast_erbui = read_erbui_ast (find_erbui ())
       path_artifacts = os.path.join (cwd, 'artifacts')
       erbui.generate_hardware (path_artifacts, ast_erbui)
 
    elif target == 'simulator':
-      ast_erbb = read_erbb_ast (find_erbb ())
       module = ast_erbb.modules [0].name
       erbb.build_simulator_make_target (module, cwd, configuration)
 
    elif target == 'simulator_xcode':
-      ast_erbb = read_erbb_ast (find_erbb ())
       module = ast_erbb.modules [0].name
       erbb.build_simulator_xcode_target (module, cwd, configuration)
 
