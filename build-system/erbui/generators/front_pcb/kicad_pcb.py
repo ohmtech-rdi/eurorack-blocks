@@ -56,7 +56,7 @@ class KicadPcb:
       if os.path.exists (path_pcb) and module.route.is_manual:
          ## update pcb rather than overwrite
 
-         kicad_pcb = pcb.Root.read (path_pcb)
+         kicad_pcb = pcb.Root.read (os.path.abspath (path_pcb))
 
          # only footprints for now
          kicad_pcb.footprints = module.pcb.footprints

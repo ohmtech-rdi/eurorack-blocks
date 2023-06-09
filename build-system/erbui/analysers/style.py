@@ -52,8 +52,8 @@ class AnalyserStyle:
    def analyse_module (self, global_namespace, module):
 
       if module.board.pcb:
-         module.pcb = pcb.Root.read (module.board.pcb.path)
-         module.sch = sch.Root.read (module.board.sch.path)
+         module.pcb = pcb.Root.read (os.path.abspath (module.board.pcb.path))
+         module.sch = sch.Root.read (os.path.abspath (module.board.sch.path))
 
          # Retrieve already used board references for control reference allocations
          for footprint in module.pcb.footprints:
@@ -240,10 +240,10 @@ class AnalyserStyle:
 
    def load_kicad_pcb_sch (self, module, base_path, component_name):
 
-      kicad_pcb_path = os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name)
+      kicad_pcb_path = os.path.abspath (os.path.join (base_path, component_name, '%s.kicad_pcb' % component_name))
       kicad_pcb = pcb.Root.read (kicad_pcb_path)
 
-      kicad_sch_path = os.path.join (base_path, component_name, '%s.kicad_sch' % component_name)
+      kicad_sch_path = os.path.abspath (os.path.join (base_path, component_name, '%s.kicad_sch' % component_name))
       kicad_sch = sch.Root.read (kicad_sch_path)
 
       ref_map = self.make_ref_map (module, kicad_pcb)
@@ -410,7 +410,7 @@ class AnalyserStyle:
 
       for sheet in module.sch.sheets:
          sheet_file = sheet.property ('Sheet file')
-         sheet_path = os.path.join (board_sch_base_path, sheet_file)
+         sheet_path = os.path.abspath (os.path.join (board_sch_base_path, sheet_file))
          sheet_sch = sch.Root.read (sheet_path)
          symbols.extend (sheet_sch.symbols)
 
