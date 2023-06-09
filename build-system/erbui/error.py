@@ -5,7 +5,9 @@
 #
 #Tab=3########################################################################
 
+import copy
 import os
+import re
 from difflib import get_close_matches
 
 from .arpeggio import EndOfFile, Match
@@ -353,9 +355,36 @@ class ParseError (Error):
       source_context.proximal_end = no_match.position
       source_context._parser = no_match.parser
 
-      expected_rules_message = self._get_expected_rules_message (no_match.rules)
-      self.add_error (expected_rules_message, source_context)
-      self.add_context (source_context)
+      rules_set = self._to_rule_names (no_match.rules)
+
+      if rules_set == {'float_cm_literal', 'float_hp_literal', 'float_mm_literal'}:
+         r = re.match (r'[0-9\.]+', no_match.parser.input [no_match.position:])
+         if r:
+            m = r.group (0)
+            r2 = re.match (r'[0-9\.]+[a-zA-Z]*', no_match.parser.input [no_match.position:])
+            m2 = r2.group (0)
+            source_context.focus_position = source_context.proximal_end
+            source_context.focus_position += len (m)
+            source_context.proximal_end += len (m2)
+            self.add_error ("Expected mm, cm, or hp unit", source_context)
+            self.add_context (source_context)
+            self.add_note ("did you mean '%smm'?" % m, source_context)
+            self.add_context_fixit (copy.copy (source_context), "%smm" % m)
+         else:
+            r2 = re.match (r'[0-9\.a-zA-Z]+', no_match.parser.input [no_match.position:])
+            m2 = r2.group (0)
+            source_context.proximal_end += len (m2)
+            self.add_error ('Expected length', source_context)
+            self.add_context (source_context)
+
+      else:
+         expected_rules_message = self._get_expected_rules_message (no_match.rules)
+         self.add_error (expected_rules_message, source_context)
+         self.add_context (source_context)
+
+
+   def _to_rule_names (self, rules):
+      return {rule.rule_name for rule in rules if rule.root}
 
 
    def _get_expected_rules_message (self, rules):
