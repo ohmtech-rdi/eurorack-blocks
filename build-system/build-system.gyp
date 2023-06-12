@@ -19,6 +19,10 @@
             'test.py',
             'scripts/erbb',
 
+            # completion
+            'completion/__init__.py',
+            'completion/tests/test_completion.py',
+
             # erbb
             'erbb/__init__.py',
             'erbb/adapter.py',
