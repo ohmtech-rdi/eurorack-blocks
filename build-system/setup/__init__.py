@@ -357,6 +357,7 @@ def install_python_requirements ():
          '--disable-pip-version-check',
          '--log', os.path.join (PATH_TOOLCHAIN, 'pip-install-pip.log.txt'),
          '--target', PATH_PY3_PACKAGES,
+         '--no-user',
          'pip==23.1.2',
       ]
    )
@@ -375,6 +376,7 @@ def install_python_requirements ():
          '--disable-pip-version-check',
          '--log', os.path.join (PATH_TOOLCHAIN, 'pip-install-reqs.log.txt'),
          '--target', PATH_PY3_PACKAGES,
+         '--no-user',
          '--report', os.path.join (PATH_TOOLCHAIN, 'pip-report.json'),
          '--requirement', os.path.join (PATH_ROOT, 'requirements.txt'),
       ],
