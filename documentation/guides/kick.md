@@ -329,12 +329,12 @@ in the internal flash memory and then install the program to the QSPI flash sect
 This can be done simply like this:
 
 ```shell-session
-eurorack-blocks/samples/kick$ erbb bootloader
+eurorack-blocks/samples/kick$ erbb install bootloader
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Uploading dsy_bootloader_v4 to flash section...
 ...
-eurorack-blocks/samples/kick$ erbb install dfu
+eurorack-blocks/samples/kick$ erbb install firmware
 Enter the Daisy bootloader by pressing the RESET button.
 Press Enter to continue...
 Uploading Kick to qspi section...
@@ -367,6 +367,6 @@ a new program in the flash section, you will need to reinstall the bootloader.
 ```
 
 ```{note}
-`erbb install` cannot be used with the `openocd` option when flashing to
+`erbb install` cannot be used with the `stlink` `--programmer` option when flashing to
 QSPI.
 ```

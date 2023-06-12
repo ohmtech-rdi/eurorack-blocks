@@ -9,7 +9,7 @@ home folder.
 ```shell-session
 ~$ mkdir LowPass
 ~$ cd LowPass
-~/LowPass$ erbb max init LowPass
+~/LowPass$ erbb init --name LowPass --language max
 ```
 
 ```{note}
