@@ -20,28 +20,28 @@ jobs:
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: test/micropatch
-        run: erbb configure && erbb build && erbb build simulator && erbb build simulator_xcode
+        run: erbb configure && erbb build && erbb build simulator && erbb build simulator --xcode
         working-directory: test/micropatch
       - name: test/data
         run: erbb configure && erbb build
         working-directory: test/data
       - name: samples/bypass
-        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator --xcode
         working-directory: samples/bypass
       - name: samples/drop
-        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator --xcode
         working-directory: samples/drop
       - name: samples/reverb
-        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        run: erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator --xcode
         working-directory: samples/reverb
       - name: samples/kick
-        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator && erbb build simulator_xcode
+        run: erbb configure && erbb build && erbb build hardware && erbb build hardware --only-gerber && erbb build simulator && erbb build simulator --xcode
         working-directory: samples/kick
       - name: samples/custom
         run: erbb configure && erbb build && erbb build hardware && erbb build simulator
         working-directory: samples/custom
       - name: erbb init
-        run: mkdir init && cd init && erbb init Init && erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator_xcode
+        run: mkdir init && cd init && erbb init --name Init && erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator --xcode
         working-directory: samples
       - name: VCV Rack headless run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Documents/Rack2/log.txt
@@ -99,16 +99,16 @@ jobs:
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
-        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator && erbb build simulator_xcode
+        run: erbb configure && erbb build && erbb build hardware && erbb build hardware --only-gerber && erbb build simulator && erbb build simulator --xcode
         working-directory: samples/faust
       - name: test/faust
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator_xcode
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator --xcode
         working-directory: test/faust
       - name: test/faust2
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator_xcode
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator --xcode
         working-directory: test/faust2
       - name: test/faust3
-        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator_xcode
+        run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator --xcode
         working-directory: test/faust3
       - name: VCV Rack headless run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Documents/Rack2/log.txt
