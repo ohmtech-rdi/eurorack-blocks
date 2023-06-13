@@ -360,11 +360,7 @@ class Panel:
    #--------------------------------------------------------------------------
 
    def generate_line (self, context, module, line):
-      for index, position in enumerate (line.points):
-         if index == 0:
-            context.move_to (position.x.pt, position.y.pt)
-         else:
-            context.line_to (position.x.pt, position.y.pt)
+      line_width = 0.7
 
       material = module.material
 
@@ -374,11 +370,36 @@ class Panel:
       elif material.is_aluminum_black or material.is_brushed_aluminum_black or material.is_aluminum_coated_black or material.is_pcb:
          line_gray = 1.0
 
-      context.set_source_rgb (line_gray, line_gray, line_gray)
-      context.set_line_width (0.7)
-      context.set_line_join (cairocffi.LINE_JOIN_ROUND)
-      context.set_line_cap (cairocffi.LINE_CAP_BUTT)
-      context.stroke ()
+      for i in range (len (line.points) - 1):
+         x1 = line.points [i].x.pt
+         y1 = line.points [i].y.pt
+         x2 = line.points [i+1].x.pt
+         y2 = line.points [i+1].y.pt
+         self.generate_line_segment (context, line_gray, x1, y1, x2, y2, line_width)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_line_segment (self, context, gray, x1, y1, x2, y2, width):
+
+      vx = y2 - y1
+      vy = - (x2 - x1)
+      norm = math.sqrt (vx * vx + vy * vy)
+      if norm < 0.0001: return
+
+      scale = (width / 2) / norm
+      vx *= scale
+      vy *= scale
+
+      context.new_sub_path ()
+      context.move_to (x1 + vx, y1 + vy)
+      context.line_to (x2 + vx, y2 + vy)
+      context.line_to (x2 - vx, y2 - vy)
+      context.line_to (x1 - vx, y1 - vy)
+      context.close_path ()
+
+      context.set_source_rgb (gray, gray, gray)
+      context.fill ()
 
 
    #--------------------------------------------------------------------------
