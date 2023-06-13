@@ -581,27 +581,27 @@ Name : deploy
 ==============================================================================
 """
 
-def deploy (name, section, path, configuration, mode):
+def deploy (name, section, path, configuration, programmer):
    path_artifacts = os.path.join (path, 'artifacts')
 
-   if mode == 'auto':
+   if programmer == 'auto':
       if section != 'flash':
-         mode = 'dfu'
+         programmer = 'dfu'
       elif stlink_plugged ():
-         mode = 'openocd'
+         programmer = 'stlink'
       else:
-         mode = 'dfu'
+         programmer = 'dfu'
 
-   if mode == 'openocd':
+   if programmer == 'stlink':
       if section != 'flash':
-         print ('Install option \'openocd\' doesn\'t support programming to %s.' % section)
+         print ('Install option \'stlink\' doesn\'t support programming to %s.' % section)
          print ('Please use option \'dfu\' instead.')
          sys.exit ()
 
       file_elf = os.path.join (path_artifacts, 'daisy', configuration, '%s.elf' % name)
       deploy_openocd (name, file_elf)
 
-   elif mode == 'dfu':
+   elif programmer == 'dfu':
       file_bin = os.path.join (path_artifacts, 'daisy', configuration, '%s.bin' % name)
       deploy_dfu_util (name, section, file_bin)
 

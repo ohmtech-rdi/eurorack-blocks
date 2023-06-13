@@ -9,7 +9,7 @@ our home folder directly. Then type:
 ```shell-session
 ~$ mkdir LowPass
 ~$ cd LowPass
-~/LowPass$ erbb faust init LowPass
+~/LowPass$ erbb init --name LowPass --language faust
 ~/LowPass$ erbb configure
 ```
 

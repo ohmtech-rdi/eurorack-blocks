@@ -40,7 +40,7 @@ jobs:
         run: erbb configure && erbb build && erbb build simulator && erbb build hardware
         working-directory: samples/custom
       - name: erbb init
-        run: mkdir init && cd init && erbb init Init && erbb configure && erbb build && erbb build simulator && erbb build hardware
+        run: mkdir init && cd init && erbb init --name Init && erbb configure && erbb build && erbb build simulator && erbb build hardware
         working-directory: samples
       - name: VCV Rack headless run
         run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n' && cat $USERPROFILE/Documents/Rack2/log.txt
@@ -101,7 +101,7 @@ jobs:
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
-        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator
+        run: erbb configure && erbb build && erbb build hardware && erbb build hardware --only-gerber && erbb build simulator
         working-directory: samples/faust
       - name: test/faust
         run: erbb configure && erbb build simulator && erbb build && erbb build hardware
@@ -137,7 +137,7 @@ jobs:
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
-        run: erbb configure && erbb build && erbb build hardware && erbb build gerber && erbb build simulator
+        run: erbb configure && erbb build && erbb build hardware && erbb build hardware --only-gerber && erbb build simulator
         working-directory: samples/faust
       - name: test/faust
         run: erbb configure && erbb build simulator && erbb build && erbb build hardware

@@ -11,7 +11,7 @@ For simplicity, do it from the `eurorack-blocks/samples` directory. We will expl
 eurorack-block/$ cd samples
 eurorack-blocks/samples$ mkdir LowPass
 eurorack-blocks/samples$ cd LowPass
-eurorack-blocks/samples/LowPass$ erbb init LowPass
+eurorack-blocks/samples/LowPass$ erbb init --name LowPass
 eurorack-blocks/samples/LowPass$ erbb configure
 ```
 

@@ -30,7 +30,7 @@ This is explained below in [Compound property binding](#compound-property-bindin
 
 Let's take `dm.phaser2_demo` to understand a bit more how name mapping works.
 
-Make a new Phaser Faust project using `erbb faust init Phaser`
+Make a new Phaser Faust project using `erbb init --name Phaser --language faust`
 and change the dsp file like the following:
 
 ```{code-block} faust
@@ -46,7 +46,7 @@ process = dm.phaser2_demo;
 
 If you build the project now, the `erbui` transpiler will complain that you have the wrong
 number of audio inputs and outputs.
-This is because `dm.phaser2_demo` is a stereo effect and `erbb faust init` generated
+This is because `dm.phaser2_demo` is a stereo effect and `erbb init` generated
 by default a mono input/output effect.
 
 Let's first fix this quickly by adding one more audio input and output at the end of our `erbui` file, and rearranging the layout of those audio jack connectors:

@@ -18,6 +18,11 @@
             'erbuic.py',
             'test.py',
             'scripts/erbb',
+            'scripts/erbb_complete.py',
+
+            # completion
+            'completion/__init__.py',
+            'completion/tests/test_completion.py',
 
             # erbb
             'erbb/__init__.py',

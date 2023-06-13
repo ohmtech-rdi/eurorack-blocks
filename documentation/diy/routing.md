@@ -102,7 +102,7 @@ Gerber files that we will need to use in the next chapter.
 For this run:
 
 ```shell-session
-eurorack-block/samples/kick/$ erbb build gerber
+eurorack-block/samples/kick/$ erbb build hardware --only-gerber
 ```
 
 That's done! Now you are good to go and order everything before you assemble your module.
