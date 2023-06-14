@@ -80,15 +80,7 @@
             "engineLogging": false
          },
          "preLaunchTask": "Build Simulator - Debug",
-
-         "osx": {
-            "MIMode": "lldb",
-            "program": "/Applications/Rack.app/Contents/MacOS/Rack"
-         },
-         "windows": {
-            "MIMode": "gdb",
-            "program": "C:/Program Files/VCV/Rack.exe"
-         }
+%        os_launch_debug_config%
       }
    ]
 }

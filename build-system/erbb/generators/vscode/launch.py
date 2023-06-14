@@ -8,6 +8,7 @@
 
 
 import os
+import platform
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
@@ -44,9 +45,48 @@ class Launch:
       )
       file_svd = os.path.abspath (os.path.join (PATH_THIS, 'svd', 'STM32H750x.svd'))
 
+      if platform.system () == 'Darwin':
+         rack_path = ''
+         if os.path.exists ('/Applications/VCV Rack 2 Pro.app/Contents/MacOS/Rack'):
+            rack_path = '/Applications/VCV Rack 2 Pro.app/Contents/MacOS/Rack'
+         elif os.path.exists ('/Applications/VCV Rack 2 Free.app/Contents/MacOS/Rack'):
+            rack_path = '/Applications/VCV Rack 2 Free.app/Contents/MacOS/Rack'
+         else:
+            print ('\033[33mwarning:\033[0m can\'t find VCV Rack executable')
+
+         os_launch_debug_config =  '         "osx": {\n'
+         os_launch_debug_config += '            "MIMode": "lldb",\n'
+         os_launch_debug_config += '            "program": "%s"\n' % rack_path
+         os_launch_debug_config += '         }'
+
+      elif platform.system () == 'Windows':
+         rack_path = ''
+         if os.path.exists ('C:/Program Files/VCV/Rack2Pro/Rack.exe'):
+            rack_path = 'C:/Program Files/VCV/Rack2Pro/Rack.exe'
+         elif os.path.exists ('C:/Program Files/VCV/Rack2Free/Rack.exe'):
+            rack_path = 'C:/Program Files/VCV/Rack2Free/Rack.exe'
+         else:
+            print ('\033[33mwarning:\033[0m can\'t find VCV Rack executable')
+
+         os_launch_debug_config =  '         "windows": {\n'
+         os_launch_debug_config += '            "MIMode": "gdb",\n'
+         os_launch_debug_config += '            "program": "%s"\n' % rack_path
+         os_launch_debug_config += '         }'
+
+      elif platform.system () == 'Linux':
+         rack_path = ''
+         print ('\033[33mwarning:\033[0m can\'t find VCV Rack executable')
+
+         os_launch_debug_config =  '         "linux": {\n'
+         os_launch_debug_config += '            "MIMode": "gdb",\n'
+         os_launch_debug_config += '            "program": "%s"\n' % rack_path
+         os_launch_debug_config += '         }'
+
+
       template = template.replace ('%executable_release%', file_elf_release)
       template = template.replace ('%executable_debug%', file_elf_debug)
       template = template.replace ('%svd_file%', file_svd)
+      template = template.replace ('%        os_launch_debug_config%', os_launch_debug_config)
 
       with open (path_dst, 'w', encoding='utf-8') as file:
          file.write (template)
