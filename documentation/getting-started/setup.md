@@ -148,8 +148,11 @@ The Visual Studio Code workspace file allows to debug your module both for the s
 :width: 100%
 ```
 
+To do so:
+
 - Choose `File > Open Workspace from File...`,
 - Locate your module `artifacts` folder and open the `code-workspace` in it,
+- If using Windows make sure to select `Git Bash` instead of `Powershell` to run commands (see below),
 - Choose the `Run & Debug` tab in the side bar,
 - Select the target you want to debug,
    - `Launch Firmware Release` will debug the firmware in Release configuration on the connected Daisy using a STLink probe with OpenOCD,
@@ -162,6 +165,25 @@ The Visual Studio Code workspace file allows to debug your module both for the s
 ```
 
 You might want to debug your firmware in Release configuration when the Debug configuration is too big for the internal Flash memory.
+
+```{warning}
+on Windows, you must select "Git Bash" for your default terminal profile.
+```
+
+To do so:
+
+- Choose `Terminal > New Terminal` if the terminal is not already visible,
+- Click on the `+ v` button in the top right of the terminal window,
+- Choose `Select Default Profile`
+- Then choose `Git Bash` for your default terminal profile.
+
+```{image} setup-vscode-bash1.png
+:width: 100%
+```
+
+```{image} setup-vscode-bash2.png
+:width: 100%
+```
 
 
 ## Building with Xcode
