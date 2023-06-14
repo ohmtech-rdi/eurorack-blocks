@@ -13,10 +13,6 @@
       {
          'Debug':
          {
-            'defines': [
-               'DEBUG=1',
-            ],
-
             'cflags': [
                '-O0',
                '-g',
@@ -27,7 +23,6 @@
          {
             'defines': [
                'NDEBUG=1',
-               'RELEASE=1',
             ],
 
             'cflags': [
