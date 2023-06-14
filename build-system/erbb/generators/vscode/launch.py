@@ -12,6 +12,7 @@ import platform
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
+PATH_BUILD_SYSTEM = os.path.join (PATH_ROOT, 'build-system')
 
 
 
@@ -68,9 +69,12 @@ class Launch:
          else:
             print ('\033[33mwarning:\033[0m can\'t find VCV Rack executable')
 
+         gdb_path = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin', 'gdb.exe')
+
          os_launch_debug_config =  '         "windows": {\n'
          os_launch_debug_config += '            "MIMode": "gdb",\n'
-         os_launch_debug_config += '            "program": "%s"\n' % rack_path
+         os_launch_debug_config += '            "program": "%s",\n' % rack_path
+         os_launch_debug_config += '            "miDebuggerPath": "%s"\n' % gdb_path.replace ('\\', '/')
          os_launch_debug_config += '         }'
 
       elif platform.system () == 'Linux':
