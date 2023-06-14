@@ -83,9 +83,9 @@ class Launch:
          os_launch_debug_config += '         }'
 
 
-      template = template.replace ('%executable_release%', file_elf_release)
-      template = template.replace ('%executable_debug%', file_elf_debug)
-      template = template.replace ('%svd_file%', file_svd)
+      template = template.replace ('%executable_release%', file_elf_release.replace ('\\', '/'))
+      template = template.replace ('%executable_debug%', file_elf_debug.replace ('\\', '/'))
+      template = template.replace ('%svd_file%', file_svd.replace ('\\', '/'))
       template = template.replace ('%        os_launch_debug_config%', os_launch_debug_config)
 
       with open (path_dst, 'w', encoding='utf-8') as file:
