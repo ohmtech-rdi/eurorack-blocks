@@ -11,9 +11,9 @@
       {
          "label": "Build Simulator - Debug",
          "type": "shell",
-         "command": "erbb build simulator debug",
+         "command": "erbb build simulator --configuration debug",
          "group": {
-            "kind": "build"
+            "kind": "build",
             "isDefault": true,
          },
          "options": {
@@ -26,7 +26,7 @@
       {
          "label": "Build Simulator - Release",
          "type": "shell",
-         "command": "erbb build simulator release",
+         "command": "erbb build simulator --configuration release",
          "group": "build",
          "options": {
            "cwd": "${workspaceFolder}"
@@ -38,9 +38,9 @@
       {
          "label": "Build Firmware - Debug",
          "type": "shell",
-         "command": "erbb build daisy debug semihosting",
+         "command": "erbb build firmware --configuration debug --semihosting",
          "group": {
-            "kind": "build"
+            "kind": "build",
             "isDefault": true,
          },
          "options": {
@@ -53,7 +53,7 @@
       {
          "label": "Build Firmware - Release",
          "type": "shell",
-         "command": "erbb build daisy release semihosting",
+         "command": "erbb build firmware --configuration release --semihosting",
          "group": "build",
          "options": {
            "cwd": "${workspaceFolder}"
