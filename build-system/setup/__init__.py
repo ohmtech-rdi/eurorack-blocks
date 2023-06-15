@@ -286,7 +286,7 @@ Name: install_msys2_mingw64
 def install_msys2_mingw64 ():
    name = 'msys2_mingw64.zip'
    download (
-      'https://github.com/ohmtech-rdi/erb-toolchain-msys2-mingw64/releases/download/v0.2/%s' % name,
+      'https://github.com/ohmtech-rdi/erb-toolchain-msys2-mingw64/releases/download/v0.3/%s' % name,
       name
    )
 
