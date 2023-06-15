@@ -48,6 +48,7 @@ from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
+from .generators.vscode.extensions import Extensions as vscodeExtensions
 from .generators.vscode.workspace import Workspace as vscodeWorkspace
 from .generators.vscode.launch import Launch as vscodeLaunch
 from .generators.vscode.tasks import Tasks as vscodeTasks
@@ -292,6 +293,7 @@ def configure_vscode (path, ast):
    configure_vscode_launch (path, ast)
    configure_vscode_tasks (path, ast)
    configure_vscode_c_cpp_properties (path, ast)
+   configure_vscode_extensions (path, ast)
    configure_vscode_workspace (path, ast)
 
 
@@ -334,12 +336,12 @@ def configure_vscode_c_cpp_properties (path, ast):
 
 """
 ==============================================================================
-Name: configure_vscode_c_cpp_properties
+Name: configure_vscode_extensions
 ==============================================================================
 """
 
-def configure_vscode_c_cpp_properties (path, ast):
-   generator = vscodeCCppProperties ()
+def configure_vscode_extensions (path, ast):
+   generator = vscodeExtensions ()
    generator.generate (path, ast)
 
 
