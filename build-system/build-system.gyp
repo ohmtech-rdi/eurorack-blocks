@@ -95,6 +95,8 @@
             # generators/vscode
             'erbb/generators/vscode/c_cpp_properties_template.json',
             'erbb/generators/vscode/c_cpp_properties.py',
+            'erbb/generators/vscode/extensions_template.json',
+            'erbb/generators/vscode/extensions.py',
             'erbb/generators/vscode/launch_template.json',
             'erbb/generators/vscode/launch.py',
             'erbb/generators/vscode/tasks_template.json',
