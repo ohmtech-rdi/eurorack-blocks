@@ -166,8 +166,15 @@ To do so:
 
 You might want to debug your firmware in Release configuration when the Debug configuration is too big for the internal Flash memory.
 
+### Debugging on Windows
+
 ```{warning}
-on Windows, you must select "Git Bash" for your default terminal profile.
+On Windows, to stop on a breakpoint after Rack is already running,
+you must press the F12 key when Rack has focus to break into the debugger.
+```
+
+```{warning}
+On Windows, you must select "Git Bash" for your default terminal profile.
 ```
 
 To do so:
