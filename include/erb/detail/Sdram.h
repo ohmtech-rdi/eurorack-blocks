@@ -43,10 +43,15 @@ public:
 
 
 
+/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+                  Sdram (uint8_t * storage);
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
-                  Sdram () = default;
 
    static Sdram & use_instance ();
 
@@ -58,6 +63,8 @@ private:
 
    void *         allocate_raw (std::size_t alignment, std::size_t size);
    void *         allocate_raw_nullptr_on_error (std::size_t alignment, std::size_t size);
+
+   uint8_t *      _sdram_memory_pool_storage = nullptr;
 
    MonotonicMemoryPool <erb_SDRAM_MEM_POOL_SIZE>
                   _memory_pool;

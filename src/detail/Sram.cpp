@@ -11,13 +11,16 @@
 
 #include "erb/detail/Sram.h"
 
+#if defined (erb_TARGET_VCV_RACK)
+   #include "erb/vcvrack/ModuleBoard.h"
+#endif
+
+#if defined (erb_TARGET_UNIT_TEST)
+   #include <array>
+#endif
 #include <cstdint>
 #include <cstdlib>
 #include <type_traits>
-
-#if defined (erb_TARGET_DAISY)
-   #include "dev/sdram.h"
-#endif
 
 
 
@@ -39,25 +42,20 @@ std::aligned_storage <erb_SRAM_MEM_POOL_SIZE>::type __attribute__((section(".hea
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
 /*
 ==============================================================================
 Name : ctor
 ==============================================================================
 */
 
-Sram::Sram ()
-#if defined (erb_TARGET_DAISY)
-:  _sram_memory_pool_storage (reinterpret_cast <uint8_t *> (&erb_sram_memory_pool_storage))
-#endif
+Sram::Sram (uint8_t * storage)
+:  _sram_memory_pool_storage (storage)
 {
 }
 
 
 
+/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
@@ -80,18 +78,29 @@ Name : use_instance
 
 Sram &  Sram::use_instance ()
 {
-#if defined (__clang__)
-   #pragma clang diagnostic push
-   #pragma clang diagnostic ignored "-Wexit-time-destructors"
-#endif
-
-   static Sram instance;
-
-#if defined (__clang__)
-   #pragma clang diagnostic pop
-#endif
-
+#if defined (erb_TARGET_DAISY)
+   static Sram instance (reinterpret_cast <uint8_t *> (&erb_sram_memory_pool_storage));
    return instance;
+
+#elif defined (erb_TARGET_VCV_RACK)
+   return ModuleBoard::current ().sram ();
+
+#elif defined (erb_TARGET_UNIT_TEST)
+
+   #if defined (__clang__)
+      #pragma clang diagnostic push
+      #pragma clang diagnostic ignored "-Wexit-time-destructors"
+   #endif
+
+   static std::array <uint8_t, erb_SRAM_MEM_POOL_SIZE> storage;
+   static Sram instance (&storage [0]);
+   return instance;
+
+   #if defined (__clang__)
+      #pragma clang diagnostic pop
+   #endif
+
+#endif
 }
 
 
@@ -108,16 +117,7 @@ void *   Sram::allocate_raw (std::size_t alignment, std::size_t size)
 {
    const std::size_t pos = _memory_pool.allocate (alignment, size);
 
-#if defined (erb_TARGET_DAISY)
    return &_sram_memory_pool_storage [pos];
-
-#else
-   ((void)(pos)); // ignore pos
-
-   // Not all c++17 cstdlib do have a 'std::aligned_alloc' implementation.
-   // Use 'std::malloc' as optimising alignment is not needed for the simulator.
-   return std::malloc (size);
-#endif
 }
 
 
@@ -134,16 +134,7 @@ void *   Sram::allocate_raw_nullptr_on_error (std::size_t alignment, std::size_t
 
    if (pos == std::size_t (-1)) return nullptr;
 
-#if defined (erb_TARGET_DAISY)
    return &_sram_memory_pool_storage [pos];
-
-#else
-   ((void)(pos)); // ignore pos
-
-   // Not all c++17 cstdlib do have a 'std::aligned_alloc' implementation.
-   // Use 'std::malloc' as optimising alignment is not needed for the simulator.
-   return std::malloc (size);
-#endif
 }
 
 
