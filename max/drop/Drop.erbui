@@ -1,0 +1,123 @@
+/*****************************************************************************
+
+      Drop.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Drop {
+   board kivu12
+   material pcb
+   header { label "DROP:MAX" }
+
+   route manual
+
+   line {
+      position 10hp, 83.7mm
+      position 10hp, 88.1mm
+   }
+   line {
+      position 2hp, 80.7mm
+      position 2hp, 82.6mm
+   }
+   line {
+      position 4.66hp, 80.7mm
+      position 4.66hp, 82.6mm
+   }
+
+   control freq_pot Pot {
+      position 6hp, 34mm
+      style rogan, 6ps
+      label "FREQ"
+   }
+
+   control mute_hp Switch {
+      position 6hp, 62mm
+      style on_on
+      rotation 90°ccw
+      label "MUTE" { positioning left }
+      label "HP" { positioning right }
+   }
+
+   control freq_trim Trim {
+      mode bipolar
+      position 10hp, 75.3mm
+      label "–/+"
+   }
+
+   control sync_button Button {
+      position 2hp, 75.3mm
+      style ck, d6r, black
+   }
+
+   control arm_button Button {
+      position 4.66hp, 75.3mm
+      style ck, d6r, black
+   }
+
+   control sync_led Led {
+      position 2hp, 85mm
+      style red
+   }
+
+   control sync_gate GateIn {
+      position 2hp, 96.5mm
+      style knurled
+      label "SYNC"
+   }
+
+   control arm_led Led {
+      position 4.66hp, 85mm
+      style red
+   }
+
+   control arm_gate GateIn {
+      position 4.66hp, 96.5mm
+      style knurled
+      label "ARM"
+   }
+
+   control state_led LedBi {
+      position 7.33hp, 85mm
+   }
+
+   control state_gate GateOut {
+      position 7.33hp, 96.5mm
+      style knurled
+      label "STATE"
+   }
+
+   control freq_cv CvIn {
+      position 10hp, 96.5mm
+      normalling nothing
+      style knurled
+      label "FREQ"
+   }
+
+   control audio_in_left AudioIn {
+      position 2hp, 111mm
+      style knurled
+      label "IN L"
+   }
+
+   control audio_in_right AudioIn {
+      position 4.66hp, 111mm
+      style knurled
+      label "IN R"
+      normalling audio_in_left
+   }
+
+   control audio_out_left AudioOut {
+      position 7.33hp, 111mm
+      style knurled
+      label "OUT L"
+   }
+
+   control audio_out_right AudioOut {
+      position 10hp, 111mm
+      style knurled
+      label "OUT R"
+   }
+}

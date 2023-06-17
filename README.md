@@ -124,6 +124,7 @@ First make sure to read the [Max integration documentation](https://eurorack-blo
 Sample projects are a good place to continue learning:
 
 - [`reverb`](./max/reverb/) uses Gigaverb.
+- [`drop`](./max/drop/) shows the usage of almost every blocks.
 
 
 ## Setting up

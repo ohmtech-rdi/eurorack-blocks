@@ -1,0 +1,15 @@
+/*****************************************************************************
+
+      Drop.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+use strict
+
+module Drop {
+   sources {
+      file "Drop.erbui"
+      file "Drop.maxpat"
+   }
+}
