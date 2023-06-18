@@ -83,6 +83,7 @@
             # generators/simulator
             'erbb/generators/simulator/Makefile_template',
             'erbb/generators/simulator/make.py',
+            'erbb/generators/simulator/xcode.py',
 
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',

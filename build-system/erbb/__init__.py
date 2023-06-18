@@ -8,7 +8,6 @@
 from __future__ import print_function
 from builtins import input
 import asyncio
-import fileinput
 import multiprocessing
 import os
 import platform
@@ -38,12 +37,10 @@ else:
    OPENOCD_CMD = 'openocd'
    OPENOCD_SCRIPTS = '/usr/local/share/openocd/scripts'
 
-sys.path.insert (0, os.path.join (PATH_ROOT, 'submodules', 'gyp-next', 'pylib'))
-import gyp
-
 from .parser import Parser
 from .generators.action.action import Action
 from .generators.init.project import Project as initProject
+from .generators.simulator.xcode import Xcode as simulatorXcode
 from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
 from .generators.vcvrack.project import Project as vcvrackProject
@@ -215,7 +212,7 @@ Name: configure
 """
 
 def configure (path, ast):
-   configure_simulator_native (path)
+   configure_simulator_xcode (path, ast)
    configure_simulator_make (path, ast)
    configure_daisy (path, ast)
    configure_vscode (path, ast)
@@ -228,29 +225,10 @@ Name: configure_simulator_native
 ==============================================================================
 """
 
-def configure_simulator_native (path):
-   path_artifacts = os.path.join (path, 'artifacts')
-
+def configure_simulator_xcode (path, ast):
    if platform.system () == 'Darwin':
-      gyp_args = [
-         '--depth=.',
-         '--generator-output=%s' % path_artifacts,
-      ]
-
-      cwd = os.getcwd ()
-      os.chdir (path)
-      gyp.main (gyp_args + ['project_vcvrack.gyp'])
-      os.chdir (cwd)
-
-      project_path = os.path.join (path_artifacts, 'project_vcvrack.xcodeproj')
-
-      file = os.path.join (project_path, 'project.pbxproj')
-
-      for line in fileinput.input (file, inplace = 1):
-         print (line, end = '')
-
-         if 'BuildIndependentTargetsInParallel' in line:
-            print ('\t\t\t\tLastUpgradeCheck = 2000;')
+      generator = simulatorXcode ()
+      generator.generate (path, ast)
 
 
 
