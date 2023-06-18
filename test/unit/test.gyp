@@ -27,6 +27,10 @@
          'target_name': 'test',
          'type': 'executable',
 
+         'defines': [
+            'erb_TARGET_UNIT_TEST',
+         ],
+
          'include_dirs': [
             '.',
             '../../include',

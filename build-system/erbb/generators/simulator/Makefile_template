@@ -71,11 +71,11 @@ endif
 
 # Optimization
 ifeq ($(CONFIGURATION),Debug)
-FLAGS += -O0 -g -march=nocona -funsafe-math-optimizations
+FLAGS += -O0 -g -march=nehalem -funsafe-math-optimizations
 endif
 
 ifeq ($(CONFIGURATION),Release)
-FLAGS += -O3 -DNDEBUG=1 -march=nocona -funsafe-math-optimizations
+FLAGS += -O3 -DNDEBUG=1 -march=nehalem -funsafe-math-optimizations
 endif
 
 %warnings%

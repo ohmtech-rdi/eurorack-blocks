@@ -16,6 +16,7 @@
 #include "%module.name%.h"
 
 #include "erb/module_init.h"
+#include "erb/vcvrack/ModuleBoard.h"
 #include "erb/vcvrack/VcvWidgets.h"
 
 #include "erb/def.h"
@@ -24,6 +25,7 @@ erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
 erb_RESTORE_WARNINGS
 
+#include <memory>
 #include <type_traits>
 
 
@@ -36,7 +38,10 @@ struct ErbModule
                   ErbModule ();
    void           process (const ProcessArgs & /* args */) override;
 
-   %module.name% module;
+   erb::ModuleBoard
+                  module_board;
+   std::unique_ptr <%module.name%>
+                  module_uptr;
 
 }; // struct ErbModule
 
@@ -86,6 +91,11 @@ Name : ErbModule::ctor
 
 ErbModule::ErbModule ()
 {
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   module_uptr = std::make_unique <%module.name%> ();
+   auto & module = *module_uptr;
+
    // The Daisy Seed stack, sitting on SRAM is 512K only.
    // When more memory is needed, move the big buffers like
    // delay lines or samples to the SDRAM, which is 64M.
@@ -127,6 +137,10 @@ Name : ErbModule::process
 
 void  ErbModule::process (const ProcessArgs & /* args */)
 {
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   auto & module = *module_uptr;
+
    bool process_flag = module.ui.board.impl_need_process ();
 
 %  normalling_process%

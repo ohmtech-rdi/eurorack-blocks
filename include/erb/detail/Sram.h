@@ -44,10 +44,15 @@ public:
 
 
 
+/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+                  Sram (uint8_t * storage);
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
-                  Sram ();
 
    static Sram &  use_instance ();
 
@@ -60,9 +65,7 @@ private:
    void *         allocate_raw (std::size_t alignment, std::size_t size);
    void *         allocate_raw_nullptr_on_error (std::size_t alignment, std::size_t size);
 
-#if defined (erb_TARGET_DAISY)
    uint8_t *      _sram_memory_pool_storage = nullptr;
-#endif
 
    MonotonicMemoryPool <erb_SRAM_MEM_POOL_SIZE>
                   _memory_pool;
