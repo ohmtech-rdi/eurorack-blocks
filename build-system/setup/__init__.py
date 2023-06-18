@@ -336,6 +336,98 @@ def install_gnu_arm_embedded_windows ():
 
 """
 ==============================================================================
+Name: install_xcode_support
+==============================================================================
+"""
+
+def install_xcode_support ():
+   print ('Adding Xcode support...')
+
+   developer_path = subprocess.check_output (['xcode-select', '-p']).decode ('utf-8').rstrip ()
+   contents_path = os.path.abspath (os.path.dirname (developer_path))
+   info_path = os.path.join (contents_path, 'Info')
+
+   PATH_XCODE = os.path.join (PATH_THIS, 'xcode')
+   PATH_XCODE_PREFS = os.path.join (os.path.expanduser ('~'), 'Library', 'Developer', 'Xcode')
+   PATH_XCODE_PLUGINS = os.path.join (PATH_XCODE_PREFS, 'Plug-ins')
+   PATH_XCODE_SPECS = os.path.join (PATH_XCODE_PREFS, 'Specifications')
+
+   xcode_uuid = subprocess.check_output (['defaults', 'read', info_path, 'DVTPlugInCompatibilityUUID']).decode ('utf-8').rstrip ()
+   xcode_version = int (subprocess.check_output (['defaults', 'read', info_path, 'DTXcode']).decode ('utf-8').rstrip ())
+
+   xcode11 = xcode_version >= 1100 and xcode_version < 1200
+
+   if not os.path.exists (PATH_XCODE_PLUGINS):
+      os.makedirs (PATH_XCODE_PLUGINS)
+
+   if not os.path.exists (PATH_XCODE_SPECS):
+      os.makedirs (PATH_XCODE_SPECS)
+
+   def install_ideplugin (name):
+      shutil.rmtree (os.path.join (PATH_XCODE_PLUGINS, '%s.ideplugin' % name), ignore_errors = True)
+      shutil.copytree (
+         os.path.join (PATH_XCODE, '%s.ideplugin' % name),
+         os.path.join (PATH_XCODE_PLUGINS, '%s.ideplugin' % name)
+      )
+
+      path_info_plist = os.path.join (PATH_XCODE_PLUGINS, '%s.ideplugin' % name, 'Contents', 'Info.plist')
+
+      with open (path_info_plist, 'r', encoding='utf-8') as file:
+         template = file.read ()
+
+      template = template.replace ('%uuid%', xcode_uuid)
+
+      with open (path_info_plist, 'w', encoding='utf-8') as file:
+         file.write (template)
+
+   install_ideplugin ('Erbb')
+   install_ideplugin ('Erbui')
+
+   if xcode11:
+      # Credits for the solution goes to the
+      # Xcode GraphQL syntax highlighting project
+      # https://github.com/apollographql/xcode-graphql
+
+      source_resources = os.path.join (contents_path, 'SharedFrameworks', 'SourceModel.framework', 'Versions', 'A', 'Resources')
+      specs_path = os.path.join (source_resources, 'LanguageSpecifications')
+
+      shutil.copyfile (
+         os.path.join (PATH_XCODE, 'Erbb.xclangspec'),
+         os.path.join (specs_path, 'Erbb.xclangspec')
+      )
+
+      shutil.copyfile (
+         os.path.join (PATH_XCODE, 'Erbui.xclangspec'),
+         os.path.join (specs_path, 'Erbui.xclangspec')
+      )
+
+      metadata_path = os.path.join (source_resources, 'LanguageMetadata')
+
+      shutil.copyfile (
+         os.path.join (PATH_XCODE, 'Xcode.SourceCodeLanguage.Erbb.plist'),
+         os.path.join (metadata_path, 'Xcode.SourceCodeLanguage.Erbb.plist')
+      )
+
+      shutil.copyfile (
+         os.path.join (PATH_XCODE, 'Xcode.SourceCodeLanguage.Erbui.plist'),
+         os.path.join (metadata_path, 'Xcode.SourceCodeLanguage.Erbui.plist')
+      )
+
+   else:
+      shutil.copyfile (
+         os.path.join (PATH_XCODE, 'Erbb.xclangspec'),
+         os.path.join (PATH_XCODE_SPECS, 'Erbb.xclangspec')
+      )
+
+      shutil.copyfile (
+         os.path.join (PATH_XCODE, 'Erbui.xclangspec'),
+         os.path.join (PATH_XCODE_SPECS, 'Erbui.xclangspec')
+      )
+
+
+
+"""
+==============================================================================
 Name: install_python_requirements
 ==============================================================================
 """
