@@ -172,6 +172,8 @@ def setup (args):
       setup.install_kicad_macos ()
       setup.install_gnu_arm_embedded_macos ()
       setup.install_toolchain_macos ()
+      if args.with_xcode_support:
+         setup.install_xcode_support ()
 
    elif platform.system () == 'Linux':
       subprocess.check_call ('sudo apt-get update', shell=True)
@@ -399,6 +401,13 @@ def parse_args_setup (parent):
       'setup',
       help='install all dependencies'
    )
+
+   if platform.system () == 'Darwin':
+      parser.add_argument(
+         '--with-xcode-support',
+         action = 'store_true',
+         help = 'add Xcode extra support such as erbui/erbb syntax coloring'
+      )
 
 
 

@@ -7,6 +7,8 @@
 
 
 
+import platform
+
 from .arpeggio import RegExMatch as _
 from .arpeggio import ParserPython, NoMatch, ZeroOrMore, EOF
 
@@ -20,6 +22,7 @@ def programmer ():                     return '--programmer', ['dfu', 'stlink']
 def xcode ():                          return '--xcode'
 def semihosting ():                    return '--semihosting'
 def only_gerber ():                    return '--only-gerber'
+def with_xcode_support ():             return '--with-xcode-support'
 
 def build_simulator ():                return 'simulator', ZeroOrMore ([configuration, xcode])
 def build_firmware ():                 return 'firmware', ZeroOrMore ([configuration, semihosting])
@@ -28,7 +31,11 @@ def build_hardware ():                 return 'hardware', ZeroOrMore ([only_gerb
 def install_firmware ():               return 'firmware', ZeroOrMore ([configuration, programmer])
 def install_bootloader ():             return 'bootloader'
 
-def setup ():                          return 'setup'
+def setup ():
+   if platform.system () == 'Darwin':
+                                       return 'setup', ZeroOrMore ([with_xcode_support])
+   else:
+                                       return 'setup'
 def init ():                           return 'init', ZeroOrMore ([name, language])
 def configure ():                      return 'configure'
 def build ():                          return 'build', [build_simulator, build_firmware, build_hardware]
