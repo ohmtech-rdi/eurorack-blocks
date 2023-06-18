@@ -18,7 +18,7 @@ jobs:
       - run: brew install faust
       - run: brew install --cask vcv-rack
       - run: python3 build-system/install.py
-      - run: erbb setup
+      - run: erbb setup --with-xcode-support
       - name: test/micropatch
         run: erbb configure && erbb build && erbb build simulator && erbb build simulator --xcode
         working-directory: test/micropatch
