@@ -13,7 +13,6 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/config.h"
 #include "erb/detail/Sram.h"
 #include "erb/detail/Sdram.h"
 
@@ -45,10 +44,8 @@ void *   allocate_bytes_auto (std::size_t size)
    {
 #if defined (erb_TARGET_DAISY)
       asm ("bkpt 255");
-#elif (erb_RAM_MEM_POOL_SIZE_SIMULATOR_CHECK)
-      // Either:
-      // - The module is using too much memory,
-      // - Multiple modules are being debugged (check erb/config.h for workaround)
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_UNIT_TEST)
+      // The module is consuming more memory than it can on the target platform
       throw std::bad_alloc ();
 #endif
    }
