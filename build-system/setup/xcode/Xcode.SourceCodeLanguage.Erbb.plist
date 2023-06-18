@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>commentSyntaxes</key>
+	<array>
+		<dict>
+			<key>prefix</key>
+			<string>/*</string>
+			<key>suffix</key>
+			<string>*/</string>
+		</dict>
+		<dict>
+			<key>prefix</key>
+			<string>//</string>
+		</dict>
+	</array>
+	<key>conformsToLanguageIdentifiers</key>
+	<array>
+		<string>Xcode.SourceCodeLanguage.Generic</string>
+	</array>
+	<key>fileDataTypeIdentifiers</key>
+	<array>
+		<string>com.eurorack-blocks.erbb-source</string>
+	</array>
+	<key>identifier</key>
+	<string>Xcode.SourceCodeLanguage.Erbb</string>
+	<key>isHidden</key>
+	<false/>
+	<key>languageName</key>
+	<string>Erbb</string>
+	<key>languageSpecification</key>
+	<string>xcode.lang.erbb</string>
+	<key>supportsIndentation</key>
+	<true/>
+	<key>allowWhitespaceTrimming</key>
+	<true/>
+	<key>requiresHardTabs</key>
+	<false/>
+	<key>indentationTriggers</key>
+	<array>
+		<string>{</string>
+		<string>}</string>
+	</array>
+</dict>
+</plist>
