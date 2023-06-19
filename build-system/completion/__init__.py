@@ -24,6 +24,7 @@ def semihosting ():                    return '--semihosting'
 def only_gerber ():                    return '--only-gerber'
 def with_xcode_support ():             return '--with-xcode-support'
 def with_vscode_support ():            return '--with-vscode-support'
+def with_max_support ():               return '--with-max-support'
 def with_apt ():                       return '--with-apt'
 
 def build_simulator ():                return 'simulator', ZeroOrMore ([configuration, xcode])
@@ -35,11 +36,12 @@ def install_bootloader ():             return 'bootloader'
 
 def setup ():
    if platform.system () == 'Darwin':
-                                       return 'setup', ZeroOrMore ([with_xcode_support, with_vscode_support])
+                                       return 'setup', ZeroOrMore ([with_xcode_support, with_vscode_support, with_max_support])
+   elif platform.system () == 'Windows':
+                                       return 'setup', ZeroOrMore ([with_vscode_support, with_max_support])
    elif platform.system () == 'Linux':
-                                       return 'setup', ZeroOrMore ([with_apt])
-   else:
-                                       return 'setup', ZeroOrMore ([with_vscode_support])
+                                       return 'setup', ZeroOrMore ([with_vscode_support, with_apt])
+
 def init ():                           return 'init', ZeroOrMore ([name, language])
 def configure ():                      return 'configure'
 def build ():                          return 'build', [build_simulator, build_firmware, build_hardware]
@@ -55,6 +57,7 @@ DESCRIPTION = {
    'setup': 'install all dependencies',
    '--with-xcode-support': 'for Xcode support',
    '--with-vscode-support': 'for Visual Studio Code support',
+   '--with-max-support': 'for Cycling\'74 Max support',
    '--with-apt': 'using the apt package manager',
    'init': 'create a new project in current directory',
    '--name': 'name of project, random name if not specified',
