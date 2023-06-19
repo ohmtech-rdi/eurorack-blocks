@@ -41,7 +41,6 @@
             'starter-kit/content.md',
             'starter-kit/kivu12.md',
             'starter-kit/demos.md',
-            'starter-kit/testing.md',
 
             'guides/drop.md',
             'guides/kick.md',

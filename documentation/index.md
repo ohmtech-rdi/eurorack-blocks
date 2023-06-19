@@ -81,7 +81,6 @@ Continue here to assemble it and make some sound with the included demos.
    /starter-kit/requirements
    /starter-kit/kivu12
    /starter-kit/demos
-   /starter-kit/testing
 ```
 
 

@@ -128,4 +128,5 @@ ever have with Eurorack-blocks, so how did it feel?
 To test this module, we will use the Eurorack-blocks environment as shown in the next
 chapter. Depending on what language you use, C++, Max, we have a project
 specificly made for it.
- 
+
+It is time now to install the Eurorack-blocks environment on your computer!
