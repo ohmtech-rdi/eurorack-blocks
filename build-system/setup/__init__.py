@@ -7,6 +7,7 @@
 
 
 
+import io
 import os
 import platform
 import shutil
@@ -14,7 +15,6 @@ import subprocess
 import sys
 import tarfile
 import tempfile
-import time
 import urllib.request
 import zipfile
 
@@ -91,20 +91,36 @@ Name: download
 """
 
 def download (url, name):
-   prev_time = time.time ()
-   def show_progress (block_num, block_size, total_size):
-      nonlocal prev_time
-      cur_time = time.time ()
-      if cur_time > prev_time + 1:
-         prev_time = cur_time
-         current = round (block_num * block_size / total_size * 100, 2)
-         print ('Downloading %s... %s%%  ' % (name, current), end='\r')
+   def get_content_with_progress (response):
+      length = response.getheader ('content-length')
+      block_size = 1000000  # default value
+      if length:
+         length = int (length)
+         block_size = max (4096, length // 20)
+         content = io.BytesIO ()
+         size = 0
+         while True:
+            buffer = response.read (block_size)
+            if not buffer:
+               break
+            content.write (buffer)
+            size += len (buffer)
+            percent = int ((size / length)*100)
+            print (f'Downloading {name}... {percent}%%  ', end='\r')
+         return content.getvalue ()
 
-   urllib.request.urlretrieve (
-      url,
-      os.path.join (PATH_TOOLCHAIN, name),
-      show_progress
-   )
+   cafile = os.path.join (PATH_TOOLCHAIN, 'certs.pem')
+   if not os.path.exists (cafile):
+      certificate_url = 'https://mkcert.org/generate/'
+      urllib.request.urlretrieve (certificate_url, cafile)
+
+   import ssl
+   ssl_context = ssl.create_default_context (cafile=cafile)
+
+   with urllib.request.urlopen (url, context=ssl_context) as response:
+      content = get_content_with_progress (response)
+      with open (os.path.join (PATH_TOOLCHAIN, name), 'wb') as file:
+         file.write (content)
 
 
 
