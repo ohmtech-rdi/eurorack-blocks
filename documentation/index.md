@@ -80,8 +80,7 @@ Continue here to assemble it and make some sound with the included demos.
    /starter-kit/content
    /starter-kit/requirements
    /starter-kit/kivu12
-   /starter-kit/drop
-   /starter-kit/frohmage
+   /starter-kit/demos
    /starter-kit/testing
 ```
 
@@ -97,7 +96,7 @@ Max or Faust on macOS, Windows or Linux.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: ERB Starter Kit
+   :caption: Environment Setup
 
    /setup/select
 ```

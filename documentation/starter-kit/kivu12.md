@@ -15,6 +15,12 @@ more easily.
 Now, locate the parts bag and take out all the pin sockets and headers, including those
 long pin headers.
 
+```{important}
+Avoid touching the SMD components with your fingers if you don't have an
+anti-static wrist strap band,
+and in all cases be very careful not to poke them with your soldering iron tip!
+```
+
 
 ## Using a Breadboard
 
