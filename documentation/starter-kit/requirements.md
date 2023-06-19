@@ -54,7 +54,7 @@ This gives you a lot of heat transfer when soldering pin headers.
 
 ## Wire Cutter
 
-```{image} requirements-plato-shear-cutter.jpg
+```{image} requirements-plato-shear-cutter.png
 :width: 30%
 :align: right
 ```
@@ -74,6 +74,8 @@ and properly aligned.
 If you bought a lot of Starter Kits, or you really want to take it super safe,
 we made a soldering jig that takes care of making this all perfect and quick for you.
 You can [buy it from Shapeways here](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125).
+It's around 20€/$, we don't make any margin on it, maybe an alternative to consider if your
+budget allows it.
 
 
 ## Other Equipments
