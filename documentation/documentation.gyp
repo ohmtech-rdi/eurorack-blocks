@@ -37,6 +37,13 @@
             'getting-started/setup.md',
             'getting-started/what.md',
 
+            'starter-kit/requirements.md',
+            'starter-kit/content.md',
+            'starter-kit/kivu12.md',
+            'starter-kit/drop.md',
+            'starter-kit/frohmage.md',
+            'starter-kit/testing.md',
+
             'guides/drop.md',
             'guides/kick.md',
             'guides/reverb.md',

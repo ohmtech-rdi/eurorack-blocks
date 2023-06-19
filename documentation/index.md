@@ -46,7 +46,7 @@ is also adviced, while not strictly necessary.
 ## Getting Started
 
 Are you new to Eurorack-blocks?
-Start here to learn on how to setup your environment and make your first module.
+Start here to get to know the environment and what it will bring to you.
 
 - **{doc}`/getting-started/before`**
 - **{doc}`/getting-started/what`**
@@ -63,6 +63,43 @@ Start here to learn on how to setup your environment and make your first module.
    /getting-started/what
    /getting-started/setup
    /getting-started/first
+```
+
+## ERB Starter Kit
+
+The ERB starter kit available on our shop (coming soon)
+is the easiest way to get into Eurorack-blocks development quickly.
+Continue here to assemble it and make some sound with the included demos.
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: ERB Starter Kit
+
+   /starter-kit/requirements
+   /starter-kit/content
+   /starter-kit/kivu12
+   /starter-kit/drop
+   /starter-kit/frohmage
+   /starter-kit/testing
+```
+
+
+## Environment Setup
+
+Now that you have an Eurorack-blocks board to develop with,
+it's time to get ready for developping your own creation.
+Head over to setup the Eurorack-blocks environment for C++,
+Max or Faust on macOS, Windows or Linux.
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: ERB Starter Kit
+
+   /setup/select
 ```
 
 

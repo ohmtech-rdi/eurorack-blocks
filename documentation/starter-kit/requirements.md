@@ -1,0 +1,64 @@
+# What You Need
+
+```{image} requirements-all.jpg
+:width: 100%
+:align: center
+```
+
+You need a few tools to assemble the kit:
+
+- A spool of solder,
+- A temperature-controlled soldering iron,
+- A wire cutter.
+
+
+## Solder Spool
+
+```{image} requirements-weller-solder.png
+:width: 30%
+:align: right
+```
+
+The spool of solder should have the following characteristics:
+- Diameter: 0.5 mm / 0.020 inch
+- 100% halogen-free, lead-free (RoHS Compliant) wire
+- No-clean flux core
+
+We typically use the [`WSW SC L0 0,5mm, 500g, SN0,7CU3,5%` from Weller](https://www.weller-tools.com/us/en/industrial-soldering/products/soldering-wire/wsw-sc-l0-05mm-500g-sn07cu35) pictured here.
+It's a big spool and quite expensive (500g is quite a lot as well, probably for a lifetime),
+but it's the easiest lead-free solder we found.
+
+
+## Soldering Iron
+
+```{image} requirements-hakko-soldering-iron.png
+:width: 30%
+:align: right
+```
+
+To solder properly, a temperature-controlled soldering iron is crucial:
+
+- Can deliver around 400°C/750°F for lead-free solder,
+- ESD-safe.
+
+```{image} requirements-hakko-soldering-tip.png
+:width: 30%
+:align: right
+```
+
+We typically use the [HAKKO FX888D](https://www.hakko.com/english/products/hakko_fx888d.html) pictured here,
+together with their [T18/D16 Chisel Soldering Tip](https://www.hakko.com/english/products/hakko_fx888d_tips.html).
+This gives you a lot of heat transfer when soldering pin headers.
+
+
+## Wire Cutter
+
+```{image} requirements-plato-shear-cutter.jpg
+:width: 30%
+:align: right
+```
+A good wire cutter, that you exclusively use for electronics, is a must.
+It needs to be thin and sharp on the nose, to access small spaces.
+Any wire cutter will probably do the job properly, if its end shouts "I'm done for precision cutting". 
+
+We typically use the [Techspray Plato Shear Cutter](https://www.techspray.com/platoshear-cutter-5).
