@@ -9,7 +9,8 @@ You need a few tools to assemble the kit:
 
 - A spool of solder,
 - A temperature-controlled soldering iron,
-- A wire cutter.
+- A wire cutter,
+- Ideally a solderless breadboard, or even our dedicated soldering jig.
 
 
 ## Solder Spool
@@ -64,6 +65,17 @@ Any wire cutter will probably do the job properly, if its end shouts "I'm done f
 We typically use the [Techspray Plato Shear Cutter](https://www.techspray.com/platoshear-cutter-5).
 
 
+## Solderless Breadboard
+
+Soldering the kivu12 motherboard is a bit easier with the help of a breadboard.
+That allows you to make sure the pin headers and sockets sit flush on the board,
+and properly aligned.
+
+If you bought a lot of Starter Kits, or you really want to take it super safe,
+we made a soldering jig that takes care of making this all perfect and quick for you.
+You can [buy it from Shapeways here](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125).
+
+
 ## Other Equipments
 
 Of course the gear listed above can be expensive and you don't really need to make such an
@@ -76,4 +88,4 @@ There is much more you can buy to ease soldering if your budget permits it:
 - A silicon soldering mat to avoid burning your beloved desk,
 - An Anti-static ESD wrist strap band to avoid damaging ESD sensitive parts.
 
-Now that you are all set up, let's move on soldering the kivu12 back board!
+Now that you are all set up, let's move on to soldering the ERB Starter Kit!

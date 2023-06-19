@@ -77,8 +77,8 @@ Continue here to assemble it and make some sound with the included demos.
    :hidden:
    :caption: ERB Starter Kit
 
-   /starter-kit/requirements
    /starter-kit/content
+   /starter-kit/requirements
    /starter-kit/kivu12
    /starter-kit/drop
    /starter-kit/frohmage
