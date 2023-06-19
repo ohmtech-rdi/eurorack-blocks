@@ -62,3 +62,18 @@ It needs to be thin and sharp on the nose, to access small spaces.
 Any wire cutter will probably do the job properly, if its end shouts "I'm done for precision cutting". 
 
 We typically use the [Techspray Plato Shear Cutter](https://www.techspray.com/platoshear-cutter-5).
+
+
+## Other Equipments
+
+Of course the gear listed above can be expensive and you don't really need to make such an
+investment to start, so we included the bare minimum specifications you are looking for.
+
+There is much more you can buy to ease soldering if your budget permits it:
+- If you are working in a closed environment with not much air circulation, a fume extractor
+   is something you will want to look into,
+- Some safety glasses to protect your eyes,
+- A silicon soldering mat to avoid burning your beloved desk,
+- An Anti-static ESD wrist strap band to avoid damaging ESD sensitive parts.
+
+Now that you are all set up, let's move on soldering the kivu12 back board!
