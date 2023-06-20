@@ -1,4 +1,4 @@
-# Environment Setup
+# Selecting the Environment
 
 
 Time to set up the Eurorack-blocks environment!
@@ -17,7 +17,7 @@ tell us what went wrong, so we can help you.
 
 If you are a macOS user, please choose below the ecosystem you wish to install.
 
-- C++ with Xcode
+- [C++ with Xcode](./macos-cpp-xcode.md)
 - C++ with Visual Studio Code
 - Max/MSP
 - Faust

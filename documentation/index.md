@@ -71,6 +71,11 @@ The ERB starter kit available on our shop (coming soon)
 is the easiest way to get into Eurorack-blocks development quickly.
 Continue here to assemble it and make some sound with the included demos.
 
+- **{doc}`/starter-kit/content`**
+- **{doc}`/starter-kit/requirements`**
+- **{doc}`/starter-kit/kivu12`**
+- **{doc}`/starter-kit/demos`**
+
 ```{eval-rst}
 .. toctree::
    :maxdepth: 2
@@ -91,6 +96,9 @@ it's time to get ready for developping your own creation.
 Head over to setup the Eurorack-blocks environment for C++,
 Max or Faust on macOS, Windows or Linux.
 
+- **{doc}`/setup/select`**
+- **{doc}`/setup/macos-cpp-xcode`**
+
 ```{eval-rst}
 .. toctree::
    :maxdepth: 2
@@ -98,6 +106,7 @@ Max or Faust on macOS, Windows or Linux.
    :caption: Environment Setup
 
    /setup/select
+   /setup/macos-cpp-xcode
 ```
 
 

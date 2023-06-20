@@ -43,6 +43,7 @@
             'starter-kit/demos.md',
 
             'setup/select.md',
+            'setup/macos-cpp-xcode.md',
 
             'guides/drop.md',
             'guides/kick.md',
