@@ -65,6 +65,11 @@ myst_enable_extensions = [
 ]
 
 
+# -- CopyButton configuration ------------------------------------------------
+
+copybutton_prompt_text = r'^[a-zA-Z0-9]*:\~[-a-zA-Z0-9/\ ]*\$ '
+copybutton_prompt_is_regexp = True
+
 
 # -- Pygments Lexers ---------------------------------------------------------
 
