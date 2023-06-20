@@ -30,6 +30,7 @@ author = 'Raphael Dingé'
 extensions = [
    'myst_parser',
    'sphinxcontrib.youtube',
+   'sphinx_copybutton',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
