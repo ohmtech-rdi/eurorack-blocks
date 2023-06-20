@@ -42,6 +42,8 @@
             'starter-kit/kivu12.md',
             'starter-kit/demos.md',
 
+            'setup/select.md',
+
             'guides/drop.md',
             'guides/kick.md',
             'guides/reverb.md',
