@@ -19,6 +19,7 @@ If you are a macOS user, please choose below the ecosystem you wish to install.
 
 - [C++ with Xcode](./macos-cpp-xcode.md)
 - C++ with Visual Studio Code
+- C++ with command line only
 - Max/MSP
 - Faust
 
@@ -30,7 +31,8 @@ gives the best debugging experience. But you can always change your mind later a
 
 If you are a Windows user, please choose below the ecosystem you wish to install:
 
-- C++
+- C++ with Visual Studio Code
+- C++ with command line only
 - Max/MSP
 - Faust
 
@@ -39,7 +41,8 @@ If you are a Windows user, please choose below the ecosystem you wish to install
 
 If you are a Linux user, please choose below the ecosystem you wish to install:
 
-- C++
+- C++ with Visual Studio Code
+- C++ with command line only
 - Faust
 
 

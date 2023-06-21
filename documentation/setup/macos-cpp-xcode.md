@@ -32,6 +32,26 @@ Please use the copy button on the top right corner of the following code blocks
 to copy/paste the commands in your terminal.
 ```
 
+You can check your installation by trying the following commands, and checking it doesn't
+return an error or something else than it version. Versions are shown here for a concrete
+example, they might be different on your computer.
+
+```{code-block} shell-session
+MyMac:~ $ git --version
+git version 2.41.0
+```
+
+```{code-block} shell-session
+MyMac:~ $ python3 --version
+Python 3.11.4
+```
+
+```{code-block} shell-session
+MyMac:~ $ xcodebuild -version
+Xcode 13.4
+Build version 13F17a
+```
+
 
 ## Cloning
 
@@ -95,4 +115,43 @@ and look at the `install_xcode_support` function.
 You can now start to use `eurorack-blocks` 🎉
 
 
+## Testing a Sample
 
+Let's test a sample. We'll use the Drop sample.
+
+```{code-block} shell-session
+MyMac:~/eurorack-blocks $ cd samples/drop
+MyMac:~/eurorack-blocks/samples/drop $ erbb configure
+```
+
+If you inspect the `drop` folder, it now contains an `artifacts` directory, with some folders and files.
+
+```{image} macos-cpp-xcode-configure.png
+:width: 100%
+:align: center
+```
+
+The `project_vcvrack.xcodeproj` is an Xcode project, to develop, build and debug the
+simulator module on macOS.
+Let's open it:
+
+```{code-block} shell-session
+MyMac:~/eurorack-blocks/samples/drop$ open artifacts/project_vcvrack.xcodeproj
+```
+
+```{image} macos-cpp-xcode-project.png
+:width: 100%
+:align: center
+```
+
+You can now press {guilabel}`⌘B` or select the menu `Product > Build` to build, and then
+press {guilabel}`⌘R` or select the menu `Product > Run` to run VCV Rack and test your
+module.
+
+```{important}
+Because of a flaw in VCV Rack, the debugger is waiting for VCV Rack to start.
+You need to start VCV Rack manually, and the debugger will attach to it
+automatically.
+```
+
+That's it! You are now all set to start building your own modules!
