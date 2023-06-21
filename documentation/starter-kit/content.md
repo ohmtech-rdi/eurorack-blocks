@@ -1,5 +1,8 @@
 # What's in the Box?
 
+First thanks for purchasing the Eurorack-blocks Starter Kit ❤️ This really helps to support
+our open-source project, and we wouldn't be able to continue without you!
+
 The Eurorack-blocks (ERB for short) Starter Kit contains everything to get you started
 quickly with the minimum amount of effort.
 
