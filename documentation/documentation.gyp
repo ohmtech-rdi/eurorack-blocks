@@ -33,7 +33,6 @@
             'controls/Trim.md',
 
             'getting-started/before.md',
-            'getting-started/setup.md',
             'getting-started/what.md',
 
             'starter-kit/requirements.md',

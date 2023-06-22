@@ -50,7 +50,6 @@ Start here to get to know the environment and what it will bring to you.
 
 - **{doc}`/getting-started/before`**
 - **{doc}`/getting-started/what`**
-- **{doc}`/getting-started/setup`**
 
 ```{eval-rst}
 .. toctree::
@@ -60,7 +59,6 @@ Start here to get to know the environment and what it will bring to you.
 
    /getting-started/before
    /getting-started/what
-   /getting-started/setup
 ```
 
 ## ERB Starter Kit
