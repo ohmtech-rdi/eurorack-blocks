@@ -133,6 +133,14 @@ You can build and install the simulator module by running:
 
 ```{code-block} shell-session
 MyMac:~/eurorack-blocks/samples/drop $ erbb build simulator
+mkdir Release
+ACTION UI
+ACTION VCV Rack
+COPY include/erb/vcvrack/resource/rogan.6ps.svg
+...
+LINK plugin.dylib
+PACKAGE Release Drop
+INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
 ```
 
 You can then run VCV Rack and play with your module.
@@ -142,12 +150,37 @@ of the simulator by running:
 
 ```{code-block} shell-session
 MyMac:~/eurorack-blocks/samples/drop $ erbb build simulator --configuration debug
+mkdir Debug
+ACTION UI
+ACTION VCV Rack
+COPY include/erb/vcvrack/resource/rogan.6ps.svg
+...
+LINK plugin.dylib
+PACKAGE Debug Drop
+INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
 ```
 
 You can build the firmware by running:
 
 ```{code-block} shell-session
 MyMac:~/eurorack-blocks/samples/drop $ erbb build firmware
+BUILD libDaisy
+mkdir Release
+ACTION UI
+ACTION Daisy
+...
+LINK Release/Drop.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       81928 B       128 KB     62.51%
+         DTCMRAM:          0 GB       128 KB      0.00%
+            SRAM:      519696 B       512 KB     99.12%
+          RAM_D2:       16968 B       288 KB      5.75%
+          RAM_D3:          0 GB        64 KB      0.00%
+         ITCMRAM:          0 GB        64 KB      0.00%
+           SDRAM:          0 GB        64 MB      0.00%
+       QSPIFLASH:          0 GB         8 MB      0.00%
+OBJCOPY Release/Drop.bin
+OBJCOPY Release/Drop.hex
 ```
 
 And so on. Please run `erbb ... --help` to navigate all different options.

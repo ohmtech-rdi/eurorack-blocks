@@ -150,6 +150,14 @@ You can build and install the simulator module by running:
 
 ```{code-block} shell-session
 MyMac:~/eurorack-blocks/samples/faust $ erbb build simulator
+ACTION Faust
+ACTION UI
+ACTION VCV Rack
+COPY include/erb/vcvrack/resource/rogan.6ps.svg
+...
+LINK plugin.dylib
+PACKAGE Release Flanger
+INSTALL /Users/raf/Documents/Rack2/plugins/Flanger/
 ```
 
 You can then run VCV Rack and play with your module.
@@ -158,6 +166,22 @@ You can build the firmware by running:
 
 ```{code-block} shell-session
 MyMac:~/eurorack-blocks/samples/faust $ erbb build firmware
+ACTION Faust
+ACTION UI
+ACTION VCV Rack
+...
+LINK Release/Flanger.elf
+Memory region         Used Size  Region Size  %age Used
+           FLASH:       77416 B       128 KB     59.06%
+         DTCMRAM:          0 GB       128 KB      0.00%
+            SRAM:      519736 B       512 KB     99.13%
+          RAM_D2:       16968 B       288 KB      5.75%
+          RAM_D3:          0 GB        64 KB      0.00%
+         ITCMRAM:          0 GB        64 KB      0.00%
+           SDRAM:         64 MB        64 MB    100.00%
+       QSPIFLASH:          0 GB         8 MB      0.00%
+OBJCOPY Release/Flanger.bin
+OBJCOPY Release/Flanger.hex
 ```
 
 And so on. Please run `erbb ... --help` to navigate all different options.
@@ -188,3 +212,6 @@ This requirement will be explained later in the tutorial.
 ```
 
 That's it! You are now all set to start building your own modules!
+
+Maybe now is a good time to head over to **{doc}`/faust/first`** to learn more about the
+Faust integration in Eurorack-blocks.
