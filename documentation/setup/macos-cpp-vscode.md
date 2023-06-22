@@ -1,4 +1,4 @@
-# C++ on macOS with Xcode
+# C++ on macOS with Visual Studio Code
 
 
 ## Requirements
@@ -12,7 +12,8 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
-- [Xcode version 11 or later](https://developer.apple.com/xcode/)
+- [Xcode command line tools](https://developer.apple.com/xcode/)
+- [Visual Studio Code](https://developer.apple.com/xcode/)
 - [VCV Rack version 2](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
@@ -28,6 +29,14 @@ For Eurorack-blocks, please use at least Python 3.7.
 ```{note}
 Please use the copy button on the top right corner of the following code blocks
 to copy/paste the commands in your terminal.
+```
+
+The Xcode command line tools come already with Xcode, so one option is to install Xcode
+as well. If you want to avoid having to install Xcode, you can selectively install the Xcode
+command line tools by running:
+
+```{code-block} shell-session
+MyMac:~ $ xcode-select --install
 ```
 
 You can check your installation by trying the following commands, and checking it doesn't
@@ -101,7 +110,7 @@ MyMac:~/eurorack-blocks $ source ./build-system/init.sh
 Then:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ erbb setup --with-xcode-support
+MyMac:~/eurorack-blocks $ erbb setup --with-vscode-support
 ```
 
 This will take a bit of time depending on your Internet connection.
@@ -114,7 +123,7 @@ here we install the syntax highlighting for the custom languages that Eurorack-b
 but this is pretty harmless.
 
 If you want to see exactly what it does and copy, navigate to `build-system/setup/__init__.py`,
-and look at the `install_xcode_support` function.
+and look at the `install_vscode_support` function.
 
 You can now start to use `eurorack-blocks` 🎉
 
@@ -135,27 +144,30 @@ If you inspect the `drop` folder, it now contains an `artifacts` directory, with
 :align: center
 ```
 
-The `project_vcvrack.xcodeproj` is an Xcode project, to develop, build and debug the
-simulator module on macOS.
+The `Drop.code-workspace` is a VS Code workspace, to develop, build and debug the
+firmware and the simulator module on macOS.
 Let's open it:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop$ open artifacts/project_vcvrack.xcodeproj
+MyMac:~/eurorack-blocks/samples/drop$ open artifacts/Drop.code-workspace
 ```
 
-```{image} macos-cpp-xcode-project.png
+```{image} macos-cpp-vscode-workspace.png
 :width: 100%
 :align: center
 ```
 
-You can now press {guilabel}`⌘B` or select the menu `Product > Build` to build, and then
-press {guilabel}`⌘R` or select the menu `Product > Run` to run VCV Rack and test your
-module.
+To debug your module:
 
-```{important}
-The debugger is waiting for VCV Rack to start.
-You need to start VCV Rack manually, and the debugger will attach to it
-automatically.
+- Choose the `Run & Debug` tab in the side bar,
+- Select the target you want to debug,
+   - `Launch Firmware Release` will debug the firmware in Release configuration on the connected Daisy using a STLink probe with OpenOCD,
+   - `Launch Firmware Debug` will debug the firmware in Debug configuration on the connected Daisy using a STLink probe with OpenOCD,
+   - `Launch Simulator Debug` will debug your module with the simulator in VCV Rack,
+- Hit the green play button to start debugging.
+
+```{image} macos-cpp-vscode-workspace-debug.png
+:width: 100%
 ```
 
 

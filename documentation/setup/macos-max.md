@@ -1,4 +1,4 @@
-# C++ on macOS with Xcode
+# Max on macOS
 
 
 ## Requirements
@@ -12,7 +12,8 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
-- [Xcode version 11 or later](https://developer.apple.com/xcode/)
+- [Xcode command line tools](https://developer.apple.com/xcode/)
+- [Max](https://cycling74.com/products/max)
 - [VCV Rack version 2](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
@@ -28,6 +29,14 @@ For Eurorack-blocks, please use at least Python 3.7.
 ```{note}
 Please use the copy button on the top right corner of the following code blocks
 to copy/paste the commands in your terminal.
+```
+
+The Xcode command line tools come already with Xcode, so one option is to install Xcode
+as well. If you want to avoid having to install Xcode, you can selectively install the Xcode
+command line tools by running:
+
+```{code-block} shell-session
+MyMac:~ $ xcode-select --install
 ```
 
 You can check your installation by trying the following commands, and checking it doesn't
@@ -55,6 +64,52 @@ MyMac:~ $ which python3
 /Library/Frameworks/Python.framework/Versions/3.11/bin/python3
 ```
 Note that `Xcode` doesn't appear in the above path.
+
+
+## What is Gen?
+
+Your Max installation **needs to have a valid authorization** for `gen~` code to be exported,
+on which Eurorack-blocks relies.
+
+As [described](https://docs.cycling74.com/max8/vignettes/gen_topic) by Cycling '74:
+
+```{epigraph}
+_Gen is an extension of the Max patching environment that converts what you build visually
+into efficient compiled code as you go. Not only does it extend the capabilities of Max,
+but Gen code can be used outside of Max, with Code Export.
+Gen includes the gen~ object for audio, [...].
+Use Gen if you want to make efficient audio [...] processes at a very low level and get immediate feedback._
+```
+
+Eurorack-blocks's Max Integration is using Gen exported code to build your module for
+both the simulator in VCV Rack and your firmware running on the Daisy platform.
+
+
+## Licensing
+
+Eurorack-blocks has a very permissive [license](https://github.com/ohmtech-rdi/eurorack-blocks/blob/poc-max-integration/LICENSE)
+that allows commercial use, modifications, distribution and private use,
+as long as you follow the license requirements.
+
+However, the use of Max-generated code follows a different license,
+that you need to follow as well.
+Don't worry, if you are a hobbyist and don't plan to make any commercial use,
+still read the license to be aware of it in the future,
+or check your understanding of commercial-use in the license context, and just go on.
+However if you plan to do commercial use of your module using Max-generated code,
+you need to comply to Cycling '74's license and read their license carefully.
+
+This license is available in the `artifacts` folder that get generated the first time you use
+Eurorack-blocks to build the simulator from the patcher. It will generate a `module_max.h`
+file which contains the Gen Licensing agreement at the very top of the file.
+The terms of this license might change depending on your Max version, so make sure
+to read it again when you upgrade. For example, the license for Max 7.2.5 is not the
+same as the one for 7.3.
+
+Additionally, Cycling '74 provides a FAQ if you need more details, that you can read
+[here](https://support.cycling74.com/hc/en-us/articles/360050779193-Gen-Code-Export-Licensing-FAQ).
+Finally if you have still more questions, please don't hesitate to contact
+[licensing@cycling74.com](mailto:licensing@cycling74.com). They won't bite you!
 
 
 ## Cloning
@@ -101,7 +156,7 @@ MyMac:~/eurorack-blocks $ source ./build-system/init.sh
 Then:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ erbb setup --with-xcode-support
+MyMac:~/eurorack-blocks $ erbb setup --with-max-support
 ```
 
 This will take a bit of time depending on your Internet connection.
@@ -110,53 +165,23 @@ This will take a bit of time depending on your Internet connection.
 your system. If you delete the `eurorack-blocks` folder, boom, everything is gone.
 
 The additional options, usually starting with `--with` do change your system. For example
-here we install the syntax highlighting for the custom languages that Eurorack-blocks use,
-but this is pretty harmless.
-
-If you want to see exactly what it does and copy, navigate to `build-system/setup/__init__.py`,
-and look at the `install_xcode_support` function.
+here we install Eurorack-blocks Max package where needed for Max to automatically detect it.
 
 You can now start to use `eurorack-blocks` 🎉
 
 
 ## Testing a Sample
 
-Let's test a sample. We'll use the Drop sample.
+Let's test a sample. We'll use the Drop sample in  `eurorack-blocks/max/drop`.
+Open the `Drop.maxpat` file. If everything is correctly installed, it should look like that:
 
-```{code-block} shell-session
-MyMac:~/eurorack-blocks $ cd samples/drop
-MyMac:~/eurorack-blocks/samples/drop $ erbb configure
-```
-
-If you inspect the `drop` folder, it now contains an `artifacts` directory, with some folders and files.
-
-```{image} macos-cpp-xcode-configure.png
+```{image} macos-max-patcher.png
 :width: 100%
 :align: center
 ```
 
-The `project_vcvrack.xcodeproj` is an Xcode project, to develop, build and debug the
-simulator module on macOS.
-Let's open it:
-
-```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop$ open artifacts/project_vcvrack.xcodeproj
-```
-
-```{image} macos-cpp-xcode-project.png
-:width: 100%
-:align: center
-```
-
-You can now press {guilabel}`⌘B` or select the menu `Product > Build` to build, and then
-press {guilabel}`⌘R` or select the menu `Product > Run` to run VCV Rack and test your
-module.
-
-```{important}
-The debugger is waiting for VCV Rack to start.
-You need to start VCV Rack manually, and the debugger will attach to it
-automatically.
-```
+Now save your patch: this will automatically build the Drop module,
+ready to be used in VCV Rack!
 
 
 ## Testing in VCV Rack

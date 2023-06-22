@@ -1,4 +1,4 @@
-# C++ on macOS with Xcode
+# C++ on macOS with CLI only
 
 
 ## Requirements
@@ -12,7 +12,7 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
-- [Xcode version 11 or later](https://developer.apple.com/xcode/)
+- [Xcode command line tools](https://developer.apple.com/xcode/)
 - [VCV Rack version 2](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
@@ -28,6 +28,14 @@ For Eurorack-blocks, please use at least Python 3.7.
 ```{note}
 Please use the copy button on the top right corner of the following code blocks
 to copy/paste the commands in your terminal.
+```
+
+The Xcode command line tools come already with Xcode, so one option is to install Xcode
+as well. If you want to avoid having to install Xcode, you can selectively install the Xcode
+command line tools by running:
+
+```{code-block} shell-session
+MyMac:~ $ xcode-select --install
 ```
 
 You can check your installation by trying the following commands, and checking it doesn't
@@ -101,20 +109,13 @@ MyMac:~/eurorack-blocks $ source ./build-system/init.sh
 Then:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ erbb setup --with-xcode-support
+MyMac:~/eurorack-blocks $ erbb setup
 ```
 
 This will take a bit of time depending on your Internet connection.
 
 `erbb setup` by itself is installing dependencies internally without modifying anything on
 your system. If you delete the `eurorack-blocks` folder, boom, everything is gone.
-
-The additional options, usually starting with `--with` do change your system. For example
-here we install the syntax highlighting for the custom languages that Eurorack-blocks use,
-but this is pretty harmless.
-
-If you want to see exactly what it does and copy, navigate to `build-system/setup/__init__.py`,
-and look at the `install_xcode_support` function.
 
 You can now start to use `eurorack-blocks` 🎉
 
@@ -128,35 +129,29 @@ MyMac:~/eurorack-blocks $ cd samples/drop
 MyMac:~/eurorack-blocks/samples/drop $ erbb configure
 ```
 
-If you inspect the `drop` folder, it now contains an `artifacts` directory, with some folders and files.
-
-```{image} macos-cpp-xcode-configure.png
-:width: 100%
-:align: center
-```
-
-The `project_vcvrack.xcodeproj` is an Xcode project, to develop, build and debug the
-simulator module on macOS.
-Let's open it:
+You can build and install the simulator module by running:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop$ open artifacts/project_vcvrack.xcodeproj
+MyMac:~/eurorack-blocks/samples/drop $ erbb build simulator
 ```
 
-```{image} macos-cpp-xcode-project.png
-:width: 100%
-:align: center
+You can then run VCV Rack and play with your module.
+
+Modules are built with `clang` and will require `lldb`. You can build a debug version
+of the simulator by running:
+
+```{code-block} shell-session
+MyMac:~/eurorack-blocks/samples/drop $ erbb build simulator --configuration debug
 ```
 
-You can now press {guilabel}`⌘B` or select the menu `Product > Build` to build, and then
-press {guilabel}`⌘R` or select the menu `Product > Run` to run VCV Rack and test your
-module.
+You can build the firmware by running:
 
-```{important}
-The debugger is waiting for VCV Rack to start.
-You need to start VCV Rack manually, and the debugger will attach to it
-automatically.
+```{code-block} shell-session
+MyMac:~/eurorack-blocks/samples/drop $ erbb build firmware
 ```
+
+And so on. Please run `erbb ... --help` to navigate all different options.
+For example `erbb build simulator --help` lists all options to build the simulator.
 
 
 ## Testing in VCV Rack

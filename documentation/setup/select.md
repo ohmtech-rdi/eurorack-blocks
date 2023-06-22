@@ -18,13 +18,17 @@ tell us what went wrong, so we can help you.
 If you are a macOS user, please choose below the ecosystem you wish to install.
 
 - [C++ with Xcode](./macos-cpp-xcode.md)
-- C++ with Visual Studio Code
-- C++ with command line only
-- Max/MSP
+- [C++ with Visual Studio Code](./macos-cpp-vscode.md)
+- [C++ with command line only](./macos-cpp-cli.md)
+- [Max/MSP](./macos-max.md)
 - Faust
 
 If you want to do C++ but are not sure what to choose, we would advise Xcode as this
-gives the best debugging experience. But you can always change your mind later anyway.
+gives the best debugging experience.
+On the other hand Visual Studio Code allows to debug the firmware running on the target
+hardware using a special adapter.
+But you can always change your mind later anyway, or you can even install both at
+the same time.
 
 
 ## Windows

@@ -44,6 +44,9 @@
 
             'setup/select.md',
             'setup/macos-cpp-xcode.md',
+            'setup/macos-cpp-vscode.md',
+            'setup/macos-cpp-cli.md',
+            'setup/macos-max.md',
 
             'guides/drop.md',
             'guides/kick.md',
