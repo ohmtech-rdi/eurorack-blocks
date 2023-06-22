@@ -93,6 +93,12 @@ Head over to setup the Eurorack-blocks environment for C++,
 Max or Faust on macOS, Windows or Linux.
 
 - **{doc}`/setup/select`**
+- **{doc}`/setup/macos-cpp-xcode`**
+- **{doc}`/setup/macos-cpp-vscode`**
+- **{doc}`/setup/macos-cpp-cli`**
+- **{doc}`/setup/macos-max`**
+- **{doc}`/setup/macos-faust`**
+- **{doc}`/setup/windows-cpp-vscode`**
 
 ```{eval-rst}
 .. toctree::
