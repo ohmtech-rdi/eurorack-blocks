@@ -36,8 +36,8 @@ the same time.
 If you are a Windows user, please choose below the ecosystem you wish to install:
 
 - [C++ with Visual Studio Code](./windows-cpp-vscode.md)
-- C++ with command line only
-- Max/MSP
+- [C++ with command line only](./windows-cpp-cli.md)
+- [Max/MSP](./windows-max.md)
 - Faust
 
 
