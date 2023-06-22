@@ -1,4 +1,4 @@
-# Selecting the Environment
+# Setting up the Environment
 
 
 Time to set up the Eurorack-blocks environment!
@@ -38,7 +38,7 @@ If you are a Windows user, please choose below the ecosystem you wish to install
 - [C++ with Visual Studio Code](./windows-cpp-vscode.md)
 - [C++ with command line only](./windows-cpp-cli.md)
 - [Max/MSP](./windows-max.md)
-- Faust
+- [Faust](./windows-faust.md)
 
 
 ## Linux
@@ -50,11 +50,17 @@ If you are a Linux user, please choose below the ecosystem you wish to install:
 - Faust
 
 
-## Testing Drop
+## Upgrading Eurorack-blocks
 
-Finally comes the time to test and/or debug the module you built in the Starter Kit.
-We made multiple versions depending on your ecosystem.
+Eurorack-blocks doesn't produce (yet) releases. We use "rolling updates", as a way to have
+a lightweight process for users to get the latest features very quickly.
 
-- C++ with Xcode
-- C++ with Visual Studio Code
-- Max/MSP
+To upgrade Eurorack-blocks to the latest version you just need to get the latest code using
+`git` and setting up erbb again.
+
+For example if you are using Visual Studio Code, you would just do the following:
+
+```{code-block} shell-session
+MyMac:~/eurorack-blocks $ git pull
+MyMac:~/eurorack-blocks $ erbb setup --with-vscode-support
+```
