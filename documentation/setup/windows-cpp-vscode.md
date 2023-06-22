@@ -131,10 +131,6 @@ The `Drop.code-workspace` is a VS Code workspace, to develop, build and debug th
 firmware and the simulator module on Windows.
 Let's open it:
 
-```{code-block} shell-session
-MyPC:~/eurorack-blocks/samples/drop$ open artifacts/Drop.code-workspace
-```
-
 ```{image} windows-cpp-vscode-workspace.png
 :width: 100%
 :align: center
