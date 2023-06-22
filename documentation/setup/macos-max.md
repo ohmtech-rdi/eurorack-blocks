@@ -206,7 +206,7 @@ and set the sample rate to 48kHz!
 This requirement will be explained later in the tutorial.
 ```
 
-```{image} vcvrack-audio.png
+```{image} macos-vcvrack-audio.png
 :align: center
 ```
 

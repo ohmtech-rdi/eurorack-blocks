@@ -130,7 +130,7 @@ MyMac:~/eurorack-blocks/samples/drop $ erbb configure
 
 If you inspect the `drop` folder, it now contains an `artifacts` directory, with some folders and files.
 
-```{image} macos-cpp-xcode-configure.png
+```{image} macos-configure.png
 :width: 100%
 :align: center
 ```
@@ -174,7 +174,7 @@ and set the sample rate to 48kHz!
 This requirement will be explained later in the tutorial.
 ```
 
-```{image} vcvrack-audio.png
+```{image} macos-vcvrack-audio.png
 :align: center
 ```
 

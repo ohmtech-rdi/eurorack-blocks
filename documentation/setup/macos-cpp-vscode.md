@@ -13,7 +13,7 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
 - [Xcode command line tools](https://developer.apple.com/xcode/)
-- [Visual Studio Code](https://developer.apple.com/xcode/)
+- [Visual Studio Code](https://code.visualstudio.com/download)
 - [VCV Rack version 2](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
@@ -139,7 +139,7 @@ MyMac:~/eurorack-blocks/samples/drop $ erbb configure
 
 If you inspect the `drop` folder, it now contains an `artifacts` directory, with some folders and files.
 
-```{image} macos-cpp-xcode-configure.png
+```{image} macos-configure.png
 :width: 100%
 :align: center
 ```
@@ -186,7 +186,7 @@ and set the sample rate to 48kHz!
 This requirement will be explained later in the tutorial.
 ```
 
-```{image} vcvrack-audio.png
+```{image} macos-vcvrack-audio.png
 :align: center
 ```
 
