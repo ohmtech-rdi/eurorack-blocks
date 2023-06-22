@@ -183,6 +183,13 @@ Open the `Drop.maxpat` file. If everything is correctly installed, it should loo
 Now save your patch: this will automatically build the Drop module,
 ready to be used in VCV Rack!
 
+You can have a look into the `gen~` patch by ⌘-double click on it to open its windows.
+
+```{image} macos-max-gen.png
+:width: 100%
+:align: center
+```
+
 
 ## Testing in VCV Rack
 
