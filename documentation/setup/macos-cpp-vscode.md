@@ -251,5 +251,5 @@ if it is plugged on your computer.
 
 Have fun!
 
-Maybe now is a good time to head over to **{doc}`/guides/drop`** to learn more about the
+Maybe now is a good time to head over to **{doc}`/guides/first`** to learn more about the
 Eurorack-blocks' C++ framework.

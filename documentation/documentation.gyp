@@ -33,7 +33,6 @@
             'controls/Trim.md',
 
             'getting-started/before.md',
-            'getting-started/first.md',
             'getting-started/setup.md',
             'getting-started/what.md',
 
@@ -49,6 +48,7 @@
             'setup/macos-max.md',
             'setup/macos-faust.md',
 
+            'guides/first.md',
             'guides/drop.md',
             'guides/kick.md',
             'guides/reverb.md',

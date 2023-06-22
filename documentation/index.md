@@ -51,7 +51,6 @@ Start here to get to know the environment and what it will bring to you.
 - **{doc}`/getting-started/before`**
 - **{doc}`/getting-started/what`**
 - **{doc}`/getting-started/setup`**
-- **{doc}`/getting-started/first`**
 
 ```{eval-rst}
 .. toctree::
@@ -62,7 +61,6 @@ Start here to get to know the environment and what it will bring to you.
    /getting-started/before
    /getting-started/what
    /getting-started/setup
-   /getting-started/first
 ```
 
 ## ERB Starter Kit
@@ -113,12 +111,13 @@ Max or Faust on macOS, Windows or Linux.
 ```
 
 
-## Programming Guides
+## C++ Programming Guides
 
 Do you have an awesome idea and understood the basic Eurorack-blocks concept
 described in the Getting Started section?
 Continue here to learn how to create your own module.
 
+- **{doc}`/guides/first`**
 - **{doc}`/guides/drop`**
 - **{doc}`/guides/reverb`**
 - **{doc}`/guides/kick`**
@@ -127,8 +126,9 @@ Continue here to learn how to create your own module.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Programming Guides
+   :caption: C++ Programming Guides
 
+   /guides/first
    /guides/drop
    /guides/reverb
    /guides/kick
