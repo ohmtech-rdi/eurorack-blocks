@@ -21,7 +21,7 @@ If you are a macOS user, please choose below the ecosystem you wish to install.
 - [C++ with Visual Studio Code](./macos-cpp-vscode.md)
 - [C++ with command line only](./macos-cpp-cli.md)
 - [Max/MSP](./macos-max.md)
-- Faust
+- [Faust](./macos-faust.md)
 
 If you want to do C++ but are not sure what to choose, we would advise Xcode as this
 gives the best debugging experience.

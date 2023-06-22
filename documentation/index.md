@@ -109,6 +109,7 @@ Max or Faust on macOS, Windows or Linux.
    /setup/macos-cpp-vscode
    /setup/macos-cpp-cli
    /setup/macos-max
+   /setup/macos-faust
 ```
 
 

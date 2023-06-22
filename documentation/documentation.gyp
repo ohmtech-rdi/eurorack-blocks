@@ -47,6 +47,7 @@
             'setup/macos-cpp-vscode.md',
             'setup/macos-cpp-cli.md',
             'setup/macos-max.md',
+            'setup/macos-faust.md',
 
             'guides/drop.md',
             'guides/kick.md',
