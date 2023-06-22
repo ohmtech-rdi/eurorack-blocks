@@ -206,4 +206,41 @@ This requirement will be explained later in the tutorial.
 :align: center
 ```
 
-That's it! You are now all set to start building your own modules!
+
+## Testing in your Eurorack System
+
+If you bougth the Eurorack-blocks Starter Kit, it comes with the Drop module, and you should
+have already assembled it by now.
+
+To install the firmware, that we previously built in the section above:
+- Connect the same USB cable that you used for installing the Frohmage firmware,
+- Run the following command and follow the on-screen instructions:
+
+```{code-block} shell-session
+MyMac:~/eurorack-blocks/samples/drop $ erbb install firmware
+Enter the system bootloader by holding the BOOT button down,
+and then pressing, and releasing the RESET button.
+Press Enter to continue...
+...
+```
+
+```{image} stlink-v3-mini.png
+:width: 30%
+:align: right
+```
+
+Note that if you bought a STLink V3 Mini
+for example from [Electro-smith](https://www.electro-smith.com/daisy/stlink-v3mini),
+you can use to program the Daisy Patch Submodule.
+It has the advantage to be more convenient, as:
+- It is typically faster than using the USB port on the Daisy Patch Submodule,
+- You don't need to remove your module from your base to press those BOOT and RESET
+   button.
+
+The `install` command will automatically select the STLink V3 Mini to install the firmware
+if it is plugged on your computer.
+
+Have fun!
+
+Maybe now is a good time to head over to **{doc}`/guides/drop`** to learn more about the
+Eurorack-blocks' C++ framework.
