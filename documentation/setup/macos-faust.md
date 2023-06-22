@@ -213,5 +213,25 @@ This requirement will be explained later in the tutorial.
 
 That's it! You are now all set to start building your own modules!
 
+
+## Testing in your Eurorack System
+
+If you bougth the Eurorack-blocks Starter Kit, it comes with the Drop module, and you should
+have already assembled it by now.
+
+To install the firmware, that we previously built in the section above:
+- Connect the same USB cable that you used for installing the Frohmage firmware,
+- Run the following command and follow the on-screen instructions:
+
+```{code-block} shell-session
+MyMac:~/eurorack-blocks/samples/faust $ erbb install firmware
+Enter the system bootloader by holding the BOOT button down,
+and then pressing, and releasing the RESET button.
+Press Enter to continue...
+...
+```
+
+Have fun!
+
 Maybe now is a good time to head over to **{doc}`/faust/first`** to learn more about the
 Faust integration in Eurorack-blocks.

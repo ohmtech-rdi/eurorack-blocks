@@ -165,7 +165,6 @@ C++ is not your thing and you prefer to use [Faust](https://faust.grame.fr),
 a functional programming language for sound synthesis and audio processing instead?
 Continue here to learn how to create your own module using Faust.
 
-- **{doc}`/faust/setup`**
 - **{doc}`/faust/first`**
 - **{doc}`/faust/mapping`**
 - **{doc}`/faust/soundfile`**
@@ -176,7 +175,6 @@ Continue here to learn how to create your own module using Faust.
    :hidden:
    :caption: Faust Integration
 
-   /faust/setup
    /faust/first
    /faust/mapping
    /faust/soundfile
