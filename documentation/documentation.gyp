@@ -49,6 +49,7 @@
             'setup/windows-cpp-vscode.md',
             'setup/windows-cpp-cli.md',
             'setup/windows-max.md',
+            'setup/windows-faust.md',
 
             'guides/first.md',
             'guides/drop.md',

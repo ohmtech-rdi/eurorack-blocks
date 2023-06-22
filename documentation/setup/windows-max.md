@@ -4,8 +4,7 @@
 ## Requirements
 
 ```{note}
-macOS 10.15 (Catalina) has limited support. Some tools do not always work
-properly, so macOS 11 (Big Sur) or later is recommended.
+Windows 10 or later is recommended.
 ```
 
 Before we can setup Eurorack-blocks, we will need to have on your system:

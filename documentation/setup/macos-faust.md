@@ -64,7 +64,7 @@ Build version 13F17a
 ```
 
 ```{code-block} shell-session
-MyMac:~ $ faust -version
+MyMac:~ $ faust --version
 FAUST Version 2.60.3
 Embedded backends:
 Embedded backends: 
