@@ -1,0 +1,118 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "erbui",
+	"scopeName": "source.erbui",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+		{
+         "include": "#numbers"
+      },
+		{
+			"include": "#variables"
+		},
+		{
+         "include": "#comments"
+      }
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.erbui",
+					"match": "\\b(module|board|width|material|header|footer|line|control|label|sticker|image|pin|pins|normalling|mode|positioning|position|rotation|offset|route|faust|address|bind|init|value|property|exclude|extends|alias|file|class|include|pcb|net|type|gpio|pwm|dac)\\b"
+				},
+				{
+					"name": "keyword.control.erbui",
+					"match": "\\b(style)\\b"
+				},
+				{
+					"name": "keyword.type.erbui",
+					"match": "\\b(AudioIn|AudioOut|Button|CvIn|CvOut|GateIn|GateOut|LedBi|LedRgb|Led|Pot|Switch|Trim)\\b"
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"name": "entity.name.variable.erbui",
+					"match": "\\b(center|left|top|right|bottom|normalized|bipolar|wire|manual|natural|black|white|aluminum|brushed_aluminum|aluminum_coated)\\b"
+				},
+				{
+					"match": "[a-zA-Z0-9_]",
+					"name": "entity.name.variable.erbui"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.erbui",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.erbui",
+					"match": "\\\\."
+				}
+			]
+		},
+      "numbers": {
+         "patterns": [
+				{
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+°cw\\b"
+            },
+				{
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+°ccw\\b"
+            },
+				{
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+°\\b"
+            },
+            {
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+hp\\b"
+            },
+				{
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+mm\\b"
+            },
+				{
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+cm\\b"
+            },
+				{
+               "name": "constant.numeric.erbui",
+               "match": "\\b[0-9.]+\\b"
+            }
+         ]
+      },
+		"comments": {
+         "patterns": [
+            {
+               "begin": "/\\*",
+               "captures": {
+                  "0": {
+                     "name": "punctuation.definition.comment.erbui"
+                  }
+               },
+               "end": "\\*/",
+               "name": "comment.block.erbui"
+            },
+            {
+               "captures": {
+                  "1": {
+                     "name": "punctuation.definition.comment.erbui"
+                  }
+               },
+               "match": "(//).*$\\n?",
+               "name": "comment.line.double-slash.erbui"
+            }
+         ]
+      }
+	}
+}

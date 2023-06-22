@@ -1,0 +1,52 @@
+{
+  "name": "eurorack-blocks-vscode",
+  "displayName": "eurorack-blocks-vscode",
+  "description": "Syntax highlighter for eurorack-blocks files",
+  "version": "0.0.1",
+  "repository": {
+    "url": "https://github.com/ohmtech-rdi/eurorack-blocks"
+  },
+  "homepage": "https://github.com/ohmtech-rdi/eurorack-blocks/tree/main/build-system/setup/vscode",
+  "engines": {
+    "vscode": "^1.79.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "erbui",
+        "aliases": [
+          "erbui"
+        ],
+        "extensions": [
+          ".erbui"
+        ],
+        "configuration": "./language-configuration.json"
+      },
+      {
+        "id": "erbb",
+        "aliases": [
+          "erbb"
+        ],
+        "extensions": [
+          ".erbb"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "erbui",
+        "scopeName": "source.erbui",
+        "path": "./syntaxes/erbui.tmLanguage.json"
+      },
+      {
+        "language": "erbb",
+        "scopeName": "source.erbb",
+        "path": "./syntaxes/erbb.tmLanguage.json"
+      }
+    ]
+  }
+}

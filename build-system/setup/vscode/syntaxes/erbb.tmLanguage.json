@@ -1,0 +1,79 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "erbb",
+	"patterns": [
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#strings"
+		},
+      {
+			"include": "#variables"
+		},
+		{
+         "include": "#comments"
+      }
+	],
+	"repository": {
+		"keywords": {
+			"patterns": [
+				{
+					"name": "keyword.control.erbb",
+					"match": "\\b(module|file|import|define|base|section|resources|sources|data|stream|faust|address|bind|init|use|strict)\\b"
+				},
+            {
+					"name": "keyword.control.erbb",
+					"match": "\\b(flash|qspi|mono|interleaved|planar)\\b"
+				},
+				{
+					"name": "keyword.type.erbb",
+					"match": "\\b(AudioSample)\\b"
+				}
+			]
+		},
+		"strings": {
+			"name": "string.quoted.double.erbb",
+			"begin": "\"",
+			"end": "\"",
+			"patterns": [
+				{
+					"name": "constant.character.escape.erbb",
+					"match": "\\\\."
+				}
+			]
+		},
+      "variables": {
+			"patterns": [
+				{
+					"match": "[a-zA-Z0-9_]",
+					"name": "entity.name.variable.erbui"
+				}
+			]
+		},
+		"comments": {
+         "patterns": [
+            {
+               "begin": "/\\*",
+               "captures": {
+                  "0": {
+                     "name": "punctuation.definition.comment.erbb"
+                  }
+               },
+               "end": "\\*/",
+               "name": "comment.block.erbb"
+            },
+            {
+               "captures": {
+                  "1": {
+                     "name": "punctuation.definition.comment.erbb"
+                  }
+               },
+               "match": "(//).*$\\n?",
+               "name": "comment.line.double-slash.erbb"
+            }
+         ]
+      }
+	},
+	"scopeName": "source.erbb"
+}
