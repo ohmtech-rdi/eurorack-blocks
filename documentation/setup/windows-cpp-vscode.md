@@ -149,6 +149,31 @@ To debug your module:
 :width: 100%
 ```
 
+```{warning}
+On Windows, to stop on a breakpoint after Rack is already running,
+you must press the F12 key when Rack has focus to break into the debugger.
+```
+
+```{warning}
+On Windows, you must select "Git Bash" for your default terminal profile.
+```
+
+To do so:
+
+- Choose `Terminal > New Terminal` if the terminal is not already visible,
+- Click on the `+ v` button in the top right of the terminal window,
+- Choose `Select Default Profile`
+- Then choose `Git Bash` for your default terminal profile.
+
+```{image} windows-cpp-vscode-bash1.png
+:width: 100%
+```
+
+```{image} windows-cpp-vscode-bash2.png
+:width: 100%
+```
+
+
 
 ## Testing in VCV Rack
 
