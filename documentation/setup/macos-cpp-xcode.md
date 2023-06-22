@@ -3,8 +3,6 @@
 
 ## Requirements
 
-First, please note that macOS 10.11 (Big Sur) or later is recommended.
-
 ```{note}
 macOS 10.15 (Catalina) has limited support. Some tools do not always work
 properly, so macOS 11 (Big Sur) or later is recommended.
@@ -52,10 +50,16 @@ Xcode 13.4
 Build version 13F17a
 ```
 
+```{code-block} shell-session
+MyMac:~ $ which python3
+/Library/Frameworks/Python.framework/Versions/3.11/bin/python3
+```
+Note that `Xcode` doesn't appear in the above path.
+
 
 ## Cloning
 
-First, clone the repository. This will create a `eurorack-blocks` directory **into the current working directory**, with all dependencies.
+Clone the repository. This will create a `eurorack-blocks` directory **into the current working directory**, with all dependencies.
 
 ```{code-block} shell-session
 MyMac:~ $ git clone --recurse-submodules https://github.com/ohmtech-rdi/eurorack-blocks.git
@@ -149,7 +153,7 @@ press {guilabel}`⌘R` or select the menu `Product > Run` to run VCV Rack and te
 module.
 
 ```{important}
-Because of a flaw in VCV Rack, the debugger is waiting for VCV Rack to start.
+The debugger is waiting for VCV Rack to start.
 You need to start VCV Rack manually, and the debugger will attach to it
 automatically.
 ```
