@@ -166,7 +166,7 @@ To debug your module:
    - `Launch Simulator Debug` will debug your module with the simulator in VCV Rack,
 - Hit the green play button to start debugging.
 
-```{image} macos-cpp-vscode-workspace-debug.png
+```{image} vscode-workspace-debug.png
 :width: 100%
 ```
 
