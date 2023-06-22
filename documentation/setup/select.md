@@ -1,5 +1,4 @@
-# Setting up the Environment
-
+# Overview
 
 Time to set up the Eurorack-blocks environment!
 
