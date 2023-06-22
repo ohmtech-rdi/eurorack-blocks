@@ -164,15 +164,15 @@ And so on. Please run `erbb ... --help` to navigate all different options.
 For example `erbb build simulator --help` lists all options to build the simulator.
 
 If you have the Xcode or Visual Studio Code, you can actually use those IDE to edit the
-Eurorack-blocks file if you wish. For this please follow the instructions in the respective
+Eurorack-blocks files if you wish. For this please follow the instructions in the respective
 chapters.
 
 
 ## Testing in VCV Rack
 
-In VCV Rack the `Drop` module will appear in the library when right-clicking in the rack empty space.
+In VCV Rack the `Faust` module will appear in the library when right-clicking in the rack empty space.
 
-```{image} vcvrack-drop.png
+```{image} vcvrack-faust.png
 :width: 100%
 :align: center
 ```
