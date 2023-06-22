@@ -143,7 +143,6 @@ and effects idea?
 Continue here to learn how to develop your module using Max with `gen~` and
 its vibrant community.
 
-- **{doc}`/max/setup`**
 - **{doc}`/max/first`**
 - **{doc}`/max/ui`**
 
@@ -153,7 +152,6 @@ its vibrant community.
    :hidden:
    :caption: Max Integration
 
-   /max/setup
    /max/first
    /max/ui
 ```

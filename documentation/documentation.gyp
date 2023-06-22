@@ -61,7 +61,6 @@
 
             'max/first.md',
             'max/ui.md',
-            'max/setup.md',
 
             'faust/first.md',
             'faust/mapping.md',
