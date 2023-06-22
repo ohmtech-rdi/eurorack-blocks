@@ -7,12 +7,12 @@ First create your new project by creating a directory and populating it with a s
 
 For simplicity, do it from the `eurorack-blocks/samples` directory. We will explain later why.
 
-```shell-session
-eurorack-block/$ cd samples
-eurorack-blocks/samples$ mkdir LowPass
-eurorack-blocks/samples$ cd LowPass
-eurorack-blocks/samples/LowPass$ erbb init --name LowPass
-eurorack-blocks/samples/LowPass$ erbb configure
+```{code-block} shell-session
+MyMac:~/eurorack-block $ cd samples
+MyMac:~/eurorack-blocks/samples $ mkdir LowPass
+MyMac:~/eurorack-blocks/samples $ cd LowPass
+MyMac:~/eurorack-blocks/samples/LowPass $ erbb init --name LowPass
+MyMac:~/eurorack-blocks/samples/LowPass $ erbb configure
 ```
 
 If you are using Xcode open `project_vcvrack.xcodeproj` in the `artifacts` folder.
