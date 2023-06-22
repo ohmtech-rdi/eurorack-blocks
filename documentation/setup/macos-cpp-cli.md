@@ -231,7 +231,7 @@ Press Enter to continue...
 
 Note that if you bought a STLink V3 Mini
 for example from [Electro-smith](https://www.electro-smith.com/daisy/stlink-v3mini),
-you can use to program the Daisy Patch Submodule.
+you can use it to program the Daisy Patch Submodule.
 It has the advantage to be more convenient, as:
 - It is typically faster than using the USB port on the Daisy Patch Submodule,
 - You don't need to remove your module from your base to press those BOOT and RESET
