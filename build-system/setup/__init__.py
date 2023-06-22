@@ -9,6 +9,7 @@
 
 import io
 import os
+from pathlib import Path
 import platform
 import shutil
 import subprocess
@@ -435,6 +436,28 @@ def install_xcode_support ():
          os.path.join (PATH_XCODE, 'Erbui.xclangspec'),
          os.path.join (PATH_XCODE_SPECS, 'Erbui.xclangspec')
       )
+
+
+
+"""
+==============================================================================
+Name: install_vscode_support
+==============================================================================
+"""
+
+def install_vscode_support ():
+   print ('Adding vscode support...')
+
+   path_vscode_extensions = os.path.join (Path.home (), '.vscode', 'extensions')
+   path_src = os.path.join (PATH_BUILD_SYSTEM, 'setup', 'vscode')
+   path_dst = os.path.join (path_vscode_extensions, 'eurorack-blocks-vscode')
+
+   if os.path.exists (path_vscode_extensions) and os.path.isdir (path_vscode_extensions):
+      if os.path.exists (path_dst) and os.path.isdir (path_dst):
+         shutil.rmtree (path_dst)
+      shutil.copytree (path_src, path_dst)
+   else:
+      print (f"\033[33mwarning:\033[0m Can't find vscode extensions folder {path_vscode_extensions}.\nPlease make sure Visual Studio Code is properly installed and run `erbb setup --with-vscode-support` again.")
 
 
 

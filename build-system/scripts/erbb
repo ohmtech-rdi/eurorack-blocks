@@ -188,6 +188,9 @@ def setup (args):
       print ('Error: Platform %s unsupported' % platform.system ())
       sys.exit (1)
 
+   if args.with_vscode_support:
+      setup.install_vscode_support ()
+
    setup.install_python_requirements ()
    setup.optimize_kicad_pcb_sch_read ()
    setup.check_toolchain ()
@@ -409,6 +412,11 @@ def parse_args_setup (parent):
          help = 'add Xcode extra support such as erbui/erbb syntax coloring'
       )
 
+   parser.add_argument(
+      '--with-vscode-support',
+      action = 'store_true',
+      help = 'add Visual Studio Code extra support such as erbui/erbb syntax coloring'
+   )
 
 
 #-- parse_args_init ----------------------------------------------------------
