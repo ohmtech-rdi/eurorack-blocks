@@ -1,4 +1,4 @@
-# C++ on macOS with CLI only
+# C++ on Linux with CLI only
 
 
 ## Requirements
@@ -12,15 +12,9 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 
 - [`git`](https://git-scm.com/download)
 - [Python 3](https://www.python.org/downloads/)
-- [Xcode command line tools](https://developer.apple.com/xcode/)
 - [VCV Rack version 2](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
-
-In all cases, please make sure that the Python in use is not the one from Xcode.
-You can verify this by typing `which python3` in the Terminal and looking for the mention
-of `Xcode` in the returned path. If this command didn't return anything, then you do not
-have Python installed, and please use the link above to install it.
 
 Experienced developers might already have one (or multiple!) versions of Python installed.
 For Eurorack-blocks, please use at least Python 3.7.
@@ -30,12 +24,24 @@ Please use the copy button on the top right corner of the following code blocks
 to copy/paste the commands in your terminal.
 ```
 
-The Xcode command line tools come already with Xcode, so one option is to install Xcode
-as well. If you want to avoid having to install Xcode, you can selectively install the Xcode
-command line tools by running:
+Typically on Ubuntu, you would use `apt` to install `git` and `python3`.
+
+Make sure everything is up-to-date: 
 
 ```{code-block} shell-session
-MyMac:~ $ xcode-select --install
+MyPC:~ $ sudo apt-get update
+```
+
+To install Git, run the following command:
+
+```{code-block} shell-session
+MyPC:~ $ sudo apt-get install git-all
+```
+
+To install Python 3, run the following command:
+
+```{code-block} shell-session
+MyPC:~ $ sudo apt-get install python3
 ```
 
 You can check your installation by trying the following commands, and checking it doesn't
@@ -43,26 +49,14 @@ return an error or something else than it version. Versions are shown here for a
 example, they might be different on your computer.
 
 ```{code-block} shell-session
-MyMac:~ $ git --version
-git version 2.41.0
+MyPC:~ $ git --version
+git version 2.25.1
 ```
 
 ```{code-block} shell-session
-MyMac:~ $ python3 --version
-Python 3.11.4
+MyPC:~ $ python3 --version
+Python 3.8.2
 ```
-
-```{code-block} shell-session
-MyMac:~ $ xcodebuild -version
-Xcode 13.4
-Build version 13F17a
-```
-
-```{code-block} shell-session
-MyMac:~ $ which python3
-/Library/Frameworks/Python.framework/Versions/3.11/bin/python3
-```
-Note that `Xcode` doesn't appear in the above path.
 
 
 ## Cloning
@@ -70,7 +64,7 @@ Note that `Xcode` doesn't appear in the above path.
 Clone the repository. This will create a `eurorack-blocks` directory **into the current working directory**, with all dependencies.
 
 ```{code-block} shell-session
-MyMac:~ $ git clone --recurse-submodules https://github.com/ohmtech-rdi/eurorack-blocks.git
+MyPC:~ $ git clone --recurse-submodules https://github.com/ohmtech-rdi/eurorack-blocks.git
 ```
 
 Will typically output:
@@ -89,13 +83,13 @@ Submodule path 'submodules/vcv-rack-sdk': checked out '91fd742827c04d36ba9b0e5e1
 First change the current directory to `eurorack-blocks`:
 
 ```{code-block} shell-session
-MyMac:~ $ cd eurorack-blocks
+MyPC:~ $ cd eurorack-blocks
 ```
 
 Then install by running the script below:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ ./build-system/install.py
+MyPC:~/eurorack-blocks $ ./build-system/install.py
 ```
 
 This will add the `erbb` script to your `PATH`, but the `PATH` will be set only for new terminals.
@@ -103,19 +97,29 @@ You can either close your current terminal and open a new one, or source the `er
 explicitly into your current shell session:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ source ./build-system/init.sh
+MyPC:~/eurorack-blocks $ source ./build-system/init.sh
 ```
 
 Then:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ erbb setup
+MyPC:~/eurorack-blocks $ erbb setup --with-apt
 ```
 
 This will take a bit of time depending on your Internet connection.
 
 `erbb setup` by itself is installing dependencies internally without modifying anything on
 your system. If you delete the `eurorack-blocks` folder, boom, everything is gone.
+
+The additional options, usually starting with `--with` do change your system. For example
+here we install the needed toolchain using `apt`.
+
+You might have a different package manager (for example `dnf` on Fedora), that is not supported
+natively in Eurorack-blocks, or you just want to make sure that Eurorack-blocks doesn't install
+programs without you knowing exactly what is installed.
+
+If you want to see exactly what it does, navigate to `build-system/scripts/erbb`,
+and look at the Linux section in the `setup` function.
 
 You can now start to use `eurorack-blocks` 🎉
 
@@ -125,14 +129,14 @@ You can now start to use `eurorack-blocks` 🎉
 Let's test a sample. We'll use the Drop sample.
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks $ cd samples/drop
-MyMac:~/eurorack-blocks/samples/drop $ erbb configure
+MyPC:~/eurorack-blocks $ cd samples/drop
+MyPC:~/eurorack-blocks/samples/drop $ erbb configure
 ```
 
 You can build and install the simulator module by running:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop $ erbb build simulator
+MyPC:~/eurorack-blocks/samples/drop $ erbb build simulator
 mkdir Release
 ACTION UI
 ACTION VCV Rack
@@ -145,11 +149,11 @@ INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
 
 You can then run VCV Rack and play with your module.
 
-Modules are built with `clang` and will require `lldb`. You can build a debug version
+Modules are built with `gcc` and will require `gdb`. You can build a debug version
 of the simulator by running:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop $ erbb build simulator --configuration debug
+MyPC:~/eurorack-blocks/samples/drop $ erbb build simulator --configuration debug
 mkdir Debug
 ACTION UI
 ACTION VCV Rack
@@ -163,7 +167,7 @@ INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
 You can build the firmware by running:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop $ erbb build firmware
+MyPC:~/eurorack-blocks/samples/drop $ erbb build firmware
 BUILD libDaisy
 mkdir Release
 ACTION UI
@@ -217,7 +221,7 @@ To install the firmware, that we previously built in the section above:
 - Run the following command and follow the on-screen instructions:
 
 ```{code-block} shell-session
-MyMac:~/eurorack-blocks/samples/drop $ erbb install firmware
+MyPC:~/eurorack-blocks/samples/drop $ erbb install firmware
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Press Enter to continue...

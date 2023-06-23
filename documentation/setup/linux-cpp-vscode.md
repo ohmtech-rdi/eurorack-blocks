@@ -50,12 +50,12 @@ example, they might be different on your computer.
 
 ```{code-block} shell-session
 MyPC:~ $ git --version
-git version 2.41.0
+git version 2.25.1
 ```
 
 ```{code-block} shell-session
 MyPC:~ $ python3 --version
-Python 3.11.4
+Python 3.8.2
 ```
 
 
