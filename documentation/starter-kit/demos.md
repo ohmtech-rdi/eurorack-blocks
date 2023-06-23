@@ -73,6 +73,11 @@ to your case power, and turn it on.
 
 It's now time to make a break and have a good time with your Frohmage module!
 
+Ah! and something neat: if you decide to reuse the Frohmage panel to make your first
+modules, we made the panel so that it's symmetrical. This means you can turn it the
+other way around, which allows you to start with a blank panel, and use a small chalk marker
+to design your front panel (to keep track which control is what). How cool is that?
+
 
 ## Drop
 
