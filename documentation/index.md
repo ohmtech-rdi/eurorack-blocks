@@ -39,7 +39,7 @@ You should be familiar with either C++, Max or Faust.
 
 You should know how to use a terminal and a shell like `bash`, but their usage are quite limited.
 
-Some knowledge of `git` and a package manager such as `apt` or `brew` when using Faust
+Some knowledge of `git` and a package manager such as `apt` or `brew` when using Linux or Faust
 is also adviced, while not strictly necessary.
 
 
