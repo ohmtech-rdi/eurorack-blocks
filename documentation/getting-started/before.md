@@ -45,5 +45,5 @@ Eurorack-blocks is maintained by essentially a few individuals which obviously i
 given the scope of this project.
 
 If you can help, we will really appreciate it.
-Contact us on [Daisy Slack](https://join.slack.com/t/es-daisy/shared_invite/zt-f9cfm1g4-DgdCok1h1Rj4fpX90~IOww)
+Contact us on the [Daisy Discord](https://discord.com/invite/ByHBnMtQTR)
 so we can coordinate the tasks.
