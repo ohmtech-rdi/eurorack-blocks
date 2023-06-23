@@ -36,7 +36,7 @@ implement the maximum number of features rather than go specific
 and have just a few high-quality features, but not enough to build a simple module.
 
 For this reason, API might change, some code might break and your favorite IDE might not
-be supported.
+be supported. But don't worry! Those are mostly small details you will get used to.
 
 
 ## Contributors are welcomed!
