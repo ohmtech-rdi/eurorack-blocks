@@ -102,6 +102,8 @@ Max or Faust on macOS, Windows or Linux.
 - **{doc}`/setup/windows-cpp-cli`**
 - **{doc}`/setup/windows-max`**
 - **{doc}`/setup/windows-faust`**
+- **{doc}`/setup/linux-cpp-xcode`**
+- **{doc}`/setup/linux-cpp-vscode`**
 
 ```{eval-rst}
 .. toctree::
@@ -119,6 +121,8 @@ Max or Faust on macOS, Windows or Linux.
    /setup/windows-cpp-cli
    /setup/windows-max
    /setup/windows-faust
+   /setup/linux-cpp-vscode
+   /setup/linux-cpp-cli
 ```
 
 

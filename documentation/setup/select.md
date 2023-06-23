@@ -44,8 +44,8 @@ If you are a Windows user, please choose below the ecosystem you wish to install
 
 If you are a Linux user, please choose below the ecosystem you wish to install:
 
-- C++ with Visual Studio Code
-- C++ with command line only
+- [C++ with Visual Studio Code](./linux-cpp-vscode.md)
+- [C++ with command line only](./linux-cpp-cli.md)
 - Faust
 
 
