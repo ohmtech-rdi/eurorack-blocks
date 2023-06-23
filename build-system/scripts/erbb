@@ -176,8 +176,10 @@ def setup (args):
          setup.install_xcode_support ()
 
    elif platform.system () == 'Linux':
-      subprocess.check_call ('sudo apt-get update', shell=True)
-      subprocess.check_call ('sudo apt-get install -y gcc-arm-none-eabi libglu1-mesa-dev libcairo2-dev libffi-dev python3-dev kicad dfu-util openocd', shell=True)
+      if args.with_apt:
+         subprocess.check_call ('sudo add-apt-repository --yes ppa:kicad/kicad-6.0-releases', shell=True)
+         subprocess.check_call ('sudo apt-get update', shell=True)
+         subprocess.check_call ('sudo apt-get install -y kicad gcc-arm-none-eabi libglu1-mesa-dev libcairo2-dev libffi-dev python3-dev kicad dfu-util openocd', shell=True)
 
    elif platform.system () == 'Windows':
       setup.install_msys2_mingw64 ()
@@ -410,6 +412,13 @@ def parse_args_setup (parent):
          '--with-xcode-support',
          action = 'store_true',
          help = 'add Xcode extra support such as erbui/erbb syntax coloring'
+      )
+
+   elif platform.system () == 'Linux':
+      parser.add_argument(
+         '--with-apt',
+         action = 'store_true',
+         help = 'setup using the apt package manager'
       )
 
    parser.add_argument(
