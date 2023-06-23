@@ -52,6 +52,7 @@
             'setup/windows-faust.md',
             'setup/linux-cpp-vscode.md',
             'setup/linux-cpp-cli.md',
+            'setup/linux-faust.md',
 
             'guides/first.md',
             'guides/drop.md',

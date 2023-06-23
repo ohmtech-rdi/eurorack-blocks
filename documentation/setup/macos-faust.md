@@ -39,13 +39,13 @@ command line tools by running:
 MyMac:~ $ xcode-select --install
 ```
 
-You can check your installation by trying the following commands, and checking it doesn't
-return an error or something else than it version. Versions are shown here for a concrete
-example, they might be different on your computer.
-
 You can download Faust [here](https://faust.grame.fr/downloads/). Please make sure to
 follow their installation instructions. You want to make sure that the program `faust`
 is in your `PATH`.
+
+You can check your installation by trying the following commands, and checking it doesn't
+return an error or something else than it version. Versions are shown here for a concrete
+example, they might be different on your computer.
 
 ```{code-block} shell-session
 MyMac:~ $ git --version
