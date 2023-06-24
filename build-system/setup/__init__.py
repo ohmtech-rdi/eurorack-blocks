@@ -30,6 +30,30 @@ PATH_FRONT_PCB = os.path.join (PATH_BUILD_SYSTEM, 'erbui', 'generators', 'front_
 
 """
 ==============================================================================
+Name: path_documents
+==============================================================================
+"""
+
+def path_documents ():
+   if platform.system () == 'Windows':
+      # The default location of the Documents folder might be redirected on Windows.
+      # This situation typically arises when OneDrive is installed.
+
+      import ctypes.wintypes
+      CSIDL_PERSONAL = 5       # My Documents
+      SHGFP_TYPE_CURRENT = 0   # Current, not default value
+
+      buf = ctypes.create_unicode_buffer (ctypes.wintypes.MAX_PATH)
+      ctypes.windll.shell32.SHGetFolderPathW (0, CSIDL_PERSONAL, 0, SHGFP_TYPE_CURRENT, buf)
+      return buf.value
+
+   else:
+      return os.path.join (os.path.expanduser ('~'), 'Documents')
+
+
+
+"""
+==============================================================================
 Name: check_environment
 ==============================================================================
 """
@@ -509,6 +533,48 @@ def install_python_requirements ():
       ],
       cwd=PATH_PY3_PACKAGES
    )
+
+
+
+"""
+==============================================================================
+Name: install_max_package
+==============================================================================
+"""
+
+def install_max_package ():
+   print ('Adding Max support...')
+
+   max8_packages_path = os.path.join (path_documents (), 'Max 8', 'Packages')
+   src_path = os.path.join (PATH_ROOT, 'max', 'Eurorack-blocks')
+   dst_path = os.path.join (max8_packages_path, 'Eurorack-blocks')
+
+   def is_link (path):
+      try:
+         return os.path.islink (path) or bool (os.readlink (path))
+      except OSError:
+         return False
+
+   def create_erbb_max_package_symlink ():
+      if platform.system () == 'Windows':
+         import _winapi
+         _winapi.CreateJunction (src_path, dst_path)
+      else:
+         os.symlink (src_path, dst_path)
+
+   if os.path.exists (max8_packages_path) and os.path.isdir (max8_packages_path):
+      if os.path.exists (dst_path):
+         if os.path.samefile (dst_path, src_path):
+            pass # package already installed
+         elif is_link (dst_path):
+            os.remove (dst_path)
+            create_erbb_max_package_symlink ()
+         else:
+            print (f'\033[33mwarning:\033[0m"Eurorack-blocks" file in max packages already exist.\nPlease remove "{dst_path}" and run `erbb setup --with-max-support` again.')
+      else:
+         create_erbb_max_package_symlink ()
+   else:
+      print (f"\033[33mwarning:\033[0m Can't find Max packages folder {max8_packages_path}.\nPlease make sure Max is properly installed and run `erbb setup --with-max-support` again.")
 
 
 
