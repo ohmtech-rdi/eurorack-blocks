@@ -84,6 +84,8 @@ def check_environment_macos ():
 
    if macos_version_major >= 11:
       pass # all good
+   elif macos_version_major == 10 and macos_version_minor == 16:
+      pass # actually macOS Big Sur, all good
    elif macos_version_major == 10 and macos_version_minor == 15:
       print ('\033[33mWarning: macOS %d.%d has limited support.\033[0m' % (macos_version_major, macos_version_minor))
       print ('\033[90mDebugging with a ST-link v3 might not work properly, for example.')
@@ -194,7 +196,7 @@ def install_toolchain_macos ():
    macos_version_major = int (macos_version [0])
    macos_version_minor = int (macos_version [1])
 
-   if macos_version_major >= 11:
+   if macos_version_major >= 11 or (macos_version_major == 10 and macos_version_minor == 16):
       name = 'toolchain_big_sur.tar.gz'
    elif macos_version_major == 10 and macos_version_minor == 15:
       name = 'toolchain_catalina.tar.gz'
