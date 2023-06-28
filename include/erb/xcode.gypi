@@ -35,7 +35,7 @@
          'ARCHS': ['x86_64'],
          'MACOSX_DEPLOYMENT_TARGET': '10.14',
 
-         'CLANG_CXX_LANGUAGE_STANDARD': 'c++17',
+         'CLANG_CXX_LANGUAGE_STANDARD': 'c++2a',
          'CLANG_CXX_LIBRARY': 'libc++',
          'WARNING_CFLAGS': [
             '-Wno-c++98-compat',

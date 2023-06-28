@@ -10,7 +10,7 @@
 {
    'target_defaults': {
       'xcode_settings': {
-         'CLANG_CXX_LANGUAGE_STANDARD': 'c++1z',
+         'CLANG_CXX_LANGUAGE_STANDARD': 'c++2a',
          'USE_HEADERMAP': 'NO',
          'WARNING_CFLAGS': [
             '-Wno-four-char-constants',
@@ -18,7 +18,7 @@
       },
 
       'cflags_cc': [
-         '-std=gnu++17',
+         '-std=gnu++2a',
       ],
 
       'cflags': [
