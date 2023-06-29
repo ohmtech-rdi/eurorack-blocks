@@ -133,7 +133,7 @@ def download (url, name):
             content.write (buffer)
             size += len (buffer)
             percent = int ((size / length)*100)
-            print (f'Downloading {name}... {percent}%%  ', end='\r')
+            print (f'Downloading {name}... {percent}%  ', end='\r')
          return content.getvalue ()
 
    import ssl
