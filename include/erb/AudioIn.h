@@ -16,6 +16,8 @@
 #include "erb/Buffer.h"
 
 #include <cstddef>
+#include <type_traits>
+#include <tuple>
 
 
 
@@ -83,6 +85,12 @@ private:
 
 
 }  // namespace erb
+
+
+
+template <>
+struct std::tuple_size <erb::AudioIn>
+: public integral_constant <std::size_t, erb_BUFFER_SIZE> {};
 
 
 
