@@ -67,7 +67,7 @@ Name : operator []
 ==============================================================================
 */
 
-const float &  AudioIn::operator [] (std::size_t index)
+const float &  AudioIn::operator [] (std::size_t index) const
 {
    return impl_data [index];
 }
