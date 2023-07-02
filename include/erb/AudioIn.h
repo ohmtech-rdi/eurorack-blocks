@@ -41,7 +41,7 @@ public:
    inline std::size_t
                   size () const;
    inline const float &
-                  operator [] (std::size_t index);
+                  operator [] (std::size_t index) const;
 
 
 
