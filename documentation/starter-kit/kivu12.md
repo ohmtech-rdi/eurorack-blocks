@@ -21,6 +21,8 @@ anti-static wrist strap band,
 and in all cases be very careful not to poke them with your soldering iron tip!
 ```
 
+## Using a Rubber Band
+
 
 ## Using a Breadboard
 

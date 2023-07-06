@@ -92,6 +92,9 @@ and be gentle as the pins can bend easily.
 
 Now place all the other parts, buttons, 2-position switch, and the 8 jack connectors.
 
+Observe the flat side for the 2 buttons!
+Push button from the other side to make sure it sits flush to the PCB.
+
 **Do not solder anything yet!**
 
 Put the LEDs in their hole, and double check their orientation.
