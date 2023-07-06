@@ -131,14 +131,14 @@ void  BoardKivu12::impl_preprocess ()
    for (std::size_t i = 0 ; i < 8 ; ++i)
    {
       _gpio_b_sr4021_clock.write (false);
-      daisy::System::DelayTicks (100);
+      daisy::System::DelayTicks (400);
 
       // GI: BJT => inverted
       _digital_inputs [gpio0_order [i]] = !_gpio_inputs [0].read ();
       _digital_inputs [gpio1_order [i]] = !_gpio_inputs [1].read ();
 
       _gpio_b_sr4021_clock.write (true);
-      daisy::System::DelayTicks (100);
+      daisy::System::DelayTicks (400);
    }
 
 #elif defined (erb_USE_DAISY_IMPL)
