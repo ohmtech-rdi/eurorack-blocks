@@ -10,7 +10,7 @@ You need a few tools to assemble the kit:
 - A spool of solder,
 - A temperature-controlled soldering iron,
 - A wire cutter,
-- A rubber band, or ideally our dedicated soldering jig.
+- A rubber band, or ideally our dedicated [soldering jig](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125).
 
 
 ## Solder Spool

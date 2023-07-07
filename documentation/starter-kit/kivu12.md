@@ -31,7 +31,7 @@ and in all cases be very careful not to poke them with your soldering iron tip!
 ```
 
 In the following, please don't hesitate to click on the pictures to see a
-biffer version of them.
+bigger version of them.
 
 
 ## Using a Rubber Band
@@ -179,6 +179,43 @@ to the board.
 Double-check that the key of the pin header is in the right position ⚠️
 and finally solder the pin header.
 
+Now move to the "Finishing the Assembly" section, you are almost done!
+
+
+## Using the Soldering Jig
+
+```{image} kivu12-soldering-jig.jpg
+:width: 25%
+:align: right
+```
+
+
+Alternatively one can use our dedicated [kivu12 soldering jig](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125).
+For around 20 euros or dollars, that a good option if you want to ease further
+the soldering process or if you are considering assembling a lot of boards.
+
+Put the soldering jig on a flat surface,
+then all the pin headers and sockets of the top side in their respective holes, and fit the board
+on top. Verify visually and if everything is proper, then solder all the pins.
+
+Remove the board from the soldering jig, and turn over the soldering jig and
+the board.
+Then put the 4 5x2-position pin sockets, and fit the board on top.
+Verify visually and if everything is proper, then solder all the pins.
+
+Remove the board from the soldering jig, and put the power 5x2 position
+pin headers.
+
+Make sure the key of the pin header follows the orientation as shown on
+the PCB. If you look well on the picture above in the section "Using a Rubber Band",
+the key is located on the left.
+
+Double-check that the key of the pin header is in the right position ⚠️
+and finally solder the pin header.
+
+
+## Finishing the Assembly
+
 ```{image} kivu12-jumpers.jpg
 :width: 25%
 :align: right
@@ -197,100 +234,11 @@ Putting CI1 and CI2 to bipolar mode (±5V) is important for later, because
 the two demo modules relies on this mode to be selected in order to
 function correctly.
 
-Congratulations! Your kivu12 board is completed and waiting for your creations 🎉 
-
-
-
-
-## Using a Breadboard
-
-```{important}
-Be sure to solder the pin sockets and headers on the right side of the board!
-Use the pictures below to ensure that, and take your time.
-```
-
-### Front panel pin sockets
-
-Take the long pin headers, and cut it to achieve this inverted L-shape for the left part of
-the board.
-Then plug-in the pin sockets, and align the board to it.
-
-When soldering the first pin of a pin socket,
-press gently on the corner to make sure the pin sockets are properly flush and aligned to the board.
-Visually inspect that this is the case before going to the next pin socket.
-If for some reason this is not properly flush, you can always reflow that first pin to adjust.
-That would be far more complicated if all pins were already soldered, so make sure to first
-verify everything on the first soldered pin before soldering the other pins.
-
-Repeat this process with the right part of the board.
-
-### SD Card and Pitch mode pin headers
-
-Cut the pin headers and make an assembly using the provided 5x2 pin socket to look like
-the picture.
-Then solder one pin of this assembly, and verify that everything is flush before proceeding
-to the other pins.
-The alignment is not very crucial with this one.
-
-Repeat the same process for the pin headers on the bottom part of the board.
-
-### Daisy Patch SM pin sockets
-
-Plug the 4 5x2 pin sockets on your Daisy Patch SM and fit this assembly to the board.
-Same as usual, solder one pin and make sure everything is flush before moving to the next
-pins.
-
-This time, you'll also want to make sure to not heat the pin for too long, so aim for around
-2 seconds. If you didn't solder properly during those 2 seconds, no problem, give it some
-seconds to cool down and try again.
-We do this because they are sensitive parts on the Daisy Patch SM.
-
-### Power connector
-
-Put the power connector in place.
-
-```{important}
-Make sure that the key of the connector is the same as pictured on the board!
-```
-
-Keep the power connector secured with one finger, and put a bit of solder on your iron tip
-to finally put that solder on the pin. The goal here is not to make a proper joint but just to
-keep the power connector in place.
-
-If everything is flush, proceed to the other pins. Finally when they are all done, solder properly
-the first pin.
-
-
-## Using the Soldering Jig 
-
-```{important}
-Be sure to solder the pin sockets and headers on the right side of the board!
-Use the pictures below to ensure that, and take your time.
-```
-
-### Top Side
-
-Put the soldering jig on a flat surface,
-then all the pin headers and sockets of the top side in their respective holes, and fit the board
-on top. Solder one pin while pressing gently in the middle in the board to make sure everything
-is flush. Verify visually and if everything is file, solder all the other pins.
-
-### Bottom Side
-
-Repeat the same process for the 4 5x2 pin sockets.
-
-### Power connector
-
-Use the same process as explained in the previous section.
-
-
-## Finishing the Assembly
-
-Locate the jumpers in the parts bag, and place them as shown in this picture.
+Congratulations! Your kivu12 board is completed and waiting for your creations 🎉
 
 
 ## Testing
 
 At this point, you can connect the included 10pin-to-16pin header to the kivu12 motherboard,
 then to your rack, and power it up.
-At this stage, you should see a LED turning on on the Daisy Patch SM.
+At this stage, you should see a LED turning on on the Daisy Patch Submodule.
