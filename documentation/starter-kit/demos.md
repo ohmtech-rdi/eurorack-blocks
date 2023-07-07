@@ -116,7 +116,7 @@ It's now time to make a break and have a good time with your Frohmage module!
 Ah! and something neat: if you decide to reuse the Frohmage panel to make your first
 modules, we made the panel so that it's symmetrical. This means you can turn it the
 other way around, which allows you to start with a blank panel, and use a small chalk marker
-to design your front panel (to keep track which control is what). How cool is that?
+to design your front panel (to keep track which control is what) 🤯 How cool is that?
 
 
 ## Drop
@@ -124,32 +124,69 @@ to design your front panel (to keep track which control is what). How cool is th
 The Drop module has a bit of everything, so when you manage to solder this module,
 you are set for all other modules after!
 
-Place all the potentiometers on the board, and make sure they are on the right side of the board.
-The potentiometer legs might be a bit misplaced, so make sure they go nicely into the holes
-and be gentle as the pins can bend easily.
+```{image} demos-drop-pins.jpg
+:width: 25%
+:align: right
+```
+
+Take the long pin headers, and cut some pins and place them in the kivu12
+board pin socket.
+
+Like for Frohmage, not all pin sockets need to be populated ⚠️
+In particular we **don't need** the pin headers:
+- For the first 8 buttons/gates labelled from B9 to B16,
+- nor the LED pins labelled from L9 to L16,
+- nor the SD card pins.
+
+If you look closely to the picture on the side, you can see that some pins are
+not soldered. This photo was shot when assembling the kivu12 using the Drop panel.
+
+Put the Frohmage PCB on top and make sure that everything is proper and flush.
+Then solder all the pins.
+
+Once done you can remove the front panel from the Kivu12 board.
+
+```{warning}
+Be very careful when removing the front panel from the Kivu12 board to not
+bend the front panel pins! ⚠️
+
+Take your time, and always keep the two boards parallel.
+```
+
+```{image} demos-drop-parts.jpg
+:width: 25%
+:align: right
+```
+
+Place all the components on the board, but **do not solder anything yet!**:
+
+- Put the LEDs in their hole, and double check their orientation.
+   - For the 2-pin red LEDs, **the shortest leg goes into the square-shaped-pad hole on the left**,
+   - For the 3-pin LED, **the shortest leg goes into the hole on the right**.
+- Put the screw for the switch like for Frohmage, and try to put the switch tip
+   in eliquibrium between the 2 extreme positions.
+   This will help putting the front panel later.
+- Put the 2 push-buttons and observe the flat side of the button ⚠️ and match it
+   to the flat side on the PCB silkscreen, on the left of the button
+   in the picture.
 
 **Do not solder anything yet!**
 
-Now place all the other parts, buttons, 2-position switch, and the 8 jack connectors.
+```{raw} html
+<br /> <br /> <br /> 
+```
 
-Observe the flat side for the 2 buttons!
-Push button from the other side to make sure it sits flush to the PCB.
-
-**Do not solder anything yet!**
-
-Put the LEDs in their hole, and double check their orientation.
-- For the 2-pin LEDs, **the shortest leg goes into the square-shaped-pad hole on the left**,
-- For the 3-pin LED, **the shortest leg goes into the hole on the right**.
-
-**Do not solder anything yet!**
+```{image} demos-drop-screw.jpg
+:width: 25%
+:align: right
+```
 
 Now insert the front panel, align it so that everything is properly centered.
 You want to make sure to always keep the front panel and PCB together, or the pins of the
 jack connectors will slip out, which can be quite frustrating!
 
 Secure the potentiometer on the panel using the supplied screws. Do the same for the jack
-connectors. Finally screw the 2-position switch, but don't screw too much, so that the switch
-itself stays flush to the board.
+connectors and the switch. But this time, make sure all the screws are **not** too tight ⚠️
 
 Inspect one more time on the front and side to make sure everything is properly aligned.
 
@@ -161,14 +198,24 @@ and give it some time to cool down before trying again.
 
 Now remove all the screws and remove carefully the front panel.
 
-Cut and put the pin headers in your kivu12 board. Note that we don't put pin headers in
-every pin sockets, so make sure to place them as in the picture.
+```{image} demos-drop-resistor.jpg
+:width: 25%
+:align: right
+```
 
-Fit your Drop board and solder one pin, make sure that everything is flush, and proceed to
-the next pins.
+Grab the resistor and bend its pins to match the resistor holes.
+Then turn the board over, make sure the resistor is flush to the board and
+solder it. Take your time as it is very tight with the jack connectors around!
+
+Now take your wire cutter and cut the excess wire part of the LEDs and resistor.
 
 Now you can put back the front panel, secure all the screws, and finally put the big
 knob for the frequency potentiometer.
+
+```{image} demos-drop-assembled.jpg
+:width: 100%
+:align: center
+```
 
 That's it, you did it! And for you to know, that might be the most complicated build you will
 ever have with Eurorack-blocks, so how did it feel?
