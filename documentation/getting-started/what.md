@@ -51,7 +51,7 @@ At its heart, Eurorack-blocks is a learning platform, allowing you to start from
 to being able to make commercial modules and distribute them.
 
 For this, we implemented baby steps, with success at each step, to keep you motivated
-while your learn.
+while you learn.
 Here is the list of baby steps:
 
 - Level 1: Assembling the Starter Kit
@@ -60,7 +60,7 @@ Here is the list of baby steps:
 - Level 4: Making a custom front panel design
 
 At this stage, you will be able to make your own totally functional Eurorack modules.
-They won't fit in Eurorack "skiff" cases, and the production cost would be unsuitable
+They won't fit in every Eurorack "skiff" cases, and the production cost would be unsuitable
 to make a commercial product.
 
 The next steps are to level up your game and become a professional Eurorack module manufacturer:
@@ -80,6 +80,6 @@ At this level, you can already sell your creations.
 - Level 7: Mass production optimizations and distribution
 
 This is the final level, where your module will be in retail shops.
-You will learn how to minimize manual labor work to scale your module production, and
+You will learn how to minimize manual labor work to scale your module for production, and
 at the same time keep a big enough gross margin to make your business sustainable,
 and be part of a global distribution network.

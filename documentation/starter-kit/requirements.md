@@ -10,7 +10,7 @@ You need a few tools to assemble the kit:
 - A spool of solder,
 - A temperature-controlled soldering iron,
 - A wire cutter,
-- Ideally a solderless breadboard, or even our dedicated soldering jig.
+- A rubber band, or ideally our dedicated soldering jig.
 
 
 ## Solder Spool
@@ -63,19 +63,6 @@ It needs to be thin and sharp on the nose, to access small spaces.
 Any wire cutter will probably do the job properly, if its end shouts "I'm done for precision cutting". 
 
 We typically use the [Techspray Plato Shear Cutter](https://www.techspray.com/platoshear-cutter-5).
-
-
-## Solderless Breadboard
-
-Soldering the kivu12 motherboard is a bit easier with the help of a breadboard.
-That allows you to make sure the pin headers and sockets sit flush on the board,
-and properly aligned.
-
-If you bought a lot of Starter Kits, or you really want to take it super safe,
-we made a soldering jig that takes care of making this all perfect and quick for you.
-You can [buy it from Shapeways here](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125).
-It's around 20€/$, we don't make any margin on it, maybe an alternative to consider if your
-budget allows it.
 
 
 ## Other Equipments

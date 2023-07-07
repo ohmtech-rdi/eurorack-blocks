@@ -22,7 +22,8 @@ soldering skills required.
 
 In the meantime, and provided you bought our Starter Kit, Eurorack-blocks requires only some
 basic soldering skills. If you have been soldering audio cables before, you probably already
-have what it takes.
+have what it takes. And if you have been already soldering any Eurorack module kit,
+you already have far more than what it takes.
 
 If you prefer to not buy our Starter Kit, Eurorack-blocks requires SMD soldering gear and knowledge,
 which is more involved. However we made an entire chapter to help you with that, that
