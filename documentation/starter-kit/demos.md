@@ -209,8 +209,8 @@ solder it. Take your time as it is very tight with the jack connectors around!
 
 Now take your wire cutter and cut the excess wire part of the LEDs and resistor.
 
-Now you can put back the front panel, secure all the screws, and finally put the big
-knob for the frequency potentiometer.
+Now you can put back the front panel, secure all the screws properly tighten up this time ⚠️,
+and finally put the big knob for the frequency potentiometer.
 
 ```{image} demos-drop-assembled.jpg
 :width: 100%
