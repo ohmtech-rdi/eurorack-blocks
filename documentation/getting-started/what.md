@@ -2,7 +2,7 @@
 
 ## How does it work?
 
-```{image} what-boards.png
+```{image} what-boards-alt.jpg
 :width: 100%
 :align: center
 ```

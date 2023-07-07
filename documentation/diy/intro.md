@@ -10,7 +10,7 @@ Apart from gear, the only thing you need to have is a bit of time.
 
 There are 3 components to a fully assembled module:
 
-```{image} ../getting-started/what-boards.png
+```{image} ../getting-started/what-boards-alt.jpg
 :width: 50%
 :align: center
 ```
