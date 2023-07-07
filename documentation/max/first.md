@@ -1,4 +1,4 @@
-# Your First Module
+# Your First Module with Max
 
 For our first module, we will make a simple low-pass filter, with one big knob to control
 the cut off frequency.

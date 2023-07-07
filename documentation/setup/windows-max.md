@@ -11,7 +11,7 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 
 - [`git`](https://git-scm.com/download) and in particular the Git Bash shell
 - [Python 3](https://www.python.org/downloads/)
-- [Max](https://cycling74.com/products/max)
+- [Max](https://cycling74.com/products/max) at least version 8
 - [VCV Rack version 2](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
@@ -203,7 +203,7 @@ To install the firmware, that we previously built in the section above:
 - Run the following command and follow the on-screen instructions:
 
 ```{code-block} shell-session
-MyPC:~/eurorack-blocks/samples/drop $ erbb install firmware
+MyPC:~/eurorack-blocks/max/drop $ erbb install firmware
 Enter the system bootloader by holding the BOOT button down,
 and then pressing, and releasing the RESET button.
 Press Enter to continue...
