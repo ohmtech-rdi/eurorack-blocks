@@ -208,7 +208,7 @@ OBJCOPY Release/Drop.hex
 ```
 
 To install the firmware:
-- Connect the same USB cable that you used for installing the Frohmage firmware,
+- Connect the same USB cable that you used for installing the Frohmager firmware,
 - Run the following command and follow the on-screen instructions:
 
 ```{code-block} shell-session
