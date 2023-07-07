@@ -1,21 +1,21 @@
 # Assembling Demo Modules
 
 The Starter Kit comes with two demo modules: Drop which is a stereo DJ filter,
-and Frohmage which is a multi-band resonant filter.
+and Frohmager which is a multi-band resonant filter.
 
 ```{figure} demos-modules.jpg
 :width: 100%
 :align: center
 
-Fully assembled Drop and Frohmage front panels.
+Fully assembled Drop and Frohmager front panels.
 ```
 
 
-## Frohmage
+## Frohmager
 
 Let's start with the most fun one, that is maybe the easier one as well.
 
-```{image} demos-frohmage-pins.jpg
+```{image} demos-frohmager-pins.jpg
 :width: 25%
 :align: right
 ```
@@ -26,7 +26,7 @@ As you can see in the picture, not all pin sockets are populated ⚠️
 In particular we don't need the pin headers for the first 8 buttons/gates
 labelled from B1 to B8, neither the SD card pins.
 
-Put the Frohmage PCB on top and make sure that everything is proper and flush.
+Put the Frohmager PCB on top and make sure that everything is proper and flush.
 Then solder all the pins.
 
 Once done you can remove the front panel from the Kivu12 board.
@@ -38,7 +38,7 @@ bend the front panel pins! ⚠️
 Take your time, and always keep the two boards parallel.
 ```
 
-```{image} demos-frohmage-parts.jpg
+```{image} demos-frohmager-parts.jpg
 :width: 25%
 :align: right
 ```
@@ -56,7 +56,7 @@ Place all the components on the board, but **do not solder anything yet!**:
 <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 ```
 
-```{image} demos-frohmage-screw.jpg
+```{image} demos-frohmager-screw.jpg
 :width: 25%
 :align: right
 ```
@@ -83,7 +83,7 @@ of the LEDs.
 Now you can put back the front panel, secure all the screws, and finally put the black knobs.
 It's done! 🎉
 
-```{image} demos-frohmage-assembled.jpg
+```{image} demos-frohmager-assembled.jpg
 :width: 100%
 :align: center
 ```
@@ -108,12 +108,12 @@ USB cable, so make sure you are not using a "charging USB cable", or just
 take another one, just in case.
 ```
 
-Now disconnect the USB cable, put your Frohmage module in your rack and connect it
+Now disconnect the USB cable, put your Frohmager module in your rack and connect it
 to your case power, and turn it on.
 
-It's now time to make a break and have a good time with your Frohmage module!
+It's now time to make a break and have a good time with your Frohmager module!
 
-Ah! and something neat: if you decide to reuse the Frohmage panel to make your first
+Ah! and something neat: if you decide to reuse the Frohmager panel to make your first
 modules, we made the panel so that it's symmetrical. This means you can turn it the
 other way around, which allows you to start with a blank panel, and use a small chalk marker
 to design your front panel (to keep track which control is what) 🤯 How cool is that?
@@ -132,7 +132,7 @@ you are set for all other modules after!
 Take the long pin headers, and cut some pins and place them in the kivu12
 board pin socket.
 
-Like for Frohmage, not all pin sockets need to be populated ⚠️
+Like for Frohmager, not all pin sockets need to be populated ⚠️
 In particular we **don't need** the pin headers:
 - For the first 8 buttons/gates labelled from B9 to B16,
 - nor the LED pins labelled from L9 to L16,
@@ -141,7 +141,7 @@ In particular we **don't need** the pin headers:
 If you look closely to the picture on the side, you can see that some pins are
 not soldered. This photo was shot when assembling the kivu12 using the Drop panel.
 
-Put the Frohmage PCB on top and make sure that everything is proper and flush.
+Put the Frohmager PCB on top and make sure that everything is proper and flush.
 Then solder all the pins.
 
 Once done you can remove the front panel from the Kivu12 board.
@@ -163,7 +163,7 @@ Place all the components on the board, but **do not solder anything yet!**:
 - Put the LEDs in their hole, and double check their orientation.
    - For the 2-pin red LEDs, **the shortest leg goes into the square-shaped-pad hole on the left**,
    - For the 3-pin LED, **the shortest leg goes into the hole on the right**.
-- Put the screw for the switch like for Frohmage, and try to put the switch tip
+- Put the screw for the switch like for Frohmager, and try to put the switch tip
    in eliquibrium between the 2 extreme positions.
    This will help putting the front panel later.
 - Put the 2 push-buttons and observe the flat side of the button ⚠️ and match it
