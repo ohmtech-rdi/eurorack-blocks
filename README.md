@@ -103,6 +103,7 @@ raf:bypass$
 <a href="./samples/reverb/"><img height="200px" src="./samples/reverb/screenshot.png"></a>
 <a href="./samples/kick/"><img height="200px" src="./samples/kick/screenshot.png"></a>
 <a href="./samples/custom/"><img height="200px" src="./samples/custom/screenshot.png"></a>
+<a href="./samples/frohmager/"><img height="200px" src="./samples/frohmager/screenshot.png"></a>
 </p>
 
 Before reading sample code, make sure to grasp the concepts in the [documentation](https://eurorack-blocks.readthedocs.io/en/latest/).
@@ -113,7 +114,8 @@ Sample projects are a good place to continue learning:
 - [`reverb`](./samples/reverb/) illustrates how to utilize all the platform memory,
 - [`kick`](./samples/kick/) illustrates how to use factory samples and make big programs,
 - [`faust`](./samples/faust/) describes how to use the Faust functional programming language,
-- [`custom`](./samples/custom/) illustrates how to use custom silkscreens, boards and manufacturers.
+- [`custom`](./samples/custom/) illustrates how to use custom silkscreens, boards and manufacturers,
+- [`frohmager`](./samples/frohmager/) is the recreation in hardware form factor of the legendary Ohm Force multi-band resonant filter (closed-source).
 
 
 ## Cycling '74 Max Patches
@@ -169,6 +171,7 @@ for the hardware part, and MIT license for the software part, **except**:
    under [SIL Open Font License](./include/erb/vcvrack/design/indie-flower/OFL.txt),
 - The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/),
 - The [Custom panel artwork](https://svgsilh.com/image/1532531.html), under the [Creative Commons CC0 License](https://creativecommons.org/publicdomain/zero/1.0/).
+- The Ohm Force Frohmager, under its proprietary license.
 
 Some files that get installed in `build-system/toolchain` during `erbb setup` are not part of this repository, but redistributed during the installation phase,
 with the following licenses:

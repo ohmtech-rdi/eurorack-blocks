@@ -1,0 +1,23 @@
+{
+   "slug": "ErbPluginFrohmager",
+   "name": "Erb Plugin",
+   "version": "2.0.0",
+   "license": "proprietary",
+   "brand": "Ohm Force",
+   "author": "Ohm Force",
+   "authorEmail": "",
+   "authorUrl": "https://www.ohmforce.com",
+   "pluginUrl": "https://www.ohmforce.com",
+   "manualUrl": "https://www.ohmforce.com",
+   "sourceUrl": "https://www.ohmforce.com",
+   "donateUrl": "",
+   "changelogUrl": "",
+   "modules": [
+      {
+         "slug": "Frohmager",
+         "name": "Frohmager",
+         "description": "Frohmager",
+         "tags": [ "Digital", "Hardware" ]
+      }
+   ]
+}
