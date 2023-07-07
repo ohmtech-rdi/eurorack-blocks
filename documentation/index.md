@@ -2,7 +2,7 @@
 
 The Eurorack-blocks project allows to develop your own custom Eurorack module for either prototyping or fun in the comfort of your day-to-day IDE and debugging in a virtual Eurorack environment, and when ready, to auto-magically generate all the needed files to manufacture the Eurorack module for you to use in a real Eurorack modular system.
 
-```{image} getting-started/what-boards.png
+```{image} getting-started/what-boards-alt.jpg
 :width: 50%
 :align: center
 ```
@@ -39,19 +39,17 @@ You should be familiar with either C++, Max or Faust.
 
 You should know how to use a terminal and a shell like `bash`, but their usage are quite limited.
 
-Some knowledge of `git` and a package manager such as `apt` or `brew` when using Faust
+Some knowledge of `git` and a package manager such as `apt` or `brew` when using Linux or Faust
 is also adviced, while not strictly necessary.
 
 
 ## Getting Started
 
 Are you new to Eurorack-blocks?
-Start here to learn on how to setup your environment and make your first module.
+Start here to get to know the environment and what it will bring to you.
 
 - **{doc}`/getting-started/before`**
 - **{doc}`/getting-started/what`**
-- **{doc}`/getting-started/setup`**
-- **{doc}`/getting-started/first`**
 
 ```{eval-rst}
 .. toctree::
@@ -61,17 +59,82 @@ Start here to learn on how to setup your environment and make your first module.
 
    /getting-started/before
    /getting-started/what
-   /getting-started/setup
-   /getting-started/first
+```
+
+## ERB Starter Kit
+
+The ERB starter kit available on our shop (coming soon)
+is the easiest way to get into Eurorack-blocks development quickly.
+Continue here to assemble it and make some sound with the included demos.
+
+- **{doc}`/starter-kit/content`**
+- **{doc}`/starter-kit/requirements`**
+- **{doc}`/starter-kit/kivu12`**
+- **{doc}`/starter-kit/demos`**
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: ERB Starter Kit
+
+   /starter-kit/content
+   /starter-kit/requirements
+   /starter-kit/kivu12
+   /starter-kit/demos
 ```
 
 
-## Programming Guides
+## Environment Setup
+
+Now that you have an Eurorack-blocks board to develop with,
+it's time to get ready for developping your own creation.
+Head over to setup the Eurorack-blocks environment for C++,
+Max or Faust on macOS, Windows or Linux.
+
+- **{doc}`/setup/select`**
+- **{doc}`/setup/macos-cpp-xcode`**
+- **{doc}`/setup/macos-cpp-vscode`**
+- **{doc}`/setup/macos-cpp-cli`**
+- **{doc}`/setup/macos-max`**
+- **{doc}`/setup/macos-faust`**
+- **{doc}`/setup/windows-cpp-vscode`**
+- **{doc}`/setup/windows-cpp-cli`**
+- **{doc}`/setup/windows-max`**
+- **{doc}`/setup/windows-faust`**
+- **{doc}`/setup/linux-cpp-vscode`**
+- **{doc}`/setup/linux-cpp-cli`**
+- **{doc}`/setup/linux-faust`**
+
+```{eval-rst}
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Environment Setup
+
+   /setup/select
+   /setup/macos-cpp-xcode
+   /setup/macos-cpp-vscode
+   /setup/macos-cpp-cli
+   /setup/macos-max
+   /setup/macos-faust
+   /setup/windows-cpp-vscode
+   /setup/windows-cpp-cli
+   /setup/windows-max
+   /setup/windows-faust
+   /setup/linux-cpp-vscode
+   /setup/linux-cpp-cli
+   /setup/linux-faust
+```
+
+
+## C++ Programming Guides
 
 Do you have an awesome idea and understood the basic Eurorack-blocks concept
 described in the Getting Started section?
 Continue here to learn how to create your own module.
 
+- **{doc}`/guides/first`**
 - **{doc}`/guides/drop`**
 - **{doc}`/guides/reverb`**
 - **{doc}`/guides/kick`**
@@ -80,8 +143,9 @@ Continue here to learn how to create your own module.
 .. toctree::
    :maxdepth: 2
    :hidden:
-   :caption: Programming Guides
+   :caption: C++ Programming Guides
 
+   /guides/first
    /guides/drop
    /guides/reverb
    /guides/kick
@@ -96,7 +160,6 @@ and effects idea?
 Continue here to learn how to develop your module using Max with `gen~` and
 its vibrant community.
 
-- **{doc}`/max/setup`**
 - **{doc}`/max/first`**
 - **{doc}`/max/ui`**
 
@@ -106,7 +169,6 @@ its vibrant community.
    :hidden:
    :caption: Max Integration
 
-   /max/setup
    /max/first
    /max/ui
 ```
@@ -118,7 +180,6 @@ C++ is not your thing and you prefer to use [Faust](https://faust.grame.fr),
 a functional programming language for sound synthesis and audio processing instead?
 Continue here to learn how to create your own module using Faust.
 
-- **{doc}`/faust/setup`**
 - **{doc}`/faust/first`**
 - **{doc}`/faust/mapping`**
 - **{doc}`/faust/soundfile`**
@@ -129,7 +190,6 @@ Continue here to learn how to create your own module using Faust.
    :hidden:
    :caption: Faust Integration
 
-   /faust/setup
    /faust/first
    /faust/mapping
    /faust/soundfile

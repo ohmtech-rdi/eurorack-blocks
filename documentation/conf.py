@@ -30,6 +30,7 @@ author = 'Raphael Dingé'
 extensions = [
    'myst_parser',
    'sphinxcontrib.youtube',
+   'sphinx_copybutton',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -63,6 +64,11 @@ myst_enable_extensions = [
    'deflist',
 ]
 
+
+# -- CopyButton configuration ------------------------------------------------
+
+copybutton_prompt_text = r'^[a-zA-Z0-9]*:\~[-a-zA-Z0-9/\ ]*\$ '
+copybutton_prompt_is_regexp = True
 
 
 # -- Pygments Lexers ---------------------------------------------------------
