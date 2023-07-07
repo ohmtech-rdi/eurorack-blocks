@@ -33,10 +33,28 @@
             'controls/Trim.md',
 
             'getting-started/before.md',
-            'getting-started/first.md',
-            'getting-started/setup.md',
             'getting-started/what.md',
 
+            'starter-kit/requirements.md',
+            'starter-kit/content.md',
+            'starter-kit/kivu12.md',
+            'starter-kit/demos.md',
+
+            'setup/select.md',
+            'setup/macos-cpp-xcode.md',
+            'setup/macos-cpp-vscode.md',
+            'setup/macos-cpp-cli.md',
+            'setup/macos-max.md',
+            'setup/macos-faust.md',
+            'setup/windows-cpp-vscode.md',
+            'setup/windows-cpp-cli.md',
+            'setup/windows-max.md',
+            'setup/windows-faust.md',
+            'setup/linux-cpp-vscode.md',
+            'setup/linux-cpp-cli.md',
+            'setup/linux-faust.md',
+
+            'guides/first.md',
             'guides/drop.md',
             'guides/kick.md',
             'guides/reverb.md',
@@ -49,11 +67,9 @@
 
             'max/first.md',
             'max/ui.md',
-            'max/setup.md',
 
             'faust/first.md',
             'faust/mapping.md',
-            'faust/setup.md',
             'faust/soundfile.md',
 
             'erbb/lexical.md',
