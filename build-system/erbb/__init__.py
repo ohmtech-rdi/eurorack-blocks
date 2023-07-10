@@ -707,10 +707,15 @@ def deploy_simulator (name, path, configuration):
       )
 
    vcv_plugin_path = os.path.join (vcv_plugins_path, name)
-   vcv_plugin_res_path = os.path.join (vcv_plugin_path, 'red')
+   vcv_plugin_res_path = os.path.join (vcv_plugin_path, 'res')
 
    if not os.path.exists (vcv_plugin_path):
       os.makedirs (vcv_plugin_path)
+
+   shutil.copyfile (
+         os.path.join (package_path, 'plugin.json'),
+         os.path.join (vcv_plugin_path, 'plugin.json')
+      )
 
    if platform.system () == 'Darwin':
       plugin_path = os.path.join (vcv_plugin_path, 'plugin.dylib')
@@ -742,9 +747,9 @@ def deploy_simulator (name, path, configuration):
    if os.path.exists (vcv_plugin_res_path):
       shutil.rmtree (vcv_plugin_res_path)
 
-      shutil.copytree (
-         os.path.join (package_path, 'res'),
-         vcv_plugin_res_path
-      )
+   shutil.copytree (
+      os.path.join (package_path, 'res'),
+      vcv_plugin_res_path
+   )
 
    print ('OK.')
