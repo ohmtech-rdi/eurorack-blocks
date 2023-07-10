@@ -707,7 +707,7 @@ def deploy_simulator (name, path, configuration):
       )
 
    vcv_plugin_path = os.path.join (vcv_plugins_path, name)
-   vcv_plugin_res_path = os.path.join (vcv_plugin_path, 'red')
+   vcv_plugin_res_path = os.path.join (vcv_plugin_path, 'res')
 
    if not os.path.exists (vcv_plugin_path):
       os.makedirs (vcv_plugin_path)
