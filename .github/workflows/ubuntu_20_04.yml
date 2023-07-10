@@ -43,6 +43,9 @@ jobs:
       - name: samples/custom
         run: erbb configure && erbb build && erbb build hardware && erbb build simulator
         working-directory: samples/custom
+      - name: samples/frohmager
+        run: erbb install simulator
+        working-directory: samples/frohmager
       - name: erbb init
         run: mkdir init && cd init && erbb init --name Init && erbb configure && erbb build && erbb build hardware && erbb build simulator
         working-directory: samples
@@ -61,6 +64,8 @@ jobs:
         run: grep "Loaded ErbPluginKick" $HOME/.Rack2/log.txt
       - name: Check custom
         run: grep "Loaded ErbPluginCustom" $HOME/.Rack2/log.txt
+      - name: Check frohmager
+        run: grep "Loaded ErbPluginFrohmager" $HOME/.Rack2/log.txt
       - name: Check init
         run: grep "Loaded ErbPluginInit" $HOME/.Rack2/log.txt
 
