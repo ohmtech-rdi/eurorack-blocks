@@ -742,9 +742,9 @@ def deploy_simulator (name, path, configuration):
    if os.path.exists (vcv_plugin_res_path):
       shutil.rmtree (vcv_plugin_res_path)
 
-      shutil.copytree (
-         os.path.join (package_path, 'res'),
-         vcv_plugin_res_path
-      )
+   shutil.copytree (
+      os.path.join (package_path, 'res'),
+      vcv_plugin_res_path
+   )
 
    print ('OK.')
