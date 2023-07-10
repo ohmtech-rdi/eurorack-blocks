@@ -72,7 +72,7 @@ Push the LEDs so they fit properly into the panel holes.
 Inspect one more time on the front and side to make sure everything is properly aligned.
 
 Solder all the parts.
-When it is the LEDs turn, make sure again that the LED fits properly in the front panel hole before soldering.
+Before soldering the LEDs, make sure again that they fits properly in the front panel holes.
 
 The LEDs are also the most sensitive part of this build, so do not apply heat more than 2 seconds,
 and give it some time to cool down before trying again.
@@ -191,7 +191,7 @@ connectors and the switch. But this time, make sure all the screws are **not** t
 Inspect one more time on the front and side to make sure everything is properly aligned.
 
 Solder all the parts, **except the LEDs** first.
-When it is the LEDs turn, make sure the LED fits properly in the front panel hole before soldering.
+Before soldering the LEDs, make sure again that they fits properly in the front panel holes.
 
 The LEDs are also the most sensitive part of this build, so do not apply heat more than 2 seconds,
 and give it some time to cool down before trying again.

@@ -1,5 +1,9 @@
 # Getting Started with DIY
 
+```{note}
+If you are looking how to assemble the Starter Kit, go [here](../starter-kit/content) instead.
+```
+
 ### Overview
 
 So, you decided to go the full route into doing your own module, from scratch.
