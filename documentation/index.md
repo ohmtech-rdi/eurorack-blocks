@@ -63,12 +63,16 @@ Start here to get to know the environment and what it will bring to you.
 
 ## ERB Starter Kit
 
+```{image} starter-kit/box.png
+:width: 25%
+:align: right
+```
+
 The ERB starter kit available on our shop (coming soon)
 is the easiest way to get into Eurorack-blocks development quickly.
 Continue here to assemble it and make some sound with the included demos.
 
-- **{doc}`/starter-kit/content`**
-- **{doc}`/starter-kit/requirements`**
+- **{doc}`/starter-kit/intro`**
 - **{doc}`/starter-kit/kivu12`**
 - **{doc}`/starter-kit/demos`**
 
@@ -78,8 +82,7 @@ Continue here to assemble it and make some sound with the included demos.
    :hidden:
    :caption: ERB Starter Kit
 
-   /starter-kit/content
-   /starter-kit/requirements
+   /starter-kit/intro
    /starter-kit/kivu12
    /starter-kit/demos
 ```

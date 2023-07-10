@@ -35,8 +35,7 @@
             'getting-started/before.md',
             'getting-started/what.md',
 
-            'starter-kit/requirements.md',
-            'starter-kit/content.md',
+            'starter-kit/intro.md',
             'starter-kit/kivu12.md',
             'starter-kit/demos.md',
 
