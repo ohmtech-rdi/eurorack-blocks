@@ -97,13 +97,13 @@ raf:bypass$
 ## Sample Projects
 
 <p align="center">
+<a href="./samples/drop/"><img height="200px" src="./samples/drop/photo.png"></a>
+<a href="./samples/frohmager/"><img height="200px" src="./samples/frohmager/photo.png"></a>
 <a href="./samples/bypass/"><img height="200px" src="./samples/bypass/screenshot.png"></a>
 <a href="./samples/faust/"><img height="200px" src="./samples/faust/screenshot.png"></a>
-<a href="./samples/drop/"><img height="200px" src="./samples/drop/screenshot.png"></a>
 <a href="./samples/reverb/"><img height="200px" src="./samples/reverb/screenshot.png"></a>
 <a href="./samples/kick/"><img height="200px" src="./samples/kick/screenshot.png"></a>
 <a href="./samples/custom/"><img height="200px" src="./samples/custom/screenshot.png"></a>
-<a href="./samples/frohmager/"><img height="200px" src="./samples/frohmager/screenshot.png"></a>
 </p>
 
 Before reading sample code, make sure to grasp the concepts in the [documentation](https://eurorack-blocks.readthedocs.io/en/latest/).
