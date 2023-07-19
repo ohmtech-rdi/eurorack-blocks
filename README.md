@@ -132,7 +132,7 @@ Sample projects are a good place to continue learning:
 ## Setting up
 
 Setting up the development environment is described in the
-[documentation](https://eurorack-blocks.readthedocs.io/en/latest/getting-started/setup.html).
+[documentation](https://eurorack-blocks.readthedocs.io/en/latest/setup/select.html).
 Integrations might have also their own Set up documentation, so make sure to read this as well.
 
 
