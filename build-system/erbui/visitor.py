@@ -639,6 +639,16 @@ class Visitor (PTNodeVisitor):
       return rotation
 
 
+   #-- Offset ----------------------------------------------------------------
+
+   def visit_offset_declaration (self, node, children):
+      distance_x = children.signed_distance_declaration [0]
+      distance_y = children.signed_distance_declaration [1]
+      offset = ast.Offset (distance_x, distance_y)
+
+      return offset
+
+
    #-- Positioning -----------------------------------------------------------
 
    def visit_positioning_declaration (self, node, children):
