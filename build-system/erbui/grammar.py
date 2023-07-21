@@ -47,6 +47,7 @@ def float_deg_cw_literal ():           return _(r'[0-9\.]+°cw')
 
 # Metrics
 def distance_declaration ():           return [float_pos_mm_literal, float_pos_cm_literal, float_pos_hp_literal]
+def signed_distance_declaration ():    return [float_mm_literal, float_cm_literal, float_hp_literal]
 def angle_declaration ():              return [float_deg_ccw_literal, float_deg_cw_literal, float_deg_literal]
 
 # Positioning
@@ -84,7 +85,7 @@ def position_declaration ():           return 'position', distance_declaration, 
 def rotation_declaration ():           return 'rotation', angle_declaration
 
 # Offset
-def offset_declaration ():             return 'offset', distance_declaration, ',', distance_declaration
+def offset_declaration ():             return 'offset', signed_distance_declaration, ',', signed_distance_declaration
 
 # Line
 def line_entities ():                  return ZeroOrMore (position_declaration)
