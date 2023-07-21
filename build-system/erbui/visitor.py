@@ -58,6 +58,15 @@ class Visitor (PTNodeVisitor):
    def visit_float_literal (self, node, children):
       return ast.FloatLiteral (self.to_literal (node))
 
+   def visit_float_pos_mm_literal (self, node, children):
+      return ast.DistanceLiteral (self.to_literal (node), 'mm')
+
+   def visit_float_pos_cm_literal (self, node, children):
+      return ast.DistanceLiteral (self.to_literal (node), 'cm')
+
+   def visit_float_pos_hp_literal (self, node, children):
+      return ast.DistanceLiteral (self.to_literal (node), 'hp')
+
    def visit_float_mm_literal (self, node, children):
       return ast.DistanceLiteral (self.to_literal (node), 'mm')
 
