@@ -332,8 +332,8 @@ class Panel:
          raise Exception ('unsupported positioning %s' % label.positioning.value)
 
       if label.offset:
-         position_x += label.offset.x
-         position_y += label.offset.y
+         position_x += label.offset.x.mm
+         position_y += label.offset.y.mm
 
       return position_x, position_y, align_x, align_y
 

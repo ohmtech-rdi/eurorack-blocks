@@ -58,6 +58,15 @@ class Visitor (PTNodeVisitor):
    def visit_float_literal (self, node, children):
       return ast.FloatLiteral (self.to_literal (node))
 
+   def visit_float_pos_mm_literal (self, node, children):
+      return ast.DistanceLiteral (self.to_literal (node), 'mm')
+
+   def visit_float_pos_cm_literal (self, node, children):
+      return ast.DistanceLiteral (self.to_literal (node), 'cm')
+
+   def visit_float_pos_hp_literal (self, node, children):
+      return ast.DistanceLiteral (self.to_literal (node), 'hp')
+
    def visit_float_mm_literal (self, node, children):
       return ast.DistanceLiteral (self.to_literal (node), 'mm')
 
@@ -628,6 +637,16 @@ class Visitor (PTNodeVisitor):
       rotation = ast.Rotation (angle)
 
       return rotation
+
+
+   #-- Offset ----------------------------------------------------------------
+
+   def visit_offset_declaration (self, node, children):
+      distance_x = children.signed_distance_declaration [0]
+      distance_y = children.signed_distance_declaration [1]
+      offset = ast.Offset (distance_x, distance_y)
+
+      return offset
 
 
    #-- Positioning -----------------------------------------------------------
