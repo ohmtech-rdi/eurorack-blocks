@@ -29,7 +29,7 @@ class Code:
 
    def generate_module (self, path, module):
       path_template = os.path.join (PATH_THIS, 'code_template.cpp')
-      path_cpp = os.path.join (path, 'main_daisy.cpp')
+      path_cpp = os.path.join (path, 'daisy', 'main.cpp')
 
       with open (path_template, 'r', encoding='utf-8') as file:
          template = file.read ()

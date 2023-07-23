@@ -153,6 +153,10 @@ class Make:
       if module.source_language == 'max':
          path_gen_dsp = os.path.join (PATH_ROOT, 'include', 'gen_dsp')
          lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_daisy).replace ('\\', '/')
+         lines += 'FLAGS += -I..\n'
+
+      elif module.source_language == 'faust':
+         lines += 'FLAGS += -I..\n'
 
       for base in bases:
          path_base = os.path.relpath (base.path, path_daisy)
@@ -171,7 +175,7 @@ class Make:
       def add_source_path (path):
          source_paths.append (os.path.abspath (path))
 
-      add_source_path (os.path.join (path_daisy, '../main_daisy.cpp'))
+      add_source_path (os.path.join (path_daisy, 'main.cpp'))
 
       for source in sources:
          for file in source.files:
@@ -382,7 +386,7 @@ class Make:
       inputs = os.path.join (path_erbui_gens, 'daisy', 'code.py').replace ('\\', '/') + ' '
       inputs += '../../%s.erbui' % module.name
 
-      outputs = '../main_daisy.cpp'
+      outputs = 'main.cpp'
 
       lines += '%s:  ACTION_DAISY\n' % outputs
       lines += '\t@:\n'
