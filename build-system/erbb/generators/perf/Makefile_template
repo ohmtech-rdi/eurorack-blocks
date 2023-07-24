@@ -1,0 +1,124 @@
+##############################################################################
+#
+#     Makefile
+#     Copyright (c) 2020 Raphael DINGE
+#
+#Tab=3########################################################################
+
+
+
+# !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
+
+
+
+%define_PATH_ROOT%
+%define_PATH_LIBDAISY%
+TARGET = %module.name%
+
+CONFIGURATION ?= Release
+
+
+# Toolchain
+%define_CC%
+%define_CXX%
+%define_GDB%
+%define_AS%
+%define_CP%
+%define_SZ%
+%define_HEX%
+%define_BIN%
+
+
+# C standard
+CFLAGS += -std=gnu11
+
+# C++ standard
+CXXFLAGS += -std=gnu++2a
+
+FLAGS += -I$(PATH_ROOT)/include
+
+FLAGS += \
+-I$(LIBDAISY_DIR) \
+-I$(LIBDAISY_DIR)/src/ \
+-I$(LIBDAISY_DIR)/src/sys \
+-I$(LIBDAISY_DIR)/src/usbd \
+-I$(LIBDAISY_DIR)/src/usbh \
+-I$(LIBDAISY_DIR)/Drivers/CMSIS/Include/ \
+-I$(LIBDAISY_DIR)/Drivers/CMSIS/DSP/Include \
+-I$(LIBDAISY_DIR)/Drivers/CMSIS/Device/ST/STM32H7xx/Include \
+-I$(LIBDAISY_DIR)/Drivers/STM32H7xx_HAL_Driver/Inc/ \
+-I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Device_Library/Core/Inc \
+-I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Host_Library/Core/Inc \
+-I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc \
+-I$(LIBDAISY_DIR)/Middlewares/Third_Party/FatFs/src
+
+FLAGS += -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard
+
+FLAGS += -DUSE_HAL_DRIVER -DSTM32H750xx -DHSE_VALUE=16000000
+FLAGS += -DCORE_CM7 -DSTM32H750IB -DARM_MATH_CM7 -DUSE_FULL_LL_DRIVER
+FLAGS += -D__FPU_PRESENT
+FLAGS += -fasm -fdata-sections -ffunction-sections
+FLAGS += -finline -finline-functions-called-once -fshort-enums -fno-move-loop-invariants
+
+# Optimization
+ifeq ($(CONFIGURATION),Debug)
+FLAGS += -O0 -g -ggdb -funsafe-math-optimizations
+endif
+
+ifeq ($(CONFIGURATION),Release)
+FLAGS += -O3 -DNDEBUG=1 -funsafe-math-optimizations
+endif
+
+ifdef SEMIHOSTING
+	FLAGS += -Derb_SEMIHOSTING=1
+endif
+
+%warnings%
+
+FLAGS += -Derb_TARGET_DAISY
+%defines.entities%
+%bases.entities%
+
+# Apply FLAGS to language-specific flags
+CFLAGS += $(FLAGS)
+CXXFLAGS += $(FLAGS)
+
+CXXFLAGS += -fno-exceptions -fno-rtti -fno-unwind-tables
+CXXFLAGS += -Wno-register -Wno-volatile
+
+LDFLAGS += -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard
+LDFLAGS += --specs=nano.specs
+ifdef SEMIHOSTING
+	LDFLAGS += --specs=rdimon.specs
+else
+	LDFLAGS += --specs=nosys.specs
+endif
+LDFLAGS += -T%LDS_PATH%
+LDFLAGS += -lc -lm
+ifdef SEMIHOSTING
+   LDFLAGS += -lrdimon
+else
+   LDFLAGS += -lnosys
+endif
+LDFLAGS += -ldaisy -L$(LIBDAISY_DIR)/build
+LDFLAGS += -Wl,-Map=$(CONFIGURATION)/$(TARGET).map,--cref
+LDFLAGS += -Wl,--gc-sections
+LDFLAGS += -Wl,--print-memory-usage
+
+
+all: $(CONFIGURATION)/$(TARGET).elf $(CONFIGURATION)/$(TARGET).hex $(CONFIGURATION)/$(TARGET).bin
+
+%target_actions%
+%sources%
+$(CONFIGURATION)/$(TARGET).hex: $(CONFIGURATION)/$(TARGET).elf | $(CONFIGURATION)
+	@echo "OBJCOPY $(CONFIGURATION)/$(TARGET).hex"
+	@$(HEX) $< $@
+
+$(CONFIGURATION)/$(TARGET).bin: $(CONFIGURATION)/$(TARGET).elf | $(CONFIGURATION)
+	@echo "OBJCOPY $(CONFIGURATION)/$(TARGET).bin"
+	@$(BIN) $< $@
+
+$(CONFIGURATION):
+	mkdir $@
+
+.DEFAULT_GOAL := all

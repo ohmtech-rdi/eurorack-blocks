@@ -17,7 +17,7 @@ class TestCompletion (unittest.TestCase):
 
    def test_000 (self):
       reply = complete ('erbb')
-      self.assertEqual (reply, ['setup', 'init', 'configure', 'build', 'install'])
+      self.assertEqual (reply, ['setup', 'init', 'configure', 'build', 'install', 'run '])
 
    def test_001 (self):
       reply = complete ('erbb in')

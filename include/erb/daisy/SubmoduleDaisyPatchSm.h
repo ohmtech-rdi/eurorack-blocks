@@ -110,6 +110,7 @@ public:
    // Clock
    inline const uint64_t &
                   clock ();
+   inline void    clock_tick ();
 
    inline daisy::AdcHandle &
                   adc ();

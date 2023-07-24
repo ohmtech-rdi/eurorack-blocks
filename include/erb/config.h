@@ -28,10 +28,14 @@
 
 // 'erb_SRAM_MEM_POOL_SIZE' represents the maximum amount of memory that can
 // be used for all combined usages of 'SramPtr' for an entire module.
-// If not defined, it will take the entire Daisy AXI SRAM memory, so 512KB.
+// Increase by adding:
+//
+// define erb_SRAM_MEM_POOL_SIZE=xxx
+//
+// to your erbb module definition
 
 #if !defined (erb_SRAM_MEM_POOL_SIZE)
-   #define erb_SRAM_MEM_POOL_SIZE 0x7d000
+   #define erb_SRAM_MEM_POOL_SIZE 0x10
 #endif
 
 

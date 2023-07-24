@@ -94,6 +94,10 @@
             'erbb/generators/daisy/Makefile_template',
             'erbb/generators/daisy/make.py',
 
+            # generators/perf
+            'erbb/generators/perf/Makefile_template',
+            'erbb/generators/perf/make.py',
+
             # generators/vscode
             'erbb/generators/vscode/c_cpp_properties_template.json',
             'erbb/generators/vscode/c_cpp_properties.py',
@@ -152,6 +156,10 @@
             # generators/faust
             'erbui/generators/faust/code_template.hpp',
             'erbui/generators/faust/code.py',
+
+            # generators/perf
+            'erbui/generators/perf/code_template.cpp',
+            'erbui/generators/perf/code.py',
 
             # generators/ui
             'erbui/generators/ui/code_template.h',

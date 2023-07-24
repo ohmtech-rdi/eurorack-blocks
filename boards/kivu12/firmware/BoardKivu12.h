@@ -40,6 +40,9 @@ public:
    inline         BoardKivu12 ();
    virtual        ~BoardKivu12 () = default;
 
+   inline SubmoduleDaisyPatchSm &
+                  submodule () { return _submodule; }
+
    // Digital Inputs
    inline const uint8_t &
                   b (size_t i) { return _digital_inputs [i]; }

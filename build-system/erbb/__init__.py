@@ -14,11 +14,17 @@ import platform
 import shutil
 import subprocess
 import sys
+import time
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 PATH_BUILD_SYSTEM = os.path.abspath (os.path.dirname (PATH_THIS))
 PATH_TOOLCHAIN = os.path.join (PATH_BUILD_SYSTEM, 'toolchain')
+PATH_PY3_PACKAGES = os.path.join (PATH_TOOLCHAIN, 'python3-packages')
+
+sys.path.insert (0, PATH_PY3_PACKAGES)
+import serial
+import serial.tools.list_ports
 
 if platform.system () == 'Darwin':
    MAKE_CMD = 'make'
@@ -47,6 +53,7 @@ from .generators.init.project import Project as initProject
 from .generators.simulator.xcode import Xcode as simulatorXcode
 from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
+from .generators.perf.make import Make as perfMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.extensions import Extensions as vscodeExtensions
@@ -219,6 +226,7 @@ def configure (path, ast):
    configure_simulator_xcode (path, ast)
    configure_simulator_make (path, ast)
    configure_daisy (path, ast)
+   configure_perf (path, ast)
    configure_vscode (path, ast)
 
 
@@ -256,6 +264,18 @@ Name: configure_daisy
 
 def configure_daisy (path, ast):
    generator = daisyMake ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: configure_perf
+==============================================================================
+"""
+
+def configure_perf (path, ast):
+   generator = perfMake ()
    generator.generate (path, ast)
 
 
@@ -355,11 +375,11 @@ def cleanup (path):
 
 """
 ==============================================================================
-Name : build_daisy_all
+Name : build_daisy_target
 ==============================================================================
 """
 
-def build_daisy_all (path, configuration, semihosting):
+def build_daisy_target (target, path, configuration, semihosting):
    path_artifacts = os.path.join (path, 'artifacts')
 
    build_libdaisy ()
@@ -380,12 +400,22 @@ def build_daisy_all (path, configuration, semihosting):
 
 """
 ==============================================================================
-Name : build_daisy_target
+Name : build_performance_target
 ==============================================================================
 """
 
-def build_daisy_target (target, path, configuration, semihosting):
-   build_daisy_all (path, configuration, semihosting)
+def build_performance_target (target, path):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   build_libdaisy ()
+
+   cmd = [
+      MAKE_CMD,
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'perf')
+   ]
+
+   subprocess.check_call (cmd)
 
 
 
@@ -536,8 +566,6 @@ Name : stlink_plugged
 """
 
 def stlink_plugged ():
-   import serial.tools.list_ports
-
    # taken front openocd scripts/interface/stlink.cfg
    stlink_vid_pids = [
       (0x0483, 0x3744),
@@ -561,11 +589,30 @@ def stlink_plugged ():
 
 """
 ==============================================================================
-Name : deploy
+Name : daisy_plugged
 ==============================================================================
 """
 
-def deploy (name, section, path, configuration, programmer):
+def daisy_plugged ():
+   vid_pids = [
+      (0x0483, 0x5740), # Could clash with st-link
+   ]
+
+   for port in serial.tools.list_ports.comports ():
+      if (port.vid, port.pid) == (0x0483, 0x5740) and 'Daisy' in port.description:
+         return True
+
+   return False
+
+
+
+"""
+==============================================================================
+Name : deploy_daisy
+==============================================================================
+"""
+
+def deploy_daisy (name, section, path, configuration, programmer):
    path_artifacts = os.path.join (path, 'artifacts')
 
    if programmer == 'auto':
@@ -589,9 +636,37 @@ def deploy (name, section, path, configuration, programmer):
       file_bin = os.path.join (path_artifacts, 'daisy', configuration, '%s.bin' % name)
       deploy_dfu_util (name, section, file_bin)
 
-   elif mode == 'simulator':
-      package_path = os.path.join (path_artifacts, 'simulator', configuration, 'package')
-      deploy_simulator (name, package_path)
+
+
+"""
+==============================================================================
+Name : deploy_performance
+==============================================================================
+"""
+
+def deploy_performance (name, section, path, programmer):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if programmer == 'auto':
+      if section != 'flash':
+         programmer = 'dfu'
+      elif stlink_plugged ():
+         programmer = 'stlink'
+      else:
+         programmer = 'dfu'
+
+   if programmer == 'stlink':
+      if section != 'flash':
+         print ('Install option \'stlink\' doesn\'t support programming to %s.' % section)
+         print ('Please use option \'dfu\' instead.')
+         sys.exit ()
+
+      file_elf = os.path.join (path_artifacts, 'perf', 'Release', '%s.elf' % name)
+      deploy_openocd (name, file_elf)
+
+   elif programmer == 'dfu':
+      file_bin = os.path.join (path_artifacts, 'perf', 'Release', '%s.bin' % name)
+      deploy_dfu_util (name, section, file_bin)
 
 
 
@@ -753,3 +828,33 @@ def deploy_simulator (name, path, configuration):
    )
 
    print ('OK.')
+
+
+
+"""
+==============================================================================
+Name : run_performance
+==============================================================================
+"""
+
+def run_performance ():
+   print ('Waiting for Daisy...')
+   print ('(Press the RESET button if it doesn\'t connect)')
+
+   while not daisy_plugged ():
+      print ('.', end='', flush=True)
+      time.sleep (0.5)
+
+   print ('')
+
+   device = None
+   for port in serial.tools.list_ports.comports ():
+      if (port.vid, port.pid) == (0x0483, 0x5740): # Daisy Seed Built In
+         device = port.device
+
+   assert device
+   daisy = serial.Serial (device, 115200, timeout=0)
+
+   while True:
+      nbr = daisy.in_waiting
+      print (daisy.read (nbr).decode ('utf-8'), end='')
