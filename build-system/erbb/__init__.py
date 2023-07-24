@@ -698,7 +698,7 @@ def deploy_dfu_util (name, section, file_bin):
    if section == 'flash':
       print ('Enter the system bootloader by holding the BOOT button down,')
       print ('and then pressing, and releasing the RESET button.')
-   elif section == 'qspi':
+   elif section == 'qspi' or section == 'sram':
       print ('Enter the Daisy bootloader by pressing the RESET button.')
    else:
       assert False
@@ -709,7 +709,7 @@ def deploy_dfu_util (name, section, file_bin):
 
    if section == 'flash':
       section_address = '0x08000000'
-   elif section == 'qspi':
+   elif section == 'qspi' or section == 'sram':
       section_address = '0x90040000'
    else:
       assert False
