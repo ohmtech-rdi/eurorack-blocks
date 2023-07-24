@@ -20,6 +20,8 @@
 #include "erb/daisy/SubmoduleDaisyPatchSm.h"
 
 #include <array>
+#include <atomic>
+#include <cstdint>
 
 
 #undef erb_USE_DAISY_IMPL
@@ -168,6 +170,8 @@ public:
    inline void    impl_postprocess (AudioOutPin pin);
    inline void    impl_postprocess ();
 
+   inline void    impl_idle ();
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -259,6 +263,8 @@ private:
                      }
                   };
 
+   std::array <std::atomic <std::uint16_t>, 16>
+                  _leds_u12 = {};
    daisy::LedDriverPca9685 <1, true>
                   _led_driver;
 #if defined (erb_USE_DAISY_IMPL)

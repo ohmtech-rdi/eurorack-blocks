@@ -128,4 +128,16 @@ int main ()
 %     board_postprocess%
       module.ui.board.impl_postprocess ();
    });
+
+   const auto tick_freq = daisy::System::GetTickFreq ();
+
+   for (;;)
+   {
+      auto ts_beg = daisy::System::GetTick ();
+
+      module.ui.board.impl_idle ();
+
+      // busy wait so that the idle loop is at least 6ms
+      while (daisy::System::GetTick () - ts_beg < tick_freq * 6 / 1000) {}
+   }
 }

@@ -300,9 +300,7 @@ void  BoardKivu12::impl_postprocess (DacPin pin)
          8, 9, 10, 11, 12, 13, 14, 15  // L9..16
       };
 
-      _led_driver.SetLedRaw (
-         led_order [pin.index - L1.index], linear_u12
-      );
+      _leds_u12 [led_order [pin.index - L1.index]] = linear_u12;
    }
 }
 
@@ -337,6 +335,24 @@ void  BoardKivu12::impl_postprocess ()
    _npr_rand_state = _npr_rand_state * 1103515245 + 12345;
    _npr = _npr_rand_state >> 31;
    _gpio_npr.write (_npr != 0);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_idle
+==============================================================================
+*/
+
+void  BoardKivu12::impl_idle ()
+{
+   for (size_t i = 0 ; i < _leds_u12.size () ; ++i)
+   {
+      _led_driver.SetLedRaw (
+         i, _leds_u12 [i]
+      );
+   }
 
    _led_driver.SwapBuffersAndTransmit ();
 }

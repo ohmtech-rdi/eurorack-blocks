@@ -53,6 +53,8 @@ public:
    inline void    impl_postprocess (AudioOutPin pin);
    inline void    impl_postprocess () {}
 
+   inline void    impl_idle () {}
+
 
 private:
 
