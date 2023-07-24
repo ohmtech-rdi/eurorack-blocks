@@ -94,6 +94,10 @@
             'erbb/generators/daisy/Makefile_template',
             'erbb/generators/daisy/make.py',
 
+            # generators/perf
+            'erbb/generators/perf/Makefile_template',
+            'erbb/generators/perf/make.py',
+
             # generators/vscode
             'erbb/generators/vscode/c_cpp_properties_template.json',
             'erbb/generators/vscode/c_cpp_properties.py',
