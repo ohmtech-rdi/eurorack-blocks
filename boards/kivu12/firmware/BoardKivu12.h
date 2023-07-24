@@ -259,7 +259,7 @@ private:
                      }
                   };
 
-   daisy::LedDriverPca9685 <2, true>
+   daisy::LedDriverPca9685 <1, true>
                   _led_driver;
 #if defined (erb_USE_DAISY_IMPL)
    ShiftRegister  _shift_register;

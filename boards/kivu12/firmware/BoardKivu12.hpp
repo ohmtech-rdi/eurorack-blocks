@@ -46,8 +46,6 @@ Name : ctor
 
 BoardKivu12::BoardKivu12 ()
 {
-   uint8_t addr [] = {0x00, 0x02};
-
    constexpr auto led_i2c_config = daisy::I2CHandle::Config {
       daisy::I2CHandle::Config::Peripheral::I2C_1,
       {
@@ -62,6 +60,7 @@ BoardKivu12::BoardKivu12 ()
 
    static DmaBuffer DMA_BUFFER_MEM_SECTION led_dma_buffer_a;
    static DmaBuffer DMA_BUFFER_MEM_SECTION led_dma_buffer_b;
+   const uint8_t addr [] = {0x00};
 
    daisy::I2CHandle i2c;
    i2c.Init (led_i2c_config);
