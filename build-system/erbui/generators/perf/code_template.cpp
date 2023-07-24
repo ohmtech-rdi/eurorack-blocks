@@ -245,6 +245,8 @@ int main ()
       postprocess = std::max (postprocess, tsl_4 - tsl_3);
       total = std::max (total, tsl_4 - tsl_1);
 
+      module.ui.board.impl_idle ();
+
       ++cnt;
 
       if (cnt >= 1000)
