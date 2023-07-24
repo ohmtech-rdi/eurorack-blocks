@@ -157,6 +157,10 @@
             'erbui/generators/faust/code_template.hpp',
             'erbui/generators/faust/code.py',
 
+            # generators/perf
+            'erbui/generators/perf/code_template.cpp',
+            'erbui/generators/perf/code.py',
+
             # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
