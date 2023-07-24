@@ -264,6 +264,9 @@ def build (args):
    elif target == 'firmware':
       build_firmware (args)
 
+   elif target == 'performance':
+      build_performance (args)
+
    elif target == 'hardware':
       build_hardware (args)
 
@@ -332,6 +335,24 @@ def build_firmware (args):
 
 
 
+#-- build_performance --------------------------------------------------------
+
+def build_performance (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+
+   # force erbui parsing to avoid cache concurrency on Windows
+   ast_erbui = read_erbui_ast (find_erbui ())
+
+   module = ast_erbb.modules [0].name
+
+   erbb.build_performance_target (module, cwd)
+
+
+
 #-- build_hardware -----------------------------------------------------------
 
 def build_hardware (args):
@@ -362,6 +383,8 @@ def install (args):
 
    if target == 'firmware':
       install_firmware (args)
+   elif target == 'performance':
+      install_performance (args)
    elif target == 'bootloader':
       install_bootloader (args)
    elif target == 'simulator':
@@ -391,7 +414,26 @@ def install_firmware (args):
    ast_erbb = read_erbb_ast (find_erbb ())
    module = ast_erbb.modules [0].name
    section = ast_erbb.modules [0].section.name
-   erbb.deploy (module, section, cwd, configuration, programmer)
+   erbb.deploy_daisy (module, section, cwd, configuration, programmer)
+
+
+
+#-- install_performance ------------------------------------------------------
+
+def install_performance (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   if not hasattr (args, 'programmer'):
+      programmer = 'auto'
+   else:
+      programmer = args.programmer
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   module = ast_erbb.modules [0].name
+   section = ast_erbb.modules [0].section.name
+   erbb.deploy_performance (module, section, cwd, programmer)
 
 
 
@@ -421,6 +463,27 @@ def install_simulator (args):
    ast_erbb = read_erbb_ast (find_erbb ())
    module = ast_erbb.modules [0].name
    erbb.deploy_simulator (module, cwd, configuration)
+
+
+
+#-- run ----------------------------------------------------------------------
+
+def run (args):
+   target = args.target
+
+   target = args.target if args.target != None else 'performance'
+
+   if target == 'performance':
+      run_performance (args)
+
+
+
+#-- run_performance ----------------------------------------------------------
+
+def run_performance (args):
+   import erbb
+
+   erbb.run_performance ()
 
 
 
@@ -545,6 +608,11 @@ def parse_args_build (parent):
       help = 'enable semihosting'
    )
 
+   parser_performance = subparsers.add_parser (
+      'performance',
+      help='build the performance analysis firmware'
+   )
+
    parser_hardware = subparsers.add_parser (
       'hardware',
       help='build the hardware'
@@ -595,6 +663,11 @@ def parse_args_install (parent):
       help='install the bootloader'
    )
 
+   parser_performance = subparsers.add_parser (
+      'performance',
+      help='install the performance analysis firmware'
+   )
+
    parser_simulator = subparsers.add_parser (
       'simulator',
       help='install the simulator'
@@ -605,6 +678,26 @@ def parse_args_install (parent):
       default = 'release',
       choices = ['debug', 'release'],
       help = 'the build configuration to use, defaults to release'
+   )
+
+
+
+#-- parse_args_run -----------------------------------------------------------
+
+def parse_args_run (parent):
+
+   parser = parent.add_parser (
+      'run',
+      help='run the firmware'
+   )
+
+   subparsers = parser.add_subparsers (
+      dest='target' # target not required, so can be None for default
+   )
+
+   parser_performance = subparsers.add_parser (
+      'performance',
+      help='run the performance analysis firmware'
    )
 
 
@@ -627,6 +720,7 @@ def parse_args ():
    parse_args_configure (subparsers)
    parse_args_build (subparsers)
    parse_args_install (subparsers)
+   parse_args_run (subparsers)
 
    return parser.parse_args (sys.argv [1:])
 
@@ -656,6 +750,9 @@ def main ():
 
          elif args.command == 'install':
             install (args)
+
+         elif args.command == 'run':
+            run (args)
 
       except erbb.error.Error as error:
          if hasattr (sys.stderr, "isatty") and sys.stderr.isatty ():

@@ -29,11 +29,15 @@ def with_apt ():                       return '--with-apt'
 
 def build_simulator ():                return 'simulator', ZeroOrMore ([configuration, xcode])
 def build_firmware ():                 return 'firmware', ZeroOrMore ([configuration, semihosting])
+def build_performance ():              return 'performance'
 def build_hardware ():                 return 'hardware', ZeroOrMore ([only_gerber])
 
 def install_firmware ():               return 'firmware', ZeroOrMore ([configuration, programmer])
+def install_performance ():            return 'performance'
 def install_bootloader ():             return 'bootloader'
 def install_simulator ():              return 'simulator', ZeroOrMore ([configuration])
+
+def run_performance ():                return 'performance'
 
 def setup ():
    if platform.system () == 'Darwin':
@@ -45,10 +49,11 @@ def setup ():
 
 def init ():                           return 'init', ZeroOrMore ([name, language])
 def configure ():                      return 'configure'
-def build ():                          return 'build', [build_simulator, build_firmware, build_hardware]
-def install ():                        return 'install', [install_firmware, install_bootloader, install_simulator]
+def build ():                          return 'build', [build_simulator, build_firmware, build_performance, build_hardware]
+def install ():                        return 'install', [install_firmware, install_performance, install_bootloader, install_simulator]
+def run ():                            return 'run ', run_performance
 
-def commands ():                       return [setup, init, configure, build, install]
+def commands ():                       return [setup, init, configure, build, install, run]
 
 def erbb_cli ():                       return 'erbb', commands
 
@@ -77,12 +82,14 @@ DESCRIPTION = {
    '--only-gerber': 'generate gerber from pcb layout only',
    'install': 'install the firmware or bootloader',
    '--programmer': 'the programmer to use, defaults to automatic selection',
+   'performance': 'the performance analysis firmware',
    'bootloader': 'the bootloader',
    'debug': 'for debugging',
    'release': 'for testing or distribution',
    'auto': 'automatic selection of programmer',
    'dfu': 'for flashing using a USB cable',
    'stlink': 'for flashing using a ST-link programmer',
+   'run ': 'run the firmware',
 }
 
 
@@ -98,6 +105,6 @@ def complete (line, add_description=False):
          return []
       else:
          if add_description:
-            matches = [rule + '\t' + DESCRIPTION [rule] for rule in matches]
+            matches = [rule.rstrip () + '\t' + DESCRIPTION [rule] for rule in matches]
 
          return matches

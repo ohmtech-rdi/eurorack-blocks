@@ -644,5 +644,7 @@ def check_toolchain ():
    import svg2mod
    import soundfile
    import ezdxf
+   import serial
+   import serial.tools.list_ports
 
    print ('OK.')
