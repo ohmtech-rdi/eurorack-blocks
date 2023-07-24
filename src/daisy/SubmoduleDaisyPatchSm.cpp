@@ -114,8 +114,6 @@ void  SubmoduleDaisyPatchSm::do_run ()
 {
    _adc.Start ();
    _audio.Start (audio_callback_proc);
-
-   for (;;) {}
 }
 
 

@@ -99,8 +99,6 @@ void  SubmoduleDaisySeed::do_run ()
 {
    _seed.adc.Start ();
    _seed.StartAudio (audio_callback_proc);
-
-   for (;;) {}
 }
 
 
