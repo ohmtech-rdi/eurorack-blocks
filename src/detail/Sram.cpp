@@ -30,7 +30,7 @@ namespace erb
 
 
 #if defined (erb_TARGET_DAISY)
-std::aligned_storage <erb_SRAM_MEM_POOL_SIZE>::type __attribute__((section(".heap")))
+std::aligned_storage <erb_SRAM_MEM_POOL_SIZE>::type __attribute__((section(".bss")))
    erb_sram_memory_pool_storage;
 #endif
 
