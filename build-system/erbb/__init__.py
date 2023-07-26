@@ -31,17 +31,22 @@ if platform.system () == 'Darwin':
    DFU_CMD = os.path.join (PATH_TOOLCHAIN, 'bin', 'dfu-util')
    OPENOCD_CMD = os.path.join (PATH_TOOLCHAIN, 'bin', 'openocd')
    OPENOCD_SCRIPTS = os.path.join (PATH_TOOLCHAIN, 'share', 'openocd', 'scripts')
+   GDB_CMD = os.path.join (PATH_TOOLCHAIN, 'gcc-arm-none-eabi-10.3-2021.10', 'bin', 'arm-none-eabi-gdb')
 
 elif platform.system () == 'Windows':
    MAKE_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'mingw32-make.exe')
    DFU_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'dfu-util.exe')
    OPENOCD_CMD = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'bin', 'openocd.exe')
    OPENOCD_SCRIPTS = os.path.join (PATH_TOOLCHAIN, 'msys2_mingw64', 'share', 'openocd', 'scripts')
+   GDB_CMD = os.path.join (PATH_TOOLCHAIN, 'gcc-arm-none-eabi-10.3-2021.10', 'bin', 'arm-none-eabi-gdb')
+
 else:
    MAKE_CMD = 'make'
    DFU_CMD = 'dfu-util'
    OPENOCD_CMD = 'openocd'
    OPENOCD_SCRIPTS = '/usr/local/share/openocd/scripts'
+   GDB_CMD = 'arm-none-eabi-gdb'
+
 
 sys.path.insert (0, os.path.join (PATH_ROOT, 'build-system'))
 import setup
@@ -404,10 +409,21 @@ Name : build_performance_target
 ==============================================================================
 """
 
-def build_performance_target (target, path):
+def build_performance_target (target, path, logger):
    path_artifacts = os.path.join (path, 'artifacts')
 
    build_libdaisy ()
+
+   os.environ ['CONFIGURATION'] = 'Release'
+
+   if logger == 'auto':
+      if stlink_plugged ():
+         logger = 'semihosting'
+      else:
+         logger = 'usb'
+
+   if logger == 'semihosting':
+      os.environ ['SEMIHOSTING'] = '1'
 
    cmd = [
       MAKE_CMD,
@@ -838,6 +854,54 @@ Name : run_performance
 """
 
 def run_performance ():
+   if stlink_plugged ():
+      run_performance_semihosting ()
+   else:
+      run_performance_usb ()
+
+
+
+"""
+==============================================================================
+Name : run_performance_semihosting
+==============================================================================
+"""
+
+def run_performance_semihosting ():
+   openocd_cmd = [
+      OPENOCD_CMD,
+      '--search', OPENOCD_SCRIPTS,
+      '--file', 'interface/stlink.cfg',
+      '--file', 'target/stm32h7x.cfg',
+   ]
+
+   gdb_cmd = [
+      GDB_CMD,
+      '--ex', 'target extended-remote localhost:3333',   # connect to openocd gdb-server
+      '--ex', 'monitor reset halt',                      # restart device and stop execution
+      '--ex', 'monitor arm semihosting enable',          # activate semihosting
+      '--ex', 'continue',                                # run
+   ]
+
+   proc_openocd = subprocess.Popen (openocd_cmd)
+   proc_gdb = subprocess.Popen (gdb_cmd)
+
+   try:
+      while True:
+         pass
+   except KeyboardInterrupt:
+      proc_gdb.kill ()
+      proc_openocd.kill ()
+
+
+
+"""
+==============================================================================
+Name : run_performance_usb
+==============================================================================
+"""
+
+def run_performance_usb ():
    print ('Waiting for Daisy...')
    print ('(Press the RESET button if it doesn\'t connect)')
 

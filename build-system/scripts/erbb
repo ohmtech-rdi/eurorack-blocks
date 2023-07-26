@@ -342,6 +342,11 @@ def build_performance (args):
 
    cwd = os.getcwd ()
 
+   if not hasattr (args, 'logger'):
+      logger = 'auto'
+   else:
+      logger = args.logger
+
    ast_erbb = read_erbb_ast (find_erbb ())
 
    # force erbui parsing to avoid cache concurrency on Windows
@@ -349,7 +354,7 @@ def build_performance (args):
 
    module = ast_erbb.modules [0].name
 
-   erbb.build_performance_target (module, cwd)
+   erbb.build_performance_target (module, cwd, logger)
 
 
 
@@ -611,6 +616,13 @@ def parse_args_build (parent):
    parser_performance = subparsers.add_parser (
       'performance',
       help='build the performance analysis firmware'
+   )
+
+   parser_performance.add_argument(
+      '--logger',
+      default = 'auto',
+      choices = ['auto', 'usb', 'semihosting'],
+      help = 'the logger to use, defaults to automatic selection'
    )
 
    parser_hardware = subparsers.add_parser (

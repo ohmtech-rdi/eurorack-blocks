@@ -19,6 +19,7 @@ def name ():                           return '--name', identifier
 def language ():                       return '--language', ['c++', 'max', 'faust']
 def configuration ():                  return '--configuration', ['debug', 'release']
 def programmer ():                     return '--programmer', ['dfu', 'stlink']
+def logger ():                         return '--logger', ['usb', 'semihosting']
 def xcode ():                          return '--xcode'
 def semihosting ():                    return '--semihosting'
 def only_gerber ():                    return '--only-gerber'
@@ -29,7 +30,7 @@ def with_apt ():                       return '--with-apt'
 
 def build_simulator ():                return 'simulator', ZeroOrMore ([configuration, xcode])
 def build_firmware ():                 return 'firmware', ZeroOrMore ([configuration, semihosting])
-def build_performance ():              return 'performance'
+def build_performance ():              return 'performance', ZeroOrMore ([logger])
 def build_hardware ():                 return 'hardware', ZeroOrMore ([only_gerber])
 
 def install_firmware ():               return 'firmware', ZeroOrMore ([configuration, programmer])
@@ -83,12 +84,15 @@ DESCRIPTION = {
    'install': 'install the firmware or bootloader',
    '--programmer': 'the programmer to use, defaults to automatic selection',
    'performance': 'the performance analysis firmware',
+   '--logger': 'the logger to use, defaults to automatic selection',
    'bootloader': 'the bootloader',
    'debug': 'for debugging',
    'release': 'for testing or distribution',
-   'auto': 'automatic selection of programmer',
+   'auto': 'automatic selection',
    'dfu': 'for flashing using a USB cable',
    'stlink': 'for flashing using a ST-link programmer',
+   'usb': 'using USB',
+   'semihosting': 'using semihosting',
    'run ': 'run the firmware',
 }
 
