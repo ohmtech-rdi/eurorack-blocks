@@ -54,7 +54,7 @@ class Make:
       elif module.section.name == 'qspi':
          lds_path = os.path.join (PATH_LIBDAISY, 'core', 'STM32H750IB_qspi.lds')
       elif module.section.name == 'sram':
-         lds_path = os.path.join (PATH_LIBDAISY, 'core', 'STM32H750IB_sram.lds')
+         lds_path = os.path.join (PATH_ERBB_GENS, 'linker', 'STM32H750IB_sram_ramd2.lds')
       else:
          assert False
 
