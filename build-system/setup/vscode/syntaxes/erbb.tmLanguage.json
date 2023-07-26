@@ -24,7 +24,7 @@
 				},
             {
 					"name": "keyword.control.erbb",
-					"match": "\\b(flash|qspi|mono|interleaved|planar)\\b"
+					"match": "\\b(flash|qspi|sram|mono|interleaved|planar)\\b"
 				},
 				{
 					"name": "keyword.type.erbb",

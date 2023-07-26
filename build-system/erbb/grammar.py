@@ -13,7 +13,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 KEYWORDS = (
    'module',
    'import', 'define', 'sources', 'resources', 'section',
-   'file', 'data', 'flash', 'qspi', 'stream', 'mono', 'interleaved', 'planar'
+   'file', 'data', 'flash', 'qspi', 'sram', 'stream', 'mono', 'interleaved', 'planar'
 )
 
 SYMBOLS = (',', '{', '}', '=')
@@ -75,7 +75,7 @@ def resources_declaration ():          return 'resources', resources_body
 def base_declaration ():               return 'base', string_literal
 
 # Base
-def section_name ():                   return ['flash', 'qspi']
+def section_name ():                   return ['flash', 'qspi', 'sram']
 def section_declaration ():            return 'section', section_name
 
 # Module
