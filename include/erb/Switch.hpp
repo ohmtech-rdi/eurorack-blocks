@@ -46,7 +46,7 @@ Name : position_first
 template <std::size_t NbrPosition>
 bool  Switch <NbrPosition>::position_first () const
 {
-   return _0.held ();
+   return _0.held () && !_1.held ();
 }
 
 
@@ -74,7 +74,7 @@ Name : position_last
 template <std::size_t NbrPosition>
 bool  Switch <NbrPosition>::position_last () const
 {
-   return _1.held ();
+   return !_0.held () && _1.held ();
 }
 
 
