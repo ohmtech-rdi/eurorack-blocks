@@ -36,7 +36,7 @@ void  Drop::process ()
    }
 
    auto mode
-      = ui.mute_hp.position_last ()
+      = ui.mute_hp.position_first ()
       ? DropDsp::Mode::Mute
       : DropDsp::Mode::HighPass;
 
