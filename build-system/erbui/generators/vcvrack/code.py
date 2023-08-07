@@ -155,8 +155,6 @@ class Code:
             if func_category == 'Light':
                func_category = 'Child'
 
-            widget = self.get_control_widget (control)
-
             if control.rotation is None:
                rotation = 0
             else:
@@ -182,7 +180,7 @@ class Code:
 
             lines += '   {\n'
             lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
-               category, widget, control.position.x.mm, control.position.y.mm, index
+               category, control.simulator_class, control.position.x.mm, control.position.y.mm, index
             )
             lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
             lines += '      add%s (control_ptr);\n' % func_category
@@ -212,18 +210,3 @@ class Code:
       }
 
       return kind_category_map [control.kind]
-
-
-   #--------------------------------------------------------------------------
-   # Returns the last non-None Simulator field
-
-   def get_control_widget (self, control):
-      for part in control.parts:
-         for symbol in part.sch.symbols:
-            simulator_field = symbol.property ('Simulator')
-            if simulator_field is not None:
-               widget = simulator_field
-
-      assert widget is not None
-
-      return widget
