@@ -63,7 +63,7 @@
       'config.h',
       'def.h',
       'erb.h',
-      'module_init.h',
+      'module_fnc.h',
 
       'detail/Animation.h',
       'detail/Animation.hpp',

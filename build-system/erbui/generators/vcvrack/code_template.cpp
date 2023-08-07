@@ -15,7 +15,7 @@
 
 #include "%module.name%.h"
 
-#include "erb/module_init.h"
+#include "erb/module_fnc.h"
 #include "erb/vcvrack/ModuleBoard.h"
 #include "erb/vcvrack/VcvWidgets.h"
 
@@ -52,6 +52,9 @@ struct ErbWidget
 {
                   ErbWidget (ErbModule * module);
 
+   void           step () override;
+
+   ErbModule *    module_ptr = nullptr;
 }; // struct ErbWidget
 
 
@@ -169,6 +172,7 @@ Name : ErbWidget::ctor
 */
 
 ErbWidget::ErbWidget (ErbModule * module_)
+:  module_ptr (module_)
 {
    using namespace rack;
 
@@ -190,6 +194,21 @@ ErbWidget::ErbWidget (ErbModule * module_)
    // controls
 
 %  controls_widget%
+}
+
+
+
+/*
+==============================================================================
+Name : ErbWidget::step
+==============================================================================
+*/
+
+void  ErbWidget::step ()
+{
+   rack::Widget::step ();
+
+   erb::module_idle (*module_ptr->module_uptr);
 }
 
 
