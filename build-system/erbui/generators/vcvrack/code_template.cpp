@@ -15,7 +15,7 @@
 
 #include "%module.name%.h"
 
-#include "erb/module_init.h"
+#include "erb/module_fnc.h"
 #include "erb/vcvrack/ModuleBoard.h"
 #include "erb/vcvrack/VcvWidgets.h"
 
