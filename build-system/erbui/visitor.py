@@ -825,3 +825,7 @@ class Visitor (PTNodeVisitor):
 
    def visit_manufacturer_control_part_name (self, node, children):
       return self.to_keyword (node)
+
+   def visit_manufacturer_control_class (self, node, children):
+      string_literal = children.string_literal [0]
+      return ast.ManufacturerControlClass (string_literal)

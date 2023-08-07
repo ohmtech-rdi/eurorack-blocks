@@ -230,9 +230,10 @@ def generator_name ():                 return string_literal
 def generator_declaration ():          return 'generator', generator_name, Optional (generator_body)
 
 # Manufacturer Control
+def manufacturer_control_class ():        return 'class', string_literal
 def manufacturer_control_part_name ():    return _(r'(?!\b({})\b)((\w|\.)*)')
 def manufacturer_control_parts ():        return 'parts', manufacturer_control_part_name, ZeroOrMore (',', manufacturer_control_part_name)
-def manufacturer_control_entities ():     return style_declaration, manufacturer_control_parts
+def manufacturer_control_entities ():     return style_declaration, manufacturer_control_parts, manufacturer_control_class
 def manufacturer_control_body ():         return '{', manufacturer_control_entities, '}'
 def manufacturer_control_kind ():         return list (CONTROL_KINDS)
 def manufacturer_control_kinds ():        return manufacturer_control_kind, ZeroOrMore (',', manufacturer_control_kind)

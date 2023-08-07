@@ -221,6 +221,9 @@ class Node:
    @property
    def is_manufacturer_control_parts (self): return isinstance (self, ManufacturerControlParts)
 
+   @property
+   def is_manufacturer_control_class (self): return isinstance (self, ManufacturerControlClass)
+
 
 
 # -- Scope -------------------------------------------------------------------
@@ -1333,6 +1336,7 @@ class Control (Scope):
       self.identifier_name = identifier_name
       self.keyword_kind = keyword_kind
       self.parts = []
+      self.simulator_class = None
 
    @staticmethod
    def typename (): return 'control'
@@ -1993,6 +1997,12 @@ class ManufacturerControl (Scope):
       keyword_names = entities [0].keyword_names
       return [e.value for e in keyword_names]
 
+   @property
+   def class_ (self):
+      entities = [e for e in self.entities if e.is_manufacturer_control_class]
+      assert len (entities) == 1
+      return entities [0].name
+
 
 # -- ManufacturerControlParts ------------------------------------------------
 
@@ -2004,3 +2014,15 @@ class ManufacturerControlParts (Scope):
 
    @staticmethod
    def typename (): return 'parts'
+
+
+# -- ManufacturerControlClass ------------------------------------------------
+
+class ManufacturerControlClass (Node):
+   def __init__ (self, string_literal):
+      assert isinstance (string_literal, StringLiteral)
+      super (ManufacturerControlClass, self).__init__ ()
+      self.string_literal = string_literal
+
+   @property
+   def name (self): return self.string_literal.value
