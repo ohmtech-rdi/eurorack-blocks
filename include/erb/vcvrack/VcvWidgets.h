@@ -46,6 +46,24 @@ struct AlphaPot: rack::app::SvgKnob {
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
+
+
+template <typename KnobTrait>
+struct BournsPec11R: rack::app::SvgKnob {
+   BournsPec11R() {
+      minAngle = 0;
+      maxAngle = 1000 * 2 * float (M_PI);
+      shadow->blurRadius = 5;
+      setSvg (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
+      ));
+   }
+
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
+
+
 struct Rogan6Ps {
    static constexpr const char * resource_0 = "res/rogan.6ps.svg";
 };

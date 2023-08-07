@@ -20,6 +20,7 @@
 #include "erb/CvIn.h"
 #include "erb/CvInJackDetection.h"
 #include "erb/CvOut.h"
+#include "erb/Encoder.h"
 #include "erb/GateIn.h"
 #include "erb/GateInJackDetection.h"
 #include "erb/GateOut.h"
@@ -240,6 +241,24 @@ inline void  BoardGeneric::impl_bind (CvOut <FloatRange::Bipolar> & control, rac
       .data_ptr = &control.impl_data,
       .output_ptr = &model,
       .bipolar = true
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (Encoder & control, rack::engine::Param & model)
+{
+   _binding_inputs.push_back (BindingEncoder {
+      .data_a_ptr = const_cast <uint8_t *> (&control.impl_data_a),
+      .data_b_ptr = const_cast <uint8_t *> (&control.impl_data_b),
+      .param_ptr = &model
    });
 }
 

@@ -287,6 +287,23 @@ void  BoardGeneric::BindingCvOut::process ()
 
 /*
 ==============================================================================
+Name : BindingEncoder::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingEncoder::process ()
+{
+   // Assume 24 notches per rotation
+   int phase = int (std::floor (param_ptr->getValue () * 24.f * 4.f)) % 4;
+
+   *data_a_ptr = (phase == 0) || (phase == 1);
+   *data_b_ptr = (phase == 1) || (phase == 2);
+}
+
+
+
+/*
+==============================================================================
 Name : BindingGateIn::process
 ==============================================================================
 */

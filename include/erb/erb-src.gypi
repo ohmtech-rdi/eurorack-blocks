@@ -37,6 +37,7 @@
       'CvInJackDetection.hpp',
       'CvOut.h',
       'CvOut.hpp',
+      'Encoder.h',
       'FloatRange.h',
       'GateIn.h',
       'GateIn.hpp',
@@ -84,6 +85,7 @@
       'detail/fnc.hpp',
 
       '../../src/Button.cpp',
+      '../../src/Encoder.cpp',
       '../../src/GateOut.cpp',
 
       '../../src/detail/Animation.cpp',
