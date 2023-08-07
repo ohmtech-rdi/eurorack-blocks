@@ -307,6 +307,81 @@ struct Led3mm : rack::MediumLight <Base>
 
 
 
+struct Panel_ER_OLEDM066_1W_I2C
+{
+   // https://www.buydisplay.com/download/manual/ER-OLEDM0.66-1_Datasheet.pdf
+
+   static constexpr std::size_t width = 64;
+   static constexpr std::size_t height = 48;
+
+   // mm
+   static constexpr float visual_width = 15.42f;
+   static constexpr float visual_height = 12.06f;
+   static constexpr float active_width = 13.42f;
+   static constexpr float active_height = 10.06f;
+   static constexpr float dot_size = 0.19f;
+};
+
+
+struct PixelRgba
+{
+   std::uint8_t r;
+   std::uint8_t g;
+   std::uint8_t b;
+   std::uint8_t a;
+} __attribute__((packed));
+
+template <std::size_t Width, std::size_t Height>
+using Pixels = std::array <PixelRgba, Width * Height>;
+
+
+template <typename Panel>
+struct OledModule : rack::OpaqueWidget
+{
+   OledModule (const Pixels <Panel::width, Panel::height> & pixels_, NVGcolor filter = rack::color::WHITE)
+   :  pixels (pixels) {
+      box.size = mm2px (Vec (Panel::visual_width, Panel::visual_height));
+   }
+
+   void draw (const DrawArgs & args) override {
+      NVGcontext * const vg = args.vg;
+
+      if (image == -1)
+      {
+         image = nvgCreateImageRGBA (
+            vg, Panel::width, Panel::height,
+            NVG_IMAGE_PREMULTIPLIED | NVG_IMAGE_NEAREST,
+            reinterpret_cast <const unsigned char *> (&pixels [0])
+         );
+      }
+      else
+      {
+         nvgUpdateImage (vg, image, reinterpret_cast <const unsigned char *> (&pixels [0]));
+      }
+
+      auto paint = nvgImagePattern (
+         vg,
+         0, 0, Panel::width, Panel::height,
+         0, image, 1.f
+      );
+      nvgBeginPath (vg);
+      nvgRect (vg, 0.f, 0.f, box.size.x, box.size.y);
+      nvgFillPaint (vg, paint);
+      nvgFill (vg);
+   }
+
+   /*void drawLayer (const DrawArgs & args, int layer) override {
+      if (layer != 1) return;
+
+   }*/
+
+private:
+   const Pixels <Panel::width, Panel::height> & pixels;
+   int image = -1;
+};
+
+
+
 }  // namespace erb
 
 

@@ -157,6 +157,7 @@ class AnalyserStyle:
          'Button': [],
          'CvIn': [],
          'CvOut': [],
+         'Display': [],
          'Encoder': [],
          'GateIn': [],
          'GateOut': [],
