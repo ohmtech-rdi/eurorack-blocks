@@ -61,10 +61,12 @@ manufacturer ElectroDemo {
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style jack
       parts ed.jack, ed.nut
+      class "erb::ThonkPj398SmKnurled"
    }
 
    control Pot {
       style rogan, 6ps, xlarge, skirt
       parts ed.pot, rogan.6ps
+      class "erb::AlphaPot <erb::Rogan6Ps>"
    }
 }
