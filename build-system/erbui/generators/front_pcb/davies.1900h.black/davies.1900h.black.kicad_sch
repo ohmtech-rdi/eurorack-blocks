@@ -65,9 +65,6 @@
     (property "DistLink" "https://www.thonk.co.uk/shop/1900h-d/" (id 8) (at 110.49 74.93 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Simulator" "erb::Davies1900hBlack" (id 9) (at 110.49 74.93 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
   )
 
   (sheet_instances

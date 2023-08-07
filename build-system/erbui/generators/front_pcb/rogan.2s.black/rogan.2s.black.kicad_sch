@@ -68,9 +68,6 @@
     (property "Remarks" "Choose Black" (id 9) (at 110.49 74.93 90)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Simulator" "erb::AlphaPot <erb::Rogan2SBlack>" (id 10) (at 110.49 74.93 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
   )
 
   (sheet_instances
