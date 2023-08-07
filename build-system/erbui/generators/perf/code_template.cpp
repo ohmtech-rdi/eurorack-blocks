@@ -261,6 +261,7 @@ int main ()
       postprocess = std::max (postprocess, tsl_4 - tsl_3);
       total = std::max (total, tsl_4 - tsl_1);
 
+      erb::module_idle (module);
       module.ui.board.impl_idle ();
 
       ++cnt;

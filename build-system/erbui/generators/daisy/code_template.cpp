@@ -135,6 +135,7 @@ int main ()
    {
       auto ts_beg = daisy::System::GetTick ();
 
+      erb::module_idle (module);
       module.ui.board.impl_idle ();
 
       // busy wait so that the idle loop is at least 6ms
