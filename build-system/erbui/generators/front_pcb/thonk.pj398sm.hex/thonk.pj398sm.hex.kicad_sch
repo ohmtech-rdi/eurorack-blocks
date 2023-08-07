@@ -68,9 +68,6 @@
     (property "Remarks" "One nut bag contains already 50 pieces" (id 9) (at 110.49 74.93 90)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Simulator" "erb::ThonkPj398SmHex" (id 10) (at 110.49 74.93 90)
-      (effects (font (size 1.27 1.27)) hide)
-    )
   )
 
   (sheet_instances
