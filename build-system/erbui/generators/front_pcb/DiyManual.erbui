@@ -30,115 +30,138 @@ manufacturer DiyManual {
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style thonk.pj398sm.knurled, knurled
       parts thonk.pj398sm.manual, thonk.pj398sm.knurled
+      class "erb::ThonkPj398SmKnurled"
    }
 
    control AudioIn, CvIn, GateIn {
       style thonk.pj398sm.knurled, knurled, erb.normalling.nothing
       parts thonk.pj398sm.manual.npr, thonk.pj398sm.knurled
+      class "erb::ThonkPj398SmKnurled"
    }
 
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style thonk.pj398sm.hex, hex
       parts thonk.pj398sm.manual, thonk.pj398sm.hex
+      class "erb::ThonkPj398SmHex"
    }
 
    control AudioIn, CvIn, GateIn {
       style thonk.pj398sm.hex, hex, erb.normalling.nothing
       parts thonk.pj398sm.manual.npr, thonk.pj398sm.hex
+      class "erb::ThonkPj398SmHex"
    }
 
    control Button {
       style tl1105, small, black
       parts tl1105.manual, 1rblk
+      class "erb::Tl1105"
    }
 
    control Button {
       style ck.d6r.black, ck, d6r, black
       parts ck.d6r.black.manual
+      class "erb::Ckd6r"
    }
 
    control Led {
       style led.3mm.red, 3mm, red
       parts led.3mm.red.manual
+      class "erb::Led3mm <RedLight>"
    }
 
    control Led {
       style led.3mm.green, 3mm, green
       parts led.3mm.green.manual
+      class "erb::Led3mm <GreenLight>"
    }
 
    control Led {
       style led.3mm.yellow, 3mm, yellow
       parts led.3mm.yellow.manual
+      class "erb::Led3mm <YellowLight>"
    }
 
    control Led {
       style led.3mm.orange, 3mm, orange
       parts led.3mm.orange.manual
+      class "erb::Led3mm <YellowLight>" // Orange missing
    }
 
    control LedBi {
       style led.3mm.green_red, 3mm, green_red
       parts led.3mm.bi.green_red.manual
+      class "erb::Led3mm <GreenRedLight>"
    }
 
    control LedRgb {
       style led.3mm.rgb, 3mm, rgb
       parts led.3mm.rgb.manual
+      class "erb::Led3mm <RedGreenBlueLight>"
    }
 
    control Pot {
       style rogan.2ps, rogan, 2ps, medium, skirt, d_shaft
       parts alpha.9mm.manual, rogan.2ps
+      class "erb::AlphaPot <erb::Rogan2Ps>"
    }
 
    control Pot {
       style rogan.3ps, rogan, 3ps, large, skirt, d_shaft
       parts alpha.9mm.manual, rogan.3ps
+      class "erb::AlphaPot <erb::Rogan3Ps>"
    }
 
    control Pot {
       style rogan.1ps, rogan, 1ps, small, skirt, d_shaft
       parts alpha.9mm.manual, rogan.1ps
+      class "erb::AlphaPot <erb::Rogan1Ps>"
    }
 
    control Pot {
       style rogan.6ps, rogan, 6ps, xlarge, skirt, d_shaft
       parts alpha.9mm.manual, rogan.6ps
+      class "erb::AlphaPot <erb::Rogan6Ps>"
    }
 
    control Pot {
       style rogan.5ps, rogan, 5ps, larger, skirt, d_shaft
       parts alpha.9mm.manual, rogan.5ps
+      class "erb::AlphaPot <erb::Rogan5Ps>"
    }
 
    control Pot {
       style sifam.drn111.white, sifam, selco, small, skirt, d_shaft, white
       parts alpha.9mm.manual, sifam.drn111.white
+      class "erb::AlphaPot <erb::SifamDrn111>"
    }
 
    control Pot {
       style sifam.dbn151.white, sifam, selco, large, skirt, d_shaft, white
       parts alpha.9mm.manual, sifam.dbn151.white
+      class "erb::AlphaPot <erb::SifamDbn151>"
    }
 
    control Pot {
       style davies, 1900h, d_shaft, black
       parts alpha.9mm.manual, davies.1900h.black
+      class "erb::Davies1900hBlack"
    }
 
    control Switch {
       style dailywell.2ms1, on_on
       parts dailywell.2ms1.manual
+      class "erb::Dailywell2Ms1"
    }
 
    control Switch {
       style dailywell.2ms3, on_off_on
       parts dailywell.2ms3.manual
+      class "erb::Dailywell2Ms3"
    }
 
    control Trim {
       style songhuei.9mm, tall
       parts songhuei.9mm.manual
+      class "erb::SongHuei9"
    }
 }
