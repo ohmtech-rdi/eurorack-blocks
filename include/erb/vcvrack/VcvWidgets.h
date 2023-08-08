@@ -374,19 +374,19 @@ struct OledModule : rack::OpaqueWidget
    void draw (const DrawArgs & args) override {
       NVGcontext * const vg = args.vg;
 
-      _pixels = Panel::to_pixels (_control_data);
+      auto pixels = Panel::to_pixels (_control_data);
 
       if (_image == -1)
       {
          _image = nvgCreateImageRGBA (
             vg, Panel::width, Panel::height,
             NVG_IMAGE_PREMULTIPLIED | NVG_IMAGE_NEAREST,
-            reinterpret_cast <const unsigned char *> (&_pixels [0])
+            reinterpret_cast <const unsigned char *> (&pixels [0])
          );
       }
       else
       {
-         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&_pixels [0]));
+         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&pixels [0]));
       }
 
       nvgBeginPath (vg);
@@ -436,7 +436,6 @@ struct OledModule : rack::OpaqueWidget
 
 private:
    const typename Panel::Storage & _control_data;
-   Pixels <Panel::width, Panel::height> _pixels = {};
    int _image = -1;
 };
 
