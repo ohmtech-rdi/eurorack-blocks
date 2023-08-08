@@ -339,12 +339,16 @@ struct Panel_ER_OLEDM066_1W_I2C
    {
       Pixels <width, height> ret;
       for (size_t x = 0 ; x < width ; ++x)
-      for (size_t y = 0 ; y < height ; ++y)
       {
-         bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+         for (size_t y = 0 ; y < height ; ++y)
+         {
+            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
 
-         ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 255};
+            ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
+         }
       }
+
+      return ret;
    };
 };
 
@@ -370,26 +374,32 @@ struct OledModule : rack::OpaqueWidget
    void draw (const DrawArgs & args) override {
       NVGcontext * const vg = args.vg;
 
-      auto pixels = Panel::to_pixels (_control_data);
+      _pixels = Panel::to_pixels (_control_data);
 
       if (_image == -1)
       {
          _image = nvgCreateImageRGBA (
             vg, Panel::width, Panel::height,
             NVG_IMAGE_PREMULTIPLIED | NVG_IMAGE_NEAREST,
-            reinterpret_cast <const unsigned char *> (&pixels [0])
+            reinterpret_cast <const unsigned char *> (&_pixels [0])
          );
       }
       else
       {
-         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&pixels [0]));
+         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&_pixels [0]));
       }
+
+      nvgBeginPath (vg);
+      nvgRoundedRect (vg, 0, 0, box.size.x, box.size.y, 1);
+      nvgFillColor (vg, nvgRGB (0, 0, 0));
+      nvgFill (vg);
 
       auto paint = nvgImagePattern (
          vg,
          0, 0, Panel::width, Panel::height,
          0, _image, 1.f
       );
+
       switch (Filter)
       {
       case OledModuleFilter::White:
@@ -401,14 +411,32 @@ struct OledModule : rack::OpaqueWidget
          paint.innerColor = nvgRGB (255, 0, 0);
          break;
       }
+
+      float margin_x = rack::mm2px ((Panel::visual_width - Panel::active_width) * 0.5f);
+      float margin_y = rack::mm2px ((Panel::visual_height - Panel::active_height) * 0.5f);
+
       nvgBeginPath (vg);
-      nvgRect (vg, 0.f, 0.f, box.size.x, box.size.y);
+      nvgRect (vg, margin_x, margin_y, box.size.x - 2 * margin_x, box.size.y - 2 * margin_y);
       nvgFillPaint (vg, paint);
+      nvgFill (vg);
+
+      auto paint2 = nvgLinearGradient (
+         vg, 0, 0, 0, box.size.y * 0.5f,
+         nvgRGBA (255, 255, 255, 96), nvgRGBA (0, 0, 0, 0)
+      );
+
+      nvgBeginPath (vg);
+      nvgRoundedRect (
+         vg, rack::mm2px (0.1f), rack::mm2px (0.2f),
+         box.size.x - rack::mm2px (0.2f), box.size.y * 0.5f, 1
+      );
+      nvgFillPaint (vg, paint2);
       nvgFill (vg);
    }
 
 private:
-   typename Panel::Storage _control_data;
+   const typename Panel::Storage & _control_data;
+   Pixels <Panel::width, Panel::height> _pixels = {};
    int _image = -1;
 };
 
