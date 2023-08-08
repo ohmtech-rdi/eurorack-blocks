@@ -179,11 +179,22 @@ class Code:
                nbr_lights += control.nbr_pins
 
             lines += '   {\n'
-            lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
-               category, control.simulator_class, control.position.x.mm, control.position.y.mm, index
-            )
+
+            if category in ['Param', 'Input', 'Output', 'Light']:
+               lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
+                  category, control.simulator_class, control.position.x.mm, control.position.y.mm, index
+               )
+            else:
+               lines += '      auto control_ptr = erb::createWidgetCentered <%s> (mm2px (Vec (%ff, %ff)), module_ptr->module_uptr->ui.%s);\n' % (
+                  control.simulator_class, control.position.x.mm, control.position.y.mm, control.name
+               )
+
             lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
-            lines += '      add%s (control_ptr);\n' % func_category
+
+            if category in ['Param', 'Input', 'Output', 'Light']:
+               lines += '      add%s (control_ptr);\n' % func_category
+            else:
+               lines += '      addChild (control_ptr);\n'
             lines += '   }\n'
             lines += '\n'
 

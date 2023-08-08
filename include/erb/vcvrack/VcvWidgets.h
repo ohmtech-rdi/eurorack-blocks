@@ -349,6 +349,8 @@ struct OledModule : rack::OpaqueWidget
       box.size = mm2px (Vec (Panel::visual_width, Panel::visual_height));
    }
 
+   void  rotate (float /* angle_rad */) { /* not supported */ }
+
    void draw (const DrawArgs & args) override {
       NVGcontext * const vg = args.vg;
 
@@ -391,6 +393,16 @@ private:
    const Pixels <Panel::width, Panel::height> & _pixels;
    int _image = -1;
 };
+
+
+
+template <typename Widget, typename T>
+Widget * createWidgetCentered (rack::math::Vec pos, T & control)
+{
+   auto * w = new Widget {control};  // ahlala
+   w->box.pos = pos.minus (w->box.size.div (2));
+   return w;
+}
 
 
 

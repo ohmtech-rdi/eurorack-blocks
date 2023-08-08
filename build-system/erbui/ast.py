@@ -1421,7 +1421,7 @@ class Control (Scope):
 
    @property
    def is_pin_multiple (self):
-      return self.kind in ['Display', 'Encoder', 'LedBi', 'LedRgb', 'Switch']
+      return self.kind in ['Encoder', 'LedBi', 'LedRgb', 'Switch']
 
    @property
    def pins (self):
@@ -1431,9 +1431,7 @@ class Control (Scope):
 
    @property
    def nbr_pins (self):
-      if self.kind == 'Display':
-         return 2
-      elif self.kind == 'Encoder':
+      if self.kind == 'Encoder':
          return 2
       elif self.kind == 'Switch':
          return 2

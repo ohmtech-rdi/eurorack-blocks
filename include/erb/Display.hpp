@@ -28,7 +28,8 @@ Name : ctor
 ==============================================================================
 */
 
-Display::Display (Storage & data)
+template <typename Format>
+Display <Format>::Display (Storage & data)
 :  impl_data (data)
 {
 }
@@ -41,7 +42,8 @@ Name : operator =
 ==============================================================================
 */
 
-Display &   Display::operator = (const Storage & data)
+template <typename Format>
+Display <Format> &   Display <Format>::operator = (const Storage & data)
 {
    impl_data = data;
 
@@ -56,7 +58,8 @@ Name : operator Storage &
 ==============================================================================
 */
 
-Display::operator Storage & ()
+template <typename Format>
+Display <Format>::operator Storage & ()
 {
    return impl_data;
 }
@@ -69,7 +72,8 @@ Name : fill
 ==============================================================================
 */
 
-void  Display::fill (bool val)
+template <typename Format>
+void  Display <Format>::fill (bool val)
 {
    impl_data.fill (val ? 0xff : 0x00);
 }

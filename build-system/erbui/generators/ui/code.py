@@ -121,6 +121,9 @@ class Code:
          nbr_positions = self.get_nbr_positions (control)
          control_type = '%s <%s>' % (control.kind, nbr_positions)
 
+      elif control.kind in ['Display']:
+         control_type = '%s <%s>' % (control.kind, 'erb::FormatSsd130x <64, 48>')
+
       else:
          control_type = control.kind
 

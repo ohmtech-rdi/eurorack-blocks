@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include <array>
 #include <cstddef>
 
 
@@ -25,17 +26,17 @@ namespace erb
 template <std::size_t W, std::size_t H>
 struct FormatSsd130x
 {
-   using Width = W;
-   using Height = H;
+   static constexpr std::size_t width = W;
+   static constexpr std::size_t height = H;
 
    // pixel arrangement, bit at (x, y)
-   // storage [x + (y / 8) * Width] & (1 << (y % 8);
+   // storage [x + (y / 8) * width] & (1 << (y % 8);
 
-   static_assert (Width > 0);
-   static_assert (Height > 0);
-   static_assert (Height % 8 == 0);
+   static_assert (width > 0);
+   static_assert (height > 0);
+   static_assert (height % 8 == 0);
 
-   using Storage = std::array <std::uint8_t, Width * Height / 8>;
+   using Storage = std::array <std::uint8_t, width * height / 8>;
 };
 
 
@@ -47,7 +48,7 @@ class Display
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   using Storage = Format::Storage;
+   using Storage = typename Format::Storage;
 
    inline         Display (Storage & data);
    virtual        ~Display () = default;
@@ -63,8 +64,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   Format::Storage &
-                  impl_data;
+   Storage &      impl_data;
    inline void    impl_preprocess () {}
    inline void    impl_postprocess () {}
 
