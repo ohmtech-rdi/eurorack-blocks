@@ -314,6 +314,8 @@ struct Panel_ER_OLEDM066_1W_I2C
    static constexpr std::size_t width = 64;
    static constexpr std::size_t height = 48;
 
+   using Storage = std::array <std::uint8_t, width * height / 8>;
+
    // mm
    static constexpr float visual_width = 15.42f;
    static constexpr float visual_height = 12.06f;
@@ -343,10 +345,11 @@ enum class OledModuleFilter
 template <typename Panel, OledModuleFilter Filter = OledModuleFilter::White>
 struct OledModule : rack::OpaqueWidget
 {
-   OledModule (const Pixels <Panel::width, Panel::height> & pixels)
-   :  _pixels (pixels)
+   template <typename Control>
+   OledModule (Control & control)
+   :  _control_data (control.impl_data)
    {
-      box.size = mm2px (Vec (Panel::visual_width, Panel::visual_height));
+      box.size = rack::mm2px (rack::Vec (Panel::visual_width, Panel::visual_height));
    }
 
    void  rotate (float /* angle_rad */) { /* not supported */ }
@@ -390,7 +393,8 @@ struct OledModule : rack::OpaqueWidget
    }
 
 private:
-   const Pixels <Panel::width, Panel::height> & _pixels;
+   typename Panel::Storage _control_data;
+   Pixels <Panel::width, Panel::height> _pixels;
    int _image = -1;
 };
 
