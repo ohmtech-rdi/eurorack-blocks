@@ -335,49 +335,61 @@ template <std::size_t Width, std::size_t Height>
 using Pixels = std::array <PixelRgba, Width * Height>;
 
 
-template <typename Panel>
+enum class OledModuleFilter
+{
+   White, Red
+};
+
+template <typename Panel, OledModuleFilter Filter = OledModuleFilter::White>
 struct OledModule : rack::OpaqueWidget
 {
-   OledModule (const Pixels <Panel::width, Panel::height> & pixels_, NVGcolor filter = rack::color::WHITE)
-   :  pixels (pixels) {
+   OledModule (const Pixels <Panel::width, Panel::height> & pixels)
+   :  _pixels (pixels)
+   {
       box.size = mm2px (Vec (Panel::visual_width, Panel::visual_height));
    }
 
    void draw (const DrawArgs & args) override {
       NVGcontext * const vg = args.vg;
 
-      if (image == -1)
+      if (_image == -1)
       {
-         image = nvgCreateImageRGBA (
+         _image = nvgCreateImageRGBA (
             vg, Panel::width, Panel::height,
             NVG_IMAGE_PREMULTIPLIED | NVG_IMAGE_NEAREST,
-            reinterpret_cast <const unsigned char *> (&pixels [0])
+            reinterpret_cast <const unsigned char *> (&_pixels [0])
          );
       }
       else
       {
-         nvgUpdateImage (vg, image, reinterpret_cast <const unsigned char *> (&pixels [0]));
+         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&_pixels [0]));
       }
 
       auto paint = nvgImagePattern (
          vg,
          0, 0, Panel::width, Panel::height,
-         0, image, 1.f
+         0, _image, 1.f
       );
+      switch (Filter)
+      {
+      case OledModuleFilter::White:
+      default:
+         // nothing
+         break;
+
+      case OledModuleFilter::Red:
+         paint.innerColor = nvgRGB (255, 0, 0);
+         break;
+      }
       nvgBeginPath (vg);
       nvgRect (vg, 0.f, 0.f, box.size.x, box.size.y);
       nvgFillPaint (vg, paint);
       nvgFill (vg);
    }
 
-   /*void drawLayer (const DrawArgs & args, int layer) override {
-      if (layer != 1) return;
-
-   }*/
-
 private:
-   const Pixels <Panel::width, Panel::height> & pixels;
-   int image = -1;
+   const Pixels <Panel::width, Panel::height> & _pixels;
+   int _image = -1;
 };
 
 
