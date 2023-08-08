@@ -307,6 +307,18 @@ struct Led3mm : rack::MediumLight <Base>
 
 
 
+struct PixelRgba
+{
+   std::uint8_t r;
+   std::uint8_t g;
+   std::uint8_t b;
+   std::uint8_t a;
+} __attribute__((packed));
+
+template <std::size_t Width, std::size_t Height>
+using Pixels = std::array <PixelRgba, Width * Height>;
+
+
 struct Panel_ER_OLEDM066_1W_I2C
 {
    // https://www.buydisplay.com/download/manual/ER-OLEDM0.66-1_Datasheet.pdf
@@ -322,19 +334,20 @@ struct Panel_ER_OLEDM066_1W_I2C
    static constexpr float active_width = 13.42f;
    static constexpr float active_height = 10.06f;
    static constexpr float dot_size = 0.19f;
+
+   static Pixels <width, height>  to_pixels (const Storage & data)
+   {
+      Pixels <width, height> ret;
+      for (size_t x = 0 ; x < width ; ++x)
+      for (size_t y = 0 ; y < height ; ++y)
+      {
+         bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+
+         ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 255};
+      }
+   };
 };
 
-
-struct PixelRgba
-{
-   std::uint8_t r;
-   std::uint8_t g;
-   std::uint8_t b;
-   std::uint8_t a;
-} __attribute__((packed));
-
-template <std::size_t Width, std::size_t Height>
-using Pixels = std::array <PixelRgba, Width * Height>;
 
 
 enum class OledModuleFilter
@@ -357,17 +370,19 @@ struct OledModule : rack::OpaqueWidget
    void draw (const DrawArgs & args) override {
       NVGcontext * const vg = args.vg;
 
+      auto pixels = Panel::to_pixels (_control_data);
+
       if (_image == -1)
       {
          _image = nvgCreateImageRGBA (
             vg, Panel::width, Panel::height,
             NVG_IMAGE_PREMULTIPLIED | NVG_IMAGE_NEAREST,
-            reinterpret_cast <const unsigned char *> (&_pixels [0])
+            reinterpret_cast <const unsigned char *> (&pixels [0])
          );
       }
       else
       {
-         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&_pixels [0]));
+         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&pixels [0]));
       }
 
       auto paint = nvgImagePattern (
@@ -394,7 +409,6 @@ struct OledModule : rack::OpaqueWidget
 
 private:
    typename Panel::Storage _control_data;
-   Pixels <Panel::width, Panel::height> _pixels;
    int _image = -1;
 };
 
