@@ -394,9 +394,16 @@ struct OledModule : rack::OpaqueWidget
       nvgFillColor (vg, nvgRGB (0, 0, 0));
       nvgFill (vg);
 
+      const float margin_x = rack::mm2px ((Panel::visual_width - Panel::active_width) * 0.5f);
+      const float margin_y = rack::mm2px ((Panel::visual_height - Panel::active_height) * 0.5f);
+      const float active_x = margin_x;
+      const float active_width = box.size.x - 2 * margin_x;
+      const float active_y = margin_y;
+      const float active_height = box.size.y - 2 * margin_y;
+
       auto paint = nvgImagePattern (
          vg,
-         0, 0, Panel::width, Panel::height,
+         active_x, active_y, active_width, active_height,
          0, _image, 1.f
       );
 
@@ -412,11 +419,8 @@ struct OledModule : rack::OpaqueWidget
          break;
       }
 
-      float margin_x = rack::mm2px ((Panel::visual_width - Panel::active_width) * 0.5f);
-      float margin_y = rack::mm2px ((Panel::visual_height - Panel::active_height) * 0.5f);
-
       nvgBeginPath (vg);
-      nvgRect (vg, margin_x, margin_y, box.size.x - 2 * margin_x, box.size.y - 2 * margin_y);
+      nvgRect (vg, active_x, active_y, active_width, active_height);
       nvgFillPaint (vg, paint);
       nvgFill (vg);
 
