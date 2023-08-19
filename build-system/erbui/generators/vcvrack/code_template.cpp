@@ -208,6 +208,9 @@ void  ErbWidget::step ()
 {
    rack::Widget::step ();
 
+   if (module_ptr == nullptr) return;
+   if (!module_ptr->module_uptr) return;
+
    erb::module_idle (*module_ptr->module_uptr);
 }
 
