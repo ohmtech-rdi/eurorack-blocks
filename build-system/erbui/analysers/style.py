@@ -354,6 +354,9 @@ class AnalyserStyle:
 
       name_map ['GND'] = 'GND'
       name_map ['+3V3'] = '+3V3'
+      name_map ['3V3A'] = '3V3A'
+      name_map ['3V3D'] = '3V3D'
+      name_map ['3V3SW'] = '3V3SW'
 
       if control.normalling_from is None:
          name_map ['Normalling0'] = 'GND'
@@ -366,8 +369,14 @@ class AnalyserStyle:
          for pad in footprint.pads:
             if pad.net:
                net_name = pad.net.name
+               net_suffix = ''
+               if '.' in net_name:
+                  [base, suffix] = net_name.split ('.')
+                  net_name = base
+                  net_suffix = '.' + suffix
+
                if net_name in name_map:
-                  pin_name = name_map [net_name]
+                  pin_name = name_map [net_name] + net_suffix
                   pad.net.index = module.net_name_index_map [pin_name]
                   pad.net.name = pin_name
                else:

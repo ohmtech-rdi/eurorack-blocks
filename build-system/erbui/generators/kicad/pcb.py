@@ -761,7 +761,8 @@ class Footprint:
       if self.tags:
          footprint_node.add (s_expression.List.generate_property ('tags', self.tags))
       footprint_node.add (s_expression.List.generate_property ('path', self.path))
-      footprint_node.add (self.attr.generate ())
+      if self.attr:
+         footprint_node.add (self.attr.generate ())
       for fp_shape in self.fp_shapes:
          footprint_node.add (fp_shape.generate ())
       for pad in self.pads:
@@ -1473,6 +1474,7 @@ class Zone:
       zone.net = node.property ('net')
       zone.net_name = node.property ('net_name')
       zone.layer = node.property ('layer')
+      zone.layers = node.property ('layers')
       zone.tstamp = node.property ('tstamp')
       zone.hatch = Zone.Hatch.parse (node.first_kind ('hatch'))
       zone.connect_pads = Zone.ConnectPads.parse (node.first_kind ('connect_pads'))
@@ -1486,7 +1488,10 @@ class Zone:
       zone_node = s_expression.List.generate ('zone')
       zone_node.add (s_expression.List.generate_property ('net', self.net))
       zone_node.add (s_expression.List.generate_property ('net_name', self.net_name))
-      zone_node.add (s_expression.List.generate_property ('layer', self.layer))
+      if self.layer:
+         zone_node.add (s_expression.List.generate_property ('layer', self.layer))
+      if self.layers:
+         zone_node.add (s_expression.List.generate_property ('layers', self.layers))
       zone_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       zone_node.add (self.hatch.generate ())
       zone_node.add (self.connect_pads.generate ())
