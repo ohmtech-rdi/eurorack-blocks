@@ -61,6 +61,7 @@ class KicadPcb:
          # only footprints for now
          kicad_pcb.footprints = module.pcb.footprints
 
+         self.fix_net_indexes (kicad_pcb)
          kicad_pcb.write (path_pcb)
 
       else:
@@ -102,6 +103,22 @@ class KicadPcb:
          return segment.net not in net_numbers
 
       module.pcb.segments = list (filter (filter_segment, module.pcb.segments))
+
+
+   #--------------------------------------------------------------------------
+   # When loading an existing board, KiCad might have changed net indexes
+   # eg. typically, busses net indexes can disappear
+   # Make sure that the net index matches the name in all footprints
+
+   def fix_net_indexes (self, kicad_pcb):
+      net_name_index_map = {}
+      for net in kicad_pcb.nets:
+         net_name_index_map [net.name] = net.index
+
+      for footprint in kicad_pcb.footprints:
+         for pad in footprint.pads:
+            if pad.net:
+               pad.net.index = net_name_index_map [pad.net.name]
 
 
    #--------------------------------------------------------------------------
