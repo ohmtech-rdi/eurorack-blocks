@@ -41,25 +41,27 @@ class Dxf:
    def generate_module (self, path, module):
       if module.material.is_pcb: return # not needed
 
-      path_dxf = os.path.join (path, '%s.dxf' % module.name)
+      for generator in module.manufacturer_data ['generators']:
+         if generator ['id'] == 'front_panel/dxf':
+            path_dxf = os.path.join (path, '%s.dxf' % module.name)
 
-      doc = ezdxf.new (units=ezdxf.units.MM)
-      msp = doc.modelspace ()
+            doc = ezdxf.new (units=ezdxf.units.MM)
+            msp = doc.modelspace ()
 
-      width_hp = round (module.width.mm / HP_TO_MM)
-      final_width = self.get_final_width (width_hp)
+            width_hp = round (module.width.mm / HP_TO_MM)
+            final_width = self.get_final_width (width_hp)
 
-      msp.add_line ((0, 0), (final_width, 0))
-      msp.add_line ((final_width, 0), (final_width, PANEL_HEIGHT))
-      msp.add_line ((final_width, PANEL_HEIGHT), (0, PANEL_HEIGHT))
-      msp.add_line ((0, PANEL_HEIGHT), (0, 0))
+            msp.add_line ((0, 0), (final_width, 0))
+            msp.add_line ((final_width, 0), (final_width, PANEL_HEIGHT))
+            msp.add_line ((final_width, PANEL_HEIGHT), (0, PANEL_HEIGHT))
+            msp.add_line ((0, PANEL_HEIGHT), (0, 0))
 
-      self.generate_mounting_holes (msp, module)
+            self.generate_mounting_holes (msp, module)
 
-      for control in module.controls:
-         self.generate_control (msp,  control)
+            for control in module.controls:
+               self.generate_control (msp,  control)
 
-      doc.saveas (path_dxf)
+            doc.saveas (path_dxf)
 
 
    #--------------------------------------------------------------------------
