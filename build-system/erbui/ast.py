@@ -419,6 +419,7 @@ class Module (Scope):
       self.sch = None
       self.sch_symbols = None # board, hierarchical sheets, controls
       self.references = []
+      self.excluded_references = set ()
       self.net_name_index_map = {}
       self.normalling_eval_list = []
       self.unused_pins = []

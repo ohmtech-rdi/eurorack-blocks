@@ -39,7 +39,9 @@ class Bom:
       include_non_empty = generator_args ['include_non_empty']
       projection = generator_args ['projection']
 
-      bom = self.make_bom (module.sch_symbols, line_format, header_map, include_non_empty, projection)
+      excluded_references = module.excluded_references
+
+      bom = self.make_bom (module.sch_symbols, line_format, header_map, include_non_empty, projection, excluded_references)
 
       path_bom = os.path.join (path, '%s.bom.csv' % module.name)
 
@@ -49,10 +51,10 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def make_bom (self, symbols, line_format, header_map, include_non_empty, projection):
+   def make_bom (self, symbols, line_format, header_map, include_non_empty, projection, excluded_references=set()):
 
       field_names = [e for e in header_map if e not in ['references', 'quantity']]
-      parts = self.make_parts (symbols, field_names, include_non_empty, projection)
+      parts = self.make_parts (symbols, field_names, include_non_empty, projection, excluded_references)
 
       bom = line_format.format (**header_map)
 
@@ -64,7 +66,7 @@ class Bom:
 
    #--------------------------------------------------------------------------
 
-   def make_parts (self, symbols, field_names, include_non_empty, projection):
+   def make_parts (self, symbols, field_names, include_non_empty, projection, excluded_references):
 
       key_quantity_map = {}
       def inc_key (key):
@@ -84,7 +86,7 @@ class Bom:
 
       for symbol in symbols:
          reference = symbol.property ('Reference')
-         if symbol.in_bom and reference and reference [0] != '#':   # eg. #PWRxxx
+         if symbol.in_bom and reference and reference not in excluded_references and reference [0] != '#':   # eg. #PWRxxx
             fields = {field_name: symbol.property (field_name) if symbol.property (field_name) is not None else '' for field_name in field_names}
             if include_non_empty.format (**fields):
                key = projection.format (**fields)
