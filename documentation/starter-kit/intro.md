@@ -48,4 +48,9 @@ There is much more you can buy to ease soldering if your budget permits it:
 - A silicon soldering mat to avoid burning your beloved desk,
 - An Anti-static ESD wrist strap band to avoid damaging ESD sensitive parts.
 
+
+## How Much Time Does It Take?
+
+We tested the starter kit with people with different skills, and it turns out that 2 hours is a good estimate of the time it takes to solder kivu12 and the two demo modules Drop and Frohmager.
+
 Now that you are all set up, let's move on to soldering the ERB Starter Kit!

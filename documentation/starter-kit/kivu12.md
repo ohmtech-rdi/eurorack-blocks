@@ -11,18 +11,26 @@ Fully assembled kivu12 board with jumpers configured
 to use the SD connector on the board, and two first CVs in pitch mode.
 ```
 
-
 Soldering Kivu12 is quite easy. All Surface-Mounted Devices (SMD) are already assembled,
 so the only thing that is left to do is to solder the pin headers and sockets.
 The main consideration to keep in mind is to properly align the headers so our future front panel
 can fit into it without using too much force.
 This can be done manually by inspecting the pin sockets are flush to the board
 and aligned visually.
-In the nexts sections we will show how to use a rubber band or soldering jig to achieve this
-more easily.
 
-Now, locate the parts bag and take out all the pin sockets and headers, including those
-long pin headers.
+You have two methods to solder the kit:
+- Either using a rubber band (not included),
+- Or using our [soldering jig](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125) (not included).
+
+The rubber band is the most economical way to solder the kit, and chances are you have already some at your place.
+
+The soldering jig, that you can order from ShapeWays separately [here](https://www.shapeways.com/product/5YWPBCD6Z/kivu12-soldering-jig-clearance-125), has two main benefits:
+- If you are unsure about your soldering skills, this is the easiest way to go, as the jig makes sure the headers are properly aligned,
+- If you plan on soldering many starter kits, this speeds up considerably the whole process.
+
+In the nexts sections we will show how to use those two different methods.
+
+Now, locate the parts bag and take out all the pin sockets and headers.
 
 ```{important}
 Avoid touching the SMD components with your fingers if you don't have an
@@ -30,8 +38,9 @@ anti-static wrist strap band,
 and in all cases be very careful not to poke them with your soldering iron tip!
 ```
 
-In the following, please don't hesitate to click on the pictures to see a
-bigger version of them.
+```{note}
+In the following, please click on the pictures to see a bigger version of them.
+```
 
 
 ## Glossary
@@ -53,10 +62,13 @@ You can associate each terms with what they are in the photo below:
 :align: right
 ```
 
-Take the long pin headers, and cut it to make assemblies for every pin sockets.
-Don't worry about cutting: you have quite some spare pin headers.
+Take all the pin sockets and match them with pin headers with the same number of pins.
+You will have many pin headers left, this is normal:
+The pin headers are going on the module panel side, and you have enough pin headers
+to solder both the Frohmager and Drop modules. 
+
 Plug them and make sure there is no gap between the pin header and the pin
-socket. The photo shows how the 4 pin socket and header are being assembled.
+socket. The photo shows how the 4-position pin socket and header are being assembled.
 Orient them all in the same direction, for example all pin sockets on the
 left and pin headers on the right, like in the picture.
 
@@ -64,12 +76,12 @@ left and pin headers on the right, like in the picture.
 <br />
 ```
 
-```{image} kivu12-headers-in-place.jpg
+```{image} kivu12-headers-in-place.svg
 :width: 25%
 :align: right
 ```
 
-Put the Kivu12 board in equilibrium on top of a Rogan 6PS Knob
+Balance the Kivu12 board on top of the Rogan 6PS Knob
 (that's the only black and white big knob in the bag of parts),
 and put your pin socket/header assembly
 in each respective holes on the sides of the board.
@@ -85,16 +97,14 @@ the ERB kivu12 board, and not the pin headers.
 <br /> <br /> <br />
 ```
 
-```{image} kivu12-rubber-band.jpg
+```{image} kivu12-rubber-band.svg
 :width: 25%
 :align: right
 ```
 
-Put one of the demo board, typically the one you want to assemble first,
-on top of this assembly, and align both boards so that your pin sockets/headers
+Put one of the demo board on top of this assembly (it doesn't matter which),
+and align both boards so that your pin sockets/headers
 assemblies are secured into each board.
-The correct side of the demo board is the one where you can see the pictogram
-of the pots we will solder later.
 Next grab your rubber band and secure this big assembly.
 Ideally, place the rubber band as shown in the picture, it will be easier
 to solder pins later.
@@ -123,40 +133,32 @@ before soldering!
 :align: right
 ```
 
-Now solder all the pin sockets on the kivu12 board.
-Avoid the 2 pins next to the rubber band at first, but when all other pins
-are soldered, **move** the rubber band on one side to solder those 2 last
-pins. We move it instead of removing it because the demo board is
-not soldered yet.
+Now solder all the pin sockets on the kivu12 board side.
 
-At this stage you might want also to solder the front panel pin headers
-if you feel like so, if not, you can always do it later.
-In all cases, note that we **don't solder all pins** for the front panel:
-that saves a bit of pin headers, and that makes separating the two boards
-a bit easier.
+When done, put the demo front panel aside and you will get the result as shown
+on the picture on the right.
+You can now remove all the unsoldered pin headers from the kivu12 board,
+that we will use later.
 
-Here, we did it with the Drop demo module. You will get the following result
-as shown on the picture on the side.
-
-Put the demo front panel aside, remove the unsoldered pin headers from
-the kivu12 board,
-and let's continue soldering the pin headers and sockets.
-
-```{warning}
-⚠️ When pulling apart the two boards, make sure to do this slowly and
-parallel to avoid bending pins ⚠️
+```{raw} html
+<br /> <br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
 ```
 
-```{image} kivu12-headers.jpg
+Take the 3 6-position and 2 3-position pin headers and 6 jumpers, and make
+an assembly as shown in the picture below.
+This allows to make a block of headers and align them properly.
+
+```{image} kivu12-jumper-assembly.svg
+:width: 70%
+```
+
+```{image} kivu12-headers.svg
 :width: 25%
 :align: right
 ```
 
-Take the 3 6-position and 2 3-position pin headers and 6 jumpers, and make
-an assembly as shown in the picture.
-This allows to make a block of headers and align them properly.
+Then place it on the board as shown in the picture on the right.
 
-Then place it on the board as shown in the picture.
 
 Turn the board over and make sure everything is sitting flush.
 You can check this by ensuring that the tips of the headers you are going
@@ -165,7 +167,7 @@ to solder are sticking out of the kivu12 board by the same length.
 When everything is flush and proper, solder all those pins. 
 
 ```{raw} html
-<br /> <br /> <br /> <br /> <br /> <br /> <br /> <br />
+<br /> <br /> <br /> <br /> 
 ```
 
 ```{image} kivu12-dpsm-sockets.jpg
@@ -185,7 +187,7 @@ to solder are sticking out of the kivu12 board by the same length.
 
 When everything is flush and proper, solder all those pins.
 
-```{image} kivu12-power.jpg
+```{image} kivu12-power.svg
 :width: 25%
 :align: right
 ```
@@ -196,10 +198,8 @@ and put it on the back of the board.
 Make sure the key of the pin header follows the orientation as shown on
 the PCB. If you look well on the picture, the key is located on the left.
 
-Before turning over the board, remove the Daisy Patch Submodule.
-Because the pin header is as high as the other pin sockets for the
-Daisy Patch Submodule, that's easier to keep the power header flush
-to the board.
+Because the pin headers of the kivu12 that connect to the SM are the same height
+as the power header, remove the Daisy Patch Submodule.
 
 Double-check that the key of the pin header is in the right position ⚠️
 and finally solder the pin header.
@@ -241,7 +241,7 @@ and finally solder the pin header.
 
 ## Finishing the Assembly
 
-```{image} kivu12-jumpers.jpg
+```{image} kivu12-jumpers.svg
 :width: 25%
 :align: right
 ```
