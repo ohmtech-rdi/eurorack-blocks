@@ -90,6 +90,9 @@ class Node:
    def is_board_pin_type (self): return isinstance (self, BoardPinType)
 
    @property
+   def is_board_pin_header (self): return isinstance (self, BoardPinHeader)
+
+   @property
    def is_board_pin_array (self): return isinstance (self, BoardPinArray)
 
    @property
@@ -103,6 +106,9 @@ class Node:
 
    @property
    def is_board_pool_pin (self): return isinstance (self, BoardPoolPin)
+
+   @property
+   def is_board_header (self): return isinstance (self, BoardHeader)
 
    @property
    def is_width (self): return isinstance (self, Width)
@@ -601,6 +607,8 @@ class Board (Scope):
          board_pin.add (BoardPinBind (StringLiteral.synthesize (pin_desc ['bind'])))
          if 'type' in pin_desc:
             board_pin.add (BoardPinType (adapter.BuiltIn (pin_desc ['type'])))
+         if 'header' in pin_desc:
+            board_pin.add (BoardPinHeader (adapter.IdentifierSynthesized (pin_desc ['header'])))
          self.add (board_pin)
 
       if 'kinds' in board_def:
@@ -619,6 +627,12 @@ class Board (Scope):
             for pin in pin_arr:
                board_pool.add (BoardPoolPin (adapter.IdentifierSynthesized (pin)))
             self.add (board_pool)
+
+      if 'headers' in board_def:
+         headers_def = board_def ['headers']
+         for header_name in headers_def:
+            board_header = BoardHeader (adapter.IdentifierSynthesized (header_name))
+            self.add (board_header)
 
 
    @property
@@ -700,6 +714,16 @@ class Board (Scope):
       entities = [e for e in self.entities if e.is_board_pool and e.name == name]
       assert (len (entities) == 1)
       return entities [0]
+
+   @property
+   def headers (self):
+      entities = [e for e in self.entities if e.is_board_header]
+      return entities
+
+   @property
+   def header_names (self):
+      names = [e.name for e in self.entities if e.is_board_header]
+      return names
 
    @property
    def source_context (self):
@@ -798,6 +822,12 @@ class BoardPin (Scope):
       else:
          return None
 
+   @property
+   def header (self):
+      entities = [e for e in self.entities if e.is_board_pin_header]
+      assert (len (entities) == 1)
+      return entities [0]
+
 
 # -- BoardPinArray -----------------------------------------------------------
 
@@ -865,6 +895,18 @@ class BoardPinType (Node):
 
    @property
    def name (self): return self.keyword.value
+
+
+# -- BoardPinHeader ----------------------------------------------------------
+
+class BoardPinHeader (Node):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (BoardPinHeader, self).__init__ ()
+      self.identifier = identifier
+
+   @property
+   def name (self): return self.identifier.name
 
 
 # -- BoardKind ---------------------------------------------------------------
@@ -955,6 +997,19 @@ class BoardPoolPin (Node):
 
    @property
    def available (self): return self.is_available
+
+
+
+# -- BoardHeader -------------------------------------------------------------
+
+class BoardHeader (Scope):
+   def __init__ (self, identifier):
+      assert isinstance (identifier, adapter.Identifier)
+      super (BoardHeader, self).__init__ ()
+      self.identifier = identifier
+
+   @property
+   def name (self): return self.identifier.name
 
 
 
