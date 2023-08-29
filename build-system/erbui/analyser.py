@@ -62,6 +62,7 @@ class Analyser:
          self.allocate_pin (module, control)
 
       self.make_unused_pins (module)
+      self.make_unused_headers (module)
 
       for control in module.controls:
          self.analyse_control (module, control)
@@ -488,6 +489,22 @@ class Analyser:
       for exclude_pins in exclude_pinss:
          module.unused_pins.extend (exclude_pins.names)
 
+
+   #--------------------------------------------------------------------------
+
+   def make_unused_headers (self, module):
+      if len (module.board.headers) == 0:
+         return # board doesn't support header opt
+
+      unused_headers = set (module.board.header_names)
+
+      for pool in module.board.pools:
+         for pin in pool.pins:
+            if not pin.available:
+               # if it is still not available at this stage, then it is used
+               unused_headers.discard (module.board.pin (pin.name).header.name)
+
+      module.excluded_references = module.excluded_references.union (unused_headers)
 
 
    #--------------------------------------------------------------------------
