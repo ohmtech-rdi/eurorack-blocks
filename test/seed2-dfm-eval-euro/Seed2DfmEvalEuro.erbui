@@ -8,5 +8,7 @@
 
 
 module Seed2DfmEvalEuro extends seed2_dfm_eval_euro {
+   route manual
+
    alias knob1 pot1
 }
