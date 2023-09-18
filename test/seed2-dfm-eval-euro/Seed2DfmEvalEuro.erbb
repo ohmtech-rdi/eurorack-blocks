@@ -1,0 +1,16 @@
+/*****************************************************************************
+
+      Seed2DfmEvalEuro.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+use strict
+
+module Seed2DfmEvalEuro {
+   sources {
+      file "Seed2DfmEvalEuro.cpp"
+      file "Seed2DfmEvalEuro.h"
+      file "Seed2DfmEvalEuro.erbui"
+   }
+}

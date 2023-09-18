@@ -1,0 +1,12 @@
+/*****************************************************************************
+
+      Seed2DfmEvalEuro.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module Seed2DfmEvalEuro extends seed2_dfm_eval_euro {
+   alias knob1 pot1
+}
