@@ -237,7 +237,7 @@
     (property "Value" "RotaryEncoder" (id 1) (at 150.622 82.9822 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "local:PEC11R-4220F-S0024" (id 2) (at 140.97 77.216 0)
+    (property "Footprint" "local:PEC11R-4220F-N0024" (id 2) (at 140.97 77.216 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "https://www.bourns.com/docs/Product-Datasheets/PEC11R.pdf" (id 3) (at 144.78 74.676 0)
@@ -275,7 +275,7 @@
       (reference "#PWR0102") (unit 1) (value "+3V3") (footprint "")
     )
     (path "/ee1e8510-c7a5-4c02-b06b-2e58bef6ac0f"
-      (reference "SW1") (unit 1) (value "RotaryEncoder") (footprint "local:PEC11R-4220F-S0024")
+      (reference "SW1") (unit 1) (value "RotaryEncoder") (footprint "local:PEC11R-4220F-N0024")
     )
   )
 )
