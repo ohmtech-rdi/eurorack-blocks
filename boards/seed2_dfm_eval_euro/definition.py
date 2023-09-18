@@ -41,42 +41,42 @@
 
       'P1': {
          'accept': ['Pot'],
-         'bind': 'adc(4)',
+         'bind': 'adc(3)',
       },
       'P2': {
          'accept': ['Pot'],
-         'bind': 'adc(5)',
+         'bind': 'adc(4)',
       },
       'P3': {
          'accept': ['Pot'],
-         'bind': 'adc(6)',
+         'bind': 'adc(5)',
       },
       'P4': {
          'accept': ['Pot'],
-         'bind': 'adc(7)',
+         'bind': 'adc(6)',
       },
 
       'B1': {
          'accept': ['Button'],
-         'bind': 'gpi(2)',
+         'bind': 'gpi(1)',
       },
 
       'B2': {
          'accept': ['Switch'],
-         'bind': 'gpi(3)',
+         'bind': 'gpi(2)',
       },
       'B3': {
          'accept': ['Switch'],
-         'bind': 'gpi(4)',
+         'bind': 'gpi(3)',
       },
 
       'B4': {
          'accept': ['Encoder'],
-         'bind': 'gpi(5)',
+         'bind': 'gpi(4)',
       },
       'B5': {
          'accept': ['Encoder'],
-         'bind': 'gpi(6)',
+         'bind': 'gpi(5)',
       },
 
       'AI1': {
