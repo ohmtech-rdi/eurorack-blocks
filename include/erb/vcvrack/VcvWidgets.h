@@ -319,7 +319,7 @@ template <std::size_t Width, std::size_t Height>
 using Pixels = std::array <PixelRgba, Width * Height>;
 
 
-struct Panel_ER_OLEDM066_1W_I2C
+struct Panel_ER_OLEDM066_1
 {
    // https://www.buydisplay.com/download/manual/ER-OLEDM0.66-1_Datasheet.pdf
 
@@ -334,6 +334,40 @@ struct Panel_ER_OLEDM066_1W_I2C
    static constexpr float active_width = 13.42f;
    static constexpr float active_height = 10.06f;
    static constexpr float dot_size = 0.19f;
+
+   static Pixels <width, height>  to_pixels (const Storage & data)
+   {
+      Pixels <width, height> ret;
+      for (size_t x = 0 ; x < width ; ++x)
+      {
+         for (size_t y = 0 ; y < height ; ++y)
+         {
+            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+
+            ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
+         }
+      }
+
+      return ret;
+   };
+};
+
+
+struct Panel_ER_OLEDM015_2
+{
+   // https://www.buydisplay.com/download/manual/ER-OLEDM015-2_Datasheet.pdf
+
+   static constexpr std::size_t width = 128;
+   static constexpr std::size_t height = 64;
+
+   using Storage = std::array <std::uint8_t, width * height / 8>;
+
+   // mm
+   static constexpr float visual_width = 37.052f;
+   static constexpr float visual_height = 19.516f;
+   static constexpr float active_width = 35.052f;
+   static constexpr float active_height = 17.516f;
+   static constexpr float dot_size = 0.254f;
 
    static Pixels <width, height>  to_pixels (const Storage & data)
    {
