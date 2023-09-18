@@ -72,7 +72,7 @@ module seed2_dfm_eval_euro {
 
    control display Display {
       position 117.2mm, 29.89mm
-      style er, 128x64
+      style eastrising, 128x64
       pin OLED1
    }
 
