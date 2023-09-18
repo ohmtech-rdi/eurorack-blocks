@@ -8,8 +8,8 @@
 
 
 {
-   'class': 'erb::BoardDaisyMicropatch',
-   'include': 'BoardDaisyMicropatch.h',
+   'class': 'erb::BoardSeed2DfmEvalEuro',
+   'include': 'BoardSeed2DfmEvalEuro.h',
    'pins': {
       'CI1': {
          'accept': ['CvIn'],
@@ -111,6 +111,11 @@
       'AO4': {
          'accept': ['AudioOut'],
          'bind': 'audioout(3)',
+      },
+
+      'OLED1': {
+         'accept': ['Display'],
+         'bind': 'oled()',
       },
    }
 }

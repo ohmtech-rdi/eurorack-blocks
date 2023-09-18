@@ -63,9 +63,9 @@ module seed2_dfm_eval_euro {
 
    control enc Encoder {
       position 85mm, 33.5mm
-      style rogan, 1s
+      style rogan, 1s, white
       label "Encoder"
-      pin B4, B5
+      pins B4, B5
    }
 
    //--- Display -------------------------------------------------------------
@@ -73,7 +73,7 @@ module seed2_dfm_eval_euro {
    control display Display {
       position 117.2mm, 29.89mm
       style er, 128x64
-      pin OLED
+      pin OLED1
    }
 
    //--- Gates ---------------------------------------------------------------
