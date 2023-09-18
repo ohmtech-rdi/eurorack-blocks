@@ -10,5 +10,30 @@
 module Seed2DfmEvalEuro extends seed2_dfm_eval_euro {
    route manual
 
-   alias knob1 pot1
+   alias osc1_in audio_in1
+   alias osc1_out audio_out1
+   alias osc1_but sw1
+   alias osc1_gate gate_in
+   alias osc1_pot pot1
+   alias osc1_cv cv_in1
+   alias osc1_cv_out cv_out1
+
+   alias osc2_in audio_in2
+   alias osc2_out audio_out2
+   alias osc2_pot pot2
+   alias osc2_cv cv_in2
+   alias osc2_cv_out cv_out2
+
+   alias osc3_in audio_in3
+   alias osc3_out audio_out3
+   alias osc3_pot pot3
+   alias osc3_cv cv_in3
+
+   alias osc4_in audio_in4
+   alias osc4_out audio_out4
+   alias osc4_pot pot4
+   alias osc4_shape sw2
+
+   alias encoder enc
+   alias screen display
 }
