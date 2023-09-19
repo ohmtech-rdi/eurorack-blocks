@@ -13,16 +13,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/Buffer.h"
-#include "erb/detail/Clock.h"
-
 #include "erb/def.h"
 
 erb_DISABLE_WARNINGS_DAISY
 #include "daisy.h"
 erb_RESTORE_WARNINGS
-
-#include <functional>
 
 
 
@@ -124,43 +119,11 @@ public:
       DacPin0, DacPin1
    };
 
-                  SubmoduleDaisySeed2Dfm ();
-   virtual        ~SubmoduleDaisySeed2Dfm () = default;
-
-   template <typename F>
-   void           run (F && f);
-
-   // Clock
-   inline const uint64_t &
-                  clock ();
-   inline void    clock_tick ();
-
-   inline daisy::AdcHandle &
-                  adc ();
-   inline daisy::DacHandle &
-                  dac ();
-
-   // Onboard Daisy Codec and associated gain stage
-   // eurorack audio level (-5V, 5V) to (-1.f, 1.f)
-   static constexpr float
-                  gain_input_scaling = 2.3f;
-
-   // Onboard Daisy Codec and associated gain stage
-   // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
-   // 10V / (0.7 x 3.3V x 10) = 0.433
-   static constexpr float
-                  gain_output_scaling = 0.433f;
-
-
-   const float * const *
-                  raw_audio_inputs = nullptr;
-   float **       raw_audio_outputs = nullptr;
+   static constexpr Pin PinNC = {DSY_GPIOX, 0};
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-   static constexpr Pin PinNC = {DSY_GPIOX, 0};
 
 
 
@@ -173,30 +136,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-   void           init_audio ();
-
-   void           do_run ();
-
-   static void    audio_callback_proc (const float * const * in, float ** out, size_t size);
-   void           audio_callback (const float * const * in, float ** out, size_t size);
-
-   static SubmoduleDaisySeed2Dfm *
-                  _this_ptr;
-
-   daisy::AudioHandle
-                  _audio;
-   daisy::AdcHandle
-                  _adc;
-   daisy::DacHandle
-                  _dac;
-   daisy::UsbHandle
-                  _usb;
-   daisy::Pcm3060 _codec;
-
-   Clock          _clock;
-   std::function <void ()>
-                  _run;
 
 
 
@@ -219,10 +158,6 @@ private:
 
 
 }  // namespace erb
-
-
-
-#include "erb/daisy/SubmoduleDaisySeed2Dfm.hpp"
 
 
 

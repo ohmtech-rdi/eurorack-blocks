@@ -13,6 +13,9 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Buffer.h"
+#include "erb/detail/Clock.h"
+
 #include "erb/daisy/AdcDaisy.h"
 #include "erb/daisy/DacDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
@@ -72,10 +75,10 @@ public:
 
    // Clock
    inline const uint64_t &
-                  clock () { return _submodule.clock (); }
+                  clock () { return _clock.ms (); }
 
    template <typename F>
-   inline void    run (F && f) { _submodule.run (std::forward <F> (f)); }
+   inline void    run (F && f);
 
    struct GpiPin { size_t index; };
    static constexpr GpiPin GI1 = {0};  // Gate In
@@ -144,8 +147,31 @@ protected:
 
 private:
 
-   SubmoduleDaisySeed2Dfm
-                  _submodule;
+   inline void    init_audio ();
+
+   inline void    do_run ();
+
+   inline static void
+                  audio_callback_proc (const float * const * in, float ** out, size_t size);
+   inline void    audio_callback (const float * const * in, float ** out, size_t size);
+
+   inline static BoardSeed2DfmEvalEuro *
+                  _this_ptr = nullptr;
+
+   const float * const *
+                  raw_audio_inputs = nullptr;
+   float **       raw_audio_outputs = nullptr;
+
+   daisy::AudioHandle
+                  _audio;
+   daisy::AdcHandle
+                  _adc_hnd;
+   daisy::DacHandle
+                  _dac_hnd;
+
+   Clock          _clock;
+   std::function <void ()>
+                  _run;
 
    std::array <uint8_t, 6>
                   _digital_inputs;
@@ -172,7 +198,7 @@ private:
                   }};
 
    AdcDaisy <7>   _adc = {
-                     _submodule.adc (),
+                     _adc_hnd,
                      {
                         {SubmoduleDaisySeed2Dfm::C7}, // CI1
                         {SubmoduleDaisySeed2Dfm::C6}, // CI2
@@ -188,7 +214,7 @@ private:
                   };
 
    DacDaisy       _dac = {
-                     _submodule.dac (),
+                     _dac_hnd,
                      {
                         CO1.index,
                         CO2.index,
