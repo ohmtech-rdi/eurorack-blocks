@@ -62,11 +62,11 @@ void  Encoder::impl_preprocess ()
 
    if ((_state_a & 0x03) == 0x02 && (_state_b & 0x03) == 0x00)
    {
-      _val = 1;
+      _val = -1;
    }
    else if ((_state_b & 0x03) == 0x02 && (_state_a & 0x03) == 0x00)
    {
-      _val = -1;
+      _val = 1;
    }
    else
    {
