@@ -45,32 +45,31 @@ Name : ctor
 */
 
 BoardSeed2DfmEvalEuro::BoardSeed2DfmEvalEuro ()
-:  _display_spi ()
-,  _display_transport (_display_spi, SubmoduleDaisySeed2Dfm::D8, SubmoduleDaisySeed2Dfm::D9)
-,  _display (_display_transport, _oled_buffer)
+:  _display (_display_transport, _oled_buffer)
 {
    erb_DISABLE_WARNINGS_DAISY
 
    using namespace daisy;
 
-   _display_spi.Init (SpiHandle::Config {
-      .pin_config = {
-         .sclk = SubmoduleDaisySeed2Dfm::B2,
-         .miso = SubmoduleDaisySeed2Dfm::PinNC,
-         .mosi = SubmoduleDaisySeed2Dfm::B4,
-         .nss = SubmoduleDaisySeed2Dfm::B6,
-      },
-      .periph = SpiHandle::Config::Peripheral::SPI_1,
-      .mode = SpiHandle::Config::Mode::MASTER,
-      .direction = SpiHandle::Config::Direction::TWO_LINES_TX_ONLY,
-      .datasize = 8,
-      .clock_polarity = SpiHandle::Config::ClockPolarity::LOW,
-      .clock_phase = SpiHandle::Config::ClockPhase::ONE_EDGE,
-      .nss = SpiHandle::Config::NSS::HARD_OUTPUT,
-      .baud_prescaler = SpiHandle::Config::BaudPrescaler::PS_8,
-   });
+   SSD130x4WireSpiTransport::Config transport_config;
+   transport_config.spi_config.pin_config = {
+      .sclk = SubmoduleDaisySeed2Dfm::B2,
+      .miso = SubmoduleDaisySeed2Dfm::PinNC,
+      .mosi = SubmoduleDaisySeed2Dfm::B4,
+      .nss = SubmoduleDaisySeed2Dfm::B6,
+   };
+   transport_config.spi_config.periph = SpiHandle::Config::Peripheral::SPI_1;
+   transport_config.spi_config.mode = SpiHandle::Config::Mode::MASTER;
+   transport_config.spi_config.direction = SpiHandle::Config::Direction::TWO_LINES_TX_ONLY;
+   transport_config.spi_config.datasize = 8;
+   transport_config.spi_config.clock_polarity = SpiHandle::Config::ClockPolarity::LOW;
+   transport_config.spi_config.clock_phase = SpiHandle::Config::ClockPhase::ONE_EDGE;
+   transport_config.spi_config.nss = SpiHandle::Config::NSS::HARD_OUTPUT;
+   transport_config.spi_config.baud_prescaler = SpiHandle::Config::BaudPrescaler::PS_8;
+   transport_config.pin_config.dc = SubmoduleDaisySeed2Dfm::D9;
+   transport_config.pin_config.reset = SubmoduleDaisySeed2Dfm::D8;
 
-   _display_transport.init ();
+   _display_transport.Init (transport_config);
    _display.init ();
 
    erb_RESTORE_WARNINGS
@@ -135,11 +134,14 @@ Name : impl_preprocess
 
 void  BoardSeed2DfmEvalEuro::impl_preprocess (AudioInPin pin)
 {
-   scale (
-      _audio_inputs [pin.index],
-      _submodule.raw_audio_inputs [pin.index],
-      _submodule.gain_input_scaling
-   );
+   if ((pin.index >= AI1.index) && (pin.index <= AI2.index))
+   {
+      scale (
+         _audio_inputs [pin.index],
+         _submodule.raw_audio_inputs [pin.index],
+         _submodule.gain_input_scaling
+      );
+   }
 }
 
 
@@ -178,11 +180,14 @@ Name : impl_postprocess
 
 void  BoardSeed2DfmEvalEuro::impl_postprocess (AudioOutPin pin)
 {
-   scale (
-      _submodule.raw_audio_outputs [pin.index],
-      _audio_outputs [pin.index],
-      _submodule.gain_output_scaling
-   );
+   if ((pin.index >= AO1.index) && (pin.index <= AO2.index))
+   {
+      scale (
+         _submodule.raw_audio_outputs [pin.index],
+         _audio_outputs [pin.index],
+         _submodule.gain_output_scaling
+      );
+   }
 }
 
 
@@ -194,6 +199,19 @@ Name : impl_postprocess
 */
 
 void  BoardSeed2DfmEvalEuro::impl_postprocess (OledBus)
+{
+   // Nothing
+}
+
+
+
+/*
+==============================================================================
+Name : impl_idle
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::impl_idle ()
 {
    _display.update ();
 }

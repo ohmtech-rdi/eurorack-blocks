@@ -20,6 +20,11 @@
 #include "erb/daisy/OledSsd130x.h"
 #include "erb/daisy/SubmoduleDaisySeed2Dfm.h"
 
+erb_DISABLE_WARNINGS_DAISY
+#include "dev/oled_ssd130x.h"
+erb_RESTORE_WARNINGS
+
+
 #include <array>
 
 
@@ -125,7 +130,7 @@ public:
    inline void    impl_postprocess (OledBus);
    inline void    impl_postprocess () {}
 
-   inline void    impl_idle () {}
+   inline void    impl_idle ();
 
 
 
@@ -190,13 +195,11 @@ private:
                      }
                   };
 
-   daisy::SpiHandle
-                  _display_spi;
-   OledSsd130xTransport4WireSpi
+   daisy::SSD130x4WireSpiTransport
                   _display_transport;
    FormatSsd130x <128, 64>::Storage
                   _oled_buffer;
-   OledSsd130x <128, 64, OledSsd130xTransport4WireSpi>
+   OledSsd130x <128, 64, daisy::SSD130x4WireSpiTransport>
                   _display;
 
 

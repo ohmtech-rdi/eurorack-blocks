@@ -92,11 +92,7 @@ void  SubmoduleDaisySeed2Dfm::init_audio ()
    // don't deinit GPIO
 
    _audio.Init (
-      {
-         .blocksize = 48,
-         .samplerate = SaiHandle::Config::SampleRate::SAI_48KHZ,
-         .postgain = 1.f,
-      },
+      AudioHandle::Config {}, // block 48 @48kHz, unit gains
       sai_1_handle
    );
 

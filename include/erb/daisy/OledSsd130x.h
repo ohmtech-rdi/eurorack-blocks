@@ -19,7 +19,6 @@
 #include "erb/def.h"
 
 erb_DISABLE_WARNINGS_DAISY
-#include "per/spi.h"
 #include "dev/oled_ssd130x.h"
 erb_RESTORE_WARNINGS
 
@@ -31,28 +30,6 @@ erb_RESTORE_WARNINGS
 
 namespace erb
 {
-
-
-
-
-class OledSsd130xTransport4WireSpi
-{
-public:
-   using Pin = dsy_gpio_pin;
-
-   inline         OledSsd130xTransport4WireSpi (daisy::SpiHandle & spi, const dsy_gpio_pin & rst, const dsy_gpio_pin & dc);
-
-   inline void    init ();
-   inline void    send_cmd (uint8_t cmd);
-   inline void    send_data (const uint8_t * ptr, size_t size);
-
-private:
-   daisy::SpiHandle
-                  _spi;
-
-   dsy_gpio       _rst;
-   dsy_gpio       _dc;
-};
 
 
 
@@ -87,7 +64,6 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
    Transport &    _transport;
    Buffer &       _buffer;
 
