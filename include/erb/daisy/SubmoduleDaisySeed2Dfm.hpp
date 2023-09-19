@@ -72,7 +72,7 @@ Name : adc
 
 daisy::AdcHandle &   SubmoduleDaisySeed2Dfm::adc ()
 {
-   return _seed.adc;
+   return _adc;
 }
 
 
@@ -85,7 +85,7 @@ Name : dac
 
 daisy::DacHandle &   SubmoduleDaisySeed2Dfm::dac ()
 {
-   return _seed.dac;
+   return _dac;
 }
 
 

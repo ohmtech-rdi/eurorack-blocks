@@ -17,7 +17,7 @@
 #include "erb/daisy/DacDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
 #include "erb/daisy/GpioOutputDaisy.h"
-#include "erb/daisy/SubmoduleDaisySeed.h"
+#include "erb/daisy/SubmoduleDaisySeed2Dfm.h"
 
 #include <array>
 
@@ -73,7 +73,7 @@ public:
    static constexpr GpiPin B2 = {2};   // Toggle Switch pos0
    static constexpr GpiPin B3 = {3};   // Toggle Switch pos1
    static constexpr GpiPin B4 = {4};   // Encoder A
-   static constexpr GpiPin B5 = {4};   // Encoder B
+   static constexpr GpiPin B5 = {5};   // Encoder B
 
    struct GpoPin { size_t index; };
 
@@ -99,8 +99,8 @@ public:
    struct AudioOutPin { size_t index; };
    static constexpr AudioOutPin AO1 = {0};
    static constexpr AudioOutPin AO2 = {1};
-   static constexpr AudioOutPin AO3 = {1};
-   static constexpr AudioOutPin AO4 = {1};
+   static constexpr AudioOutPin AO3 = {2};
+   static constexpr AudioOutPin AO4 = {3};
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -129,7 +129,7 @@ protected:
 
 private:
 
-   SubmoduleDaisyPatchSm
+   SubmoduleDaisySeed2Dfm
                   _submodule;
 
    std::array <uint8_t, 6>
@@ -148,36 +148,35 @@ private:
 
    std::array <GpioInputDaisy, 4>
                   _gpio_inputs = {{
-                     {SubmoduleDaisyPatchSm::B10},
-                     {SubmoduleDaisyPatchSm::B9},
-                     {SubmoduleDaisyPatchSm::B7, GpioInputDaisy::Pull::Up},
-                     {SubmoduleDaisyPatchSm::B8},
-                  }};
-   std::array <GpioOutputDaisy, 2>
-                  _gpio_outputs = {{
-                     {SubmoduleDaisyPatchSm::B5},
-                     {SubmoduleDaisyPatchSm::B6},
+                     {SubmoduleDaisySeed2Dfm::B7},    // Gate In
+                     {SubmoduleDaisySeed2Dfm::B1, GpioInputDaisy::Pull::Up},  // Tactile Switch
+                     {SubmoduleDaisySeed2Dfm::B10, GpioInputDaisy::Pull::Up}, // Toggle Switch pos0
+                     {SubmoduleDaisySeed2Dfm::B9, GpioInputDaisy::Pull::Up},  // Toggle Switch pos1
+                     {SubmoduleDaisySeed2Dfm::C1, GpioInputDaisy::Pull::Up},  // Encoder A
+                     {SubmoduleDaisySeed2Dfm::C3, GpioInputDaisy::Pull::Up},  // Encoder B
                   }};
 
-   AdcDaisy <8>   _adc = {
+   AdcDaisy <7>   _adc = {
                      _submodule.adc (),
                      {
-                        {SubmoduleDaisyPatchSm::AdcPin0.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin1.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin2.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin3.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin4.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin5.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin6.pin},
-                        {SubmoduleDaisyPatchSm::AdcPin7.pin},
+                        {SubmoduleDaisySeed2Dfm::C7}, // CI1
+                        {SubmoduleDaisySeed2Dfm::C6}, // CI2
+                        {SubmoduleDaisySeed2Dfm::C5}, // CI3
+                        {
+                           SubmoduleDaisySeed::C4, 4, // P1-4
+                           {
+                              SubmoduleDaisySeed::B8,
+                              SubmoduleDaisySeed::C10,
+                           }
+                        },
                      }
                   };
 
    DacDaisy       _dac = {
                      _submodule.dac (),
                      {
-                        CO.index,
-                        L.index,
+                        CO1.index,
+                        CO2.index,
                      }
                   };
 
