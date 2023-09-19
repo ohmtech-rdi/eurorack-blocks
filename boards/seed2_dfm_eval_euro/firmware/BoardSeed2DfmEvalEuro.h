@@ -190,6 +190,8 @@ private:
                      }
                   };
 
+   daisy::SpiHandle
+                  _display_spi;
    daisy::SSD130x4WireSpiTransport
                   _display_transport;
    FormatSsd130x <128, 64>::Storage

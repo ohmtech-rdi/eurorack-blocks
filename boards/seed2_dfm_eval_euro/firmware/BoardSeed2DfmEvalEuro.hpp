@@ -38,6 +38,47 @@ namespace erb
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : ctor
+==============================================================================
+*/
+
+BoardSeed2DfmEvalEuro::BoardSeed2DfmEvalEuro ()
+:  _display_spi ()
+,  _display_transport (_display_spi, SubmoduleDaisySeed2Dfm::D8, SubmoduleDaisySeed2Dfm::D9)
+,  _display (_display_transport, _oled_buffer)
+{
+   erb_DISABLE_WARNINGS_DAISY
+
+   using namespace daisy;
+
+   _display_spi.Init (SpiHandle::Config {
+      .pin_config = {
+         .sclk = SubmoduleDaisySeed2Dfm::B2,
+         .miso = SubmoduleDaisySeed2Dfm::PinNC,
+         .mosi = SubmoduleDaisySeed2Dfm::B4,
+         .nss = SubmoduleDaisySeed2Dfm::B6,
+      },
+      .periph = SpiHandle::Config::Peripheral::SPI_1,
+      .mode = SpiHandle::Config::Mode::MASTER,
+      .direction = SpiHandle::Config::Direction::TWO_LINES_TX_ONLY,
+      .datasize = 8,
+      .clock_polarity = SpiHandle::Config::ClockPolarity::LOW,
+      .clock_phase = SpiHandle::Config::ClockPhase::ONE_EDGE,
+      .nss = SpiHandle::Config::NSS::HARD_OUTPUT,
+      .baud_prescaler = SpiHandle::Config::BaudPrescaler::PS_8,
+   });
+
+   _display_transport.init ();
+   _display.init ();
+
+   erb_RESTORE_WARNINGS
+}
+
+
+
+
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -154,6 +195,7 @@ Name : impl_postprocess
 
 void  BoardSeed2DfmEvalEuro::impl_postprocess (OledBus)
 {
+   _display.update ();
 }
 
 
