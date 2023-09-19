@@ -192,7 +192,7 @@ private:
 
    daisy::SpiHandle
                   _display_spi;
-   daisy::SSD130x4WireSpiTransport
+   OledSsd130xTransport4WireSpi
                   _display_transport;
    FormatSsd130x <128, 64>::Storage
                   _oled_buffer;

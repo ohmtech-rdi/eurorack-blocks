@@ -25,6 +25,7 @@ erb_RESTORE_WARNINGS
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
 
 
 
@@ -41,7 +42,7 @@ public:
 
    inline         OledSsd130xTransport4WireSpi (daisy::SpiHandle & spi, const dsy_gpio_pin & rst, const dsy_gpio_pin & dc);
 
-   inline         init ();
+   inline void    init ();
    inline void    send_cmd (uint8_t cmd);
    inline void    send_data (const uint8_t * ptr, size_t size);
 
@@ -63,7 +64,7 @@ class OledSsd130x
 
 public:
 
-   using Buffer = std::array <std::uint8_t, width * height / 8>;
+   using Buffer = std::array <uint8_t, Width * Height / 8>;
 
                   OledSsd130x (Transport & transport, Buffer & buffer);
    virtual        ~OledSsd130x () = default;

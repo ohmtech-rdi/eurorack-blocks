@@ -79,7 +79,7 @@ Name : send_data
 void  OledSsd130xTransport4WireSpi::send_data (const uint8_t * ptr, size_t size)
 {
    dsy_gpio_write (&_dc, 1);
-   _spi.BlockingTransmit (ptr, size);
+   _spi.BlockingTransmit (const_cast <uint8_t *> (ptr), size);
 }
 
 
@@ -108,7 +108,7 @@ Name : init
 template <size_t Width, size_t Height, typename Transport>
 void  OledSsd130x <Width, Height, Transport>::init ()
 {
-   _transport.SendCommand (0xae);   // Turn off
+   _transport.send_cmd (0xae);   // Turn off
 
    uint8_t clock_divide_ratio = 0;
    uint8_t multiplex_ratio = 0;
@@ -139,38 +139,38 @@ void  OledSsd130x <Width, Height, Transport>::init ()
       com_pins = 0x12;
    }
 
-   _transport.SendCommand (0xd5);
-   _transport.SendCommand (clock_divide_ratio);
+   _transport.send_cmd (0xd5);
+   _transport.send_cmd (clock_divide_ratio);
 
-   _transport.SendCommand (0xa8);
-   _transport.SendCommand (multiplex_ratio);
+   _transport.send_cmd (0xa8);
+   _transport.send_cmd (multiplex_ratio);
 
-   _transport.SendCommand (0xda);
-   _transport.SendCommand (com_pins);
+   _transport.send_cmd (0xda);
+   _transport.send_cmd (com_pins);
 
-   _transport.SendCommand (0xd3);   // Offset
-   _transport.SendCommand (0x00);
+   _transport.send_cmd (0xd3);   // Offset
+   _transport.send_cmd (0x00);
 
-   _transport.SendCommand (0x40);   // Start line address
-   _transport.SendCommand (0xa6);   // Normal display
-   _transport.SendCommand (0xa4);   // All on resume
+   _transport.send_cmd (0x40);   // Start line address
+   _transport.send_cmd (0xa6);   // Normal display
+   _transport.send_cmd (0xa4);   // All on resume
 
-   _transport.SendCommand (0x8d);   // Charge pump
-   _transport.SendCommand (0x14);
+   _transport.send_cmd (0x8d);   // Charge pump
+   _transport.send_cmd (0x14);
 
-   _transport.SendCommand (0xa1);   // Set segment remap
-   _transport.SendCommand (0xc8);   // COM output scan direction
+   _transport.send_cmd (0xa1);   // Set segment remap
+   _transport.send_cmd (0xc8);   // COM output scan direction
 
-   _transport.SendCommand (0x81);   // Contrast control
-   _transport.SendCommand (0x8f);
+   _transport.send_cmd (0x81);   // Contrast control
+   _transport.send_cmd (0x8f);
 
-   _transport.SendCommand (0xd9);   // Pre charge
-   _transport.SendCommand (0x25);
+   _transport.send_cmd (0xd9);   // Pre charge
+   _transport.send_cmd (0x25);
 
-   _transport.SendCommand (0xdb);   // VCOM detect
-   _transport.SendCommand (0x34);
+   _transport.send_cmd (0xdb);   // VCOM detect
+   _transport.send_cmd (0x34);
 
-   _transport.SendCommand (0xaf);   // Turn on
+   _transport.send_cmd (0xaf);   // Turn on
 }
 
 
@@ -188,10 +188,10 @@ void  OledSsd130x <Width, Height, Transport>::update ()
 
    for (size_t i = 0 ; i < Height / 8 ; ++i)
    {
-      _transport.SendCommand (0xb0 + uint8_t (i));
-      _transport.SendCommand (0x00);
-      _transport.SendCommand (high_column_addr);
-      _transport.SendData (&_buffer [Width * i], Width);
+      _transport.send_cmd (0xb0 + uint8_t (i));
+      _transport.send_cmd (0x00);
+      _transport.send_cmd (high_column_addr);
+      _transport.send_data (&_buffer [Width * i], Width);
    }
 }
 
