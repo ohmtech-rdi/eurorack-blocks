@@ -146,7 +146,7 @@ private:
    std::array <Buffer, 4>
                   _audio_outputs;
 
-   std::array <GpioInputDaisy, 4>
+   std::array <GpioInputDaisy, 6>
                   _gpio_inputs = {{
                      {SubmoduleDaisySeed2Dfm::B7},    // Gate In
                      {SubmoduleDaisySeed2Dfm::B1, GpioInputDaisy::Pull::Up},  // Tactile Switch
@@ -163,10 +163,10 @@ private:
                         {SubmoduleDaisySeed2Dfm::C6}, // CI2
                         {SubmoduleDaisySeed2Dfm::C5}, // CI3
                         {
-                           SubmoduleDaisySeed::C4, 4, // P1-4
+                           SubmoduleDaisySeed2Dfm::C4, 4, // P1-4
                            {
-                              SubmoduleDaisySeed::B8,
-                              SubmoduleDaisySeed::C10,
+                              SubmoduleDaisySeed2Dfm::B8,
+                              SubmoduleDaisySeed2Dfm::C10,
                            }
                         },
                      }
