@@ -1,0 +1,212 @@
+/*****************************************************************************
+
+      BoardSeed2DfmEvalEuro.h
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+#pragma once
+
+
+
+/*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+#include "erb/daisy/AdcDaisy.h"
+#include "erb/daisy/DacDaisy.h"
+#include "erb/daisy/GpioInputDaisy.h"
+#include "erb/daisy/GpioOutputDaisy.h"
+#include "erb/daisy/SubmoduleDaisySeed.h"
+
+#include <array>
+
+
+
+namespace erb
+{
+
+
+
+class BoardSeed2DfmEvalEuro
+{
+
+/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+public:
+   inline         BoardSeed2DfmEvalEuro () = default;
+   virtual        ~BoardSeed2DfmEvalEuro () = default;
+
+   // Digital Inputs
+   inline const uint8_t &
+                  gpi (size_t i) { return _digital_inputs [i]; }
+
+   // Analog Inputs
+   inline const float &
+                  adc (size_t i) { return _analog_inputs [i]; }
+
+   // Audio Inputs
+   inline const Buffer &
+                  audioin (size_t i) { return _audio_inputs [i]; }
+
+   // Digital Outputs
+   inline uint8_t &
+                  gpo (size_t i) { return _digital_outputs [i]; }
+
+   // Analog Outputs
+   inline float & dac (size_t i) { return _analog_outputs [i]; }
+
+   // Audio Outputs
+   inline Buffer &
+                  audioout (size_t i) { return _audio_outputs [i]; }
+
+   // Clock
+   inline const uint64_t &
+                  clock () { return _submodule.clock (); }
+
+   template <typename F>
+   inline void    run (F && f) { _submodule.run (std::forward <F> (f)); }
+
+   struct GpiPin { size_t index; };
+   static constexpr GpiPin GI1 = {0};  // Gate In
+   static constexpr GpiPin B1 = {1};   // Tactile Switch
+   static constexpr GpiPin B2 = {2};   // Toggle Switch pos0
+   static constexpr GpiPin B3 = {3};   // Toggle Switch pos1
+   static constexpr GpiPin B4 = {4};   // Encoder A
+   static constexpr GpiPin B5 = {4};   // Encoder B
+
+   struct GpoPin { size_t index; };
+
+   struct AdcPin { size_t index; };
+   static constexpr AdcPin CI1 = {0};
+   static constexpr AdcPin CI2 = {1};
+   static constexpr AdcPin CI3 = {2};
+   static constexpr AdcPin P1 = {3};
+   static constexpr AdcPin P2 = {4};
+   static constexpr AdcPin P3 = {5};
+   static constexpr AdcPin P4 = {6};
+
+   struct DacPin { size_t index; };
+   static constexpr DacPin CO1 = {0};
+   static constexpr DacPin CO2 = {1};
+
+   struct AudioInPin { size_t index; };
+   static constexpr AudioInPin AI1 = {0};
+   static constexpr AudioInPin AI2 = {1};
+   static constexpr AudioInPin AI3 = {2};
+   static constexpr AudioInPin AI4 = {3};
+
+   struct AudioOutPin { size_t index; };
+   static constexpr AudioOutPin AO1 = {0};
+   static constexpr AudioOutPin AO2 = {1};
+   static constexpr AudioOutPin AO3 = {1};
+   static constexpr AudioOutPin AO4 = {1};
+
+
+/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+   inline void    impl_preprocess () {}
+   inline void    impl_preprocess (GpiPin pin);
+   inline void    impl_preprocess (AdcPin pin);
+   inline void    impl_preprocess (AudioInPin pin);
+
+   inline void    impl_postprocess (GpoPin pin);
+   inline void    impl_postprocess (DacPin pin);
+   inline void    impl_postprocess (AudioOutPin pin);
+   inline void    impl_postprocess () {}
+
+   inline void    impl_idle () {}
+
+
+
+/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+protected:
+
+
+
+/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+private:
+
+   SubmoduleDaisyPatchSm
+                  _submodule;
+
+   std::array <uint8_t, 6>
+                  _digital_inputs;
+   std::array <float, 7>
+                  _analog_inputs;
+   std::array <Buffer, 4>
+                  _audio_inputs;
+
+   std::array <uint8_t, 0>
+                  _digital_outputs;
+   std::array <float, 2>
+                  _analog_outputs;
+   std::array <Buffer, 4>
+                  _audio_outputs;
+
+   std::array <GpioInputDaisy, 4>
+                  _gpio_inputs = {{
+                     {SubmoduleDaisyPatchSm::B10},
+                     {SubmoduleDaisyPatchSm::B9},
+                     {SubmoduleDaisyPatchSm::B7, GpioInputDaisy::Pull::Up},
+                     {SubmoduleDaisyPatchSm::B8},
+                  }};
+   std::array <GpioOutputDaisy, 2>
+                  _gpio_outputs = {{
+                     {SubmoduleDaisyPatchSm::B5},
+                     {SubmoduleDaisyPatchSm::B6},
+                  }};
+
+   AdcDaisy <8>   _adc = {
+                     _submodule.adc (),
+                     {
+                        {SubmoduleDaisyPatchSm::AdcPin0.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin1.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin2.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin3.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin4.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin5.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin6.pin},
+                        {SubmoduleDaisyPatchSm::AdcPin7.pin},
+                     }
+                  };
+
+   DacDaisy       _dac = {
+                     _submodule.dac (),
+                     {
+                        CO.index,
+                        L.index,
+                     }
+                  };
+
+
+
+/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+private:
+                  BoardSeed2DfmEvalEuro (const BoardSeed2DfmEvalEuro & rhs) = delete;
+                  BoardSeed2DfmEvalEuro (BoardSeed2DfmEvalEuro && rhs) = delete;
+   BoardSeed2DfmEvalEuro &
+                  operator = (const BoardSeed2DfmEvalEuro & rhs) = delete;
+   BoardSeed2DfmEvalEuro &
+                  operator = (BoardSeed2DfmEvalEuro && rhs) = delete;
+   bool           operator == (const BoardSeed2DfmEvalEuro & rhs) const = delete;
+   bool           operator != (const BoardSeed2DfmEvalEuro & rhs) const = delete;
+
+
+
+}; // class BoardSeed2DfmEvalEuro
+
+
+
+}  // namespace erb
+
+
+
+#include "BoardSeed2DfmEvalEuro.hpp"
+
+
+
+/*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
