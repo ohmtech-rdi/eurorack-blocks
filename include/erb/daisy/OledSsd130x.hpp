@@ -28,6 +28,68 @@ Name : ctor
 ==============================================================================
 */
 
+OledSsd130xTransport4WireSpi::OledSsd130xTransport4WireSpi (daisy::SpiHandle & spi, const dsy_gpio_pin & rst, const dsy_gpio_pin & dc)
+:  _spi (spi)
+,  _rst ({rst, DSY_GPIO_MODE_OUTPUT_PP})
+,  _dc ({dc, DSY_GPIO_MODE_OUTPUT_PP})
+{
+   dsy_gpio_init (&_dc);
+   dsy_gpio_init (&_rst);
+}
+
+
+
+/*
+==============================================================================
+Name : init
+==============================================================================
+*/
+
+void  OledSsd130xTransport4WireSpi::init ()
+{
+   dsy_gpio_write (&_rst, 0);
+   daisy::System::Delay (10);
+
+   dsy_gpio_write (&_rst, 1);
+   daisy::System::Delay (10);
+}
+
+
+
+/*
+==============================================================================
+Name : send_cmd
+==============================================================================
+*/
+
+void  OledSsd130xTransport4WireSpi::send_cmd (uint8_t cmd)
+{
+   dsy_gpio_write (&_dc, 0);
+   _spi.BlockingTransmit (&cmd, 1);
+}
+
+
+
+/*
+==============================================================================
+Name : send_data
+==============================================================================
+*/
+
+void  OledSsd130xTransport4WireSpi::send_data (const uint8_t * ptr, size_t size)
+{
+   dsy_gpio_write (&_dc, 1);
+   _spi.BlockingTransmit (ptr, size);
+}
+
+
+
+/*
+==============================================================================
+Name : ctor
+==============================================================================
+*/
+
 template <size_t Width, size_t Height, typename Transport>
 OledSsd130x <Width, Height, Transport>::OledSsd130x (Transport & transport, Buffer & buffer)
 :  _transport (transport)

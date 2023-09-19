@@ -17,6 +17,7 @@
 #include "erb/daisy/DacDaisy.h"
 #include "erb/daisy/GpioInputDaisy.h"
 #include "erb/daisy/GpioOutputDaisy.h"
+#include "erb/daisy/OledSsd130x.h"
 #include "erb/daisy/SubmoduleDaisySeed2Dfm.h"
 
 #include <array>
@@ -34,7 +35,7 @@ class BoardSeed2DfmEvalEuro
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         BoardSeed2DfmEvalEuro () = default;
+   inline         BoardSeed2DfmEvalEuro ();
    virtual        ~BoardSeed2DfmEvalEuro () = default;
 
    // Digital Inputs
@@ -62,7 +63,7 @@ public:
 
    // Display
    inline typename erb::FormatSsd130x <128, 64>::Storage &
-                  oled () { return _oled; }
+                  oled () { return _oled_buffer; }
 
    // Clock
    inline const uint64_t &
@@ -189,8 +190,12 @@ private:
                      }
                   };
 
-   erb::FormatSsd130x <128, 64>::Storage
-                  _oled;
+   daisy::SSD130x4WireSpiTransport
+                  _display_transport;
+   FormatSsd130x <128, 64>::Storage
+                  _oled_buffer;
+   OledSsd130x <128, 64, OledSsd130xTransport4WireSpi>
+                  _display;
 
 
 
