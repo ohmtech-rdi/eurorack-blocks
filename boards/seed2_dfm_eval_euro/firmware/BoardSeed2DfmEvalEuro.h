@@ -149,8 +149,6 @@ private:
 
    inline void    init_audio ();
 
-   inline void    do_run ();
-
    inline static void
                   audio_callback_proc (const float * const * in, float ** out, size_t size);
    inline void    audio_callback (const float * const * in, float ** out, size_t size);

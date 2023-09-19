@@ -92,7 +92,8 @@ void  BoardSeed2DfmEvalEuro::run (F && f)
 {
    _run = std::forward <F> (f);
 
-   do_run ();
+   _adc_hnd.Start ();
+   _audio.Start (audio_callback_proc);
 }
 
 
@@ -262,6 +263,8 @@ void  BoardSeed2DfmEvalEuro::init_audio ()
 
    using namespace daisy;
 
+   // "Internal" PCM3060 codec
+
    SaiHandle sai_1_handle;
    sai_1_handle.Init (SaiHandle::Config {
       .periph = SaiHandle::Config::Peripheral::SAI_1,
@@ -281,35 +284,51 @@ void  BoardSeed2DfmEvalEuro::init_audio ()
    });
 
    // PCM3060 disable deemphasis pin
-   dsy_gpio codec_deemphasis = {
+   dsy_gpio codec_1_deemphasis = {
       .pin = {DSY_GPIOB, 11},
       .mode = DSY_GPIO_MODE_OUTPUT_PP,
       .pull = DSY_GPIO_NOPULL,
    };
-   dsy_gpio_init (&codec_deemphasis);
-   dsy_gpio_write (&codec_deemphasis, 0);
+   dsy_gpio_init (&codec_1_deemphasis);
+   dsy_gpio_write (&codec_1_deemphasis, 0);
    // don't deinit GPIO
 
+   // "External" PCM3060 codec
+
+   SaiHandle sai_2_handle;
+   sai_2_handle.Init (SaiHandle::Config {
+      .periph = SaiHandle::Config::Peripheral::SAI_2,
+      .pin_config = {
+         .mclk = {DSY_GPIOA, 1},
+         .fs = {DSY_GPIOG, 9},
+         .sck = {DSY_GPIOA, 2},
+         .sa = {DSY_GPIOD, 11},
+         .sb = {DSY_GPIOA, 0}
+      },
+      .sr = SaiHandle::Config::SampleRate::SAI_48KHZ,
+      .bit_depth = SaiHandle::Config::BitDepth::SAI_24BIT,
+      .a_sync = SaiHandle::Config::Sync::SLAVE,
+      .b_sync = SaiHandle::Config::Sync::MASTER,
+      .a_dir = SaiHandle::Config::Direction::TRANSMIT,
+      .b_dir = SaiHandle::Config::Direction::RECEIVE,
+   });
+
+   // PCM3060 disable deemphasis pin put to GND in hardware
+
+   static_assert (erb_SAMPLE_RATE == 48014);
+   AudioHandle::Config config_audio;
+   config_audio.blocksize = erb_BUFFER_SIZE;
+   config_audio.samplerate = SaiHandle::Config::SampleRate::SAI_48KHZ;
+   config_audio.postgain = 1.f;
+   config_audio.output_compensation = 1.f;
+
    _audio.Init (
-      AudioHandle::Config {}, // block 48 @48kHz, unit gains
-      sai_1_handle
+      config_audio,
+      sai_1_handle,
+      sai_2_handle
    );
 
    erb_RESTORE_WARNINGS
-}
-
-
-
-/*
-==============================================================================
-Name : do_run
-==============================================================================
-*/
-
-void  BoardSeed2DfmEvalEuro::do_run ()
-{
-   _adc_hnd.Start ();
-   _audio.Start (audio_callback_proc);
 }
 
 
