@@ -50,20 +50,14 @@ Name : impl_preprocess
 
 void  BoardSeed2DfmEvalEuro::impl_preprocess (GpiPin pin)
 {
-   if (pin.index == B1.index)
-   {
-       // Pull-up when NO => inverted
-      _digital_inputs [pin.index] = !_gpio_inputs [pin.index].read ();
-   }
-   else if (pin.index == B2.index)
-   {
-      bool val = _gpio_inputs [B2.index].read ();
-      _digital_inputs [B2.index] = !val;
-      _digital_inputs [B3.index] = val;
-   }
-   else if (pin.index == GI1.index || pin.index == GI2.index)
+   if (pin.index == GI1.index)
    {
        // BJT => inverted
+      _digital_inputs [pin.index] = !_gpio_inputs [pin.index].read ();
+   }
+   else if ((pin.index >= B1.index) && (pin.index <= B5.index))
+   {
+       // Pull-up when NO => inverted
       _digital_inputs [pin.index] = !_gpio_inputs [pin.index].read ();
    }
 }
@@ -78,21 +72,15 @@ Name : impl_preprocess
 
 void  BoardSeed2DfmEvalEuro::impl_preprocess (AdcPin pin)
 {
-   const auto norm_val = to_float_norm (_adc.read (pin.index));
-
-   // OpAmp in inverter adder with voltage reference
-   const auto inverted = 1.f - norm_val;
-
-   if ((pin.index >= P1.index) && (pin.index <= P4.index))
+   if ((pin.index >= CI1.index) && (pin.index <= CI3.index))
    {
-      // in the pot case, value covers only 0.5 to 1.
-      // renormalize it
+      // OpAmp inverter/adder with voltage reference
 
-      _analog_inputs [pin.index] = 2.f * inverted - 1.f;
+      _analog_inputs [pin.index] = 1.f - to_float_norm (_adc.read (pin.index));
    }
-   else
+   else if ((pin.index >= P1.index) && (pin.index <= P4.index))
    {
-      _analog_inputs [pin.index] = inverted;
+      _analog_inputs [pin.index] = to_float_norm (_adc.read (pin.index));
    }
 }
 
@@ -123,7 +111,7 @@ Name : impl_postprocess
 
 void  BoardSeed2DfmEvalEuro::impl_postprocess (GpoPin pin)
 {
-   _gpio_outputs [pin.index].write (_digital_outputs [pin.index]);
+   // Nothing
 }
 
 
