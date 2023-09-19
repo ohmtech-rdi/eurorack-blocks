@@ -31,6 +31,7 @@ void  Seed2DfmEvalEuro::process ()
       switch (pos)
       {
       case erb::SwitchPosition::First:
+      default:
          return x;
       case erb::SwitchPosition::Center:
          return x * x * x;

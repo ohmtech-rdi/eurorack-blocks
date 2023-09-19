@@ -146,6 +146,18 @@ void  BoardSeed2DfmEvalEuro::impl_postprocess (AudioOutPin pin)
 
 
 
+/*
+==============================================================================
+Name : impl_postprocess
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::impl_postprocess (OledBus)
+{
+}
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

@@ -36,7 +36,7 @@ SubmoduleDaisySeed2Dfm::SubmoduleDaisySeed2Dfm ()
 
    init_audio ();
 
-   _audio.SetAudioBlockSize (erb_BUFFER_SIZE);
+   _audio.SetBlockSize (erb_BUFFER_SIZE);
 }
 
 
@@ -113,8 +113,8 @@ Name : do_run
 
 void  SubmoduleDaisySeed2Dfm::do_run ()
 {
-   _seed.adc.Start ();
-   _seed.StartAudio (audio_callback_proc);
+   _adc.Start ();
+   _audio.Start (audio_callback_proc);
 }
 
 

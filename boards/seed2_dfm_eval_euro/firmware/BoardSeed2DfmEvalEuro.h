@@ -60,6 +60,10 @@ public:
    inline Buffer &
                   audioout (size_t i) { return _audio_outputs [i]; }
 
+   // Display
+   inline typename erb::FormatSsd130x <128, 64>::Storage &
+                  oled () { return _oled; }
+
    // Clock
    inline const uint64_t &
                   clock () { return _submodule.clock (); }
@@ -102,6 +106,10 @@ public:
    static constexpr AudioOutPin AO3 = {2};
    static constexpr AudioOutPin AO4 = {3};
 
+   struct OledBus {};
+   static constexpr OledBus OLED1 = {};
+
+
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
@@ -113,6 +121,7 @@ public:
    inline void    impl_postprocess (GpoPin pin);
    inline void    impl_postprocess (DacPin pin);
    inline void    impl_postprocess (AudioOutPin pin);
+   inline void    impl_postprocess (OledBus);
    inline void    impl_postprocess () {}
 
    inline void    impl_idle () {}
@@ -179,6 +188,9 @@ private:
                         CO2.index,
                      }
                   };
+
+   erb::FormatSsd130x <128, 64>::Storage
+                  _oled;
 
 
 
