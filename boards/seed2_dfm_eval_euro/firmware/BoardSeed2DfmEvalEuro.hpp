@@ -157,14 +157,11 @@ Name : impl_preprocess
 
 void  BoardSeed2DfmEvalEuro::impl_preprocess (AudioInPin pin)
 {
-   if ((pin.index >= AI1.index) && (pin.index <= AI2.index))
-   {
-      scale (
-         _audio_inputs [pin.index],
-         raw_audio_inputs [pin.index],
-         2.3f
-      );
-   }
+   scale (
+      _audio_inputs [pin.index],
+      raw_audio_inputs [pin.index],
+      2.3f
+   );
 }
 
 
@@ -207,14 +204,11 @@ void  BoardSeed2DfmEvalEuro::impl_postprocess (AudioOutPin pin)
    // Map (-1.f, 1.f) to eurorack audio level (-5V, 5V)
    // 10V / (0.7 x 3.3V x 10) = 0.433
 
-   if ((pin.index >= AO1.index) && (pin.index <= AO2.index))
-   {
-      scale (
-         raw_audio_outputs [pin.index],
-         _audio_outputs [pin.index],
-         0.433f
-      );
-   }
+   scale (
+      raw_audio_outputs [pin.index],
+      _audio_outputs [pin.index],
+      0.433f
+   );
 }
 
 
