@@ -157,6 +157,7 @@ class AnalyserStyle:
          'Button': [],
          'CvIn': [],
          'CvOut': [],
+         'Display': [],
          'Encoder': [],
          'GateIn': [],
          'GateOut': [],
@@ -368,8 +369,14 @@ class AnalyserStyle:
          for pad in footprint.pads:
             if pad.net:
                net_name = pad.net.name
+               net_suffix = ''
+               if '.' in net_name:
+                  [base, suffix] = net_name.split ('.')
+                  net_name = base
+                  net_suffix = '.' + suffix
+
                if net_name in name_map:
-                  pin_name = name_map [net_name]
+                  pin_name = name_map [net_name] + net_suffix
                   pad.net.index = module.net_name_index_map [pin_name]
                   pad.net.name = pin_name
                else:

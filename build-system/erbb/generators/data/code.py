@@ -88,9 +88,12 @@ class Code:
       elif data.type_ == 'AudioSample':
          return self.generate_declaration_data_audio_sample (module, data)
 
+      elif data.type_ == 'FormatSsd130x':
+         return self.generate_declaration_data_format_ssd130x (data)
+
       else:
          err = error.Error ()
-         context = data.data_type.source_context
+         context = data.source_context_part ('type')
          err.add_error ("Undefined type '%s'" % context, context)
          err.add_context (context)
          raise err
@@ -155,6 +158,7 @@ class Code:
 
       return content
 
+
    #--------------------------------------------------------------------------
 
    def generate_declaration_data_audio_sample_mono (self, file, data):
@@ -171,6 +175,38 @@ class Code:
 
    def generate_declaration_data_audio_sample_planar (self, file, data):
       return '   static const erb::AudioSamplePlanar <float, %d, %d> %s;\n' % (file.frames, file.channels, data.name)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_declaration_data_format_ssd130x (self, data):
+
+      import imageio.v3 as iio
+      try:
+         im = iio.imread (data.file.path)
+
+      except OSError:
+         err = error.Error ()
+         context = data.file.source_context
+         err.add_error ("File '%s' not found" % context, context)
+         err.add_context (context)
+         raise err
+
+      height = im.shape [0]
+      if (height % 8) != 0:
+         err = error.Error ()
+         context = data.file.source_context
+         err.add_error ("File '%s' height is not a multiple of 8" % context, context)
+         err.add_context (context)
+         raise err
+
+      width = im.shape [1]
+      size = width * height // 8
+
+      content = '   static const std::array <uint8_t, %d> %s;\n' % (size, data.name);
+
+      return content
+
 
 
    #--------------------------------------------------------------------------
@@ -217,6 +253,9 @@ class Code:
 
       elif data.type_ == 'AudioSample':
          return self.generate_definition_data_audio_sample (module, data)
+
+      elif data.type_ == 'FormatSsd130x':
+         return self.generate_definition_data_format_ssd130x (module, data)
 
       else:
          err = error.Error ()
@@ -338,6 +377,38 @@ class Code:
       content += ', '.join (map (lambda frame: to_channels (frame), samples))
       content += '\n';
       content += '   }}\n';
+      content += '};\n'
+
+      return content
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_definition_data_format_ssd130x (self, module, data):
+
+      import imageio.v3 as iio
+      try:
+         im = iio.imread (data.file.path)
+
+      except OSError:
+         err = error.Error ()
+         context = data.file.source_context
+         err.add_error ("File '%s' not found" % context, context)
+         err.add_context (context)
+         raise err
+
+      height = im.shape [0]
+      width = im.shape [1]
+      size = width * height // 8
+
+      bytes = bytearray (size)
+      for x in range (width):
+         for y in range (height):
+            if im [y][x]:
+               bytes [x + (y // 8) * width] |= 1 << (y % 8)
+
+      content = 'const std::array <uint8_t, %d> %sData::%s = {' % (size, module.name, data.name);
+      content += ', '.join (map (lambda byte: '0x' + format (byte, "02x"), bytes))
       content += '};\n'
 
       return content

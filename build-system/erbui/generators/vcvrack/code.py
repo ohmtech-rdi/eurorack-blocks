@@ -178,13 +178,25 @@ class Code:
                index = nbr_lights
                nbr_lights += control.nbr_pins
 
-            lines += '   {\n'
-            lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
-               category, control.simulator_class, control.position.x.mm, control.position.y.mm, index
-            )
-            lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
-            lines += '      add%s (control_ptr);\n' % func_category
-            lines += '   }\n'
+            if category in ['Param', 'Input', 'Output', 'Light']:
+               lines += '   {\n'
+               lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
+                  category, control.simulator_class, control.position.x.mm, control.position.y.mm, index
+               )
+               lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
+               lines += '      add%s (control_ptr);\n' % func_category
+               lines += '   }\n'
+
+            else:
+               lines += '   if (module_ptr != nullptr)\n'
+               lines += '   {\n'
+               lines += '      auto control_ptr = erb::createWidgetCentered <%s> (mm2px (Vec (%ff, %ff)), module_ptr->module_uptr->ui.%s);\n' % (
+                  control.simulator_class, control.position.x.mm, control.position.y.mm, control.name
+               )
+               lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
+               lines += '      addChild (control_ptr);\n'
+               lines += '   }\n'
+
             lines += '\n'
 
       return template.replace ('%  controls_widget%', lines)
@@ -199,6 +211,7 @@ class Code:
          'Button': 'Param',
          'CvIn': 'Input',
          'CvOut': 'Output',
+         'Display': None,
          'Encoder': 'Param',
          'GateIn': 'Input',
          'GateOut': 'Output',
@@ -222,6 +235,7 @@ class Code:
          'Button': 1,
          'CvIn': 1,
          'CvOut': 1,
+         'Display': None,
          'Encoder': 1,
          'GateIn': 1,
          'GateOut': 1,

@@ -121,6 +121,13 @@ class Code:
          nbr_positions = self.get_nbr_positions (control)
          control_type = '%s <%s>' % (control.kind, nbr_positions)
 
+      elif control.kind in ['Display']:
+         display_size = self.get_display_size (control)
+         control_type = '%s <%s>' % (
+            control.kind,
+            'erb::FormatSsd130x <%s, %s>' % display_size
+         )
+
       else:
          control_type = control.kind
 
@@ -148,6 +155,19 @@ class Code:
             nbr_positions_field = symbol.property ('NbrPositions')
             if nbr_positions_field is not None:
                return nbr_positions_field
+
+      assert False
+
+
+   #--------------------------------------------------------------------------
+
+   def get_display_size (self, control):
+      for part in control.parts:
+         for symbol in part.sch.symbols:
+            display_width_field = symbol.property ('DisplayWidth')
+            display_height_field = symbol.property ('DisplayHeight')
+            if display_width_field is not None:
+               return (display_width_field, display_height_field)
 
       assert False
 

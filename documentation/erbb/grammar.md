@@ -216,6 +216,7 @@ module Foo {
 ### Supported Types
 
 - **`AudioSample`**: Creates a `erb::AudioSample` value from an audio sample file.
+- **`FormatSsd130x`**: Creates a `std::array <uint8_t, ...>` value from an image file.
 
 
 ## `stream`

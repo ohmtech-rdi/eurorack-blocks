@@ -1518,7 +1518,7 @@ class Control (Scope):
 
    @property
    def compound_properties (self):
-      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
+      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
          return []
       elif self.kind == 'LedBi':
          return ['r', 'g']
@@ -1533,7 +1533,7 @@ class Control (Scope):
 
    @property
    def is_output (self):
-      return self.kind in ['AudioOut', 'CvOut', 'GateOut', 'Led', 'LedBi', 'LedRgb']
+      return self.kind in ['AudioOut', 'CvOut', 'Display', 'GateOut', 'Led', 'LedBi', 'LedRgb']
 
    @property
    def is_kind_in (self):
