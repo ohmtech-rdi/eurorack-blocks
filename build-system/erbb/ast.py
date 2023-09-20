@@ -447,6 +447,8 @@ class Data (Scope):
    def source_context_part (self, part):
       if part == 'name':
          return adapter.SourceContext.from_token (self.name_identifier)
+      elif part == 'type':
+         return adapter.SourceContext.from_token (self.type_identifier)
 
       return super (Data, self).source_context_part (part) # pragma: no cover
 
