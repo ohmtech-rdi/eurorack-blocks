@@ -307,6 +307,178 @@ struct Led3mm : rack::MediumLight <Base>
 
 
 
+struct PixelRgba
+{
+   std::uint8_t r;
+   std::uint8_t g;
+   std::uint8_t b;
+   std::uint8_t a;
+};
+
+template <std::size_t Width, std::size_t Height>
+using Pixels = std::array <PixelRgba, Width * Height>;
+
+
+struct Panel_ER_OLEDM066_1
+{
+   // https://www.buydisplay.com/download/manual/ER-OLEDM0.66-1_Datasheet.pdf
+
+   static constexpr std::size_t width = 64;
+   static constexpr std::size_t height = 48;
+
+   using Storage = std::array <std::uint8_t, width * height / 8>;
+
+   // mm
+   static constexpr float visual_width = 15.42f;
+   static constexpr float visual_height = 12.06f;
+   static constexpr float active_width = 13.42f;
+   static constexpr float active_height = 10.06f;
+   static constexpr float dot_size = 0.19f;
+
+   static Pixels <width, height>  to_pixels (const Storage & data)
+   {
+      Pixels <width, height> ret;
+      for (size_t x = 0 ; x < width ; ++x)
+      {
+         for (size_t y = 0 ; y < height ; ++y)
+         {
+            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+
+            ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
+         }
+      }
+
+      return ret;
+   }
+};
+
+
+struct Panel_ER_OLEDM015_2
+{
+   // https://www.buydisplay.com/download/manual/ER-OLEDM015-2_Datasheet.pdf
+
+   static constexpr std::size_t width = 128;
+   static constexpr std::size_t height = 64;
+
+   using Storage = std::array <std::uint8_t, width * height / 8>;
+
+   // mm
+   static constexpr float visual_width = 37.052f;
+   static constexpr float visual_height = 19.516f;
+   static constexpr float active_width = 35.052f;
+   static constexpr float active_height = 17.516f;
+   static constexpr float dot_size = 0.254f;
+
+   static Pixels <width, height>  to_pixels (const Storage & data)
+   {
+      Pixels <width, height> ret;
+      for (size_t x = 0 ; x < width ; ++x)
+      {
+         for (size_t y = 0 ; y < height ; ++y)
+         {
+            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+
+            ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
+         }
+      }
+
+      return ret;
+   }
+};
+
+
+
+enum class OledModuleFilter
+{
+   White, Red
+};
+
+template <typename Panel, OledModuleFilter Filter = OledModuleFilter::White>
+struct OledModule : rack::OpaqueWidget
+{
+   template <typename Control>
+   OledModule (Control & control)
+   :  _control_data (control.impl_data)
+   {
+      box.size = rack::mm2px (rack::Vec (Panel::visual_width, Panel::visual_height));
+   }
+
+   void  rotate (float /* angle_rad */) { /* not supported */ }
+
+   void draw (const DrawArgs & args) override {
+      NVGcontext * const vg = args.vg;
+
+      auto pixels = Panel::to_pixels (_control_data);
+
+      if (_image == -1)
+      {
+         _image = nvgCreateImageRGBA (
+            vg, Panel::width, Panel::height,
+            NVG_IMAGE_PREMULTIPLIED | NVG_IMAGE_NEAREST,
+            reinterpret_cast <const unsigned char *> (&pixels [0])
+         );
+      }
+      else
+      {
+         nvgUpdateImage (vg, _image, reinterpret_cast <const unsigned char *> (&pixels [0]));
+      }
+
+      nvgBeginPath (vg);
+      nvgRoundedRect (vg, 0, 0, box.size.x, box.size.y, 1);
+      nvgFillColor (vg, nvgRGB (0, 0, 0));
+      nvgFill (vg);
+
+      const float margin_x = rack::mm2px ((Panel::visual_width - Panel::active_width) * 0.5f);
+      const float margin_y = rack::mm2px ((Panel::visual_height - Panel::active_height) * 0.5f);
+      const float active_x = margin_x;
+      const float active_width = box.size.x - 2 * margin_x;
+      const float active_y = margin_y;
+      const float active_height = box.size.y - 2 * margin_y;
+
+      auto paint = nvgImagePattern (
+         vg,
+         active_x, active_y, active_width, active_height,
+         0, _image, 1.f
+      );
+
+      switch (Filter)
+      {
+      case OledModuleFilter::White:
+      default:
+         // nothing
+         break;
+
+      case OledModuleFilter::Red:
+         paint.innerColor = nvgRGB (255, 0, 0);
+         break;
+      }
+
+      nvgBeginPath (vg);
+      nvgRect (vg, active_x, active_y, active_width, active_height);
+      nvgFillPaint (vg, paint);
+      nvgFill (vg);
+
+      auto paint2 = nvgLinearGradient (
+         vg, 0, 0, 0, box.size.y * 0.5f,
+         nvgRGBA (255, 255, 255, 96), nvgRGBA (0, 0, 0, 0)
+      );
+
+      nvgBeginPath (vg);
+      nvgRoundedRect (
+         vg, rack::mm2px (0.1f), rack::mm2px (0.2f),
+         box.size.x - rack::mm2px (0.2f), box.size.y * 0.5f, 1
+      );
+      nvgFillPaint (vg, paint2);
+      nvgFill (vg);
+   }
+
+private:
+   const typename Panel::Storage & _control_data;
+   int _image = -1;
+};
+
+
+
 template <typename Widget, typename T>
 Widget * createWidgetCentered (rack::math::Vec pos, T & control)
 {

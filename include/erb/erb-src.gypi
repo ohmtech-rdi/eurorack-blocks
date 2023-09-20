@@ -37,6 +37,8 @@
       'CvInJackDetection.hpp',
       'CvOut.h',
       'CvOut.hpp',
+      'Display.h',
+      'Display.hpp',
       'Encoder.h',
       'FloatRange.h',
       'GateIn.h',
