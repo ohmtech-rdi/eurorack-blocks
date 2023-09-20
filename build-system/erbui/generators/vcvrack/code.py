@@ -61,31 +61,31 @@ class Code:
          if entity.is_control:
             control = entity
             category = self.control_kind_to_vcv_category (control)
+            nbr_ids = self.control_kind_to_vcv_id_count (control)
 
             if category == 'Param':
                control.vcv_param_index = nbr_params
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.f, "%s");\n\n' % (nbr_params, control.name, control.name, control.name)
-               nbr_params += 1
+               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.5f * (decltype (module.ui.%s)::ValueMin + decltype (module.ui.%s)::ValueMax), "%s");\n\n' % (nbr_params, control.name, control.name, control.name, control.name, control.name)
+               nbr_params += nbr_ids
 
             elif category == 'Input':
                control.vcv_input_index = nbr_inputs
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
                controls_bind_config += '   configInput (%d, "%s");\n\n' % (nbr_inputs, control.name)
-
-               nbr_inputs += 1
+               nbr_inputs += nbr_ids
 
             elif category == 'Output':
                control.vcv_output_index = nbr_outputs
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
                controls_bind_config += '   configOutput (%d, "%s");\n\n' % (nbr_outputs, control.name)
-               nbr_outputs += 1
+               nbr_outputs += nbr_ids
 
             elif category == 'Light':
                control.vcv_light_index = nbr_lights
                controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
                controls_bind_config += '   configLight (%d, "%s");\n\n' % (nbr_lights, control.name)
-               nbr_lights += control.nbr_pins
+               nbr_lights += nbr_ids
 
       template = template.replace ('%module.nbr_params%', str (nbr_params))
       template = template.replace ('%module.nbr_inputs%', str (nbr_inputs))
@@ -199,6 +199,7 @@ class Code:
          'Button': 'Param',
          'CvIn': 'Input',
          'CvOut': 'Output',
+         'Encoder': 'Param',
          'GateIn': 'Input',
          'GateOut': 'Output',
          'Led': 'Light',
@@ -210,3 +211,26 @@ class Code:
       }
 
       return kind_category_map [control.kind]
+
+
+   #--------------------------------------------------------------------------
+
+   def control_kind_to_vcv_id_count (self, control):
+      kind_vcv_id_count_map = {
+         'AudioIn': 1,
+         'AudioOut': 1,
+         'Button': 1,
+         'CvIn': 1,
+         'CvOut': 1,
+         'Encoder': 1,
+         'GateIn': 1,
+         'GateOut': 1,
+         'Led': 1,
+         'LedBi': 2,
+         'LedRgb': 3,
+         'Pot': 1,
+         'Switch': 1,
+         'Trim': 1,
+      }
+
+      return kind_vcv_id_count_map [control.kind]
