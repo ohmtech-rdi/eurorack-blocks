@@ -28,19 +28,21 @@ class Centroid:
          if generator ['id'] == 'front_pcb/centroid':
             generator_args = generator ['args']
 
-      line_format = generator_args ['line_format']
-      header_map = generator_args ['header_map']
-      layer_map = generator_args ['layer_map']
-      mounting_key = generator_args ['mounting_key']
-      mounting_value = generator_args ['mounting_value']
-      distance_format = generator_args ['distance_format']
+            file_format = generator_args.get ('file_format', '{module.name}.centroid.csv')
+            line_format = generator_args ['line_format']
+            header_map = generator_args ['header_map']
+            layer_map = generator_args ['layer_map']
+            mounting_key = generator_args ['mounting_key']
+            mounting_value = generator_args ['mounting_value']
+            distance_format = generator_args ['distance_format']
 
-      centroid = self.make_centroid (generator_args, module.pcb, module.sch_symbols)
+            centroid = self.make_centroid (generator_args, module.pcb, module.sch_symbols)
 
-      path_centroid = os.path.join (path, '%s.centroid.csv' % module.name)
+            filename = file_format.format (module=module)
+            path_centroid = os.path.join (path, filename)
 
-      with open (path_centroid, 'w', encoding='utf-8') as file:
-         file.write (centroid)
+            with open (path_centroid, 'w', encoding='utf-8') as file:
+               file.write (centroid)
 
 
    #--------------------------------------------------------------------------
