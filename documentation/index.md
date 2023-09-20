@@ -249,6 +249,7 @@ Eurorack-blocks got you covered! so read on to get your hands dirty:
 ### Human Interface Devices
 
 - **{doc}`/controls/Button`**
+- **{doc}`/controls/Encoder`**
 - **{doc}`/controls/Led`**
 - **{doc}`/controls/LedBi`**
 - **{doc}`/controls/LedRgb`**
@@ -268,6 +269,7 @@ Eurorack-blocks got you covered! so read on to get your hands dirty:
    /controls/Button
    /controls/CvIn
    /controls/CvOut
+   /controls/Encoder
    /controls/GateIn
    /controls/GateOut
    /controls/Led

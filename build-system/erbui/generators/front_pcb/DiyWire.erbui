@@ -63,6 +63,12 @@ manufacturer DiyWire {
       class "erb::Ckd6r"
    }
 
+   control Encoder {
+      style rogan.1s, rogan, 1s, small, skirt, d_shaft
+      parts bourns.pec11r.wire, rogan.1s
+      class "erb::BournsPec11R <erb::Rogan1S>"
+   }
+
    control Led {
       style led.3mm.red, 3mm, red
       parts led.3mm.red.wire
