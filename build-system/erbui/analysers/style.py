@@ -352,6 +352,9 @@ class AnalyserStyle:
 
       name_map ['GND'] = 'GND'
       name_map ['+3V3'] = '+3V3'
+      name_map ['3V3A'] = '3V3A'
+      name_map ['3V3D'] = '3V3D'
+      name_map ['3V3SW'] = '3V3SW'
 
       if control.normalling_from is None:
          name_map ['Normalling0'] = 'GND'
