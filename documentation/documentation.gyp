@@ -23,6 +23,7 @@
             'controls/Button.md',
             'controls/CvIn.md',
             'controls/CvOut.md',
+            'controls/Display.md',
             'controls/Encoder.md',
             'controls/GateIn.md',
             'controls/GateOut.md',
