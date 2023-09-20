@@ -45,31 +45,33 @@ class KicadPcb:
 
    def generate_module (self, path, module):
 
-      remove_all_pads = not module.route.is_wire
-      self.remove_board_pads (module, remove_all_pads)
+      for generator in module.manufacturer_data ['generators']:
+         if generator ['id'] == 'front_pcb/kicad_pcb':
+            remove_all_pads = not module.route.is_wire
+            self.remove_board_pads (module, remove_all_pads)
 
-      for control in module.controls:
-         self.generate_control (module, control)
+            for control in module.controls:
+               self.generate_control (module, control)
 
-      path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
+            path_pcb = os.path.join (path, '%s.kicad_pcb' % module.name)
 
-      if os.path.exists (path_pcb) and module.route.is_manual:
-         ## update pcb rather than overwrite
+            if os.path.exists (path_pcb) and module.route.is_manual:
+               ## update pcb rather than overwrite
 
-         kicad_pcb = pcb.Root.read (os.path.abspath (path_pcb))
+               kicad_pcb = pcb.Root.read (os.path.abspath (path_pcb))
 
-         # only footprints for now
-         kicad_pcb.footprints = module.pcb.footprints
+               # only footprints for now
+               kicad_pcb.footprints = module.pcb.footprints
 
-         kicad_pcb.write (path_pcb)
+               kicad_pcb.write (path_pcb)
 
-      else:
-         module.pcb.write (path_pcb)
+            else:
+               module.pcb.write (path_pcb)
 
-      if module.route.is_wire:
-         self.fill_zones (path, module)
+            if module.route.is_wire:
+               self.fill_zones (path, module)
 
-      self.generate_module_gerber (path, module)
+            self.generate_module_gerber (path, module)
 
 
    #--------------------------------------------------------------------------

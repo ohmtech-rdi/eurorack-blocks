@@ -34,17 +34,19 @@ class Bom:
          if generator ['id'] == 'front_pcb/bom':
             generator_args = generator ['args']
 
-      line_format = generator_args ['line_format']
-      header_map = generator_args ['header_map']
-      include_non_empty = generator_args ['include_non_empty']
-      projection = generator_args ['projection']
+            file_format = generator_args.get ('file_format', '{module.name}.bom.csv')
+            line_format = generator_args ['line_format']
+            header_map = generator_args ['header_map']
+            include_non_empty = generator_args ['include_non_empty']
+            projection = generator_args ['projection']
 
-      bom = self.make_bom (module.sch_symbols, line_format, header_map, include_non_empty, projection)
+            bom = self.make_bom (module.sch_symbols, line_format, header_map, include_non_empty, projection)
 
-      path_bom = os.path.join (path, '%s.bom.csv' % module.name)
+            filename = file_format.format (module=module)
+            path_bom = os.path.join (path, filename)
 
-      with open (path_bom, 'w', encoding='utf-8') as file:
-         file.write (bom)
+            with open (path_bom, 'w', encoding='utf-8') as file:
+               file.write (bom)
 
 
    #--------------------------------------------------------------------------

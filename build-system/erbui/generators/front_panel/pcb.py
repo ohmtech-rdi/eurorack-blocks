@@ -62,11 +62,13 @@ class Pcb:
    def generate_module (self, path, module):
       if not module.material.is_pcb: return # not needed
 
-      self.generate_module_kicad_mod (path, module)
-      self.generate_module_fp_lib_table (path, module)
-      self.generate_module_kicad_pcb (path, module)
-      self.fill_zones (path, module)
-      self.generate_module_gerber (path, module)
+      for generator in module.manufacturer_data ['generators']:
+         if generator ['id'] == 'front_panel/pcb':
+            self.generate_module_kicad_mod (path, module)
+            self.generate_module_fp_lib_table (path, module)
+            self.generate_module_kicad_pcb (path, module)
+            self.fill_zones (path, module)
+            self.generate_module_gerber (path, module)
 
 
    #--------------------------------------------------------------------------
