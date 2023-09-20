@@ -1,0 +1,185 @@
+/*****************************************************************************
+
+      layout.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module seed2_dfm_eval_euro {
+   width 28hp
+   material aluminum black
+   header { label "Seed2 DFM Eval Euro" }
+   footer {}
+
+   //--- Pots ----------------------------------------------------------------
+
+   control pot1 Trim {
+      position 7.5mm, 13.5mm
+      style tall
+      label "Knob 1"
+      pin P1
+   }
+
+   control pot2 Trim {
+      position 27.5mm, 13.5mm
+      style tall
+      label "Knob 2"
+      pin P2
+   }
+
+   control pot3 Trim {
+      position 47.5mm, 13.5mm
+      style tall
+      label "Knob 3"
+      pin P3
+   }
+
+   control pot4 Trim {
+      position 67.5mm, 13.5mm
+      style tall
+      label "Knob 4"
+      pin P4
+   }
+
+   //--- Switches ------------------------------------------------------------
+
+   control sw1 Button {
+      position 85mm, 53.5mm
+      style small, black
+      label "Tactile"
+      pin B1
+   }
+
+   control sw2 Switch {
+      position 85mm, 13.5mm
+      style on_off_on
+      label "Toggle"
+      pins B2, B3
+   }
+
+   //--- Encoder -------------------------------------------------------------
+
+   control enc Encoder {
+      position 85mm, 33.5mm
+      style rogan, 1s
+      label "Encoder"
+      pins B4, B5
+   }
+
+   //--- Display -------------------------------------------------------------
+
+   control display Display {
+      position 117.2mm, 29.89mm
+      style eastrising, 128x64
+      pin OLED1
+   }
+
+   //--- Gates ---------------------------------------------------------------
+
+   control gate_in GateIn {
+      position 27.5mm, 93mm
+      style knurled
+      label "Gate In"
+      pin GI1
+   }
+
+   //--- CVs -----------------------------------------------------------------
+
+   control cv_in1 CvIn {
+      position 7.5mm, 33.5mm
+      style knurled
+      label "CV 1"
+      pin CI1
+   }
+
+   control cv_in2 CvIn {
+      position 27.5mm, 33.5mm
+      style knurled
+      label "CV 2"
+      pin CI2
+   }
+
+   control cv_in3 CvIn {
+      position 47.5mm, 33.5mm
+      style knurled
+      label "CV 3"
+      pin CI3
+   }
+
+   control cv_out1 CvOut {
+      position 47.5mm, 93mm
+      style knurled
+      label "CV OUT 1"
+      pin CO1
+      mode normalized
+   }
+
+   control cv_out2 CvOut {
+      position 67.5mm, 93mm
+      style knurled
+      label "CV OUT 2"
+      pin CO2
+      mode normalized
+   }
+
+   //--- Audio ---------------------------------------------------------------
+
+   control audio_in1 AudioIn {
+      position 7.5mm, 53.5mm
+      style knurled
+      pin AI1
+      label "Audio In 1"
+   }
+
+   control audio_in2 AudioIn {
+      position 27.5mm, 53.5mm
+      style knurled
+      pin AI2
+      normalling audio_in1
+      label "Audio In 2"
+   }
+
+   control audio_in3 AudioIn {
+      position 47.5mm, 53.5mm
+      style knurled
+      pin AI3
+      label "Audio In 3"
+   }
+
+   control audio_in4 AudioIn {
+      position 67.5mm, 53.5mm
+      style knurled
+      pin AI4
+      label "Audio In 4"
+   }
+
+   control audio_out1 AudioOut {
+      position 7.5mm, 73.5mm
+      style knurled
+      pin AO1
+      label "Audio Out 1"
+   }
+
+   control audio_out2 AudioOut {
+      position 27.5mm, 73.5mm
+      style knurled
+      pin AO2
+      label "Audio Out 2"
+   }
+
+   control audio_out3 AudioOut {
+      position 47.5mm, 73.5mm
+      style knurled
+      pin AO3
+      label "Audio Out 3"
+   }
+
+   control audio_out4 AudioOut {
+      position 67.5mm, 73.5mm
+      style knurled
+      pin AO4
+      label "Audio Out 4"
+   }
+}
