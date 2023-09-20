@@ -111,7 +111,7 @@ class ErbuiLexer(RegexLexer):
          (r'[0-9\.]+cm', token.Literal.Number),
          (r'[0-9\.]+', token.Literal.Number),
          (r'style', token.Keyword, 'style'),
-         (r'module|board|width|material|header|footer|line|control|label|sticker|image|pin|pins|normalling|mode|positioning|position|rotation|offset|route|faust|address|bind|init|value|property|exclude|extends|alias|file|class|include|pcb|net|type|gpio|pwm|dac', token.Keyword),
+         (r'module|board|width|material|header|footer|line|control|label|sticker|image|pins|pin|normalling|mode|positioning|position|rotation|offset|route|faust|address|bind|init|value|property|exclude|extends|alias|file|class|include|pcb|net|type|gpio|pwm|dac', token.Keyword),
          (r'center|left|top|right|bottom|normalized|bipolar|wire|manual|natural|black|white|aluminum|brushed_aluminum|aluminum_coated', token.Name.Builtin),
          (r'AudioIn|AudioOut|Button|CvIn|CvOut|Encoder|GateIn|GateOut|LedBi|LedRgb|Led|Pot|Switch|Trim', token.Keyword.Type),
          (r'{|}|,', token.Punctuation),
