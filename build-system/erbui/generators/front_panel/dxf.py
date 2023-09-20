@@ -107,6 +107,26 @@ class Dxf:
                gr_shape.radius
             )
 
+         elif isinstance (gr_shape, pcb.GrRect) and gr_shape.layer == 'Eco1.User':
+            self.add_rounded_rectangle (
+               msp,
+               gr_shape.start.x, PANEL_HEIGHT - gr_shape.start.y,
+               gr_shape.end.x, PANEL_HEIGHT - gr_shape.end.y,
+               1.5   # drill bit 3mm
+            )
+
+
+   #--------------------------------------------------------------------------
+
+   def add_rounded_rectangle (self, msp, start_x, start_y, end_x, end_y, radius):
+      msp.add_arc ((start_x + radius, end_y + radius), radius, 180, 270)
+      msp.add_line ((start_x + radius, end_y), (end_x - radius, end_y))
+      msp.add_arc ((end_x - radius, end_y + radius), radius, 270, 360)
+      msp.add_line ((end_x, end_y + radius), (end_x, start_y - radius))
+      msp.add_arc ((end_x - radius, start_y - radius), radius, 0, 90)
+      msp.add_line ((end_x - radius, start_y), (start_x + radius, start_y))
+      msp.add_arc ((start_x + radius, start_y - radius), radius, 90, 180)
+      msp.add_line ((start_x, start_y - radius), (start_x, end_y + radius))
 
 
    #--------------------------------------------------------------------------
