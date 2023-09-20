@@ -94,10 +94,12 @@ class Root:
       for footprint_node in node.filter_kind ('footprint'):
          root.footprints.append (Footprint.parse (footprint_node))
 
-      for gr_shape_node in node.filter_kinds (['gr_circle', 'gr_line', 'gr_text']):
+      for gr_shape_node in node.filter_kinds (['gr_circle', 'gr_rect', 'gr_line', 'gr_text']):
          gr_shape_kind = gr_shape_node.entities [0].value
          if gr_shape_kind == 'gr_circle':
             root.gr_shapes.append (GrCircle.parse (gr_shape_node))
+         elif gr_shape_kind == 'gr_rect':
+            root.gr_shapes.append (GrRect.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_line':
             root.gr_shapes.append (GrLine.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_text':
@@ -761,7 +763,8 @@ class Footprint:
       if self.tags:
          footprint_node.add (s_expression.List.generate_property ('tags', self.tags))
       footprint_node.add (s_expression.List.generate_property ('path', self.path))
-      footprint_node.add (self.attr.generate ())
+      if self.attr:
+         footprint_node.add (self.attr.generate ())
       for fp_shape in self.fp_shapes:
          footprint_node.add (fp_shape.generate ())
       for pad in self.pads:
@@ -1185,6 +1188,57 @@ class Footprint:
          return model_node
 
 
+class GrRect:
+   def __init__ (self):
+      self.start = Xy ()
+      self.end = Xy ()
+      self.layer = None  # str, eg. "F.SilkS"
+      self.width = None  # float
+      self.fill = None   # symbol, eg. none
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      gr_rect = GrRect ()
+      gr_rect.start = Xy.parse (node.first_kind ('start'))
+      gr_rect.end = Xy.parse (node.first_kind ('end'))
+      gr_rect.layer = node.property ('layer')
+      gr_rect.width = node.property ('width')
+      gr_rect.fill = node.property ('fill')
+      gr_rect.tstamp = node.property ('tstamp')
+
+      return gr_rect
+
+   def generate (self):
+      gr_rect_node = s_expression.List.generate ('gr_rect')
+      gr_rect_node.add (self.center.generate_with_alternate_name ('start'))
+      gr_rect_node.add (self.end.generate_with_alternate_name ('end'))
+      gr_rect_node.add (s_expression.List.generate_property ('layer', self.layer))
+      gr_rect_node.add (s_expression.List.generate_property ('width', self.width))
+      gr_rect_node.add (s_expression.List.generate_property_symbol ('fill', self.fill))
+      gr_rect_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return gr_rect_node
+
+   def rotate (self, rotation):
+      self.start.rotate (rotation)
+      self.end.rotate (rotation)
+
+   def translate (self, x, y):
+      self.start.translate (x, y)
+      self.end.translate (x, y)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return Bounds (
+         self.start.x, self.start.y,
+         self.end.x, self.end.y
+      )
+
+
 class GrCircle:
    def __init__ (self):
       self.center = Xy ()
@@ -1473,6 +1527,7 @@ class Zone:
       zone.net = node.property ('net')
       zone.net_name = node.property ('net_name')
       zone.layer = node.property ('layer')
+      zone.layers = node.property ('layers')
       zone.tstamp = node.property ('tstamp')
       zone.hatch = Zone.Hatch.parse (node.first_kind ('hatch'))
       zone.connect_pads = Zone.ConnectPads.parse (node.first_kind ('connect_pads'))
@@ -1486,7 +1541,10 @@ class Zone:
       zone_node = s_expression.List.generate ('zone')
       zone_node.add (s_expression.List.generate_property ('net', self.net))
       zone_node.add (s_expression.List.generate_property ('net_name', self.net_name))
-      zone_node.add (s_expression.List.generate_property ('layer', self.layer))
+      if self.layer:
+         zone_node.add (s_expression.List.generate_property ('layer', self.layer))
+      if self.layers:
+         zone_node.add (s_expression.List.generate_property ('layers', self.layers))
       zone_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       zone_node.add (self.hatch.generate ())
       zone_node.add (self.connect_pads.generate ())
