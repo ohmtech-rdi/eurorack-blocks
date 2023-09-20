@@ -21,6 +21,7 @@
 #include "erb/CvIn.h"
 #include "erb/CvInJackDetection.h"
 #include "erb/CvOut.h"
+#include "erb/Encoder.h"
 #include "erb/FloatRange.h"
 #include "erb/GateIn.h"
 #include "erb/GateInJackDetection.h"

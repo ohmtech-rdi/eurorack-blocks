@@ -57,7 +57,7 @@ def generate_definition ():
 
    for i in range (nbr_digital_input):
       content += "      'DII%d': {\n" % (i + 1)
-      content += "         'accept': ['Button', 'GateIn', 'Switch'],\n"
+      content += "         'accept': ['Button', 'Encoder', 'GateIn', 'Switch'],\n"
       content += "         'bind': 'dii(%d)',\n" % i
       content += "      },\n"
 
@@ -106,6 +106,7 @@ def generate_definition ():
    content += "      'Pot': {'pools': ['ANI']},\n"
    content += "      'Trim': {'pools': ['ANI']},\n"
    content += "      'Button': {'pools': ['DII']},\n"
+   content += "      'Encoder': {'pools': ['DII', 'DII']},\n"
    content += "      'GateIn': {'pools': ['DII']},\n"
    content += "      'Switch': {'pools': ['DII', 'DII']},\n"
    content += "   },\n"
