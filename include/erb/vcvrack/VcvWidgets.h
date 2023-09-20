@@ -307,6 +307,16 @@ struct Led3mm : rack::MediumLight <Base>
 
 
 
+template <typename Widget, typename T>
+Widget * createWidgetCentered (rack::math::Vec pos, T & control)
+{
+   auto * w = new Widget {control};  // ahlala
+   w->box.pos = pos.minus (w->box.size.div (2));
+   return w;
+}
+
+
+
 }  // namespace erb
 
 
