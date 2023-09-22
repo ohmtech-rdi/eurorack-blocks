@@ -29,6 +29,7 @@
       'daisy/SubmoduleDaisyPatchSm.hpp',
       'daisy/SubmoduleDaisySeed.h',
       'daisy/SubmoduleDaisySeed.hpp',
+      'daisy/SubmoduleDaisySeed2Dfm.h',
 
       '../../src/daisy/SubmoduleDaisyPatchSm.cpp',
       '../../src/daisy/SubmoduleDaisySeed.cpp',

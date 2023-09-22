@@ -25,6 +25,9 @@ jobs:
       - name: test/micropatch
         run: erbb configure && erbb build && erbb build simulator
         working-directory: test/micropatch
+      - name: test/seed2-dfm-eval-euro
+        run: erbb configure && erbb build firmware && erbb build simulator
+        working-directory: test/seed2-dfm-eval-euro
       - name: test/data
         run: erbb configure && erbb build && erbb build hardware
         working-directory: test/data
