@@ -97,6 +97,13 @@ struct AlphaPot <Rogan1Ps>: rack::Rogan1PSWhite {
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
+struct Rogan1P {};
+
+template <>
+struct AlphaPot <Rogan1P>: rack::Rogan1PWhite {
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
 struct Rogan1S {};
 
 template <>

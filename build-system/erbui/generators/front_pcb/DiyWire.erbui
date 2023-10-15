@@ -136,6 +136,12 @@ manufacturer DiyWire {
    }
 
    control Pot {
+      style rogan.1p, rogan, 1p, small, no_skirt, d_shaft
+      parts alpha.9mm.wire, rogan.1p
+      class "erb::AlphaPot <erb::Rogan1P>"
+   }
+
+   control Pot {
       style rogan.6ps, rogan, 6ps, xlarge, skirt, d_shaft
       parts alpha.9mm.wire, rogan.6ps
       class "erb::AlphaPot <erb::Rogan6Ps>"
