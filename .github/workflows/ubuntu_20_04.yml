@@ -15,10 +15,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: curl https://vcvrack.com/downloads/RackFree-2.1.2-lin.zip | jar xv
+      - run: curl https://vcvrack.com/downloads/RackFree-2.4.0-lin-x64.zip | jar xv
       - run: chmod u+x ./Rack2Free/Rack
       - run: sudo apt-get update
       - run: sudo apt-get install libjack-jackd2-dev libpulse-dev
+      - name: VCV Rack headless first run
+        run: ./Rack -h <<< '\n'
+        working-directory: Rack2Free
       - run: python3 build-system/install.py
       - run: erbb setup --with-apt
       - run: python build-system/install.py
@@ -82,10 +85,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: curl https://vcvrack.com/downloads/RackFree-2.1.2-lin.zip | jar xv
+      - run: curl https://vcvrack.com/downloads/RackFree-2.4.0-lin-x64.zip | jar xv
       - run: chmod u+x ./Rack2Free/Rack
       - run: sudo apt-get update
       - run: sudo apt-get install libjack-jackd2-dev libpulse-dev faust
+      - name: VCV Rack headless first run
+        run: ./Rack -h <<< '\n'
+        working-directory: Rack2Free
       - run: python3 build-system/install.py
       - run: erbb setup --with-apt
       - name: samples/faust
