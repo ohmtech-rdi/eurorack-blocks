@@ -49,15 +49,23 @@ class Make:
       path_rack_dir = os.path.relpath (PATH_RACK, path_simulator)
 
       if platform.system () == 'Darwin':
-         arch = 'ARCH_MAC := 1\nARCH := mac'
-         cxx = 'CXX = arch -x86_64 clang'
+         if platform.machine () == 'x86_64':
+            arch = 'ARCH_MAC := 1\nARCH_OS := mac\nARCH_CPU := x64\nARCH_NAME := mac-x64'
+            cxx = 'CXX = arch -x86_64 clang'
+         elif platform.machine () == 'arm64':
+            arch = 'ARCH_MAC := 1\nARCH_OS := mac\nARCH_CPU := arm64\nARCH_NAME := mac-arm64'
+            cxx = 'CXX = arch -arm64 clang'
+         else:
+            sys.exit (1)
+
       elif platform.system () == 'Linux':
-         arch = 'ARCH_LIN := 1\nARCH := lin'
+         arch = 'ARCH_LIN := 1\nARCH_OS := lin\nARCH_CPU := x64\nARCH_NAME := lin-x64'
          cxx = '' # default
+
       elif platform.system () == 'Windows':
          PATH_GPP = os.path.join (PATH_BUILD_SYSTEM, 'toolchain', 'msys2_mingw64', 'bin', 'g++.exe')
          path_cxx = os.path.relpath (PATH_GPP, path_simulator)
-         arch = 'ARCH_WIN := 1\nARCH := win\nARCH_WIN_64 := 1\nBITS := 64'
+         arch = 'ARCH_WIN := 1\nARCH_OS := win\nARCH_WIN_64 := 1\nBITS := 64\nARCH_CPU := x64\nARCH_NAME := win-x64'
          cxx = 'CXX = %s' % path_cxx.replace ('\\', '/')
 
       template = template.replace ('%module.name%', module.name)

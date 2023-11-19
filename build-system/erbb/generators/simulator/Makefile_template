@@ -31,7 +31,7 @@ FLAGS += -I$(RACK_DIR)/include
 FLAGS += -I$(RACK_DIR)/dep/include
 
 LDFLAGS += -shared
-LDFLAGS += -L$(RACK_DIR) -lRack
+LDFLAGS += -L$(RACK_DIR)/$(ARCH_OS)-$(ARCH_CPU) -lRack
 
 ifdef ARCH_MAC
 	LDFLAGS += -undefined dynamic_lookup
@@ -69,13 +69,23 @@ ifdef ARCH_WIN
 	CXXFLAGS += -Wsuggest-override
 endif
 
+ifdef ARCH_X64
+	FLAGS += -DARCH_X64
+	FLAGS += -march=nehalem
+endif
+
+ifdef ARCH_ARM64
+	FLAGS += -DARCH_ARM64
+	FLAGS += -march=armv8-a+fp+simd
+endif
+
 # Optimization
 ifeq ($(CONFIGURATION),Debug)
-FLAGS += -O0 -g -march=nehalem -funsafe-math-optimizations
+FLAGS += -O0 -g -funsafe-math-optimizations
 endif
 
 ifeq ($(CONFIGURATION),Release)
-FLAGS += -O3 -DNDEBUG=1 -march=nehalem -funsafe-math-optimizations
+FLAGS += -O3 -DNDEBUG=1 -funsafe-math-optimizations
 endif
 
 %warnings%
@@ -112,9 +122,12 @@ endif
 	@cp ../panel_vcvrack.svg $(CONFIGURATION)/package/res/panel_vcvrack.svg
 
 install: package
-	@echo "INSTALL $(RACK_USER_DIR)/plugins/%module.name%/"
-	@mkdir -p $(RACK_USER_DIR)/plugins/%module.name%
-	@cp -r $(CONFIGURATION)/package/* $(RACK_USER_DIR)/plugins/%module.name%/
+	@echo "INSTALL $(RACK_USER_DIR)/plugins-$(ARCH_OS)-$(ARCH_CPU)/%module.name%/"
+	@mkdir -p $(RACK_USER_DIR)/plugins-$(ARCH_OS)-$(ARCH_CPU)/%module.name%
+	@cp -r $(CONFIGURATION)/package/* $(RACK_USER_DIR)/plugins-$(ARCH_OS)-$(ARCH_CPU)/%module.name%/
+ifdef ARCH_MAC
+	@codesign --force --sign - $(RACK_USER_DIR)/plugins-$(ARCH_OS)-$(ARCH_CPU)/%module.name%/plugin.dylib > /dev/null 2>&1
+endif
 
 .PHONY: package install resources
 .DEFAULT_GOAL := all
