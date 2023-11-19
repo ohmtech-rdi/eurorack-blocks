@@ -32,7 +32,8 @@
       },
       'xcode_settings':
       {
-         'ARCHS': ['x86_64'],
+         'ARCHS': ['$(ARCHS_STANDARD)'],
+         'ONLY_ACTIVE_ARCH': 'YES',
          'MACOSX_DEPLOYMENT_TARGET': '10.14',
 
          'CLANG_CXX_LANGUAGE_STANDARD': 'c++2a',
