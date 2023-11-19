@@ -14,7 +14,7 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 - [Python 3](https://www.python.org/downloads/)
 - [Xcode command line tools](https://developer.apple.com/xcode/)
 - [Max](https://cycling74.com/products/max) at least version 8
-- [VCV Rack version 2](https://vcvrack.com/Rack)
+- [VCV Rack at least version 2.4](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
 

@@ -12,7 +12,7 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 - [`git`](https://git-scm.com/download) and in particular the Git Bash shell
 - [Python 3](https://www.python.org/downloads/)
 - [Faust](https://faust.grame.fr)
-- [VCV Rack version 2](https://vcvrack.com/Rack)
+- [VCV Rack at least version 2.4](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
 
@@ -140,7 +140,7 @@ COPY include/erb/vcvrack/resource/rogan.6ps.svg
 ...
 LINK plugin.dylib
 PACKAGE Release Flanger
-INSTALL /Users/raf/Documents/Rack2/plugins/Flanger/
+INSTALL /Users/raf/Documents/Rack2/plugins-win-x64/Flanger/
 ```
 
 You can then run VCV Rack and play with your module.
