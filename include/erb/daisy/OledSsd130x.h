@@ -33,7 +33,7 @@ namespace erb
 
 
 
-template <size_t Width, size_t Height, typename Transport>
+template <size_t Width, size_t Height, size_t XOffset, size_t PageOffset, typename Transport>
 class OledSsd130x
 {
 

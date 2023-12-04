@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include <cstring>
+
 
 
 namespace erb
@@ -28,8 +30,8 @@ Name : ctor
 ==============================================================================
 */
 
-template <size_t Width, size_t Height, typename Transport>
-OledSsd130x <Width, Height, Transport>::OledSsd130x (Transport & transport, Buffer & buffer)
+template <size_t Width, size_t Height, size_t XOffset, size_t PageOffset, typename Transport>
+OledSsd130x <Width, Height, XOffset, PageOffset, Transport>::OledSsd130x (Transport & transport, Buffer & buffer)
 :  _transport (transport)
 ,  _buffer (buffer)
 {
@@ -43,8 +45,8 @@ Name : init
 ==============================================================================
 */
 
-template <size_t Width, size_t Height, typename Transport>
-void  OledSsd130x <Width, Height, Transport>::init ()
+template <size_t Width, size_t Height, size_t XOffset, size_t PageOffset, typename Transport>
+void  OledSsd130x <Width, Height, XOffset, PageOffset, Transport>::init ()
 {
    _transport.SendCommand (0xae);   // Turn off
 
@@ -119,17 +121,20 @@ Name : update
 ==============================================================================
 */
 
-template <size_t Width, size_t Height, typename Transport>
-void  OledSsd130x <Width, Height, Transport>::update ()
+template <size_t Width, size_t Height, size_t XOffset, size_t PageOffset, typename Transport>
+void  OledSsd130x <Width, Height, XOffset, PageOffset, Transport>::update ()
 {
    const uint8_t high_column_addr = (Height == 32) ? 0x12 : 0x10;
 
    for (size_t i = 0 ; i < Height / 8 ; ++i)
    {
-      _transport.SendCommand (0xb0 + uint8_t (i));
+      _transport.SendCommand (0xb0 + uint8_t (i) + uint8_t (PageOffset));
       _transport.SendCommand (0x00);
       _transport.SendCommand (high_column_addr);
-      _transport.SendData (&_buffer [Width * i], Width);
+
+      std::array <uint8_t, 128> line = {};
+      std::memcpy (&line [XOffset], &_buffer [Width * i], Width);
+      _transport.SendData (&line [0], 128);
    }
 }
 
