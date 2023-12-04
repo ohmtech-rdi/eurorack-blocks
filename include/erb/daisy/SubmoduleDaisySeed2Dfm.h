@@ -35,7 +35,7 @@ public:
    using Pin = dsy_gpio_pin;
 
    static constexpr Pin D9 =  {DSY_GPIOB, 12};
-   static constexpr Pin E11 = {DSY_GPIOC, 11};
+   static constexpr Pin E10 = {DSY_GPIOC, 11};
    static constexpr Pin E9 =  {DSY_GPIOC, 10};
    static constexpr Pin E8 =  {DSY_GPIOC, 9};
    static constexpr Pin E7 =  {DSY_GPIOC, 8};
@@ -73,7 +73,7 @@ public:
    static constexpr Pin D8 =  {DSY_GPIOC, 3};
 
    static constexpr Pin Pins [] = {
-      D9, E11, E9, E8, E7, E6, E5,
+      D9, E10, E9, E8, E7, E6, E5,
       B6, B2, B1, B4, B7, B8, B3, B5,
       C7, C1, C5, C4, C2, C3, C6, C9,
       C8, E1, E2, E3, D10, E4, B10, B9,
