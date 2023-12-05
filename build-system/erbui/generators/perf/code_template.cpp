@@ -127,9 +127,14 @@ int main ()
    config.Boost ();
 
    auto program_memory_section = daisy::System::GetProgramMemoryRegion ();
+   auto boot_version = daisy::System::GetBootloaderVersion ();
 
-   // When using the bootloader, clocks have been already configured
-   if (program_memory_section != daisy::System::MemoryRegion::INTERNAL_FLASH)
+   // When using the bootloader prior to v6, clocks have been already configured
+
+   if (
+      (boot_version == daisy::System::BootInfo::Version::LT_v6_0)
+      && (program_memory_section != daisy::System::MemoryRegion::INTERNAL_FLASH)
+      )
    {
       config.skip_clocks = true;
    }
@@ -138,8 +143,15 @@ int main ()
 
    // Init SDRAM
 
-   // When using the bootloader, SDRAM has been already configured
-   if (program_memory_section == daisy::System::MemoryRegion::INTERNAL_FLASH)
+   // When using the bootloader priori to v6, SDRAM has been already configured
+
+   if (
+      (boot_version != daisy::System::BootInfo::Version::LT_v6_0)
+      || (
+         (boot_version == daisy::System::BootInfo::Version::LT_v6_0)
+         && (program_memory_section == daisy::System::MemoryRegion::INTERNAL_FLASH)
+         )
+      )
    {
       SdramHandle sdram;
       sdram.Init ();
