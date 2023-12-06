@@ -224,7 +224,7 @@ private:
                   _display_transport;
    FormatSsd130x <128, 64>::Storage
                   _oled_buffer;
-   OledSsd130x <128, 64, daisy::SSD130x4WireSpiTransport>
+   OledSsd130x <128, 64, 0, 0, daisy::SSD130x4WireSpiTransport>
                   _display;
 
 
