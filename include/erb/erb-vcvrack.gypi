@@ -55,17 +55,8 @@
       {
          'destination': '<(PRODUCT_DIR)/res',
          'files': [
-            'vcvrack/resource/rogan.6ps.svg',
-            'vcvrack/resource/rogan.5ps.svg',
-            'vcvrack/resource/rogan.3ps.svg',
-            'vcvrack/resource/rogan.2ps.svg',
-            'vcvrack/resource/rogan.2s.black.svg',
-            'vcvrack/resource/rogan.1ps.svg',
-            'vcvrack/resource/rogan.1s.black.svg',
-            'vcvrack/resource/rogan.1s.svg',
             'vcvrack/resource/sifam.dbn151.white.svg',
             'vcvrack/resource/sifam.drn111.white.svg',
-            'vcvrack/resource/songhuei.9mm.svg',
             'vcvrack/resource/thonk.pj398sm.knurled.svg',
             'vcvrack/resource/thonk.pj398sm.hex.svg',
             'vcvrack/resource/dailywell.2ms.1.svg',

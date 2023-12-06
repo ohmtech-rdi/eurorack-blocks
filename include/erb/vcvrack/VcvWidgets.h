@@ -33,67 +33,83 @@ namespace erb
 
 
 template <typename KnobTrait>
-struct AlphaPot: rack::app::SvgKnob {
+struct AlphaPot {};
+
+struct Rogan6Ps {};
+
+template <>
+struct AlphaPot <Rogan6Ps>: rack::Rogan6PSWhite {
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
+struct Rogan5Ps {};
+
+template <>
+struct AlphaPot <Rogan5Ps>: rack::Rogan {
    AlphaPot() {
-      minAngle = -0.83f * float (M_PI);
-      maxAngle = 0.83f * float (M_PI);
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
-      ));
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan5PSWhite.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan5PS_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan5PSWhite_fg.svg")));
    }
-
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
 
+struct Rogan3Ps {};
 
-template <typename KnobTrait>
-struct BournsPec11R: rack::app::SvgKnob {
-   BournsPec11R() {
-      minAngle = 0;
-      maxAngle = 1000 * 2 * float (M_PI);
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
-      ));
-   }
-
+template <>
+struct AlphaPot <Rogan3Ps>: rack::Rogan3PSWhite {
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
+struct Rogan2Ps {};
 
-
-struct Rogan6Ps {
-   static constexpr const char * resource_0 = "res/rogan.6ps.svg";
+template <>
+struct AlphaPot <Rogan2Ps>: rack::Rogan2PSWhite {
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-struct Rogan5Ps {
-   static constexpr const char * resource_0 = "res/rogan.5ps.svg";
+struct Rogan2SBlack {};
+
+template <>
+struct AlphaPot <Rogan2SBlack>: rack::Rogan {
+   AlphaPot() {
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2SBlack.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan2S_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2SBlack_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-struct Rogan3Ps {
-   static constexpr const char * resource_0 = "res/rogan.3ps.svg";
+struct Rogan1Ps {};
+
+template <>
+struct AlphaPot <Rogan1Ps>: rack::Rogan1PSWhite {
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-struct Rogan2Ps {
-   static constexpr const char * resource_0 = "res/rogan.2ps.svg";
+struct Rogan1S {};
+
+template <>
+struct AlphaPot <Rogan1S>: rack::Rogan {
+   AlphaPot() {
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SWhite.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan1S_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SWhite_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-struct Rogan2SBlack {
-   static constexpr const char * resource_0 = "res/rogan.2s.black.svg";
-};
+struct Rogan1SBlack {};
 
-struct Rogan1Ps {
-   static constexpr const char * resource_0 = "res/rogan.1ps.svg";
-};
-
-struct Rogan1S {
-   static constexpr const char * resource_0 = "res/rogan.1s.svg";
-};
-
-struct Rogan1SBlack {
-   static constexpr const char * resource_0 = "res/rogan.1s.black.svg";
+template <>
+struct AlphaPot <Rogan1SBlack>: rack::Rogan {
+   AlphaPot() {
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1Black.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan1S_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SBlack_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
 struct SifamDbn151 {
@@ -105,18 +121,49 @@ struct SifamDrn111 {
 };
 
 
+template <typename KnobTrait>
+struct BournsPec11R {};
 
-struct SongHuei9 : rack::app::SvgKnob
-{
-   SongHuei9 () {
-      minAngle = float (-0.78 * M_PI);
-      maxAngle = float (0.78 * M_PI);
-      shadow->blurRadius = 5;
-      setSvg (APP->window->loadSvg (
-         rack::asset::plugin (plugin_instance, "res/songhuei.9mm.svg")
-      ));
+template <>
+struct BournsPec11R <Rogan2SBlack>: rack::Rogan {
+   BournsPec11R() {
+      minAngle = 0;
+      maxAngle = 1000 * 2 * float (M_PI);
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2SBlack.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan2S_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2SBlack_fg.svg")));
    }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
 
+template <>
+struct BournsPec11R <Rogan1S>: rack::Rogan {
+   BournsPec11R() {
+      minAngle = 0;
+      maxAngle = 1000 * 2 * float (M_PI);
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SWhite.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan1S_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SWhite_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
+template <>
+struct BournsPec11R <Rogan1SBlack>: rack::Rogan {
+   BournsPec11R() {
+      minAngle = 0;
+      maxAngle = 1000 * 2 * float (M_PI);
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1Black.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan1S_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SBlack_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
+
+
+struct SongHuei9 : rack::Trimpot
+{
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
