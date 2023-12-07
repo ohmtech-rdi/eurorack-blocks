@@ -169,6 +169,8 @@ for the hardware part, and MIT license for the software part, **except**:
    under [SIL Open Font License](./include/erb/vcvrack/design/d-din/SIL%20Open%20Font%20License.txt),
 - The [Indie Flower Font](./include/erb/vcvrack/design/indie-flower),
    under [SIL Open Font License](./include/erb/vcvrack/design/indie-flower/OFL.txt),
+- The [Rogan... files](./include/erb/vcvrack/resource),
+   as derivative work of some VCV Rack files under the [VCV Rack GPLv3 License](https://github.com/VCVRack/Rack/blob/v2/LICENSE-GPLv3.txt),
 - The [Arpeggio project](https://github.com/textX/Arpeggio), under the [MIT License](https://textx.github.io/Arpeggio/stable/about/license/),
 - The [Custom panel artwork](https://svgsilh.com/image/1532531.html), under the [Creative Commons CC0 License](https://creativecommons.org/publicdomain/zero/1.0/).
 - The Ohm Force Frohmager, under its proprietary license.
