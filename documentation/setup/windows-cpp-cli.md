@@ -11,7 +11,7 @@ Before we can setup Eurorack-blocks, we will need to have on your system:
 
 - [`git`](https://git-scm.com/download) and in particular the Git Bash shell
 - [Python 3](https://www.python.org/downloads/)
-- [VCV Rack version 2](https://vcvrack.com/Rack)
+- [VCV Rack at least version 2.4](https://vcvrack.com/Rack)
 
 If you are a developer, there is a chance that most of them are installed already.
 
@@ -123,7 +123,7 @@ COPY include/erb/vcvrack/resource/rogan.6ps.svg
 ...
 LINK plugin.dylib
 PACKAGE Release Drop
-INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
+INSTALL /Users/raf/Documents/Rack2/plugins-win-x64/Drop/
 ```
 
 You can then run VCV Rack and play with your module.
@@ -140,7 +140,7 @@ COPY include/erb/vcvrack/resource/rogan.6ps.svg
 ...
 LINK plugin.dylib
 PACKAGE Debug Drop
-INSTALL /Users/raf/Documents/Rack2/plugins/Drop/
+INSTALL /Users/raf/Documents/Rack2/plugins-win-x64/Drop/
 ```
 
 You can build the firmware by running:

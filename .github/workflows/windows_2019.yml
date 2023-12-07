@@ -16,6 +16,8 @@ jobs:
         with:
           submodules: recursive
       - run: choco install vcvrack
+      - name: VCV Rack headless first run
+        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: test/micropatch
@@ -78,6 +80,8 @@ jobs:
         with:
           submodules: recursive
       - run: choco install vcvrack
+      - name: VCV Rack headless first run
+        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: test/max
@@ -106,6 +110,8 @@ jobs:
       - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
       - run: cat ~/.bash_profile
       - run: choco install vcvrack
+      - name: VCV Rack headless first run
+        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
@@ -142,6 +148,8 @@ jobs:
       - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
       - run: cat ~/.bash_profile
       - run: choco install vcvrack
+      - name: VCV Rack headless first run
+        run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
