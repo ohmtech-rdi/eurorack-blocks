@@ -36,9 +36,9 @@
          ]
       },
       {
-         "label": "Build Firmware - Debug",
+         "label": "Build and Flash Firmware - Debug",
          "type": "shell",
-         "command": "erbb build firmware --configuration debug --semihosting",
+         "command": "erbb build firmware --configuration debug --semihosting && erbb install firmware --configuration debug",
          "group": {
             "kind": "build",
             "isDefault": true,
@@ -51,9 +51,9 @@
          ]
       },
       {
-         "label": "Build Firmware - Release",
+         "label": "Build and Flash Firmware - Release",
          "type": "shell",
-         "command": "erbb build firmware --configuration release --semihosting",
+         "command": "erbb build firmware --configuration release --semihosting && erbb install firmware --configuration release",
          "group": "build",
          "options": {
            "cwd": "${workspaceFolder}"
