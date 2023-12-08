@@ -41,6 +41,7 @@ class Workspace:
       paths.append (path)
 
       paths.append (os.path.join (PATH_ROOT, 'include', 'erb'))
+      paths.append (os.path.join (PATH_ROOT, 'src'))
 
       if module.source_language == 'max':
          paths.append (os.path.join (PATH_ROOT, 'include', 'gen_dsp'))
