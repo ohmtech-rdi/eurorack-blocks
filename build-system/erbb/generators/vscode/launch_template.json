@@ -15,12 +15,10 @@
          "executable": "%executable_release%",
          "interface": "swd",
          "openOCDLaunchCommands": [
-            "init",
-            "reset init"
+%           openocd_launch_commands%
          ],
-         "preLaunchTask": "Build Firmware - Release",
+         "preLaunchTask": "Build and Flash Firmware - Release",
          "preRestartCommands": [
-            "load",
             "enable breakpoint",
             "monitor reset"
          ],
@@ -48,12 +46,10 @@
          "executable": "%executable_debug%",
          "interface": "swd",
          "openOCDLaunchCommands": [
-            "init",
-            "reset init"
+%           openocd_launch_commands%
          ],
-         "preLaunchTask": "Build Firmware - Debug",
+         "preLaunchTask": "Build and Flash Firmware - Debug",
          "preRestartCommands": [
-            "load",
             "enable breakpoint",
             "monitor reset"
          ],

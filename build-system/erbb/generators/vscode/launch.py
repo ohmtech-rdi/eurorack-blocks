@@ -86,11 +86,21 @@ class Launch:
          os_launch_debug_config += '            "program": "%s"\n' % rack_path
          os_launch_debug_config += '         }'
 
+      openocd_launch_commands = '            "init",\n'
+
+      if module.section.name == 'flash':
+         openocd_launch_commands += '            "reset init"\n'
+      elif module.section.name == 'sram' or module.section.name == 'qspi':
+         openocd_launch_commands += '            "reset init",\n'
+         openocd_launch_commands += '            "gdb_breakpoint_override hard"\n'
+      else:
+         assert False
 
       template = template.replace ('%executable_release%', file_elf_release.replace ('\\', '/'))
       template = template.replace ('%executable_debug%', file_elf_debug.replace ('\\', '/'))
       template = template.replace ('%svd_file%', file_svd.replace ('\\', '/'))
       template = template.replace ('%        os_launch_debug_config%', os_launch_debug_config)
+      template = template.replace ('%           openocd_launch_commands%', openocd_launch_commands)
 
       with open (path_dst, 'w', encoding='utf-8') as file:
          file.write (template)
