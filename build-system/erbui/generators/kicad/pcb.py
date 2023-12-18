@@ -1213,7 +1213,7 @@ class GrRect:
 
    def generate (self):
       gr_rect_node = s_expression.List.generate ('gr_rect')
-      gr_rect_node.add (self.center.generate_with_alternate_name ('start'))
+      gr_rect_node.add (self.start.generate_with_alternate_name ('start'))
       gr_rect_node.add (self.end.generate_with_alternate_name ('end'))
       gr_rect_node.add (s_expression.List.generate_property ('layer', self.layer))
       gr_rect_node.add (s_expression.List.generate_property ('width', self.width))
