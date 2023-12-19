@@ -65,6 +65,8 @@
             'vcvrack/resource/Rogan1SWhite_fg.svg',
             'vcvrack/resource/Rogan2S_bg.svg',
             'vcvrack/resource/Rogan2SBlack_fg.svg',
+            'vcvrack/resource/Rogan3SWhite_fg.svg',
+            'vcvrack/resource/Rogan3SWhite.svg',
             'vcvrack/resource/Rogan5PSWhite_fg.svg',
             'vcvrack/resource/Rogan5PSWhite.svg',
             'vcvrack/resource/dailywell.2ms.1.svg',

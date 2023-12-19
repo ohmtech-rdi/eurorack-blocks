@@ -71,6 +71,19 @@ struct AlphaPot <Rogan3Ps>: rack::Rogan3PSWhite {
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
+struct Rogan3S {};
+
+template <>
+struct AlphaPot <Rogan3S>: rack::Rogan {
+   AlphaPot() {
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan3PS_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
+
 struct Rogan2Ps {};
 
 template <>
@@ -184,6 +197,19 @@ struct BournsPec11R <Rogan1SBlack>: rack::Rogan {
    }
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
+
+template <>
+struct BournsPec11R <Rogan3S>: rack::Rogan {
+   BournsPec11R() {
+      minAngle = 0;
+      maxAngle = 1000 * 2 * float (M_PI);
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan3PS_bg.svg")));
+      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite_fg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
 
 
 
