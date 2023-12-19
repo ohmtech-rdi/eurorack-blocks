@@ -501,10 +501,15 @@ struct OledModule : rack::OpaqueWidget
       box.size = rack::mm2px (rack::Vec (Panel::visual_width, Panel::visual_height));
    }
 
-   void  rotate (float /* angle_rad */) { /* not supported */ }
+   void  rotate (float angle_rad) { _angle = angle_rad; }
 
    void draw (const DrawArgs & args) override {
       NVGcontext * const vg = args.vg;
+
+      rack::math::Vec center = box.getCenter ();
+      nvgTranslate (vg, box.size.x * 0.5f, box.size.y * 0.5f);
+      nvgRotate (vg, _angle);
+      nvgTranslate (vg, -box.size.x * 0.5f, -box.size.y * 0.5f);
 
       auto pixels = Panel::to_pixels (_control_data);
 
@@ -573,6 +578,7 @@ struct OledModule : rack::OpaqueWidget
 private:
    const typename Panel::Storage & _control_data;
    int _image = -1;
+   float _angle = 0.f;
 };
 
 
