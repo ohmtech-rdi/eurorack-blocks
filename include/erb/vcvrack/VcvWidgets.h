@@ -582,6 +582,12 @@ private:
 };
 
 
+struct Invisible : rack::ParamWidget
+{
+   Invisible () = default;
+   void  rotate (float) {}
+};
+
 
 template <typename Widget, typename T>
 Widget * createWidgetCentered (rack::math::Vec pos, T & control)
