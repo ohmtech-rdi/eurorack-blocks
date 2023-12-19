@@ -87,6 +87,12 @@ manufacturer DiyManual {
       class "erb::BournsPec11R <erb::Rogan2SBlack>"
    }
 
+   control Encoder {
+      style rogan.3s, rogan, 3s, large, skirt, d_shaft
+      parts bourns.pec11r.manual, rogan.3s
+      class "erb::BournsPec11R <erb::Rogan3S>"
+   }
+
    control Led {
       style led.3mm.red, 3mm, red
       parts led.3mm.red.manual
