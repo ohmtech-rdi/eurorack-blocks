@@ -150,7 +150,7 @@ struct SifamDrn111 {
 };
 
 
-template <typename KnobTrait>
+template <typename KnobTrait, bool Switch>
 struct BournsPec11R: rack::app::SvgKnob {
    BournsPec11R() {
       minAngle = 0;
@@ -160,52 +160,84 @@ struct BournsPec11R: rack::app::SvgKnob {
          rack::asset::plugin (plugin_instance, KnobTrait::resource_0)
       ));
    }
+
+   virtual void onHoverKey (const HoverKeyEvent& e) override {
+      rack::SvgKnob::onHoverKey (e);
+      if constexpr (Switch) {
+         if ((e.key == 32 /* space */) && (module != nullptr)) {
+            rack::ParamQuantity * button_ptr = module->paramQuantities [paramId + 1];
+            if (e.action == GLFW_PRESS) {
+               button_ptr->setValue (5.f);
+            } else if (e.action == GLFW_RELEASE) {
+               button_ptr->setValue (0.f);
+            }
+         }
+      }
+   }
 };
 
-template <>
-struct BournsPec11R <Rogan2SBlack>: rack::Rogan {
-   BournsPec11R() {
+template <bool Switch>
+struct BournsPec11RRogan: rack::Rogan {
+   BournsPec11RRogan() {
       minAngle = 0;
       maxAngle = 1000 * 2 * float (M_PI);
-      setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan2SGray.svg")));
-      bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2S_bg.svg")));
-      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2SBlack_fg.svg")));
+   }
+
+   virtual void onHoverKey (const HoverKeyEvent& e) override {
+      rack::Rogan::onHoverKey (e);
+      if constexpr (Switch) {
+         if ((e.key == 32 /* space */) && (module != nullptr)) {
+            rack::ParamQuantity * button_ptr = module->paramQuantities [paramId + 1];
+            if (e.action == GLFW_PRESS) {
+               button_ptr->setValue (5.f);
+            } else if (e.action == GLFW_RELEASE) {
+               button_ptr->setValue (0.f);
+            }
+         }
+      }
+   }
+};
+
+template <bool Switch>
+struct BournsPec11R <Rogan2SBlack, Switch>: BournsPec11RRogan <Switch> {
+   using Inherited = BournsPec11RRogan <Switch>;
+   BournsPec11R() {
+      Inherited::setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan2SGray.svg")));
+      Inherited::bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2S_bg.svg")));
+      Inherited::fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan2SBlack_fg.svg")));
    }
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-template <>
-struct BournsPec11R <Rogan1S>: rack::Rogan {
+template <bool Switch>
+struct BournsPec11R <Rogan1S, Switch>: BournsPec11RRogan <Switch> {
+   using Inherited = BournsPec11RRogan <Switch>;
    BournsPec11R() {
-      minAngle = 0;
-      maxAngle = 1000 * 2 * float (M_PI);
-      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S.svg")));
-      bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S_bg.svg")));
-      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SWhite_fg.svg")));
+      Inherited::setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S.svg")));
+      Inherited::bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S_bg.svg")));
+      Inherited::fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SWhite_fg.svg")));
    }
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-template <>
-struct BournsPec11R <Rogan1SBlack>: rack::Rogan {
+template <bool Switch>
+struct BournsPec11R <Rogan1SBlack, Switch>: BournsPec11RRogan <Switch> {
+   using Inherited = BournsPec11RRogan <Switch>;
    BournsPec11R() {
-      minAngle = 0;
-      maxAngle = 1000 * 2 * float (M_PI);
-      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S.svg")));
-      bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S_bg.svg")));
-      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SBlack_fg.svg")));
+      Inherited::setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S.svg")));
+      Inherited::bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1S_bg.svg")));
+      Inherited::fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan1SBlack_fg.svg")));
    }
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
-template <>
-struct BournsPec11R <Rogan3S>: rack::Rogan {
+template <bool Switch>
+struct BournsPec11R <Rogan3S, Switch>: BournsPec11RRogan <Switch> {
+   using Inherited = BournsPec11RRogan <Switch>;
    BournsPec11R() {
-      minAngle = 0;
-      maxAngle = 1000 * 2 * float (M_PI);
-      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite.svg")));
-      bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan3PS_bg.svg")));
-      fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite_fg.svg")));
+      Inherited::setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite.svg")));
+      Inherited::bg->setSvg (rack::Svg::load (rack::asset::system ("res/ComponentLibrary/Rogan3PS_bg.svg")));
+      Inherited::fg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Rogan3SWhite_fg.svg")));
    }
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
