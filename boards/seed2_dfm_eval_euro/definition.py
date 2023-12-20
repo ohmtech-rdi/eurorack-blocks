@@ -71,12 +71,16 @@
       },
 
       'B4': {
-         'accept': ['Encoder'],
+         'accept': ['EncoderButton'],
          'bind': 'gpi(4)',
       },
       'B5': {
-         'accept': ['Encoder'],
+         'accept': ['EncoderButton'],
          'bind': 'gpi(5)',
+      },
+      'B6': {
+         'accept': ['EncoderButton'],
+         'bind': 'gpi(6)',
       },
 
       'AI1': {
