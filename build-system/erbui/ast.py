@@ -1477,7 +1477,7 @@ class Control (Scope):
 
    @property
    def is_pin_multiple (self):
-      return self.kind in ['Encoder', 'LedBi', 'LedRgb', 'Switch']
+      return self.kind in ['Encoder', 'EncoderButton', 'LedBi', 'LedRgb', 'Switch']
 
    @property
    def pins (self):
@@ -1489,6 +1489,8 @@ class Control (Scope):
    def nbr_pins (self):
       if self.kind == 'Encoder':
          return 2
+      elif self.kind == 'EncoderButton':
+         return 3
       elif self.kind == 'Switch':
          return 2
       elif self.kind == 'LedBi':
@@ -1520,6 +1522,8 @@ class Control (Scope):
    def compound_properties (self):
       if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
          return []
+      elif self.kind == 'EncoderButton':
+         return ['encoder', 'button']
       elif self.kind == 'LedBi':
          return ['r', 'g']
       elif self.kind == 'LedRgb':
@@ -1529,7 +1533,7 @@ class Control (Scope):
 
    @property
    def is_input (self):
-      return self.kind in ['AudioIn', 'Button', 'CvIn', 'Encoder', 'GateIn', 'Pot', 'Switch', 'Trim']
+      return self.kind in ['AudioIn', 'Button', 'CvIn', 'Encoder', 'EncoderButton', 'GateIn', 'Pot', 'Switch', 'Trim']
 
    @property
    def is_output (self):
