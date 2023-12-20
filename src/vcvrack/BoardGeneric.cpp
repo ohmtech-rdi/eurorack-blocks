@@ -304,6 +304,25 @@ void  BoardGeneric::BindingEncoder::process ()
 
 /*
 ==============================================================================
+Name : BindingEncoderButton::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingEncoderButton::process ()
+{
+   // Assume 24 notches per rotation
+   int phase = int (std::floor (param_ab_ptr->getValue () * 24.f * 4.f)) % 4;
+
+   *data_a_ptr = (phase == 0) || (phase == 1);
+   *data_b_ptr = (phase == 1) || (phase == 2);
+
+   *data_sw_ptr = param_sw_ptr->getValue () != 0.f;
+}
+
+
+
+/*
+==============================================================================
 Name : BindingGateIn::process
 ==============================================================================
 */
