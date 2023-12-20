@@ -59,7 +59,14 @@ void  Seed2DfmEvalEuro::process ()
    ui.osc1_cv_out = ui.osc1_cv;
    ui.osc2_cv_out = ui.osc2_cv;
 
-   pic = (pic + int (ui.enc) + 4) % 4;
+   if (ui.enc.button.held ())
+   {
+      pic = 4;
+   }
+   else
+   {
+      pic = (pic + int (ui.enc.encoder) + 4) % 4;
+   }
 }
 
 
@@ -78,5 +85,6 @@ void  Seed2DfmEvalEuro::idle ()
    case 1: ui.screen = Seed2DfmEvalEuroData::pic1; break;
    case 2: ui.screen = Seed2DfmEvalEuroData::pic2; break;
    case 3: ui.screen = Seed2DfmEvalEuroData::pic3; break;
+   case 4: ui.screen.fill (true); break;
    }
 }
