@@ -21,6 +21,7 @@
 #include "erb/CvInJackDetection.h"
 #include "erb/CvOut.h"
 #include "erb/Encoder.h"
+#include "erb/EncoderButton.h"
 #include "erb/GateIn.h"
 #include "erb/GateInJackDetection.h"
 #include "erb/GateOut.h"
@@ -259,6 +260,28 @@ inline void  BoardGeneric::impl_bind (Encoder & control, rack::engine::Param & m
       .data_a_ptr = const_cast <uint8_t *> (&control.impl_data_a),
       .data_b_ptr = const_cast <uint8_t *> (&control.impl_data_b),
       .param_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (EncoderButton & control, rack::engine::Param & model)
+{
+   auto * model_ptr = &model;
+
+   _binding_inputs.push_back (BindingEncoderButton {
+      .data_a_ptr = const_cast <uint8_t *> (&control.encoder.impl_data_a),
+      .data_b_ptr = const_cast <uint8_t *> (&control.encoder.impl_data_b),
+      .data_sw_ptr = const_cast <uint8_t *> (&control.button.impl_data),
+      .param_ab_ptr = &model_ptr [0],
+      .param_sw_ptr = &model_ptr [1]
    });
 }
 

@@ -58,10 +58,10 @@ module seed2_dfm_eval_euro {
 
    //--- Encoder -------------------------------------------------------------
 
-   control enc Encoder {
+   control enc EncoderButton {
       position 85mm, 33.5mm
       style rogan, 1s
-      pins B4, B5
+      pins B4, B5, B6
    }
 
    //--- Display -------------------------------------------------------------

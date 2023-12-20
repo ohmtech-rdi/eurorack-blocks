@@ -87,6 +87,7 @@ public:
    static constexpr GpiPin B3 = {3};   // Toggle Switch pos1
    static constexpr GpiPin B4 = {4};   // Encoder A
    static constexpr GpiPin B5 = {5};   // Encoder B
+   static constexpr GpiPin B6 = {6};   // Encoder Switch
 
    struct GpoPin { size_t index; };
 
@@ -172,7 +173,7 @@ private:
    std::function <void ()>
                   _run;
 
-   std::array <uint8_t, 6>
+   std::array <uint8_t, 7>
                   _digital_inputs;
    std::array <float, 7>
                   _analog_inputs;
@@ -186,7 +187,7 @@ private:
    std::array <Buffer, 4>
                   _audio_outputs;
 
-   std::array <GpioInputDaisy, 6>
+   std::array <GpioInputDaisy, 7>
                   _gpio_inputs = {{
                      {SubmoduleDaisySeed2Dfm::B7},    // Gate In
                      {SubmoduleDaisySeed2Dfm::B1, GpioInputDaisy::Pull::Up},  // Tactile Switch
@@ -194,6 +195,7 @@ private:
                      {SubmoduleDaisySeed2Dfm::B9, GpioInputDaisy::Pull::Up},  // Toggle Switch pos1
                      {SubmoduleDaisySeed2Dfm::C1, GpioInputDaisy::Pull::Up},  // Encoder A
                      {SubmoduleDaisySeed2Dfm::C3, GpioInputDaisy::Pull::Up},  // Encoder B
+                     {SubmoduleDaisySeed2Dfm::C2, GpioInputDaisy::Pull::Up},  // Encoder Switch
                   }};
 
    AdcDaisy <7>   _adc = {

@@ -22,7 +22,7 @@ KEYWORDS = (
    'manufacturer', 'generator', 'arg', 'parts',
 )
 UNITS = ('mm', 'cm', 'hp', '°', '°ccw', '°cw')
-CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
+CONTROL_KINDS = ('AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'EncoderButton', 'GateIn', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'Pot', 'Switch', 'Trim')
 
 SYMBOLS = (',', '{', '}', '(', ')')
 

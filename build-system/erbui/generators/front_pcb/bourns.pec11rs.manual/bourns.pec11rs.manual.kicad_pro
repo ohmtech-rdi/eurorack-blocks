@@ -340,7 +340,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "bourns.pec11r.manual.kicad_pro",
+    "filename": "bourns.pec11rs.manual.kicad_pro",
     "version": 1
   },
   "net_settings": {
@@ -372,7 +372,7 @@
     "last_paths": {
       "gencad": "",
       "idf": "",
-      "netlist": "bourns.pec11r.manual.net",
+      "netlist": "bourns.pec11rs.manual.net",
       "specctra_dsn": "",
       "step": "",
       "vrml": ""

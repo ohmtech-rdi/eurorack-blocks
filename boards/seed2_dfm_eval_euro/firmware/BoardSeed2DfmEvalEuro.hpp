@@ -94,8 +94,14 @@ void  BoardSeed2DfmEvalEuro::impl_preprocess (GpiPin pin)
    }
    else if ((pin.index >= B4.index) && (pin.index <= B5.index))
    {
-       // Encoder
+       // Encoder A & B
       _digital_inputs [pin.index] = _gpio_inputs [pin.index].read ();
+   }
+   else if (pin.index == B6.index)
+   {
+      // Encoder Switch
+      // Pull-up when NO => inverted
+      _digital_inputs [pin.index] = !_gpio_inputs [pin.index].read ();
    }
 }
 

@@ -163,6 +163,11 @@ class Code:
          preconditioning = '(%s.held () ? 1.f : 0.f)' % cpp_name
       elif control.kind in ['Encoder']:
          preconditioning = 'float (int (%s))' % cpp_name
+      elif control.kind in ['EncoderButton']:
+         if property == 'encoder':
+            preconditioning = 'float (int (%s))' % cpp_name
+         elif property == 'button':
+            preconditioning = '(%s.held () ? 1.f : 0.f)' % cpp_name
       elif control.kind in ['GateIn']:
          preconditioning = '(bool (%s) ? 1.f : 0.f)' % cpp_name
       elif control.kind in ['Switch']:

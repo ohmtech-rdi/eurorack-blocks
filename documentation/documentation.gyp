@@ -25,6 +25,7 @@
             'controls/CvOut.md',
             'controls/Display.md',
             'controls/Encoder.md',
+            'controls/EncoderButton.md',
             'controls/GateIn.md',
             'controls/GateOut.md',
             'controls/Led.md',

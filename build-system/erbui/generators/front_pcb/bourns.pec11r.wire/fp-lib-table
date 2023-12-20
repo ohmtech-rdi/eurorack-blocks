@@ -1,3 +1,0 @@
-(fp_lib_table
-  (lib (name "local")(type "KiCad")(uri "${KIPRJMOD}/../bourns.pec11r.manual/local.pretty")(options "")(descr ""))
-)

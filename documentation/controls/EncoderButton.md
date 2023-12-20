@@ -1,9 +1,9 @@
-# `Encoder`
+# `EncoderButton`
 
 ## Description
 
-`Encoder` represents a quadrature encoder, without a push momentary switch.
-For the latter, refer to `EncoderButton`.
+`EncoderButton` represents a quadrature encoder, with a push momentary switch.
+For a version without a push momentary switch, refer to `Encoder`.
 
 
 ## Usage
@@ -12,11 +12,11 @@ For the latter, refer to `EncoderButton`.
 
 ```erbui
 module Example {
-   control shape Encoder {          // 1.
+   control shape EncoderButton {          // 1.
       position 19.2mm, 111mm        // 2.
       style small, rogan            // 3.
       label "SHAPE"                 // 4.
-      pins Pin1, Pin2               // 5.
+      pins Pin1, Pin2, Pin3         // 5.
    }
 }
 ```
@@ -25,16 +25,17 @@ module Example {
 2. Sets the control position on the front panel,
 3. Sets the optional style of the control,
 4. Sets the optional label for the control, using its default theme positioning,
-5. Sets the optional physical board pins to use, quadrature A and B in that order.
+5. Sets the optional physical board pins to use, quadrature A and B, and switch, in that order.
    If not set, the system will choose it automatically.
 
 <img width="30%" src="https://mm.digikey.com/Volume0/opasdata/d220001/medias/images/410/PEC11R-4220F-S00xx.jpg">
 
-> Bourns PEC11R photo is from [Digikey](https://www.digikey.de/en/products/detail/bourns-inc/PEC11R-4220F-N0024/4699220).
+> Bourns PEC11R photo is from [Digikey](https://www.digikey.de/en/products/detail/bourns-inc/PEC11R-4220F-S0024/4499660).
 
 ### `c++`
 
-`Encoder` is a type that abstracts a physical quadrature encoder block.
+`EncoderButton` is a type that abstracts a physical quadrature encoder block
+with a push momentary switch.
 
 ```c++
 struct Example
@@ -42,7 +43,8 @@ struct Example
    ExampleUi ui;
    
    void process () {
-      int increment = ui.shape;  // 1.
+      int increment = ui.shape.encoder;            // 1.
+      bool pressed = ui.shape.button.pressed ();   // 2.
       ...
    }
 }
@@ -50,7 +52,8 @@ struct Example
 
 1. Converts the encoder to an integer representing the increment. The values
    are either `1` (rotating clock-wise), `-1` (rotating counter-clock-wise)
-   or `0` (no rotation).
+   or `0` (no rotation),
+2. Checks if the encoder button was just pressed.
 
 
 ## `erbui` Control Reference
@@ -58,7 +61,7 @@ struct Example
 ### `control` definition
 
 ```
-control <name> Encoder { ... }
+control <name> EncoderButton { ... }
 ```
 
 Where `<name>` is the name of the control.
@@ -103,22 +106,32 @@ Where `<text>` is the text displayed.
 More details can be found in [`label`](../erbui/grammar.html#label) documentation.
 
 
-## `c++` Member Functions Synopsys
+## `c++` Data Members Synopsys
+
+`EncoderButton` is the aggregation of an `Encoder` and a `Button`.
 
 | Name | Synopsys |
 | - | - |
-| [`operator int`](#operator-int) | Returns the increment |
+| [`encoder`](#encoder) | Encoder part |
+| [`button`](#button) | Button part |
 
 
-## `c++` Member Functions
+## `c++` Data Members
 
-### `operator int`
+### `encoder`
 
 ```c++
-operator int () const;
+Encoder encoder;
 ```
 
-Returns either :
-- `1` if the knob is turned by one notch clock-wise,
-- `-1` if the knob is turned by one notch counter-clock-wise,
-- `0` if the knob is not turned.
+This data member represents the encoder part of the `EncoderButton`.
+See `Encoder` for more details.
+
+### `button`
+
+```c++
+Button button;
+```
+
+This data member represents the button part of the `EncoderButton`.
+See `Button` for more details.

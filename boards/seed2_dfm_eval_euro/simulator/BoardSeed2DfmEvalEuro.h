@@ -30,7 +30,7 @@ class BoardSeed2DfmEvalEuro
 
 public:
    inline         BoardSeed2DfmEvalEuro () : BoardGeneric (
-      6, 7, 4, // digital/analog/audio inputs
+      7, 7, 4, // digital/analog/audio inputs
       0, 2, 4  // digital/analog/audio outputs
    ) {}
    virtual        ~BoardSeed2DfmEvalEuro () override = default;
