@@ -251,6 +251,7 @@ Eurorack-blocks got you covered! so read on to get your hands dirty:
 - **{doc}`/controls/Button`**
 - **{doc}`/controls/Display`**
 - **{doc}`/controls/Encoder`**
+- **{doc}`/controls/EncoderButton`**
 - **{doc}`/controls/Led`**
 - **{doc}`/controls/LedBi`**
 - **{doc}`/controls/LedRgb`**
@@ -272,6 +273,7 @@ Eurorack-blocks got you covered! so read on to get your hands dirty:
    /controls/CvOut
    /controls/Display
    /controls/Encoder
+   /controls/EncoderButton
    /controls/GateIn
    /controls/GateOut
    /controls/Led
