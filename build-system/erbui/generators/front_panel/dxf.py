@@ -108,10 +108,14 @@ class Dxf:
             )
 
          elif isinstance (gr_shape, pcb.GrRect) and gr_shape.layer == 'Eco1.User':
+            start_x = min (gr_shape.start.x, gr_shape.end.x)
+            end_x = max (gr_shape.start.x, gr_shape.end.x)
+            start_y = min (gr_shape.start.y, gr_shape.end.y)
+            end_y = max (gr_shape.start.y, gr_shape.end.y)
             self.add_rounded_rectangle (
                msp,
-               gr_shape.start.x, PANEL_HEIGHT - gr_shape.start.y,
-               gr_shape.end.x, PANEL_HEIGHT - gr_shape.end.y,
+               start_x, PANEL_HEIGHT - start_y,
+               end_x, PANEL_HEIGHT - end_y,
                1.5   # drill bit 3mm
             )
 
