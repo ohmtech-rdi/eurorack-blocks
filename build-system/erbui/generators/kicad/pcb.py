@@ -94,12 +94,14 @@ class Root:
       for footprint_node in node.filter_kind ('footprint'):
          root.footprints.append (Footprint.parse (footprint_node))
 
-      for gr_shape_node in node.filter_kinds (['gr_circle', 'gr_rect', 'gr_line', 'gr_text']):
+      for gr_shape_node in node.filter_kinds (['gr_circle', 'gr_rect', 'gr_poly', 'gr_line', 'gr_text']):
          gr_shape_kind = gr_shape_node.entities [0].value
          if gr_shape_kind == 'gr_circle':
             root.gr_shapes.append (GrCircle.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_rect':
             root.gr_shapes.append (GrRect.parse (gr_shape_node))
+         elif gr_shape_kind == 'gr_poly':
+            root.gr_shapes.append (GrPoly.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_line':
             root.gr_shapes.append (GrLine.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_text':
@@ -1295,6 +1297,49 @@ class GrCircle:
          self.center.x - r, self.center.y - r,
          self.center.x + r, self.center.y + r
       )
+
+
+class GrPoly:
+   def __init__ (self):
+      self.pts = Pts ()
+      self.layer = None  # str, eg. "F.SilkS"
+      self.width = None  # float
+      self.fill = None   # symbol, eg. none
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      gr_poly = GrPoly ()
+      gr_poly.pts = Pts.parse (node.first_kind ('pts'))
+      gr_poly.layer = node.property ('layer')
+      gr_poly.width = node.property ('width')
+      gr_poly.fill = node.property ('fill')
+      gr_poly.tstamp = node.property ('tstamp')
+
+      return gr_poly
+
+   def generate (self):
+      gr_poly_node = s_expression.List.generate ('gr_poly')
+      gr_poly_node.add (self.pts.generate ())
+      gr_poly_node.add (s_expression.List.generate_property ('layer', self.layer))
+      gr_poly_node.add (s_expression.List.generate_property ('width', self.width))
+      gr_poly_node.add (s_expression.List.generate_property_symbol ('fill', self.fill))
+      gr_poly_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return gr_poly_node
+
+   def rotate (self, rotation):
+      self.pts.rotate (rotation)
+
+   def translate (self, x, y):
+      self.pts.translate (x, y)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return self.pts.bounds
 
 
 class GrLine:

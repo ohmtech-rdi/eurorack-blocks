@@ -277,6 +277,38 @@ class Pcb:
       gr_line.tstamp = 'd90f81ac-9d83-4f16-b87d-ae4c6fb48b47'
       panel_pcb.gr_shapes.append (gr_line)
 
+      def add_arc (pts, pt, radius, angle_start, angle_end):
+         for angle in range (angle_start, angle_end, 1):
+            xy = kicadPcb.Xy ()
+            xy.x = pt [0] + radius * math.cos (angle * math.pi / 180.0)
+            xy.y = pt [1] + radius * math.sin (angle * math.pi / 180.0)
+            pts.items.append (xy)
+
+      def make_rounded_rect (start, end, radius):
+         pts = kicadPcb.Pts ()
+         add_arc (pts, (start.x + radius, end.y + radius), radius, 180, 270)
+         xy1 = kicadPcb.Xy ()
+         xy1.x = end.x - radius
+         xy1.y = end.y
+         pts.items.append (xy1)
+         add_arc (pts, (end.x - radius, end.y + radius), radius, 270, 360)
+         xy2 = kicadPcb.Xy ()
+         xy2.x = end.x
+         xy2.y = start.y - radius
+         pts.items.append (xy2)
+         add_arc (pts, (end.x - radius, start.y - radius), radius, 0, 90)
+         xy3 = kicadPcb.Xy ()
+         xy3.x = start.x + radius
+         xy3.y = start.y
+         pts.items.append (xy3)
+         add_arc (pts, (start.x + radius, start.y - radius), radius, 90, 180)
+         xy4 = kicadPcb.Xy ()
+         xy4.x = start.x
+         xy4.y = end.y + radius
+         pts.items.append (xy4)
+
+         return pts
+
       for control in module.controls:
          for part in control.parts:
             for gr_shape in part.pcb.gr_shapes:
@@ -289,7 +321,15 @@ class Pcb:
                   gr_hole.fill = 'none'
                   gr_hole.tstamp = 'd90f81ac-9d83-4f16-b87d-ae4c6fb48b47'
                   panel_pcb.gr_shapes.append (gr_hole)
-
+               elif isinstance (gr_shape, kicadPcb.GrRect) and gr_shape.layer == 'Eco1.User':
+                  gr_hole = kicadPcb.GrPoly ()
+                  radius = 1.5  # drill bit 3mm
+                  gr_hole.pts = make_rounded_rect (gr_shape.start, gr_shape.end, radius)
+                  gr_hole.layer = 'Edge.Cuts'
+                  gr_hole.width = 0.15
+                  gr_hole.fill = 'none'
+                  gr_hole.tstamp = 'd90f81ac-9d83-4f16-b87d-ae4c6fb48b47'
+                  panel_pcb.gr_shapes.append (gr_hole)
 
       def add_mounting_hole (x, y):
          footprint = kicadPcb.Footprint ()
