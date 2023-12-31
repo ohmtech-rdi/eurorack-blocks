@@ -195,6 +195,9 @@ class Node:
    def is_offset (self): return isinstance (self, Offset)
 
    @property
+   def is_layer (self): return isinstance (self, Layer)
+
+   @property
    def is_file (self): return isinstance (self, File)
 
    @property
@@ -1623,6 +1626,24 @@ class Label (Scope):
       else:
          return None
 
+   @property
+   def layer (self):
+      entities = [e for e in self.entities if e.is_layer]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def is_layer_silkscreen (self):
+      return self.layer == None or self.layer.is_silkscreen
+
+   @property
+   def is_layer_translucence (self):
+      if self.layer == None: return False
+      return self.layer.is_translucence
+
 
 
 # -- Sticker -------------------------------------------------------------------
@@ -1882,6 +1903,27 @@ class Rotation (Node):
 
 
 
+# -- Layer -------------------------------------------------------------------
+
+class Layer (Node):
+   def __init__ (self, keyword_layer):
+      assert isinstance (keyword_layer, adapter.Keyword)
+      super (Layer, self).__init__ ()
+      self.keyword_layer = keyword_layer
+
+   @staticmethod
+   def typename (): return 'layer'
+
+   @property
+   def is_silkscreen (self):
+      return self.keyword_layer.value == 'silkscreen'
+
+   @property
+   def is_translucence (self):
+      return self.keyword_layer.value == 'translucence'
+
+
+
 # -- File --------------------------------------------------------------------
 
 class File (Node):
@@ -1913,7 +1955,7 @@ class File (Node):
 
 # -- Image -------------------------------------------------------------------
 
-class Image (Node):
+class Image (Scope):
    def __init__ (self, filepath):
       assert isinstance (filepath, StringLiteral) or isinstance (filepath, str)
       super (Image, self).__init__ ()
@@ -1928,6 +1970,24 @@ class Image (Node):
          return self.filepath.value
       elif isinstance (self.filepath, str):
          return self.filepath
+
+   @property
+   def layer (self):
+      entities = [e for e in self.entities if e.is_layer]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def is_layer_silkscreen (self):
+      return self.layer == None or self.layer.is_silkscreen
+
+   @property
+   def is_layer_translucence (self):
+      if self.layer == None: return False
+      return self.layer.is_translucence
 
 
 
@@ -1944,6 +2004,24 @@ class Line (Scope):
    def points (self):
       entities = [e for e in self.entities if e.is_position]
       return entities
+
+   @property
+   def layer (self):
+      entities = [e for e in self.entities if e.is_layer]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def is_layer_silkscreen (self):
+      return self.layer == None or self.layer.is_silkscreen
+
+   @property
+   def is_layer_translucence (self):
+      if self.layer == None: return False
+      return self.layer.is_translucence
 
 
 

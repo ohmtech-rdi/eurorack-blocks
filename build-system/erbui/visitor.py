@@ -456,7 +456,17 @@ class Visitor (PTNodeVisitor):
       image_path_str = str (image_path)
       image = ast.Image (image_path_str)
 
+      if children.image_body:
+         entities = children.image_body [0]
+         image.add (entities)
+
       return image
+
+   def visit_image_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_image_entities (self, node, children):
+      return list (children)
 
 
    #-- Label -----------------------------------------------------------------
@@ -658,6 +668,18 @@ class Visitor (PTNodeVisitor):
       return positioning
 
    def visit_positioning_name (self, node, children):
+      return self.to_keyword (node)
+
+
+   #-- Layer -----------------------------------------------------------------
+
+   def visit_layer_declaration (self, node, children):
+      layer_name = children.layer_name [0]
+      layer = ast.Layer (layer_name)
+
+      return layer
+
+   def visit_layer_name (self, node, children):
       return self.to_keyword (node)
 
 

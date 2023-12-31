@@ -16,6 +16,7 @@ KEYWORDS = (
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'normalling', 'nothing', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
+   'layer', 'silkscreen', 'translucence',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb',
    'route', 'wire', 'manual',
    'faust', 'address', 'init', 'value',
@@ -65,11 +66,17 @@ def import_declaration ():             return 'import', string_literal
 # File
 def file_declaration ():               return 'file', string_literal
 
+# Layer
+def layer_name ():                     return ['silkscreen', 'translucence']
+def layer_declaration ():              return 'layer', layer_name
+
 # Image
-def image_declaration ():              return 'image', string_literal
+def image_entities ():                 return ZeroOrMore ([layer_declaration])
+def image_body ():                     return '{', image_entities, '}'
+def image_declaration ():              return 'image', string_literal, Optional (image_body)
 
 # Label
-def label_entities ():                 return ZeroOrMore ([position_declaration, positioning_declaration, offset_declaration])
+def label_entities ():                 return ZeroOrMore ([position_declaration, positioning_declaration, offset_declaration, layer_declaration])
 def label_body ():                     return '{', label_entities, '}'
 def label_declaration ():              return 'label', string_literal, Optional (label_body)
 
@@ -88,7 +95,7 @@ def rotation_declaration ():           return 'rotation', angle_declaration
 def offset_declaration ():             return 'offset', signed_distance_declaration, ',', signed_distance_declaration
 
 # Line
-def line_entities ():                  return ZeroOrMore (position_declaration)
+def line_entities ():                  return ZeroOrMore ([position_declaration, layer_declaration])
 def line_body ():                      return '{', line_entities, '}'
 def line_declaration ():               return 'line', line_body
 
