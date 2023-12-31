@@ -709,6 +709,7 @@ class Footprint:
       self.path = None     # str eg. "/00000000-0000-0000-0000-00005fcae65b"
       self.attr = Footprint.Attr ()
       self.fp_shapes = []
+      self.zones = []
       self.pads = []
       self.models = []
 
@@ -743,6 +744,9 @@ class Footprint:
          else:
             assert False
 
+      for zone_node in node.filter_kind ('zone'):
+         footprint.zones.append (Zone.parse (zone_node))
+
       for pad_node in node.filter_kind ('pad'):
          footprint.pads.append (Footprint.Pad.parse (pad_node))
 
@@ -769,6 +773,8 @@ class Footprint:
          footprint_node.add (self.attr.generate ())
       for fp_shape in self.fp_shapes:
          footprint_node.add (fp_shape.generate ())
+      for zone in self.zones:
+         footprint_node.add (zone.generate ())
       for pad in self.pads:
          footprint_node.add (pad.generate ())
       for model in self.models:
@@ -1561,6 +1567,7 @@ class Zone:
       self.hatch = Zone.Hatch ()
       self.connect_pads = Zone.ConnectPads ()
       self.min_thickness = None  # float
+      self.keepout = None
       self.fill = Zone.Fill ()
       self.polygon = Zone.Polygon ()
       self.filled_polygon = Zone.FilledPolygon ()
@@ -1578,6 +1585,7 @@ class Zone:
       zone.hatch = Zone.Hatch.parse (node.first_kind ('hatch'))
       zone.connect_pads = Zone.ConnectPads.parse (node.first_kind ('connect_pads'))
       zone.min_thickness = node.property ('min_thickness')
+      zone.keepout = Zone.Keepout.parse (node.first_kind ('keepout'))
       zone.fill = Zone.Fill.parse (node.first_kind ('fill'))
       zone.polygon = Zone.Polygon.parse (node.first_kind ('polygon'))
       zone.filled_polygon = Zone.FilledPolygon.parse (node.first_kind ('filled_polygon'))
@@ -1595,6 +1603,8 @@ class Zone:
       zone_node.add (self.hatch.generate ())
       zone_node.add (self.connect_pads.generate ())
       zone_node.add (s_expression.List.generate_property ('min_thickness', self.min_thickness))
+      if self.keepout:
+         zone_node.add (self.keepout.generate ())
       zone_node.add (self.fill.generate ())
       zone_node.add (self.polygon.generate ())
       if self.filled_polygon:
@@ -1651,6 +1661,35 @@ class Zone:
          connect_pads_node = s_expression.List.generate ('connect_pads')
          connect_pads_node.add (s_expression.List.generate_property ('clearance', self.clearance))
          return connect_pads_node
+
+   class Keepout:
+      def __init__ (self):
+         self.tracks = None         # symbol eg. not_allowed
+         self.vias = None           # symbol eg. allowed
+         self.pads = None           # symbol eg. allowed
+         self.copperpour = None     # symbol eg. allowed
+         self.footprints = None     # symbol eg. allowed
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         keepout = Zone.Keepout ()
+         keepout.tracks = node.property ('tracks')
+         keepout.vias = node.property ('vias')
+         keepout.pads = node.property ('pads')
+         keepout.copperpour = node.property ('copperpour')
+         keepout.footprints = node.property ('footprints')
+         return keepout
+
+      def generate (self):
+         keepout_node = s_expression.List.generate ('keepout')
+         keepout_node.add (s_expression.List.generate_property_symbol ('tracks', self.tracks))
+         keepout_node.add (s_expression.List.generate_property_symbol ('vias', self.vias))
+         keepout_node.add (s_expression.List.generate_property_symbol ('pads', self.pads))
+         keepout_node.add (s_expression.List.generate_property_symbol ('copperpour', self.copperpour))
+         keepout_node.add (s_expression.List.generate_property_symbol ('footprints', self.footprints))
+         return keepout_node
 
    class Fill:
       def __init__ (self):
