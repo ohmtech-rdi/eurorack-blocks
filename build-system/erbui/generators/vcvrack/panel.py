@@ -57,7 +57,7 @@ class Panel:
       context = cairocffi.Context (surface)
 
       panel = detailPanel ()
-      panel.generate_module (context, module, simulated=True)
+      panel.generate_module (context, module, render_mode='simulator')
 
       surface.finish ()
 

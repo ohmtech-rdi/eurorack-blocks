@@ -37,8 +37,9 @@ sys.path.insert (0, PATH_PY3_PACKAGES)
 import cairocffi
 
 from svg2mod.importer import Svg2ModImport
-from svg2mod.exporter import (DEFAULT_DPI, Svg2ModExportPretty)
+from svg2mod.exporter import (DEFAULT_DPI, Svg2ModExportLatest)
 from svg2mod.coloredlogger import logger
+from svg2mod import svg
 
 PATH_GENERATORS = os.path.abspath (os.path.dirname (PATH_THIS))
 
@@ -74,28 +75,25 @@ class Pcb:
    #--------------------------------------------------------------------------
 
    def generate_module_kicad_mod (self, path, module):
-      path_svg = os.path.join (path, '%s.panel.svg' % module.name)
-
-      surface = cairocffi.SVGSurface (path_svg, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
-      surface.set_document_unit (cairocffi.SVG_UNIT_PT)
-      context = cairocffi.Context (surface)
-
-      panel = detailPanel ()
-      panel.generate_module (context, module)
-
-      surface.finish ()
-
-      logger.setLevel (logging.WARNING)
+      imported_silks = self.generate_module_kicad_mod_layer (path, module, 'silkscreen')
+      imported_keepout = self.generate_module_kicad_mod_layer (path, module, 'translucence')
 
       imported = Svg2ModImport (
-         path_svg,
-         'silkscreen',
-         None,
-         False,
-         'F.SilkS'
+         file_name=None,
+         module_name='panel',
+         module_value=None,
+         ignore_hidden=False,
+         force_layer=None
       )
 
-      exported = Svg2ModExportPretty (
+      imported.svg = svg.Svg ()
+
+      new_layer = svg.Group()
+      new_layer.name = 'Root'
+      new_layer.items = [imported_silks.svg, imported_keepout.svg]
+      imported.svg.items = [new_layer]
+
+      exported = Svg2ModExportLatest (
          imported,
          os.path.join (path, '%s.panel.kicad_mod' % module.name),
          False,
@@ -106,6 +104,40 @@ class Pcb:
       )
 
       exported.write ()
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_module_kicad_mod_layer (self, path, module, layer):
+      path_svg = os.path.join (path, '%s.panel.%s.svg' % (module.name, layer))
+
+      surface = cairocffi.SVGSurface (path_svg, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
+      surface.set_document_unit (cairocffi.SVG_UNIT_PT)
+      context = cairocffi.Context (surface)
+
+      if layer == 'silkscreen':
+         render_mode = 'silkscreen'
+         kicad_layer = 'F.SilkS'
+      elif layer == 'translucence':
+         render_mode = 'translucence'
+         kicad_layer = 'FB.Keepout'
+
+      panel = detailPanel ()
+      panel.generate_module (context, module, render_mode)
+
+      surface.finish ()
+
+      logger.setLevel (logging.WARNING)
+
+      imported = Svg2ModImport (
+         file_name=path_svg,
+         module_name='panel.%s' % layer,
+         module_value=None,
+         ignore_hidden=False,
+         force_layer=kicad_layer
+      )
+
+      return imported
 
 
    #--------------------------------------------------------------------------
@@ -231,6 +263,11 @@ class Pcb:
          fp_shape.fill = 'solid'
          fp_shape.tstamp = 'd90f81ac-9d83-4f16-b87d-ae4c6fb48b47'
          footprint.fp_shapes.append (fp_shape)
+
+      for zone_node in root_node.filter_kind ('zone'):
+         zone = kicadPcb.Zone.parse (zone_node)
+         zone.tstamp = 'd90f81ac-9d83-4f16-b87d-ae4c6fb48b47'
+         footprint.zones.append (zone)
 
       panel_pcb.footprints.append (footprint)
 

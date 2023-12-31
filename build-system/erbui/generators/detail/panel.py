@@ -65,7 +65,7 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate_module (self, context, module, simulated=False):
+   def generate_module (self, context, module, render_mode=None):
 
       context.set_fill_rule (cairocffi.FILL_RULE_EVEN_ODD)
 
@@ -76,32 +76,32 @@ class Panel:
       self.current_position_x = self.width * 0.5
       self.current_position_y = self.height * 0.5
 
-      if simulated:
-         self.generate_back (context, module)
+      if render_mode == 'simulator':
+         self.generate_back (context, module, render_mode)
 
-      self.generate_header (context, module, module.header)
-      self.generate_footer (context, module, module.footer)
+      self.generate_header (context, module, render_mode, module.header)
+      self.generate_footer (context, module, render_mode, module.footer)
 
       for label in module.labels:
-         self.generate_label (context, module, label)
+         self.generate_label (context, module, render_mode, label)
 
       for image in module.images:
-         self.generate_image (context, module, image)
+         self.generate_image (context, module, render_mode, image)
 
       for line in module.lines:
-         self.generate_line (context, module, line)
+         self.generate_line (context, module, render_mode, line)
 
       for control in module.controls:
-         self.generate_control (context, module, control)
+         self.generate_control (context, module, render_mode, control)
 
-      if simulated:
+      if render_mode == 'simulator':
          for sticker in module.stickers:
             self.generate_sticker (context, module, sticker)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_back (self, context, module):
+   def generate_back (self, context, module, render_mode):
       context.rectangle (0, 0, self.width * MM_TO_PT, self.height * MM_TO_PT)
 
       material = module.material
@@ -115,37 +115,55 @@ class Panel:
       elif material.is_aluminum_coated_white:
          panel_gray = 1.0
 
+      alt_render_mode = 'translucence_no_fill'
+
+      self.generate_header (context, module, alt_render_mode, module.header)
+      self.generate_footer (context, module, alt_render_mode, module.footer)
+
+      for label in module.labels:
+         self.generate_label (context, module, alt_render_mode, label)
+
+      for image in module.images:
+         self.generate_image (context, module, alt_render_mode, image)
+
+      for line in module.lines:
+         self.generate_line (context, module, alt_render_mode, line)
+
+      for control in module.controls:
+         self.generate_control (context, module, alt_render_mode, control)
+
       context.set_source_rgb (panel_gray, panel_gray, panel_gray)
-      context.fill()
+      context.fill ()
+
 
 
    #--------------------------------------------------------------------------
 
-   def generate_header (self, context, module, header):
+   def generate_header (self, context, module, render_mode, header):
       old_current_position_y = self.current_position_y
       self.current_position_y = self.header_center_y
 
       for label in header.labels:
-         self.generate_label (context, module, label)
+         self.generate_label (context, module, render_mode, label)
 
       for image in header.images:
-         self.generate_image (context, module, image)
+         self.generate_image (context, module, render_mode, image)
 
       self.current_position_y = old_current_position_y
 
 
    #--------------------------------------------------------------------------
 
-   def generate_footer (self, context, module, footer):
+   def generate_footer (self, context, module, render_mode, footer):
       old_current_position_y = self.current_position_y
       self.current_position_y = self.footer_center_y
 
       if footer:
          for label in footer.labels:
-            self.generate_label (context, module, label)
+            self.generate_label (context, module, render_mode, label)
 
          for image in footer.images:
-            self.generate_image (context, module, image)
+            self.generate_image (context, module, render_mode, image)
 
       else:
          if module.material.is_light:
@@ -155,14 +173,14 @@ class Panel:
 
          image = ast.Image (filepath)
 
-         self.generate_image (context, module, image)
+         self.generate_image (context, module, render_mode, image)
 
       self.current_position_y = old_current_position_y
 
 
    #--------------------------------------------------------------------------
 
-   def generate_control (self, context, module, control):
+   def generate_control (self, context, module, render_mode, control):
       old_current_position_x = self.current_position_x
       self.current_position_x = control.position.x.mm
 
@@ -180,7 +198,7 @@ class Panel:
       self.current_box = box
 
       for label in control.labels:
-         self.generate_label (context, module, label, control)
+         self.generate_label (context, module, render_mode, label, control)
 
       self.current_box = None
       self.current_font_height = old_current_font_height
@@ -202,7 +220,13 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate_label (self, context, module, label, control=None):
+   def generate_label (self, context, module, render_mode, label, control=None):
+
+      if render_mode == 'simulator' and not label.is_layer_silkscreen: return
+      if render_mode == 'silkscreen' and not label.is_layer_silkscreen: return
+      if render_mode == 'translucence' and not label.is_layer_translucence: return
+      if render_mode == 'translucence_no_fill' and not label.is_layer_translucence: return
+
       position_x, position_y, align_x, align_y = self.process_label_position (label, control)
 
       if module.material.is_light:
@@ -232,8 +256,9 @@ class Panel:
 
       with context:
          context.translate (position_x_pt, position_y_pt)
-         context.set_source_rgb (fill_gray, fill_gray, fill_gray)
-         self.draw_text (context, PATH_FONT_DDIN_BOLD, self.current_font_height, label.text)
+         if render_mode != 'translucence_no_fill':
+            context.set_source_rgb (fill_gray, fill_gray, fill_gray)
+         self.draw_text (context, PATH_FONT_DDIN_BOLD, self.current_font_height, label.text, render_mode)
 
 
    #--------------------------------------------------------------------------
@@ -275,7 +300,7 @@ class Panel:
 
          context.move_to (position_x_pt, position_y_pt)
          context.set_source_rgb (0.1, 0.1, 0.1)
-         self.draw_text (context, PATH_FONT_SCRIPT, 10, sticker.text)
+         self.draw_text (context, PATH_FONT_SCRIPT, 10, sticker.text, 'simulator')
 
 
    #--------------------------------------------------------------------------
@@ -359,7 +384,13 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def generate_line (self, context, module, line):
+   def generate_line (self, context, module, render_mode, line):
+
+      if render_mode == 'simulator' and not line.is_layer_silkscreen: return
+      if render_mode == 'silkscreen' and not line.is_layer_silkscreen: return
+      if render_mode == 'translucence' and not line.is_layer_translucence: return
+      if render_mode == 'translucence_no_fill' and not line.is_layer_translucence: return
+
       line_width = 0.7
 
       material = module.material
@@ -375,12 +406,12 @@ class Panel:
          y1 = line.points [i].y.pt
          x2 = line.points [i+1].x.pt
          y2 = line.points [i+1].y.pt
-         self.generate_line_segment (context, line_gray, x1, y1, x2, y2, line_width)
+         self.generate_line_segment (context, line_gray, x1, y1, x2, y2, line_width, render_mode)
 
 
    #--------------------------------------------------------------------------
 
-   def generate_line_segment (self, context, gray, x1, y1, x2, y2, width):
+   def generate_line_segment (self, context, gray, x1, y1, x2, y2, width, render_mode):
 
       vx = y2 - y1
       vy = - (x2 - x1)
@@ -398,16 +429,26 @@ class Panel:
       context.line_to (x1 - vx, y1 - vy)
       context.close_path ()
 
-      context.set_source_rgb (gray, gray, gray)
-      context.fill ()
+      if render_mode != 'translucence_no_fill':
+         context.set_source_rgb (gray, gray, gray)
+         context.fill ()
 
 
    #--------------------------------------------------------------------------
 
-   def generate_image (self, context, module, image):
+   def generate_image (self, context, module, render_mode, image):
+
+      if render_mode == 'simulator' and not image.is_layer_silkscreen: return
+      if render_mode == 'silkscreen' and not image.is_layer_silkscreen: return
+      if render_mode == 'translucence' and not image.is_layer_translucence: return
+      if render_mode == 'translucence_no_fill' and not image.is_layer_translucence: return
+
       with open (image.file) as file:
          tree = cairosvg.parser.Tree (file_obj=file)
          surface = ContextOnlySurface (tree, context)
+
+         if render_mode == 'translucence_no_fill':
+            surface.stroke_and_fill = False
 
          width_pt = surface.context_width
          height_pt = surface.context_height
@@ -435,7 +476,7 @@ class Panel:
 
    #--------------------------------------------------------------------------
 
-   def draw_glyph (self, context, glyph, x, y):
+   def draw_glyph (self, context, glyph, x, y, render_mode):
       outline = glyph.outline
       outline_data = list (zip (outline.points, outline.tags))
 
@@ -444,8 +485,6 @@ class Panel:
 
       def tag_cubic (pts, index):
          return freetype.FT_Curve_Tag (pts [index][1]) == freetype.FT_Curve_Tag_Cubic
-
-      context.new_path ()
 
       start = 0
       end = 0
@@ -495,12 +534,10 @@ class Panel:
 
          start = end+1
 
-      context.fill ()
-
 
    #--------------------------------------------------------------------------
 
-   def draw_text (self, context, font_path, font_size, text):
+   def draw_text (self, context, font_path, font_size, text, render_mode):
       face = freetype.Face (font_path)
       face.set_char_size (int (font_size * 64))
       pc = 0
@@ -511,9 +548,12 @@ class Panel:
          glyph = face.glyph
          kerning = face.get_kerning (pc, c)
          x += kerning.x / 64.0
-         self.draw_glyph (context, glyph, x, y)
+         self.draw_glyph (context, glyph, x, y, render_mode)
          x += glyph.advance.x / 64.0
          pc = c
+
+      if render_mode != 'translucence_no_fill':
+         context.fill ()
 
 
 
