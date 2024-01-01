@@ -22,6 +22,7 @@ def programmer ():                     return '--programmer', ['dfu', 'stlink']
 def logger ():                         return '--logger', ['usb', 'semihosting']
 def xcode ():                          return '--xcode'
 def semihosting ():                    return '--semihosting'
+def fast_boot ():                      return '--fast-boot'
 def only_gerber ():                    return '--only-gerber'
 def with_xcode_support ():             return '--with-xcode-support'
 def with_vscode_support ():            return '--with-vscode-support'
@@ -35,7 +36,7 @@ def build_hardware ():                 return 'hardware', ZeroOrMore ([only_gerb
 
 def install_firmware ():               return 'firmware', ZeroOrMore ([configuration, programmer])
 def install_performance ():            return 'performance'
-def install_bootloader ():             return 'bootloader'
+def install_bootloader ():             return 'bootloader', ZeroOrMore ([fast_boot])
 def install_simulator ():              return 'simulator', ZeroOrMore ([configuration])
 
 def run_performance ():                return 'performance'
@@ -81,6 +82,7 @@ DESCRIPTION = {
    '--semihosting': 'enable semihosting',
    'hardware': 'the files to manufacture the module',
    '--only-gerber': 'generate gerber from pcb layout only',
+   '--fast-boot': 'install fast boot variant',
    'install': 'install the firmware or bootloader',
    '--programmer': 'the programmer to use, defaults to automatic selection',
    'performance': 'the performance analysis firmware',
