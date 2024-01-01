@@ -447,7 +447,12 @@ def install_performance (args):
 def install_bootloader (args):
    import erbb
 
-   erbb.deploy_bootloader ()
+   if args.fast_boot:
+      variant = 'intdfu-10ms'
+   else:
+      variant = 'intdfu-2000ms'
+
+   erbb.deploy_bootloader (variant)
 
 
 
@@ -673,6 +678,12 @@ def parse_args_install (parent):
    parser_bootloader = subparsers.add_parser (
       'bootloader',
       help='install the bootloader'
+   )
+
+   parser_bootloader.add_argument(
+      '--fast-boot',
+      action = 'store_true',
+      help = 'install fast boot variant'
    )
 
    parser_performance = subparsers.add_parser (

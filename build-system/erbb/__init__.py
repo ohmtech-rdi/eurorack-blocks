@@ -692,12 +692,12 @@ Name : deploy_bootloader
 ==============================================================================
 """
 
-def deploy_bootloader ():
+def deploy_bootloader (variant):
    libdaisy_bootloader_bin = os.path.join (
-      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'dsy_bootloader_v6_2-intdfu-2000ms.bin'
+      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'dsy_bootloader_v6_2-%s.bin' % variant
    )
 
-   deploy_dfu_util ('dsy_bootloader_v6_2-intdfu-2000ms', 'flash', libdaisy_bootloader_bin)
+   deploy_dfu_util ('dsy_bootloader_v6_2-%s' % variant, 'flash', libdaisy_bootloader_bin)
 
 
 
