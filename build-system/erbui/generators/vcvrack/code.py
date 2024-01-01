@@ -150,6 +150,7 @@ class Code:
          if entity.is_control:
             control = entity
             category = self.control_kind_to_vcv_category (control)
+            nbr_ids = self.control_kind_to_vcv_id_count (control)
 
             func_category = category
             if func_category == 'Light':
@@ -164,19 +165,19 @@ class Code:
 
             if category == 'Param':
                index = nbr_params
-               nbr_params += 1
+               nbr_params += nbr_ids
 
             elif category == 'Input':
                index = nbr_inputs
-               nbr_inputs += 1
+               nbr_inputs += nbr_ids
 
             elif category == 'Output':
                index = nbr_outputs
-               nbr_outputs += 1
+               nbr_outputs += nbr_ids
 
             elif category == 'Light':
                index = nbr_lights
-               nbr_lights += control.nbr_pins
+               nbr_lights += nbr_ids
 
             if category in ['Param', 'Input', 'Output', 'Light']:
                lines += '   {\n'
