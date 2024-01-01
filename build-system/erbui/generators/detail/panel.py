@@ -181,6 +181,8 @@ class Panel:
    #--------------------------------------------------------------------------
 
    def generate_control (self, context, module, render_mode, control):
+      if len (control.labels) == 0: return
+
       old_current_position_x = self.current_position_x
       self.current_position_x = control.position.x.mm
 
