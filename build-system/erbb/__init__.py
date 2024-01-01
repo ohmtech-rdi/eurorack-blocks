@@ -694,10 +694,10 @@ Name : deploy_bootloader
 
 def deploy_bootloader ():
    libdaisy_bootloader_bin = os.path.join (
-      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'dsy_bootloader_v5_4.bin'
+      PATH_ROOT, 'submodules', 'libDaisy', 'core', 'dsy_bootloader_v6_2-intdfu-2000ms.bin'
    )
 
-   deploy_dfu_util ('dsy_bootloader_v5_4', 'flash', libdaisy_bootloader_bin)
+   deploy_dfu_util ('dsy_bootloader_v6_2-intdfu-2000ms', 'flash', libdaisy_bootloader_bin)
 
 
 
