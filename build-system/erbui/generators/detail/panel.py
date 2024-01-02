@@ -409,15 +409,15 @@ class Panel:
          tree = cairosvg.parser.Tree (file_obj=file)
          surface = ContextOnlySurface (tree, context)
 
-         width_pt = surface.context_width * 0.75
-         height_pt = surface.context_height * 0.75
+         width_pt = surface.context_width
+         height_pt = surface.context_height
 
          position_x_pt = self.current_position_x * MM_TO_PT - width_pt * 0.5
          position_y_pt = self.current_position_y * MM_TO_PT - height_pt * 0.5
 
          with context:
             context.translate (position_x_pt, position_y_pt)
-            context.scale (0.75)
+            context.scale (surface.context_scale)
 
             surface.draw (tree)
 
@@ -556,29 +556,30 @@ class Panel:
 
 class ContextOnlySurface (cairosvg.surface.Surface):
    def __init__ (self, tree, context):
-       self.context = context
+      self.context = context
 
-       # cache stuff
-       self.markers = {}
-       self.gradients = {}
-       self.patterns = {}
-       self.masks = {}
-       self.paths = {}
-       self.filters = {}
-       self.images = {}
-       self.tree_cache = {(tree.url, tree.get('id')): tree}
+      # cache stuff
+      self.markers = {}
+      self.gradients = {}
+      self.patterns = {}
+      self.masks = {}
+      self.paths = {}
+      self.filters = {}
+      self.images = {}
+      self.tree_cache = {(tree.url, tree.get('id')): tree}
 
-       self.dpi = 96 # used in `size` for pt units
+      self.dpi = 72 # used in `size` for pt units
 
-       # state stuff
-       self.context_width, self.context_height, viewbox = cairosvg.helpers.node_format (self, tree) # used in `size` for % units
+      # state stuff
+      self.context_width, self.context_height, viewbox = cairosvg.helpers.node_format (self, tree) # used in `size` for % units
+      self.context_scale = self.context_width / (viewbox [2] - viewbox [0])
 
-       self.font_size = cairosvg.helpers.size(self, '12pt')
-       self.cursor_position = [0, 0]
-       self.cursor_d_position = [0, 0]
-       self.text_path_width = 0
-       self._old_parent_node = self.parent_node = None
-       self.stroke_and_fill = True
+      self.font_size = cairosvg.helpers.size(self, '12pt')
+      self.cursor_position = [0, 0]
+      self.cursor_d_position = [0, 0]
+      self.text_path_width = 0
+      self._old_parent_node = self.parent_node = None
+      self.stroke_and_fill = True
 
-       self.map_rgba = None
-       self.map_image = None
+      self.map_rgba = None
+      self.map_image = None
