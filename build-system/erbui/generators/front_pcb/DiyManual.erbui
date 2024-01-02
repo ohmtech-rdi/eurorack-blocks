@@ -153,6 +153,12 @@ manufacturer DiyManual {
       class "erb::Led3mm <RedGreenBlueLight>"
    }
 
+   control Led {
+      style led.smt.red, red, behind
+      parts led.smt.red.manual
+      class "erb::LedBehindPanel <RedLight>"
+   }
+
    control Pot {
       style rogan.2ps, rogan, 2ps, medium, skirt, d_shaft
       parts alpha.9mm.manual, rogan.2ps

@@ -432,6 +432,70 @@ struct Davies1900hBlack : rack::Davies1900hBlackKnob
 template <typename Base>
 struct Led3mm : rack::MediumLight <Base>
 {
+   static constexpr bool BehindPanel = false;
+   void  rotate (float /* angle_rad */) {}
+};
+
+
+
+template <typename Base>
+struct LedBehindPanel : Base
+{
+   static constexpr bool BehindPanel = true;
+
+   LedBehindPanel ()
+   {
+      this->box.size = rack::mm2px (rack::Vec (10, 10));
+   }
+
+   void drawBackground(const rack::widget::Widget::DrawArgs& args) override {
+      const float radius = std::min (this->box.size.x, this->box.size.y) / 2.0;
+
+      nvgBeginPath (args.vg);
+      nvgCircle (args.vg, radius, radius, radius);
+
+      nvgFillColor (args.vg, nvgRGB (0x2e, 0x2c, 0x00));
+      nvgFill (args.vg);
+
+      if (this->color.a > 0.0) {
+         nvgBeginPath (args.vg);
+         nvgCircle (args.vg, radius, radius, radius);
+
+         nvgFillColor (args.vg, this->color);
+         nvgFill (args.vg);
+      }
+   }
+
+   void drawLight(const rack::widget::Widget::DrawArgs& args) override {
+      // nothing
+   }
+
+   void drawHalo(const rack::widget::Widget::DrawArgs& args) override {
+      // Adapted from LightWidget::drawHalo
+
+      // Don't draw halo if rendering in a framebuffer, e.g. screenshots or Module Browser
+      if (args.fb) return;
+
+      const float halo = rack::settings::haloBrightness * 0.5f;
+      if (halo == 0.f) return;
+
+      // If light is off, rendering the halo gives no effect.
+      if (this->color.r == 0.f && this->color.g == 0.f && this->color.b == 0.f) return;
+
+      rack::math::Vec c = this->box.size.div (2);
+      float radius = std::min (this->box.size.x, this->box.size.y) / 4.0;
+      float oradius = radius + std::min (radius * 4.f, 15.f);
+
+      nvgBeginPath (args.vg);
+      nvgRect (args.vg, c.x - oradius, c.y - oradius, 2 * oradius, 2 * oradius);
+
+      NVGcolor icol = rack::color::mult (this->color, halo);
+      NVGcolor ocol = nvgRGBA (0, 0, 0, 0);
+      NVGpaint paint = nvgRadialGradient (args.vg, c.x, c.y, radius, oradius, icol, ocol);
+      nvgFillPaint (args.vg, paint);
+      nvgFill (args.vg);
+   }
+
    void  rotate (float /* angle_rad */) {}
 };
 

@@ -11,6 +11,7 @@ manufacturer ElectroDemo {
 
    // process
 
+   generator "front_panel/pcb"
    generator "front_panel/dxf"
    generator "front_panel/pdf"
    generator "front_pcb/kicad_pcb"
@@ -68,5 +69,11 @@ manufacturer ElectroDemo {
       style rogan, 6ps, xlarge, skirt
       parts ed.pot, rogan.6ps
       class "erb::AlphaPot <erb::Rogan6Ps>"
+   }
+
+   control Led {
+      style red, behind
+      parts led.red
+      class "erb::LedBehindPanel <RedLight>"
    }
 }

@@ -24,7 +24,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.erbui",
-					"match": "\\b(module|board|width|material|header|footer|line|control|label|sticker|image|pin|pins|normalling|mode|positioning|position|rotation|offset|route|faust|address|bind|init|value|property|exclude|extends|alias|file|class|include|pcb|net|type|gpio|pwm|dac)\\b"
+					"match": "\\b(module|board|width|material|header|footer|line|control|label|sticker|image|pin|pins|normalling|mode|positioning|position|rotation|offset|layer|route|faust|address|bind|init|value|property|exclude|extends|alias|file|class|include|pcb|net|type|gpio|pwm|dac)\\b"
 				},
 				{
 					"name": "keyword.control.erbui",
@@ -40,7 +40,7 @@
 			"patterns": [
 				{
 					"name": "entity.name.variable.erbui",
-					"match": "\\b(center|left|top|right|bottom|normalized|bipolar|wire|manual|natural|black|white|aluminum|brushed_aluminum|aluminum_coated)\\b"
+					"match": "\\b(center|left|top|right|bottom|normalized|bipolar|silkscreen|translucence|wire|manual|natural|black|white|aluminum|brushed_aluminum|aluminum_coated)\\b"
 				},
 				{
 					"match": "[a-zA-Z0-9_]",

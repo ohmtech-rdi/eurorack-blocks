@@ -52,6 +52,19 @@ struct ErbWidget
 {
                   ErbWidget (ErbModule * module);
 
+   template <typename T>
+   void           add_child_auto (T * control_ptr)
+   {
+      if constexpr (T::BehindPanel)
+      {
+         addChildBottom (control_ptr);
+      }
+      else
+      {
+         addChild (control_ptr);
+      }
+   }
+
    void           step () override;
 
    ErbModule *    module_ptr = nullptr;

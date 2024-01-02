@@ -23,6 +23,13 @@ void  Board::impl_preprocess (AudioInPin pin)
 }
 
 
+void  Board::impl_postprocess (GpoPin pin)
+{
+   _gpio_outputs [pin.index].write (_digital_outputs [pin.index]);
+}
+
+
+
 void  Board::impl_postprocess (AudioOutPin pin)
 {
    erb::scale (

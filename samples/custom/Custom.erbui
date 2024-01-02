@@ -4,7 +4,7 @@ import "manufacturer/ElectroDemo.erbui"
 
 module Custom {
    width 12hp
-   material aluminum
+   material pcb
    header { label "CUSTOM" }
 
    board {
@@ -14,6 +14,7 @@ module Custom {
       sch "board/board.kicad_sch"
       width 12hp
       pin P1 Pot { bind "p(0)" }
+      pin LD1 Led { type gpio bind "ld(0)" }
       pin AI1 AudioIn { bind "ai(0)" }
       pin AO1 AudioOut { bind "ao(0)" }
    }
@@ -21,13 +22,20 @@ module Custom {
    manufacturer ElectroDemo
    route manual
 
-   image "Custom.svg"
+   image "silkscreen.svg"
+   image "translucence.svg" { layer translucence }
 
    control freq Pot {
       position 6hp, 34mm
       style rogan, 6ps
       label "FREQ"
       pin P1
+   }
+
+   control antenna Led {
+      position 35mm, 77mm
+      style red, behind
+      pin LD1
    }
 
    control audio_in AudioIn {

@@ -25,6 +25,10 @@ public:
    inline const erb::Buffer &
                   ai (size_t i) { return _audio_inputs [i]; }
 
+   // Digital Outputs
+   inline uint8_t &
+                  ld (size_t i) { return _digital_outputs [i]; }
+
    // Audio Outputs
    inline erb::Buffer &
                   ao (size_t i) { return _audio_outputs [i]; }
@@ -42,6 +46,9 @@ public:
    struct AudioInPin { size_t index; };
    static constexpr AudioInPin AI1 = {0};
 
+   struct GpoPin { size_t index; };
+   static constexpr GpoPin LD1 = {0};
+
    struct AudioOutPin { size_t index; };
    static constexpr AudioOutPin AO1 = {0};
 
@@ -50,6 +57,7 @@ public:
    inline void    impl_preprocess (AdcPin pin);
    inline void    impl_preprocess (AudioInPin pin);
 
+   inline void    impl_postprocess (GpoPin pin);
    inline void    impl_postprocess (AudioOutPin pin);
    inline void    impl_postprocess () {}
 
@@ -68,6 +76,8 @@ private:
    std::array <erb::Buffer, 1>
                   _audio_inputs;
 
+   std::array <uint8_t, 1>
+                  _digital_outputs;
    std::array <erb::Buffer, 1>
                   _audio_outputs;
 
@@ -80,6 +90,11 @@ private:
                         {erb::SubmoduleDaisyPatchSm::D9}
                      }
                   };
+
+   std::array <erb::GpioOutputDaisy, 1>
+                  _gpio_outputs = {{
+                     {erb::SubmoduleDaisyPatchSm::B5}, // LD1
+                  }};
 };
 
 

@@ -154,7 +154,7 @@ class Code:
 
             func_category = category
             if func_category == 'Light':
-               func_category = 'Child'
+               func_category = '_child_auto'
 
             if control.rotation is None:
                rotation = 0

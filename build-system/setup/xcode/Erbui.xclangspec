@@ -15,7 +15,7 @@
                 "import",
                 "module", "extends", "board", "width", "material", "header", "footer", "line", "alias", "exclude",
                 "control", "label", "positioning", "sticker", "image", "pin", "pins", "normalling", "mode",
-                "position", "rotation", "offset", "style",
+                "position", "rotation", "offset", "style", "layer",
                 "route", "wire", "manual",
                 "faust", "init", "address", "property", "value",
                 "class", "include", "pcb", "net", "bind", "type", "gpio", "pwm", "dac",
@@ -39,6 +39,7 @@
                 "aluminum", "brushed_aluminum", "aluminum_coated", "natural", "white", "black",
                 "center", "left", "top", "right", "bottom",
                 "normalized", "bipolar",
+                "silkscreen", "translucence",
             );
             Type = "xcode.syntax.identifier.type.system";
         };

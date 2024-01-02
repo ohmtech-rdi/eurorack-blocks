@@ -365,7 +365,8 @@ link between a pair of controls.
 ### Grammar
 
 > _line-declaration_ → **`line`** **`{`** line-entity<sub>_0+_</sub> **`}`** \
-> _line-entity_ → [position-declaration](#position)
+> _line-entity_ → [position-declaration](#position) \
+> _line-entity_ → [layer-declaration](#layer)
 
 
 ## `offset`
@@ -401,6 +402,36 @@ Usually, the position is relative to the natural center of the control, when app
 See individual [controls](../controls/README.md) reference for the center definition for each control.
 
 
+## `layer`
+
+A `layer` represents how a graphic element is rendered on the front panel.
+It can be one of:
+- `silkscreen`, this is the default,
+- `translucence`.
+
+`silkscreen` uses typically UV printed inks on the front panel.
+
+`translucence` is only meaninful when `material pcb` is selected.
+It removes the solder mask and copper fill of the shape of the parent,
+so only the PCB fiberglass is left, allowing light to pass through.
+
+For example:
+
+```erbui
+module Foo {
+   material pcb
+
+   image "silkscreen.svg"
+   image "translucence.svg" { layer translucence }
+}
+```
+
+### Grammar
+
+> _layer-declaration_ → **`layer`** **`silkscreen`** \
+> _layer-declaration_ → **`layer`** **`translucence`**
+
+
 ## `sticker`
 
 A `sticker` represents a virtual sticker glued on the front panel.
@@ -433,7 +464,8 @@ can be defined freely in the module with a position relative to the module.
 > _label-body_ → **`{`** label-entity<sub>_0+_</sub> **`}`**  \
 > _label-entity_ → [position-declaration](#position) \
 > _label-entity_ → [positioning-declaration](#positioning) \
-> _label-entity_ → [offset-declaration](#offset)
+> _label-entity_ → [offset-declaration](#offset) \
+> _label-entity_ → [layer-declaration](#layer)
 
 
 ## `image`
@@ -445,7 +477,9 @@ file relative to the `erbui` file where the `image` definition takes place.
 
 ### Grammar
 
-> _image-declaration_ → **`image`** [path-literal](./lexical.html#path-literals)
+> _image-declaration_ → **`image`** [path-literal](./lexical.html#path-literals) image-body<sub>_opt_</sub> \
+> _image-body_ → **`{`** image-entity<sub>_0+_</sub> **`}`**  \
+> _image-entity_ → [layer-declaration](#layer)
 
 
 ## `pin`
