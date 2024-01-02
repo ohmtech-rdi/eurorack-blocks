@@ -6,6 +6,9 @@
 [<!--lint ignore no-dead-urls-->![GitHub Actions status | ohmtech-rdi/eurorack-blocks](https://github.com/ohmtech-rdi/eurorack-blocks/workflows/Windows%202019/badge.svg)](https://github.com/ohmtech-rdi/eurorack-blocks/actions?workflow=Windows%202019)
 [![Documentation Status](https://readthedocs.org/projects/eurorack-blocks/badge/?version=latest)](https://eurorack-blocks.readthedocs.io/en/latest/?badge=latest)
 
+[![Discord](https://img.shields.io/badge/discord%20chat-join%20eurorack--blocks-foo.svg?longCache=true&logo=discord)](https://discord.gg/ByHBnMtQTR)
+
+
 <img align="left" width="30%" src="./erb-logo.svg">
 
 The `eurorack-blocks` project allows to develop your own custom Eurorack module for either
