@@ -10,6 +10,8 @@ void  Custom::init ()
    filter.set_sample_freq (erb_SAMPLE_RATE);
    filter.set_type_low_pass ();
    filter.set_resonance (1.f);
+
+   ui.antenna.blink ();
 }
 
 
