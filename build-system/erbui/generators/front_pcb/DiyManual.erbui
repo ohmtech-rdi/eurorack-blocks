@@ -159,6 +159,12 @@ manufacturer DiyManual {
       class "erb::LedBehindPanel <RedLight>"
    }
 
+   control LedRgb {
+      style rgb, behind
+      parts led.smt.red.manual
+      class "erb::LedBehindPanel <RedGreenBlueLight>"
+   }
+
    control Pot {
       style rogan.2ps, rogan, 2ps, medium, skirt, d_shaft
       parts alpha.9mm.manual, rogan.2ps
