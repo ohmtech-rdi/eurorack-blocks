@@ -75,8 +75,10 @@ class Pcb:
    #--------------------------------------------------------------------------
 
    def generate_module_kicad_mod (self, path, module):
-      imported_silks = self.generate_module_kicad_mod_layer (path, module, 'silkscreen')
-      imported_keepout = self.generate_module_kicad_mod_layer (path, module, 'translucence')
+      imported_silks = self.generate_module_kicad_mod_layer (path, module, 'F.SilkS')
+      imported_keepout = self.generate_module_kicad_mod_layer (path, module, 'FB.Keepout')
+      imported_mask_f = self.generate_module_kicad_mod_layer (path, module, 'F.Mask')
+      imported_mask_b = self.generate_module_kicad_mod_layer (path, module, 'B.Mask')
 
       imported = Svg2ModImport (
          file_name=None,
@@ -90,7 +92,9 @@ class Pcb:
 
       new_layer = svg.Group()
       new_layer.name = 'Root'
-      new_layer.items = [imported_silks.svg, imported_keepout.svg]
+      new_layer.items = [
+         imported_silks.svg, imported_keepout.svg, imported_mask_f.svg, imported_mask_b.svg
+      ]
       imported.svg.items = [new_layer]
 
       exported = Svg2ModExportLatest (
@@ -115,12 +119,10 @@ class Pcb:
       surface.set_document_unit (cairocffi.SVG_UNIT_PT)
       context = cairocffi.Context (surface)
 
-      if layer == 'silkscreen':
+      if layer == 'F.SilkS':
          render_mode = 'silkscreen'
-         kicad_layer = 'F.SilkS'
-      elif layer == 'translucence':
+      else:
          render_mode = 'translucence'
-         kicad_layer = 'FB.Keepout'
 
       panel = detailPanel ()
       panel.generate_module (context, module, render_mode)
@@ -134,7 +136,7 @@ class Pcb:
          module_name='panel.%s' % layer,
          module_value=None,
          ignore_hidden=False,
-         force_layer=kicad_layer
+         force_layer=layer
       )
 
       return imported
@@ -417,7 +419,7 @@ class Pcb:
       zone.hatch.display = 'edge'
       zone.hatch.distance = 0.508
       zone.connect_pads.clearance = 0.508
-      zone.min_thickness = 0.254
+      zone.min_thickness = 0.127
       zone.fill.thermal_gap = 0.508
       zone.fill.thermal_bridge_width = 0.508
       xy = kicadPcb.Xy ()
