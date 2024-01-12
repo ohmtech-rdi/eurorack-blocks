@@ -162,6 +162,9 @@
             'erbui/generators/perf/code.py',
 
             # generators/ui
+            'erbui/generators/tayda/drill.py',
+
+            # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
 

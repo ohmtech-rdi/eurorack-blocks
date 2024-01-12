@@ -286,6 +286,17 @@ class Visitor (PTNodeVisitor):
       return width
 
 
+   #-- Format ----------------------------------------------------------------
+
+   def visit_format_declaration (self, node, children):
+      format_name = children.format_name [0]
+      format = ast.Format (format_name)
+      return format
+
+   def visit_format_name (self, node, children):
+      return self.to_keyword (node)
+
+
    #-- Material --------------------------------------------------------------
 
    def visit_material_declaration (self, node, children):

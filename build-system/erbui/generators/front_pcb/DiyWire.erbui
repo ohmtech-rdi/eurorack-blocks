@@ -26,6 +26,7 @@ manufacturer DiyWire {
       arg include_non_empty "{Dist}"
       arg projection "{DistPartNumber};{Description}"
    }
+   generator "tayda/drill"
 
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style thonk.pj398sm.knurled, knurled

@@ -114,6 +114,12 @@ class Node:
    def is_width (self): return isinstance (self, Width)
 
    @property
+   def is_height (self): return isinstance (self, Height)
+
+   @property
+   def is_format (self): return isinstance (self, Format)
+
+   @property
    def is_material (self): return isinstance (self, Material)
 
    @property
@@ -477,6 +483,18 @@ class Module (Scope):
       return entities [0]
 
    @property
+   def height (self):
+      entities = [e for e in self.entities if e.is_height]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def format (self):
+      entities = [e for e in self.entities if e.is_format]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
    def material (self):
       entities = [e for e in self.entities if e.is_material]
       assert (len (entities) == 1)
@@ -677,6 +695,24 @@ class Board (Scope):
    @property
    def width (self):
       entities = [e for e in self.entities if e.is_width]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def height (self):
+      entities = [e for e in self.entities if e.is_height]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def format (self):
+      entities = [e for e in self.entities if e.is_format]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -1384,8 +1420,10 @@ class ControlFaustInit (Scope):
 
 class Control (Scope):
    class Part:
-      def __init__ (self, pcb, sch):
+      def __init__ (self, pcb, pcb_side, side, sch):
          self.pcb = pcb
+         self.pcb_side = pcb_side
+         self.side = side
          self.sch = sch
 
    def __init__ (self, identifier_name, keyword_kind):
@@ -1800,6 +1838,48 @@ class Width (Node):
    @property
    def pt (self):
       return self.literal.pt
+
+
+
+# -- Height ------------------------------------------------------------------
+
+class Height (Node):
+   def __init__ (self, literal):
+      assert isinstance (literal, DistanceLiteral)
+      super (Height, self).__init__ ()
+      self.literal = literal
+
+   @staticmethod
+   def typename (): return 'height'
+
+   @property
+   def mm (self):
+      return self.literal.mm
+
+   @property
+   def pt (self):
+      return self.literal.pt
+
+
+
+# -- Format ------------------------------------------------------------------
+
+class Format (Node):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (Format, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @staticmethod
+   def typename (): return 'format'
+
+   @property
+   def is_3u (self):
+      return self.keyword_name.value == '3u'
+
+   @property
+   def is_1590bb2_portrait (self):
+      return self.keyword_name.value == '1590bb2_portrait'
 
 
 
