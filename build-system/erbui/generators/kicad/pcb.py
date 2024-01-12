@@ -1562,7 +1562,7 @@ class Zone:
       self.net = None      # int, eg. 1
       self.net_name = None # str, eg. "GND"
       self.layer = None    # str, eg. "F.Cu"
-      self.layers = None   # str, eg. "F.Cu, B.Cu"
+      self.layers = None
       self.tstamp = None   # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
       self.hatch = Zone.Hatch ()
       self.connect_pads = Zone.ConnectPads ()
@@ -1580,7 +1580,7 @@ class Zone:
       zone.net = node.property ('net')
       zone.net_name = node.property ('net_name')
       zone.layer = node.property ('layer')
-      zone.layers = node.property ('layers')
+      zone.layers = Zone.Layers.parse (node.first_kind ('layers'))
       zone.tstamp = node.property ('tstamp')
       zone.hatch = Zone.Hatch.parse (node.first_kind ('hatch'))
       zone.connect_pads = Zone.ConnectPads.parse (node.first_kind ('connect_pads'))
@@ -1598,7 +1598,7 @@ class Zone:
       if self.layer:
          zone_node.add (s_expression.List.generate_property ('layer', self.layer))
       if self.layers:
-         zone_node.add (s_expression.List.generate_property ('layers', self.layers))
+         zone_node.add (self.layers.generate ())
       zone_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
       zone_node.add (self.hatch.generate ())
       zone_node.add (self.connect_pads.generate ())
@@ -1624,6 +1624,25 @@ class Zone:
          return Bounds (None, None, None, None)
 
       return self.polygon.pts.bounds.union (self.filled_polygon.pts.bounds)
+
+   class Layers:
+      def __init__ (self):
+         self.names = []
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         layers = Footprint.Pad.Layers ()
+         for layer in node.entities [1:]:
+            layers.names.append (layer.value)
+         return layers
+
+      def generate (self):
+         layers_node = s_expression.List.generate ('layers')
+         for name in self.names:
+            layers_node.add (s_expression.Symbol (name))
+         return layers_node
 
    class Hatch:
       def __init__ (self):
