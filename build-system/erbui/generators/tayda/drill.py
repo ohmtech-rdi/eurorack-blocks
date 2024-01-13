@@ -130,7 +130,7 @@ class Drill:
                'positionX1': str (round (start_x, 2)),
                'positionY1': str (round (end_y, 2)),
                'positionX2': str (round (start_x, 2)),
-               'positionY2': str (round (end_x, 2)),
+               'positionY2': str (round (start_y, 2)),
             })
 
 
@@ -156,7 +156,7 @@ class Drill:
       for gr_shape in part.pcb_side.gr_shapes:
          if isinstance (gr_shape, pcb.GrCircle) and gr_shape.layer == 'Eco1.User':
             if part.side == 'left':
-               position_x = gr_shape.center.y - box_height / 2.0
+               position_x = box_height / 2.0 - gr_shape.center.y
                position_y = module.height.mm / 2.0 - gr_shape.center.x
 
             elif part.side == 'top':
@@ -164,7 +164,7 @@ class Drill:
                position_y = box_height / 2.0 - gr_shape.center.y
 
             elif part.side == 'right':
-               position_x = box_height / 2.0 - gr_shape.center.y
+               position_x = gr_shape.center.y - box_height / 2.0
                position_y = module.height.mm / 2.0 - gr_shape.center.x
 
             elif part.side == 'bottom':
