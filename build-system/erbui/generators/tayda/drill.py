@@ -35,7 +35,11 @@ class Drill:
 
       for generator in module.manufacturer_data ['generators']:
          if generator ['id'] == 'tayda/drill':
-            path_json = os.path.join (path, '%s.tayda.json' % module.name)
+            path_template = os.path.join (PATH_THIS, 'drill_template.py')
+            path_py = os.path.join (path, '%s.tayda.drill.py' % module.name)
+
+            with open (path_template, 'r', encoding='utf-8') as file:
+               template = file.read ()
 
             if module.format.is_1590bb2_portrait:
                enclosure_type = '1590BB2'
@@ -54,8 +58,11 @@ class Drill:
 
             content = json.dumps (root)
 
-            with open (path_json, 'w', encoding='utf-8') as file:
-               file.write (content)
+            template = template.replace ('%module.name%', module.name)
+            template = template.replace ('%body%', content)
+
+            with open (path_py, 'w', encoding='utf-8') as file:
+               file.write (template)
 
 
 
@@ -82,9 +89,9 @@ class Drill:
             position_y = module.height.mm / 2.0 - gr_shape.center.y
             root ['holes'].append ({
                'box_side': box_side,
-               'diameter': round (2.0 * gr_shape.radius + 0.2, 2),
-               'positionX': round (position_x, 2),
-               'positionY': round (position_y, 2),
+               'diameter': str (round (2.0 * gr_shape.radius + 0.2, 2)),
+               'positionX': str (round (position_x, 2)),
+               'positionY': str (round (position_y, 2)),
             })
 
          elif isinstance (gr_shape, pcb.GrRect) and gr_shape.layer == 'Eco1.User':
@@ -96,34 +103,34 @@ class Drill:
 
             root ['lines'].append ({
                'box_side': box_side,
-               'positionX1': round (start_x, 2),
-               'positionY1': round (start_y, 2),
-               'positionX2': round (end_x, 2),
-               'positionY2': round (start_y, 2),
+               'positionX1': str (round (start_x, 2)),
+               'positionY1': str (round (start_y, 2)),
+               'positionX2': str (round (end_x, 2)),
+               'positionY2': str (round (start_y, 2)),
             })
 
             root ['lines'].append ({
                'box_side': box_side,
-               'positionX1': round (end_x, 2),
-               'positionY1': round (start_y, 2),
-               'positionX2': round (end_x, 2),
-               'positionY2': round (end_y, 2),
+               'positionX1': str (round (end_x, 2)),
+               'positionY1': str (round (start_y, 2)),
+               'positionX2': str (round (end_x, 2)),
+               'positionY2': str (round (end_y, 2)),
             })
 
             root ['lines'].append ({
                'box_side': box_side,
-               'positionX1': round (end_x, 2),
-               'positionY1': round (end_y, 2),
-               'positionX2': round (start_x, 2),
-               'positionY2': round (end_y, 2),
+               'positionX1': str (round (end_x, 2)),
+               'positionY1': str (round (end_y, 2)),
+               'positionX2': str (round (start_x, 2)),
+               'positionY2': str (round (end_y, 2)),
             })
 
             root ['lines'].append ({
                'box_side': box_side,
-               'positionX1': round (start_x, 2),
-               'positionY1': round (end_y, 2),
-               'positionX2': round (start_x, 2),
-               'positionY2': round (end_x, 2),
+               'positionX1': str (round (start_x, 2)),
+               'positionY1': str (round (end_y, 2)),
+               'positionX2': str (round (start_x, 2)),
+               'positionY2': str (round (end_x, 2)),
             })
 
 
@@ -166,7 +173,7 @@ class Drill:
 
             root ['holes'].append ({
                'box_side': box_side,
-               'diameter': round (2.0 * gr_shape.radius + 0.2, 2),
-               'positionX': round (position_x, 2),
-               'positionY': round (position_y, 2),
+               'diameter': str (round (2.0 * gr_shape.radius + 0.2, 2)),
+               'positionX': str (round (position_x, 2)),
+               'positionY': str (round (position_y, 2)),
             })
