@@ -136,8 +136,8 @@ class Analyser:
       module.add (module.board.format)
 
       if module.board.format.is_1590bb2_portrait:
-         module.board.add (ast.Width (ast.DistanceLiteral (adapter.LiteralSynthesized ('94.0'), 'mm')))
-         module.board.add (ast.Height (ast.DistanceLiteral (adapter.LiteralSynthesized ('119.5'), 'mm')))
+         module.board.add (ast.Width (ast.DistanceLiteral (adapter.LiteralSynthesized ('94.0mm'), 'mm')))
+         module.board.add (ast.Height (ast.DistanceLiteral (adapter.LiteralSynthesized ('119.5mm'), 'mm')))
 
       if module.board.width == None:
          return # board doesn't support fixed width
