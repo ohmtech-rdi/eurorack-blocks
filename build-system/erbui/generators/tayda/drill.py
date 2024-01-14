@@ -83,54 +83,85 @@ class Drill:
 
       box_side = 'A'
 
+      clearance = 0.1
+
       for gr_shape in part.pcb.gr_shapes:
          if isinstance (gr_shape, pcb.GrCircle) and gr_shape.layer == 'Eco1.User':
             position_x = gr_shape.center.x - module.width.mm / 2.0
             position_y = module.height.mm / 2.0 - gr_shape.center.y
             root ['holes'].append ({
                'box_side': box_side,
-               'diameter': str (round (2.0 * gr_shape.radius + 0.2, 2)),
+               'diameter': str (round (2.0 * gr_shape.radius + 2.0 * clearance, 2)),
                'positionX': str (round (position_x, 2)),
                'positionY': str (round (position_y, 2)),
             })
 
          elif isinstance (gr_shape, pcb.GrRect) and gr_shape.layer == 'Eco1.User':
-            # drill bit 3mm
-            start_x = min (gr_shape.start.x, gr_shape.end.x) + 1.5 - module.width.mm / 2.0
-            end_x = max (gr_shape.start.x, gr_shape.end.x) - 1.5 - module.width.mm / 2.0
-            start_y = module.height.mm / 2.0 - (min (gr_shape.start.y, gr_shape.end.y) + 1.5)
-            end_y = module.height.mm / 2.0 - (max (gr_shape.start.y, gr_shape.end.y) - 1.5)
+            start_x = min (gr_shape.start.x, gr_shape.end.x) - module.width.mm / 2.0 - clearance
+            end_x = max (gr_shape.start.x, gr_shape.end.x) - module.width.mm / 2.0 + clearance
+            start_y = module.height.mm / 2.0 - min (gr_shape.start.y, gr_shape.end.y) + clearance
+            end_y = module.height.mm / 2.0 - max (gr_shape.start.y, gr_shape.end.y) - clearance
+            drill_size = 3.0
+            offset = drill_size / 2.0 + clearance
 
             root ['lines'].append ({
                'box_side': box_side,
-               'positionX1': str (round (start_x, 2)),
+               'positionX1': str (round (start_x + offset, 2)),
                'positionY1': str (round (start_y, 2)),
-               'positionX2': str (round (end_x, 2)),
+               'positionX2': str (round (end_x - offset, 2)),
                'positionY2': str (round (start_y, 2)),
             })
 
             root ['lines'].append ({
                'box_side': box_side,
                'positionX1': str (round (end_x, 2)),
-               'positionY1': str (round (start_y, 2)),
+               'positionY1': str (round (start_y - offset, 2)),
                'positionX2': str (round (end_x, 2)),
-               'positionY2': str (round (end_y, 2)),
+               'positionY2': str (round (end_y + offset, 2)),
             })
 
             root ['lines'].append ({
                'box_side': box_side,
-               'positionX1': str (round (end_x, 2)),
+               'positionX1': str (round (end_x - offset, 2)),
                'positionY1': str (round (end_y, 2)),
-               'positionX2': str (round (start_x, 2)),
+               'positionX2': str (round (start_x + offset, 2)),
                'positionY2': str (round (end_y, 2)),
             })
 
             root ['lines'].append ({
                'box_side': box_side,
                'positionX1': str (round (start_x, 2)),
-               'positionY1': str (round (end_y, 2)),
+               'positionY1': str (round (end_y + offset, 2)),
                'positionX2': str (round (start_x, 2)),
-               'positionY2': str (round (start_y, 2)),
+               'positionY2': str (round (start_y - offset, 2)),
+            })
+
+            root ['holes'].append ({
+               'box_side': box_side,
+               'diameter': str (drill_size + 2.0 * clearance),
+               'positionX': str (round (start_x + offset, 2)),
+               'positionY': str (round (start_y - offset, 2)),
+            })
+
+            root ['holes'].append ({
+               'box_side': box_side,
+               'diameter': str (drill_size + 2.0 * clearance),
+               'positionX': str (round (end_x - offset, 2)),
+               'positionY': str (round (start_y - offset, 2)),
+            })
+
+            root ['holes'].append ({
+               'box_side': box_side,
+               'diameter': str (drill_size + 2.0 * clearance),
+               'positionX': str (round (end_x - offset, 2)),
+               'positionY': str (round (end_y + offset, 2)),
+            })
+
+            root ['holes'].append ({
+               'box_side': box_side,
+               'diameter': str (drill_size + 2.0 * clearance),
+               'positionX': str (round (start_x + offset, 2)),
+               'positionY': str (round (end_y + offset, 2)),
             })
 
 
@@ -153,6 +184,8 @@ class Drill:
       if module.format.is_1590bb2_portrait:
          box_height = 33.75
 
+      clearance = 0.1
+
       for gr_shape in part.pcb_side.gr_shapes:
          if isinstance (gr_shape, pcb.GrCircle) and gr_shape.layer == 'Eco1.User':
             if part.side == 'left':
@@ -173,7 +206,7 @@ class Drill:
 
             root ['holes'].append ({
                'box_side': box_side,
-               'diameter': str (round (2.0 * gr_shape.radius + 0.2, 2)),
+               'diameter': str (round (2.0 * gr_shape.radius + 2.0 * clearance, 2)),
                'positionX': str (round (position_x, 2)),
                'positionY': str (round (position_y, 2)),
             })
