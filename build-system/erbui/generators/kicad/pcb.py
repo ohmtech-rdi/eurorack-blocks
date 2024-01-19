@@ -94,10 +94,12 @@ class Root:
       for footprint_node in node.filter_kind ('footprint'):
          root.footprints.append (Footprint.parse (footprint_node))
 
-      for gr_shape_node in node.filter_kinds (['gr_circle', 'gr_rect', 'gr_poly', 'gr_line', 'gr_text']):
+      for gr_shape_node in node.filter_kinds (['gr_circle', 'gr_arc', 'gr_rect', 'gr_poly', 'gr_line', 'gr_text']):
          gr_shape_kind = gr_shape_node.entities [0].value
          if gr_shape_kind == 'gr_circle':
             root.gr_shapes.append (GrCircle.parse (gr_shape_node))
+         elif gr_shape_kind == 'gr_arc':
+            root.gr_shapes.append (GrArc.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_rect':
             root.gr_shapes.append (GrRect.parse (gr_shape_node))
          elif gr_shape_kind == 'gr_poly':
@@ -258,7 +260,7 @@ class At:
    def __init__ (self):
       self.x = None        # float
       self.y = None        # float
-      self.rotation = None # float, degree
+      self.rotation = None # float, degree or 'unlocked' symbol
 
    @staticmethod
    def parse (node):
@@ -277,7 +279,10 @@ class At:
       at_node.add (s_expression.FloatLiteral (self.x))
       at_node.add (s_expression.FloatLiteral (self.y))
       if self.rotation:
-         at_node.add (s_expression.FloatLiteral (self.rotation))
+         if self.rotation == 'unlocked':
+            at_node.add (s_expression.Symbol ('unlocked'))
+         else:
+            at_node.add (s_expression.FloatLiteral (self.rotation))
 
       return at_node
 
@@ -729,10 +734,12 @@ class Footprint:
       footprint.path = node.property ('path')
       footprint.attr = Footprint.Attr.parse (node.first_kind ('attr'))
 
-      for fp_shape_node in node.filter_kinds (['fp_text', 'fp_line', 'fp_arc', 'fp_circle', 'fp_poly']):
+      for fp_shape_node in node.filter_kinds (['fp_text', 'fp_rect', 'fp_line', 'fp_arc', 'fp_circle', 'fp_poly']):
          fp_shape_kind = fp_shape_node.entities [0].value
          if fp_shape_kind == 'fp_text':
             footprint.fp_shapes.append (Footprint.FpText.parse (fp_shape_node))
+         elif fp_shape_kind == 'fp_rect':
+            footprint.fp_shapes.append (Footprint.FpRect.parse (fp_shape_node))
          elif fp_shape_kind == 'fp_line':
             footprint.fp_shapes.append (Footprint.FpLine.parse (fp_shape_node))
          elif fp_shape_kind == 'fp_arc':
@@ -972,6 +979,49 @@ class Footprint:
             min (self.start.y, self.mid.y, self.end.y),
             max (self.start.x, self.mid.x, self.end.x),
             max (self.start.y, self.mid.y, self.end.y)
+         )
+
+
+   class FpRect:
+      def __init__ (self):
+         self.start = Xy ()
+         self.end = Xy ()
+         self.layer = None  # str, eg. "F.SilkS"
+         self.width = None  # float
+         self.fill = None   # symbol, eg. none
+         self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+      @staticmethod
+      def parse (node):
+         if not node: return None
+
+         fp_rect = Footprint.FpRect ()
+         fp_rect.start = Xy.parse (node.first_kind ('start'))
+         fp_rect.end = Xy.parse (node.first_kind ('end'))
+         fp_rect.layer = node.property ('layer')
+         fp_rect.width = node.property ('width')
+         fp_rect.fill = node.property ('fill')
+         fp_rect.tstamp = node.property ('tstamp')
+
+         return fp_rect
+
+      def generate (self):
+         fp_rect_node = s_expression.List.generate ('fp_rect')
+         fp_rect_node.add (self.start.generate_with_alternate_name ('start'))
+         fp_rect_node.add (self.end.generate_with_alternate_name ('end'))
+         fp_rect_node.add (s_expression.List.generate_property ('layer', self.layer))
+         fp_rect_node.add (s_expression.List.generate_property ('width', self.width))
+         fp_rect_node.add (s_expression.List.generate_property_symbol ('fill', self.fill))
+         fp_rect_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+         return fp_rect_node
+
+      def get_bounds (self, layer):
+         if self.layer != layer:
+            return Bounds (None, None, None, None)
+
+         return Bounds (
+            self.start.x, self.start.y,
+            self.end.x, self.end.y
          )
 
 
@@ -1302,6 +1352,61 @@ class GrCircle:
       return Bounds (
          self.center.x - r, self.center.y - r,
          self.center.x + r, self.center.y + r
+      )
+
+
+class GrArc:
+   def __init__ (self):
+      self.start = Xy ()
+      self.mid = Xy ()
+      self.end = Xy ()
+      self.layer = None  # str, eg. "F.SilkS"
+      self.width = None  # float
+      self.tstamp = None # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
+
+   @staticmethod
+   def parse (node):
+      if not node: return None
+
+      gr_arc = GrArc ()
+      gr_arc.start = Xy.parse (node.first_kind ('start'))
+      gr_arc.mid = Xy.parse (node.first_kind ('mid'))
+      gr_arc.end = Xy.parse (node.first_kind ('end'))
+      gr_arc.layer = node.property ('layer')
+      gr_arc.width = node.property ('width')
+      gr_arc.tstamp = node.property ('tstamp')
+
+      return gr_arc
+
+   def generate (self):
+      gr_arc_node = s_expression.List.generate ('gr_arc')
+      gr_arc_node.add (self.start.generate_with_alternate_name ('start'))
+      gr_arc_node.add (self.mid.generate_with_alternate_name ('mid'))
+      gr_arc_node.add (self.end.generate_with_alternate_name ('end'))
+      gr_arc_node.add (s_expression.List.generate_property ('layer', self.layer))
+      gr_arc_node.add (s_expression.List.generate_property ('width', self.width))
+      gr_arc_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
+      return gr_arc_node
+
+   def rotate (self, rotation):
+      self.start.rotate (rotation)
+      self.mid.rotate (rotation)
+      self.end.rotate (rotation)
+
+   def translate (self, x, y):
+      self.start.translate (x, y)
+      self.mid.translate (x, y)
+      self.end.translate (x, y)
+
+   def get_bounds (self, layer):
+      if self.layer != layer:
+         return Bounds (None, None, None, None)
+
+      return Bounds (
+         min (min (self.start.x, self.mid.x), self.end.x),
+         min (min (self.start.y, self.mid.y), self.end.y),
+         max (max (self.start.x, self.mid.x), self.end.x),
+         max (max (self.start.y, self.mid.y), self.end.y)
       )
 
 
