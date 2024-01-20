@@ -52,12 +52,46 @@ class Panel:
       path_svg_pp = os.path.join (path, 'panel_vcvrack-preprocess.svg')
       path_svg = os.path.join (path, 'panel_vcvrack.svg')
 
-      surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
+      if module.format.is_3u:
+         surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
+      elif module.format.is_1590bb2_portrait:
+         surface = cairocffi.SVGSurface (path_svg_pp, 21 * 5.08 * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+
       surface.set_document_unit (cairocffi.SVG_UNIT_PT)
       context = cairocffi.Context (surface)
 
-      panel = detailPanel ()
-      panel.generate_module (context, module, render_mode='simulator')
+      offset_x = 0
+      offset_y = 0
+
+      if module.format.is_1590bb2_portrait:
+         offset_x = 6.34 * MM_TO_PT
+         offset_y = 9.0 * MM_TO_PT
+
+      with context:
+         context.translate (offset_x, offset_y)
+         panel = detailPanel ()
+         panel.generate_module (context, module, render_mode='simulator')
+
+      if module.format.is_1590bb2_portrait:
+         context.rectangle (0, 0, 21 * 5.08 * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+
+         left = 6.34 * MM_TO_PT
+         right = (21 * 5.08 - 6.34) * MM_TO_PT
+         top = 9.0 * MM_TO_PT
+         bottom = 128.5 * MM_TO_PT
+         radius = 5.0 * MM_TO_PT
+         degrees = math.pi / 180.0
+
+         context.new_sub_path ()
+         context.arc (right - radius, top + radius, radius, -90 * degrees, 0 * degrees)
+         context.arc (right - radius, bottom - radius, radius, 0 * degrees, 90 * degrees)
+         context.arc (left + radius, bottom - radius, radius, 90 * degrees, 180 * degrees)
+         context.arc (left + radius, top + radius, radius, 180 * degrees, 270 * degrees)
+         context.close_path ()
+
+         gray = 0.25
+         context.set_source_rgb (gray, gray, gray)
+         context.fill ()
 
       surface.finish ()
 
