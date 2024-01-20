@@ -260,7 +260,7 @@ class At:
    def __init__ (self):
       self.x = None        # float
       self.y = None        # float
-      self.rotation = None # float, degree
+      self.rotation = None # float, degree or 'unlocked' symbol
 
    @staticmethod
    def parse (node):
@@ -279,7 +279,10 @@ class At:
       at_node.add (s_expression.FloatLiteral (self.x))
       at_node.add (s_expression.FloatLiteral (self.y))
       if self.rotation:
-         at_node.add (s_expression.FloatLiteral (self.rotation))
+         if self.rotation == 'unlocked':
+            at_node.add (s_expression.Symbol ('unlocked'))
+         else:
+            at_node.add (s_expression.FloatLiteral (self.rotation))
 
       return at_node
 
