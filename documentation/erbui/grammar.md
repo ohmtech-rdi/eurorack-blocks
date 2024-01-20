@@ -129,7 +129,7 @@ A `board` definition can be be made inline as well, and is typically used for cu
 > _board-entity_ → board-pins-declaration \
 > _format-declaration_ → **`format`** format-name \
 > _format-name_ → **`3u`** \
-> _format-name_ → **`1590bb2`** \
+> _format-name_ → **`1590bb2_portrait`** \
 > _board-class-declaration_ → **`class`** [string-literal](./lexical.html#string-literals) \
 > _board-include-declaration_ → **`include`** [string-literal](./lexical.html#string-literals) \
 > _board-pcb-declaration_ → **`pcb`** [string-literal](./lexical.html#string-literals) board-pcb-body<sub>_opt_</sub> \

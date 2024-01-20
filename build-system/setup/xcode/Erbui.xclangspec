@@ -18,7 +18,7 @@
                 "position", "rotation", "offset", "style", "layer",
                 "route", "wire", "manual",
                 "faust", "init", "address", "property", "value",
-                "class", "include", "pcb", "format", "net", "bind", "type", "gpio", "pwm", "dac",
+                "class", "include", "pcb", "side", "format", "net", "bind", "type", "gpio", "pwm", "dac",
                 "manufacturer", "generator", "arg", "parts",
             );
             Type = "xcode.syntax.keyword";
@@ -39,7 +39,7 @@
                 "aluminum", "brushed_aluminum", "aluminum_coated", "natural", "white", "black",
                 "face", "center", "left", "top", "right", "bottom",
                 "normalized", "bipolar",
-                "3u", "1590bb2",
+                "3u", "1590bb2_portrait",
                 "silkscreen", "translucence",
             );
             Type = "xcode.syntax.identifier.type.system";
