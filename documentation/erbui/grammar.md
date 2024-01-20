@@ -121,14 +121,28 @@ A `board` definition can be be made inline as well, and is typically used for cu
 
 > _board-declaration_ → **`board`** [identifier](./lexical.html#identifiers) \
 > _board-declaration_ → **`board`** **`{`** board-entity<sub>_0+_</sub> **`}`** \
+> _board-entity_ → format-declaration \
 > _board-entity_ → board-class-declaration \
 > _board-entity_ → board-include-declaration \
 > _board-entity_ → board-pcb-declaration \
+> _board-entity_ → board-sch-declaration \
 > _board-entity_ → board-pin-declaration \
 > _board-entity_ → board-pins-declaration \
+> _format-declaration_ → **`format`** format-name \
+> _format-name_ → **`3u`** \
+> _format-name_ → **`1590bb2_portrait`** \
 > _board-class-declaration_ → **`class`** [string-literal](./lexical.html#string-literals) \
 > _board-include-declaration_ → **`include`** [string-literal](./lexical.html#string-literals) \
-> _board-pcb-declaration_ → **`pcb`** [string-literal](./lexical.html#string-literals) \
+> _board-pcb-declaration_ → **`pcb`** [string-literal](./lexical.html#string-literals) board-pcb-body<sub>_opt_</sub> \
+> _board-pcb-body_ → **`{`** board-pcb-entity<sub>_0+_</sub> **`}`** \
+> _board-pcb-entity_ →  board-pcb-side-declaration \
+> _board-pcb-side-declaration_ → **`side`** board-pcb-side-name \
+> _board-pcb-side-name_ → **`face`** \
+> _board-pcb-side-name_ → **`left`** \
+> _board-pcb-side-name_ → **`top`** \
+> _board-pcb-side-name_ → **`right`** \
+> _board-pcb-side-name_ → **`bottom`** \
+> _board-sch-declaration_ → **`sch`** [string-literal](./lexical.html#string-literals) \
 > _board-pin-declaration_ → **`pin`** [identifier](./lexical.html#identifiers) board-pin-clause \
 > _board-pins-declaration_ → **`pins`** [identifier](./lexical.html#identifiers) board-pin-range board-pin-clause \
 > _board-pin-range_ → **`..`** [integer-literal](./lexical.html#integer-literals) \
