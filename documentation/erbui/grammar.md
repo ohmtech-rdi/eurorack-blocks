@@ -125,6 +125,7 @@ A `board` definition can be be made inline as well, and is typically used for cu
 > _board-entity_ → board-class-declaration \
 > _board-entity_ → board-include-declaration \
 > _board-entity_ → board-pcb-declaration \
+> _board-entity_ → board-sch-declaration \
 > _board-entity_ → board-pin-declaration \
 > _board-entity_ → board-pins-declaration \
 > _format-declaration_ → **`format`** format-name \
@@ -141,6 +142,7 @@ A `board` definition can be be made inline as well, and is typically used for cu
 > _board-pcb-side-name_ → **`top`** \
 > _board-pcb-side-name_ → **`right`** \
 > _board-pcb-side-name_ → **`bottom`** \
+> _board-sch-declaration_ → **`sch`** [string-literal](./lexical.html#string-literals) \
 > _board-pin-declaration_ → **`pin`** [identifier](./lexical.html#identifiers) board-pin-clause \
 > _board-pins-declaration_ → **`pins`** [identifier](./lexical.html#identifiers) board-pin-range board-pin-clause \
 > _board-pin-range_ → **`..`** [integer-literal](./lexical.html#integer-literals) \

@@ -18,7 +18,7 @@
                 "position", "rotation", "offset", "style", "layer",
                 "route", "wire", "manual",
                 "faust", "init", "address", "property", "value",
-                "class", "include", "pcb", "side", "format", "net", "bind", "type", "gpio", "pwm", "dac",
+                "class", "include", "pcb", "side", "sch", "format", "net", "bind", "type", "gpio", "pwm", "dac",
                 "manufacturer", "generator", "arg", "parts",
             );
             Type = "xcode.syntax.keyword";
