@@ -53,7 +53,7 @@ class Analyser:
 
       self.exclude_pins (module)
 
-      self.set_auto_board_width (module)
+      self.set_auto_board_width_height (module)
 
       for control in module.controls:
          self.update_pools (module, control)
@@ -128,7 +128,22 @@ class Analyser:
 
    #--------------------------------------------------------------------------
 
-   def set_auto_board_width (self, module):
+   def set_auto_board_width_height (self, module):
+      entities = [e for e in module.board.entities if e.is_format]
+      if len (entities) == 0:
+         module.board.add (ast.Format (adapter.BuiltIn ('3u')))
+
+      module.add (module.board.format)
+
+      if module.board.format.is_3u:
+         module.board.add (ast.Height (ast.DistanceLiteral (adapter.LiteralSynthesized ('128.5mm'), 'mm')))
+      elif module.board.format.is_1590bb2_portrait:
+         module.board.add (ast.Width (ast.DistanceLiteral (adapter.LiteralSynthesized ('94.0mm'), 'mm')))
+         module.board.add (ast.Height (ast.DistanceLiteral (adapter.LiteralSynthesized ('119.5mm'), 'mm')))
+
+      if module.board.height != None:
+         module.add (module.board.height)
+
       if module.board.width == None:
          return # board doesn't support fixed width
 
