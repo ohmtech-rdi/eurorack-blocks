@@ -25,6 +25,7 @@ from .generators.front_pcb.bom import Bom as front_pcbBom
 from .generators.front_pcb.centroid import Centroid as front_pcbCentroid
 from .generators.max.code import Code as maxCode
 from .generators.faust.code import Code as faustCode
+from .generators.tayda.drill import Drill as taydaDrill
 
 PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
@@ -194,6 +195,7 @@ def generate_hardware (path, ast):
    generate_front_pcb_kicad_pcb (path_hardware, ast)
    generate_front_pcb_bom (path_hardware, ast)
    generate_front_pcb_centroid (path_hardware, ast)
+   generate_tayda_drill (path_hardware, ast)
 
 
 
@@ -282,3 +284,15 @@ def generate_front_pcb_gerber (path, ast):
 
    generator = kicad_pcbKicadPcb ()
    generator.generate_gerber (path_hardware, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_tayda_drill
+==============================================================================
+"""
+
+def generate_tayda_drill (path, ast):
+   generator = taydaDrill ()
+   generator.generate (path, ast)
