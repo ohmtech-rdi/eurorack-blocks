@@ -315,6 +315,47 @@ struct ThonkPj398SmHex : ThonkPj398Sm
 
 
 
+struct PedalJack : rack::app::PortWidget
+{
+   rack::widget::FramebufferWidget * fb;
+   rack::widget::TransformWidget * tw;
+   rack::widget::SvgWidget * sw;
+
+   PedalJack () {
+      fb = new rack::widget::FramebufferWidget;
+      addChild (fb);
+
+      tw = new rack::widget::TransformWidget;
+      fb->addChild (tw);
+
+      sw = new rack::widget::SvgWidget;
+      tw->addChild (sw);
+
+      setSvg (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, "res/pedal.jack.svg")
+      ));
+   }
+
+   void setSvg (std::shared_ptr <rack::Svg> svg) {
+      sw->setSvg (svg);
+      tw->box.size = sw->box.size;
+      fb->box.size = sw->box.size;
+      box.size = sw->box.size;
+
+      fb->setDirty();
+   }
+
+   void  rotate (float angle_rad) {
+      tw->identity ();
+      // Rotate SVG
+      rack::math::Vec center = sw->box.getCenter ();
+      tw->translate (center);
+      tw->rotate (angle_rad);
+      tw->translate (center.neg ());
+   }
+};
+
+
 struct Dailywell2Ms : rack::app::Switch
 {
    rack::widget::FramebufferWidget * fb;
@@ -343,7 +384,7 @@ struct Dailywell2Ms : rack::app::Switch
       tw->translate (center);
       tw->rotate (angle);
       tw->translate (center.neg ());
-}
+   }
 
    void addFrame (std::shared_ptr <rack::Svg> svg) {
       if (frames.empty ())
@@ -417,6 +458,22 @@ struct Tl1105 : rack::TL1105
 
 struct Ckd6r : rack::CKD6
 {
+   void  rotate (float /* angle_rad */) {}
+};
+
+
+
+struct PedalFootswitch : rack::app::SvgSwitch {
+   PedalFootswitch() {
+      momentary = true;
+      addFrame (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, "res/pedal.footswitch.0.svg")
+      ));
+      addFrame (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, "res/pedal.footswitch.1.svg")
+      ));
+   }
+
    void  rotate (float /* angle_rad */) {}
 };
 
