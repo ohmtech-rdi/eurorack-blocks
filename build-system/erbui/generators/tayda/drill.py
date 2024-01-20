@@ -211,7 +211,7 @@ class Drill:
 
             elif side == 'top':
                position_x = gr_shape.center.x - module.width.mm / 2.0
-               position_y = box_height / 2.0 - gr_shape.center.y
+               position_y = gr_shape.center.y - box_height / 2.0
 
             elif side == 'right':
                position_x = gr_shape.center.y - box_height / 2.0
@@ -219,7 +219,7 @@ class Drill:
 
             elif side == 'bottom':
                position_x = gr_shape.center.x - module.width.mm / 2.0
-               position_y = gr_shape.center.y - box_height / 2.0
+               position_y = box_height / 2.0 - gr_shape.center.y
 
             root ['holes'].append ({
                'box_side': box_side,
