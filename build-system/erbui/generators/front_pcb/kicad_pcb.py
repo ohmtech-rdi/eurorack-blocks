@@ -120,7 +120,10 @@ class KicadPcb:
       for footprint in kicad_pcb.footprints:
          for pad in footprint.pads:
             if pad.net:
-               pad.net.index = net_name_index_map [pad.net.name]
+               if pad.net.name in net_name_index_map:
+                  pad.net.index = net_name_index_map [pad.net.name]
+               else:
+                  print ('\033[33mwarning:\033[0m cannot reconnect %s' % pad.net.name)
 
 
    #--------------------------------------------------------------------------
