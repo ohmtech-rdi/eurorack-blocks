@@ -53,6 +53,15 @@ class Drill:
                'lines': [],
             }
 
+            if module.pcb_left:
+               self.generate_pcb_side (root, module, module.pcb_left, 'left')
+            if module.pcb_top:
+               self.generate_pcb_side (root, module, module.pcb_top, 'top')
+            if module.pcb_right:
+               self.generate_pcb_side (root, module, module.pcb_right, 'right')
+            if module.pcb_bottom:
+               self.generate_pcb_side (root, module, module.pcb_bottom, 'bottom')
+
             for control in module.controls:
                self.generate_control (root, module, control)
 
@@ -79,13 +88,25 @@ class Drill:
    #--------------------------------------------------------------------------
 
    def generate_control_part (self, root, module, control, part):
-      pcb_root = part.pcb
+      self.generate_pcb_face (root, module, part.pcb)
 
+
+   #--------------------------------------------------------------------------
+
+   def generate_control_part_side (self, root, module, control, part):
+      if not part.pcb_side: return # not needed
+
+      self.generate_pcb_side (root, module, part.pcb_side, part.side)
+
+
+   #--------------------------------------------------------------------------
+
+   def generate_pcb_face (self, root, module, pcb_root):
       box_side = 'A'
 
       clearance = 0.1
 
-      for gr_shape in part.pcb.gr_shapes:
+      for gr_shape in pcb_root.gr_shapes:
          if isinstance (gr_shape, pcb.GrCircle) and gr_shape.layer == 'Eco1.User':
             position_x = gr_shape.center.x - module.width.mm / 2.0
             position_y = module.height.mm / 2.0 - gr_shape.center.y
@@ -167,18 +188,14 @@ class Drill:
 
    #--------------------------------------------------------------------------
 
-   def generate_control_part_side (self, root, module, control, part):
-      if not part.pcb_side: return # not needed
-
-      pcb_root = part.pcb_side
-
-      if part.side == 'left':
+   def generate_pcb_side (self, root, module, pcb_root, side):
+      if side == 'left':
          box_side = 'C'
-      elif part.side == 'top':
+      elif side == 'top':
          box_side = 'B'
-      elif part.side == 'right':
+      elif side == 'right':
          box_side = 'E'
-      elif part.side == 'bottom':
+      elif side == 'bottom':
          box_side = 'D'
 
       if module.format.is_1590bb2_portrait:
@@ -186,21 +203,21 @@ class Drill:
 
       clearance = 0.1
 
-      for gr_shape in part.pcb_side.gr_shapes:
+      for gr_shape in pcb_root.gr_shapes:
          if isinstance (gr_shape, pcb.GrCircle) and gr_shape.layer == 'Eco1.User':
-            if part.side == 'left':
+            if side == 'left':
                position_x = box_height / 2.0 - gr_shape.center.y
                position_y = module.height.mm / 2.0 - gr_shape.center.x
 
-            elif part.side == 'top':
+            elif side == 'top':
                position_x = gr_shape.center.x - module.width.mm / 2.0
                position_y = box_height / 2.0 - gr_shape.center.y
 
-            elif part.side == 'right':
+            elif side == 'right':
                position_x = gr_shape.center.y - box_height / 2.0
                position_y = module.height.mm / 2.0 - gr_shape.center.x
 
-            elif part.side == 'bottom':
+            elif side == 'bottom':
                position_x = gr_shape.center.x - module.width.mm / 2.0
                position_y = gr_shape.center.y - box_height / 2.0
 

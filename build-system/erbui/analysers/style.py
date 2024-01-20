@@ -70,6 +70,18 @@ class AnalyserStyle:
       if module.board.pcb:
          module.sch_symbols = self.collect_symbols (module)
 
+      if module.board.pcb_side ('left'):
+         module.pcb_left = pcb.Root.read (os.path.abspath (module.board.pcb_side ('left').path))
+
+      if module.board.pcb_side ('top'):
+         module.pcb_top = pcb.Root.read (os.path.abspath (module.board.pcb_side ('top').path))
+
+      if module.board.pcb_side ('right'):
+         module.pcb_right = pcb.Root.read (os.path.abspath (module.board.pcb_side ('right').path))
+
+      if module.board.pcb_side ('bottom'):
+         module.pcb_bottom = pcb.Root.read (os.path.abspath (module.board.pcb_side ('bottom').path))
+
 
    #--------------------------------------------------------------------------
 

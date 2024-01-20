@@ -75,6 +75,9 @@ class Node:
    def is_board_pcb (self): return isinstance (self, BoardPcb)
 
    @property
+   def is_board_pcb_side (self): return isinstance (self, BoardPcbSide)
+
+   @property
    def is_board_sch (self): return isinstance (self, BoardSch)
 
    @property
@@ -431,6 +434,10 @@ class Module (Scope):
       self.identifier = identifier
       self.super_identifier = super_identifier
       self.pcb = None
+      self.pcb_left = None
+      self.pcb_top = None
+      self.pcb_right = None
+      self.pcb_bottom = None
       self.sch = None
       self.sch_symbols = None # board, hierarchical sheets, controls
       self.references = []
@@ -676,7 +683,15 @@ class Board (Scope):
 
    @property
    def pcb (self):
-      entities = [e for e in self.entities if e.is_board_pcb]
+      entities = [e for e in self.entities if e.is_board_pcb and e.side_name == 'face']
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   def pcb_side (self, name):
+      entities = [e for e in self.entities if e.is_board_pcb and e.side_name == name]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -803,7 +818,7 @@ class BoardInclude (Node):
 
 # -- BoardPcb ----------------------------------------------------------------
 
-class BoardPcb (Node):
+class BoardPcb (Scope):
    def __init__ (self, filepath, string_literal):
       assert isinstance (filepath, str)
       assert isinstance (string_literal, StringLiteral)
@@ -813,6 +828,51 @@ class BoardPcb (Node):
 
    @property
    def path (self): return self.filepath
+
+   @property
+   def side (self):
+      entities = [e for e in self.entities if e.is_board_pcb_side]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def side_name (self):
+      return self.side.name if self.side else 'face'
+
+
+# -- BoardPcbSide ------------------------------------------------------------
+
+class BoardPcbSide (Node):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (BoardPcbSide, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @property
+   def name (self): return self.keyword_name.value
+
+   @property
+   def is_face (self):
+      return self.name == 'face'
+
+   @property
+   def is_left (self):
+      return self.name == 'left'
+
+   @property
+   def is_top (self):
+      return self.name == 'top'
+
+   @property
+   def is_right (self):
+      return self.name == 'right'
+
+   @property
+   def is_bottom (self):
+      return self.name == 'bottom'
 
 
 # -- BoardSch ----------------------------------------------------------------

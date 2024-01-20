@@ -17,7 +17,7 @@ KEYWORDS = (
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'layer', 'silkscreen', 'translucence',
-   'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb',
+   'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb', 'side',
    '3u', '1590bb2_portrait',
    'route', 'wire', 'manual',
    'faust', 'address', 'init', 'value',
@@ -195,7 +195,11 @@ def board_declaration ():              return 'board', board_name
 # Module Board Inline
 def board_class_declaration ():        return 'class', string_literal
 def board_include_declaration ():      return 'include', string_literal
-def board_pcb_declaration ():          return 'pcb', string_literal
+def board_pcb_side_name ():            return ['face', 'left', 'top', 'right', 'bottom']
+def board_pcb_side_declaration ():     return 'side', board_pcb_side_name
+def board_pcb_entities ():             return ZeroOrMore ([board_pcb_side_declaration])
+def board_pcb_body ():                 return '{', board_pcb_entities, '}'
+def board_pcb_declaration ():          return 'pcb', string_literal, Optional (board_pcb_body)
 def board_sch_declaration ():          return 'sch', string_literal
 def board_pin_kind ():                 return list (CONTROL_KINDS)
 def board_pin_kinds ():                return board_pin_kind, ZeroOrMore (',', board_pin_kind)

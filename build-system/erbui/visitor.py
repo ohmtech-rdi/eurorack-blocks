@@ -200,7 +200,26 @@ class Visitor (PTNodeVisitor):
       file_path = os.path.join (dir_name, string_literal.value)
       file_path_str = str (file_path)
       board_pcb = ast.BoardPcb (file_path_str, string_literal)
+
+      if children.board_pcb_body:
+         entities = children.board_pcb_body [0]
+         board_pcb.add (entities)
+
       return board_pcb
+
+   def visit_board_pcb_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_board_pcb_entities (self, node, children):
+      return list (children)
+
+   def visit_board_pcb_side_declaration (self, node, children):
+      side_name = children.board_pcb_side_name [0]
+      side = ast.BoardPcbSide (side_name)
+      return side
+
+   def visit_board_pcb_side_name (self, node, children):
+      return self.to_keyword (node)
 
    def visit_board_sch_declaration (self, node, children):
       string_literal = children.string_literal [0]
