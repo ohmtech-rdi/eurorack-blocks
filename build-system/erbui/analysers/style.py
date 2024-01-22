@@ -70,6 +70,18 @@ class AnalyserStyle:
       if module.board.pcb:
          module.sch_symbols = self.collect_symbols (module)
 
+      if module.board.pcb_side ('left'):
+         module.pcb_left = pcb.Root.read (os.path.abspath (module.board.pcb_side ('left').path))
+
+      if module.board.pcb_side ('top'):
+         module.pcb_top = pcb.Root.read (os.path.abspath (module.board.pcb_side ('top').path))
+
+      if module.board.pcb_side ('right'):
+         module.pcb_right = pcb.Root.read (os.path.abspath (module.board.pcb_side ('right').path))
+
+      if module.board.pcb_side ('bottom'):
+         module.pcb_bottom = pcb.Root.read (os.path.abspath (module.board.pcb_side ('bottom').path))
+
 
    #--------------------------------------------------------------------------
 
@@ -227,7 +239,7 @@ class AnalyserStyle:
       component_list = cur_styles_parts ['parts']
 
       for component_name in component_list:
-         kicad_pcb, kicad_sch = self.load_kicad_pcb_sch (
+         kicad_pcb, kicad_pcb_side, kicad_sch = self.load_kicad_pcb_sch (
             module, module.manufacturer_base_path, component_name
          )
          self.rename_normalling_to (kicad_pcb, control)
@@ -237,8 +249,11 @@ class AnalyserStyle:
             self.relink_nets (kicad_pcb, module, control)
          self.rotate (kicad_pcb, control)
          self.translate (kicad_pcb, control)
+         side = None
+         if kicad_pcb_side:
+            side = self.translate_side (kicad_pcb_side, control)
 
-         control.parts.append (ast.Control.Part (kicad_pcb, kicad_sch))
+         control.parts.append (ast.Control.Part (kicad_pcb, kicad_pcb_side, side, kicad_sch))
 
 
    #--------------------------------------------------------------------------
@@ -250,6 +265,12 @@ class AnalyserStyle:
 
       kicad_sch_path = os.path.abspath (os.path.join (base_path, component_name, '%s.kicad_sch' % component_name))
       kicad_sch = sch.Root.read (kicad_sch_path)
+
+      kicad_pcb_side_path = os.path.abspath (os.path.join (base_path, component_name, '%s.side.kicad_pcb' % component_name))
+
+      kicad_pcb_side = None
+      if os.path.exists (kicad_pcb_side_path):
+         kicad_pcb_side = pcb.Root.read (kicad_pcb_side_path)
 
       ref_map = self.make_ref_map (module, kicad_pcb)
 
@@ -266,7 +287,7 @@ class AnalyserStyle:
          if symbol_instance.reference [0] != '#':   # eg. #PWRxxx
             symbol_instance.reference = ref_map [symbol_instance.reference]
 
-      return (kicad_pcb, kicad_sch)
+      return (kicad_pcb, kicad_pcb_side, kicad_sch)
 
 
    #--------------------------------------------------------------------------
@@ -409,6 +430,29 @@ class AnalyserStyle:
 
    def translate (self, kicad_pcb, control):
       kicad_pcb.translate (control.position.x.mm, control.position.y.mm)
+
+
+   #--------------------------------------------------------------------------
+   # Translate top level objects to their new side position
+   # Returns the detected side
+
+   def translate_side (self, kicad_pcb, control):
+      rotation_degree = (control.rotation.degree + 360) % 360 if control.rotation else 0
+
+      if rotation_degree == 0:
+         side = 'top'
+         kicad_pcb.translate (control.position.x.mm, 0)
+      elif rotation_degree == 90:
+         side = 'left'
+         kicad_pcb.translate (control.position.y.mm, 0)
+      elif rotation_degree == 180:
+         side = 'bottom'
+         kicad_pcb.translate (control.position.x.mm, 0)
+      elif rotation_degree == 270:
+         side = 'right'
+         kicad_pcb.translate (control.position.y.mm, 0)
+
+      return side
 
 
    #--------------------------------------------------------------------------

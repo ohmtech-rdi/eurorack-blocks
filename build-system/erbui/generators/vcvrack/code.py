@@ -37,11 +37,16 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
+      if module.format.is_1590bb2_portrait:
+         template = template.replace ('%add_screws%', 'false')
+      else:
+         template = template.replace ('%add_screws%', 'true')
+
       template = self.replace_config_controls_bind (template, module.entities);
       template = self.replace_normalling_process (template, module.normalling_eval_list);
       template = self.replace_controls_preprocess (template, module.entities);
       template = self.replace_controls_postprocess (template, module.entities);
-      template = self.replace_controls_widget (template, module.entities);
+      template = self.replace_controls_widget (template, module, module.entities);
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -139,12 +144,19 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def replace_controls_widget (self, template, entities):
+   def replace_controls_widget (self, template, module, entities):
       lines = ''
       nbr_params = 0
       nbr_inputs = 0
       nbr_outputs = 0
       nbr_lights = 0
+
+      offset_x = 0.0
+      offset_y = 0.0
+
+      if module.format.is_1590bb2_portrait:
+         offset_x = 6.34
+         offset_y = 9.0
 
       for entity in entities:
          if entity.is_control:
@@ -182,7 +194,7 @@ class Code:
             if category in ['Param', 'Input', 'Output', 'Light']:
                lines += '   {\n'
                lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
-                  category, control.simulator_class, control.position.x.mm, control.position.y.mm, index
+                  category, control.simulator_class, control.position.x.mm + offset_x, control.position.y.mm + offset_y, index
                )
                lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
                lines += '      add%s (control_ptr);\n' % func_category
@@ -192,7 +204,7 @@ class Code:
                lines += '   if (module_ptr != nullptr)\n'
                lines += '   {\n'
                lines += '      auto control_ptr = erb::createWidgetCentered <%s> (mm2px (Vec (%ff, %ff)), module_ptr->module_uptr->ui.%s);\n' % (
-                  control.simulator_class, control.position.x.mm, control.position.y.mm, control.name
+                  control.simulator_class, control.position.x.mm + offset_x, control.position.y.mm + offset_y, control.name
                )
                lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
                lines += '      addChild (control_ptr);\n'

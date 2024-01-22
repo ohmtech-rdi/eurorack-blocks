@@ -12,12 +12,13 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 KEYWORDS = (
    'import',
-   'module', 'board', 'width', 'material', 'header', 'footer', 'line',
+   'module', 'board', 'width', 'format', 'material', 'header', 'footer', 'line',
    'control', 'label', 'sticker', 'image', 'pin', 'pins', 'normalling', 'nothing', 'mode', 'normalized', 'bipolar',
    'position', 'rotation', 'offset', 'style',
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'layer', 'silkscreen', 'translucence',
-   'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb',
+   'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb', 'side',
+   '3u', '1590bb2_portrait',
    'route', 'wire', 'manual',
    'faust', 'address', 'init', 'value',
    'manufacturer', 'generator', 'arg', 'parts',
@@ -179,6 +180,10 @@ def route_declaration ():              return 'route', route_mode
 # Module Width
 def width_declaration ():              return 'width', distance_declaration
 
+# Module Format
+def format_name ():                     return ['3u', '1590bb2_portrait']
+def format_declaration ():              return 'format', format_name
+
 # Module Manufacturer Reference
 def manufacturer_name ():              return name
 def manufacturer_reference ():         return 'manufacturer', manufacturer_name
@@ -190,7 +195,11 @@ def board_declaration ():              return 'board', board_name
 # Module Board Inline
 def board_class_declaration ():        return 'class', string_literal
 def board_include_declaration ():      return 'include', string_literal
-def board_pcb_declaration ():          return 'pcb', string_literal
+def board_pcb_side_name ():            return ['face', 'left', 'top', 'right', 'bottom']
+def board_pcb_side_declaration ():     return 'side', board_pcb_side_name
+def board_pcb_entities ():             return ZeroOrMore ([board_pcb_side_declaration])
+def board_pcb_body ():                 return '{', board_pcb_entities, '}'
+def board_pcb_declaration ():          return 'pcb', string_literal, Optional (board_pcb_body)
 def board_sch_declaration ():          return 'sch', string_literal
 def board_pin_kind ():                 return list (CONTROL_KINDS)
 def board_pin_kinds ():                return board_pin_kind, ZeroOrMore (',', board_pin_kind)
@@ -203,7 +212,7 @@ def board_pin_name ():                 return name
 def board_pin_declaration ():          return 'pin', board_pin_name, board_pin_kinds, board_pin_body
 def board_pin_range ():                return '..', integer_literal
 def board_pins_declaration ():         return 'pins', board_pin_name, board_pin_range, board_pin_kinds, board_pin_body
-def board_entities ():                 return ZeroOrMore ([board_class_declaration, board_include_declaration, board_pcb_declaration, board_sch_declaration, width_declaration, board_pin_declaration, board_pins_declaration])
+def board_entities ():                 return ZeroOrMore ([board_class_declaration, board_include_declaration, board_pcb_declaration, board_sch_declaration, width_declaration, format_declaration, board_pin_declaration, board_pins_declaration])
 def board_body ():                     return '{', board_entities, '}'
 def board_inline_declaration ():       return 'board', board_body
 

@@ -75,6 +75,9 @@ class Node:
    def is_board_pcb (self): return isinstance (self, BoardPcb)
 
    @property
+   def is_board_pcb_side (self): return isinstance (self, BoardPcbSide)
+
+   @property
    def is_board_sch (self): return isinstance (self, BoardSch)
 
    @property
@@ -112,6 +115,12 @@ class Node:
 
    @property
    def is_width (self): return isinstance (self, Width)
+
+   @property
+   def is_height (self): return isinstance (self, Height)
+
+   @property
+   def is_format (self): return isinstance (self, Format)
 
    @property
    def is_material (self): return isinstance (self, Material)
@@ -425,6 +434,10 @@ class Module (Scope):
       self.identifier = identifier
       self.super_identifier = super_identifier
       self.pcb = None
+      self.pcb_left = None
+      self.pcb_top = None
+      self.pcb_right = None
+      self.pcb_bottom = None
       self.sch = None
       self.sch_symbols = None # board, hierarchical sheets, controls
       self.references = []
@@ -473,6 +486,18 @@ class Module (Scope):
    @property
    def width (self):
       entities = [e for e in self.entities if e.is_width]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def height (self):
+      entities = [e for e in self.entities if e.is_height]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
+   def format (self):
+      entities = [e for e in self.entities if e.is_format]
       assert (len (entities) == 1)
       return entities [0]
 
@@ -658,7 +683,15 @@ class Board (Scope):
 
    @property
    def pcb (self):
-      entities = [e for e in self.entities if e.is_board_pcb]
+      entities = [e for e in self.entities if e.is_board_pcb and e.side_name == 'face']
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   def pcb_side (self, name):
+      entities = [e for e in self.entities if e.is_board_pcb and e.side_name == name]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -677,6 +710,24 @@ class Board (Scope):
    @property
    def width (self):
       entities = [e for e in self.entities if e.is_width]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def height (self):
+      entities = [e for e in self.entities if e.is_height]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def format (self):
+      entities = [e for e in self.entities if e.is_format]
       assert (len (entities) <= 1)
       if entities:
          return entities [0]
@@ -767,7 +818,7 @@ class BoardInclude (Node):
 
 # -- BoardPcb ----------------------------------------------------------------
 
-class BoardPcb (Node):
+class BoardPcb (Scope):
    def __init__ (self, filepath, string_literal):
       assert isinstance (filepath, str)
       assert isinstance (string_literal, StringLiteral)
@@ -777,6 +828,51 @@ class BoardPcb (Node):
 
    @property
    def path (self): return self.filepath
+
+   @property
+   def side (self):
+      entities = [e for e in self.entities if e.is_board_pcb_side]
+      assert (len (entities) <= 1)
+      if entities:
+         return entities [0]
+      else:
+         return None
+
+   @property
+   def side_name (self):
+      return self.side.name if self.side else 'face'
+
+
+# -- BoardPcbSide ------------------------------------------------------------
+
+class BoardPcbSide (Node):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (BoardPcbSide, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @property
+   def name (self): return self.keyword_name.value
+
+   @property
+   def is_face (self):
+      return self.name == 'face'
+
+   @property
+   def is_left (self):
+      return self.name == 'left'
+
+   @property
+   def is_top (self):
+      return self.name == 'top'
+
+   @property
+   def is_right (self):
+      return self.name == 'right'
+
+   @property
+   def is_bottom (self):
+      return self.name == 'bottom'
 
 
 # -- BoardSch ----------------------------------------------------------------
@@ -1384,8 +1480,10 @@ class ControlFaustInit (Scope):
 
 class Control (Scope):
    class Part:
-      def __init__ (self, pcb, sch):
+      def __init__ (self, pcb, pcb_side, side, sch):
          self.pcb = pcb
+         self.pcb_side = pcb_side
+         self.side = side
          self.sch = sch
 
    def __init__ (self, identifier_name, keyword_kind):
@@ -1800,6 +1898,48 @@ class Width (Node):
    @property
    def pt (self):
       return self.literal.pt
+
+
+
+# -- Height ------------------------------------------------------------------
+
+class Height (Node):
+   def __init__ (self, literal):
+      assert isinstance (literal, DistanceLiteral)
+      super (Height, self).__init__ ()
+      self.literal = literal
+
+   @staticmethod
+   def typename (): return 'height'
+
+   @property
+   def mm (self):
+      return self.literal.mm
+
+   @property
+   def pt (self):
+      return self.literal.pt
+
+
+
+# -- Format ------------------------------------------------------------------
+
+class Format (Node):
+   def __init__ (self, keyword_name):
+      assert isinstance (keyword_name, adapter.Keyword)
+      super (Format, self).__init__ ()
+      self.keyword_name = keyword_name
+
+   @staticmethod
+   def typename (): return 'format'
+
+   @property
+   def is_3u (self):
+      return self.keyword_name.value == '3u'
+
+   @property
+   def is_1590bb2_portrait (self):
+      return self.keyword_name.value == '1590bb2_portrait'
 
 
 

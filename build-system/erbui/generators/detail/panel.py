@@ -50,7 +50,7 @@ PT_TO_MM = 1.0 / MM_TO_PT
 class Panel:
    def __init__ (self):
       self.width = None
-      self.height = 128.5
+      self.height = None
 
       self.header_center_y = 5.0#mm
       self.footer_center_y = -5.0#mm
@@ -70,6 +70,7 @@ class Panel:
       context.set_fill_rule (cairocffi.FILL_RULE_EVEN_ODD)
 
       self.width = module.width.mm
+      self.height = module.height.mm
       self.footer_center_y += self.height
 
       self.current_font_height = 14.0#pt

@@ -40,6 +40,7 @@ class Dxf:
 
    def generate_module (self, path, module):
       if module.material.is_pcb: return # not needed
+      if not module.format.is_3u: return # not needed
 
       for generator in module.manufacturer_data ['generators']:
          if generator ['id'] == 'front_panel/dxf':
