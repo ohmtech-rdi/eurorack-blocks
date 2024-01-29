@@ -287,11 +287,11 @@ void  BoardGeneric::BindingCvOut::process ()
 
 /*
 ==============================================================================
-Name : BindingEncoder::process
+Name : BindingEncoderLeadingA::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingEncoder::process ()
+void  BoardGeneric::BindingEncoderLeadingA::process ()
 {
    // Assume 24 notches per rotation
    int phase = int (std::floor (param_ptr->getValue () * 24.f * 4.f)) % 4;
@@ -304,17 +304,53 @@ void  BoardGeneric::BindingEncoder::process ()
 
 /*
 ==============================================================================
-Name : BindingEncoderButton::process
+Name : BindingEncoderLeadingB::process
 ==============================================================================
 */
 
-void  BoardGeneric::BindingEncoderButton::process ()
+void  BoardGeneric::BindingEncoderLeadingB::process ()
+{
+   // Assume 24 notches per rotation
+   int phase = int (std::floor (param_ptr->getValue () * 24.f * 4.f)) % 4;
+
+   *data_a_ptr = (phase == 1) || (phase == 2);
+   *data_b_ptr = (phase == 0) || (phase == 1);
+}
+
+
+
+/*
+==============================================================================
+Name : BindingEncoderButtonLeadingA::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingEncoderButtonLeadingA::process ()
 {
    // Assume 24 notches per rotation
    int phase = int (std::floor (param_ab_ptr->getValue () * 24.f * 4.f)) % 4;
 
    *data_a_ptr = (phase == 0) || (phase == 1);
    *data_b_ptr = (phase == 1) || (phase == 2);
+
+   *data_sw_ptr = param_sw_ptr->getValue () != 0.f;
+}
+
+
+
+/*
+==============================================================================
+Name : BindingEncoderButtonLeadingB::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingEncoderButtonLeadingB::process ()
+{
+   // Assume 24 notches per rotation
+   int phase = int (std::floor (param_ab_ptr->getValue () * 24.f * 4.f)) % 4;
+
+   *data_a_ptr = (phase == 1) || (phase == 2);
+   *data_b_ptr = (phase == 0) || (phase == 1);
 
    *data_sw_ptr = param_sw_ptr->getValue () != 0.f;
 }

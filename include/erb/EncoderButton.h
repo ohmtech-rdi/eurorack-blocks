@@ -25,6 +25,7 @@ namespace erb
 
 
 
+template <EncoderLeadingType LeadingType>
 class EncoderButton
 {
 
@@ -37,7 +38,8 @@ public:
                   EncoderButton (const uint8_t & data_a, const uint8_t & data_b, const uint8_t & data_sw);
    virtual        ~EncoderButton () = default;
 
-   Encoder        encoder;
+   Encoder <LeadingType>
+                  encoder;
    Button         button;
 
 
@@ -66,8 +68,8 @@ private:
 private:
                   EncoderButton (const EncoderButton & rhs) = delete;
                   EncoderButton (EncoderButton && rhs) = delete;
-   EncoderButton &      operator = (const EncoderButton & rhs) = delete;
-   EncoderButton &      operator = (EncoderButton && rhs) = delete;
+   EncoderButton &operator = (const EncoderButton & rhs) = delete;
+   EncoderButton &operator = (EncoderButton && rhs) = delete;
    bool           operator == (const EncoderButton & rhs) const = delete;
    bool           operator != (const EncoderButton & rhs) const = delete;
 
@@ -78,6 +80,10 @@ private:
 
 
 }  // namespace erb
+
+
+
+#include "erb/EncoderButton.hpp"
 
 
 

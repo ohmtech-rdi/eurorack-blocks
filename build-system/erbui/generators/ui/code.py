@@ -97,6 +97,10 @@ class Code:
 
          control_type = '%s <%s>' % (base_control, range)
 
+      elif control.kind in ['Encoder', 'EncoderButton']:
+         leading_type = control.args ['leading_type']
+         control_type = '%s <%s>' % (control.kind, leading_type)
+
       elif control.kind in ['GateIn', 'AudioIn']:
          if control.normalling_from is not None and control.normalling_from.is_nothing:
             control_type = '%sJackDetection' % control.kind
