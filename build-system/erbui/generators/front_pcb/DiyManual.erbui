@@ -68,6 +68,8 @@ manufacturer DiyManual {
       style eastrising, 128x64
       parts er.display.spi.128x64.manual
       class "erb::OledModule <erb::Panel_ER_OLEDM015_2>"
+      arg display_width "128"
+      arg display_height "64"
    }
 
    control Encoder {

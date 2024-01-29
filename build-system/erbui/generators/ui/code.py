@@ -122,7 +122,7 @@ class Code:
          control_type = '%s <%s>' % (control.kind, nbr_positions)
 
       elif control.kind in ['Display']:
-         display_size = self.get_display_size (control)
+         display_size = (control.args ['display_width'], control.args ['display_height'])
          control_type = '%s <%s>' % (
             control.kind,
             'erb::FormatSsd130x <%s, %s>' % display_size
@@ -145,19 +145,6 @@ class Code:
       source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 
       return source_code
-
-
-   #--------------------------------------------------------------------------
-
-   def get_display_size (self, control):
-      for part in control.parts:
-         for symbol in part.sch.symbols:
-            display_width_field = symbol.property ('DisplayWidth')
-            display_height_field = symbol.property ('DisplayHeight')
-            if display_width_field is not None:
-               return (display_width_field, display_height_field)
-
-      assert False
 
 
    #--------------------------------------------------------------------------
