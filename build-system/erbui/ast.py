@@ -2280,6 +2280,11 @@ class ManufacturerControl (Scope):
       assert len (entities) == 1
       return entities [0].name
 
+   @property
+   def args_as_dict (self):
+      dict = {e.name: e.value for e in self.entities if e.is_arg}
+      return dict
+
 
 # -- ManufacturerControlParts ------------------------------------------------
 
