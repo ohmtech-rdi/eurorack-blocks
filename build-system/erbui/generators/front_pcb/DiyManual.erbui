@@ -68,6 +68,8 @@ manufacturer DiyManual {
       style eastrising, 128x64
       parts er.display.spi.128x64.manual
       class "erb::OledModule <erb::Panel_ER_OLEDM015_2>"
+      arg display_width "128"
+      arg display_height "64"
    }
 
    control Encoder {
@@ -218,12 +220,14 @@ manufacturer DiyManual {
       style dailywell.2ms1, on_on
       parts dailywell.2ms1.manual
       class "erb::Dailywell2Ms1"
+      arg nbr_positions "2"
    }
 
    control Switch {
       style dailywell.2ms3, on_off_on
       parts dailywell.2ms3.manual
       class "erb::Dailywell2Ms3"
+      arg nbr_positions "3"
    }
 
    control Trim {

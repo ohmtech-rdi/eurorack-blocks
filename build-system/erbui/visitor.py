@@ -814,28 +814,28 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
-   #-- Generator Arg ---------------------------------------------------------
+   #-- Arg -------------------------------------------------------------------
 
-   def visit_generator_arg_declaration (self, node, children):
+   def visit_arg_declaration (self, node, children):
       return children [0] if children else []
 
-   def visit_generator_arg_name (self, node, children):
+   def visit_arg_name (self, node, children):
       return self.visit_identifier (node, children)
 
-   def visit_generator_arg_string (self, node, children):
-      generator_arg_identifier = children.generator_arg_name [0]
+   def visit_arg_string (self, node, children):
+      arg_identifier = children.arg_name [0]
       value_string_literal = children.string_literal [0]
-      return ast.GeneratorArgString (generator_arg_identifier, value_string_literal)
+      return ast.ArgString (arg_identifier, value_string_literal)
 
-   def visit_generator_arg_dict (self, node, children):
-      generator_arg_identifier = children.generator_arg_name [0]
-      generator_arg = ast.GeneratorArgDict (generator_arg_identifier)
-      if children.generator_arg_dict_entities:
-         entities = children.generator_arg_dict_entities [0]
-         generator_arg.add (entities)
-      return generator_arg
+   def visit_arg_dict (self, node, children):
+      arg_identifier = children.arg_name [0]
+      arg = ast.ArgDict (arg_identifier)
+      if children.arg_dict_entities:
+         entities = children.arg_dict_entities [0]
+         arg.add (entities)
+      return arg
 
-   def visit_generator_arg_dict_entities (self, node, children):
+   def visit_arg_dict_entities (self, node, children):
       return list (children)
 
 

@@ -222,16 +222,13 @@ class Node:
    def is_generator (self): return isinstance (self, Generator)
 
    @property
-   def is_generator_arg_string (self): return isinstance (self, GeneratorArgString)
+   def is_arg_string (self): return isinstance (self, ArgString)
 
    @property
-   def is_generator_arg_dict (self): return isinstance (self, GeneratorArgDict)
+   def is_arg_dict (self): return isinstance (self, ArgDict)
 
    @property
-   def is_generator_arg_dict_item (self): return isinstance (self, GeneratorArgDictItem)
-
-   @property
-   def is_generator_arg (self): return self.is_generator_arg_string or self.is_generator_arg_dict
+   def is_arg (self): return self.is_arg_string or self.is_arg_dict
 
    @property
    def is_manufacturer_control (self): return isinstance (self, ManufacturerControl)
@@ -1494,6 +1491,7 @@ class Control (Scope):
       self.keyword_kind = keyword_kind
       self.parts = []
       self.simulator_class = None
+      self.args = {}
 
    @staticmethod
    def typename (): return 'control'
@@ -2213,17 +2211,17 @@ class Generator (Scope):
 
    @property
    def args (self):
-      entities = [e for e in self.entities if e.is_generator_arg]
+      entities = [e for e in self.entities if e.is_arg]
       return entities
 
 
-# -- GeneratorArgString ------------------------------------------------------
+# -- ArgString ---------------------------------------------------------------
 
-class GeneratorArgString (Scope):
+class ArgString (Scope):
    def __init__ (self, identifier, value_string_literal):
       assert isinstance (identifier, adapter.Identifier)
       assert isinstance (value_string_literal, StringLiteral)
-      super (GeneratorArgString, self).__init__ ()
+      super (ArgString, self).__init__ ()
       self.identifier = identifier
       self.value_string_literal = value_string_literal
 
@@ -2235,12 +2233,12 @@ class GeneratorArgString (Scope):
       return self.value_string_literal.value.replace ('\\n', '\n').replace ('\\t', '\t').replace ('\\"', '"')
 
 
-# -- GeneratorArgDict --------------------------------------------------------
+# -- ArgDict -----------------------------------------------------------------
 
-class GeneratorArgDict (Scope):
+class ArgDict (Scope):
    def __init__ (self, identifier):
       assert isinstance (identifier, adapter.Identifier)
-      super (GeneratorArgDict, self).__init__ ()
+      super (ArgDict, self).__init__ ()
       self.identifier = identifier
 
    @property
@@ -2248,7 +2246,7 @@ class GeneratorArgDict (Scope):
 
    @property
    def items (self):
-      entities = [e for e in self.entities if e.is_generator_arg]
+      entities = [e for e in self.entities if e.is_arg]
       return entities
 
 
@@ -2282,6 +2280,11 @@ class ManufacturerControl (Scope):
       entities = [e for e in self.entities if e.is_manufacturer_control_class]
       assert len (entities) == 1
       return entities [0].name
+
+   @property
+   def args_as_dict (self):
+      dict = {e.name: e.value for e in self.entities if e.is_arg}
+      return dict
 
 
 # -- ManufacturerControlParts ------------------------------------------------
