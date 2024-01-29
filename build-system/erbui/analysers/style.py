@@ -145,9 +145,9 @@ class AnalyserStyle:
       for generator in manufacturer.generators:
 
          def visit (item):
-            if isinstance (item, ast.GeneratorArgString):
+            if isinstance (item, ast.ArgString):
                return { item.name: item.value }
-            elif isinstance (item, ast.GeneratorArgDict):
+            elif isinstance (item, ast.ArgDict):
                sub_args = {}
                for sub_item in item.items:
                   sub_args.update (visit (sub_item))
@@ -156,9 +156,9 @@ class AnalyserStyle:
          gen = {'id': generator.name, 'args': {}}
 
          for arg in generator.args:
-            if isinstance (arg, ast.GeneratorArgString):
+            if isinstance (arg, ast.ArgString):
                gen ['args'].update (visit (arg))
-            elif isinstance (arg, ast.GeneratorArgDict):
+            elif isinstance (arg, ast.ArgDict):
                gen ['args'].update (visit (arg))
 
          manufacturer_data ['generators'].append (gen)

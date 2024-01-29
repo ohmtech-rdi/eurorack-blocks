@@ -232,15 +232,15 @@ def global_namespace_declaration ():   return Optional (import_declaration), mod
 
 GRAMMAR_ROOT = global_namespace_declaration
 
-# Generator Arg
-def generator_arg_name ():             return name
-def generator_arg_string ():           return 'arg', generator_arg_name, string_literal
-def generator_arg_dict_entities ():    return ZeroOrMore ([generator_arg_string, generator_arg_dict])
-def generator_arg_dict ():             return 'arg', generator_arg_name, '{', generator_arg_dict_entities, '}'
-def generator_arg_declaration ():      return [generator_arg_string, generator_arg_dict]
+# Arg
+def arg_name ():                       return name
+def arg_string ():                     return 'arg', arg_name, string_literal
+def arg_dict_entities ():              return ZeroOrMore ([arg_string, arg_dict])
+def arg_dict ():                       return 'arg', arg_name, '{', arg_dict_entities, '}'
+def arg_declaration ():                return [arg_string, arg_dict]
 
 # Generator
-def generator_entities ():             return ZeroOrMore ([generator_arg_declaration])
+def generator_entities ():             return ZeroOrMore ([arg_declaration])
 def generator_body ():                 return '{', generator_entities, '}'
 def generator_name ():                 return string_literal
 def generator_declaration ():          return 'generator', generator_name, Optional (generator_body)
