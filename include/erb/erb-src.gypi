@@ -40,7 +40,9 @@
       'Display.h',
       'Display.hpp',
       'Encoder.h',
+      'Encoder.hpp',
       'EncoderButton.h',
+      'EncoderButton.hpp',
       'FloatRange.h',
       'GateIn.h',
       'GateIn.hpp',
@@ -88,8 +90,6 @@
       'detail/fnc.hpp',
 
       '../../src/Button.cpp',
-      '../../src/Encoder.cpp',
-      '../../src/EncoderButton.cpp',
       '../../src/GateOut.cpp',
 
       '../../src/detail/Animation.cpp',

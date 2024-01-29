@@ -165,7 +165,7 @@ private:
       bool        bipolar;
    };
 
-   struct BindingEncoder
+   struct BindingEncoderLeadingA
    {
       void        process ();
       uint8_t *   data_a_ptr;
@@ -174,7 +174,28 @@ private:
                   param_ptr;
    };
 
-   struct BindingEncoderButton
+   struct BindingEncoderLeadingB
+   {
+      void        process ();
+      uint8_t *   data_a_ptr;
+      uint8_t *   data_b_ptr;
+      rack::engine::Param *
+                  param_ptr;
+   };
+
+   struct BindingEncoderButtonLeadingA
+   {
+      void        process ();
+      uint8_t *   data_a_ptr;
+      uint8_t *   data_b_ptr;
+      uint8_t *   data_sw_ptr;
+      rack::engine::Param *
+                  param_ab_ptr;
+      rack::engine::Param *
+                  param_sw_ptr;
+   };
+
+   struct BindingEncoderButtonLeadingB
    {
       void        process ();
       uint8_t *   data_a_ptr;
@@ -317,8 +338,10 @@ private:
       BindingButton,
       BindingCvIn,
       BindingCvInJackDetection,
-      BindingEncoder,
-      BindingEncoderButton,
+      BindingEncoderLeadingA,
+      BindingEncoderLeadingB,
+      BindingEncoderButtonLeadingA,
+      BindingEncoderButtonLeadingB,
       BindingGateIn,
       BindingGateInJackDetection,
       BindingPot,

@@ -22,6 +22,13 @@ namespace erb
 
 
 
+enum class EncoderLeadingType
+{
+   A, B
+};
+
+
+template <EncoderLeadingType LeadingType>
 class Encoder
 {
 
@@ -82,6 +89,10 @@ private:
 
 
 }  // namespace erb
+
+
+
+#include "erb/Encoder.hpp"
 
 
 

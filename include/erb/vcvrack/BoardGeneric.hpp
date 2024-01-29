@@ -254,9 +254,9 @@ Name : impl_bind
 */
 
 template <>
-inline void  BoardGeneric::impl_bind (Encoder & control, rack::engine::Param & model)
+inline void  BoardGeneric::impl_bind (Encoder <erb::EncoderLeadingType::A> & control, rack::engine::Param & model)
 {
-   _binding_inputs.push_back (BindingEncoder {
+   _binding_inputs.push_back (BindingEncoderLeadingA {
       .data_a_ptr = const_cast <uint8_t *> (&control.impl_data_a),
       .data_b_ptr = const_cast <uint8_t *> (&control.impl_data_b),
       .param_ptr = &model
@@ -272,11 +272,51 @@ Name : impl_bind
 */
 
 template <>
-inline void  BoardGeneric::impl_bind (EncoderButton & control, rack::engine::Param & model)
+inline void  BoardGeneric::impl_bind (Encoder <erb::EncoderLeadingType::B> & control, rack::engine::Param & model)
+{
+   _binding_inputs.push_back (BindingEncoderLeadingB {
+      .data_a_ptr = const_cast <uint8_t *> (&control.impl_data_a),
+      .data_b_ptr = const_cast <uint8_t *> (&control.impl_data_b),
+      .param_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (EncoderButton <erb::EncoderLeadingType::A> & control, rack::engine::Param & model)
 {
    auto * model_ptr = &model;
 
-   _binding_inputs.push_back (BindingEncoderButton {
+   _binding_inputs.push_back (BindingEncoderButtonLeadingA {
+      .data_a_ptr = const_cast <uint8_t *> (&control.encoder.impl_data_a),
+      .data_b_ptr = const_cast <uint8_t *> (&control.encoder.impl_data_b),
+      .data_sw_ptr = const_cast <uint8_t *> (&control.button.impl_data),
+      .param_ab_ptr = &model_ptr [0],
+      .param_sw_ptr = &model_ptr [1]
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (EncoderButton <erb::EncoderLeadingType::B> & control, rack::engine::Param & model)
+{
+   auto * model_ptr = &model;
+
+   _binding_inputs.push_back (BindingEncoderButtonLeadingB {
       .data_a_ptr = const_cast <uint8_t *> (&control.encoder.impl_data_a),
       .data_b_ptr = const_cast <uint8_t *> (&control.encoder.impl_data_b),
       .data_sw_ptr = const_cast <uint8_t *> (&control.button.impl_data),

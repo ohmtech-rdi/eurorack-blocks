@@ -76,48 +76,56 @@ manufacturer DiyManual {
       style rogan.1s, rogan, 1s, small, skirt, d_shaft
       parts bourns.pec11rn.manual, rogan.1s
       arg simulator_class "erb::BournsPec11R <erb::Rogan1S, false>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control Encoder {
       style rogan.1s.black, rogan, 1s, black, small, skirt, d_shaft
       parts bourns.pec11rn.manual, rogan.1s.black
       arg simulator_class "erb::BournsPec11R <erb::Rogan1SBlack, false>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control Encoder {
       style rogan.2s.black, rogan, 2s, black, medium, skirt, d_shaft
       parts bourns.pec11rn.manual, rogan.2s.black
       arg simulator_class "erb::BournsPec11R <erb::Rogan2SBlack, false>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control Encoder {
       style rogan.3s, rogan, 3s, large, skirt, d_shaft
       parts bourns.pec11rn.manual, rogan.3s
       arg simulator_class "erb::BournsPec11R <erb::Rogan3S, false>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control EncoderButton {
       style rogan.1s, rogan, 1s, small, skirt, d_shaft
       parts bourns.pec11rs.manual, rogan.1s
       arg simulator_class "erb::BournsPec11R <erb::Rogan1S, true>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control EncoderButton {
       style rogan.1s.black, rogan, 1s, black, small, skirt, d_shaft
       parts bourns.pec11rs.manual, rogan.1s.black
       arg simulator_class "erb::BournsPec11R <erb::Rogan1SBlack, true>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control EncoderButton {
       style rogan.2s.black, rogan, 2s, black, medium, skirt, d_shaft
       parts bourns.pec11rs.manual, rogan.2s.black
       arg simulator_class "erb::BournsPec11R <erb::Rogan2SBlack, true>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control EncoderButton {
       style rogan.3s, rogan, 3s, large, skirt, d_shaft
       parts bourns.pec11rs.manual, rogan.3s
       arg simulator_class "erb::BournsPec11R <erb::Rogan3S, true>"
+      arg leading_type "erb::EncoderLeadingType::A"
    }
 
    control Led {

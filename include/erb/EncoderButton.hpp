@@ -1,15 +1,17 @@
 /*****************************************************************************
 
-      EncoderButton.cpp
+      EncoderButton.hpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
 
 
 
-/*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+#pragma once
 
-#include "erb/EncoderButton.h"
+
+
+/*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
 
@@ -26,7 +28,8 @@ Name : ctor
 ==============================================================================
 */
 
-EncoderButton::EncoderButton (const uint8_t & data_a, const uint8_t & data_b, const uint8_t & data_sw)
+template <EncoderLeadingType LeadingType>
+EncoderButton <LeadingType>::EncoderButton (const uint8_t & data_a, const uint8_t & data_b, const uint8_t & data_sw)
 :  encoder (data_a, data_b)
 ,  button (data_sw)
 {
@@ -42,7 +45,8 @@ Name : impl_preprocess
 ==============================================================================
 */
 
-void  EncoderButton::impl_preprocess ()
+template <EncoderLeadingType LeadingType>
+void  EncoderButton <LeadingType>::impl_preprocess ()
 {
    encoder.impl_preprocess ();
    button.impl_preprocess ();
@@ -56,7 +60,8 @@ Name : impl_postprocess
 ==============================================================================
 */
 
-void  EncoderButton::impl_postprocess ()
+template <EncoderLeadingType LeadingType>
+void  EncoderButton <LeadingType>::impl_postprocess ()
 {
    encoder.impl_postprocess ();
    button.impl_postprocess ();
