@@ -62,18 +62,18 @@ manufacturer ElectroDemo {
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style jack
       parts ed.jack, ed.nut
-      class "erb::ThonkPj398SmKnurled"
+      arg simulator_class "erb::ThonkPj398SmKnurled"
    }
 
    control Pot {
       style rogan, 6ps, xlarge, skirt
       parts ed.pot, rogan.6ps
-      class "erb::AlphaPot <erb::Rogan6Ps>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan6Ps>"
    }
 
    control Led {
       style red, behind
       parts led.red
-      class "erb::LedBehindPanel <RedLight>"
+      arg simulator_class "erb::LedBehindPanel <RedLight>"
    }
 }
