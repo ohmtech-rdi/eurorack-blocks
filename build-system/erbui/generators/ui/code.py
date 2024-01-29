@@ -118,7 +118,7 @@ class Code:
             control_type = '%s <erb::PinType::Dac>' % control.kind
 
       elif control.kind in ['Switch']:
-         nbr_positions = self.get_nbr_positions (control)
+         nbr_positions = control.args ['nbr_positions']
          control_type = '%s <%s>' % (control.kind, nbr_positions)
 
       elif control.kind in ['Display']:
@@ -145,18 +145,6 @@ class Code:
       source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)
 
       return source_code
-
-
-   #--------------------------------------------------------------------------
-
-   def get_nbr_positions (self, control):
-      for part in control.parts:
-         for symbol in part.sch.symbols:
-            nbr_positions_field = symbol.property ('NbrPositions')
-            if nbr_positions_field is not None:
-               return nbr_positions_field
-
-      assert False
 
 
    #--------------------------------------------------------------------------
