@@ -31,194 +31,194 @@ manufacturer DiyWire {
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style thonk.pj398sm.knurled, knurled
       parts thonk.pj398sm.wire, thonk.pj398sm.knurled
-      class "erb::ThonkPj398SmKnurled"
+      arg simulator_class "erb::ThonkPj398SmKnurled"
    }
 
    control AudioIn, CvIn, GateIn {
       style thonk.pj398sm.knurled, knurled, erb.normalling.nothing
       parts thonk.pj398sm.wire.npr, thonk.pj398sm.knurled
-      class "erb::ThonkPj398SmKnurled"
+      arg simulator_class "erb::ThonkPj398SmKnurled"
    }
 
    control AudioIn, AudioOut, CvIn, CvOut, GateIn, GateOut {
       style thonk.pj398sm.hex, hex
       parts thonk.pj398sm.wire, thonk.pj398sm.hex
-      class "erb::ThonkPj398SmHex"
+      arg simulator_class "erb::ThonkPj398SmHex"
    }
 
    control AudioIn, CvIn, GateIn {
       style thonk.pj398sm.hex, hex, erb.normalling.nothing
       parts thonk.pj398sm.wire.npr, thonk.pj398sm.hex
-      class "erb::ThonkPj398SmHex"
+      arg simulator_class "erb::ThonkPj398SmHex"
    }
 
    control Button {
       style tl1105, small, black
       parts tl1105.wire, 1rblk
-      class "erb::Tl1105"
+      arg simulator_class "erb::Tl1105"
    }
 
    control Button {
       style ck.d6r.black, ck, d6r, black
       parts ck.d6r.black.wire
-      class "erb::Ckd6r"
+      arg simulator_class "erb::Ckd6r"
    }
 
    control Encoder {
       style rogan.1s, rogan, 1s, small, skirt, d_shaft
       parts bourns.pec11rn.wire, rogan.1s
-      class "erb::BournsPec11R <erb::Rogan1S, false>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan1S, false>"
    }
 
    control Encoder {
       style rogan.1s.black, rogan, 1s, black, small, skirt, d_shaft
       parts bourns.pec11rn.wire, rogan.1s.black
-      class "erb::BournsPec11R <erb::Rogan1SBlack, false>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan1SBlack, false>"
    }
 
    control Encoder {
       style rogan.2s.black, rogan, 2s, black, medium, skirt, d_shaft
       parts bourns.pec11rn.wire, rogan.2s.black
-      class "erb::BournsPec11R <erb::Rogan2SBlack, false>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan2SBlack, false>"
    }
 
    control Encoder {
       style rogan.3s, rogan, 3s, large, skirt, d_shaft
       parts bourns.pec11rn.wire, rogan.3s
-      class "erb::BournsPec11R <erb::Rogan3S, false>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan3S, false>"
    }
 
    control EncoderButton {
       style rogan.1s, rogan, 1s, small, skirt, d_shaft
       parts bourns.pec11rs.wire, rogan.1s
-      class "erb::BournsPec11R <erb::Rogan1S, true>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan1S, true>"
    }
 
    control EncoderButton {
       style rogan.1s.black, rogan, 1s, black, small, skirt, d_shaft
       parts bourns.pec11rs.wire, rogan.1s.black
-      class "erb::BournsPec11R <erb::Rogan1SBlack, true>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan1SBlack, true>"
    }
 
    control EncoderButton {
       style rogan.2s.black, rogan, 2s, black, medium, skirt, d_shaft
       parts bourns.pec11rs.wire, rogan.2s.black
-      class "erb::BournsPec11R <erb::Rogan2SBlack, true>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan2SBlack, true>"
    }
 
    control EncoderButton {
       style rogan.3s, rogan, 3s, large, skirt, d_shaft
       parts bourns.pec11rs.wire, rogan.3s
-      class "erb::BournsPec11R <erb::Rogan3S, true>"
+      arg simulator_class "erb::BournsPec11R <erb::Rogan3S, true>"
    }
 
    control Led {
       style led.3mm.red, 3mm, red
       parts led.3mm.red.wire
-      class "erb::Led3mm <RedLight>"
+      arg simulator_class "erb::Led3mm <RedLight>"
    }
 
    control Led {
       style led.3mm.green, 3mm, green
       parts led.3mm.green.wire
-      class "erb::Led3mm <GreenLight>"
+      arg simulator_class "erb::Led3mm <GreenLight>"
    }
 
    control Led {
       style led.3mm.yellow, 3mm, yellow
       parts led.3mm.yellow.wire
-      class "erb::Led3mm <YellowLight>"
+      arg simulator_class "erb::Led3mm <YellowLight>"
    }
 
    control Led {
       style led.3mm.orange, 3mm, orange
       parts led.3mm.orange.wire
-      class "erb::Led3mm <YellowLight>" // Orange missing
+      arg simulator_class "erb::Led3mm <YellowLight>" // Orange missing
    }
 
    control LedBi {
       style led.3mm.green_red, 3mm, green_red
       parts led.3mm.bi.green_red.wire
-      class "erb::Led3mm <GreenRedLight>"
+      arg simulator_class "erb::Led3mm <GreenRedLight>"
    }
 
    control LedRgb {
       style led.3mm.rgb, 3mm, rgb
       parts led.3mm.rgb.wire
-      class "erb::Led3mm <RedGreenBlueLight>"
+      arg simulator_class "erb::Led3mm <RedGreenBlueLight>"
    }
 
    control Pot {
       style rogan.2ps, rogan, 2ps, medium, skirt, d_shaft
       parts alpha.9mm.wire, rogan.2ps
-      class "erb::AlphaPot <erb::Rogan2Ps>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan2Ps>"
    }
 
    control Pot {
       style rogan.3ps, rogan, 3ps, large, skirt, d_shaft
       parts alpha.9mm.wire, rogan.3ps
-      class "erb::AlphaPot <erb::Rogan3Ps>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan3Ps>"
    }
 
    control Pot {
       style rogan.1ps, rogan, 1ps, small, skirt, d_shaft
       parts alpha.9mm.wire, rogan.1ps
-      class "erb::AlphaPot <erb::Rogan1Ps>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan1Ps>"
    }
 
    control Pot {
       style rogan.1p, rogan, 1p, small, no_skirt, d_shaft
       parts alpha.9mm.wire, rogan.1p
-      class "erb::AlphaPot <erb::Rogan1P>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan1P>"
    }
 
    control Pot {
       style rogan.6ps, rogan, 6ps, xlarge, skirt, d_shaft
       parts alpha.9mm.wire, rogan.6ps
-      class "erb::AlphaPot <erb::Rogan6Ps>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan6Ps>"
    }
 
    control Pot {
       style rogan.5ps, rogan, 5ps, larger, skirt, d_shaft
       parts alpha.9mm.wire, rogan.5ps
-      class "erb::AlphaPot <erb::Rogan5Ps>"
+      arg simulator_class "erb::AlphaPot <erb::Rogan5Ps>"
    }
 
    control Pot {
       style sifam.drn111.white, sifam, selco, small, skirt, d_shaft, white
       parts alpha.9mm.wire, sifam.drn111.white
-      class "erb::AlphaPot <erb::SifamDrn111>"
+      arg simulator_class "erb::AlphaPot <erb::SifamDrn111>"
    }
 
    control Pot {
       style sifam.dbn151.white, sifam, selco, large, skirt, d_shaft, white
       parts alpha.9mm.wire, sifam.dbn151.white
-      class "erb::AlphaPot <erb::SifamDbn151>"
+      arg simulator_class "erb::AlphaPot <erb::SifamDbn151>"
    }
 
    control Pot {
       style davies, 1900h, d_shaft, black
       parts alpha.9mm.wire, davies.1900h.black
-      class "erb::Davies1900hBlack"
+      arg simulator_class "erb::Davies1900hBlack"
    }
 
    control Switch {
       style dailywell.2ms1, on_on
       parts dailywell.2ms1.wire
-      class "erb::Dailywell2Ms1"
+      arg simulator_class "erb::Dailywell2Ms1"
       arg nbr_positions "2"
    }
 
    control Switch {
       style dailywell.2ms3, on_off_on
       parts dailywell.2ms3.wire
-      class "erb::Dailywell2Ms3"
+      arg simulator_class "erb::Dailywell2Ms3"
       arg nbr_positions "3"
    }
 
    control Trim {
       style songhuei.9mm, tall
       parts songhuei.9mm.wire
-      class "erb::SongHuei9"
+      arg simulator_class "erb::SongHuei9"
    }
 }
