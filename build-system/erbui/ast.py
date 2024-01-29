@@ -1491,6 +1491,7 @@ class Control (Scope):
       self.keyword_kind = keyword_kind
       self.parts = []
       self.simulator_class = None
+      self.args = {}
 
    @staticmethod
    def typename (): return 'control'

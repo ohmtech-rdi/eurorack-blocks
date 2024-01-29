@@ -185,7 +185,7 @@ class AnalyserStyle:
       for control in manufacturer.controls:
          for kind in control.kinds:
             manufacturer_data ['controls'][kind].append (
-               {'styles': control.style, 'parts': control.parts, 'class': control.class_}
+               {'styles': control.style, 'parts': control.parts, 'class': control.class_, 'args': control.args_as_dict}
             )
 
       return manufacturer_data
@@ -235,6 +235,7 @@ class AnalyserStyle:
                raise error.incompatible_style (keyword, cur_styles_parts ['styles'])
 
       control.simulator_class = cur_styles_parts ['class']
+      control.args = cur_styles_parts ['args']
 
       component_list = cur_styles_parts ['parts']
 
