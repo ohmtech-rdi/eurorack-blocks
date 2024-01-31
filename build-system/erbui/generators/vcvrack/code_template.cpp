@@ -38,6 +38,9 @@ struct ErbModule
                   ErbModule ();
    void           process (const ProcessArgs & /* args */) override;
 
+   void           onAdd (const rack::engine::Module::AddEvent & e) override;
+
+   // Persistent support
    erb::ModuleBoard
                   module_board;
    std::unique_ptr <%module.name%>
@@ -140,7 +143,6 @@ ErbModule::ErbModule ()
    // bind
 
 %  module.controls.bind+config%
-   erb::module_init (module);
 }
 
 
@@ -174,6 +176,23 @@ void  ErbModule::process (const ProcessArgs & /* args */)
    }
 
    module.ui.board.impl_push_audio_outputs ();
+}
+
+
+
+/*
+==============================================================================
+Name : ErbModule::onAdd
+==============================================================================
+*/
+
+void  ErbModule::onAdd (const rack::engine::Module::AddEvent & e)
+{
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   auto & module = *module_uptr;
+
+   erb::module_init (module);
 }
 
 
