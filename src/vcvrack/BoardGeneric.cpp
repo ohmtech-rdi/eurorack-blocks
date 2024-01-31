@@ -22,6 +22,12 @@ namespace erb
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+/*
+==============================================================================
+Name : ctor
+==============================================================================
+*/
+
 BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs)
 :  _digital_inputs (nbr_digital_inputs, 0)
 ,  _analog_inputs (nbr_analog_inputs, 0.f)
@@ -33,6 +39,19 @@ BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_anal
 ,  _double_buffer_inputs (nbr_audio_inputs)
 ,  _double_buffer_outputs (nbr_audio_outputs)
 {
+}
+
+
+
+/*
+==============================================================================
+Name : use_persistent_map
+==============================================================================
+*/
+
+BoardGeneric::PersistentMap & BoardGeneric::use_persistent_map ()
+{
+   return _persistent_map;
 }
 
 

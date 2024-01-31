@@ -80,6 +80,13 @@ public:
    template <typename F>
    inline void    run (F && f);
 
+   template <std::size_t N>
+   inline std::array <uint8_t, N>
+                  load (size_t page);
+
+   template <typename Data>
+   inline void    save (size_t page, const Data & data);
+
    struct GpiPin { size_t index; };
    static constexpr GpiPin GI1 = {0};  // Gate In
    static constexpr GpiPin B1 = {1};   // Tactile Switch
