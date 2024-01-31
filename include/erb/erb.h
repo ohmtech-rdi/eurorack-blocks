@@ -22,6 +22,7 @@
 #include "erb/CvInJackDetection.h"
 #include "erb/CvOut.h"
 #include "erb/Display.h"
+#include "erb/DisplayContext.h"
 #include "erb/Encoder.h"
 #include "erb/EncoderButton.h"
 #include "erb/FloatRange.h"
