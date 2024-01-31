@@ -27,6 +27,9 @@ jobs:
       - name: test/seed2-dfm-eval-euro
         run: erbb configure && erbb build firmware && erbb build simulator && erbb build simulator --xcode
         working-directory: test/seed2-dfm-eval-euro
+      - name: test/display-context
+        run: erbb configure && erbb build firmware && erbb build simulator && erbb build simulator --xcode
+        working-directory: test/display-context
       - name: test/data
         run: erbb configure && erbb build
         working-directory: test/data

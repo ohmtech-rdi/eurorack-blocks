@@ -39,6 +39,8 @@
       'CvOut.hpp',
       'Display.h',
       'Display.hpp',
+      'DisplayContext.h',
+      'DisplayContext.hpp',
       'Encoder.h',
       'Encoder.hpp',
       'EncoderButton.h',

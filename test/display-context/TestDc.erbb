@@ -1,0 +1,21 @@
+/*****************************************************************************
+
+      TestDc.erbb
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+//use strict
+
+module TestDc {
+   sources {
+      file "TestDc.cpp"
+      file "TestDc.h"
+      file "TestDc.erbui"
+   }
+
+   resources {
+      data font FormatSsd130x { file "media/font.png" }
+      data pic FormatSsd130x { file "media/pic.png" }
+   }
+}

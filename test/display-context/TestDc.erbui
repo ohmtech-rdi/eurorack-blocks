@@ -1,0 +1,14 @@
+/*****************************************************************************
+
+      TestDc.erbui
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+module TestDc extends seed2_dfm_eval_euro {
+   route manual
+
+   alias screen display
+}
