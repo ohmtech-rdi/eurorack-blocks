@@ -30,6 +30,7 @@ SubmoduleDaisyPatchSm::SubmoduleDaisyPatchSm ()
 {
    _this_ptr = this;
 
+   init_qspi ();
    init_audio ();
 
    _audio.SetBlockSize (erb_BUFFER_SIZE);
@@ -46,6 +47,30 @@ SubmoduleDaisyPatchSm::SubmoduleDaisyPatchSm ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : init_qspi
+==============================================================================
+*/
+
+void  SubmoduleDaisyPatchSm::init_qspi ()
+{
+   _qspi.Init (daisy::QSPIHandle::Config {
+      .pin_config = {
+         .io0 = {DSY_GPIOF, 8},
+         .io1 = {DSY_GPIOF, 9},
+         .io2 = {DSY_GPIOF, 7},
+         .io3 = {DSY_GPIOF, 6},
+         .clk = {DSY_GPIOF, 10},
+         .ncs = {DSY_GPIOG, 6}
+      },
+      .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
+      .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
+   });
+}
+
+
 
 /*
 ==============================================================================

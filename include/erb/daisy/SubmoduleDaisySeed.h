@@ -170,6 +170,7 @@ protected:
 
 private:
 
+   void           init_qspi ();
    void           init_audio ();
 
    void           do_run ();

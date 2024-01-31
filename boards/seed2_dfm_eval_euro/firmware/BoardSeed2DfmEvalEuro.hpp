@@ -49,6 +49,7 @@ BoardSeed2DfmEvalEuro::BoardSeed2DfmEvalEuro ()
 {
    _this_ptr = this;
 
+   init_qspi ();
    init_audio ();
    init_display ();
 }
@@ -220,6 +221,30 @@ void  BoardSeed2DfmEvalEuro::impl_idle ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : init_qspi
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::init_qspi ()
+{
+   _qspi.Init (daisy::QSPIHandle::Config {
+      .pin_config = {
+         .io0 = {DSY_GPIOF, 8},
+         .io1 = {DSY_GPIOF, 9},
+         .io2 = {DSY_GPIOF, 7},
+         .io3 = {DSY_GPIOF, 6},
+         .clk = {DSY_GPIOF, 10},
+         .ncs = {DSY_GPIOG, 6}
+      },
+      .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
+      .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
+   });
+}
+
+
 
 /*
 ==============================================================================

@@ -34,6 +34,7 @@ SubmoduleDaisySeed::SubmoduleDaisySeed ()
 {
    _this_ptr = this;
 
+   init_qspi ();
    init_audio ();
 
    _seed.SetAudioBlockSize (erb_BUFFER_SIZE);
@@ -50,6 +51,30 @@ SubmoduleDaisySeed::SubmoduleDaisySeed ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : init_qspi
+==============================================================================
+*/
+
+void  SubmoduleDaisySeed::init_qspi ()
+{
+   _seed.qspi.Init (daisy::QSPIHandle::Config {
+      .pin_config = {
+         .io0 = {DSY_GPIOF, 8},
+         .io1 = {DSY_GPIOF, 9},
+         .io2 = {DSY_GPIOF, 7},
+         .io3 = {DSY_GPIOF, 6},
+         .clk = {DSY_GPIOF, 10},
+         .ncs = {DSY_GPIOG, 6}
+      },
+      .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
+      .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
+   });
+}
+
+
 
 /*
 ==============================================================================

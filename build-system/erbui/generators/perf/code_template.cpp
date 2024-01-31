@@ -157,26 +157,6 @@ int main ()
       sdram.Init ();
    }
 
-   // Init QSPI
-   daisy::QSPIHandle qspi;
-
-   // When using QSPI for program, QSPI has already been configured
-   if (program_memory_section != daisy::System::MemoryRegion::QSPI)
-   {
-      qspi.Init (daisy::QSPIHandle::Config {
-         .pin_config = {
-            .io0 = {DSY_GPIOF, 8},
-            .io1 = {DSY_GPIOF, 9},
-            .io2 = {DSY_GPIOF, 7},
-            .io3 = {DSY_GPIOF, 6},
-            .clk = {DSY_GPIOF, 10},
-            .ncs = {DSY_GPIOG, 6}
-         },
-         .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
-         .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
-      });
-   }
-
    Logger::StartLog (true /* wait for PC */);
 
    //-------------------------------------------------------------------------

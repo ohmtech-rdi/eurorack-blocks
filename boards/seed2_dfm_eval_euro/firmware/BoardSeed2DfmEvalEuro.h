@@ -148,6 +148,7 @@ protected:
 
 private:
 
+   inline void    init_qspi ();
    inline void    init_audio ();
    inline void    init_display ();
 
@@ -162,6 +163,8 @@ private:
                   raw_audio_inputs = nullptr;
    float **       raw_audio_outputs = nullptr;
 
+   daisy::QSPIHandle
+                  _qspi;
    daisy::AudioHandle
                   _audio;
    daisy::AdcHandle

@@ -150,6 +150,7 @@ protected:
 
 private:
 
+   void           init_qspi ();
    void           init_audio ();
 
    void           do_run ();
@@ -160,6 +161,8 @@ private:
    static SubmoduleDaisyPatchSm *
                   _this_ptr;
 
+   daisy::QSPIHandle
+                  _qspi;
    daisy::AudioHandle
                   _audio;
    daisy::AdcHandle
