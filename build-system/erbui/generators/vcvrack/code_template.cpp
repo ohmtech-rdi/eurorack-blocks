@@ -25,7 +25,9 @@ erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
 erb_RESTORE_WARNINGS
 
+#include <iomanip>
 #include <memory>
+#include <sstream>
 #include <type_traits>
 
 
@@ -37,6 +39,12 @@ struct ErbModule
 {
                   ErbModule ();
    void           process (const ProcessArgs & /* args */) override;
+
+   void           onAdd (const rack::engine::Module::AddEvent & e) override;
+
+   // Persistent support
+   json_t *       dataToJson () override;
+   void           dataFromJson (json_t * root) override;
 
    erb::ModuleBoard
                   module_board;
@@ -140,7 +148,6 @@ ErbModule::ErbModule ()
    // bind
 
 %  module.controls.bind+config%
-   erb::module_init (module);
 }
 
 
@@ -174,6 +181,112 @@ void  ErbModule::process (const ProcessArgs & /* args */)
    }
 
    module.ui.board.impl_push_audio_outputs ();
+}
+
+
+
+/*
+==============================================================================
+Name : ErbModule::onAdd
+==============================================================================
+*/
+
+void  ErbModule::onAdd (const rack::engine::Module::AddEvent & e)
+{
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   auto & module = *module_uptr;
+
+   erb::module_init (module);
+}
+
+
+
+/*
+==============================================================================
+Name : ErbModule::dataToJson
+==============================================================================
+*/
+
+json_t * ErbModule::dataToJson ()
+{
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   auto & module = *module_uptr;
+
+   json_t * root_json = json_object ();
+   json_t * persistent_json = json_array ();
+
+   for (auto && item : module.ui.board.use_persistent_map ())
+   {
+      const auto page = item.first;
+      const auto data = item.second;
+
+      std::ostringstream sstr;
+      sstr << std::hex << std::setfill ('0');
+
+      for (auto b : data)
+      {
+         sstr << std::setw (2) << int (b);
+      }
+
+      auto data_str = sstr.str ();
+
+      json_t * item_json = json_object ();
+      json_object_set_new (item_json, "page", json_integer (page));
+      json_object_set_new (item_json, "data", json_string (data_str.c_str ()));
+
+      json_array_append_new (persistent_json, item_json);
+   }
+
+   json_object_set_new (root_json, "persistent", persistent_json);
+
+   return root_json;
+}
+
+
+
+/*
+==============================================================================
+Name : ErbModule::dataFromJson
+==============================================================================
+*/
+
+void  ErbModule::dataFromJson (json_t * root)
+{
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   auto & module = *module_uptr;
+
+   json_t * persistent_json = json_object_get (root, "persistent");
+
+   if (persistent_json)
+   {
+      auto & persistent = module.ui.board.use_persistent_map ();
+
+      json_t * item_json;
+      size_t index;
+      json_array_foreach (persistent_json, index, item_json)
+      {
+         json_t * page_json = json_object_get (item_json, "page");
+         json_t * data_json = json_object_get (item_json, "data");
+
+         auto page = size_t (json_integer_value (page_json));
+         auto data_str = std::string (json_string_value (data_json));
+
+         std::vector <uint8_t> data (data_str.size () / 2);
+
+         for (size_t i = 0 ; i < data.size () ; ++i)
+         {
+            std::istringstream sstr {std::string {data_str, i * 2, 2}};
+            int val;
+            sstr >> std::hex >> std::setw (2) >> val;
+            data [i] = uint8_t (val);
+         }
+
+         persistent [page] = data;
+      }
+   }
 }
 
 

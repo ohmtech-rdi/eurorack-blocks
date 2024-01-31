@@ -640,6 +640,48 @@ inline void  BoardGeneric::impl_bind (Switch <3> & control, rack::engine::Param 
 
 
 
+/*
+==============================================================================
+Name : load
+==============================================================================
+*/
+
+template <std::size_t N>
+std::array <uint8_t, N> BoardGeneric::load (size_t page)
+{
+   auto it = _persistent_map.find (page);
+
+   if (it != _persistent_map.end ())
+   {
+      const auto & stored = it->second;
+      auto ret = std::array <uint8_t, N> {};
+      std::memcpy (&ret [0], &stored [0], std::min (stored.size (), N));
+
+      return ret;
+   }
+   else
+   {
+      return {};
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : save
+==============================================================================
+*/
+
+template <typename Data>
+void  BoardGeneric::save (size_t page, const Data & data)
+{
+   auto & stored = _persistent_map [page];
+   stored = std::vector <uint8_t> { data.begin (), data.end () };
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

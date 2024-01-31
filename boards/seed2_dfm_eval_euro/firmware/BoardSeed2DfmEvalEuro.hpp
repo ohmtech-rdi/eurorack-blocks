@@ -49,6 +49,7 @@ BoardSeed2DfmEvalEuro::BoardSeed2DfmEvalEuro ()
 {
    _this_ptr = this;
 
+   init_qspi ();
    init_audio ();
    init_display ();
 }
@@ -68,6 +69,48 @@ void  BoardSeed2DfmEvalEuro::run (F && f)
 
    _adc_hnd.Start ();
    _audio.Start (audio_callback_proc);
+}
+
+
+
+/*
+==============================================================================
+Name : load
+==============================================================================
+*/
+
+template <std::size_t N>
+std::array <uint8_t, N> BoardSeed2DfmEvalEuro::load (size_t page)
+{
+   auto address_offset = uint32_t { page * 256 };
+   void * data_ptr = _qspi.GetData (address_offset);
+
+   if (daisy::System::GetProgramMemoryRegion () != daisy::System::MemoryRegion::INTERNAL_FLASH)
+   {
+      dsy_dma_invalidate_cache_for_buffer (reinterpret_cast <uint8_t *> (data_ptr), N);
+   }
+
+   std::array <uint8_t, N> ret;
+   std::memcpy (&ret [0], data_ptr, N);
+
+   return ret;
+}
+
+
+
+/*
+==============================================================================
+Name : save
+==============================================================================
+*/
+
+template <typename Data>
+void  BoardSeed2DfmEvalEuro::save (size_t page, const Data & data)
+{
+   auto address_offset = uint32_t { page * 256 };
+
+   _qspi.Erase (address_offset, address_offset + uint32_t (data.size ()));
+   _qspi.Write (address_offset, uint32_t (data.size ()), const_cast <uint8_t *> (data.data ()));
 }
 
 
@@ -220,6 +263,30 @@ void  BoardSeed2DfmEvalEuro::impl_idle ()
 
 
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : init_qspi
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::init_qspi ()
+{
+   _qspi.Init (daisy::QSPIHandle::Config {
+      .pin_config = {
+         .io0 = {DSY_GPIOF, 8},
+         .io1 = {DSY_GPIOF, 9},
+         .io2 = {DSY_GPIOF, 7},
+         .io3 = {DSY_GPIOF, 6},
+         .clk = {DSY_GPIOF, 10},
+         .ncs = {DSY_GPIOG, 6}
+      },
+      .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
+      .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
+   });
+}
+
+
 
 /*
 ==============================================================================

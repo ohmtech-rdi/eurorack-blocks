@@ -17,6 +17,7 @@
 #include "erb/detail/DoubleBuffer.h"
 
 #include <functional>
+#include <map>
 #include <variant>
 #include <vector>
 
@@ -46,6 +47,8 @@ class BoardGeneric
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
+   using PersistentMap = std::map <std::size_t, std::vector <uint8_t>>;
+
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric () = default;
 
@@ -58,6 +61,16 @@ public:
 
    inline const uint8_t &
                   npr () { return _npr; }
+
+   template <std::size_t N>
+   inline std::array <uint8_t, N>
+                  load (size_t page);
+
+   template <typename Data>
+   inline void    save (size_t page, const Data & data);
+
+   PersistentMap &
+                  use_persistent_map ();
 
 
 
@@ -375,6 +388,8 @@ private:
 
    uint8_t        _npr = 0;
    uint32_t       _npr_rand_state = 0;
+
+   PersistentMap  _persistent_map;
 
 
 

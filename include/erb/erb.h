@@ -31,6 +31,7 @@
 #include "erb/Led.h"
 #include "erb/LedBi.h"
 #include "erb/LedRgb.h"
+#include "erb/Persistent.h"
 #include "erb/Pot.h"
 #include "erb/SdramPtr.h"
 #include "erb/Switch.h"

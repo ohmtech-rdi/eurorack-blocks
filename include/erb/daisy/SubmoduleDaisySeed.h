@@ -123,6 +123,13 @@ public:
    template <typename F>
    void           run (F && f);
 
+   template <std::size_t N>
+   inline std::array <uint8_t, N>
+                  load (size_t page);
+
+   template <typename Data>
+   inline void    save (size_t page, const Data & data);
+
    // Clock
    inline const uint64_t &
                   clock ();
@@ -170,6 +177,7 @@ protected:
 
 private:
 
+   void           init_qspi ();
    void           init_audio ();
 
    void           do_run ();

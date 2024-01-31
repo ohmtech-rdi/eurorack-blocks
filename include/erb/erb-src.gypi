@@ -57,6 +57,8 @@
       'LedBi.hpp',
       'LedRgb.h',
       'LedRgb.hpp',
+      'Persistent.h',
+      'Persistent.hpp',
       'PinType.h',
       'Pot.h',
       'Pot.hpp',

@@ -81,6 +81,13 @@ public:
    template <typename F>
    inline void    run (F && f) { _submodule.run (std::forward <F> (f)); }
 
+   template <std::size_t N>
+   inline std::array <uint8_t, N>
+                  load (size_t page) { return _submodule.load <N> (page); }
+
+   template <typename Data>
+   inline void    save (size_t page, const Data & data) { _submodule.save (page, data); }
+
    struct GpiPin { size_t index; };
    static constexpr GpiPin B1 = {0};
    static constexpr GpiPin B2 = {1};
