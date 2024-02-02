@@ -69,13 +69,6 @@ class Bom:
 
    def make_parts (self, symbols, field_names, include_non_empty, projection, excluded_references):
 
-      key_quantity_map = {}
-      def inc_key (key):
-         if key in key_quantity_map:
-            key_quantity_map [key] += 1
-         else:
-            key_quantity_map [key] = 1
-
       key_references_map = {}
       def inc_reference (key, reference):
          if key in key_references_map:
@@ -91,17 +84,15 @@ class Bom:
             fields = {field_name: symbol.property (field_name) if symbol.property (field_name) is not None else '' for field_name in field_names}
             if include_non_empty.format (**fields):
                key = projection.format (**fields)
-               inc_key (key)
                inc_reference (key, reference)
                key_desc_map [key] = fields
 
       parts = []
 
-      for key, quantity in key_quantity_map.items ():
-         references = key_references_map [key]
+      for key, references in key_references_map.items ():
          part = {
             'references': ', '.join (sorted (references)),
-            'quantity': quantity,
+            'quantity': len (references),
          }
          part.update (key_desc_map [key])
          desc = key_desc_map [key]
