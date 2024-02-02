@@ -66,7 +66,7 @@ void  Persistent <Type, Page, Magic, RateLimitMs>::save (Board & board, Type val
       _earliest_commit_tp = Clock::now () + std::chrono::milliseconds {RateLimitMs};
    }
 
-   if (_need_commit_flag && Clock::now () > _earliest_commit_tp)
+   if (_need_commit_flag && (Clock::now () > _earliest_commit_tp || RateLimitMs == 0))
    {
       uint64_t magic = Magic;
       std::array <uint8_t, sizeof (Magic) + sizeof (Type)> data;
