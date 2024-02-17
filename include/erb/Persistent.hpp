@@ -61,7 +61,7 @@ template <typename Type, size_t Page, uint64_t Magic, size_t RateLimitMs>
 template <typename Board>
 void  Persistent <Type, Page, Magic, RateLimitMs>::save (Board & board, Type value)
 {
-   if (value != _value)
+   if (!(value == _value))
    {
       _value = value;
       _need_commit_flag = true;
