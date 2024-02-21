@@ -744,6 +744,15 @@ struct Invisible : rack::ParamWidget
 };
 
 
+struct InvisiblePort : rack::PortWidget
+{
+   InvisiblePort () {
+      box.size = {0, 0};
+   }
+   void  rotate (float) {}
+};
+
+
 template <typename Widget, typename T>
 Widget * createWidgetCentered (rack::math::Vec pos, T & control)
 {
