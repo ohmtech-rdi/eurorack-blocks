@@ -737,7 +737,9 @@ private:
 
 struct Invisible : rack::ParamWidget
 {
-   Invisible () = default;
+   Invisible () {
+      box.size = {0, 0};
+   }
    void  rotate (float) {}
 };
 
