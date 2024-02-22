@@ -1122,6 +1122,8 @@ class Footprint:
          self.size = Xy ()
          self.drill = Footprint.Pad.Drill ()
          self.layers = Footprint.Pad.Layers ()   # multiple symbols eg. *.Cu *.Mask
+         self.solder_mask_margin = None   # float
+         self.clearance = None   # float
          self.net = Net ()
          self.tstamp = None            # str, eg. 839a72a1-b92d-4d34-94b8-fd1a057ff2d6
 
@@ -1138,6 +1140,8 @@ class Footprint:
          pad.size = Xy.parse (node.first_kind ('size'))
          pad.drill = Footprint.Pad.Drill.parse (node.first_kind ('drill'))
          pad.layers = Footprint.Pad.Layers.parse (node.first_kind ('layers'))
+         pad.solder_mask_margin = node.property ('solder_mask_margin')
+         pad.clearance = node.property ('clearance')
          pad.net = Net.parse (node.first_kind ('net'))
          pad.tstamp = node.property ('tstamp')
 
@@ -1155,6 +1159,10 @@ class Footprint:
          if self.drill:
             pad_node.add (self.drill.generate ())
          pad_node.add (self.layers.generate ())
+         if self.solder_mask_margin:
+            pad_node.add (s_expression.List.generate_property ('solder_mask_margin', self.solder_mask_margin))
+         if self.clearance:
+            pad_node.add (s_expression.List.generate_property ('clearance', self.clearance))
          if self.net:
             pad_node.add (self.net.generate ())
          pad_node.add (s_expression.List.generate_property ('tstamp', self.tstamp))
