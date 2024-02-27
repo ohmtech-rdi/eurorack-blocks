@@ -152,10 +152,13 @@ class Centroid:
       parts = {}
 
       for footprint in pcb.footprints:
+         rot_orientation = 1
          if footprint.layer == 'F.Cu':
             layer = layer_map ['top']
+            rot_orientation = 1
          elif footprint.layer == 'B.Cu':
             layer = layer_map ['bottom']
+            rot_orientation = -1
          else:
             assert False
 
@@ -169,7 +172,7 @@ class Centroid:
          y = (footprint.at.y - origin_y) * y_mul
          rotation = footprint.at.rotation if footprint.at.rotation else 0
          rotation -= reel_rotation * rot_mul_offset
-         rotation *= rot_mul
+         rotation *= rot_mul * rot_orientation
          if rotation < rotation_range_min:
             rotation += 360
          if rotation > rotation_range_max:
