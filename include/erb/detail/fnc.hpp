@@ -13,8 +13,12 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/config.h"
+
 #include "erb/detail/Sram.h"
-#include "erb/detail/Sdram.h"
+#if (erb_SDRAM_USE_FLAG)
+   #include "erb/detail/Sdram.h"
+#endif
 
 #include <algorithm>
 
@@ -35,10 +39,12 @@ void *   allocate_bytes_auto (std::size_t size)
 {
    void * ptr = Sram::allocate_bytes_nullptr_on_error (size);
 
+#if (erb_SDRAM_USE_FLAG)
    if (ptr == nullptr)
    {
       ptr = Sdram::allocate_bytes_nullptr_on_error (size);
    }
+#endif
 
    if (ptr == nullptr)
    {

@@ -15,7 +15,9 @@
 
 #include "erb/config.h"
 #include "erb/detail/Sram.h"
-#include "erb/detail/Sdram.h"
+#if (erb_SDRAM_USE_FLAG)
+   #include "erb/detail/Sdram.h"
+#endif
 
 #include <array>
 
@@ -51,7 +53,9 @@ public:
                   current ();
 
    Sram &         sram ();
+#if (erb_SDRAM_USE_FLAG)
    Sdram &        sdram ();
+#endif
 
 
 
@@ -75,11 +79,15 @@ private:
 
    std::array <uint8_t, erb_SRAM_MEM_POOL_SIZE>
                   _sram_memory_pool_storage;
+#if (erb_SDRAM_USE_FLAG)
    std::array <uint8_t, erb_SDRAM_MEM_POOL_SIZE>
                   _sdram_memory_pool_storage;
+#endif
 
    Sram           _sram;
+#if (erb_SDRAM_USE_FLAG)
    Sdram          _sdram;
+#endif
 
    static thread_local ModuleBoard *
                   _current_ptr;

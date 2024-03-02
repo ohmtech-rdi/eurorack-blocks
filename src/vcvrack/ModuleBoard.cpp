@@ -32,9 +32,13 @@ Name : ctor
 
 ModuleBoard::ModuleBoard ()
 :  _sram_memory_pool_storage ()
+#if (erb_SDRAM_USE_FLAG)
 ,  _sdram_memory_pool_storage ()
+#endif
 ,  _sram (&_sram_memory_pool_storage [0])
+#if (erb_SDRAM_USE_FLAG)
 ,  _sdram (&_sdram_memory_pool_storage [0])
+#endif
 {
 }
 
@@ -74,10 +78,12 @@ Name : sdram
 ==============================================================================
 */
 
+#if (erb_SDRAM_USE_FLAG)
 Sdram &  ModuleBoard::sdram ()
 {
    return _sdram;
 }
+#endif
 
 
 

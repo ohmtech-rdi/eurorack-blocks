@@ -13,6 +13,8 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/config.h"
+
 #include "erb/AudioIn.h"
 #include "erb/AudioInJackDetection.h"
 #include "erb/AudioOut.h"
@@ -34,7 +36,10 @@
 #include "erb/LedRgb.h"
 #include "erb/Persistent.h"
 #include "erb/Pot.h"
-#include "erb/SdramPtr.h"
+#if (erb_SDRAM_USE_FLAG)
+   #include "erb/SdramPtr.h"
+#endif
+   #include "erb/SramPtr.h"
 #include "erb/Switch.h"
 
 #include "erb/detail/fnc.h"

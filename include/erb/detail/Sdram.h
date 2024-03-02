@@ -13,9 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/detail/MonotonicMemoryPool.h"
-
 #include "erb/config.h"
+#if (erb_SDRAM_USE_FLAG)
+
+#include "erb/detail/MonotonicMemoryPool.h"
 
 #include <atomic>
 
@@ -92,6 +93,10 @@ private:
 
 
 #include "erb/detail/Sdram.hpp"
+
+
+
+#endif   // erb_SDRAM_USE_FLAG
 
 
 

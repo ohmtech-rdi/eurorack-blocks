@@ -14,6 +14,7 @@
 #include "erb/module_fnc.h"
 
 #include "erb/def.h"
+#include "erb/config.h"
 
 erb_DISABLE_WARNINGS_DAISY
 #include "daisy.h"
@@ -71,8 +72,8 @@ int main ()
 
    system.Init (config);
 
+#if (erb_SDRAM_USE_FLAG)
    // Init SDRAM
-
    // When using the bootloader priori to v6, SDRAM has been already configured
 
    if (
@@ -86,6 +87,7 @@ int main ()
       SdramHandle sdram;
       sdram.Init ();
    }
+#endif
 
    //-------------------------------------------------------------------------
 
