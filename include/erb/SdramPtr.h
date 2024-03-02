@@ -13,6 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/config.h"
+
+#if (erb_SDRAM_USE_FLAG)
+
 
 
 namespace erb
@@ -92,6 +96,10 @@ SdramPtr <T>   make_sdram (Args &&... args);
 
 
 #include "erb/SdramPtr.hpp"
+
+
+
+#endif // erb_SDRAM_USE_FLAG
 
 
 

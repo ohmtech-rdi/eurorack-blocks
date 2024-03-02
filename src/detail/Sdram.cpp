@@ -11,6 +11,8 @@
 
 #include "erb/detail/Sdram.h"
 
+#if (erb_SDRAM_USE_FLAG)
+
 #if defined (erb_TARGET_VCV_RACK)
    #include "erb/vcvrack/ModuleBoard.h"
 #endif
@@ -140,6 +142,10 @@ void *   Sdram::allocate_raw_nullptr_on_error (size_t alignment, size_t size)
 
 
 }  // namespace erb
+
+
+
+#endif   // erb_SDRAM_USE_FLAG
 
 
 
