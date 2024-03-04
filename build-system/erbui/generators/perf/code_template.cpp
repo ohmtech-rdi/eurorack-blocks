@@ -20,6 +20,8 @@ erb_DISABLE_WARNINGS_DAISY
 #include <stm32h750xx.h>
 erb_RESTORE_WARNINGS
 
+#include <atomic>
+
 #if defined (erb_SEMIHOSTING)
 extern "C" void initialise_monitor_handles ();
 #endif
@@ -141,8 +143,8 @@ int main ()
 
    system.Init (config);
 
+#if (erb_SDRAM_USE_FLAG)
    // Init SDRAM
-
    // When using the bootloader priori to v6, SDRAM has been already configured
 
    if (
@@ -156,6 +158,7 @@ int main ()
       SdramHandle sdram;
       sdram.Init ();
    }
+#endif
 
    Logger::StartLog (true /* wait for PC */);
 
@@ -189,42 +192,16 @@ int main ()
    print_elapsed_time ("%module.name% init: ", ts_2, ts_3);
    Logger::PrintLine ("");
 
-   std::size_t cnt = 0;
+   struct Timings {
+      std::atomic <std::uint32_t> preprocess = 0;
+      std::atomic <std::uint32_t> process = 0;
+      std::atomic <std::uint32_t> postprocess = 0;
+      std::atomic <std::uint32_t> total = 0;
+   };
 
-   std::uint32_t preprocess = 0;
-   std::uint32_t process = 0;
-   std::uint32_t postprocess = 0;
-   std::uint32_t total = 0;
+   static Timings timings;
 
-   constexpr size_t MaxNbrChannels = 4;
-   std::array <std::array <float, erb_BUFFER_SIZE>, MaxNbrChannels> input_arr;
-   std::array <std::array <float, erb_BUFFER_SIZE>, MaxNbrChannels> output_arr;
-   std::array <const float *, MaxNbrChannels> inputs;
-   std::array <float *, MaxNbrChannels> outputs;
-
-   for (size_t c = 0 ; c < MaxNbrChannels ; ++c)
-   {
-      inputs [c] = &input_arr [c][0];
-      outputs [c] = &output_arr [c][0];
-   }
-
-   module.ui.board.submodule ().raw_audio_inputs = &inputs [0];
-   module.ui.board.submodule ().raw_audio_outputs = &outputs [0];
-
-   for (size_t i = 0 ; i < erb_BUFFER_SIZE ; ++i)
-   {
-      float x = (i < erb_BUFFER_SIZE / 2) ? -1.f : 1.f;
-
-      for (size_t c = 0 ; c < MaxNbrChannels ; ++c)
-      {
-         input_arr [c][i] = x;
-      }
-   }
-
-   module.ui.board.submodule ().adc ().Start ();
-
-   while (true)
-   {
+   module.ui.board.run ([&module](){
       using BoardType = decltype (module.ui.board);
 
       const auto tsl_1 = daisy::System::GetTick ();
@@ -244,34 +221,43 @@ int main ()
 %     board_postprocess%
       module.ui.board.impl_postprocess ();
 
-      module.ui.board.submodule ().clock_tick ();
-
       const auto tsl_4 = daisy::System::GetTick ();
 
-      preprocess = std::max (preprocess, tsl_2 - tsl_1);
-      process = std::max (process, tsl_3 - tsl_2);
-      postprocess = std::max (postprocess, tsl_4 - tsl_3);
-      total = std::max (total, tsl_4 - tsl_1);
+      timings.preprocess = std::max (timings.preprocess.load (), tsl_2 - tsl_1);
+      timings.process = std::max (timings.process.load (), tsl_3 - tsl_2);
+      timings.postprocess = std::max (timings.postprocess.load (), tsl_4 - tsl_3);
+      timings.total = std::max (timings.total.load (), tsl_4 - tsl_1);
+   });
+
+   const auto tick_freq = daisy::System::GetTickFreq ();
+
+   std::size_t cnt = 0;
+
+   for (;;)
+   {
+      auto ts_beg = daisy::System::GetTick ();
 
       erb::module_idle (module);
       module.ui.board.impl_idle ();
 
-      ++cnt;
+      // busy wait so that the idle loop is at least 6ms
+      while (daisy::System::GetTick () - ts_beg < tick_freq * 6 / 1000) {}
 
-      if (cnt >= 1000)
+      ++cnt;
+      if (cnt >= 166) // around 1s
       {
          cnt = 0;
 
-         print_cpu_usage ("ERB preprocess: ", preprocess);
-         print_cpu_usage ("%module.name% process: ", process);
-         print_cpu_usage ("ERB postprocess: ", postprocess);
-         print_cpu_usage ("Total: ", total);
+         print_cpu_usage ("ERB preprocess: ", timings.preprocess);
+         print_cpu_usage ("%module.name% process: ", timings.process);
+         print_cpu_usage ("ERB postprocess: ", timings.postprocess);
+         print_cpu_usage ("Total: ", timings.total);
          Logger::PrintLine ("");
 
-         preprocess = 0;
-         process = 0;
-         postprocess = 0;
-         total = 0;
+         timings.preprocess = 0;
+         timings.process = 0;
+         timings.postprocess = 0;
+         timings.total = 0;
       }
    }
 }
