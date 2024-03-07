@@ -32,14 +32,17 @@ def with_apt ():                       return '--with-apt'
 def build_simulator ():                return 'simulator', ZeroOrMore ([configuration, xcode])
 def build_firmware ():                 return 'firmware', ZeroOrMore ([configuration, semihosting])
 def build_performance ():              return 'performance', ZeroOrMore ([logger])
+def build_fuzz ():                     return 'fuzz', ZeroOrMore ([logger])
 def build_hardware ():                 return 'hardware', ZeroOrMore ([only_gerber])
 
 def install_firmware ():               return 'firmware', ZeroOrMore ([configuration, programmer])
 def install_performance ():            return 'performance'
+def install_fuzz ():                   return 'fuzz'
 def install_bootloader ():             return 'bootloader', ZeroOrMore ([fast_boot])
 def install_simulator ():              return 'simulator', ZeroOrMore ([configuration])
 
 def run_performance ():                return 'performance'
+def run_fuzz ():                       return 'fuzz'
 
 def setup ():
    if platform.system () == 'Darwin':
@@ -51,9 +54,9 @@ def setup ():
 
 def init ():                           return 'init', ZeroOrMore ([name, language])
 def configure ():                      return 'configure'
-def build ():                          return 'build', [build_simulator, build_firmware, build_performance, build_hardware]
-def install ():                        return 'install', [install_firmware, install_performance, install_bootloader, install_simulator]
-def run ():                            return 'run ', run_performance
+def build ():                          return 'build', [build_simulator, build_firmware, build_performance, build_fuzz, build_hardware]
+def install ():                        return 'install', [install_firmware, install_performance, install_fuzz, install_bootloader, install_simulator]
+def run ():                            return 'run ', [run_performance, run_fuzz]
 
 def commands ():                       return [setup, init, configure, build, install, run]
 
@@ -86,6 +89,7 @@ DESCRIPTION = {
    'install': 'install the firmware or bootloader',
    '--programmer': 'the programmer to use, defaults to automatic selection',
    'performance': 'the performance analysis firmware',
+   'fuzz': 'the fuzz testing firmware',
    '--logger': 'the logger to use, defaults to automatic selection',
    'bootloader': 'the bootloader',
    'debug': 'for debugging',

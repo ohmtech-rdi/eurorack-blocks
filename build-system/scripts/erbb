@@ -267,6 +267,9 @@ def build (args):
    elif target == 'performance':
       build_performance (args)
 
+   elif target == 'fuzz':
+      build_fuzz (args)
+
    elif target == 'hardware':
       build_hardware (args)
 
@@ -358,6 +361,29 @@ def build_performance (args):
 
 
 
+#-- build_fuzz ---------------------------------------------------------------
+
+def build_fuzz (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   if not hasattr (args, 'logger'):
+      logger = 'auto'
+   else:
+      logger = args.logger
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+
+   # force erbui parsing to avoid cache concurrency on Windows
+   ast_erbui = read_erbui_ast (find_erbui ())
+
+   module = ast_erbb.modules [0].name
+
+   erbb.build_fuzz_target (module, cwd, logger)
+
+
+
 #-- build_hardware -----------------------------------------------------------
 
 def build_hardware (args):
@@ -390,6 +416,8 @@ def install (args):
       install_firmware (args)
    elif target == 'performance':
       install_performance (args)
+   elif target == 'fuzz':
+      install_fuzz (args)
    elif target == 'bootloader':
       install_bootloader (args)
    elif target == 'simulator':
@@ -442,6 +470,25 @@ def install_performance (args):
 
 
 
+#-- install_fuzz -------------------------------------------------------------
+
+def install_fuzz (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   if not hasattr (args, 'programmer'):
+      programmer = 'auto'
+   else:
+      programmer = args.programmer
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   module = ast_erbb.modules [0].name
+   section = ast_erbb.modules [0].section.name
+   erbb.deploy_fuzz (module, section, cwd, programmer)
+
+
+
 #-- install_bootloader -------------------------------------------------------
 
 def install_bootloader (args):
@@ -485,6 +532,8 @@ def run (args):
 
    if target == 'performance':
       run_performance (args)
+   elif target == 'fuzz':
+      run_fuzz (args)
 
 
 
@@ -494,6 +543,15 @@ def run_performance (args):
    import erbb
 
    erbb.run_performance ()
+
+
+
+#-- run_fuzz -----------------------------------------------------------------
+
+def run_fuzz (args):
+   import erbb
+
+   erbb.run_fuzz ()
 
 
 
@@ -630,6 +688,18 @@ def parse_args_build (parent):
       help = 'the logger to use, defaults to automatic selection'
    )
 
+   parser_fuzz = subparsers.add_parser (
+      'fuzz',
+      help='build the fuzz testing firmware'
+   )
+
+   parser_fuzz.add_argument(
+      '--logger',
+      default = 'auto',
+      choices = ['auto', 'usb', 'semihosting'],
+      help = 'the logger to use, defaults to automatic selection'
+   )
+
    parser_hardware = subparsers.add_parser (
       'hardware',
       help='build the hardware'
@@ -691,6 +761,11 @@ def parse_args_install (parent):
       help='install the performance analysis firmware'
    )
 
+   parser_fuzz = subparsers.add_parser (
+      'fuzz',
+      help='install the fuzz testing firmware'
+   )
+
    parser_simulator = subparsers.add_parser (
       'simulator',
       help='install the simulator'
@@ -721,6 +796,11 @@ def parse_args_run (parent):
    parser_performance = subparsers.add_parser (
       'performance',
       help='run the performance analysis firmware'
+   )
+
+   parser_fuzz = subparsers.add_parser (
+      'fuzz',
+      help='run the fuzz testing firmware'
    )
 
 

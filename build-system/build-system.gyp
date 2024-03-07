@@ -42,7 +42,9 @@
             'erbb/generators/action/action_daisy_template.py',
             'erbb/generators/action/action_data_template.py',
             'erbb/generators/action/action_faust_template.py',
+            'erbb/generators/action/action_fuzz_template.py',
             'erbb/generators/action/action_max_template.py',
+            'erbb/generators/action/action_perf_template.py',
             'erbb/generators/action/action_ui_template.py',
             'erbb/generators/action/action_vcvrack_install_template.py',
             'erbb/generators/action/action_vcvrack_template.py',
@@ -97,6 +99,10 @@
             # generators/perf
             'erbb/generators/perf/Makefile_template',
             'erbb/generators/perf/make.py',
+
+            # generators/fuzz
+            'erbb/generators/fuzz/Makefile_template',
+            'erbb/generators/fuzz/make.py',
 
             # generators/vscode
             'erbb/generators/vscode/c_cpp_properties_template.json',
@@ -160,6 +166,10 @@
             # generators/perf
             'erbui/generators/perf/code_template.cpp',
             'erbui/generators/perf/code.py',
+
+            # generators/fuzz
+            'erbui/generators/fuzz/code_template.cpp',
+            'erbui/generators/fuzz/code.py',
 
             # generators/tayda
             'erbui/generators/tayda/drill.py',
