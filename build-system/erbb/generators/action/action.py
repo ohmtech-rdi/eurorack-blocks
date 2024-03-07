@@ -31,6 +31,7 @@ class Action:
    def generate_module (self, path, module):
       self.generate_module_action (path, module, 'daisy')
       self.generate_module_action (path, module, 'perf')
+      self.generate_module_action (path, module, 'fuzz')
       self.generate_module_action (path, module, 'ui')
       self.generate_module_action (path, module, 'vcvrack')
       self.generate_module_action (path, module, 'data')

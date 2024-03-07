@@ -59,6 +59,7 @@ from .generators.simulator.xcode import Xcode as simulatorXcode
 from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
 from .generators.perf.make import Make as perfMake
+from .generators.fuzz.make import Make as fuzzMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.extensions import Extensions as vscodeExtensions
@@ -232,6 +233,7 @@ def configure (path, ast):
    configure_simulator_make (path, ast)
    configure_daisy (path, ast)
    configure_perf (path, ast)
+   configure_fuzz (path, ast)
    configure_vscode (path, ast)
 
 
@@ -281,6 +283,18 @@ Name: configure_perf
 
 def configure_perf (path, ast):
    generator = perfMake ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: configure_fuzz
+==============================================================================
+"""
+
+def configure_fuzz (path, ast):
+   generator = fuzzMake ()
    generator.generate (path, ast)
 
 
@@ -429,6 +443,38 @@ def build_performance_target (target, path, logger):
       MAKE_CMD,
       '--jobs',
       '--directory=%s' % os.path.join (path_artifacts, 'perf')
+   ]
+
+   subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
+Name : build_fuzz_target
+==============================================================================
+"""
+
+def build_fuzz_target (target, path, logger):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   build_libdaisy ()
+
+   os.environ ['CONFIGURATION'] = 'Release'
+
+   if logger == 'auto':
+      if stlink_plugged ():
+         logger = 'semihosting'
+      else:
+         logger = 'usb'
+
+   if logger == 'semihosting':
+      os.environ ['SEMIHOSTING'] = '1'
+
+   cmd = [
+      MAKE_CMD,
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'fuzz')
    ]
 
    subprocess.check_call (cmd)
@@ -688,6 +734,38 @@ def deploy_performance (name, section, path, programmer):
 
 """
 ==============================================================================
+Name : deploy_fuzz
+==============================================================================
+"""
+
+def deploy_fuzz (name, section, path, programmer):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   if programmer == 'auto':
+      if section != 'flash':
+         programmer = 'dfu'
+      elif stlink_plugged ():
+         programmer = 'stlink'
+      else:
+         programmer = 'dfu'
+
+   if programmer == 'stlink':
+      if section != 'flash':
+         print ('Install option \'stlink\' doesn\'t support programming to %s.' % section)
+         print ('Please use option \'dfu\' instead.')
+         sys.exit ()
+
+      file_elf = os.path.join (path_artifacts, 'fuzz', 'Release', '%s.elf' % name)
+      deploy_openocd (name, file_elf)
+
+   elif programmer == 'dfu':
+      file_bin = os.path.join (path_artifacts, 'fuzz', 'Release', '%s.bin' % name)
+      deploy_dfu_util (name, section, file_bin)
+
+
+
+"""
+==============================================================================
 Name : deploy_bootloader
 ==============================================================================
 """
@@ -909,6 +987,84 @@ Name : run_performance_usb
 """
 
 def run_performance_usb ():
+   print ('Waiting for Daisy...')
+   print ('(Press the RESET button if it doesn\'t connect)')
+
+   while not daisy_plugged ():
+      print ('.', end='', flush=True)
+      time.sleep (0.5)
+
+   print ('')
+
+   device = None
+   for port in serial.tools.list_ports.comports ():
+      if (port.vid, port.pid) == (0x0483, 0x5740): # Daisy Seed Built In
+         device = port.device
+
+   assert device
+   daisy = serial.Serial (device, 115200, timeout=0)
+
+   while True:
+      nbr = daisy.in_waiting
+      print (daisy.read (nbr).decode ('utf-8'), end='')
+
+
+
+"""
+==============================================================================
+Name : run_fuzz
+==============================================================================
+"""
+
+def run_fuzz ():
+   if stlink_plugged ():
+      run_fuzz_semihosting ()
+   else:
+      run_fuzz_usb ()
+
+
+
+"""
+==============================================================================
+Name : run_fuzz_semihosting
+==============================================================================
+"""
+
+def run_fuzz_semihosting ():
+   openocd_cmd = [
+      OPENOCD_CMD,
+      '--search', OPENOCD_SCRIPTS,
+      '--file', 'interface/stlink.cfg',
+      '--file', 'target/stm32h7x.cfg',
+   ]
+
+   gdb_cmd = [
+      GDB_CMD,
+      '--ex', 'target extended-remote localhost:3333',   # connect to openocd gdb-server
+      '--ex', 'monitor reset halt',                      # restart device and stop execution
+      '--ex', 'monitor arm semihosting enable',          # activate semihosting
+      '--ex', 'continue',                                # run
+   ]
+
+   proc_openocd = subprocess.Popen (openocd_cmd)
+   proc_gdb = subprocess.Popen (gdb_cmd)
+
+   try:
+      while True:
+         pass
+   except KeyboardInterrupt:
+      proc_gdb.kill ()
+      proc_openocd.kill ()
+
+
+
+"""
+==============================================================================
+Name : run_fuzz_usb
+==============================================================================
+"""
+
+def run_fuzz_usb ():
    print ('Waiting for Daisy...')
    print ('(Press the RESET button if it doesn\'t connect)')
 

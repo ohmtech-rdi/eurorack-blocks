@@ -17,6 +17,7 @@ from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
 from .generators.daisy.code import Code as daisyCode
 from .generators.perf.code import Code as perfCode
+from .generators.fuzz.code import Code as fuzzCode
 from .generators.front_panel.dxf import Dxf as front_panelDxf
 from .generators.front_panel.pdf import Pdf as front_panelPdf
 from .generators.front_panel.pcb import Pcb as front_panelPcb
@@ -174,6 +175,18 @@ Name: generate_perf
 
 def generate_perf (path, ast):
    generator = perfCode ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_fuzz
+==============================================================================
+"""
+
+def generate_fuzz (path, ast):
+   generator = fuzzCode ()
    generator.generate (path, ast)
 
 
