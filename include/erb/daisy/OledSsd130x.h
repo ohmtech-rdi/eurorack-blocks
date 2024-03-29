@@ -49,6 +49,8 @@ public:
    void           init ();
    void           update ();
 
+   void           set_contrast (uint8_t contrast);
+
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
