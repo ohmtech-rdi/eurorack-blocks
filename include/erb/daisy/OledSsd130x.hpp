@@ -140,6 +140,21 @@ void  OledSsd130x <Width, Height, XOffset, PageOffset, Transport>::update ()
 
 
 
+/*
+==============================================================================
+Name : set_contrast
+==============================================================================
+*/
+
+template <size_t Width, size_t Height, size_t XOffset, size_t PageOffset, typename Transport>
+void  OledSsd130x <Width, Height, XOffset, PageOffset, Transport>::set_contrast (uint8_t contrast)
+{
+   _transport.SendCommand (0x81);   // Contrast control
+   _transport.SendCommand (contrast);
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
