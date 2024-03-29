@@ -61,6 +61,8 @@
       'LedRgb.hpp',
       'Persistent.h',
       'Persistent.hpp',
+      'PersistentBase.h',
+      'PersistentBase.hpp',
       'PinType.h',
       'Pot.h',
       'Pot.hpp',

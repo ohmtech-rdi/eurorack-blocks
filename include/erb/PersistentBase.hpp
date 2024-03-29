@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Persistent.hpp
+      PersistentBase.hpp
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -32,13 +32,23 @@ Name : load
 ==============================================================================
 */
 
-template <typename Type, size_t Page, uint64_t Magic, size_t RateLimitMs>
+template <typename Type, uint64_t Magic>
 template <typename Board>
-Type  Persistent <Type, Page, Magic, RateLimitMs>::load (Board & board)
+Type  PersistentBase <Type, Magic>::load (Board & board, size_t page)
 {
-   _value = _base.load (board, Page);
+   const auto bytes = board.template load <sizeof (Magic) + sizeof (Type)> (page);
 
-   return _value;
+   uint64_t loaded_magic = 0;
+   std::memcpy (&loaded_magic, &bytes [0], sizeof (Magic));
+
+   Type value;
+
+   if (loaded_magic == Magic)
+   {
+      std::memcpy (&value, &bytes [sizeof (Magic)], sizeof (Type));
+   }
+
+   return value;
 }
 
 
@@ -49,23 +59,17 @@ Name : save
 ==============================================================================
 */
 
-template <typename Type, size_t Page, uint64_t Magic, size_t RateLimitMs>
+template <typename Type, uint64_t Magic>
 template <typename Board>
-void  Persistent <Type, Page, Magic, RateLimitMs>::save (Board & board, Type value)
+void  PersistentBase <Type, Magic>::save (Board & board, size_t page, Type value)
 {
-   if (!(value == _value))
-   {
-      _value = value;
-      _need_commit_flag = true;
-      _earliest_commit_tp = Clock::now () + std::chrono::milliseconds {RateLimitMs};
-   }
+   uint64_t magic = Magic;
+   std::array <uint8_t, sizeof (Magic) + sizeof (Type)> data;
 
-   if (_need_commit_flag && (Clock::now () > _earliest_commit_tp || RateLimitMs == 0))
-   {
-      _base.save (board, Page, _value);
+   std::memcpy (&data [0], &magic, sizeof (Magic));
+   std::memcpy (&data [sizeof (Magic)], &value, sizeof (Type));
 
-      _need_commit_flag = false;
-   }
+   board.save (page, data);
 }
 
 
