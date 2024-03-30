@@ -15,6 +15,8 @@
 
 #include "erb/def.h"
 
+#include "erb/PersistentBase.h"
+
 #if defined (erb_TARGET_DAISY)
    #include "erb/daisy/ClockHal.h"
 #endif
@@ -70,6 +72,9 @@ private:
       using Clock = std::chrono::steady_clock;
 
 #endif
+
+   PersistentBase <Type, Magic>
+                  _base;
 
    Type           _value = {};
 
