@@ -66,7 +66,7 @@ FLAGS += -O0 -g -ggdb -funsafe-math-optimizations
 endif
 
 ifeq ($(CONFIGURATION),Release)
-FLAGS += -O3 -DNDEBUG=1 -funsafe-math-optimizations
+FLAGS += -O2 -DNDEBUG=1 -funsafe-math-optimizations
 endif
 
 ifdef SEMIHOSTING
