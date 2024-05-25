@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: choco install vcvrack
+      - run: choco install vcvrack --version=2.4.1
       - name: VCV Rack headless first run
         run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
@@ -82,7 +82,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: choco install vcvrack
+      - run: choco install vcvrack --version=2.4.1
       - name: VCV Rack headless first run
         run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
@@ -112,7 +112,7 @@ jobs:
       - run: ./Faust-2.37.3-win64.exe //S
       - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
       - run: cat ~/.bash_profile
-      - run: choco install vcvrack
+      - run: choco install vcvrack --version=2.4.1
       - name: VCV Rack headless first run
         run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
@@ -150,7 +150,7 @@ jobs:
       - run: ./Faust-2.41.1-win64.exe //S
       - run: echo 'export PATH=$PATH:/c/Program\ Files/Faust/bin' >> ~/.bash_profile
       - run: cat ~/.bash_profile
-      - run: choco install vcvrack
+      - run: choco install vcvrack --version=2.4.1
       - name: VCV Rack headless first run
         run: c:/Program\ Files/VCV/Rack2Free/Rack.exe -h <<< '\n'
       - run: python3 build-system/install.py
