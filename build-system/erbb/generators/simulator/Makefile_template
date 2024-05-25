@@ -85,7 +85,7 @@ FLAGS += -O0 -g -funsafe-math-optimizations
 endif
 
 ifeq ($(CONFIGURATION),Release)
-FLAGS += -O3 -DNDEBUG=1 -funsafe-math-optimizations
+FLAGS += -O2 -DNDEBUG=1 -funsafe-math-optimizations
 endif
 
 %warnings%
