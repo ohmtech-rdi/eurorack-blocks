@@ -8,18 +8,6 @@
 
 
 {
-   'defines': [
-      'erb_BUFFER_SIZE=48',
-      'erb_SAMPLE_RATE=48014',
-   ],
-
-   'all_dependent_settings': {
-      'defines': [
-         'erb_BUFFER_SIZE=48',
-         'erb_SAMPLE_RATE=48014',
-      ],
-   },
-
    'sources': [
       'AudioIn.h',
       'AudioIn.hpp',
