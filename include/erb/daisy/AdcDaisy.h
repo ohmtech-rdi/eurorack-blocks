@@ -17,6 +17,7 @@
 
 erb_DISABLE_WARNINGS_DAISY
 #include "per/gpio.h"
+#include "per/adc.h"
 erb_RESTORE_WARNINGS
 
 #include <array>
@@ -30,6 +31,18 @@ class AdcHandle;
 
 namespace erb
 {
+
+
+
+enum class AdcSamplingTimeCycles
+{
+   _1_5, _2_5, _8_5,
+};
+
+enum class AdcOversampling
+{
+   None, _4, _8, _16, _32
+};
 
 
 
@@ -57,7 +70,7 @@ public:
       MuxAddress  address = MuxAddress {};
    };
 
-   inline         AdcDaisy (daisy::AdcHandle & adc, std::initializer_list <Channel> channels);
+   inline         AdcDaisy (daisy::AdcHandle & adc, std::initializer_list <Channel> channels, AdcOversampling oversampling = AdcOversampling::_32, AdcSamplingTimeCycles sampling_time = AdcSamplingTimeCycles::_8_5);
    virtual        ~AdcDaisy () = default;
 
    inline uint16_t
@@ -80,6 +93,12 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+
+   static daisy::AdcChannelConfig::ConversionSpeed
+                  to_ConversionSpeed (AdcSamplingTimeCycles sampling_time);
+
+   static daisy::AdcHandle::OverSampling
+                  to_OverSampling (AdcOversampling oversampling);
 
    std::array <uint16_t *, MaxNbrData>
                   _data;
