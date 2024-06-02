@@ -12,8 +12,8 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 
 KEYWORDS = (
    'module',
-   'import', 'define', 'sources', 'resources', 'section',
-   'file', 'data', 'flash', 'qspi', 'sram', 'stream', 'mono', 'interleaved', 'planar'
+   'import', 'define', 'sources', 'resources', 'tests', 'section',
+   'file', 'data', 'test', 'flash', 'qspi', 'sram', 'stream', 'mono', 'interleaved', 'planar'
 )
 
 SYMBOLS = (',', '{', '}', '=')
@@ -70,6 +70,14 @@ def data_declaration ():               return 'data', data_name, Optional (data_
 def resources_entities ():             return ZeroOrMore (data_declaration)
 def resources_body ():                 return '{', resources_entities, '}'
 def resources_declaration ():          return 'resources', resources_body
+
+# Tests
+def test_entities ():                  return ZeroOrMore (file_declaration)
+def test_body ():                      return '{', test_entities, '}'
+def test_declaration ():               return 'test', test_name, test_body
+def tests_entities ():                 return ZeroOrMore (test_declaration)
+def tests_body ():                     return '{', tests_entities, '}'
+def tests_declaration ():              return 'tests', tests_body
 
 # Base
 def base_declaration ():               return 'base', string_literal

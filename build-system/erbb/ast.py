@@ -70,6 +70,12 @@ class Node:
    def is_stream (self): return isinstance (self, Stream)
 
    @property
+   def is_tests (self): return isinstance (self, Tests)
+
+   @property
+   def is_test (self): return isinstance (self, Test)
+
+   @property
    def is_faust_address (self): return isinstance (self, FaustAddress)
 
    @property
@@ -489,6 +495,53 @@ class Stream (Node):
          return adapter.SourceContext.from_token (self.format_keyword)
 
       return super (Stream, self).source_context_part (part) # pragma: no cover
+
+
+
+# -- Tests -------------------------------------------------------------------
+
+class Tests (Scope):
+   def __init__ (self):
+      super (Tests, self).__init__ ()
+
+   @staticmethod
+   def typename (): return 'tests'
+
+   @property
+   def tests (self):
+      entities = [e for e in self.entities if e.is_test]
+      return entities
+
+
+
+# -- Test --------------------------------------------------------------------
+
+class Test (Scope):
+   def __init__ (self, name_identifier:
+      assert isinstance (name_identifier, adapter.Identifier)
+      super (Test, self).__init__ ()
+      self.name_identifier = name_identifier
+
+   @staticmethod
+   def typename (): return 'test'
+
+   @property
+   def name (self): return self.test_identifier.name
+
+   @property
+   def source_context (self):
+      return self.source_context_part ('name')
+
+   def source_context_part (self, part):
+      if part == 'name':
+         return adapter.SourceContext.from_token (self.name_identifier)
+
+      return super (Test, self).source_context_part (part) # pragma: no cover
+
+   @property
+   def files (self):
+      entities = [e for e in self.entities if e.is_file]
+      return entities
 
 
 
