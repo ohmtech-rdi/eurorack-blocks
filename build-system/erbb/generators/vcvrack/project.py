@@ -50,6 +50,7 @@ class Project:
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_sources (template, module, module.sources, path)
       template = self.replace_actions (template, module, path)
+      template = self.replace_tests (template, module, path)
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -400,3 +401,40 @@ class Project:
          lines += '            },\n'
 
       return lines
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_tests (self, template, module, path):
+      path_test_template = os.path.join (PATH_THIS, 'test_template.gyp')
+
+      lines = ''
+      for test in module.tests.tests:
+         with open (path_test_template, 'r', encoding='utf-8') as file:
+            test_template = file.read ()
+         lines += self.replace_test (test_template, module, test, path)
+
+      return template.replace ('%     tests%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_test (self, test_template, module, test, path):
+      test_template = test_template.replace ('%test.name%', test.name)
+      test_template = self.replace_includes (test_template, module, path);
+      test_template = self.replace_defines (test_template, module.defines)
+      test_template = self.replace_bases (test_template, module, module.bases, path);
+      test_template = self.replace_test_sources (test_template, test, path)
+      return test_template
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_test_sources (self, template, test, path):
+      lines = ''
+
+      for file in test.files:
+         file_path = os.path.relpath (file.path, path)
+         lines += '            \'%s\',\n' % file_path
+
+      return template.replace ('%           test.sources%', lines)
