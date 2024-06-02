@@ -294,7 +294,7 @@ class Visitor (PTNodeVisitor):
 
       if children.tests_body:
          entities = children.tests_body [0]
-         resources.add (entities)
+         tests.add (entities)
 
       return tests
 
@@ -310,11 +310,11 @@ class Visitor (PTNodeVisitor):
    def visit_test_declaration (self, node, children):
       test_name_identifier = children.test_name [0]
 
-      test = ast.Test (data_test_identifier)
+      test = ast.Test (test_name_identifier)
 
       if children.test_body:
          entities = children.test_body [0]
-         data.add (entities)
+         test.add (entities)
 
       return test
 

@@ -214,6 +214,12 @@ class Module (Scope):
       return entities
 
    @property
+   def tests (self):
+      entities = [e for e in self.entities if e.is_tests]
+      assert (len (entities) == 1)
+      return entities [0]
+
+   @property
    def bases (self):
       entities = [e for e in self.entities if e.is_base]
       return entities
@@ -517,7 +523,7 @@ class Tests (Scope):
 # -- Test --------------------------------------------------------------------
 
 class Test (Scope):
-   def __init__ (self, name_identifier:
+   def __init__ (self, name_identifier):
       assert isinstance (name_identifier, adapter.Identifier)
       super (Test, self).__init__ ()
       self.name_identifier = name_identifier
@@ -526,7 +532,7 @@ class Test (Scope):
    def typename (): return 'test'
 
    @property
-   def name (self): return self.test_identifier.name
+   def name (self): return self.name_identifier.name
 
    @property
    def source_context (self):

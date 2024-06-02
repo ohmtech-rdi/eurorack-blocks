@@ -74,6 +74,7 @@ def resources_declaration ():          return 'resources', resources_body
 # Tests
 def test_entities ():                  return ZeroOrMore (file_declaration)
 def test_body ():                      return '{', test_entities, '}'
+def test_name ():                      return name
 def test_declaration ():               return 'test', test_name, test_body
 def tests_entities ():                 return ZeroOrMore (test_declaration)
 def tests_body ():                     return '{', tests_entities, '}'
@@ -87,7 +88,7 @@ def section_name ():                   return ['flash', 'qspi', 'sram']
 def section_declaration ():            return 'section', section_name
 
 # Module
-def module_entities ():                return ZeroOrMore ([section_declaration, import_declaration, define_declaration, sources_declaration, resources_declaration, base_declaration])
+def module_entities ():                return ZeroOrMore ([section_declaration, import_declaration, define_declaration, sources_declaration, resources_declaration, tests_declaration, base_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body
