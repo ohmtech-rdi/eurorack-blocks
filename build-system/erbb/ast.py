@@ -70,9 +70,6 @@ class Node:
    def is_stream (self): return isinstance (self, Stream)
 
    @property
-   def is_tests (self): return isinstance (self, Tests)
-
-   @property
    def is_test (self): return isinstance (self, Test)
 
    @property
@@ -215,9 +212,8 @@ class Module (Scope):
 
    @property
    def tests (self):
-      entities = [e for e in self.entities if e.is_tests]
-      assert (len (entities) == 1)
-      return entities [0]
+      entities = [e for e in self.entities if e.is_test]
+      return entities
 
    @property
    def bases (self):
@@ -504,35 +500,27 @@ class Stream (Node):
 
 
 
-# -- Tests -------------------------------------------------------------------
-
-class Tests (Scope):
-   def __init__ (self):
-      super (Tests, self).__init__ ()
-
-   @staticmethod
-   def typename (): return 'tests'
-
-   @property
-   def tests (self):
-      entities = [e for e in self.entities if e.is_test]
-      return entities
-
-
-
 # -- Test --------------------------------------------------------------------
 
 class Test (Scope):
-   def __init__ (self, name_identifier):
+   def __init__ (self, name_identifier, type_keyword):
       assert isinstance (name_identifier, adapter.Identifier)
+      assert isinstance (type_keyword, adapter.Keyword)
       super (Test, self).__init__ ()
       self.name_identifier = name_identifier
+      self.type_keyword = type_keyword
 
    @staticmethod
    def typename (): return 'test'
 
    @property
    def name (self): return self.name_identifier.name
+
+   @property
+   def type_unit (self): return self.type_keyword.value == 'Unit'
+
+   @property
+   def type_instrument (self): return self.type_keyword.value == 'Instrument'
 
    @property
    def source_context (self):

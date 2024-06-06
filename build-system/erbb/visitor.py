@@ -286,31 +286,13 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
-   #-- Tests -----------------------------------------------------------------
-
-   def visit_tests_declaration (self, node, children):
-
-      tests = ast.Tests ()
-
-      if children.tests_body:
-         entities = children.tests_body [0]
-         tests.add (entities)
-
-      return tests
-
-   def visit_tests_body (self, node, children):
-      return children [0] if children else []
-
-   def visit_tests_entities (self, node, children):
-      return list (children)
-
-
    #-- Test ------------------------------------------------------------------
 
    def visit_test_declaration (self, node, children):
       test_name_identifier = children.test_name [0]
+      test_type_keyword = children.test_type [0]
 
-      test = ast.Test (test_name_identifier)
+      test = ast.Test (test_name_identifier, test_type_keyword)
 
       if children.test_body:
          entities = children.test_body [0]
@@ -320,6 +302,9 @@ class Visitor (PTNodeVisitor):
 
    def visit_test_name (self, node, children):
       return self.visit_identifier (node, children)
+
+   def visit_test_type (self, node, children):
+      return self.to_keyword (node)
 
    def visit_test_body (self, node, children):
       return children [0] if children else []
