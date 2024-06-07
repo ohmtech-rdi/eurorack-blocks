@@ -35,7 +35,7 @@ public:
 
    inline void    reboot ();
 
-   inline void    run (std::chrono::duration <float> duration);
+   inline void    run (std::chrono::duration <double> duration);
 
    inline void    process ();
    inline void    idle ();
@@ -97,12 +97,12 @@ Name : %module.name%Module::run
 ==============================================================================
 */
 
-void  %module.name%Module::run (std::chrono::duration <float> duration)
+void  %module.name%Module::run (std::chrono::duration <double> duration)
 {
-   constexpr float process_period = float (erb_BUFFER_SIZE) / float (erb_SAMPLE_RATE);
+   constexpr double process_period = double (erb_BUFFER_SIZE) / double (erb_SAMPLE_RATE);
 
    // assume the "idle thread" is running every 6ms
-   const auto nbr_process_per_idle = std::size_t (std::ceil (0.006f / process_period));
+   const auto nbr_process_per_idle = std::size_t (std::ceil (0.006 / process_period));
    const auto nbr_process = std::size_t (std::ceil (duration.count () / process_period));
 
    for (std::size_t i = 0 ; i < nbr_process ; ++i)
