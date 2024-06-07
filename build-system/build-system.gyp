@@ -187,6 +187,10 @@
             'erbui/generators/vcvrack/manifest.py',
             'erbui/generators/vcvrack/panel.py',
 
+            # generators/instrument
+            'erbui/generators/instrument/code_template.h',
+            'erbui/generators/instrument/code.py',
+
             # setup
             'setup/__init__.py',
 
