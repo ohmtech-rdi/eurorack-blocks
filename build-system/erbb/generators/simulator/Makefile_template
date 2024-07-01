@@ -36,7 +36,7 @@ LDFLAGS += -L$(RACK_DIR)/$(ARCH_OS)-$(ARCH_CPU) -lRack
 ifdef ARCH_MAC
 	LDFLAGS += -undefined dynamic_lookup
 	TARGET := plugin.dylib
-	RACK_USER_DIR ?= $(HOME)/Documents/Rack2
+	RACK_USER_DIR ?= $(HOME)/Library/Application\ Support/Rack2
 	FLAGS += -DARCH_MAC
 	CXXFLAGS += -stdlib=libc++
 	LDFLAGS += -stdlib=libc++
@@ -47,7 +47,8 @@ endif
 
 ifdef ARCH_LIN
 	TARGET := plugin.so
-	RACK_USER_DIR ?= $(HOME)/.Rack2
+	XDG_DATA_HOME ?= $(HOME)/.local/share
+	RACK_USER_DIR ?= $(XDG_DATA_HOME)/Rack2
 	FLAGS += -DARCH_LIN
 	# This prevents static variables in the DSO (dynamic shared object) from
 	# being preserved after dlclose().
@@ -62,7 +63,7 @@ endif
 ifdef ARCH_WIN
 	LDFLAGS += -static-libstdc++
 	TARGET := plugin.dll
-	RACK_USER_DIR ?= "$(USERPROFILE)"/Documents/Rack2
+	RACK_USER_DIR ?= "$(LOCALAPPDATA)"/Rack2
 	FLAGS += -DARCH_WIN
 	FLAGS += -D_USE_MATH_DEFINES
 	FLAGS += -municode

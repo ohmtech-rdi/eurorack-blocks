@@ -861,25 +861,25 @@ def deploy_simulator (name, path, configuration):
       sys.exit ('Unknown target %s' % name)
 
    if platform.system () == 'Darwin':
+      rack2_folder = os.path.abspath (
+         os.path.join (os.path.expanduser ("~"), 'Library', 'Application Support', 'Rack2')
+      )
       if platform.machine () == 'x86_64':
-         vcv_plugins_path = os.path.abspath (
-            os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack2', 'plugins-mac-x64')
-         )
+         vcv_plugins_path = os.path.join (rack2_folder, 'plugins-mac-x64')
       elif platform.machine () == 'arm64':
-         vcv_plugins_path = os.path.abspath (
-            os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack2', 'plugins-mac-arm64')
-         )
+         vcv_plugins_path = os.path.join (rack2_folder, 'plugins-mac-arm64')
       else:
          sys.exit (1)
 
    elif platform.system () == 'Windows':
       vcv_plugins_path = os.path.abspath (
-         os.path.join (os.environ ['USERPROFILE'], 'Documents', 'Rack2', 'plugins-win-x64')
+         os.path.join (os.environ ['LOCALAPPDATA'], 'Rack2', 'plugins-win-x64')
       )
 
    elif platform.system () == 'Linux':
+      xdg_data_home = os.environ.get('XDG_DATA_HOME', os.path.abspath (os.path.join (os.path.expanduser ("~"), '.local', 'share')))
       vcv_plugins_path = os.path.abspath (
-         os.path.join (os.path.expanduser ("~"), '.Rack2', 'plugins-lin-x64')
+         os.path.join (xdg_data_home, 'Rack2', 'plugins-lin-x64')
       )
 
    vcv_plugin_path = os.path.join (vcv_plugins_path, name)

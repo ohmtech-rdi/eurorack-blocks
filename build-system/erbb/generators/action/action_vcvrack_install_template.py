@@ -18,18 +18,20 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (PATH_THIS)))
 
 if platform.system () == 'Darwin':
+   rack2_folder = os.path.abspath (os.path.join (os.path.expanduser ("~"), 'Library', 'Application Support', 'Rack2'))
    if platform.machine () == 'x86_64':
-      PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack2', 'plugins-mac-x64'))
+      PATH_VCV_PLUGINS = os.path.join (rack2_folder, 'plugins-mac-x64')
    elif platform.machine () == 'arm64':
-      PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), 'Documents', 'Rack2', 'plugins-mac-arm64'))
+      PATH_VCV_PLUGINS = os.path.join (rack2_folder, 'plugins-mac-arm64')
    else:
       sys.exit (1)
 
 elif platform.system () == 'Linux':
-   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.path.expanduser ("~"), '.Rack2', 'plugins-lin-x64'))
+   xdg_data_home = os.environ.get('XDG_DATA_HOME', os.path.abspath (os.path.join (os.path.expanduser ("~"), '.local', 'share')))
+   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (xdg_data_home, 'Rack2', 'plugins-lin-x64'))
 
 elif platform.system () == 'Windows':
-   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.environ ['USERPROFILE'], 'Documents', 'Rack2', 'plugins-win-x64'))
+   PATH_VCV_PLUGINS = os.path.abspath (os.path.join (os.environ ['LOCALAPPDATA'], 'Rack2', 'plugins-win-x64'))
 
 PATH_VCV_PLUGIN = os.path.abspath (os.path.join (PATH_VCV_PLUGINS, '%module.name%'))
 PATH_VCV_PLUGIN_RES = os.path.abspath (os.path.join (PATH_VCV_PLUGIN, 'res'))
