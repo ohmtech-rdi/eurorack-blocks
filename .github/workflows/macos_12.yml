@@ -1,4 +1,4 @@
-name: macOS 11
+name: macOS 12
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 jobs:
   software_cpp:
     name: Software C++
-    runs-on: macos-11
+    runs-on: macos-12
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -55,27 +55,27 @@ jobs:
         run: mkdir init && cd init && erbb init --name Init && erbb configure && erbb build && erbb build hardware && erbb build simulator && erbb build simulator --xcode
         working-directory: samples
       - name: VCV Rack headless run
-        run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Documents/Rack2/log.txt
+        run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check micropatch
-        run: grep "Loaded ErbPluginMicropatch" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginMicropatch" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check bypass
-        run: grep "Loaded ErbPluginBypass" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginBypass" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check drop
-        run: grep "Loaded ErbPluginDrop" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginDrop" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check reverb
-        run: grep "Loaded ErbPluginReverb" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginReverb" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check kick
-        run: grep "Loaded ErbPluginKick" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginKick" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check custom
-        run: grep "Loaded ErbPluginCustom" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginCustom" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check frohmager
-        run: grep "Loaded ErbPluginFrohmager" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginFrohmager" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check init
-        run: grep "Loaded ErbPluginInit" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginInit" $HOME/Library/Application\ Support/Rack2/log.txt
 
   software_max:
     name: Software Max/MSP/Gen~
-    runs-on: macos-11
+    runs-on: macos-12
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -95,13 +95,13 @@ jobs:
         run: erbb configure && erbb build simulator && erbb build && erbb build hardware
         working-directory: test/max2
       - name: VCV Rack headless run
-        run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Documents/Rack2/log.txt
+        run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check max
-        run: grep "Loaded ErbPluginMax" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginMax" $HOME/Library/Application\ Support/Rack2/log.txt
 
   software_faust:
     name: Software Faust
-    runs-on: macos-11
+    runs-on: macos-12
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -128,15 +128,15 @@ jobs:
         run: erbb configure && erbb build simulator && erbb build && erbb build hardware && erbb build simulator --xcode
         working-directory: test/faust3
       - name: VCV Rack headless run
-        run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Documents/Rack2/log.txt
+        run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n' && cat $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check samples/faust
-        run: grep "Loaded ErbPluginFlanger" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginFlanger" $HOME/Library/Application\ Support/Rack2/log.txt
       - name: Check test/faust
-        run: grep "Loaded ErbPluginFaust" $HOME/Documents/Rack2/log.txt
+        run: grep "Loaded plugin ErbPluginFaust" $HOME/Library/Application\ Support/Rack2/log.txt
 
   hardware:
     name: Hardware
-    runs-on: macos-11
+    runs-on: macos-12
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -150,7 +150,7 @@ jobs:
 
   unit_tests:
     name: Unit Tests
-    runs-on: macos-11
+    runs-on: macos-12
     steps:
       - uses: actions/checkout@v2
         with:
@@ -162,7 +162,7 @@ jobs:
 
   erbb_tests:
     name: Erbb/Erbui Tests
-    runs-on: macos-11
+    runs-on: macos-12
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
