@@ -101,7 +101,7 @@ class Code:
          leading_type = control.args ['leading_type']
          control_type = '%s <%s>' % (control.kind, leading_type)
 
-      elif control.kind in ['GateIn', 'AudioIn']:
+      elif control.kind in ['GateIn', 'AudioIn', 'AudioStereoIn']:
          if control.normalling_from is not None and control.normalling_from.is_nothing:
             control_type = '%sJackDetection' % control.kind
          else:
@@ -143,7 +143,7 @@ class Code:
       if control.kind == 'GateOut' or control.kind.startswith ('Led'):
          args += ', board.clock ()'
 
-      if control.kind in ['AudioIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
+      if control.kind in ['AudioIn', 'AudioStereoIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
          args += ', board.npr ()'
 
       source_code = '   erb::%s %s { %s };\n' % (control_type, control.name, args)

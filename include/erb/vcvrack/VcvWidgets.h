@@ -356,6 +356,61 @@ struct PedalJack : rack::app::PortWidget
 };
 
 
+
+struct PedalStereoJack : rack::widget::OpaqueWidget
+{
+   rack::widget::FramebufferWidget * fb;
+   rack::widget::TransformWidget * tw;
+   rack::widget::SvgWidget * sw;
+   rack::app::PortWidget * left;
+   rack::app::PortWidget * right;
+
+   PedalStereoJack () {
+      fb = new rack::widget::FramebufferWidget;
+      addChild (fb);
+
+      tw = new rack::widget::TransformWidget;
+      fb->addChild (tw);
+
+      sw = new rack::widget::SvgWidget;
+      tw->addChild (sw);
+
+      setSvg (APP->window->loadSvg (
+         rack::asset::plugin (plugin_instance, "res/pedal.jack.stereo.svg")
+      ));
+
+      left = new rack::app::PortWidget;
+      tw->addChild (left);
+      left->box.pos = rack::mm2px (rack::Vec (0.5f, 4.f));
+      left->box.size = rack::mm2px (rack::Vec (3.f, 3.f));
+
+      right = new rack::app::PortWidget;
+      tw->addChild (right);
+      right->box.pos = rack::mm2px (rack::Vec (12.5f, 4.f));
+      right->box.size = rack::mm2px (rack::Vec (3.f, 3.f));
+   }
+
+   void setSvg (std::shared_ptr <rack::Svg> svg) {
+      sw->setSvg (svg);
+      tw->box.size = sw->box.size;
+      fb->box.size = sw->box.size;
+      box.size = sw->box.size;
+
+      fb->setDirty();
+   }
+
+   void  rotate (float angle_rad) {
+      tw->identity ();
+      // Rotate SVG
+      rack::math::Vec center = sw->box.getCenter ();
+      tw->translate (center);
+      tw->rotate (angle_rad);
+      tw->translate (center.neg ());
+   }
+};
+
+
+
 struct Dailywell2Ms : rack::app::Switch
 {
    rack::widget::FramebufferWidget * fb;
@@ -758,6 +813,44 @@ Widget * createWidgetCentered (rack::math::Vec pos, T & control)
 {
    auto * w = new Widget {control};  // ahlala
    w->box.pos = pos.minus (w->box.size.div (2));
+   return w;
+}
+
+
+
+template <typename Widget>
+Widget * createInputStereoCentered (rack::math::Vec pos, rack::engine::Module* module, int id)
+{
+   auto * w = new Widget;  // ahlala
+   w->box.pos = pos.minus (w->box.size.div (2));
+
+   w->left->rack::app::PortWidget::module = module;
+   w->left->rack::app::PortWidget::type = rack::engine::Port::INPUT;
+   w->left->rack::app::PortWidget::portId = id;
+
+   w->right->rack::app::PortWidget::module = module;
+   w->right->rack::app::PortWidget::type = rack::engine::Port::INPUT;
+   w->right->rack::app::PortWidget::portId = id + 1;
+
+   return w;
+}
+
+
+
+template <typename Widget>
+Widget * createOutputStereoCentered (rack::math::Vec pos, rack::engine::Module* module, int id)
+{
+   auto * w = new Widget;  // ahlala
+   w->box.pos = pos.minus (w->box.size.div (2));
+
+   w->left->rack::app::PortWidget::module = module;
+   w->left->rack::app::PortWidget::type = rack::engine::Port::OUTPUT;
+   w->left->rack::app::PortWidget::portId = id;
+
+   w->right->rack::app::PortWidget::module = module;
+   w->right->rack::app::PortWidget::type = rack::engine::Port::OUTPUT;
+   w->right->rack::app::PortWidget::portId = id + 1;
+
    return w;
 }
 

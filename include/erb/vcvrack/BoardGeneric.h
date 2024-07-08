@@ -139,6 +139,46 @@ private:
                   db_ptr;
    };
 
+   struct BindingAudioStereoIn
+   {
+      void        process ();
+      Buffer *    data_left_ptr;
+      Buffer *    data_right_ptr;
+      const DoubleBuffer *
+                  db_left_ptr;
+      const DoubleBuffer *
+                  db_right_ptr;
+   };
+
+   struct BindingAudioStereoInJackDetection
+   {
+      void        process ();
+      BoardGeneric *
+                  board_ptr;
+      Buffer *    data_left_ptr;
+      Buffer *    data_right_ptr;
+      uint8_t *   npr_ptr;
+      const DoubleBuffer *
+                  db_left_ptr;
+      const DoubleBuffer *
+                  db_right_ptr;
+      rack::engine::Input *
+                  input_left_ptr;
+   };
+
+   struct BindingAudioStereoOut
+   {
+      void        process ();
+      const Buffer *
+                  data_left_ptr;
+      const Buffer *
+                  data_right_ptr;
+      DoubleBuffer *
+                  db_left_ptr;
+      DoubleBuffer *
+                  db_right_ptr;
+   };
+
    struct BindingButton
    {
       void        process ();
@@ -348,6 +388,8 @@ private:
    using BindingInputs = std::vector <std::variant <
       BindingAudioIn,
       BindingAudioInJackDetection,
+      BindingAudioStereoIn,
+      BindingAudioStereoInJackDetection,
       BindingButton,
       BindingCvIn,
       BindingCvInJackDetection,
@@ -363,6 +405,7 @@ private:
 
    using BindingOutputs = std::vector <std::variant <
       BindingAudioOut,
+      BindingAudioStereoOut,
       BindingCvOut,
       BindingGateOut,
       BindingLedFloat,

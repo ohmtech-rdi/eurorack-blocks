@@ -58,6 +58,9 @@ class Code:
          if entity.is_control and entity.is_input:
             if entity.kind in ['AudioIn']:
                lines += '      Vco %s = { %f, %f };\n' % (entity.name, random.uniform (500.0, 600.0), random.uniform (0.01, 0.1))
+            elif entity.kind in ['AudioStereoIn']:
+               lines += '      Vco %s_left = { %f, %f };\n' % (entity.name, random.uniform (500.0, 600.0), random.uniform (0.01, 0.1))
+               lines += '      Vco %s_right = { %f, %f };\n' % (entity.name, random.uniform (500.0, 600.0), random.uniform (0.01, 0.1))
             elif entity.kind in ['CvIn']:
                lines += '      Lfo %s = { %f, %f };\n' % (entity.name, random.uniform (10.0, 100.0), random.uniform (0.01, 0.1))
             elif entity.kind in ['Pot', 'Trim']:
@@ -82,6 +85,9 @@ class Code:
          if entity.is_control and entity.is_input:
             if entity.kind in ['AudioIn']:
                lines += '      context.%s.process ();\n' % entity.name
+            elif entity.kind in ['AudioStereoIn']:
+               lines += '      context.%s_left.process ();\n' % entity.name
+               lines += '      context.%s_right.process ();\n' % entity.name
             elif entity.kind in ['CvIn', 'Pot', 'Trim']:
                lines += '      context.%s.process ();\n' % entity.name
             elif entity.kind in ['Button', 'GateIn']:
@@ -140,6 +146,9 @@ class Code:
          if entity.is_control and entity.is_input:
             if entity.kind in ['AudioIn']:
                lines += '      const_cast <erb::Buffer &> (module.ui.%s.impl_data) = context.%s;\n' % (entity.name, entity.name)
+            elif entity.kind in ['AudioStereoIn']:
+               lines += '      const_cast <erb::Buffer &> (module.ui.%s.left.impl_data) = context.%s_left;\n' % (entity.name, entity.name)
+               lines += '      const_cast <erb::Buffer &> (module.ui.%s.right.impl_data) = context.%s_right;\n' % (entity.name, entity.name)
             elif entity.kind in ['CvIn', 'Pot', 'Trim']:
                lines += '      const_cast <float &> (module.ui.%s.impl_data) = context.%s;\n' % (entity.name, entity.name)
             elif entity.kind in ['Button', 'GateIn']:
@@ -184,6 +193,9 @@ class Code:
          if entity.is_control and entity.is_output:
             if entity.kind in ['AudioOut']:
                lines += '      check_audio_buffer (module.ui.%s.impl_data);\n' % entity.name
+            elif entity.kind in ['AudioStereoOut']:
+               lines += '      check_audio_buffer (module.ui.%s.left.impl_data);\n' % entity.name
+               lines += '      check_audio_buffer (module.ui.%s.right.impl_data);\n' % entity.name
 
       return template.replace ('%     controls_check_audio%', lines)
 

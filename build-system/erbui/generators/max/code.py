@@ -61,7 +61,8 @@ class Code:
 
    def analyse_audio_inputs (self, module_max_def, module):
       audio_inputs = [e for e in module.controls if e.kind == 'AudioIn']
-      audio_inputs_nbr = len (audio_inputs)
+      audio_stereo_inputs = [e for e in module.controls if e.kind == 'AudioStereoIn']
+      audio_inputs_nbr = len (audio_inputs) + 2 * len (audio_stereo_inputs)
       max_audio_inputs_nbr = module_max_def ['nbr_inputs']
 
       if max_audio_inputs_nbr != audio_inputs_nbr:
@@ -77,7 +78,8 @@ class Code:
 
    def analyse_audio_outputs (self, module_max_def, module):
       audio_outputs = [e for e in module.controls if e.kind == 'AudioOut']
-      audio_outputs_nbr = len (audio_outputs)
+      audio_stereo_outputs = [e for e in module.controls if e.kind == 'AudioStereoOut']
+      audio_outputs_nbr = len (audio_outputs) + 2 * len (audio_stereo_outputs)
       max_audio_outputs_nbr = module_max_def ['nbr_outputs']
 
       if max_audio_outputs_nbr != audio_outputs_nbr:
@@ -113,9 +115,14 @@ class Code:
    #--------------------------------------------------------------------------
 
    def generate_module_definition_audio_inputs (self, module):
-      audio_inputs = [e for e in module.controls if e.kind == 'AudioIn']
+      audio_inputs = [e for e in module.controls if e.kind in ['AudioIn', 'AudioStereoIn']]
       if audio_inputs:
-         return '      ' + ', '.join (map (lambda x: '&ui.%s [0]' % x.name, audio_inputs))
+         def flatten (x):
+            if x.kind == 'AudioIn':
+               return '&ui.%s [0]' % x.name
+            elif x.kind == 'AudioStereoIn':
+               return '&ui.%s.left [0], &ui.%s.right [0]' % (x.name, x.name)
+         return '      ' + ', '.join (map (flatten, audio_inputs))
       else:
          return '      &silence [0]' # gen needs always at least 1 input
 
@@ -123,9 +130,14 @@ class Code:
    #--------------------------------------------------------------------------
 
    def generate_module_definition_audio_outputs (self, module):
-      audio_outputs = [e for e in module.controls if e.kind == 'AudioOut']
+      audio_outputs = [e for e in module.controls if e.kind in ['AudioOut', 'AudioStereoOut']]
       if audio_outputs:
-         return '      ' + ', '.join (map (lambda x: '&ui.%s [0]' % x.name, audio_outputs))
+         def flatten (x):
+            if x.kind == 'AudioOut':
+               return '&ui.%s [0]' % x.name
+            elif x.kind == 'AudioStereoOut':
+               return '&ui.%s.left [0], &ui.%s.right [0]' % (x.name, x.name)
+         return '      ' + ', '.join (map (flatten, audio_outputs))
       else:
          return '      nullptr' # avoid zero-size array with unused dummy value
 
@@ -145,7 +157,7 @@ class Code:
                )
                lines += '   state.set_%s (%s);\n' % (control.name, param_val)
 
-         if control.kind in ['AudioIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
+         if control.kind in ['AudioIn', 'AudioStereoIn', 'CvIn', 'GateIn'] and control.normalling_from is not None and control.normalling_from.is_nothing:
             cpp_name = 'ui.' + control.name
             lines += '   state.set_%s_plugged (%s.plugged ());\n' % (control.name, cpp_name)
 

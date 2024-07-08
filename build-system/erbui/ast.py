@@ -1572,7 +1572,7 @@ class Control (Scope):
 
    @property
    def is_pin_multiple (self):
-      return self.kind in ['Encoder', 'EncoderButton', 'LedBi', 'LedRgb', 'Switch']
+      return self.kind in ['AudioStereoIn', 'AudioStereoOut', 'Encoder', 'EncoderButton', 'LedBi', 'LedRgb', 'Switch']
 
    @property
    def pins (self):
@@ -1582,7 +1582,9 @@ class Control (Scope):
 
    @property
    def nbr_pins (self):
-      if self.kind == 'Encoder':
+      if self.kind in ['AudioStereoIn', 'AudioStereoOut']:
+         return 2
+      elif self.kind == 'Encoder':
          return 2
       elif self.kind == 'EncoderButton':
          return 3
@@ -1615,7 +1617,7 @@ class Control (Scope):
 
    @property
    def compound_properties (self):
-      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
+      if self.kind in ['AudioIn', 'AudioOut', 'AudioStereoIn', 'AudioStereoOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
          return []
       elif self.kind == 'EncoderButton':
          return ['encoder', 'button']
@@ -1628,19 +1630,19 @@ class Control (Scope):
 
    @property
    def is_input (self):
-      return self.kind in ['AudioIn', 'Button', 'CvIn', 'Encoder', 'EncoderButton', 'GateIn', 'Pot', 'Switch', 'Trim']
+      return self.kind in ['AudioIn', 'AudioStereoIn', 'Button', 'CvIn', 'Encoder', 'EncoderButton', 'GateIn', 'Pot', 'Switch', 'Trim']
 
    @property
    def is_output (self):
-      return self.kind in ['AudioOut', 'CvOut', 'Display', 'GateOut', 'Led', 'LedBi', 'LedRgb']
+      return self.kind in ['AudioOut', 'AudioStereoOut', 'CvOut', 'Display', 'GateOut', 'Led', 'LedBi', 'LedRgb']
 
    @property
    def is_kind_in (self):
-      return self.kind in ['AudioIn', 'CvIn', 'GateIn']
+      return self.kind in ['AudioIn', 'AudioStereoIn', 'CvIn', 'GateIn']
 
    @property
    def is_kind_out (self):
-      return self.kind in ['AudioOut', 'CvOut', 'GateOut']
+      return self.kind in ['AudioOut', 'AudioStereoOut', 'CvOut', 'GateOut']
 
 
 # -- Mode --------------------------------------------------------------------

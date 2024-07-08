@@ -16,6 +16,9 @@
 #include "erb/AudioIn.h"
 #include "erb/AudioInJackDetection.h"
 #include "erb/AudioOut.h"
+#include "erb/AudioStereoIn.h"
+#include "erb/AudioStereoInJackDetection.h"
+#include "erb/AudioStereoOut.h"
 #include "erb/Button.h"
 #include "erb/CvIn.h"
 #include "erb/CvInJackDetection.h"
@@ -114,6 +117,93 @@ inline void  BoardGeneric::impl_bind (AudioOut & control, rack::engine::Output &
    });
 
    _rack_audio_outputs.push_back (&model);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (AudioStereoIn & control, rack::engine::Input & model)
+{
+   std::size_t audio_input_index = _rack_audio_inputs.size ();
+
+   auto & double_buffer_left = _double_buffer_inputs [audio_input_index];
+   auto & double_buffer_right = _double_buffer_inputs [audio_input_index + 1];
+
+   _binding_inputs.push_back (BindingAudioStereoIn {
+      .data_left_ptr = const_cast <Buffer *> (&control.left.impl_data),
+      .data_right_ptr = const_cast <Buffer *> (&control.right.impl_data),
+      .db_left_ptr = &double_buffer_left,
+      .db_right_ptr = &double_buffer_right
+   });
+
+   auto * model_ptr = &model;
+   _rack_audio_inputs.push_back (&model_ptr [0]);
+   _rack_audio_inputs.push_back (&model_ptr [1]);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (AudioStereoInJackDetection & control, rack::engine::Input & model)
+{
+   std::size_t audio_input_index = _rack_audio_inputs.size ();
+
+   auto & double_buffer_left = _double_buffer_inputs [audio_input_index];
+   auto & double_buffer_right = _double_buffer_inputs [audio_input_index + 1];
+
+   _binding_inputs.push_back (BindingAudioStereoInJackDetection {
+      .board_ptr = this,
+      .data_left_ptr = const_cast <Buffer *> (&control.left.impl_data),
+      .data_right_ptr = const_cast <Buffer *> (&control.right.impl_data),
+      .npr_ptr = const_cast <uint8_t *> (&control.impl_npr),
+      .db_left_ptr = &double_buffer_left,
+      .db_right_ptr = &double_buffer_right,
+      .input_left_ptr = &model
+   });
+
+   auto * model_ptr = &model;
+   _rack_audio_inputs.push_back (&model_ptr [0]);
+   _rack_audio_inputs.push_back (&model_ptr [1]);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (AudioStereoOut & control, rack::engine::Output & model)
+{
+   std::size_t audio_output_index = _rack_audio_outputs.size ();
+
+   auto & double_buffer_left = _double_buffer_outputs [audio_output_index];
+   auto & double_buffer_right = _double_buffer_outputs [audio_output_index + 1];
+
+   _binding_outputs.push_back (BindingAudioStereoOut {
+      .data_left_ptr = const_cast <Buffer *> (&control.left.impl_data),
+      .data_right_ptr = const_cast <Buffer *> (&control.right.impl_data),
+      .db_left_ptr = &double_buffer_left,
+      .db_right_ptr = &double_buffer_right
+   });
+
+   auto * model_ptr = &model;
+   _rack_audio_outputs.push_back (&model_ptr [0]);
+   _rack_audio_outputs.push_back (&model_ptr [1]);
 }
 
 

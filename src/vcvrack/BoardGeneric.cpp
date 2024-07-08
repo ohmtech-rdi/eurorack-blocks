@@ -226,6 +226,56 @@ void  BoardGeneric::BindingAudioOut::process ()
 
 /*
 ==============================================================================
+Name : BindingAudioStereoIn::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingAudioStereoIn::process ()
+{
+   *data_left_ptr = *db_left_ptr;
+   *data_right_ptr = *db_right_ptr;
+}
+
+
+
+/*
+==============================================================================
+Name : BindingAudioStereoInJackDetection::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingAudioStereoInJackDetection::process ()
+{
+   if (input_left_ptr->isConnected ())
+   {
+      *data_left_ptr = *db_left_ptr;
+      *data_right_ptr = *db_right_ptr;
+   }
+   else
+   {
+      data_left_ptr->fill (board_ptr->npr () != 0);
+      data_right_ptr->fill (board_ptr->npr () != 0);
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : BindingAudioStereoOut::process
+==============================================================================
+*/
+
+void  BoardGeneric::BindingAudioStereoOut::process ()
+{
+   *db_left_ptr = *data_left_ptr;
+   *db_right_ptr = *data_right_ptr;
+}
+
+
+
+/*
+==============================================================================
 Name : BindingButton::process
 ==============================================================================
 */

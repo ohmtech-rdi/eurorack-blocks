@@ -55,49 +55,76 @@ class Code:
    #--------------------------------------------------------------------------
 
    def replace_config_controls_bind (self, template, entities):
-      nbr_params = 0
-      nbr_inputs = 0
-      nbr_outputs = 0
-      nbr_lights = 0
+      index_param = 0
+      index_input = 0
+      index_output = 0
+      index_light = 0
 
-      controls_bind_config = ''
+      bind_config = ''
 
       for entity in entities:
          if entity.is_control:
             control = entity
-            category = self.control_kind_to_vcv_category (control)
-            nbr_ids = self.control_kind_to_vcv_id_count (control)
 
-            if category == 'Param':
-               control.vcv_param_index = nbr_params
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.5f * (decltype (module.ui.%s)::ValueMin + decltype (module.ui.%s)::ValueMax), "%s");\n\n' % (nbr_params, control.name, control.name, control.name, control.name, control.name)
-               nbr_params += nbr_ids
+            if control.kind in ['Button', 'Encoder', 'EncoderButton', 'Pot', 'Switch', 'Trim']:
+               control.vcv_param_index = index_param
+               bind_config +=  '   {\n'
+               bind_config += f'      module.ui.board.impl_bind (module.ui.{control.name}, params [{index_param}]);\n'
+               bind_config += f'      const float val_min = decltype (module.ui.{control.name})::ValueMin;\n'
+               bind_config += f'      const float val_max = decltype (module.ui.{control.name})::ValueMax;\n'
+               bind_config +=  '      const float val_default = (val_min + val_max) * 0.5f;\n'
+               bind_config += f'      configParam ({index_param}, val_min, val_max, val_default, "{control.name}");\n'
+               bind_config +=  '   }\n\n'
+               index_param += self.control_kind_to_vcv_id_count (control)
 
-            elif category == 'Input':
-               control.vcv_input_index = nbr_inputs
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
-               controls_bind_config += '   configInput (%d, "%s");\n\n' % (nbr_inputs, control.name)
-               nbr_inputs += nbr_ids
+            elif control.kind in ['AudioIn', 'CvIn', 'GateIn']:
+               control.vcv_input_index = index_input
+               bind_config +=  '   {\n'
+               bind_config += f'      module.ui.board.impl_bind (module.ui.{control.name}, inputs [{index_input}]);\n'
+               bind_config += f'      configInput ({index_input}, "{control.name}");\n'
+               bind_config +=  '   }\n\n'
+               index_input += self.control_kind_to_vcv_id_count (control)
 
-            elif category == 'Output':
-               control.vcv_output_index = nbr_outputs
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
-               controls_bind_config += '   configOutput (%d, "%s");\n\n' % (nbr_outputs, control.name)
-               nbr_outputs += nbr_ids
+            elif control.kind in ['AudioStereoIn']:
+               control.vcv_input_index = index_input
+               bind_config +=  '   {\n'
+               bind_config += f'      module.ui.board.impl_bind (module.ui.{control.name}, inputs [{index_input}]);\n'
+               bind_config += f'      configInput ({index_input+0}, "{control.name}.left");\n'
+               bind_config += f'      configInput ({index_input+1}, "{control.name}.right");\n'
+               bind_config +=  '   }\n\n'
+               index_input += self.control_kind_to_vcv_id_count (control)
 
-            elif category == 'Light':
-               control.vcv_light_index = nbr_lights
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
-               controls_bind_config += '   configLight (%d, "%s");\n\n' % (nbr_lights, control.name)
-               nbr_lights += nbr_ids
+            elif control.kind in ['AudioOut', 'CvOut', 'GateOut']:
+               control.vcv_output_index = index_output
+               bind_config +=  '   {\n'
+               bind_config += f'      module.ui.board.impl_bind (module.ui.{control.name}, outputs [{index_output}]);\n'
+               bind_config += f'      configOutput ({index_output}, "{control.name}");\n'
+               bind_config +=  '   }\n\n'
+               index_output += self.control_kind_to_vcv_id_count (control)
 
-      template = template.replace ('%module.nbr_params%', str (nbr_params))
-      template = template.replace ('%module.nbr_inputs%', str (nbr_inputs))
-      template = template.replace ('%module.nbr_outputs%', str (nbr_outputs))
-      template = template.replace ('%module.nbr_lights%', str (nbr_lights))
+            elif control.kind in ['AudioStereoOut']:
+               control.vcv_output_index = index_output
+               bind_config +=  '   {\n'
+               bind_config += f'      module.ui.board.impl_bind (module.ui.{control.name}, outputs [{index_output}]);\n'
+               bind_config += f'      configOutput ({index_output+0}, "{control.name}.left");\n'
+               bind_config += f'      configOutput ({index_output+1}, "{control.name}.right");\n'
+               bind_config +=  '   }\n\n'
+               index_output += self.control_kind_to_vcv_id_count (control)
 
-      template = template.replace ('%  module.controls.bind+config%', controls_bind_config)
+            elif control.kind in ['Led', 'LedBi', 'LedRgb']:
+               control.vcv_light_index = index_light
+               bind_config +=  '   {\n'
+               bind_config += f'      module.ui.board.impl_bind (module.ui.{control.name}, lights [{index_light}]);\n'
+               bind_config += f'      configLight ({index_light}, "{control.name}");\n'
+               bind_config +=  '   }\n\n'
+               index_light += self.control_kind_to_vcv_id_count (control)
+
+      template = template.replace ('%module.nbr_params%', str (index_param))
+      template = template.replace ('%module.nbr_inputs%', str (index_input))
+      template = template.replace ('%module.nbr_outputs%', str (index_output))
+      template = template.replace ('%module.nbr_lights%', str (index_light))
+
+      template = template.replace ('%  module.controls.bind+config%', bind_config)
 
       return template
 
@@ -146,10 +173,10 @@ class Code:
 
    def replace_controls_widget (self, template, module, entities):
       lines = ''
-      nbr_params = 0
-      nbr_inputs = 0
-      nbr_outputs = 0
-      nbr_lights = 0
+      index_param = 0
+      index_input = 0
+      index_output = 0
+      index_light = 0
 
       offset_x = 0.0
       offset_y = 0.0
@@ -164,12 +191,6 @@ class Code:
       for entity in entities:
          if entity.is_control:
             control = entity
-            category = self.control_kind_to_vcv_category (control)
-            nbr_ids = self.control_kind_to_vcv_id_count (control)
-
-            func_category = category
-            if func_category == 'Light':
-               func_category = '_child_auto'
 
             if control.rotation is None:
                rotation = 0
@@ -177,41 +198,65 @@ class Code:
                rotation = control.rotation.degree_top_down % 360
 
             rotation_rad = rotation * 2.0 * math.pi / 360.0
+            x = control.position.x.mm + offset_x
+            y = control.position.y.mm + offset_y
+            simulator_class = control.args ['simulator_class']
 
-            if category == 'Param':
-               index = nbr_params
-               nbr_params += nbr_ids
+            if control.kind in ['Button', 'Encoder', 'EncoderButton', 'Pot', 'Switch', 'Trim']:
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = createParamCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_, {index_param});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      addParam (control_ptr);\n'
+               lines +=  '   }\n'
+               index_param += self.control_kind_to_vcv_id_count (control)
 
-            elif category == 'Input':
-               index = nbr_inputs
-               nbr_inputs += nbr_ids
+            elif control.kind in ['AudioIn', 'CvIn', 'GateIn']:
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = createInputCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_, {index_input});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      addInput (control_ptr);\n'
+               lines +=  '   }\n'
+               index_input += self.control_kind_to_vcv_id_count (control)
 
-            elif category == 'Output':
-               index = nbr_outputs
-               nbr_outputs += nbr_ids
+            elif control.kind in ['AudioStereoIn']:
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = erb::createInputStereoCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_, {index_input});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      addChild (control_ptr);\n'
+               lines +=  '   }\n'
+               index_input += self.control_kind_to_vcv_id_count (control)
 
-            elif category == 'Light':
-               index = nbr_lights
-               nbr_lights += nbr_ids
+            elif control.kind in ['AudioOut', 'CvOut', 'GateOut']:
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = createOutputCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_, {index_output});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      addOutput (control_ptr);\n'
+               lines +=  '   }\n'
+               index_output += self.control_kind_to_vcv_id_count (control)
 
-            if category in ['Param', 'Input', 'Output', 'Light']:
-               lines += '   {\n'
-               lines += '      auto control_ptr = create%sCentered <%s> (mm2px (Vec (%ff, %ff)), module_, %d);\n' % (
-                  category, control.args ['simulator_class'], control.position.x.mm + offset_x, control.position.y.mm + offset_y, index
-               )
-               lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
-               lines += '      add%s (control_ptr);\n' % func_category
-               lines += '   }\n'
+            elif control.kind in ['AudioStereoOut']:
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = erb::createOutputStereoCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_, {index_output});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      addChild (control_ptr);\n'
+               lines +=  '   }\n'
+               index_output += self.control_kind_to_vcv_id_count (control)
 
-            else:
-               lines += '   if (module_ptr != nullptr)\n'
-               lines += '   {\n'
-               lines += '      auto control_ptr = erb::createWidgetCentered <%s> (mm2px (Vec (%ff, %ff)), module_ptr->module_uptr->ui.%s);\n' % (
-                  control.args ['simulator_class'], control.position.x.mm + offset_x, control.position.y.mm + offset_y, control.name
-               )
-               lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
-               lines += '      addChild (control_ptr);\n'
-               lines += '   }\n'
+            elif control.kind in ['Led', 'LedBi', 'LedRgb']:
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = createLightCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_, {index_light});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      add_child_auto (control_ptr);\n'
+               lines +=  '   }\n'
+               index_light += self.control_kind_to_vcv_id_count (control)
+
+            elif control.kind in ['Display']:
+               lines +=  '   if (module_ptr != nullptr)\n'
+               lines +=  '   {\n'
+               lines += f'      auto control_ptr = erb::createWidgetCentered <{simulator_class}> (mm2px (Vec ({x}f, {y}f)), module_ptr->module_uptr->ui.{control.name});\n'
+               lines += f'      control_ptr->rotate ({rotation_rad}f);\n'
+               lines +=  '      addChild (control_ptr);\n'
+               lines +=  '   }\n'
 
             lines += '\n'
 
@@ -220,35 +265,12 @@ class Code:
 
    #--------------------------------------------------------------------------
 
-   def control_kind_to_vcv_category (self, control):
-      kind_category_map = {
-         'AudioIn': 'Input',
-         'AudioOut': 'Output',
-         'Button': 'Param',
-         'CvIn': 'Input',
-         'CvOut': 'Output',
-         'Display': None,
-         'Encoder': 'Param',
-         'EncoderButton': 'Param',
-         'GateIn': 'Input',
-         'GateOut': 'Output',
-         'Led': 'Light',
-         'LedBi': 'Light',
-         'LedRgb': 'Light',
-         'Pot': 'Param',
-         'Switch': 'Param',
-         'Trim': 'Param',
-      }
-
-      return kind_category_map [control.kind]
-
-
-   #--------------------------------------------------------------------------
-
    def control_kind_to_vcv_id_count (self, control):
       kind_vcv_id_count_map = {
          'AudioIn': 1,
          'AudioOut': 1,
+         'AudioStereoIn': 2,
+         'AudioStereoOut': 2,
          'Button': 1,
          'CvIn': 1,
          'CvOut': 1,

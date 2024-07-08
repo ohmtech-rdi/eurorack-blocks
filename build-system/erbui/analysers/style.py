@@ -166,6 +166,8 @@ class AnalyserStyle:
       manufacturer_data ['controls'] = {
          'AudioIn': [],
          'AudioOut': [],
+         'AudioStereoIn': [],
+         'AudioStereoOut': [],
          'Button': [],
          'CvIn': [],
          'CvOut': [],
