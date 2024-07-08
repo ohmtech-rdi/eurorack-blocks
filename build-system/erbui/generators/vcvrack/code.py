@@ -37,7 +37,7 @@ class Code:
 
       template = template.replace ('%module.name%', module.name)
 
-      if module.format.is_1590bb2_portrait:
+      if module.format.is_1590bb2_portrait or module.format.is_1590dd_landscape:
          template = template.replace ('%add_screws%', 'false')
       else:
          template = template.replace ('%add_screws%', 'true')
@@ -157,6 +157,9 @@ class Code:
       if module.format.is_1590bb2_portrait:
          offset_x = 6.34
          offset_y = 9.0
+      elif module.format.is_1590dd_landscape:
+         offset_x = 2.52
+         offset_y = 8.5
 
       for entity in entities:
          if entity.is_control:

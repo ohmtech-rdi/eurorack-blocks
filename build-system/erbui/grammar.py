@@ -18,7 +18,7 @@ KEYWORDS = (
    'positioning', 'center', 'left', 'top', 'right', 'bottom',
    'layer', 'silkscreen', 'translucence',
    'aluminum', 'brushed_aluminum', 'aluminum_coated', 'natural', 'white', 'black', 'pcb', 'side',
-   '3u', '1590bb2_portrait',
+   '3u', '1590bb2_portrait', '1590dd_landscape',
    'route', 'wire', 'manual',
    'faust', 'address', 'init', 'value',
    'manufacturer', 'generator', 'arg', 'parts',
@@ -181,7 +181,7 @@ def route_declaration ():              return 'route', route_mode
 def width_declaration ():              return 'width', distance_declaration
 
 # Module Format
-def format_name ():                     return ['3u', '1590bb2_portrait']
+def format_name ():                     return ['3u', '1590bb2_portrait', '1590dd_landscape']
 def format_declaration ():              return 'format', format_name
 
 # Module Manufacturer Reference

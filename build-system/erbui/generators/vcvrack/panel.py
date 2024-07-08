@@ -56,6 +56,8 @@ class Panel:
          surface = cairocffi.SVGSurface (path_svg_pp, module.width.pt, MODULE_HEIGHT * MM_TO_PT)
       elif module.format.is_1590bb2_portrait:
          surface = cairocffi.SVGSurface (path_svg_pp, 21 * 5.08 * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+      elif module.format.is_1590dd_landscape:
+         surface = cairocffi.SVGSurface (path_svg_pp, 38 * 5.08 * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
 
       surface.set_document_unit (cairocffi.SVG_UNIT_PT)
       context = cairocffi.Context (surface)
@@ -66,6 +68,9 @@ class Panel:
       if module.format.is_1590bb2_portrait:
          offset_x = 6.34 * MM_TO_PT
          offset_y = 9.0 * MM_TO_PT
+      elif module.format.is_1590dd_landscape:
+         offset_x = 2.52 * MM_TO_PT
+         offset_y = 8.5 * MM_TO_PT
 
       with context:
          context.translate (offset_x, offset_y)
@@ -78,6 +83,27 @@ class Panel:
          left = 6.34 * MM_TO_PT
          right = (21 * 5.08 - 6.34) * MM_TO_PT
          top = 9.0 * MM_TO_PT
+         bottom = 128.5 * MM_TO_PT
+         radius = 5.0 * MM_TO_PT
+         degrees = math.pi / 180.0
+
+         context.new_sub_path ()
+         context.arc (right - radius, top + radius, radius, -90 * degrees, 0 * degrees)
+         context.arc (right - radius, bottom - radius, radius, 0 * degrees, 90 * degrees)
+         context.arc (left + radius, bottom - radius, radius, 90 * degrees, 180 * degrees)
+         context.arc (left + radius, top + radius, radius, 180 * degrees, 270 * degrees)
+         context.close_path ()
+
+         gray = 0.25
+         context.set_source_rgb (gray, gray, gray)
+         context.fill ()
+
+      elif module.format.is_1590dd_landscape:
+         context.rectangle (0, 0, 38 * 5.08 * MM_TO_PT, MODULE_HEIGHT * MM_TO_PT)
+
+         left = 2.52 * MM_TO_PT
+         right = (38 * 5.08 - 2.52) * MM_TO_PT
+         top = 8.5 * MM_TO_PT
          bottom = 128.5 * MM_TO_PT
          radius = 5.0 * MM_TO_PT
          degrees = math.pi / 180.0

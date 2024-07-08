@@ -140,6 +140,9 @@ class Analyser:
       elif module.board.format.is_1590bb2_portrait:
          module.board.add (ast.Width (ast.DistanceLiteral (adapter.LiteralSynthesized ('94.0mm'), 'mm')))
          module.board.add (ast.Height (ast.DistanceLiteral (adapter.LiteralSynthesized ('119.5mm'), 'mm')))
+      elif module.board.format.is_1590dd_landscape:
+         module.board.add (ast.Width (ast.DistanceLiteral (adapter.LiteralSynthesized ('188.0mm'), 'mm')))
+         module.board.add (ast.Height (ast.DistanceLiteral (adapter.LiteralSynthesized ('120.0mm'), 'mm')))
 
       if module.board.height != None:
          module.add (module.board.height)

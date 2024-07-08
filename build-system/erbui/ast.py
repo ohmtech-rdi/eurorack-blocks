@@ -1935,6 +1935,10 @@ class Format (Node):
    def is_1590bb2_portrait (self):
       return self.keyword_name.value == '1590bb2_portrait'
 
+   @property
+   def is_1590dd_landscape (self):
+      return self.keyword_name.value == '1590dd_landscape'
+
 
 
 # -- Positioning -------------------------------------------------------------

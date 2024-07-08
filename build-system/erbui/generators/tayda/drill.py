@@ -31,7 +31,7 @@ class Drill:
    #--------------------------------------------------------------------------
 
    def generate_module (self, path, module):
-      if not module.format.is_1590bb2_portrait: return # not needed
+      if module.format.is_3u: return # not needed
 
       for generator in module.manufacturer_data ['generators']:
          if generator ['id'] == 'tayda/drill':
@@ -43,10 +43,12 @@ class Drill:
 
             if module.format.is_1590bb2_portrait:
                enclosure_type = '1590BB2'
+            elif module.format.is_1590dd_landscape:
+               enclosure_type = '1590DD'
 
             root = {
                'name': module.name,
-               'enclosure_type': enclosure_type,
+               'enclosure_type': enclosure_type, # tayda internal name
                'is_public': 0,
                'is_archived': 0,
                'holes': [],
@@ -198,8 +200,12 @@ class Drill:
       elif side == 'bottom':
          box_side = 'D'
 
+      # real height of box without lid
+      # reference: https://www.hammfg.com/electronics/small-case/diecast/1590
       if module.format.is_1590bb2_portrait:
          box_height = 33.75
+      elif module.format.is_1590dd_landscape:
+         box_height = 33.0
 
       clearance = 0.1
 
