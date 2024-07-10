@@ -149,6 +149,14 @@ struct SifamDrn111 {
    static constexpr const char * resource_0 = "res/sifam.drn111.white.svg";
 };
 
+struct MxrSkirt19mmBlack {};
+
+template <>
+struct AlphaPot <MxrSkirt19mmBlack>: rack::Davies1900hLargeBlackKnob {
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
+
 
 template <typename KnobTrait, bool Switch>
 struct BournsPec11R: rack::app::SvgKnob {
