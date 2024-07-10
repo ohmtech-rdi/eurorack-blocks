@@ -76,6 +76,8 @@
             'vcvrack/resource/pedal.jack.stereo.svg',
             'vcvrack/resource/pedal.footswitch.0.svg',
             'vcvrack/resource/pedal.footswitch.1.svg',
+            'vcvrack/resource/Mxr25Black_bg.svg',
+            'vcvrack/resource/Mxr25Black.svg',
          ],
       },
    ],

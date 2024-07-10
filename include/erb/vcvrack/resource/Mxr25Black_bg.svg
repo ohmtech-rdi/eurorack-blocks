@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.6.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg16908" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://creativecommons.org/ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="79.37008px"
+	 height="79.37339px" viewBox="0 0 79.37008 79.37339" style="enable-background:new 0 0 79.37008 79.37339;" xml:space="preserve">
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" id="base" inkscape:current-layer="layer1" inkscape:cx="-76.991733" inkscape:cy="7.9974093" inkscape:document-units="mm" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:window-height="1422" inkscape:window-maximized="0" inkscape:window-width="2560" inkscape:window-x="0" inkscape:window-y="18" inkscape:zoom="3.959798" pagecolor="#ffffff" showgrid="false" units="px">
+	</sodipodi:namedview>
+<linearGradient id="path109718_00000011735819568766971270000001418726403912837509_" gradientUnits="userSpaceOnUse" x1="39.68504" y1="79.26099" x2="39.68504" y2="-0.11256" gradientTransform="matrix(1 0 0 -1 0 79.26097)">
+	<stop  offset="0" style="stop-color:#686667"/>
+	<stop  offset="1" style="stop-color:#000000"/>
+</linearGradient>
+<path id="path109718_5_" inkscape:connector-curvature="0" style="fill:url(#path109718_00000011735819568766971270000001418726403912837509_);" d="
+	M79.37008,39.685c0,21.91793-17.7671,39.68852-39.68505,39.68852S0,61.60293,0,39.685C0,17.77052,17.76708-0.00003,39.68502-0.00003
+	S79.37008,17.77052,79.37008,39.685"/>
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-406.38098" y1="-514.362" x2="-406.38098" y2="-548.92883" gradientTransform="matrix(-1 0 0 -0.50871 -366.69595 -246.82179)">
+	<stop  offset="0" style="stop-color:#FDFDFF"/>
+	<stop  offset="1" style="stop-color:#FCFEFF;stop-opacity:0"/>
+</linearGradient>
+<ellipse style="opacity:0.3;fill:url(#SVGID_1_);enable-background:new    ;" cx="39.68504" cy="23.63158" rx="17.69294" ry="8.79225"/>
+</svg>

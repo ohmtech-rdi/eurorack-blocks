@@ -156,6 +156,17 @@ struct AlphaPot <MxrSkirt19mmBlack>: rack::Davies1900hLargeBlackKnob {
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
+struct MxrSkirt25mmBlack {};
+
+template <>
+struct AlphaPot <MxrSkirt25mmBlack>: rack::Davies1900hKnob {
+   AlphaPot() {
+      setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Mxr25Black.svg")));
+      bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Mxr25Black_bg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
+
 
 
 template <typename KnobTrait, bool Switch>
@@ -250,6 +261,38 @@ struct BournsPec11R <Rogan3S, Switch>: BournsPec11RRogan <Switch> {
    void  rotate (float /* angle_rad */) { /* degenerated */ }
 };
 
+
+template <bool Switch>
+struct BournsPec11RMxr: rack::Davies1900hKnob {
+   BournsPec11RMxr() {
+      minAngle = 0;
+      maxAngle = 1000 * 2 * float (M_PI);
+   }
+
+   virtual void onHoverKey (const HoverKeyEvent& e) override {
+      rack::Davies1900hKnob::onHoverKey (e);
+      if constexpr (Switch) {
+         if ((e.key == 32 /* space */) && (module != nullptr)) {
+            rack::ParamQuantity * button_ptr = module->paramQuantities [paramId + 1];
+            if (e.action == GLFW_PRESS) {
+               button_ptr->setValue (5.f);
+            } else if (e.action == GLFW_RELEASE) {
+               button_ptr->setValue (0.f);
+            }
+         }
+      }
+   }
+};
+
+template <bool Switch>
+struct BournsPec11R <MxrSkirt25mmBlack, Switch>: BournsPec11RMxr <Switch> {
+   using Inherited = BournsPec11RMxr <Switch>;
+   BournsPec11R() {
+      Inherited::setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Mxr25Black.svg")));
+      Inherited::bg->setSvg (rack::Svg::load (rack::asset::plugin (plugin_instance, "res/Mxr25Black_bg.svg")));
+   }
+   void  rotate (float /* angle_rad */) { /* degenerated */ }
+};
 
 
 
