@@ -599,6 +599,24 @@ struct Led3mm : rack::MediumLight <Base>
    void  rotate (float /* angle_rad */) {}
 };
 
+template <typename Base>
+struct Led5mmBezel : rack::LargeLight <Base>
+{
+   static constexpr bool BehindPanel = false;
+
+   rack::widget::SvgWidget* sw;
+
+   Led5mmBezel () {
+      sw = new rack::widget::SvgWidget;
+      this->fb->addChildBottom(sw);
+      sw->setSvg (
+         rack::Svg::load (rack::asset::plugin (plugin_instance, "res/led5mm.bezel.svg"))
+      );
+      sw->box.pos = rack::mm2px (rack::Vec (-2.3f, -2.3f));
+   }
+   void  rotate (float /* angle_rad */) {}
+};
+
 
 
 template <typename Base>

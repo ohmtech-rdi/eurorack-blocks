@@ -78,6 +78,7 @@
             'vcvrack/resource/pedal.footswitch.1.svg',
             'vcvrack/resource/Mxr25Black_bg.svg',
             'vcvrack/resource/Mxr25Black.svg',
+            'vcvrack/resource/led5mm.bezel.svg',
          ],
       },
    ],

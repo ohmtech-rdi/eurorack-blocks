@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.6.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1"
+	 id="svg164153" xmlns:svg="http://www.w3.org/2000/svg" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:cc="http://creativecommons.org/ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" inkscape:version="0.92.3 (2405546, 2018-03-11)" sodipodi:docname="ledLarge-ol.svg"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="28.34646px"
+	 height="28.34646px" viewBox="0 0 28.34646 28.34646" style="enable-background:new 0 0 28.34646 28.34646;" xml:space="preserve">
+<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="14.1732" y1="-0.80624" x2="14.1732" y2="28.9297">
+	<stop  offset="0" style="stop-color:#707070"/>
+	<stop  offset="0.09605" style="stop-color:#626262"/>
+	<stop  offset="0.32787" style="stop-color:#454545"/>
+	<stop  offset="0.55804" style="stop-color:#303030"/>
+	<stop  offset="0.78382" style="stop-color:#232323"/>
+	<stop  offset="1" style="stop-color:#1F1F1F"/>
+</linearGradient>
+<path style="fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_1_);" d="M14.1732,0.00002
+	c-7.82184,0-14.17255,6.34991-14.17255,14.17316c0,7.81995,6.35071,14.17328,14.17255,14.17328
+	c7.8219,0,14.17255-6.35333,14.17255-14.17328C28.34575,6.34993,21.9951,0.00002,14.1732,0.00002z"/>
+<linearGradient id="SVGID_00000113333940944490448370000006639072872404975286_" gradientUnits="userSpaceOnUse" x1="14.17323" y1="23.1609" x2="14.17323" y2="5.31932">
+	<stop  offset="0" style="stop-color:#707070"/>
+	<stop  offset="0.09605" style="stop-color:#626262"/>
+	<stop  offset="0.32787" style="stop-color:#454545"/>
+	<stop  offset="0.55804" style="stop-color:#303030"/>
+	<stop  offset="0.78382" style="stop-color:#232323"/>
+	<stop  offset="1" style="stop-color:#1F1F1F"/>
+</linearGradient>
+<path style="fill-rule:evenodd;clip-rule:evenodd;fill:url(#SVGID_00000113333940944490448370000006639072872404975286_);" d="
+	M14.1732,5.66927c-4.69312,0-8.50348,3.81-8.50348,8.50391c0,4.69202,3.81036,8.50397,8.50348,8.50397
+	c4.69318,0,8.50354-3.81195,8.50354-8.50397C22.67674,9.47926,18.86637,5.66927,14.1732,5.66927z"/>
+<sodipodi:namedview  bordercolor="#666666" borderopacity="1.0" fit-margin-bottom="0" fit-margin-left="0" fit-margin-right="0" fit-margin-top="0" id="base" inkscape:current-layer="svg164153" inkscape:cx="5.1230194" inkscape:cy="5.744428" inkscape:document-units="mm" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:window-height="1017" inkscape:window-maximized="1" inkscape:window-width="1920" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:zoom="31.678384" pagecolor="#ffffff" showgrid="false">
+	</sodipodi:namedview>
+<path style="fill-rule:evenodd;clip-rule:evenodd;fill:#363636;" d="M14.1732,7.08661c-3.91093,0-7.08623,3.175-7.08623,7.08659
+	c0,3.91002,3.1753,7.08664,7.08623,7.08664c3.91098,0,7.08628-3.17662,7.08628-7.08664
+	C21.25949,10.26161,18.08418,7.08661,14.1732,7.08661z"/>
+</svg>
