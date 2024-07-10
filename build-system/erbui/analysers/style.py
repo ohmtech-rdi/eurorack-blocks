@@ -179,6 +179,8 @@ class AnalyserStyle:
          'Led': [],
          'LedBi': [],
          'LedRgb': [],
+         'MidiIn': [],
+         'MidiOut': [],
          'Pot': [],
          'Switch': [],
          'Trim': [],

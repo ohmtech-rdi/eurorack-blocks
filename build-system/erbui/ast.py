@@ -1617,7 +1617,7 @@ class Control (Scope):
 
    @property
    def compound_properties (self):
-      if self.kind in ['AudioIn', 'AudioOut', 'AudioStereoIn', 'AudioStereoOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
+      if self.kind in ['AudioIn', 'AudioOut', 'AudioStereoIn', 'AudioStereoOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'MidiIn', 'MidiOut', 'Pot', 'Switch', 'Trim']:
          return []
       elif self.kind == 'EncoderButton':
          return ['encoder', 'button']
@@ -1630,19 +1630,19 @@ class Control (Scope):
 
    @property
    def is_input (self):
-      return self.kind in ['AudioIn', 'AudioStereoIn', 'Button', 'CvIn', 'Encoder', 'EncoderButton', 'GateIn', 'Pot', 'Switch', 'Trim']
+      return self.kind in ['AudioIn', 'AudioStereoIn', 'Button', 'CvIn', 'Encoder', 'EncoderButton', 'GateIn', 'MidiIn', 'Pot', 'Switch', 'Trim']
 
    @property
    def is_output (self):
-      return self.kind in ['AudioOut', 'AudioStereoOut', 'CvOut', 'Display', 'GateOut', 'Led', 'LedBi', 'LedRgb']
+      return self.kind in ['AudioOut', 'AudioStereoOut', 'CvOut', 'Display', 'GateOut', 'Led', 'LedBi', 'LedRgb', 'MidiOut']
 
    @property
    def is_kind_in (self):
-      return self.kind in ['AudioIn', 'AudioStereoIn', 'CvIn', 'GateIn']
+      return self.kind in ['AudioIn', 'AudioStereoIn', 'CvIn', 'GateIn', 'MidiIn']
 
    @property
    def is_kind_out (self):
-      return self.kind in ['AudioOut', 'AudioStereoOut', 'CvOut', 'GateOut']
+      return self.kind in ['AudioOut', 'AudioStereoOut', 'CvOut', 'GateOut', 'MidiOut']
 
 
 # -- Mode --------------------------------------------------------------------
