@@ -37,6 +37,8 @@
 #include "erb/Led.h"
 #include "erb/LedBi.h"
 #include "erb/LedRgb.h"
+#include "erb/MidiIn.h"
+#include "erb/MidiMessage.h"
 #include "erb/Persistent.h"
 #include "erb/Pot.h"
 #if (erb_SDRAM_USE_FLAG)
