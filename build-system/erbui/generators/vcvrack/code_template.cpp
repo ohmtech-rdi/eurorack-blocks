@@ -50,6 +50,8 @@ struct ErbModule
                   module_board;
    std::unique_ptr <%module.name%>
                   module_uptr;
+   rack::midi::InputQueue
+                  midi_input;
 
 }; // struct ErbModule
 
@@ -74,6 +76,8 @@ struct ErbWidget
    }
 
    void           step () override;
+
+   void           appendContextMenu (rack::Menu * menu) override;
 
    ErbModule *    module_ptr = nullptr;
 }; // struct ErbWidget
@@ -158,7 +162,7 @@ Name : ErbModule::process
 ==============================================================================
 */
 
-void  ErbModule::process (const ProcessArgs & /* args */)
+void  ErbModule::process (const ProcessArgs & args)
 {
    erb::ModuleBoard::Scoped scoped {module_board};
 
@@ -168,6 +172,12 @@ void  ErbModule::process (const ProcessArgs & /* args */)
 
 %  normalling_process%
    module.ui.board.impl_pull_audio_inputs ();
+
+   rack::midi::Message msg;
+   while (midi_input.tryPop (&msg, args.frame))
+   {
+      module.ui.board.impl_feed_midi_input (msg.bytes);
+   }
 
    if (process_flag)
    {
@@ -341,6 +351,25 @@ void  ErbWidget::step ()
    if (!module_ptr->module_uptr) return;
 
    erb::module_idle (*module_ptr->module_uptr);
+}
+
+
+
+/*
+==============================================================================
+Name : ErbWidget::appendContextMenu
+==============================================================================
+*/
+
+void  ErbWidget::appendContextMenu (rack::Menu * menu)
+{
+   if (module_ptr == nullptr) return;
+
+   if (%has_midi_input%)
+   {
+      menu->addChild (new rack::MenuSeparator);
+      rack::appendMidiMenu (menu, &module_ptr->midi_input);
+   }
 }
 
 

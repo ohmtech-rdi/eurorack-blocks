@@ -84,6 +84,7 @@ public:
    bool           impl_need_process ();
    void           impl_pull_audio_inputs ();
    void           impl_push_audio_outputs ();
+   void           impl_feed_midi_input (const std::vector <uint8_t> & data);
 
    void           impl_preprocess ();
    void           impl_postprocess ();
@@ -374,15 +375,6 @@ private:
                   light_b_ptr;
    };
 
-   struct BindingMidiIn
-   {
-      void        process ();
-      Stream <erb_MIDI_MESSAGE_SIZE> *
-                  data_ptr;
-      rack::midi::InputQueue *
-                  queue_ptr;
-   };
-
    struct BindingPot
    {
       void        process ();
@@ -416,7 +408,6 @@ private:
       BindingEncoderButtonLeadingB,
       BindingGateIn,
       BindingGateInJackDetection,
-      BindingMidiIn,
       BindingPot,
       BindingSwitch
    >>;

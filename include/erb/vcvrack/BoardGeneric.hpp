@@ -719,23 +719,6 @@ Name : impl_bind
 */
 
 template <>
-inline void  BoardGeneric::impl_bind (MidiIn & control, rack::midi::InputQueue & model)
-{
-   _binding_inputs.push_back (BindingMidiIn {
-      .data_ptr = &control.impl_data,
-      .queue_ptr = &model
-   });
-}
-
-
-
-/*
-==============================================================================
-Name : impl_bind
-==============================================================================
-*/
-
-template <>
 inline void  BoardGeneric::impl_bind (Switch <3> & control, rack::engine::Param & model)
 {
    _binding_inputs.push_back (BindingSwitch {
