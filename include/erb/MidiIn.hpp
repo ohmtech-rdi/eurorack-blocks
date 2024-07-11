@@ -63,7 +63,7 @@ std::optional <MidiIn::Message>  MidiIn::pop ()
    {
       ss = feed ();
    }
-   while ((ss == StreamState::Empty) || (ss == StreamState::MessageReady));
+   while ((ss != StreamState::Empty) && (ss != StreamState::MessageReady));
 
    if (ss == StreamState::MessageReady)
    {
