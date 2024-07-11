@@ -42,9 +42,9 @@ public:
    inline         MidiIn (Stream <erb_MIDI_MESSAGE_SIZE> & data);
    virtual        ~MidiIn () = default;
 
-   void           reset ();
+   inline void    reset ();
 
-   std::optional <Message>
+   inline std::optional <Message>
                   pop ();
 
 
@@ -80,7 +80,8 @@ private:
       Overflowed     // byte was available, but would overflow
    };
 
-   StreamState    feed ();
+   inline StreamState
+                  feed ();
 
    State          _state = State::WaitingStatusByte;
    Message        _msg;

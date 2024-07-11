@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Stream.h"
 #include "erb/detail/Clock.h"
 #include "erb/detail/DoubleBuffer.h"
 
@@ -101,6 +102,9 @@ protected:
                   _analog_outputs;
    std::vector <Buffer>
                   _audio_outputs;
+
+   Stream <erb_MIDI_MESSAGE_SIZE>
+                  _midi_input;
 
 
 
