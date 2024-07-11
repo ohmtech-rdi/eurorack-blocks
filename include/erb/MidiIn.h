@@ -39,7 +39,7 @@ public:
       std::size_t size = 0;
    };
 
-   inline         MidiIn (const Stream <erb_MIDI_MESSAGE_SIZE> & data);
+   inline         MidiIn (Stream <erb_MIDI_MESSAGE_SIZE> & data);
    virtual        ~MidiIn () = default;
 
    void           reset ();
@@ -51,7 +51,8 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const Stream <erb_MIDI_MESSAGE_SIZE> & impl_data;
+   Stream <erb_MIDI_MESSAGE_SIZE> &
+                  impl_data;
    inline void    impl_preprocess () {}
    inline void    impl_postprocess () {}
 
@@ -66,6 +67,23 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
+   enum class State
+   {
+      WaitingStatusByte, Reading
+   };
+
+   enum class StreamState
+   {
+      Empty,         // no byte in steam
+      Fed,           // byte was fed but no message yet
+      MessageReady,  // new message is available
+      Overflowed     // byte was available, but would overflow
+   };
+
+   StreamState    feed ();
+
+   State          _state = State::WaitingStatusByte;
+   Message        _msg;
 
 
 

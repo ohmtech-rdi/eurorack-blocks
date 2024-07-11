@@ -66,6 +66,20 @@ std::optional <uint8_t> Stream <BufferSize>::read ()
 
 
 
+/*
+==============================================================================
+Name : put_back
+==============================================================================
+*/
+
+template <std::size_t BufferSize>
+void  Stream <BufferSize>::put_back ()
+{
+   _read_pos = (_read_pos + BufferSize - 1) % BufferSize;
+}
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

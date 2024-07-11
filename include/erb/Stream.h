@@ -35,9 +35,10 @@ public:
    virtual        ~Stream () = default;
 
    bool           write (uint8_t byte);
+
    std::optional <uint8_t>
                   read ();
-
+   void           put_back ();
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
