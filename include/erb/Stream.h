@@ -60,7 +60,6 @@ private:
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-                  Stream () = delete;
                   Stream (const Stream & rhs) = delete;
                   Stream (Stream && rhs) = delete;
    Stream &       operator = (const Stream & rhs) = delete;

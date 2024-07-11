@@ -38,13 +38,13 @@
 #include "erb/LedBi.h"
 #include "erb/LedRgb.h"
 #include "erb/MidiIn.h"
-#include "erb/MidiMessage.h"
 #include "erb/Persistent.h"
 #include "erb/Pot.h"
 #if (erb_SDRAM_USE_FLAG)
    #include "erb/SdramPtr.h"
 #endif
-   #include "erb/SramPtr.h"
+#include "erb/SramPtr.h"
+#include "erb/Stream.h"
 #include "erb/Switch.h"
 
 #include "erb/detail/fnc.h"
