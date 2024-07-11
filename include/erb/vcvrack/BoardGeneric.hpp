@@ -31,6 +31,7 @@
 #include "erb/Led.h"
 #include "erb/LedBi.h"
 #include "erb/LedRgb.h"
+#include "erb/MidiIn.h"
 #include "erb/Pot.h"
 #include "erb/Switch.h"
 
@@ -706,6 +707,23 @@ inline void  BoardGeneric::impl_bind (Switch <2> & control, rack::engine::Param 
       .data_1_ptr = const_cast <uint8_t *> (&control._1.impl_data),
       .scale = 1.f,
       .param_ptr = &model
+   });
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+==============================================================================
+*/
+
+template <>
+inline void  BoardGeneric::impl_bind (MidiIn & control, rack::midi::InputQueue & model)
+{
+   _binding_inputs.push_back (BindingMidiIn {
+      .data_ptr = &control.impl_data,
+      .queue_ptr = &model
    });
 }
 

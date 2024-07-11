@@ -35,6 +35,10 @@ struct Input;
 struct Output;
 struct Light;
 }
+namespace midi
+{
+struct InputQueue;
+}
 }
 
 namespace erb
@@ -370,6 +374,15 @@ private:
                   light_b_ptr;
    };
 
+   struct BindingMidiIn
+   {
+      void        process ();
+      Stream <erb_MIDI_MESSAGE_SIZE> *
+                  data_ptr;
+      rack::midi::InputQueue *
+                  queue_ptr;
+   };
+
    struct BindingPot
    {
       void        process ();
@@ -403,6 +416,7 @@ private:
       BindingEncoderButtonLeadingB,
       BindingGateIn,
       BindingGateInJackDetection,
+      BindingMidiIn,
       BindingPot,
       BindingSwitch
    >>;
