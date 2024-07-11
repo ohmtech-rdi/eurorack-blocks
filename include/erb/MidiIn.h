@@ -13,8 +13,11 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/MidiMessage.h"
 #include "erb/Stream.h"
+
+#include <array>
+#include <cstdint>
+#include <optional>
 
 
 
@@ -29,16 +32,26 @@ class MidiIn
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         MidiIn (const Stream & data);
+   struct Message
+   {
+      std::array <uint8_t, erb_MIDI_MESSAGE_SIZE>
+                  data = {};
+      std::size_t size = 0;
+   };
+
+   inline         MidiIn (const Stream <erb_MIDI_MESSAGE_SIZE> & data);
    virtual        ~MidiIn () = default;
 
-   MidiMessage    pop ();
+   void           reset ();
+
+   std::optional <Message>
+                  pop ();
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   const Stream & impl_data;
+   const Stream <erb_MIDI_MESSAGE_SIZE> & impl_data;
    inline void    impl_preprocess () {}
    inline void    impl_postprocess () {}
 

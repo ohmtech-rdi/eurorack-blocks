@@ -174,6 +174,7 @@ class Project:
       define_map = {
          'erb_BUFFER_SIZE': '48',
          'erb_SAMPLE_RATE': '48014',
+         'erb_MIDI_MESSAGE_SIZE': '128',
       }
 
       for define in defines:
