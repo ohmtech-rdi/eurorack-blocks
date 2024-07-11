@@ -134,7 +134,8 @@ void  BoardGeneric::impl_feed_midi_input (const std::vector <uint8_t> & data)
 {
    for (auto b : data)
    {
-      _midi_input.write (b);
+      bool ok = _midi_input.write (b);
+      assert (ok);   // stream is full
    }
 }
 
