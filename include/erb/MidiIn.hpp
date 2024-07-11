@@ -99,7 +99,7 @@ MidiIn::StreamState  MidiIn::feed ()
    if (_state == State::WaitingStatusByte)
    {
       _msg.size = 0;
-      
+
       if (byte & 0x80)
       {
          _msg.data [_msg.size] = byte;
@@ -141,6 +141,8 @@ MidiIn::StreamState  MidiIn::feed ()
          }
       }
    }
+
+   __builtin_unreachable ();
 }
 
 
