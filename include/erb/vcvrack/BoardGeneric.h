@@ -110,6 +110,8 @@ protected:
 
    Stream <erb_MIDI_MESSAGE_SIZE>
                   _midi_input;
+   Stream <erb_MIDI_MESSAGE_SIZE>
+                  _midi_output;
 
 
 

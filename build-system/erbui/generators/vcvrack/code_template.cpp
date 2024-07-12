@@ -52,6 +52,8 @@ struct ErbModule
                   module_uptr;
    rack::midi::InputQueue
                   midi_input;
+   rack::midi::Output
+                  midi_output;
 
 }; // struct ErbModule
 
@@ -365,10 +367,29 @@ void  ErbWidget::appendContextMenu (rack::Menu * menu)
 {
    if (module_ptr == nullptr) return;
 
-   if (%has_midi_input%)
+   if (%has_midi_input% || %has_midi_output%)
    {
       menu->addChild (new rack::MenuSeparator);
-      rack::appendMidiMenu (menu, &module_ptr->midi_input);
+   }
+
+   if (%has_midi_input%)
+   {
+      menu->addChild (rack::createSubmenuItem (
+         "MIDI Input", "",
+         [=](rack::Menu * menu) {
+            rack::appendMidiMenu (menu, &module_ptr->midi_input);
+         }
+      ));
+   }
+
+   if (%has_midi_output%)
+   {
+      menu->addChild (rack::createSubmenuItem (
+         "MIDI Output", "",
+         [=](rack::Menu * menu) {
+            rack::appendMidiMenu (menu, &module_ptr->midi_output);
+         }
+      ));
    }
 }
 

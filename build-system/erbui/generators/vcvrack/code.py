@@ -48,6 +48,7 @@ class Code:
       template = self.replace_controls_postprocess (template, module.entities);
       template = self.replace_controls_widget (template, module, module.entities);
       template = self.replace_has_midi_input (template, module, module.entities);
+      template = self.replace_has_midi_output (template, module, module.entities);
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -273,6 +274,19 @@ class Code:
          template = template.replace ('%has_midi_input%', 'true')
       else:
          template = template.replace ('%has_midi_input%', 'false')
+
+      return template
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_has_midi_output (self, template, module, entities):
+
+      midi_inputs = [e for e in entities if e.is_control and e.kind == 'MidiOut']
+      if len (midi_inputs) > 0:
+         template = template.replace ('%has_midi_output%', 'true')
+      else:
+         template = template.replace ('%has_midi_output%', 'false')
 
       return template
 
