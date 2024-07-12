@@ -55,6 +55,8 @@
       'LedRgb.hpp',
       'MidiIn.h',
       'MidiIn.hpp',
+      'MidiOut.h',
+      'MidiOut.hpp',
       'Persistent.h',
       'Persistent.hpp',
       'PersistentBase.h',
