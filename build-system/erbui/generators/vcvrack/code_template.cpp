@@ -253,6 +253,9 @@ json_t * ErbModule::dataToJson ()
 
    json_object_set_new (root_json, "persistent", persistent_json);
 
+   json_object_set_new (root_json, "midi_input", midi_input.toJson ());
+   json_object_set_new (root_json, "midi_output", midi_output.toJson ());
+
    return root_json;
 }
 
@@ -299,6 +302,12 @@ void  ErbModule::dataFromJson (json_t * root)
          persistent [page] = data;
       }
    }
+
+   json_t * midi_input_json = json_object_get (root, "midi_input");
+   if (midi_input_json) midi_input.fromJson (midi_input_json);
+
+   json_t * midi_output_json = json_object_get (root, "midi_output");
+   if (midi_output_json) midi_output.fromJson (midi_output_json);
 }
 
 
