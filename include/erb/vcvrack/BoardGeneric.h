@@ -13,12 +13,14 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/MidiIn.h"
 #include "erb/Stream.h"
 #include "erb/detail/Clock.h"
 #include "erb/detail/DoubleBuffer.h"
 
 #include <functional>
 #include <map>
+#include <optional>
 #include <variant>
 #include <vector>
 
@@ -85,6 +87,8 @@ public:
    void           impl_pull_audio_inputs ();
    void           impl_push_audio_outputs ();
    void           impl_feed_midi_input (const std::vector <uint8_t> & data);
+   std::optional <MidiIn::Message>
+                  impl_pop_midi_output ();
 
    void           impl_preprocess ();
    void           impl_postprocess ();
@@ -112,6 +116,7 @@ protected:
                   _midi_input;
    Stream <erb_MIDI_MESSAGE_SIZE>
                   _midi_output;
+   MidiIn         _midi_output_slicer = {_midi_output};
 
 
 

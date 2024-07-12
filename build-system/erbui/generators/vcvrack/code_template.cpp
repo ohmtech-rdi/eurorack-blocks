@@ -192,6 +192,15 @@ void  ErbModule::process (const ProcessArgs & args)
       module.ui.board.impl_postprocess ();
    }
 
+   while (auto msg_opt = module.ui.board.impl_pop_midi_output ())
+   {
+      const auto msg = *msg_opt;
+      rack::midi::Message rack_msg;
+      rack_msg.bytes = std::vector (msg.data.data (), msg.data.data () + msg.size);
+      rack_msg.frame = -1;
+      midi_output.sendMessage (rack_msg);
+   }
+
    module.ui.board.impl_push_audio_outputs ();
 }
 

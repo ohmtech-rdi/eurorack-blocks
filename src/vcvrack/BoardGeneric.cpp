@@ -143,6 +143,19 @@ void  BoardGeneric::impl_feed_midi_input (const std::vector <uint8_t> & data)
 
 /*
 ==============================================================================
+Name : impl_pop_midi_output
+==============================================================================
+*/
+
+std::optional <MidiIn::Message>   BoardGeneric::impl_pop_midi_output ()
+{
+   return _midi_output_slicer.pop ();
+}
+
+
+
+/*
+==============================================================================
 Name : impl_preprocess
 ==============================================================================
 */
