@@ -638,6 +638,40 @@ struct Panel_ER_OLEDM015_2
 };
 
 
+struct Panel_ER_OLEDM096_1
+{
+   // https://www.buydisplay.com/download/manual/ER-OLEDM0.96-1_Series_Datasheet.pdf
+
+   static constexpr std::size_t width = 128;
+   static constexpr std::size_t height = 64;
+
+   using Storage = std::array <std::uint8_t, width * height / 8>;
+
+   // mm
+   static constexpr float visual_width = 23.744f;
+   static constexpr float visual_height = 12.864f;
+   static constexpr float active_width = 21.744f;
+   static constexpr float active_height = 10.864f;
+   static constexpr float dot_size = 0.15f;
+
+   static Pixels <width, height>  to_pixels (const Storage & data)
+   {
+      Pixels <width, height> ret;
+      for (size_t x = 0 ; x < width ; ++x)
+      {
+         for (size_t y = 0 ; y < height ; ++y)
+         {
+            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+
+            ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
+         }
+      }
+
+      return ret;
+   }
+};
+
+
 
 enum class OledModuleFilter
 {
