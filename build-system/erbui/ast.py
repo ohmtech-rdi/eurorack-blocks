@@ -1615,7 +1615,7 @@ class Control (Scope):
 
    @property
    def compound_properties (self):
-      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'Switch', 'Trim']:
+      if self.kind in ['AudioIn', 'AudioOut', 'Button', 'CvIn', 'CvOut', 'Display', 'Encoder', 'GateIn', 'GateOut', 'Led', 'Pot', 'SdMmc', 'Switch', 'Trim']:
          return []
       elif self.kind == 'EncoderButton':
          return ['encoder', 'button']

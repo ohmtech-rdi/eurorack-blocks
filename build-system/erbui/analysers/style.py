@@ -178,6 +178,7 @@ class AnalyserStyle:
          'LedBi': [],
          'LedRgb': [],
          'Pot': [],
+         'SdMmc': [],
          'Switch': [],
          'Trim': [],
       }
