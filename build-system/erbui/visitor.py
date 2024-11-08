@@ -617,9 +617,11 @@ class Visitor (PTNodeVisitor):
    def visit_normalling_declaration (self, node, children):
 
       if children.normalling_nothing:
-         normalling = ast.NormallingFrom (children.normalling_nothing [0])
+         normalling = ast.NormallingFrom (children.normalling_nothing [0], None)
+      elif children.normalling_pin:
+         normalling = ast.NormallingFrom (children.normalling_pin [0], ast.BoardPin)
       elif children.normalling_reference:
-         normalling = ast.NormallingFrom (children.normalling_reference [0])
+         normalling = ast.NormallingFrom (children.normalling_reference [0], ast.Control)
       else:
          assert False
 
@@ -627,6 +629,12 @@ class Visitor (PTNodeVisitor):
 
    def visit_normalling_nothing (self, node, children):
       return self.to_keyword (node)
+
+   def visit_normalling_pin (self, node, children):
+      return children [1] if children else []
+
+   def visit_normalling_pin_name (self, node, children):
+      return self.visit_identifier (node, children)
 
    def visit_normalling_reference (self, node, children):
       return self.visit_identifier (node, children)

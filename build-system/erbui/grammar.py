@@ -110,8 +110,10 @@ def mode_declaration ():               return 'mode', mode_value
 
 # Normalling
 def normalling_reference ():           return name
+def normalling_pin_name ():            return name
+def normalling_pin ():                 return 'pin', name
 def normalling_nothing ():             return 'nothing'
-def normalling_declaration ():         return 'normalling', [normalling_nothing, normalling_reference]
+def normalling_declaration ():         return 'normalling', [normalling_nothing, normalling_pin, normalling_reference]
 
 # Alias
 def alias_name ():                     return name
@@ -201,7 +203,7 @@ def board_pcb_entities ():             return ZeroOrMore ([board_pcb_side_declar
 def board_pcb_body ():                 return '{', board_pcb_entities, '}'
 def board_pcb_declaration ():          return 'pcb', string_literal, Optional (board_pcb_body)
 def board_sch_declaration ():          return 'sch', string_literal
-def board_pin_kind ():                 return list (CONTROL_KINDS)
+def board_pin_kind ():                 return [list (CONTROL_KINDS), 'normalling']
 def board_pin_kinds ():                return board_pin_kind, ZeroOrMore (',', board_pin_kind)
 def board_pin_bind_declaration ():     return 'bind', string_literal
 def board_pin_type_name ():            return ['gpio', 'pwm', 'dac']

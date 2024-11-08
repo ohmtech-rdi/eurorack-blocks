@@ -1828,7 +1828,7 @@ class Pins (Node):
 # -- NormallingFrom ----------------------------------------------------------
 
 class NormallingFrom (Node):
-   def __init__ (self, kw_or_ident):
+   def __init__ (self, kw_or_ident, from_type):
       assert isinstance (kw_or_ident, adapter.Identifier) or isinstance (kw_or_ident, adapter.Keyword)
       super (NormallingFrom, self).__init__ ()
       if isinstance (kw_or_ident, adapter.Identifier):
@@ -1837,6 +1837,7 @@ class NormallingFrom (Node):
          self.identifier = None
       else:
          assert False
+      self.from_type = from_type
       self.reference = None
       self.index = 0
 
@@ -1845,6 +1846,12 @@ class NormallingFrom (Node):
 
    @property
    def is_nothing (self): return self.identifier is None
+
+   @property
+   def is_board_pin (self): return self.from_type is BoardPin
+
+   @property
+   def is_control (self): return self.from_type is Control
 
    @property
    def name (self): return self.identifier.name
