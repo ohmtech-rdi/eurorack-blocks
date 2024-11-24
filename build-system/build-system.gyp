@@ -91,6 +91,8 @@
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
+            'erbb/generators/vcvrack/test_unit_template.gyp',
+            'erbb/generators/vcvrack/test_instrument_template.gyp',
 
             # generators/daisy
             'erbb/generators/daisy/Makefile_template',
@@ -184,6 +186,10 @@
             'erbui/generators/vcvrack/code.py',
             'erbui/generators/vcvrack/manifest.py',
             'erbui/generators/vcvrack/panel.py',
+
+            # generators/instrument
+            'erbui/generators/instrument/code_template.h',
+            'erbui/generators/instrument/code.py',
 
             # setup
             'setup/__init__.py',
