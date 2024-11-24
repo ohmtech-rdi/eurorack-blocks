@@ -109,11 +109,20 @@ class Code:
 
       for control in controls:
          if control.normalling_from is not None:
-            if not control.normalling_from.is_nothing:
+            if control.normalling_from.is_nothing:
+               pass
+            elif control.normalling_from.is_board_pin:
+               lines += '   if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
+               lines += '   {\n'
+               lines += '      inputs [%d].setVoltage (module.ui.board.%s);\n' % (control.vcv_input_index, control.normalling_from.reference.bind.expression)
+               lines += '   }\n'
+            elif control.normalling_from.is_control:
                lines += '   if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
                lines += '   {\n'
                lines += '      inputs [%d].setVoltage (inputs [%d].getVoltage ());\n' % (control.vcv_input_index, control.normalling_from.reference.vcv_input_index)
                lines += '   }\n'
+            else:
+               assert False
 
       return template.replace ('%  normalling_process%', lines)
 

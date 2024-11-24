@@ -264,6 +264,11 @@ class Analyser:
                if normalling_from.name == entity.name:
                   control = entity
 
+         if control is None and module.board:  # search board pins
+            for board_pin in module.board.pins:
+               if normalling_from.name == board_pin.name:
+                  control = board_pin
+
          if control is None:
             possible_tokens = []
             for entity in module.entities:
@@ -283,10 +288,10 @@ class Analyser:
 
       normalling_from.reference = control
       normalling_from.index = self._normalling_index
-      normalling_to = ast.NormallingTo ()
-      normalling_to.reference = control_to
-      normalling_to.index = self._normalling_index
-      if control is not None:
+      if control is not None and control.is_control:
+         normalling_to = ast.NormallingTo ()
+         normalling_to.reference = control_to
+         normalling_to.index = self._normalling_index
          control.add (normalling_to)
       self._normalling_index += 1
 

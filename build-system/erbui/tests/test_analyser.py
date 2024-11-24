@@ -51,7 +51,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -86,7 +86,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -109,7 +109,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -117,7 +117,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -125,7 +125,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -162,7 +162,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -170,7 +170,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -178,7 +178,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -203,7 +203,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in3'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in4'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -211,7 +211,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in2'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in3'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 
@@ -225,7 +225,7 @@ class TestAnalyser (unittest.TestCase):
          mock.identifier ('cv_in1'),
          mock.keyword ('CvIn')
       )
-      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'))
+      normalling_from = ast.NormallingFrom (mock.identifier ('cv_in2'), ast.Control)
       control.add (normalling_from)
       module.add (control)
 

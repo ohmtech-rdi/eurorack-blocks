@@ -384,8 +384,12 @@ class AnalyserStyle:
          name_map ['Normalling0'] = 'GND'
       elif control.normalling_from.is_nothing:
          name_map ['Normalling0'] = 'NPR0'
-      else:
+      elif control.normalling_from.is_board_pin:
+         name_map ['Normalling0'] = control.normalling_from.name
+      elif control.normalling_from.is_control:
          name_map ['Normalling0'] = control.normalling_from.reference.pin.name
+      else:
+         assert False
 
       for footprint in kicad_pcb.footprints:
          for pad in footprint.pads:
