@@ -151,6 +151,7 @@ A `board` definition can be be made inline as well, and is typically used for cu
 > _board-pin-entity_ → board-pin-type-declaration \
 > _board-pin-kinds-declaration_ → [control-kind](../controls/README.md) \
 > _board-pin-kinds-declaration_ → [control-kind](../controls/README.md) **`,`** board-pin-kinds-declaration \
+> _board-pin-kinds-declaration_ → **`normalling`** \
 > _board-pin-bind-declaration_ → **`bind`** [string-literal](./lexical.html#string-literals) \
 > _board-pin-type-declaration_ → **`type`** board-pin-type-name \
 > _board-pin-type-name_ → **`gpio`** \
@@ -528,15 +529,21 @@ See individual [controls](../controls/README.md) reference for a list of pins fo
 
 ## `normalling`
 
-A `normalling` represents a link from the current [control](#control) to the referenced control.
+A `normalling` represents a link from the current [control](#control) to the
+referenced control or board pin.
+
+The `normalling` property is only supported for `GateIn`, `CvIn` and `AudioIn` control kinds.
 
 ### Grammar
 
 > _normalling-declaration_ → **`normalling`** control-reference \
 > _normalling-declaration_ → **`normalling`** **`nothing`** \
-> _control-reference_ → [identifier](./lexical.html#identifiers)
+> _normalling-declaration_ → **`normalling`** **`pin`** board-pin-reference \
+> _control-reference_ → [identifier](./lexical.html#identifiers) \
+> _board-pin-reference_ → [identifier](./lexical.html#identifiers)
 
-`normalling` allows to take the signal of an unplugged input from another input, or "nothing".
+`normalling` allows to take the signal of an unplugged input from another input, "nothing", or a default non-zero value.
+
 Nothing allows to detect jack detection.
 
 For example:
@@ -559,7 +566,35 @@ the signal seen on `input_right` will be the signal of `input_left`.
 This typically allows to a module to work with mono or stereo inputs, or to detect if a user
 has connected a jack on a clock input to lock tempo to the rest of the system.
 
-This property is only supported for `GateIn`, `CvIn` and `AudioIn` control kinds.
+Normalling from a pin allows to define a virtual pin which bound function returns
+the default voltage when the input is unplugged.
+This allows to provide a non-zero default value for an input when the underlying
+jack is unplugged.
+This returned voltage must match
+the hardware implementation, for the simulator to conform with the hardware behavior.
+
+For example:
+
+```erbui
+module Synth {
+   ...
+   board {
+      ...
+      pin VELO1 normalling { bind "velo1()" } // returns 5 (volts)
+   }
+
+   control velocity_cv CvIn {
+      ...
+      normalling pin VELO1
+   }
+}
+```
+
+In the example above, the custom board must define a `VELO1` pin which will be
+5V in practice. When generating the hardware, the system will ensure to connect
+this pin to the normalling input of the hardware part.
+Then, in the simulator and on the real hardware, reading `velocity_cv` will return `1.f`
+when the input jack is not plugged (instead of `0.f`).
 
 
 ## `positioning`
