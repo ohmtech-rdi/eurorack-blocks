@@ -91,6 +91,7 @@
             # generators/vcvrack
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
+            'erbb/generators/vcvrack/test_unit_template.gyp',
 
             # generators/daisy
             'erbb/generators/daisy/Makefile_template',
