@@ -84,6 +84,38 @@ typename DisplayContext <Format>::Storage DisplayContext <Format>::rotate_ccw (s
 
 /*
 ==============================================================================
+Name : rotate_180
+==============================================================================
+*/
+
+template <typename Format>
+typename DisplayContext <Format>::Storage DisplayContext <Format>::rotate_180 (std::size_t width, std::size_t height) const
+{
+   Storage ret;
+
+   for (std::size_t x = 0 ; x < width ; ++x)
+   for (std::size_t y = 0 ; y < height ; ++y)
+   {
+      auto & d = ret [x + (y / 8) * width];
+      const auto s = _data [(width - 1 - x) + ((height - 1 - y) / 8) * width];
+      const auto b = (s & (1 << (height - 1 - y) % 8)) != 0;
+      if (b)
+      {
+         d |= 1 << y % 8;
+      }
+      else
+      {
+         d &= ~(1 << y % 8);
+      }
+   }
+
+   return ret;
+}
+
+
+
+/*
+==============================================================================
 Name : set
 ==============================================================================
 */
