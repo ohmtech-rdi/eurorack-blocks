@@ -15,7 +15,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: brew install faust
+      - run: curl https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-x64.dmg --location --output Faust-2.37.3-x64.dmg
+      - run: hdiutil attach Faust-2.37.3-x64.dmg
+      - run: echo 'export PATH=$PATH:/Volumes/Faust-2.37.3/Faust-2.37.3/bin' >> ~/.bash_profile
       - run: brew install --cask vcv-rack
       - name: VCV Rack headless first run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n'
@@ -109,7 +111,9 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
-      - run: brew install faust
+      - run: curl https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-x64.dmg --location --output Faust-2.37.3-x64.dmg
+      - run: hdiutil attach Faust-2.37.3-x64.dmg
+      - run: echo 'export PATH=$PATH:/Volumes/Faust-2.37.3/Faust-2.37.3/bin' >> ~/.bash_profile
       - run: brew install --cask vcv-rack
       - name: VCV Rack headless first run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n'
