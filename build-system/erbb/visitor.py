@@ -286,6 +286,29 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Test ------------------------------------------------------------------
+
+   def visit_test_declaration (self, node, children):
+      test_name_identifier = children.test_name [0]
+
+      test = ast.Test (test_name_identifier)
+
+      if children.test_body:
+         entities = children.test_body [0]
+         test.add (entities)
+
+      return test
+
+   def visit_test_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_test_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_test_entities (self, node, children):
+      return list (children)
+
+
    #-- Base ------------------------------------------------------------------
 
    def visit_base_declaration (self, node, children):
