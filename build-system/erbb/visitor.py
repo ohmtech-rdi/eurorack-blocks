@@ -290,9 +290,8 @@ class Visitor (PTNodeVisitor):
 
    def visit_test_declaration (self, node, children):
       test_name_identifier = children.test_name [0]
-      test_type_keyword = children.test_type [0]
 
-      test = ast.Test (test_name_identifier, test_type_keyword)
+      test = ast.Test (test_name_identifier)
 
       if children.test_body:
          entities = children.test_body [0]
@@ -302,9 +301,6 @@ class Visitor (PTNodeVisitor):
 
    def visit_test_name (self, node, children):
       return self.visit_identifier (node, children)
-
-   def visit_test_type (self, node, children):
-      return self.to_keyword (node)
 
    def visit_test_body (self, node, children):
       return children [0] if children else []

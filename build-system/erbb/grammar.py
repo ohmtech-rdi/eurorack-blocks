@@ -75,8 +75,7 @@ def resources_declaration ():          return 'resources', resources_body
 def test_entities ():                  return ZeroOrMore (file_declaration)
 def test_body ():                      return '{', test_entities, '}'
 def test_name ():                      return name
-def test_type ():                      return ['Unit', 'Instrument']
-def test_declaration ():               return 'test', test_name, test_type, test_body
+def test_declaration ():               return 'test', test_name, test_body
 
 # Base
 def base_declaration ():               return 'base', string_literal

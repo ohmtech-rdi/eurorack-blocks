@@ -409,19 +409,14 @@ class Project:
 
       lines = ''
       for test in module.tests:
-         if test.type_unit:
-            lines += self.replace_test_unit (module, test, path)
-         elif test.type_instrument:
-            lines += self.replace_test_instrument (module, test, path)
-         else:
-            assert False
+         lines += self.replace_test (module, test, path)
 
       return template.replace ('%     tests%', lines)
 
 
    #--------------------------------------------------------------------------
 
-   def replace_test_unit (self, module, test, path):
+   def replace_test (self, module, test, path):
       path_template = os.path.join (PATH_THIS, 'test_unit_template.gyp')
       with open (path_template, 'r', encoding='utf-8') as file:
             template = file.read ()
@@ -431,26 +426,6 @@ class Project:
       template = self.replace_defines (template, module.defines)
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_test_sources (template, test, path)
-      return template
-
-
-   #--------------------------------------------------------------------------
-
-   def replace_test_instrument (self, module, test, path):
-      path_template = os.path.join (PATH_THIS, 'test_instrument_template.gyp')
-      with open (path_template, 'r', encoding='utf-8') as file:
-            template = file.read ()
-
-      path_rel_root = os.path.relpath (PATH_ROOT, path)
-
-      template = template.replace ('%test.name%', test.name)
-      template = template.replace ('%PATH_ROOT%', path_rel_root)
-      template = self.replace_includes (template, module, path);
-      template = self.replace_defines (template, module.defines)
-      template = self.replace_bases (template, module, module.bases, path);
-      template = self.replace_sources (template, module, module.sources, path)
-      template = self.replace_test_sources (template, test, path)
-      template = self.replace_actions (template, module, path)
       return template
 
 
