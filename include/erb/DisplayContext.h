@@ -42,6 +42,7 @@ public:
 
                   operator Storage () const;
    Storage        rotate_ccw (std::size_t width, std::size_t height) const;
+   Storage        rotate_180 (std::size_t width, std::size_t height) const;
 
    void           set (Color color);
 
