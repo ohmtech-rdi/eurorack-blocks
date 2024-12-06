@@ -20,7 +20,7 @@
 			"patterns": [
 				{
 					"name": "keyword.control.erbb",
-					"match": "\\b(module|file|import|define|base|section|resources|sources|data|stream|faust|address|bind|init|use|strict)\\b"
+					"match": "\\b(module|file|import|define|base|section|resources|sources|data|test|stream|faust|address|bind|init|use|strict)\\b"
 				},
             {
 					"name": "keyword.control.erbb",
