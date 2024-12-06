@@ -36,10 +36,13 @@
 #include "erb/LedRgb.h"
 #include "erb/Persistent.h"
 #include "erb/Pot.h"
+#if (erb_USE_FATFS)
+   #include "erb/SdMmc.h"
+#endif
 #if (erb_SDRAM_USE_FLAG)
    #include "erb/SdramPtr.h"
 #endif
-   #include "erb/SramPtr.h"
+#include "erb/SramPtr.h"
 #include "erb/Switch.h"
 
 #include "erb/detail/fnc.h"
