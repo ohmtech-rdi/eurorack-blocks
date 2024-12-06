@@ -1,4 +1,4 @@
-name: macOS 12
+name: macOS 13
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 jobs:
   software_cpp:
     name: Software C++
-    runs-on: macos-12
+    runs-on: macos-13
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -77,7 +77,7 @@ jobs:
 
   software_max:
     name: Software Max/MSP/Gen~
-    runs-on: macos-12
+    runs-on: macos-13
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -103,7 +103,7 @@ jobs:
 
   software_faust:
     name: Software Faust
-    runs-on: macos-12
+    runs-on: macos-13
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -140,7 +140,7 @@ jobs:
 
   hardware:
     name: Hardware
-    runs-on: macos-12
+    runs-on: macos-13
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -154,7 +154,7 @@ jobs:
 
   unit_tests:
     name: Unit Tests
-    runs-on: macos-12
+    runs-on: macos-13
     steps:
       - uses: actions/checkout@v2
         with:
@@ -166,7 +166,7 @@ jobs:
 
   erbb_tests:
     name: Erbb/Erbui Tests
-    runs-on: macos-12
+    runs-on: macos-13
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
