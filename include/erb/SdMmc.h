@@ -80,14 +80,14 @@ public:
    inline         SdMmc (FATFS & fs);
    virtual        ~SdMmc () = default;
 
-   Status         mount (const char * path_0, MountOption option);
-   Status         unmount (const char * path_0);
+   inline Status  mount (const char * path_0, MountOption option);
+   inline Status  unmount (const char * path_0);
 
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_preprocess () {}
+   inline void    impl_preprocess () {}
    inline void    impl_postprocess () {}
 
 
