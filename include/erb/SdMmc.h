@@ -66,6 +66,9 @@ public:
       Status      open (const char * path_0, const char * mode_0);
       Status      close ();
 
+      Status      read (void * buf, std::size_t & size);
+      Status      write (const void * buf, std::size_t & size);
+
    private:
       FIL         _file;
    };
