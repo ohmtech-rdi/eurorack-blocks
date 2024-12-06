@@ -51,7 +51,8 @@ it is a set of multiple `import`, `sources`, `base`, `define`, etc. _declaration
 > _module-entity_ → [define-declaration](#define) \
 > _module-entity_ → [sources-declaration](#sources) \
 > _module-entity_ → [resources-declaration](#resources) \
-> _module-entity_ → [base-declaration](#base)
+> _module-entity_ → [base-declaration](#base) \
+> _module-entity_ → [test-declaration](#test)
 
 
 ## `import`
@@ -243,3 +244,14 @@ and `AudioSamplePlanar`.
    being an array of channels,
 - `AudioSamplePlanar` stores the sample as an array of channels, each channel
    being an array of samples.
+
+
+## `test`
+
+The `test` defines a test target for the module, for example an unit test.
+
+### Grammar
+
+> _test-declaration_ → **`test`** test-name **`{`** test-entity<sub>_0+_</sub> **`}`** \
+> _test-name_ → [identifier](./lexical.html#identifiers) \
+> _test-entity_ → [file-declaration](#file)
