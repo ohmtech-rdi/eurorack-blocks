@@ -63,11 +63,15 @@ public:
    class File
    {
    public:
-      Status      open (const char * path_0, const char * mode_0);
-      Status      close ();
+      inline Status
+                  open (const char * path_0, const char * mode_0);
+      inline Status
+                  close ();
 
-      Status      read (void * buf, std::size_t & size);
-      Status      write (const void * buf, std::size_t & size);
+      inline Status
+                  read (void * buf, std::size_t & size);
+      inline Status
+                  write (const void * buf, std::size_t & size);
 
    private:
       FIL         _file;
