@@ -72,6 +72,8 @@ public:
                   read (void * buf, std::size_t & size);
       inline Status
                   write (const void * buf, std::size_t & size);
+      inline std::size_t
+                  size () const;
 
    private:
       FIL         _file;
