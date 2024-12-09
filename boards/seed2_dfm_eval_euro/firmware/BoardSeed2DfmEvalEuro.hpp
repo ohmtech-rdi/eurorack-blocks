@@ -290,6 +290,25 @@ void  BoardSeed2DfmEvalEuro::init_qspi ()
 
 /*
 ==============================================================================
+Name : init_sdmmc
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::init_sdmmc ()
+{
+   _sdmmc.Init (daisy::SdmmcHandler::Config {
+      .speed = daisy::SdmmcHandler::Speed::FAST,
+      .width = daisy::SdmmcHandler::BusWidth::BITS_4,
+      .clock_powersave = false
+   });
+
+   _fsi.Init (daisy::FatFSInterface::Config::MEDIA_SD);
+}
+
+
+
+/*
+==============================================================================
 Name : init_audio
 ==============================================================================
 */
