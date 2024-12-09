@@ -34,15 +34,7 @@ class BoardSeed2DfmEvalEuro
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         BoardSeed2DfmEvalEuro () : BoardGeneric (
-      7, 7, 4, // digital/analog/audio inputs
-      0, 2, 4  // digital/analog/audio outputs
-   )
-   {
-#if defined (erb_USE_FATFS) && erb_USE_FATFS
-      FATFS_LinkDriver (&_ff_driver, _ff_path);
-#endif
-   }
+   inline         BoardSeed2DfmEvalEuro ();
    virtual        ~BoardSeed2DfmEvalEuro () override = default;
 
    // Digital Inputs
@@ -90,14 +82,14 @@ protected:
 private:
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
-   static DSTATUS _ff_init (BYTE);
-   static DSTATUS _ff_status (BYTE);
-   static DRESULT _ff_read (BYTE, BYTE *, DWORD, UINT);
+   static DSTATUS ff_init (BYTE pdrv);
+   static DSTATUS ff_status (BYTE pdrv);
+   static DRESULT ff_read (BYTE pdrv, BYTE * buf, DWORD sector, UINT count);
 #if _USE_WRITE == 1
-   static DRESULT _ff_write (BYTE, const BYTE *, DWORD, UINT);
+   static DRESULT ff_write (BYTE pdrv, const BYTE * buf, DWORD sector, UINT count);
 #endif
 #if _USE_IOCTL == 1
-   static DRESULT _ff_ioctl (BYTE, BYTE, void *);
+   static DRESULT ff_ioctl (BYTE pdrv, BYTE cmd, void * buf);
 #endif
 #endif
 
@@ -110,14 +102,14 @@ private:
 
    const Diskio_drvTypeDef
                   _ff_driver = {
-                     _ff_init,
-                     _ff_status,
-                     _ff_read,
+                     ff_init,
+                     ff_status,
+                     ff_read,
 #if _USE_WRITE == 1
-                     _ff_write,
+                     ff_write,
 #endif
 #if _USE_IOCTL == 1
-                     _ff_ioctl,
+                     ff_ioctl,
 #endif
                   };
 #endif
@@ -142,6 +134,10 @@ private:
 
 
 }  // namespace erb
+
+
+
+#include "BoardSeed2DfmEvalEuro.hpp"
 
 
 
