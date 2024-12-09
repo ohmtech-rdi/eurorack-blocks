@@ -23,33 +23,35 @@ Name : init
 
 void  Seed2DfmEvalEuro::init ()
 {
-   #define fatal_if(cond) if (cond) do { for (;;) {} } while (false)
+   #define erb_FATAL_IF(cond) if (cond) do { for (;;) {} } while (false)
 
    auto status = ui.sdmmc.mount ("/", erb::SdMmc::MountOption::Immediate);
-   fatal_if (status != erb::SdMmc::Status::OK);
+   erb_FATAL_IF (status != erb::SdMmc::Status::OK);
 
    static erb::SdMmc::File file;
 
    status = file.open ("/test.txt", "w");
-   fatal_if (status != erb::SdMmc::Status::OK);
+   erb_FATAL_IF (status != erb::SdMmc::Status::OK);
 
    std::size_t size = 4;
    status = file.write ("joy!", size);
-   fatal_if (status != erb::SdMmc::Status::OK);
-   fatal_if (size != 4);
+   erb_FATAL_IF (status != erb::SdMmc::Status::OK);
+   erb_FATAL_IF (size != 4);
 
    status = file.close ();
-   fatal_if (status != erb::SdMmc::Status::OK);
+   erb_FATAL_IF (status != erb::SdMmc::Status::OK);
 
    status = file.open ("/test.txt", "r");
-   fatal_if (status != erb::SdMmc::Status::OK);
+   erb_FATAL_IF (status != erb::SdMmc::Status::OK);
 
    size = 4;
    char buf_0 [4];
    status = file.write (buf_0, size);
-   fatal_if (status != erb::SdMmc::Status::OK);
-   fatal_if (size != 4);
-   fatal_if (strncmp (buf_0, "joy!", 4) != 0);
+   erb_FATAL_IF (status != erb::SdMmc::Status::OK);
+   erb_FATAL_IF (size != 4);
+   erb_FATAL_IF (strncmp (buf_0, "joy!", 4) != 0);
+
+   #undef erb_FATAL_IF
 }
 
 
