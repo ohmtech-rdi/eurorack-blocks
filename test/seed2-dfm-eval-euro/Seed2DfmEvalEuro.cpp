@@ -23,12 +23,15 @@ Name : init
 
 void  Seed2DfmEvalEuro::init ()
 {
+#if defined (erb_TARGET_DAISY)
    #define erb_FATAL_IF(cond) if (cond) do { for (;;) {} } while (false)
 
    auto status = ui.sdmmc.mount ("/", erb::SdMmc::MountOption::Immediate);
    erb_FATAL_IF (status != erb::SdMmc::Status::OK);
 
-   static erb::SdMmc::File file;
+   // Since this involves DMA transfers, the structures need to be stored
+   // in AXI SRAM.
+   static __attribute__((section(".text"))) erb::SdMmc::File file;
 
    status = file.open ("/test.txt", "w");
    erb_FATAL_IF (status != erb::SdMmc::Status::OK);
@@ -52,6 +55,7 @@ void  Seed2DfmEvalEuro::init ()
    erb_FATAL_IF (strncmp (buf_0, "joy!", 4) != 0);
 
    #undef erb_FATAL_IF
+#endif
 }
 
 

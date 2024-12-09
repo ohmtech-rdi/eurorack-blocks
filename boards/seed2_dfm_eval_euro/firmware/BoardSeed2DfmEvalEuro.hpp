@@ -297,8 +297,10 @@ Name : init_sdmmc
 
 void  BoardSeed2DfmEvalEuro::init_sdmmc ()
 {
-   static daisy::SdmmcHandler sdmmc;
-   static daisy::FatFSInterface fsi;
+   // Since this involves DMA transfers, the structures need to be stored
+   // in AXI SRAM.
+   static __attribute__((section(".text"))) daisy::SdmmcHandler sdmmc;
+   static __attribute__((section(".text"))) daisy::FatFSInterface fsi;
 
    sdmmc.Init (daisy::SdmmcHandler::Config {
       .speed = daisy::SdmmcHandler::Speed::FAST,
