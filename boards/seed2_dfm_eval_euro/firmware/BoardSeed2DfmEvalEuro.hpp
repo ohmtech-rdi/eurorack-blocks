@@ -50,6 +50,7 @@ BoardSeed2DfmEvalEuro::BoardSeed2DfmEvalEuro ()
    _this_ptr = this;
 
    init_qspi ();
+   init_sdmmc ();
    init_audio ();
    init_display ();
 }
@@ -296,13 +297,26 @@ Name : init_sdmmc
 
 void  BoardSeed2DfmEvalEuro::init_sdmmc ()
 {
-   _sdmmc.Init (daisy::SdmmcHandler::Config {
-      .speed = daisy::SdmmcHandler::Speed::FAST,
+   static daisy::SdmmcHandler sdmmc;
+   static daisy::FatFSInterface fsi;
+
+   // BITS_1
+   // BITS_4
+
+   // SLOW
+   // MEDIUM_SLOW
+   // STANDARD
+   // FAST
+
+   sdmmc.Init (daisy::SdmmcHandler::Config {
+      .speed = daisy::SdmmcHandler::Speed::STANDARD,
       .width = daisy::SdmmcHandler::BusWidth::BITS_4,
       .clock_powersave = false
    });
 
-   _fsi.Init (daisy::FatFSInterface::Config::MEDIA_SD);
+   fsi.Init (daisy::FatFSInterface::Config::MEDIA_SD);
+
+   _fat_fs_ptr = &fsi.GetSDFileSystem ();
 }
 
 

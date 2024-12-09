@@ -46,7 +46,7 @@ void  Seed2DfmEvalEuro::init ()
 
    size = 4;
    char buf_0 [4];
-   status = file.write (buf_0, size);
+   status = file.read (buf_0, size);
    erb_FATAL_IF (status != erb::SdMmc::Status::OK);
    erb_FATAL_IF (size != 4);
    erb_FATAL_IF (strncmp (buf_0, "joy!", 4) != 0);

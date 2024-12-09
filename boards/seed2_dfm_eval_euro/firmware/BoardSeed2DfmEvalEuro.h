@@ -74,7 +74,7 @@ public:
                   oled () { return _oled_buffer; }
 
    // SdMmc
-   inline FATFS & fatfs () { return _fsi.GetSDFileSystem (); }
+   inline FATFS & fatfs () { return *_fat_fs_ptr; }
 
    // Clock
    inline const uint64_t &
@@ -176,10 +176,7 @@ private:
 
    daisy::QSPIHandle
                   _qspi;
-   daisy::SdmmcHandler
-                  _sdmmc;
-   daisy::FatFSInterface
-                  _fsi;
+   FATFS *        _fat_fs_ptr = nullptr;
    daisy::AudioHandle
                   _audio;
    daisy::AdcHandle
