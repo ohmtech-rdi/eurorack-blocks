@@ -16,6 +16,7 @@ PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (
 PATH_ERBB_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbb', 'generators')
 PATH_ERBUI_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbui', 'generators')
 PATH_LIBDAISY = os.path.join (PATH_ROOT, 'submodules', 'libDaisy')
+PATH_FAT_FS = os.path.join (PATH_LIBDAISY, 'Middlewares', 'Third_Party', 'FatFs', 'src')
 
 
 
@@ -51,6 +52,7 @@ class Project:
       template = self.replace_include_dirs (template, module, path);
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_sources (template, module, module.sources, path)
+      template = self.replace_extra_sources (template, module, path)
       template = self.replace_actions (template, module, path)
       template = self.replace_tests (template, module, path)
 
@@ -200,9 +202,7 @@ class Project:
             use_fatfs = True
 
       if use_fatfs:
-         fatfs_path = os.path.normpath (os.path.abspath (
-            os.path.join (PATH_LIBDAISY, 'Middlewares', 'Third_Party', 'FatFs', 'src')
-         ))
+         fatfs_path = os.path.normpath (os.path.abspath (PATH_FAT_FS))
          lines += '            \'%s\',\n' % fatfs_path
 
          src_sys_path = os.path.normpath (os.path.abspath (
@@ -269,6 +269,25 @@ class Project:
          lines += '            \'artifacts/module_faust.h\',\n'
 
       return template.replace ('%           sources.entities%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_extra_sources (self, template, module, path):
+      lines = ''
+
+      use_fatfs = False
+      for define in module.defines:
+         if define.key == 'erb_USE_FATFS' and define.value == '1':
+            use_fatfs = True
+
+      if use_fatfs:
+         lines += '            \'%s\',\n' % os.path.relpath (os.path.join (PATH_FAT_FS, 'diskio.c'), path)
+         lines += '            \'%s\',\n' % os.path.relpath (os.path.join (PATH_FAT_FS, 'ff_gen_drv.c'), path)
+         lines += '            \'%s\',\n' % os.path.relpath (os.path.join (PATH_FAT_FS, 'ff.c'), path)
+         lines += '            \'%s\',\n' % os.path.relpath (os.path.join (PATH_FAT_FS, 'option', 'ccsbcs.c'), path)
+
+      return template.replace ('%           extra_sources%', lines)
 
 
    #--------------------------------------------------------------------------

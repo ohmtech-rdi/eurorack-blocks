@@ -17,6 +17,7 @@
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
    #include "ff.h"
+   #include "ff_gen_drv.h"
 #endif
 
 
@@ -36,7 +37,12 @@ public:
    inline         BoardSeed2DfmEvalEuro () : BoardGeneric (
       7, 7, 4, // digital/analog/audio inputs
       0, 2, 4  // digital/analog/audio outputs
-   ) {}
+   )
+   {
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+      FATFS_LinkDriver (&_ff_driver, _ff_path);
+#endif
+   }
    virtual        ~BoardSeed2DfmEvalEuro () override = default;
 
    // Digital Inputs
@@ -68,7 +74,7 @@ public:
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
    // SdMmc
-   inline FATFS & fatfs () { return _fat_fs; }
+   inline FATFS & fatfs () { return _ff; }
 #endif
 
 
@@ -83,11 +89,37 @@ protected:
 
 private:
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   static DSTATUS _ff_init (BYTE);
+   static DSTATUS _ff_status (BYTE);
+   static DRESULT _ff_read (BYTE, BYTE *, DWORD, UINT);
+#if _USE_WRITE == 1
+   static DRESULT _ff_write (BYTE, const BYTE *, DWORD, UINT);
+#endif
+#if _USE_IOCTL == 1
+   static DRESULT _ff_ioctl (BYTE, BYTE, void *);
+#endif
+#endif
+
    erb::FormatSsd130x <128, 64>::Storage
                   _oled;
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
-   FATFS          _fat_fs;
+   FATFS          _ff;
+   char           _ff_path [4];
+
+   const Diskio_drvTypeDef
+                  _ff_driver = {
+                     _ff_init,
+                     _ff_status,
+                     _ff_read,
+#if _USE_WRITE == 1
+                     _ff_write,
+#endif
+#if _USE_IOCTL == 1
+                     _ff_ioctl,
+#endif
+                  };
 #endif
 
 

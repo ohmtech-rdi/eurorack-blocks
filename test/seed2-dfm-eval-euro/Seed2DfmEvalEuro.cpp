@@ -24,7 +24,7 @@ Name : init
 void  Seed2DfmEvalEuro::init ()
 {
 #if 0
-   // Interactive test to check firmware
+   // Interactive test to check basic SDMMC firmware support
    #define erb_FATAL_IF(cond) if (cond) do { for (;;) {} } while (false)
 
    auto status = ui.sdmmc.mount ("/", erb::SdMmc::MountOption::Immediate);
@@ -56,6 +56,11 @@ void  Seed2DfmEvalEuro::init ()
    erb_FATAL_IF (strncmp (buf_0, "joy!", 4) != 0);
 
    #undef erb_FATAL_IF
+#endif
+
+#if 1
+   auto status = ui.sdmmc.mount ("/", erb::SdMmc::MountOption::Immediate);
+   (void)(status);
 #endif
 }
 

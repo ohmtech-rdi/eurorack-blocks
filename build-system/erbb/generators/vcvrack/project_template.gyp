@@ -45,6 +45,7 @@
          'sources': [
 %           sources.entities%
             'artifacts/plugin_vcvrack.cpp',
+%           extra_sources%
          ],
 
          'actions': [
