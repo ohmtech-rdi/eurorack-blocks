@@ -72,6 +72,13 @@ module seed2_dfm_eval_euro {
       pin OLED1
    }
 
+   //--- Micro SD ------------------------------------------------------------
+
+   control sdmmc SdMmc {
+      position 210.2mm, 96.0mm
+      pin SDMMC1
+   }
+
    //--- Gates ---------------------------------------------------------------
 
    control gate_in GateIn {

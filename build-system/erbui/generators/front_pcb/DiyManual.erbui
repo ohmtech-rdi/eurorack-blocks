@@ -224,6 +224,12 @@ manufacturer DiyManual {
       arg simulator_class "erb::Davies1900hBlack"
    }
 
+   control SdMmc {
+      style vertical
+      parts sdmmc.vertical.manual
+      arg simulator_class "erb::MicroSd"
+   }
+
    control Switch {
       style dailywell.2ms1, on_on
       parts dailywell.2ms1.manual

@@ -24,6 +24,7 @@ struct Seed2DfmEvalEuro
 {
    Seed2DfmEvalEuroUi ui;
 
+   void  init ();
    void  process ();
    void  idle ();
 
