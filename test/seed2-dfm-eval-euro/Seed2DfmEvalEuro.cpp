@@ -23,7 +23,8 @@ Name : init
 
 void  Seed2DfmEvalEuro::init ()
 {
-#if defined (erb_TARGET_DAISY)
+#if 0
+   // Interactive test to check firmware
    #define erb_FATAL_IF(cond) if (cond) do { for (;;) {} } while (false)
 
    auto status = ui.sdmmc.mount ("/", erb::SdMmc::MountOption::Immediate);

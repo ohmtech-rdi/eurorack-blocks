@@ -15,6 +15,7 @@ PATH_THIS = os.path.abspath (os.path.dirname (__file__))
 PATH_ROOT = os.path.abspath (os.path.dirname (os.path.dirname (os.path.dirname (os.path.dirname (PATH_THIS)))))
 PATH_ERBB_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbb', 'generators')
 PATH_ERBUI_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbui', 'generators')
+PATH_LIBDAISY = os.path.join (PATH_ROOT, 'submodules', 'libDaisy')
 
 
 
@@ -47,6 +48,7 @@ class Project:
       template = self.replace_xcode_settings (template, strict);
       template = self.replace_cflags (template, strict);
       template = self.replace_defines (template, module.defines)
+      template = self.replace_include_dirs (template, module, path);
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_sources (template, module, module.sources, path)
       template = self.replace_actions (template, module, path)
@@ -185,6 +187,36 @@ class Project:
          lines += '            \'%s=%s\',\n' % (key, value)
 
       return template.replace ('%           defines.entities%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_include_dirs (self, template, module, path):
+      lines = ''
+
+      use_fatfs = False
+      for define in module.defines:
+         if define.key == 'erb_USE_FATFS' and define.value == '1':
+            use_fatfs = True
+
+      if use_fatfs:
+         fatfs_path = os.path.normpath (os.path.abspath (
+            os.path.join (PATH_LIBDAISY, 'Middlewares', 'Third_Party', 'FatFs', 'src')
+         ))
+         lines += '            \'%s\',\n' % fatfs_path
+
+         src_sys_path = os.path.normpath (os.path.abspath (
+            os.path.join (PATH_LIBDAISY, 'src', 'sys')
+         ))
+         lines += '            \'%s\',\n' % src_sys_path
+
+         src_path = os.path.normpath (os.path.abspath (
+            os.path.join (PATH_LIBDAISY, 'src')
+         ))
+         lines += '            \'%s\',\n' % src_path
+
+
+      return template.replace ('%           include_dirs%', lines)
 
 
    #--------------------------------------------------------------------------

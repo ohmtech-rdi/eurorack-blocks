@@ -38,6 +38,7 @@
 
          'include_dirs': [
             '.',
+%           include_dirs%
 %           bases.entities%
          ],
 

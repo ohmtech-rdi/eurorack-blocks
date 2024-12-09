@@ -15,6 +15,10 @@
 
 #include "erb/vcvrack/BoardGeneric.h"
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   #include "ff.h"
+#endif
+
 
 
 namespace erb
@@ -62,6 +66,11 @@ public:
    inline typename erb::FormatSsd130x <128, 64>::Storage &
                   oled () { return _oled; }
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   // SdMmc
+   inline FATFS & fatfs () { return _fat_fs; }
+#endif
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -77,6 +86,9 @@ private:
    erb::FormatSsd130x <128, 64>::Storage
                   _oled;
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   FATFS          _fat_fs;
+#endif
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
