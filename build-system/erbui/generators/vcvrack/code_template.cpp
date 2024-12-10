@@ -23,6 +23,7 @@
 
 erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
+#include <osdialog.h>
 erb_RESTORE_WARNINGS
 
 #include <iomanip>
@@ -72,6 +73,39 @@ struct ErbWidget
          addChild (control_ptr);
       }
    }
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   struct InsertSdCardItem : rack::ui::MenuItem
+   {
+      ErbWidget * parent = nullptr;
+
+      void onAction (const ActionEvent & e) override
+      {
+         char * path_0 = osdialog_file (OSDIALOG_OPEN, nullptr, nullptr, nullptr);
+         if (!path_0) return; // canceled
+
+         auto & board = parent->module_ptr->module_uptr->ui.board;
+         board.set_sd (path_0);
+
+         std::free (path_0);
+         path_0 = nullptr;
+      }
+   };
+
+   struct EjectSdCardItem : rack::ui::MenuItem
+   {
+      ErbWidget * parent = nullptr;
+
+      void onAction (const ActionEvent & e) override
+      {
+         auto & board = parent->module_ptr->module_uptr->ui.board;
+
+         board.reset_sd ();
+      }
+   };
+   void           appendContextMenu (rack::ui::Menu * menu) override;
+   std::string    sd_card_name;
+#endif
 
    void           step () override;
 
@@ -342,6 +376,34 @@ void  ErbWidget::step ()
 
    erb::module_idle (*module_ptr->module_uptr);
 }
+
+
+
+/*
+==============================================================================
+Name : ErbWidget::appendContextMenu
+==============================================================================
+*/
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+void  ErbWidget::appendContextMenu (rack::ui::Menu * menu)
+{
+   menu->addChild (new rack::ui::MenuSeparator);
+
+   if (sd_card_name.empty ())
+   {
+      InsertSdCardItem * item = new InsertSdCardItem;
+      item->text = "Insert SD card";
+      item->parent = this;
+   }
+   else
+   {
+      EjectSdCardItem * item = new EjectSdCardItem;
+      item->text = std::string ("Eject SD card ") + sd_card_name;
+      item->parent = this;
+   }
+}
+#endif
 
 
 

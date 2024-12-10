@@ -67,6 +67,8 @@ public:
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
    // SdMmc
    inline FATFS & fatfs () { return _ff; }
+   void           set_sd (const char * path_0);
+   void           reset_sd ();
 #endif
 
 
@@ -82,14 +84,19 @@ protected:
 private:
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
-   static DSTATUS ff_init (BYTE pdrv);
-   static DSTATUS ff_status (BYTE pdrv);
-   static DRESULT ff_read (BYTE pdrv, BYTE * buf, DWORD sector, UINT count);
+   static inline DSTATUS
+                  ff_init (BYTE pdrv);
+   static inline DSTATUS
+                  ff_status (BYTE pdrv);
+   static inline DRESULT
+                  ff_read (BYTE pdrv, BYTE * buf, DWORD sector, UINT count);
 #if _USE_WRITE == 1
-   static DRESULT ff_write (BYTE pdrv, const BYTE * buf, DWORD sector, UINT count);
+   static inline DRESULT
+                  ff_write (BYTE pdrv, const BYTE * buf, DWORD sector, UINT count);
 #endif
 #if _USE_IOCTL == 1
-   static DRESULT ff_ioctl (BYTE pdrv, BYTE cmd, void * buf);
+   static inline DRESULT
+                  ff_ioctl (BYTE pdrv, BYTE cmd, void * buf);
 #endif
 #endif
 
