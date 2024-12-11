@@ -121,5 +121,10 @@
          'accept': ['Display'],
          'bind': 'oled()',
       },
+
+      'SDMMC1': {
+         'accept': ['SdMmc'],
+         'bind': 'fatfs()',
+      },
    }
 }

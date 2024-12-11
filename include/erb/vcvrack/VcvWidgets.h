@@ -769,12 +769,43 @@ private:
 };
 
 
+struct MicroSd : rack::OpaqueWidget
+{
+   template <typename Control>
+   MicroSd (Control & control)
+   //:  _control_data (control.impl_data)
+   {
+      box.size = rack::mm2px (rack::Vec (12.8f, 2.3f));
+   }
+
+   void  rotate (float angle_rad) { _angle = angle_rad; }
+
+   void draw (const DrawArgs & args) override {
+      NVGcontext * const vg = args.vg;
+
+      rack::math::Vec center = box.getCenter ();
+      nvgTranslate (vg, box.size.x * 0.5f, box.size.y * 0.5f);
+      nvgRotate (vg, _angle);
+      nvgTranslate (vg, -box.size.x * 0.5f, -box.size.y * 0.5f);
+
+      nvgBeginPath (vg);
+      nvgRect (vg, 0, 0, box.size.x, box.size.y);
+      nvgFillColor (vg, nvgRGB (0, 0, 0));
+      nvgFill (vg);
+   }
+
+   float _angle = 0.f;
+};
+
+
 struct Invisible : rack::ParamWidget
 {
    Invisible () {
       box.size = {0, 0};
    }
    void  rotate (float) {}
+
+   float _angle = 0.f;
 };
 
 

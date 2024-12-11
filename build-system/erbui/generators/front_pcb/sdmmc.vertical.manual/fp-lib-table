@@ -1,0 +1,4 @@
+(fp_lib_table
+  (lib (name Electrosmith)(type Eagle)(uri ${KIPRJMOD}/../Electrosmith-Eurorack_V1_2.lbr)(options "")(descr ""))
+  (lib (name "local")(type "KiCad")(uri "${KIPRJMOD}/local.pretty")(options "")(descr ""))
+)

@@ -242,6 +242,7 @@ class Code:
          'LedBi': 'Light',
          'LedRgb': 'Light',
          'Pot': 'Param',
+         'SdMmc': None,
          'Switch': 'Param',
          'Trim': 'Param',
       }
@@ -267,6 +268,7 @@ class Code:
          'LedBi': 2,
          'LedRgb': 3,
          'Pot': 1,
+         'SdMmc': None,
          'Switch': 1,
          'Trim': 1,
       }

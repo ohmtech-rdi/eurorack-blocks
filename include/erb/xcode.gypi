@@ -34,7 +34,7 @@
       {
          'ARCHS': ['$(ARCHS_STANDARD)'],
          'ONLY_ACTIVE_ARCH': 'YES',
-         'MACOSX_DEPLOYMENT_TARGET': '10.14',
+         'MACOSX_DEPLOYMENT_TARGET': '10.15',
 
          'CLANG_CXX_LANGUAGE_STANDARD': 'c++2a',
          'CLANG_CXX_LIBRARY': 'libc++',
