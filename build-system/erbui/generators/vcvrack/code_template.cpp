@@ -43,7 +43,7 @@ struct ErbModule
 
    void           onAdd (const rack::engine::Module::AddEvent & e) override;
 
-   // Persistent support
+   // Persistent & SdMmc support
    json_t *       dataToJson () override;
    void           dataFromJson (json_t * root) override;
 
@@ -51,6 +51,8 @@ struct ErbModule
                   module_board;
    std::unique_ptr <%module.name%>
                   module_uptr;
+
+   std::string    sd_card_path;
 
 }; // struct ErbModule
 
@@ -89,6 +91,7 @@ struct ErbWidget
          if (ok)
          {
             parent->sd_card_name = rack::system::getFilename (path_0);
+            parent->module_ptr->sd_card_path = path_0;
          }
 
          std::free (path_0);
@@ -106,6 +109,7 @@ struct ErbWidget
 
          board.reset_sd ();
          parent->sd_card_name.clear ();
+         parent->module_ptr->sd_card_path.clear ();
       }
    };
    void           appendContextMenu (rack::ui::Menu * menu) override;
@@ -216,6 +220,7 @@ void  ErbModule::process (const ProcessArgs & /* args */)
       module.process ();
 
 %     controls_postprocess%
+
       module.ui.board.impl_postprocess ();
    }
 
@@ -280,6 +285,11 @@ json_t * ErbModule::dataToJson ()
 
    json_object_set_new (root_json, "persistent", persistent_json);
 
+   if (!sd_card_path.empty ())
+   {
+      json_object_set_new (root_json, "sd_card_path", json_string (sd_card_path.c_str ()));
+   }
+
    return root_json;
 }
 
@@ -326,6 +336,18 @@ void  ErbModule::dataFromJson (json_t * root)
          persistent [page] = data;
       }
    }
+
+   json_t * sd_card_path_json = json_object_get (root, "sd_card_path");
+
+   if (sd_card_path_json)
+   {
+      sd_card_path = std::string (json_string_value ((sd_card_path_json)));
+
+      auto & board = module_uptr->ui.board;
+
+      bool ok = board.set_sd (sd_card_path.c_str ());
+      if (!ok) sd_card_path.clear ();
+   }
 }
 
 
@@ -342,6 +364,11 @@ ErbWidget::ErbWidget (ErbModule * module_)
    using namespace rack;
 
    setModule (module_);
+
+   if (!module_ptr->sd_card_path.empty ())
+   {
+      sd_card_name = rack::system::getFilename (module_ptr->sd_card_path.c_str ());
+   }
 
    // panel
 

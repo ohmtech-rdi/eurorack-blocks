@@ -70,6 +70,8 @@ public:
                   close ();
 
       inline Status
+                  seek (std::size_t offset);
+      inline Status
                   read (void * buf, std::size_t & size);
       inline Status
                   write (const void * buf, std::size_t & size);
