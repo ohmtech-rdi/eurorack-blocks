@@ -47,13 +47,13 @@ public:
    void           set (Color color);
 
    void           fill ();
-   void           draw (std::size_t x, std::size_t y, std::size_t width, std::size_t height);
+   void           draw (int x, int y, int width, int height);
    template <typename Picture>
-   void           draw (std::size_t x, std::size_t y, const Picture & picture, std::size_t width, std::size_t height);
+   void           draw (int x, int y, const Picture & picture, int width, int height);
    template <typename Picture>
-   void           draw (std::size_t x, std::size_t y, const Picture & picture, std::size_t width, std::size_t height, char c);
+   void           draw (int x, int y, const Picture & picture, int width, int height, char c);
    template <typename Picture>
-   void           draw (std::size_t x, std::size_t y, const Picture & picture, std::size_t width, std::size_t height, const char * str_0);
+   void           draw (int x, int y, const Picture & picture, int width, int height, const char * str_0);
 
 
 
