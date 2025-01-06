@@ -162,13 +162,18 @@ Name : draw
 */
 
 template <typename Format>
-void  DisplayContext <Format>::draw (std::size_t x, std::size_t y, std::size_t width, std::size_t height)
+void  DisplayContext <Format>::draw (int x, int y, int width, int height)
 {
-   const auto ex = std::min (x + width, Format::width);
-   const auto ey = std::min (y + height, Format::height);
+   const int bx = std::max (x, 0);
+   const int by = std::max (y, 0);
+   const int ex = std::min (x + width, int (Format::width));
+   const int ey = std::min (y + height, int (Format::height));
 
-   for (std::size_t cx = x ; cx < ex ; ++cx)
-   for (std::size_t cy = y ; cy < ey ; ++cy)
+   if (ex <= bx) return;
+   if (ey <= by) return;
+
+   for (int cx = bx ; cx < ex ; ++cx)
+   for (int cy = by ; cy < ey ; ++cy)
    {
       auto & b = _data [cx + (cy / 8) * Format::width];
 
@@ -199,13 +204,18 @@ Name : draw
 
 template <typename Format>
 template <typename Picture>
-void  DisplayContext <Format>::draw (std::size_t x, std::size_t y, const Picture & picture, std::size_t width, std::size_t height)
+void  DisplayContext <Format>::draw (int x, int y, const Picture & picture, int width, int height)
 {
-   const auto ex = std::min (x + width, Format::width);
-   const auto ey = std::min (y + height, Format::height);
+   const int bx = std::max (x, 0);
+   const int by = std::max (y, 0);
+   const int ex = std::min (x + width, int (Format::width));
+   const int ey = std::min (y + height, int (Format::height));
 
-   for (std::size_t cx = x, ix = 0 ; cx < ex ; ++cx, ++ix)
-   for (std::size_t cy = y, iy = 0 ; cy < ey ; ++cy, ++iy)
+   if (ex <= bx) return;
+   if (ey <= by) return;
+
+   for (int cx = bx, ix = bx - x ; cx < ex ; ++cx, ++ix)
+   for (int cy = by, iy = by - y ; cy < ey ; ++cy, ++iy)
    {
       auto & d = _data [cx + (cy / 8) * Format::width];
       const auto s = picture [ix + (iy / 8) * width];
@@ -238,16 +248,22 @@ Name : draw
 
 template <typename Format>
 template <typename Picture>
-void  DisplayContext <Format>::draw (std::size_t x, std::size_t y, const Picture & picture, std::size_t width, std::size_t height, char c)
+void  DisplayContext <Format>::draw (int x, int y, const Picture & picture, int width, int height, char c)
 {
-   const auto cw = width / 64;
-   const auto ex = std::min (x + cw, Format::width);
-   const auto ey = std::min (y + height, Format::height);
+   const int cw = width / 64;
 
-   size_t p = (size_t (c) - 32) * cw;
+   const int bx = std::max (x, 0);
+   const int by = std::max (y, 0);
+   const int ex = std::min (x + cw, int (Format::width));
+   const int ey = std::min (y + height, int (Format::height));
 
-   for (std::size_t cx = x, ix = p ; cx < ex ; ++cx, ++ix)
-   for (std::size_t cy = y, iy = 0 ; cy < ey ; ++cy, ++iy)
+   if (ex <= bx) return;
+   if (ey <= by) return;
+
+   const int p = (int (c) - 32) * cw;
+
+   for (int cx = bx, ix = p + bx - x ; cx < ex ; ++cx, ++ix)
+   for (int cy = by, iy = by - y ; cy < ey ; ++cy, ++iy)
    {
       auto & d = _data [cx + (cy / 8) * Format::width];
       const auto s = picture [ix + (iy / 8) * width];
@@ -280,7 +296,7 @@ Name : draw
 
 template <typename Format>
 template <typename Picture>
-void  DisplayContext <Format>::draw (std::size_t x, std::size_t y, const Picture & picture, std::size_t width, std::size_t height, const char * str_0)
+void  DisplayContext <Format>::draw (int x, int y, const Picture & picture, int width, int height, const char * str_0)
 {
    const auto cw = width / 64;
 
