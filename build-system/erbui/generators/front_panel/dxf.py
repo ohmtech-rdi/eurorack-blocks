@@ -153,6 +153,7 @@ class Dxf:
          21: 106.30, # quarter of 84Hp
          22: 111.40,
          28: 141.90,
+         36: 182.50, # not part of specs
          42: 213.00,
       }
 
