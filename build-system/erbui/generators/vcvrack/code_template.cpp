@@ -365,7 +365,7 @@ ErbWidget::ErbWidget (ErbModule * module_)
 
    setModule (module_);
 
-   if (!module_ptr->sd_card_path.empty ())
+   if (module_ptr && !module_ptr->sd_card_path.empty ())
    {
       sd_card_name = rack::system::getFilename (module_ptr->sd_card_path.c_str ());
    }
