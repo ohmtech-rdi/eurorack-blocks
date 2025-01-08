@@ -147,6 +147,8 @@ ErbModule::ErbModule ()
 
    // bind
 
+   module.ui.board.impl_bind (*this);
+
 %  module.controls.bind+config%
 }
 
