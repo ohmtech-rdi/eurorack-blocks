@@ -32,7 +32,7 @@
 				},
 				{
 					"name": "keyword.type.erbui",
-					"match": "\\b(AudioIn|AudioOut|Button|CvIn|CvOut|GateIn|GateOut|LedBi|LedRgb|Led|Pot|Switch|Trim)\\b"
+					"match": "\\b(AudioIn|AudioOut|Button|CvIn|CvOut|GateIn|GateOut|LedBi|LedRgb|Led|Pot|SdMmc|Switch|Trim)\\b"
 				}
 			]
 		},
