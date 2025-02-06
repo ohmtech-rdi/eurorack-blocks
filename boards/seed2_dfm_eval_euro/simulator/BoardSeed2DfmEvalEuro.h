@@ -15,6 +15,11 @@
 
 #include "erb/vcvrack/BoardGeneric.h"
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   #include "ff.h"
+   #include "ff_gen_drv.h"
+#endif
+
 
 
 namespace erb
@@ -29,11 +34,8 @@ class BoardSeed2DfmEvalEuro
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   inline         BoardSeed2DfmEvalEuro () : BoardGeneric (
-      7, 7, 4, // digital/analog/audio inputs
-      0, 2, 4  // digital/analog/audio outputs
-   ) {}
-   virtual        ~BoardSeed2DfmEvalEuro () override = default;
+   inline         BoardSeed2DfmEvalEuro ();
+   inline virtual ~BoardSeed2DfmEvalEuro () override;
 
    // Digital Inputs
    inline const uint8_t &
@@ -62,6 +64,17 @@ public:
    inline typename erb::FormatSsd130x <128, 64>::Storage &
                   oled () { return _oled; }
 
+   // SdMmc
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   inline FATFS & fatfs () { return _ff; }
+   inline bool    set_sd (const char * path_0);
+   inline void    reset_sd ();
+
+#else
+   inline int     fatfs () { return 0; }
+
+#endif
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -74,9 +87,49 @@ protected:
 
 private:
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   static inline DSTATUS
+                  ff_init (BYTE pdrv);
+   static inline DSTATUS
+                  ff_status (BYTE pdrv);
+   static inline DRESULT
+                  ff_read (BYTE pdrv, BYTE * buf, DWORD sector, UINT count);
+#if _USE_WRITE == 1
+   static inline DRESULT
+                  ff_write (BYTE pdrv, const BYTE * buf, DWORD sector, UINT count);
+#endif
+#if _USE_IOCTL == 1
+   static inline DRESULT
+                  ff_ioctl (BYTE pdrv, BYTE cmd, void * buf);
+#endif
+#endif
+
    erb::FormatSsd130x <128, 64>::Storage
                   _oled;
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   FATFS          _ff;
+   char           _ff_path [4];
+   inline static std::FILE *
+                  _ff_file_ptr = nullptr;
+   inline static std::size_t
+                  _ff_sector_cnt = 0;
+   static constexpr std::size_t
+                  _ff_sector_size = 512;
+
+   const Diskio_drvTypeDef
+                  _ff_driver = {
+                     ff_init,
+                     ff_status,
+                     ff_read,
+#if _USE_WRITE == 1
+                     ff_write,
+#endif
+#if _USE_IOCTL == 1
+                     ff_ioctl,
+#endif
+                  };
+#endif
 
 
 /*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -98,6 +151,10 @@ private:
 
 
 }  // namespace erb
+
+
+
+#include "BoardSeed2DfmEvalEuro.hpp"
 
 
 

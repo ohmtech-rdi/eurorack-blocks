@@ -17,6 +17,7 @@ PATH_ERBB_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbb', 'generators')
 PATH_ERBUI_GENS = os.path.join (PATH_ROOT, 'build-system', 'erbui', 'generators')
 PATH_BUILD_SYSTEM = os.path.join (PATH_ROOT, 'build-system')
 PATH_RACK = os.path.join (PATH_ROOT, 'submodules', 'vcv-rack-sdk')
+PATH_LIBDAISY = os.path.join (PATH_ROOT, 'submodules', 'libDaisy')
 
 
 
@@ -131,6 +132,15 @@ class Make:
          path_gen_dsp = os.path.join (PATH_ROOT, 'include', 'gen_dsp')
          lines += 'FLAGS += -I%s\n' % os.path.relpath (path_gen_dsp, path_simulator).replace ('\\', '/')
 
+      for define in module.defines:
+         if define.key == 'erb_USE_FATFS' and define.value == '1':
+            path_fatfs = os.path.join (PATH_LIBDAISY, 'Middlewares', 'Third_Party', 'FatFs', 'src')
+            lines += 'FLAGS += -I%s\n' % os.path.relpath (path_fatfs, path_simulator).replace ('\\', '/')
+            path_daisy_src_sys = os.path.join (PATH_LIBDAISY, 'src', 'sys')
+            lines += 'FLAGS += -I%s\n' % os.path.relpath (path_daisy_src_sys, path_simulator).replace ('\\', '/')
+            path_daisy_src = os.path.join (PATH_LIBDAISY, 'src')
+            lines += 'FLAGS += -I%s\n' % os.path.relpath (path_daisy_src, path_simulator).replace ('\\', '/')
+
       for base in bases:
          path_base = os.path.relpath (base.path, path_simulator)
          lines += 'FLAGS += -I%s\n' % path_base.replace ('\\', '/')
@@ -181,9 +191,32 @@ class Make:
          else:
             return '$(CONFIGURATION)' + path + '.d'
 
-      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % ' '.join (map (lambda x: object_name (x), source_paths))
+      use_fatfs = False
+      for define in module.defines:
+         if define.key == 'erb_USE_FATFS' and define.value == '1':
+            use_fatfs = True
+
+      source_extra_paths = []
+      if use_fatfs:
+         fatfs_src_path = os.path.abspath (os.path.join (PATH_LIBDAISY, 'Middlewares', 'Third_Party', 'FatFs', 'src'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'diskio.c'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'ff.c'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'ff_gen_drv.c'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'option', 'ccsbcs.c'))
+
+      objects = ' '.join (map (lambda x: object_name (x), source_paths))
+      objects += ' ' + ' '.join (map (lambda x: object_name (x), source_extra_paths))
+      lines += '$(CONFIGURATION)/$(TARGET): %s\n' % objects
       lines += '\t@echo "LINK $(TARGET)"\n'
       lines += '\t@$(CXX) -o $@ $^ $(LDFLAGS)\n\n'
+
+      for source_extra_path in source_extra_paths:
+         rel_path = os.path.relpath (source_extra_path, path_simulator)
+         lines += '%s: %s Makefile | $(CONFIGURATION) $(ACTIONS)\n' % (object_name (source_extra_path), rel_path.replace ('\\', '/'))
+         lines += '\t@echo "CC %s"\n' % rel_path.replace ('\\', '/').replace ('../', '')
+         lines += '\t@mkdir -p $(@D)\n'
+         lines += '\t@$(CC) -MMD -MP $(CFLAGS) -Wno-pedantic -Wno-ignored-attributes -c -o $@ %s\n\n' % rel_path.replace ('\\', '/')
+         lines += '-include %s\n\n' % dep_name (source_extra_path)
 
       for source_path in source_paths:
          rel_path = os.path.relpath (source_path, path_simulator)

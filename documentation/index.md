@@ -256,6 +256,7 @@ Eurorack-blocks got you covered! so read on to get your hands dirty:
 - **{doc}`/controls/LedBi`**
 - **{doc}`/controls/LedRgb`**
 - **{doc}`/controls/Pot`**
+- **{doc}`/controls/SdMmc`**
 - **{doc}`/controls/Switch`**
 - **{doc}`/controls/Trim`**
 
@@ -280,6 +281,7 @@ Eurorack-blocks got you covered! so read on to get your hands dirty:
    /controls/LedBi
    /controls/LedRgb
    /controls/Pot
+   /controls/SdMmc
    /controls/Switch
    /controls/Trim
 ```

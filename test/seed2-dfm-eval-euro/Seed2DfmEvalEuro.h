@@ -24,6 +24,7 @@ struct Seed2DfmEvalEuro
 {
    Seed2DfmEvalEuroUi ui;
 
+   void  init ();
    void  process ();
    void  idle ();
 
@@ -58,4 +59,6 @@ struct Seed2DfmEvalEuro
    OscSin osc4;
 
    std::atomic <int> pic = 0;
+
+   bool  mounted = false;
 };

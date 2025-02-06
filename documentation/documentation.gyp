@@ -32,6 +32,7 @@
             'controls/LedBi.md',
             'controls/LedRgb.md',
             'controls/Pot.md',
+            'controls/SdMmc.md',
             'controls/Switch.md',
             'controls/Trim.md',
 

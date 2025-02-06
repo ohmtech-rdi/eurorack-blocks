@@ -23,6 +23,7 @@
 
 erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
+#include <osdialog.h>
 erb_RESTORE_WARNINGS
 
 #include <iomanip>
@@ -42,7 +43,7 @@ struct ErbModule
 
    void           onAdd (const rack::engine::Module::AddEvent & e) override;
 
-   // Persistent support
+   // Persistent & SdMmc support
    json_t *       dataToJson () override;
    void           dataFromJson (json_t * root) override;
 
@@ -50,6 +51,10 @@ struct ErbModule
                   module_board;
    std::unique_ptr <%module.name%>
                   module_uptr;
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   std::string    sd_card_path;
+#endif
 
 }; // struct ErbModule
 
@@ -72,6 +77,46 @@ struct ErbWidget
          addChild (control_ptr);
       }
    }
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   struct InsertSdCardItem : rack::ui::MenuItem
+   {
+      ErbWidget * parent = nullptr;
+
+      void onAction (const ActionEvent & e) override
+      {
+         char * path_0 = osdialog_file (OSDIALOG_OPEN, nullptr, nullptr, nullptr);
+         if (!path_0) return; // canceled
+
+         auto & board = parent->module_ptr->module_uptr->ui.board;
+         bool ok = board.set_sd (path_0);
+         if (ok)
+         {
+            parent->sd_card_name = rack::system::getFilename (path_0);
+            parent->module_ptr->sd_card_path = path_0;
+         }
+
+         std::free (path_0);
+         path_0 = nullptr;
+      }
+   };
+
+   struct EjectSdCardItem : rack::ui::MenuItem
+   {
+      ErbWidget * parent = nullptr;
+
+      void onAction (const ActionEvent & e) override
+      {
+         auto & board = parent->module_ptr->module_uptr->ui.board;
+
+         board.reset_sd ();
+         parent->sd_card_name.clear ();
+         parent->module_ptr->sd_card_path.clear ();
+      }
+   };
+   void           appendContextMenu (rack::ui::Menu * menu) override;
+   std::string    sd_card_name;
+#endif
 
    void           step () override;
 
@@ -179,6 +224,7 @@ void  ErbModule::process (const ProcessArgs & /* args */)
       module.process ();
 
 %     controls_postprocess%
+
       module.ui.board.impl_postprocess ();
    }
 
@@ -243,6 +289,13 @@ json_t * ErbModule::dataToJson ()
 
    json_object_set_new (root_json, "persistent", persistent_json);
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   if (!sd_card_path.empty ())
+   {
+      json_object_set_new (root_json, "sd_card_path", json_string (sd_card_path.c_str ()));
+   }
+#endif
+
    return root_json;
 }
 
@@ -289,6 +342,20 @@ void  ErbModule::dataFromJson (json_t * root)
          persistent [page] = data;
       }
    }
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   json_t * sd_card_path_json = json_object_get (root, "sd_card_path");
+
+   if (sd_card_path_json)
+   {
+      sd_card_path = std::string (json_string_value ((sd_card_path_json)));
+
+      auto & board = module_uptr->ui.board;
+
+      bool ok = board.set_sd (sd_card_path.c_str ());
+      if (!ok) sd_card_path.clear ();
+   }
+#endif
 }
 
 
@@ -305,6 +372,13 @@ ErbWidget::ErbWidget (ErbModule * module_)
    using namespace rack;
 
    setModule (module_);
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   if (module_ptr && !module_ptr->sd_card_path.empty ())
+   {
+      sd_card_name = rack::system::getFilename (module_ptr->sd_card_path.c_str ());
+   }
+#endif
 
    // panel
 
@@ -344,6 +418,36 @@ void  ErbWidget::step ()
 
    erb::module_idle (*module_ptr->module_uptr);
 }
+
+
+
+/*
+==============================================================================
+Name : ErbWidget::appendContextMenu
+==============================================================================
+*/
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+void  ErbWidget::appendContextMenu (rack::ui::Menu * menu)
+{
+   menu->addChild (new rack::ui::MenuSeparator);
+
+   if (sd_card_name.empty ())
+   {
+      InsertSdCardItem * item = new InsertSdCardItem;
+      item->text = "Insert SD card";
+      item->parent = this;
+      menu->addChild (item);
+   }
+   else
+   {
+      EjectSdCardItem * item = new EjectSdCardItem;
+      item->text = std::string ("Eject SD card ") + sd_card_name;
+      item->parent = this;
+      menu->addChild (item);
+   }
+}
+#endif
 
 
 

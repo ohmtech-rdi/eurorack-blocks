@@ -50,6 +50,7 @@ BoardSeed2DfmEvalEuro::BoardSeed2DfmEvalEuro ()
    _this_ptr = this;
 
    init_qspi ();
+   init_sdmmc ();
    init_audio ();
    init_display ();
 }
@@ -284,6 +285,32 @@ void  BoardSeed2DfmEvalEuro::init_qspi ()
       .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
       .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
    });
+}
+
+
+
+/*
+==============================================================================
+Name : init_sdmmc
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::init_sdmmc ()
+{
+   // Since this involves DMA transfers, the structures need to be stored
+   // in AXI SRAM.
+   static __attribute__((section(".text"))) daisy::SdmmcHandler sdmmc;
+   static __attribute__((section(".text"))) daisy::FatFSInterface fsi;
+
+   sdmmc.Init (daisy::SdmmcHandler::Config {
+      .speed = daisy::SdmmcHandler::Speed::FAST,
+      .width = daisy::SdmmcHandler::BusWidth::BITS_4,
+      .clock_powersave = false
+   });
+
+   fsi.Init (daisy::FatFSInterface::Config::MEDIA_SD);
+
+   _fat_fs_ptr = &fsi.GetSDFileSystem ();
 }
 
 

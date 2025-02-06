@@ -38,12 +38,14 @@
 
          'include_dirs': [
             '.',
+%           include_dirs%
 %           bases.entities%
          ],
 
          'sources': [
 %           sources.entities%
             'artifacts/plugin_vcvrack.cpp',
+%           extra_sources%
          ],
 
          'actions': [

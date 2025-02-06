@@ -211,12 +211,23 @@ class Make:
          else:
             return '$(CONFIGURATION)' + path + '.d'
 
+      use_fatfs = False
+      for define in module.defines:
+         if define.key == 'erb_USE_FATFS' and define.value == '1':
+            use_fatfs = True
+
       source_extra_paths = []
       source_extra_paths.append (os.path.abspath (os.path.join (PATH_LIBDAISY, 'core', 'startup_stm32h750xx.c')))
       cmsis_dsp_src_path = os.path.abspath (os.path.join (PATH_LIBDAISY, 'Drivers', 'CMSIS', 'DSP', 'Source'))
       source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'CommonTables', 'arm_common_tables.c'))
       source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'FastMathFunctions', 'arm_cos_f32.c'))
       source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'FastMathFunctions', 'arm_sin_f32.c'))
+      if use_fatfs:
+         fatfs_src_path = os.path.abspath (os.path.join (PATH_LIBDAISY, 'Middlewares', 'Third_Party', 'FatFs', 'src'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'diskio.c'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'ff.c'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'ff_gen_drv.c'))
+         source_extra_paths.append (os.path.join (fatfs_src_path, 'option', 'ccsbcs.c'))
 
       objects = ' '.join (map (lambda x: object_name (x), source_paths))
       objects += ' ' + ' '.join (map (lambda x: object_name (x), source_extra_paths))

@@ -25,5 +25,6 @@
 - [`LedBi`](./LedBi.md) represents a dichromatic LED,
 - [`LedRgb`](./LedRgb.md) represents a RGB LED,
 - [`Pot`](./Pot.md) represents a potentiometer block,
+- [`SdMmc`](./SdMmc.md) represents a SD card reader,
 - [`Switch`](./Switch.md) represents a 2 or 3 positions toggle switch,
 - [`Trim`](./Trim.md) represents a trim potentiometer block.
