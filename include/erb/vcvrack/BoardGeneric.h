@@ -33,6 +33,7 @@ struct Param;
 struct Input;
 struct Output;
 struct Light;
+struct Module;
 }
 }
 
@@ -51,6 +52,8 @@ public:
 
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric () = default;
+
+   void           impl_bind (rack::engine::Module & module) { _vcv_module_ptr = &module; }
 
    template <class Control, class VcvModel>
    void           impl_bind (Control & control, VcvModel & model);
@@ -80,7 +83,7 @@ public:
    void           impl_pull_audio_inputs ();
    void           impl_push_audio_outputs ();
 
-   void           impl_preprocess ();
+   virtual void   impl_preprocess ();
    void           impl_postprocess ();
 
 
@@ -101,6 +104,9 @@ protected:
                   _analog_outputs;
    std::vector <Buffer>
                   _audio_outputs;
+
+   rack::engine::Module *
+                  _vcv_module_ptr = nullptr;
 
 
 
