@@ -36,4 +36,5 @@ module Seed2DfmEvalEuro extends seed2_dfm_eval_euro {
 
    alias encoder enc
    alias screen display
+   alias microsd sdmmc
 }

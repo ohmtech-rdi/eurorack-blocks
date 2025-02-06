@@ -8,10 +8,16 @@
 //use strict
 
 module Seed2DfmEvalEuro {
+
+   define erb_USE_FATFS=1	// Needed for SdMmc
+
    sources {
       file "Seed2DfmEvalEuro.cpp"
       file "Seed2DfmEvalEuro.h"
       file "Seed2DfmEvalEuro.erbui"
+
+      file "../../boards/seed2_dfm_eval_euro/simulator/BoardSeed2DfmEvalEuro.h"
+      file "../../boards/seed2_dfm_eval_euro/simulator/BoardSeed2DfmEvalEuro.hpp"
    }
 
    resources {
@@ -19,5 +25,6 @@ module Seed2DfmEvalEuro {
       data pic1 FormatSsd130x { file "media/pic1.png" }
       data pic2 FormatSsd130x { file "media/pic2.png" }
       data pic3 FormatSsd130x { file "media/pic3.png" }
+      data font FormatSsd130x { file "media/font.png" }
    }
 }
