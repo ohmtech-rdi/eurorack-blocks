@@ -73,6 +73,13 @@ public:
    inline typename erb::FormatSsd130x <128, 64>::Storage &
                   oled () { return _oled_buffer; }
 
+   // SdMmc
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   inline FATFS & fatfs () { return *_fat_fs_ptr; }
+#else
+   inline int     fatfs () { return 0; }
+#endif
+
    // Clock
    inline const uint64_t &
                   clock () { return _clock.ms (); }
@@ -156,6 +163,7 @@ protected:
 private:
 
    inline void    init_qspi ();
+   inline void    init_sdmmc ();
    inline void    init_audio ();
    inline void    init_display ();
 
@@ -172,6 +180,7 @@ private:
 
    daisy::QSPIHandle
                   _qspi;
+   FATFS *        _fat_fs_ptr = nullptr;
    daisy::AudioHandle
                   _audio;
    daisy::AdcHandle
