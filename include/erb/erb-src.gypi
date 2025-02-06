@@ -54,6 +54,8 @@
       'PinType.h',
       'Pot.h',
       'Pot.hpp',
+      'SdMmc.h',
+      'SdMmc.hpp',
       'SdramPtr.h',
       'SdramPtr.hpp',
       'SramPtr.h',
