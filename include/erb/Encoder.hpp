@@ -65,7 +65,7 @@ void  Encoder <LeadingType>::impl_preprocess ()
    _state_a = uint8_t (_state_a << 1) | (impl_data_a != 0);
    _state_b = uint8_t (_state_b << 1) | (impl_data_b != 0);
 
-   if ((_state_a & 0x03) == 0x02 && (_state_b & 0x03) == 0x00)
+   if ((_state_a & 0x07) == 0x04 && (_state_b & 0x07) == 0x00)
    {
       if constexpr (LeadingType == EncoderLeadingType::A)
       {
@@ -76,7 +76,7 @@ void  Encoder <LeadingType>::impl_preprocess ()
          _val = 1;
       }
    }
-   else if ((_state_b & 0x03) == 0x02 && (_state_a & 0x03) == 0x00)
+   else if ((_state_b & 0x07) == 0x04 && (_state_a & 0x07) == 0x00)
    {
       if constexpr (LeadingType == EncoderLeadingType::A)
       {
