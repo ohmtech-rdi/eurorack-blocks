@@ -21,6 +21,7 @@ from .generators.fuzz.code import Code as fuzzCode
 from .generators.front_panel.dxf import Dxf as front_panelDxf
 from .generators.front_panel.pdf import Pdf as front_panelPdf
 from .generators.front_panel.pcb import Pcb as front_panelPcb
+from .generators.front_panel.specs import Specs as front_panelSpecs
 from .generators.front_pcb.kicad_pcb import KicadPcb as kicad_pcbKicadPcb
 from .generators.front_pcb.bom import Bom as front_pcbBom
 from .generators.front_pcb.centroid import Centroid as front_pcbCentroid
@@ -205,6 +206,7 @@ def generate_hardware (path, ast):
    generate_front_panel_dxf (path_hardware, ast)
    generate_front_panel_pdf (path_hardware, ast)
    generate_front_panel_pcb (path_hardware, ast)
+   generate_front_panel_specs (path_hardware, ast)
    generate_front_pcb_kicad_pcb (path_hardware, ast)
    generate_front_pcb_bom (path_hardware, ast)
    generate_front_pcb_centroid (path_hardware, ast)
@@ -244,6 +246,18 @@ Name: generate_front_panel_pcb
 
 def generate_front_panel_pcb (path, ast):
    generator = front_panelPcb ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_front_panel_specs
+==============================================================================
+"""
+
+def generate_front_panel_specs (path, ast):
+   generator = front_panelSpecs ()
    generator.generate (path, ast)
 
 
