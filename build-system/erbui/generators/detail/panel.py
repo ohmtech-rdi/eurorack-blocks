@@ -446,7 +446,7 @@ class Panel:
       if render_mode == 'translucence' and not image.is_layer_translucence: return
       if render_mode == 'translucence_no_fill' and not image.is_layer_translucence: return
 
-      with open (image.file) as file:
+      with open (image.file, 'rb') as file:
          tree = cairosvg.parser.Tree (file_obj=file)
          surface = ContextOnlySurface (tree, context)
 
