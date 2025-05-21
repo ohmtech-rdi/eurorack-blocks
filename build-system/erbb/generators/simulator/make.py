@@ -113,7 +113,7 @@ class Make:
       }
 
       for define in defines:
-         define_map [define.key] = define.value
+         define_map [define.key] = define.value.replace ('"', '\\"')
 
       for key, value in define_map.items ():
          lines += 'FLAGS += -D%s=%s\n' % (key, value)

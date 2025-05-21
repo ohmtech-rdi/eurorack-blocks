@@ -34,7 +34,7 @@ def import_declaration ():             return 'import', string_literal
 
 # Define
 def define_key ():                     return name
-def define_value ():                   return _(r'(\w*)')
+def define_value ():                   return [_(r'(\w*)'), string_literal]
 def define_declaration ():             return 'define', define_key, '=', define_value
 
 # Sources
