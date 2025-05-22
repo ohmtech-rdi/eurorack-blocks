@@ -41,6 +41,8 @@ public:
                   Encoder (const uint8_t & data_a, const uint8_t & data_b);
    virtual        ~Encoder () = default;
 
+   void           configure (size_t nbr_debounce_zeros);
+
                   operator int () const;
 
 
@@ -66,8 +68,10 @@ protected:
 
 private:
 
-   uint8_t        _state_a = 0xff;
-   uint8_t        _state_b = 0xff;
+   uint32_t       _state_a = 0xffffffff;
+   uint32_t       _state_b = 0xffffffff;
+   uint32_t       _test = 0x04;
+   uint32_t       _mask = 0x07;
    int            _val = 0;
 
 
