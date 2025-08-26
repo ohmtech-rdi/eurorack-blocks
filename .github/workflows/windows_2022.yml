@@ -1,4 +1,4 @@
-name: Windows 2019
+name: Windows 2022
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 jobs:
   software_cpp:
     name: Software C++
-    runs-on: windows-2019
+    runs-on: windows-2022
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -71,7 +71,7 @@ jobs:
 
   software_max:
     name: Software Max/MSP/Gen~
-    runs-on: windows-2019
+    runs-on: windows-2022
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -97,7 +97,7 @@ jobs:
 
   software_faust_2_37_3:
     name: Software Faust 2.37.3
-    runs-on: windows-2019
+    runs-on: windows-2022
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -135,7 +135,7 @@ jobs:
 
   software_faust:
     name: Software Faust
-    runs-on: windows-2019
+    runs-on: windows-2022
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
