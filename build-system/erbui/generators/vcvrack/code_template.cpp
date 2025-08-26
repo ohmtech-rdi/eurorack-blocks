@@ -171,7 +171,9 @@ ErbModule::ErbModule ()
    // Since we have some heap allocations, we keep a bit of margin
    // and complain when we reach 128K of stack space.
 
+#if defined (erb_TARGET_DAISY)
    static_assert (sizeof (module) < 128 * 1024 /* 128K */, "");
+#endif
 
    // The SDRAM is compararively slow compared to the SRAM,
    // So try to keep all memory that is accessed often in SRAM.
