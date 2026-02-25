@@ -218,7 +218,7 @@ class Make:
 
       source_extra_paths = []
       source_extra_paths.append (os.path.abspath (os.path.join (PATH_LIBDAISY, 'core', 'startup_stm32h750xx.c')))
-      cmsis_dsp_src_path = os.path.abspath (os.path.join (PATH_LIBDAISY, 'Drivers', 'CMSIS', 'DSP', 'Source'))
+      cmsis_dsp_src_path = os.path.abspath (os.path.join (PATH_LIBDAISY, 'Drivers', 'CMSIS-DSP', 'Source'))
       source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'CommonTables', 'arm_common_tables.c'))
       source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'FastMathFunctions', 'arm_cos_f32.c'))
       source_extra_paths.append (os.path.join (cmsis_dsp_src_path, 'FastMathFunctions', 'arm_sin_f32.c'))

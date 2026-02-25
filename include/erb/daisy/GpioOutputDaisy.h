@@ -33,7 +33,7 @@ class GpioOutputDaisy
 
 public:
 
-   inline         GpioOutputDaisy (const dsy_gpio_pin & pin);
+   inline         GpioOutputDaisy (const daisy::Pin & pin);
    virtual        ~GpioOutputDaisy () = default;
 
    inline void    write (bool val);
@@ -54,7 +54,7 @@ protected:
 
 private:
 
-   dsy_gpio       _impl;
+   daisy::GPIO    _impl;
 
 
 

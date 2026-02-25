@@ -36,11 +36,12 @@
          'STM32H750xx',
          'STM32H750IB',
          'ARM_MATH_CM7',
-         '__FPU_PRESENT',
          'flash_layout',
          'HSE_VALUE=16000000',
          'USE_HAL_DRIVER',
          'USE_FULL_LL_DRIVER',
+         'DATA_IN_D2_SRAM',
+         'FILEIO_ENABLE_FATFS_READER',
       ],
 
       'cflags': [

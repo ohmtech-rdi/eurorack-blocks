@@ -43,20 +43,24 @@ FLAGS += \
 -I$(LIBDAISY_DIR)/src/sys \
 -I$(LIBDAISY_DIR)/src/usbd \
 -I$(LIBDAISY_DIR)/src/usbh \
--I$(LIBDAISY_DIR)/Drivers/CMSIS/Include/ \
--I$(LIBDAISY_DIR)/Drivers/CMSIS/DSP/Include \
--I$(LIBDAISY_DIR)/Drivers/CMSIS/Device/ST/STM32H7xx/Include \
--I$(LIBDAISY_DIR)/Drivers/STM32H7xx_HAL_Driver/Inc/ \
+-I$(LIBDAISY_DIR)/Drivers/CMSIS_5/CMSIS/Core/Include \
+-I$(LIBDAISY_DIR)/Drivers/CMSIS-DSP/Include \
+-I$(LIBDAISY_DIR)/Drivers/CMSIS-Device/ST/STM32H7xx/Include \
+-I$(LIBDAISY_DIR)/Drivers/STM32H7xx_HAL_Driver/Inc \
+-I$(LIBDAISY_DIR)/Drivers/STM32H7xx_HAL_Driver/Inc/Legacy \
 -I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Device_Library/Core/Inc \
+-I$(LIBDAISY_DIR)/Middlewares/Patched/ST/STM32_USB_Device_Library/Class/CDC/Inc \
 -I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Host_Library/Core/Inc \
 -I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Host_Library/Class/MSC/Inc \
+-I$(LIBDAISY_DIR)/Middlewares/ST/STM32_USB_Host_Library/Class/MIDI/Inc \
 -I$(LIBDAISY_DIR)/Middlewares/Third_Party/FatFs/src
 
 FLAGS += -mcpu=cortex-m7 -mthumb -mfpu=fpv5-d16 -mfloat-abi=hard
 
 FLAGS += -DUSE_HAL_DRIVER -DSTM32H750xx -DHSE_VALUE=16000000
 FLAGS += -DCORE_CM7 -DSTM32H750IB -DARM_MATH_CM7 -DUSE_FULL_LL_DRIVER
-FLAGS += -D__FPU_PRESENT
+FLAGS += -DDATA_IN_D2_SRAM
+FLAGS += -DFILEIO_ENABLE_FATFS_READER
 FLAGS += -fasm -fdata-sections -ffunction-sections
 FLAGS += -finline -finline-functions-called-once -fshort-enums -fno-move-loop-invariants
 

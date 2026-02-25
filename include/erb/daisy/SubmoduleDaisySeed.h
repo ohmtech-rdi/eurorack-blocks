@@ -37,42 +37,42 @@ class SubmoduleDaisySeed
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 public:
-   using Pin = dsy_gpio_pin;
+   using Pin = daisy::Pin;
 
-   static constexpr Pin Pin0 =  {DSY_GPIOB, 12};
-   static constexpr Pin Pin1 =  {DSY_GPIOC, 11};
-   static constexpr Pin Pin2 =  {DSY_GPIOC, 10};
-   static constexpr Pin Pin3 =  {DSY_GPIOC, 9};
-   static constexpr Pin Pin4 =  {DSY_GPIOC, 8};
-   static constexpr Pin Pin5 =  {DSY_GPIOD, 2};
-   static constexpr Pin Pin6 =  {DSY_GPIOC, 12};
+   static constexpr Pin Pin0 =  {daisy::PORTB, 12};
+   static constexpr Pin Pin1 =  {daisy::PORTC, 11};
+   static constexpr Pin Pin2 =  {daisy::PORTC, 10};
+   static constexpr Pin Pin3 =  {daisy::PORTC, 9};
+   static constexpr Pin Pin4 =  {daisy::PORTC, 8};
+   static constexpr Pin Pin5 =  {daisy::PORTD, 2};
+   static constexpr Pin Pin6 =  {daisy::PORTC, 12};
 
-   static constexpr Pin Pin7 =  {DSY_GPIOG, 10};
-   static constexpr Pin Pin8 =  {DSY_GPIOG, 11};
-   static constexpr Pin Pin9 =  {DSY_GPIOB, 4};
-   static constexpr Pin Pin10 = {DSY_GPIOB, 5};
-   static constexpr Pin Pin11 = {DSY_GPIOB, 8};
-   static constexpr Pin Pin12 = {DSY_GPIOB, 9};
-   static constexpr Pin Pin13 = {DSY_GPIOB, 6};
-   static constexpr Pin Pin14 = {DSY_GPIOB, 7};
+   static constexpr Pin Pin7 =  {daisy::PORTG, 10};
+   static constexpr Pin Pin8 =  {daisy::PORTG, 11};
+   static constexpr Pin Pin9 =  {daisy::PORTB, 4};
+   static constexpr Pin Pin10 = {daisy::PORTB, 5};
+   static constexpr Pin Pin11 = {daisy::PORTB, 8};
+   static constexpr Pin Pin12 = {daisy::PORTB, 9};
+   static constexpr Pin Pin13 = {daisy::PORTB, 6};
+   static constexpr Pin Pin14 = {daisy::PORTB, 7};
 
-   static constexpr Pin Pin15 = {DSY_GPIOC, 0};
-   static constexpr Pin Pin16 = {DSY_GPIOA, 3};
-   static constexpr Pin Pin17 = {DSY_GPIOB, 1};
-   static constexpr Pin Pin18 = {DSY_GPIOA, 7};
-   static constexpr Pin Pin19 = {DSY_GPIOA, 6};
-   static constexpr Pin Pin20 = {DSY_GPIOC, 1};
-   static constexpr Pin Pin21 = {DSY_GPIOC, 4};
-   static constexpr Pin Pin22 = {DSY_GPIOA, 5};
+   static constexpr Pin Pin15 = {daisy::PORTC, 0};
+   static constexpr Pin Pin16 = {daisy::PORTA, 3};
+   static constexpr Pin Pin17 = {daisy::PORTB, 1};
+   static constexpr Pin Pin18 = {daisy::PORTA, 7};
+   static constexpr Pin Pin19 = {daisy::PORTA, 6};
+   static constexpr Pin Pin20 = {daisy::PORTC, 1};
+   static constexpr Pin Pin21 = {daisy::PORTC, 4};
+   static constexpr Pin Pin22 = {daisy::PORTA, 5};
 
-   static constexpr Pin Pin23 = {DSY_GPIOA, 4};
-   static constexpr Pin Pin24 = {DSY_GPIOA, 1};
-   static constexpr Pin Pin25 = {DSY_GPIOA, 0};
-   static constexpr Pin Pin26 = {DSY_GPIOD, 11};
-   static constexpr Pin Pin27 = {DSY_GPIOG, 9};
-   static constexpr Pin Pin28 = {DSY_GPIOA, 2};
-   static constexpr Pin Pin29 = {DSY_GPIOB, 14};
-   static constexpr Pin Pin30 = {DSY_GPIOB, 15};
+   static constexpr Pin Pin23 = {daisy::PORTA, 4};
+   static constexpr Pin Pin24 = {daisy::PORTA, 1};
+   static constexpr Pin Pin25 = {daisy::PORTA, 0};
+   static constexpr Pin Pin26 = {daisy::PORTD, 11};
+   static constexpr Pin Pin27 = {daisy::PORTG, 9};
+   static constexpr Pin Pin28 = {daisy::PORTA, 2};
+   static constexpr Pin Pin29 = {daisy::PORTB, 14};
+   static constexpr Pin Pin30 = {daisy::PORTB, 15};
 
    static constexpr Pin Pins [] = {
       Pin0, Pin1, Pin2, Pin3, Pin4, Pin5, Pin6,
@@ -160,7 +160,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   static constexpr Pin PinNC = {DSY_GPIOX, 0};
+   static constexpr Pin PinNC = {daisy::PORTX, 0};
 
 
 
