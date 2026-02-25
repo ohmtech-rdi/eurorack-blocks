@@ -28,10 +28,9 @@ Name : ctor
 ==============================================================================
 */
 
-GpioOutputDaisy::GpioOutputDaisy (const dsy_gpio_pin & pin)
-:  _impl ({pin, DSY_GPIO_MODE_OUTPUT_PP, DSY_GPIO_NOPULL})
+GpioOutputDaisy::GpioOutputDaisy (const daisy::Pin & pin)
 {
-   dsy_gpio_init (&_impl);
+   _impl.Init (pin, daisy::GPIO::Mode::OUTPUT, daisy::GPIO::Pull::NOPULL);
 }
 
 
@@ -44,7 +43,7 @@ Name : write
 
 void  GpioOutputDaisy::write (bool val)
 {
-   dsy_gpio_write (&_impl, val ? 1 : 0);
+   _impl.Write (val);
 }
 
 

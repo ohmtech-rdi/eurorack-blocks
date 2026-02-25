@@ -58,12 +58,12 @@ void  SubmoduleDaisyPatchSm::init_qspi ()
 {
    _qspi.Init (daisy::QSPIHandle::Config {
       .pin_config = {
-         .io0 = {DSY_GPIOF, 8},
-         .io1 = {DSY_GPIOF, 9},
-         .io2 = {DSY_GPIOF, 7},
-         .io3 = {DSY_GPIOF, 6},
-         .clk = {DSY_GPIOF, 10},
-         .ncs = {DSY_GPIOG, 6}
+         .io0 = {daisy::PORTF, 8},
+         .io1 = {daisy::PORTF, 9},
+         .io2 = {daisy::PORTF, 7},
+         .io3 = {daisy::PORTF, 6},
+         .clk = {daisy::PORTF, 10},
+         .ncs = {daisy::PORTG, 6}
       },
       .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
       .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
@@ -88,11 +88,11 @@ void  SubmoduleDaisyPatchSm::init_audio ()
    sai_1_handle.Init (SaiHandle::Config {
       .periph = SaiHandle::Config::Peripheral::SAI_1,
       .pin_config = {
-         .mclk = {DSY_GPIOE, 2},
-         .fs = {DSY_GPIOE, 4},
-         .sck = {DSY_GPIOE, 5},
-         .sa = {DSY_GPIOE, 6},
-         .sb = {DSY_GPIOE, 3}
+         .mclk = {daisy::PORTE, 2},
+         .fs = {daisy::PORTE, 4},
+         .sck = {daisy::PORTE, 5},
+         .sa = {daisy::PORTE, 6},
+         .sb = {daisy::PORTE, 3}
       },
       .sr = SaiHandle::Config::SampleRate::SAI_48KHZ,
       .bit_depth = SaiHandle::Config::BitDepth::SAI_24BIT,
@@ -106,8 +106,8 @@ void  SubmoduleDaisyPatchSm::init_audio ()
    i2c2.Init ({
       .periph = I2CHandle::Config::Peripheral::I2C_2,
       .pin_config = {
-         .scl = {DSY_GPIOB, 10},
-         .sda = {DSY_GPIOB, 11},
+         .scl = {daisy::PORTB, 10},
+         .sda = {daisy::PORTB, 11},
       },
       .speed = I2CHandle::Config::Speed::I2C_400KHZ,
       .mode = I2CHandle::Config::Mode::I2C_MASTER

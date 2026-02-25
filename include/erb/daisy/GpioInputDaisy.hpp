@@ -28,10 +28,9 @@ Name : ctor
 ==============================================================================
 */
 
-GpioInputDaisy::GpioInputDaisy (const dsy_gpio_pin & pin, Pull pull)
-:  _impl ({pin, DSY_GPIO_MODE_INPUT, to_dsy_gpio_pull (pull)})
+GpioInputDaisy::GpioInputDaisy (const daisy::Pin & pin, Pull pull)
 {
-   dsy_gpio_init (&_impl);
+   _impl.Init (pin, daisy::GPIO::Mode::INPUT, to_daisy_GPIO_Pull (pull));
 }
 
 
@@ -44,7 +43,7 @@ Name : read
 
 bool  GpioInputDaisy::read ()
 {
-   return dsy_gpio_read (&_impl) != 0;
+   return _impl.Read ();
 }
 
 
@@ -61,28 +60,28 @@ bool  GpioInputDaisy::read ()
 
 /*
 ==============================================================================
-Name : to_dsy_gpio_pull
+Name : to_daisy_GPIO_Pull
 ==============================================================================
 */
 
-dsy_gpio_pull  GpioInputDaisy::to_dsy_gpio_pull (Pull pull)
+daisy::GPIO::Pull  GpioInputDaisy::to_daisy_GPIO_Pull (Pull pull)
 {
    switch (pull)
    {
    case Pull::None:
-      return DSY_GPIO_NOPULL;
+      return daisy::GPIO::Pull::NOPULL;
       //break;
 
    case Pull::Up:
-      return DSY_GPIO_PULLUP;
+      return daisy::GPIO::Pull::PULLUP;
       //break;
 
    case Pull::Down:
-      return DSY_GPIO_PULLDOWN;
+      return daisy::GPIO::Pull::PULLDOWN;
       //break;
    }
 
-   return DSY_GPIO_NOPULL;
+   return daisy::GPIO::Pull::NOPULL;
 }
 
 

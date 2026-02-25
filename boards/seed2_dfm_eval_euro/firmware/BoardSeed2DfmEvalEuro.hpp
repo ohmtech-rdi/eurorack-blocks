@@ -275,12 +275,12 @@ void  BoardSeed2DfmEvalEuro::init_qspi ()
 {
    _qspi.Init (daisy::QSPIHandle::Config {
       .pin_config = {
-         .io0 = {DSY_GPIOF, 8},
-         .io1 = {DSY_GPIOF, 9},
-         .io2 = {DSY_GPIOF, 7},
-         .io3 = {DSY_GPIOF, 6},
-         .clk = {DSY_GPIOF, 10},
-         .ncs = {DSY_GPIOG, 6}
+         .io0 = {daisy::PORTF, 8},
+         .io1 = {daisy::PORTF, 9},
+         .io2 = {daisy::PORTF, 7},
+         .io3 = {daisy::PORTF, 6},
+         .clk = {daisy::PORTF, 10},
+         .ncs = {daisy::PORTG, 6}
       },
       .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
       .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
@@ -333,11 +333,11 @@ void  BoardSeed2DfmEvalEuro::init_audio ()
    sai_1_handle.Init (SaiHandle::Config {
       .periph = SaiHandle::Config::Peripheral::SAI_1,
       .pin_config = {
-         .mclk = {DSY_GPIOE, 2},
-         .fs = {DSY_GPIOE, 4},
-         .sck = {DSY_GPIOE, 5},
-         .sa = {DSY_GPIOE, 6},
-         .sb = {DSY_GPIOE, 3}
+         .mclk = {daisy::PORTE, 2},
+         .fs = {daisy::PORTE, 4},
+         .sck = {daisy::PORTE, 5},
+         .sa = {daisy::PORTE, 6},
+         .sb = {daisy::PORTE, 3}
       },
       .sr = SaiHandle::Config::SampleRate::SAI_48KHZ,
       .bit_depth = SaiHandle::Config::BitDepth::SAI_24BIT,
@@ -348,13 +348,13 @@ void  BoardSeed2DfmEvalEuro::init_audio ()
    });
 
    // PCM3060 disable deemphasis pin
-   dsy_gpio codec_1_deemphasis = {
-      .pin = {DSY_GPIOB, 11},
-      .mode = DSY_GPIO_MODE_OUTPUT_PP,
-      .pull = DSY_GPIO_NOPULL,
-   };
-   dsy_gpio_init (&codec_1_deemphasis);
-   dsy_gpio_write (&codec_1_deemphasis, 0);
+   daisy::GPIO codec_1_deemphasis;
+   codec_1_deemphasis.Init (
+      {daisy::PORTB, 11},
+      GPIO::Mode::OUTPUT,
+      GPIO::Pull::NOPULL
+   );
+   codec_1_deemphasis.Write (false);
    // don't deinit GPIO
 
    // "External" PCM3060 codec
@@ -363,11 +363,11 @@ void  BoardSeed2DfmEvalEuro::init_audio ()
    sai_2_handle.Init (SaiHandle::Config {
       .periph = SaiHandle::Config::Peripheral::SAI_2,
       .pin_config = {
-         .mclk = {DSY_GPIOA, 1},
-         .fs = {DSY_GPIOG, 9},
-         .sck = {DSY_GPIOA, 2},
-         .sa = {DSY_GPIOD, 11},
-         .sb = {DSY_GPIOA, 0}
+         .mclk = {daisy::PORTA, 1},
+         .fs = {daisy::PORTG, 9},
+         .sck = {daisy::PORTA, 2},
+         .sa = {daisy::PORTD, 11},
+         .sb = {daisy::PORTA, 0}
       },
       .sr = SaiHandle::Config::SampleRate::SAI_48KHZ,
       .bit_depth = SaiHandle::Config::BitDepth::SAI_24BIT,

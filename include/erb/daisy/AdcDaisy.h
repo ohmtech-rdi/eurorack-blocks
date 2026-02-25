@@ -54,7 +54,7 @@ class AdcDaisy
 
 public:
 
-   using Pin = dsy_gpio_pin;
+   using Pin = daisy::Pin;
 
    struct MuxAddress
    {
@@ -80,7 +80,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   static constexpr Pin PinNC = {DSY_GPIOX, 0};
+   static constexpr Pin PinNC = {daisy::PORTX, 0};
 
 
 

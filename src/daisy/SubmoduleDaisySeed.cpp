@@ -62,12 +62,12 @@ void  SubmoduleDaisySeed::init_qspi ()
 {
    _seed.qspi.Init (daisy::QSPIHandle::Config {
       .pin_config = {
-         .io0 = {DSY_GPIOF, 8},
-         .io1 = {DSY_GPIOF, 9},
-         .io2 = {DSY_GPIOF, 7},
-         .io3 = {DSY_GPIOF, 6},
-         .clk = {DSY_GPIOF, 10},
-         .ncs = {DSY_GPIOG, 6}
+         .io0 = {daisy::PORTF, 8},
+         .io1 = {daisy::PORTF, 9},
+         .io2 = {daisy::PORTF, 7},
+         .io3 = {daisy::PORTF, 6},
+         .clk = {daisy::PORTF, 10},
+         .ncs = {daisy::PORTG, 6}
       },
       .device = daisy::QSPIHandle::Config::Device::IS25LP064A,
       .mode = daisy::QSPIHandle::Config::Mode::MEMORY_MAPPED
@@ -92,18 +92,19 @@ void  SubmoduleDaisySeed::init_audio ()
    sai_config.b_sync          = daisy::SaiHandle::Config::Sync::SLAVE;
    sai_config.a_dir           = daisy::SaiHandle::Config::Direction::TRANSMIT;
    sai_config.b_dir           = daisy::SaiHandle::Config::Direction::RECEIVE;
-   sai_config.pin_config.fs   = {DSY_GPIOE, 4};
-   sai_config.pin_config.mclk = {DSY_GPIOE, 2};
-   sai_config.pin_config.sck  = {DSY_GPIOE, 5};
-   sai_config.pin_config.sa   = {DSY_GPIOE, 6};
-   sai_config.pin_config.sb   = {DSY_GPIOE, 3};
+   sai_config.pin_config.fs   = {daisy::PORTE, 4};
+   sai_config.pin_config.mclk = {daisy::PORTE, 2};
+   sai_config.pin_config.sck  = {daisy::PORTE, 5};
+   sai_config.pin_config.sa   = {daisy::PORTE, 6};
+   sai_config.pin_config.sb   = {daisy::PORTE, 3};
 
    daisy::SaiHandle sai_1_handle;
    sai_1_handle.Init (sai_config);
 
-   dsy_gpio_pin codec_reset_pin;
-   codec_reset_pin = {DSY_GPIOB, 11};
-   daisy::Ak4556::Init (codec_reset_pin);
+   daisy::Pin codec_reset_pin;
+   codec_reset_pin = {daisy::PORTB, 11};
+   daisy::Ak4556 codec;
+   codec.Init (codec_reset_pin);
 
    daisy::AudioHandle::Config audio_config;
    audio_config.blocksize  = 48;

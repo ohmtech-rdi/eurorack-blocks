@@ -37,7 +37,7 @@ public:
       None, Up, Down
    };
 
-   inline         GpioInputDaisy (const dsy_gpio_pin & pin, Pull pull = Pull::None);
+   inline         GpioInputDaisy (const daisy::Pin & pin, Pull pull = Pull::None);
    virtual        ~GpioInputDaisy () = default;
 
    inline bool    read ();
@@ -58,10 +58,10 @@ protected:
 
 private:
 
-   inline dsy_gpio_pull
-                  to_dsy_gpio_pull (Pull pull);
+   inline daisy::GPIO::Pull
+                  to_daisy_GPIO_Pull (Pull pull);
 
-   dsy_gpio       _impl;
+   daisy::GPIO    _impl;
 
 
 
