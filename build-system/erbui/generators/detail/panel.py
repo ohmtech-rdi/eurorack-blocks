@@ -610,6 +610,7 @@ class ContextOnlySurface (cairosvg.surface.Surface):
       self.filters = {}
       self.images = {}
       self.tree_cache = {(tree.url, tree.get('id')): tree}
+      self.reference_count = 0
 
       self.dpi = 72 # used in `size` for pt units
 
