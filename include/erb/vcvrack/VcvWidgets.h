@@ -797,6 +797,19 @@ struct MicroSd : rack::OpaqueWidget
 };
 
 
+struct MicroSdBack : rack::OpaqueWidget
+{
+   template <typename Control>
+   MicroSdBack (Control & control)
+   {
+   }
+
+   void  rotate (float angle_rad) {}
+
+   void draw (const DrawArgs & args) override {}
+};
+
+
 struct Invisible : rack::ParamWidget
 {
    Invisible () {
