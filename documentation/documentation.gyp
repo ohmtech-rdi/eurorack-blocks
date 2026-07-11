@@ -61,6 +61,7 @@
             'guides/drop.md',
             'guides/kick.md',
             'guides/reverb.md',
+            'guides/monitor.md',
 
             'diy/intro.md',
             'diy/board.md',
