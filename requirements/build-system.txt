@@ -16,7 +16,10 @@ svg2mod>=1.2
 
 # AudioSample generation
 
-SoundFile>=0.12.1
+# SoundFile 0.14.0 evaluates numpy.ndarray [tuple [int, ...], numpy.dtype [...]]
+# at import time, which requires numpy 1.22 or later. Our Ubuntu 22.04 workflow
+# ships with numpy 1.21.5, so keep Soundfile below 0.14.
+SoundFile>=0.12.1,<0.14
 numpy>=1.21.0
 
 # Display Format

@@ -58,6 +58,7 @@
       _Pragma ("clang diagnostic ignored \"-Wsuggest-destructor-override\"") \
       _Pragma ("clang diagnostic ignored \"-Wmacro-redefined\"") \
       _Pragma ("clang diagnostic ignored \"-Wshadow-field\"") \
+      _Pragma ("clang diagnostic ignored \"-Wdeprecated-literal-operator\"") \
 
    #define erb_DISABLE_WARNINGS_FAUST_GEN \
       _Pragma ("clang diagnostic push") \
