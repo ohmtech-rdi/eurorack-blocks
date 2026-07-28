@@ -15,6 +15,7 @@
 
 #include "erb/def.h"
 #include "erb/config.h"
+#include "erb/Monitor.h"
 
 erb_DISABLE_WARNINGS_DAISY
 #include "daisy.h"
@@ -109,8 +110,16 @@ int main ()
 
    erb::module_init (module);
 
+#if (erb_MONITOR)
+   erb::Monitor::use ().init ();
+#endif
+
    module.ui.board.run ([&](){
       using BoardType = decltype (module.ui.board);
+
+#if (erb_MONITOR)
+      erb::Monitor::use ().audio_enter ();
+#endif
 
       module.ui.board.impl_preprocess ();
 
@@ -121,6 +130,10 @@ int main ()
 %     controls_postprocess%
 %     board_postprocess%
       module.ui.board.impl_postprocess ();
+
+#if (erb_MONITOR)
+      erb::Monitor::use ().audio_exit ();
+#endif
    });
 
    const auto tick_freq = daisy::System::GetTickFreq ();
@@ -131,6 +144,10 @@ int main ()
 
       erb::module_idle (module);
       module.ui.board.impl_idle ();
+
+#if (erb_MONITOR)
+      erb::Monitor::use ().idle ();
+#endif
 
       // busy wait so that the idle loop is at least 6ms
       while (daisy::System::GetTick () - ts_beg < tick_freq * 6 / 1000) {}

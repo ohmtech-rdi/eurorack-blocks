@@ -141,6 +141,7 @@ Continue here to learn how to create your own module.
 - **{doc}`/guides/drop`**
 - **{doc}`/guides/reverb`**
 - **{doc}`/guides/kick`**
+- **{doc}`/guides/monitor`**
 
 ```{eval-rst}
 .. toctree::
@@ -152,6 +153,7 @@ Continue here to learn how to create your own module.
    /guides/drop
    /guides/reverb
    /guides/kick
+   /guides/monitor
 ```
 
 

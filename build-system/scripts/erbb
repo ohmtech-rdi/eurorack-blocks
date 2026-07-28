@@ -122,6 +122,7 @@ def usage ():
    print ('   init            Create a new project in current directory')
    print ('   configure       Create the simulator project and hardware make file')
    print ('   build           Build the IDE project or make file')
+   print ('   monitor         Communicate with a running module')
    print ('   install         Install the firmware on the Daisy hardware')
    print ('   bootloader      Install the QSPI bootloader on the Daisy hardware')
    print ('   max             Cycling\'74 Max commands')
@@ -399,6 +400,36 @@ def build_hardware (args):
       erbui.generate_front_pcb_gerber (path_artifacts, ast_erbui)
    else:
       erbui.generate_hardware (path_artifacts, ast_erbui)
+
+
+
+#-- monitor ------------------------------------------------------------------
+
+def monitor (args):
+   import erbb.monitor
+
+   process = erbb.monitor.start_server (adapter_speed_khz=args.speed_khz * 1000 if args.speed_khz else None)
+
+   try:
+      session = erbb.monitor.Session ()
+      session.hello ()
+
+      if args.action == 'ping':
+         erbb.monitor.run_ping (session)
+
+      elif args.action == 'load':
+         erbb.monitor.run_load (session)
+
+      elif args.action == 'prof':
+         erbb.monitor.run_prof (session, args.blocks)
+
+      elif args.action == 'stream':
+         erbb.monitor.run_stream (session, duration_s=args.duration)
+
+      session.close ()
+
+   finally:
+      erbb.monitor.stop_server (process)
 
 
 
@@ -713,6 +744,44 @@ def parse_args_build (parent):
 
 
 
+#-- parse_args_monitor -------------------------------------------------------
+
+def parse_args_monitor (parent):
+
+   parser = parent.add_parser (
+      'monitor',
+      help='communicate with a running module'
+   )
+
+   parser.add_argument(
+      'action',
+      nargs = '?',
+      default = 'stream',
+      choices = ['stream', 'ping', 'load', 'prof'],
+      help = 'the monitor action (stream, ping, load, prof)'
+   )
+
+   parser.add_argument(
+      '--speed-khz',
+      type = int,
+      help = 'debug probe adapter speed, in kHz'
+   )
+
+   parser.add_argument(
+      '--duration',
+      type = float,
+      help = 'stream duration in seconds, unlimited if not specified'
+   )
+
+   parser.add_argument(
+      '--blocks',
+      type = int,
+      default = 3000,
+      help = 'profiler window length in audio blocks, default 3000'
+   )
+
+
+
 #-- parse_args_install -------------------------------------------------------
 
 def parse_args_install (parent):
@@ -823,6 +892,7 @@ def parse_args ():
    parse_args_configure (subparsers)
    parse_args_build (subparsers)
    parse_args_install (subparsers)
+   parse_args_monitor (subparsers)
    parse_args_run (subparsers)
 
    return parser.parse_args (sys.argv [1:])
@@ -850,6 +920,9 @@ def main ():
 
          elif args.command == 'build':
             build (args)
+
+         elif args.command == 'monitor':
+            monitor (args)
 
          elif args.command == 'install':
             install (args)

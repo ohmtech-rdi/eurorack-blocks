@@ -34,6 +34,8 @@
 #include "erb/Led.h"
 #include "erb/LedBi.h"
 #include "erb/LedRgb.h"
+#include "erb/Monitor.h"
+#include "erb/Profiler.h"
 #include "erb/Persistent.h"
 #include "erb/Pot.h"
 #include "erb/SdMmc.h"

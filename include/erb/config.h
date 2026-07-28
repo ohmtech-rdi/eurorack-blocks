@@ -36,6 +36,32 @@
 #endif
 
 
+// 'erb_MONITOR' activates the monitor: an RTT link over the debug probe
+// (SWD) with cycle counting and profiling primitives, used by the
+// 'erbb monitor' command for live measurement of a running module.
+// Activate by adding:
+//
+// define erb_MONITOR=1
+//
+// to your erbb module definition
+
+#if !defined (erb_MONITOR)
+   #define erb_MONITOR 0
+#endif
+
+
+// 'erb_MONITOR_FIFO_SIZE' sizes the SDRAM fifo that buffers the monitor
+// down-channel while a stream handler stalls (SD card access, display
+// redraws...). The default, about one second of ST-Link throughput, suits
+// handlers that never block for long; raise it when a stream handler can
+// stall the idle loop for several seconds, or the debug probe drops bytes
+// and streams fail their CRC check.
+
+#if !defined (erb_MONITOR_FIFO_SIZE)
+   #define erb_MONITOR_FIFO_SIZE 262144
+#endif
+
+
 // 'erb_SRAM_MEM_POOL_SIZE' represents the maximum amount of memory that can
 // be used for all combined usages of 'SramPtr' for an entire module.
 // Increase by adding:
