@@ -269,14 +269,27 @@ def run_prof (session, nbr_blocks):
       ))
 
 
-# Tail the up channel as text lines (firmware printf traffic).
+# Tail the up channel as text lines (firmware printf traffic), optionally
+# teeing the stamped lines to a log file.
 
-def run_stream (session, duration_s=None):
+def run_stream (session, duration_s=None, log_path=None):
+   log_file = open (log_path, 'w', buffering=1) if log_path else None
+   nbr_lines = 0
    t0 = time.time ()
    try:
       while (duration_s is None) or (time.time () - t0 < duration_s):
          line = session.read_line (timeout_s=0.5)
          if line is not None:
-            print ('[%8.3f] %s' % (time.time () - t0, line))
+            stamped = '[%8.3f] %s' % (time.time () - t0, line)
+            print (stamped)
+            if log_file is not None:
+               log_file.write (stamped + '\n')
+            nbr_lines += 1
    except KeyboardInterrupt:
       pass
+   finally:
+      if log_file is not None:
+         log_file.close ()
+         print ('log: %s' % log_path)
+      if nbr_lines == 0:
+         print ('warning: no output — app running?')
