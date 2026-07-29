@@ -10,6 +10,7 @@ and writes over SWD while the CPU runs, with no halt and no trap.
 On top of it, a tiny command protocol lets the host query the module
 and lets your module expose its own custom commands.
 
+
 ## Enabling the monitor
 
 Add the define to your `erbb` module definition:
@@ -28,6 +29,7 @@ $ erbb configure
 $ erbb build
 $ erbb install
 ```
+
 
 ## Talking to the module
 
@@ -61,6 +63,41 @@ $ erbb monitor stream --duration 10
 
 When the module is hard to reach or the link is slow, `--speed-khz` sets
 the debug probe adapter speed.
+
+
+## Bench setup
+
+When iterating on the module code, the edit / build / flash / measure loop
+can run unattended from a single command:
+
+```shell-session
+$ erbb monitor --build --install --duration 10
+```
+
+`--build` configures and builds the firmware first, `--install` flashes it,
+and the monitor then runs the requested action (`stream` when not
+specified). `--log <file>` outputs the streamed lines, with timestamps, to a
+file, and warns when nothing was received at all.
+
+This needs the board connected with **both** cables:
+
+- the USB cable, powering the board and using DFU transfer,
+- the ST-Link probe, using the monitor link to reset and open
+  the DFU window.
+
+With the probe connected, `erbb install` (and `erbb monitor --install`)
+enters the Daisy bootloader by resetting the board through the probe and
+catching the DFU window that the bootloader opens on boot, no button press
+needed. The stock bootloader variant installed by `erbb install bootloader`
+(`intdfu-2000ms`) opens that window for 2 seconds on every reset.
+
+After a dependency or branch change, `--rebuild` wipes `artifacts/daisy`
+before building:
+
+```shell-session
+$ erbb monitor --rebuild --install --duration 10
+```
+
 
 ## Profiling
 
@@ -310,6 +347,29 @@ finally:
 This feature is for the daisy target only,
 and a debug probe must be connected.
 `erbb monitor` and `erbb install` share the probe so that monitoring stops while flashing.
+
+### Transport Limits
+
+The openocd RTT server drops down-channel bytes whenever a TCP burst finds
+its 4 KB ring full, a random event under host scheduler jitter,
+correlated with long transfers.
+Byte *counts* stay intact (later bytes shift in),
+so the protocol parser desynchronizes silently and fails at the
+first shifted pseudo-header:
+the failure point is content-deterministic
+(typically the first large box) while the failure occurrence is random,
+which can look like a logic bug.
+
+Workarounds:
+
+- `erb_MONITOR_FIFO_SIZE` enlarges the module-side stream fifo, covering
+  the parser-stall class of ring-full events.
+- An end-to-end crc plus host-side retry (as in the streaming example
+  above) converts residual drops from wrong results into a retried
+  transfer.
+
+Unfortunately a proper fix would be to add flow control in the openocd
+RTT server itself, or a host pacing handshake.
 
 ### SEGGER Licensing
 
