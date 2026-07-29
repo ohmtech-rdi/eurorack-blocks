@@ -696,7 +696,11 @@ def deploy_daisy (name, section, path, configuration, programmer):
 
    elif programmer == 'dfu':
       file_bin = os.path.join (path_artifacts, 'daisy', configuration, '%s.bin' % name)
-      deploy_dfu_util (name, section, file_bin)
+
+      if section != 'flash' and stlink_plugged ():
+         deploy_dfu_util_unattended (name, section, file_bin)
+      else:
+         deploy_dfu_util (name, section, file_bin)
 
 
 
@@ -776,6 +780,108 @@ def deploy_bootloader (variant):
    )
 
    deploy_dfu_util ('dsy_bootloader_v6_4-%s' % variant, 'flash', libdaisy_bootloader_bin)
+
+
+
+"""
+==============================================================================
+Name : openocd_reset
+==============================================================================
+"""
+
+def openocd_reset ():
+   cmd = [
+      OPENOCD_CMD,
+      '--search', OPENOCD_SCRIPTS,
+      '--file', 'interface/stlink.cfg',
+      '--file', 'target/stm32h7x.cfg',
+      '--command', 'init',
+      '--command', 'reset run',
+      '--command', 'shutdown',
+   ]
+
+   return subprocess.call (
+      cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+   ) == 0
+
+
+
+"""
+==============================================================================
+Name : dfu_visible
+==============================================================================
+"""
+
+def dfu_visible ():
+   out = subprocess.run (
+      [DFU_CMD, '-l'], capture_output=True, text=True
+   ).stdout
+
+   return '0483:df11' in out
+
+
+
+"""
+==============================================================================
+Name : wait_dfu
+==============================================================================
+"""
+
+def wait_dfu (timeout_s):
+   deadline = time.time () + timeout_s
+
+   while time.time () < deadline:
+      if dfu_visible ():
+         return True
+      time.sleep (0.05)
+
+   return False
+
+
+
+"""
+==============================================================================
+Name : deploy_dfu_util_unattended
+==============================================================================
+"""
+
+def deploy_dfu_util_unattended (name, section, file_bin):
+   if not os.path.exists (file_bin):
+      sys.exit ('Unknown target %s' % name)
+
+   # Reset the board through the ST-Link debug probe to open the Daisy bootloader
+   # DFU window, then program without any manual button press.
+   # intdfu is needed with the long timeout.
+
+   if not openocd_reset ():
+      sys.exit ('openocd reset failed. Is the ST-Link probe connected?')
+
+   if not wait_dfu (3.0):
+      sys.exit ('DFU window missed. Is the Daisy bootloader installed? (erbb install bootloader)')
+
+   print ('Uploading %s to %s section...' % (name, section))
+
+   cmd = [
+      DFU_CMD,
+      '-a', '0',
+      '-i', '0',
+      '-s', '0x90040000:leave',
+      '-D', file_bin,
+      '-d', '0483:df11',
+   ]
+
+   proc = subprocess.run (cmd, capture_output=True, text=True)
+
+   if proc.returncode != 0:
+      sys.stderr.write (proc.stdout [-1000:] + proc.stderr [-1000:])
+      sys.exit ('dfu-util failed')
+
+   time.sleep (1.5)
+
+   if dfu_visible ():
+      sys.exit ('Board still in DFU after download')
+
+   print ('Flashed %d bytes, app running.' % os.path.getsize (file_bin))
 
 
 
