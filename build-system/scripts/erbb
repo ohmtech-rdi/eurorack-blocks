@@ -141,6 +141,19 @@ def usage ():
    print ('      debug        Debug configuration')
    print ('      release      Release configuration (default)')
    print ('')
+   print ('monitor [<action>] [<options>]')
+   print ('   action:')
+   print ('      stream       Tail the module text output (default)')
+   print ('      ping         Round-trip check')
+   print ('      load         Audio callback load')
+   print ('      prof         Profiler window dump')
+   print ('   options:')
+   print ('      --build      Configure and build the firmware first')
+   print ('      --rebuild    Like --build, but wipe artifacts/daisy first')
+   print ('      --install    Flash the firmware before monitoring')
+   print ('      --duration   Stream duration in seconds, unlimited if not specified')
+   print ('      --log        Tee the streamed lines to this file')
+   print ('')
    print ('install [<mode> [<configuration>]]')
    print ('   mode:')
    print ('      openocd      Install using OpenOCD if installed (default)')
@@ -406,7 +419,29 @@ def build_hardware (args):
 #-- monitor ------------------------------------------------------------------
 
 def monitor (args):
+   import erbb
    import erbb.monitor
+
+   cwd = os.getcwd ()
+
+   build = args.build or args.rebuild
+
+   if build or args.install:
+      erbb.check_environment (cwd)
+
+   if args.rebuild:
+      path_daisy = os.path.join (cwd, 'artifacts', 'daisy')
+      if os.path.exists (path_daisy):
+         shutil.rmtree (path_daisy)
+
+   if build:
+      configure (args)
+      build_firmware (args)
+
+   if args.install:
+      # the monitor and the flashing share the debug probe: flash before
+      # starting the rtt server
+      install_firmware (args)
 
    process = erbb.monitor.start_server (adapter_speed_khz=args.speed_khz * 1000 if args.speed_khz else None)
 
@@ -424,7 +459,7 @@ def monitor (args):
          erbb.monitor.run_prof (session, args.blocks)
 
       elif args.action == 'stream':
-         erbb.monitor.run_stream (session, duration_s=args.duration)
+         erbb.monitor.run_stream (session, duration_s=args.duration, log_path=args.log)
 
       session.close ()
 
@@ -762,6 +797,24 @@ def parse_args_monitor (parent):
    )
 
    parser.add_argument(
+      '--build',
+      action = 'store_true',
+      help = 'configure and build the firmware first'
+   )
+
+   parser.add_argument(
+      '--rebuild',
+      action = 'store_true',
+      help = 'like --build, but wipe artifacts/daisy first'
+   )
+
+   parser.add_argument(
+      '--install',
+      action = 'store_true',
+      help = 'flash the firmware before monitoring'
+   )
+
+   parser.add_argument(
       '--speed-khz',
       type = int,
       help = 'debug probe adapter speed, in kHz'
@@ -778,6 +831,11 @@ def parse_args_monitor (parent):
       type = int,
       default = 3000,
       help = 'profiler window length in audio blocks, default 3000'
+   )
+
+   parser.add_argument(
+      '--log',
+      help = 'tee the streamed lines to this file (stream action)'
    )
 
 

@@ -17,7 +17,7 @@ class TestCompletion (unittest.TestCase):
 
    def test_000 (self):
       reply = complete ('erbb')
-      self.assertEqual (reply, ['setup', 'init', 'configure', 'build', 'install', 'run '])
+      self.assertEqual (reply, ['setup', 'init', 'configure', 'build', 'monitor', 'install', 'run '])
 
    def test_001 (self):
       reply = complete ('erbb in')
@@ -41,6 +41,22 @@ class TestCompletion (unittest.TestCase):
 
    def test_006 (self):
       reply = complete ('erbb init --name f')
+      self.assertEqual (reply, [])
+
+   def test_007 (self):
+      reply = complete ('erbb mo')
+      self.assertEqual (reply, ['monitor'])
+
+   def test_008 (self):
+      reply = complete ('erbb monitor --b')
+      self.assertEqual (reply, ['--build', '--blocks'])
+
+   def test_009 (self):
+      reply = complete ('erbb monitor stream --du')
+      self.assertEqual (reply, ['--duration'])
+
+   def test_010 (self):
+      reply = complete ('erbb monitor --duration 3')
       self.assertEqual (reply, [])
 
 if __name__ == '__main__':
