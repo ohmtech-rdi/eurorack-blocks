@@ -66,11 +66,11 @@ FLAGS += -finline -finline-functions-called-once -fshort-enums -fno-move-loop-in
 
 # Optimization
 ifeq ($(CONFIGURATION),Debug)
-FLAGS += -O0 -g -ggdb -funsafe-math-optimizations
+FLAGS += -O0 -g -ggdb -funsafe-math-optimizations -fno-math-errno
 endif
 
 ifeq ($(CONFIGURATION),Release)
-FLAGS += -O2 -DNDEBUG=1 -funsafe-math-optimizations
+FLAGS += -O2 -DNDEBUG=1 -funsafe-math-optimizations -fno-math-errno
 endif
 
 ifdef SEMIHOSTING
