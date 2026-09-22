@@ -71,6 +71,7 @@
       'SramPtr.hpp',
       'Switch.h',
       'Switch.hpp',
+      'SystemClock.h',
       'config.h',
       'def.h',
       'erb.h',

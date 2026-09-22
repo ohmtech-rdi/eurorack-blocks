@@ -44,6 +44,7 @@
 #endif
 #include "erb/SramPtr.h"
 #include "erb/Switch.h"
+#include "erb/SystemClock.h"
 
 #include "erb/detail/fnc.h"
 

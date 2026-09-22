@@ -16,10 +16,7 @@
 #include "erb/def.h"
 
 #include "erb/PersistentBase.h"
-
-#if defined (erb_TARGET_DAISY)
-   #include "erb/daisy/ClockHal.h"
-#endif
+#include "erb/SystemClock.h"
 
 #include <chrono>
 
@@ -64,22 +61,13 @@ protected:
 /*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 private:
-
-#if defined (erb_TARGET_DAISY)
-      using Clock = ClockHal;
-
-#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_UNIT_TEST)
-      using Clock = std::chrono::steady_clock;
-
-#endif
-
    PersistentBase <Type, Magic>
                   _base;
 
    Type           _value = {};
 
    bool           _need_commit_flag = false;
-   std::chrono::time_point <Clock>
+   std::chrono::time_point <SystemClock>
                   _earliest_commit_tp;
 
 
