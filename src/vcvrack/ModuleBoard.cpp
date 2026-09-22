@@ -151,6 +151,27 @@ void  ModuleBoard::impl_unset_current (ModuleBoard * board_ptr)
 
 
 
+/*
+==============================================================================
+Name : impl_reset_pools
+==============================================================================
+*/
+
+void  ModuleBoard::impl_reset_pools ()
+{
+   // zero-initialised like ctor
+
+   _sram_memory_pool_storage.fill (0);
+   _sram.impl_reset ();
+
+#if (erb_SDRAM_USE_FLAG)
+   _sdram_memory_pool_storage.fill (0);
+   _sdram.impl_reset ();
+#endif
+}
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

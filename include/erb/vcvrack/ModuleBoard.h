@@ -64,6 +64,8 @@ public:
    static void    impl_set_current (ModuleBoard * board_ptr);
    static void    impl_unset_current (ModuleBoard * board_ptr);
 
+   void           impl_reset_pools ();
+
 
 
 
