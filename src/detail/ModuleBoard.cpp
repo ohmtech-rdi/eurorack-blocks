@@ -9,7 +9,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/vcvrack/ModuleBoard.h"
+#include "erb/detail/ModuleBoard.h"
 
 #include <algorithm>
 

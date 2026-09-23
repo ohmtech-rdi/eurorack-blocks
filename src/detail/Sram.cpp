@@ -12,7 +12,7 @@
 #include "erb/detail/Sram.h"
 
 #if defined (erb_TARGET_VCV_RACK)
-   #include "erb/vcvrack/ModuleBoard.h"
+   #include "erb/detail/ModuleBoard.h"
 #endif
 
 #if defined (erb_TARGET_UNIT_TEST)
