@@ -649,20 +649,20 @@ Name : load
 template <std::size_t N>
 std::array <uint8_t, N> BoardGeneric::load (size_t page)
 {
+   // This is a NAND flash so any untouched bits read as 1
+
+   auto ret = std::array <uint8_t, N> {};
+   ret.fill (0xff);
+
    auto it = _persistent_map.find (page);
 
    if (it != _persistent_map.end ())
    {
       const auto & stored = it->second;
-      auto ret = std::array <uint8_t, N> {};
       std::memcpy (&ret [0], &stored [0], std::min (stored.size (), N));
+   }
 
-      return ret;
-   }
-   else
-   {
-      return {};
-   }
+   return ret;
 }
 
 
@@ -678,6 +678,19 @@ void  BoardGeneric::save (size_t page, const Data & data)
 {
    auto & stored = _persistent_map [page];
    stored = std::vector <uint8_t> { data.begin (), data.end () };
+}
+
+
+
+/*
+==============================================================================
+Name : erase
+==============================================================================
+*/
+
+void  BoardGeneric::erase (size_t page)
+{
+   _persistent_map.erase (page);
 }
 
 
