@@ -90,6 +90,7 @@
             'erbb/generators/simulator/xcscheme_template',
 
             # generators/vcvrack
+            'erbb/generators/vcvrack/acceptance_template.gyp',
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
             'erbb/generators/vcvrack/test_unit_template.gyp',
