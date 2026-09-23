@@ -287,10 +287,55 @@ def build (args):
    elif target == 'hardware':
       build_hardware (args)
 
+   elif target == 'acceptance':
+      build_acceptance (args)
+
    else:
       print (args.target)
       print (target)
       assert False
+
+
+
+#-- build_acceptance ---------------------------------------------------------
+
+def build_acceptance (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   # force erbui parsing to avoid cache concurrency on Windows
+   ast_erbui = read_erbui_ast (find_erbui ())
+
+   configuration = acceptance_configuration (args)
+   names = acceptance_names (ast_erbb)
+
+   erbb.build_acceptance_target (cwd, configuration, names)
+
+
+
+#-- acceptance_configuration -------------------------------------------------
+
+def acceptance_configuration (args):
+   if not hasattr (args, 'configuration') or args.configuration == 'release':
+      return 'Release'
+   elif args.configuration == 'debug':
+      return 'Debug'
+
+
+
+#-- acceptance_names ---------------------------------------------------------
+
+def acceptance_names (ast_erbb):
+   module = ast_erbb.modules [0]
+   names = [acceptance.name for acceptance in module.acceptances]
+
+   if not names:
+      print ("error: module '%s' has no acceptance block" % module.name, file = sys.stderr)
+      sys.exit (1)
+
+   return names
 
 
 
@@ -600,6 +645,37 @@ def run (args):
       run_performance (args)
    elif target == 'fuzz':
       run_fuzz (args)
+   elif target == 'acceptance':
+      run_acceptance (args)
+
+
+
+#-- run_acceptance -----------------------------------------------------------
+
+def run_acceptance (args):
+   import erbb
+
+   cwd = os.getcwd ()
+
+   ast_erbb = read_erbb_ast (find_erbb ())
+   ast_erbui = read_erbui_ast (find_erbui ())
+
+   configuration = acceptance_configuration (args)
+   names = acceptance_names (ast_erbb)
+
+   if args.blocks:
+      for name in args.blocks:
+         if name not in names:
+            print ("error: no acceptance block '%s', blocks are: %s" % (name, ', '.join (names)), file = sys.stderr)
+            sys.exit (1)
+
+      names = args.blocks
+
+   erbb.build_acceptance_target (cwd, configuration, names)
+   codes = erbb.run_acceptance_target (cwd, configuration, names)
+
+   if any (codes):
+      sys.exit (1)
 
 
 
@@ -777,6 +853,18 @@ def parse_args_build (parent):
       help = 'generate gerber from pcb layout only'
    )
 
+   parser_acceptance = subparsers.add_parser (
+      'acceptance',
+      help='build the acceptance tests'
+   )
+
+   parser_acceptance.add_argument(
+      '--configuration', '-c',
+      default = 'release',
+      choices = ['debug', 'release'],
+      help = 'the build configuration to use, defaults to release'
+   )
+
 
 
 #-- parse_args_monitor -------------------------------------------------------
@@ -928,6 +1016,24 @@ def parse_args_run (parent):
    parser_fuzz = subparsers.add_parser (
       'fuzz',
       help='run the fuzz testing firmware'
+   )
+
+   parser_acceptance = subparsers.add_parser (
+      'acceptance',
+      help='build and run the acceptance tests'
+   )
+
+   parser_acceptance.add_argument(
+      '--configuration', '-c',
+      default = 'release',
+      choices = ['debug', 'release'],
+      help = 'the build configuration to run, defaults to release'
+   )
+
+   parser_acceptance.add_argument(
+      'blocks',
+      nargs = '*',
+      help = 'names of the acceptance tests to run, defaults to all'
    )
 
 

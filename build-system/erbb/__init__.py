@@ -637,6 +637,65 @@ def build_simulator_make_target (target, path, configuration):
 
 """
 ==============================================================================
+Name : build_acceptance_target
+==============================================================================
+"""
+
+def build_acceptance_target (path, configuration, names):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   os.environ ["CONFIGURATION"] = configuration
+
+   cmd = [
+      MAKE_CMD,
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'acceptance'),
+   ]
+
+   cmd.extend (names)
+
+   subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
+Name : run_acceptance_target
+==============================================================================
+"""
+
+def run_acceptance_target (path, configuration, names):
+   path_acceptance = os.path.join (path, 'artifacts', 'acceptance', configuration)
+
+   codes = []
+
+   for name in names:
+      print ('RUN %s' % name, flush = True)
+
+      executable = os.path.join (path_acceptance, name)
+
+      if platform.system () == 'Windows':
+         executable += '.exe'
+
+      result = subprocess.run ([executable], cwd = path)
+
+      print ('EXIT %s %d' % (name, result.returncode), flush = True)
+
+      codes.append (result.returncode)
+
+   failed = [name for name, code in zip (names, codes) if code != 0]
+
+   if failed:
+      print ('FAILED %d of %d: %s' % (len (failed), len (names), ' '.join (failed)), flush = True)
+   else:
+      print ('PASSED %d of %d' % (len (names), len (names)), flush = True)
+
+   return codes
+
+
+
+"""
+==============================================================================
 Name : stlink_plugged
 ==============================================================================
 """
