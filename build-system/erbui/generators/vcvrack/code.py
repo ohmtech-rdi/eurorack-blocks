@@ -60,7 +60,8 @@ class Code:
       nbr_outputs = 0
       nbr_lights = 0
 
-      controls_bind_config = ''
+      controls_bind = ''
+      controls_config = ''
 
       for entity in entities:
          if entity.is_control:
@@ -70,26 +71,26 @@ class Code:
 
             if category == 'Param':
                control.vcv_param_index = nbr_params
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
-               controls_bind_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.5f * (decltype (module.ui.%s)::ValueMin + decltype (module.ui.%s)::ValueMax), "%s");\n\n' % (nbr_params, control.name, control.name, control.name, control.name, control.name)
+               controls_bind += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'params', nbr_params)
+               controls_config += '   configParam (%d, decltype (module.ui.%s)::ValueMin, decltype (module.ui.%s)::ValueMax, 0.5f * (decltype (module.ui.%s)::ValueMin + decltype (module.ui.%s)::ValueMax), "%s");\n' % (nbr_params, control.name, control.name, control.name, control.name, control.name)
                nbr_params += nbr_ids
 
             elif category == 'Input':
                control.vcv_input_index = nbr_inputs
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
-               controls_bind_config += '   configInput (%d, "%s");\n\n' % (nbr_inputs, control.name)
+               controls_bind += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'inputs', nbr_inputs)
+               controls_config += '   configInput (%d, "%s");\n' % (nbr_inputs, control.name)
                nbr_inputs += nbr_ids
 
             elif category == 'Output':
                control.vcv_output_index = nbr_outputs
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
-               controls_bind_config += '   configOutput (%d, "%s");\n\n' % (nbr_outputs, control.name)
+               controls_bind += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'outputs', nbr_outputs)
+               controls_config += '   configOutput (%d, "%s");\n' % (nbr_outputs, control.name)
                nbr_outputs += nbr_ids
 
             elif category == 'Light':
                control.vcv_light_index = nbr_lights
-               controls_bind_config += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
-               controls_bind_config += '   configLight (%d, "%s");\n\n' % (nbr_lights, control.name)
+               controls_bind += '   module.ui.board.impl_bind (module.ui.%s, %s [%d]);\n' % (control.name, 'lights', nbr_lights)
+               controls_config += '   configLight (%d, "%s");\n' % (nbr_lights, control.name)
                nbr_lights += nbr_ids
 
       template = template.replace ('%module.nbr_params%', str (nbr_params))
@@ -97,7 +98,8 @@ class Code:
       template = template.replace ('%module.nbr_outputs%', str (nbr_outputs))
       template = template.replace ('%module.nbr_lights%', str (nbr_lights))
 
-      template = template.replace ('%  module.controls.bind+config%', controls_bind_config)
+      template = template.replace ('%  module.controls.bind%', controls_bind)
+      template = template.replace ('%  module.controls.config%', controls_config)
 
       return template
 
@@ -112,15 +114,15 @@ class Code:
             if control.normalling_from.is_nothing:
                pass
             elif control.normalling_from.is_board_pin:
-               lines += '   if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
-               lines += '   {\n'
-               lines += '      inputs [%d].setVoltage (module.ui.board.%s);\n' % (control.vcv_input_index, control.normalling_from.reference.bind.expression)
-               lines += '   }\n'
+               lines += '      if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
+               lines += '      {\n'
+               lines += '         inputs [%d].setVoltage (module.ui.board.%s);\n' % (control.vcv_input_index, control.normalling_from.reference.bind.expression)
+               lines += '      }\n'
             elif control.normalling_from.is_control:
-               lines += '   if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
-               lines += '   {\n'
-               lines += '      inputs [%d].setVoltage (inputs [%d].getVoltage ());\n' % (control.vcv_input_index, control.normalling_from.reference.vcv_input_index)
-               lines += '   }\n'
+               lines += '      if (!inputs [%d].isConnected ())\n' % control.vcv_input_index
+               lines += '      {\n'
+               lines += '         inputs [%d].setVoltage (inputs [%d].getVoltage ());\n' % (control.vcv_input_index, control.normalling_from.reference.vcv_input_index)
+               lines += '      }\n'
             else:
                assert False
 
@@ -134,7 +136,7 @@ class Code:
 
       for entity in entities:
          if entity.is_control:
-            lines += '      module.ui.%s.impl_preprocess ();\n' % entity.name
+            lines += '         module.ui.%s.impl_preprocess ();\n' % entity.name
 
       return template.replace ('%     controls_preprocess%', lines)
 
@@ -146,7 +148,7 @@ class Code:
 
       for entity in entities:
          if entity.is_control:
-            lines += '      module.ui.%s.impl_postprocess ();\n' % entity.name
+            lines += '         module.ui.%s.impl_postprocess ();\n' % entity.name
 
       return template.replace ('%     controls_postprocess%', lines)
 
@@ -155,6 +157,7 @@ class Code:
 
    def replace_controls_widget (self, template, module, entities):
       lines = ''
+      bound_lines = ''
       nbr_params = 0
       nbr_inputs = 0
       nbr_outputs = 0
@@ -209,19 +212,25 @@ class Code:
                lines += '      add%s (control_ptr);\n' % func_category
                lines += '   }\n'
 
+               lines += '\n'
+
             else:
-               lines += '   if (module_ptr != nullptr)\n'
-               lines += '   {\n'
-               lines += '      auto control_ptr = erb::createWidgetCentered <%s> (mm2px (Vec (%ff, %ff)), module_ptr->module_uptr->ui.%s);\n' % (
+               # those controls don't have a rack index
+               # so they need to be rebound on reset
+               bound_lines += '   {\n'
+               bound_lines += '      auto control_ptr = erb::createWidgetCentered <%s> (mm2px (Vec (%ff, %ff)), module_ptr->module_uptr->ui.%s);\n' % (
                   control.args ['simulator_class'], control.position.x.mm + offset_x, control.position.y.mm + offset_y, control.name
                )
-               lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
-               lines += '      addChild (control_ptr);\n'
-               lines += '   }\n'
+               bound_lines += '      control_ptr->rotate (float (%f));\n' % rotation_rad
+               bound_lines += '      addChild (control_ptr);\n'
+               bound_lines += '      bound_widgets.push_back (control_ptr);\n'
+               bound_lines += '   }\n'
+               bound_lines += '\n'
 
-            lines += '\n'
+      template = template.replace ('%  controls_widget%', lines)
+      template = template.replace ('%  controls_bound_widget%', bound_lines.rstrip ('\n'))
 
-      return template.replace ('%  controls_widget%', lines)
+      return template
 
 
    #--------------------------------------------------------------------------

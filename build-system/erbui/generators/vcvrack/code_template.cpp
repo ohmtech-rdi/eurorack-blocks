@@ -17,6 +17,7 @@
 
 #include "erb/module_fnc.h"
 #include "erb/vcvrack/ModuleBoard.h"
+#include "erb/detail/Reboot.h"
 #include "erb/vcvrack/VcvWidgets.h"
 
 #include "erb/def.h"
@@ -26,10 +27,14 @@ erb_DISABLE_WARNINGS_VCVRACK
 #include <osdialog.h>
 erb_RESTORE_WARNINGS
 
+#include <atomic>
 #include <iomanip>
 #include <memory>
 #include <sstream>
 #include <type_traits>
+#include <vector>
+
+#include <cassert>
 
 
 
@@ -43,6 +48,8 @@ struct ErbModule
 
    void           onAdd (const rack::engine::Module::AddEvent & e) override;
 
+   void           onReset (const rack::engine::Module::ResetEvent & e) override;
+
    // Persistent & SdMmc support
    json_t *       dataToJson () override;
    void           dataFromJson (json_t * root) override;
@@ -51,6 +58,14 @@ struct ErbModule
                   module_board;
    std::unique_ptr <%module.name%>
                   module_uptr;
+
+   std::atomic <bool>
+                  reboot_requested = false;
+   std::atomic <bool>
+                  in_process = false;
+
+   // generation number of the erb module after a reset
+   unsigned int   generation = 0;
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
    std::string    sd_card_path;
@@ -120,7 +135,13 @@ struct ErbWidget
 
    void           step () override;
 
+   void           create_bound_widgets ();
+   void           remove_bound_widgets ();
+
    ErbModule *    module_ptr = nullptr;
+   std::vector <rack::widget::Widget *>
+                  bound_widgets;
+   unsigned int   generation = 0;
 }; // struct ErbWidget
 
 
@@ -196,7 +217,11 @@ ErbModule::ErbModule ()
 
    module.ui.board.impl_bind (*this);
 
-%  module.controls.bind+config%
+%  module.controls.bind%
+
+   // config
+
+%  module.controls.config%
 }
 
 
@@ -209,28 +234,39 @@ Name : ErbModule::process
 
 void  ErbModule::process (const ProcessArgs & /* args */)
 {
-   erb::ModuleBoard::Scoped scoped {module_board};
+   in_process = true;
 
-   auto & module = *module_uptr;
+   try
+   {
+      erb::ModuleBoard::Scoped scoped {module_board};
 
-   bool process_flag = module.ui.board.impl_need_process ();
+      auto & module = *module_uptr;
+
+      bool process_flag = module.ui.board.impl_need_process ();
 
 %  normalling_process%
-   module.ui.board.impl_pull_audio_inputs ();
+      module.ui.board.impl_pull_audio_inputs ();
 
-   if (process_flag)
-   {
-      module.ui.board.impl_preprocess ();
+      if (process_flag)
+      {
+         module.ui.board.impl_preprocess ();
 
 %     controls_preprocess%
-      module.process ();
+         module.process ();
 
 %     controls_postprocess%
 
-      module.ui.board.impl_postprocess ();
+         module.ui.board.impl_postprocess ();
+      }
+
+      module.ui.board.impl_push_audio_outputs ();
+   }
+   catch (erb::Reboot &)
+   {
+      reboot_requested = true;
    }
 
-   module.ui.board.impl_push_audio_outputs ();
+   in_process = false;
 }
 
 
@@ -246,6 +282,64 @@ void  ErbModule::onAdd (const rack::engine::Module::AddEvent & e)
    erb::ModuleBoard::Scoped scoped {module_board};
 
    auto & module = *module_uptr;
+
+   erb::module_init (module);
+}
+
+
+
+/*
+==============================================================================
+Name : ErbModule::onReset
+Description :
+   Rebuilds the erb module, and is used to simulate a hard reboot.
+==============================================================================
+*/
+
+void  ErbModule::onReset (const rack::engine::Module::ResetEvent & e)
+{
+   assert (!in_process);
+
+   const bool reboot = reboot_requested;
+   reboot_requested = false;
+
+   auto persistent_map = module_uptr->ui.board.use_persistent_map ();
+
+   if (!reboot)
+   {
+      rack::engine::Module::onReset (e);
+      persistent_map.clear ();
+   }
+
+   rightExpander.producerMessage = nullptr;
+   rightExpander.consumerMessage = nullptr;
+
+   erb::ModuleBoard::Scoped scoped {module_board};
+
+   module_uptr.reset ();
+   module_board.impl_reset_pools ();
+
+   module_uptr = std::make_unique <%module.name%> ();
+   ++generation;
+   auto & module = *module_uptr;
+
+   // bind
+
+   module.ui.board.impl_bind (*this);
+
+%  module.controls.bind%
+
+   // what survives a reboot
+
+   module.ui.board.use_persistent_map () = persistent_map;
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   if (!sd_card_path.empty ())
+   {
+      bool ok = module.ui.board.set_sd (sd_card_path.c_str ());
+      if (!ok) sd_card_path.clear ();
+   }
+#endif
 
    erb::module_init (module);
 }
@@ -401,6 +495,45 @@ ErbWidget::ErbWidget (ErbModule * module_)
    // controls
 
 %  controls_widget%
+   create_bound_widgets ();
+}
+
+
+
+/*
+==============================================================================
+Name : ErbWidget::create_bound_widgets
+==============================================================================
+*/
+
+void  ErbWidget::create_bound_widgets ()
+{
+   using namespace rack;
+
+   if (module_ptr == nullptr) return;   // module browser preview
+
+   generation = module_ptr->generation;
+
+%  controls_bound_widget%
+}
+
+
+
+/*
+==============================================================================
+Name : ErbWidget::remove_bound_widgets
+==============================================================================
+*/
+
+void  ErbWidget::remove_bound_widgets ()
+{
+   for (auto * widget_ptr : bound_widgets)
+   {
+      removeChild (widget_ptr);
+      delete widget_ptr;
+   }
+
+   bound_widgets.clear ();
 }
 
 
@@ -418,7 +551,30 @@ void  ErbWidget::step ()
    if (module_ptr == nullptr) return;
    if (!module_ptr->module_uptr) return;
 
-   erb::module_idle (*module_ptr->module_uptr);
+   try
+   {
+      erb::module_idle (*module_ptr->module_uptr);
+   }
+   catch (erb::Reboot &)
+   {
+      module_ptr->reboot_requested = true;
+   }
+
+   if (module_ptr->reboot_requested)
+   {
+      // 'resetModule' exclusively locks the engine and runs 'onReset'
+
+      APP->engine->resetModule (module_ptr);
+   }
+
+   if (generation != module_ptr->generation)
+   {
+      // 'ErbModule' was reset
+      // the widgets not associated to a Rack index need to be 'bind' again
+
+      remove_bound_widgets ();
+      create_bound_widgets ();
+   }
 }
 
 
