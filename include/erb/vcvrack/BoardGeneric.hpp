@@ -37,6 +37,8 @@ erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
 erb_RESTORE_WARNINGS
 
+#include <algorithm>
+
 
 
 namespace erb
@@ -676,8 +678,21 @@ Name : save
 template <typename Data>
 void  BoardGeneric::save (size_t page, const Data & data)
 {
-   auto & stored = _persistent_map [page];
-   stored = std::vector <uint8_t> { data.begin (), data.end () };
+   // trim trailing 0xff bytes as they can be treated as untouched bits
+
+   auto end = std::find_if (
+      data.rbegin (), data.rend (),
+      [](uint8_t byte){ return byte != 0xff; }
+   ).base ();
+
+   if (end == data.begin ())
+   {
+      _persistent_map.erase (page);
+   }
+   else
+   {
+      _persistent_map [page] = std::vector <uint8_t> { data.begin (), end };
+   }
 }
 
 
