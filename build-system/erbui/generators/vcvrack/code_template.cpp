@@ -28,9 +28,9 @@ erb_DISABLE_WARNINGS_VCVRACK
 erb_RESTORE_WARNINGS
 
 #include <atomic>
-#include <iomanip>
 #include <memory>
-#include <sstream>
+#include <string>
+#include <string_view>
 #include <type_traits>
 #include <vector>
 
@@ -169,6 +169,61 @@ void  init (rack::Plugin * p)
 {
    plugin_instance = p;
    p->addModel (model);
+}
+
+
+
+/*
+==============================================================================
+Name : hex_encode
+==============================================================================
+*/
+
+static std::string hex_encode (const std::vector <uint8_t> & data)
+{
+   constexpr std::string_view digits = "0123456789abcdef";
+
+   std::string text;
+   text.reserve (data.size () * 2);
+
+   for (auto byte : data)
+   {
+      text += digits [(byte >> 4) & 0x0f];
+      text += digits [(byte >> 0) & 0x0f];
+   }
+
+   return text;
+}
+
+
+
+/*
+==============================================================================
+Name : hex_decode
+==============================================================================
+*/
+
+static std::vector <uint8_t> hex_decode (std::string_view text)
+{
+   auto from_hex = [](char c) -> uint8_t {
+      if (c >= '0' && c <= '9') return uint8_t (c - '0');
+      if (c >= 'a' && c <= 'f') return uint8_t (c - 'a' + 10);
+      assert (false);
+      return 0;
+   };
+
+   std::vector <uint8_t> data;
+   data.reserve (text.size () / 2);
+
+   for (size_t i = 0 ; i + 1 < text.size () ; i += 2)
+   {
+      const auto dh = uint8_t (from_hex (text [i+0]) << 4);
+      const auto dl = uint8_t (from_hex (text [i+1]) << 0);
+
+      data.push_back (dh | dl);
+   }
+
+   return data;
 }
 
 
@@ -364,17 +419,7 @@ json_t * ErbModule::dataToJson ()
    for (auto && item : module.ui.board.use_persistent_map ())
    {
       const auto page = item.first;
-      const auto data = item.second;
-
-      std::ostringstream sstr;
-      sstr << std::hex << std::setfill ('0');
-
-      for (auto b : data)
-      {
-         sstr << std::setw (2) << int (b);
-      }
-
-      auto data_str = sstr.str ();
+      const auto data_str = hex_encode (item.second);
 
       json_t * item_json = json_object ();
       json_object_set_new (item_json, "page", json_integer (page));
@@ -423,19 +468,8 @@ void  ErbModule::dataFromJson (json_t * root)
          json_t * data_json = json_object_get (item_json, "data");
 
          auto page = size_t (json_integer_value (page_json));
-         auto data_str = std::string (json_string_value (data_json));
 
-         std::vector <uint8_t> data (data_str.size () / 2);
-
-         for (size_t i = 0 ; i < data.size () ; ++i)
-         {
-            std::istringstream sstr {std::string {data_str, i * 2, 2}};
-            int val;
-            sstr >> std::hex >> std::setw (2) >> val;
-            data [i] = uint8_t (val);
-         }
-
-         persistent [page] = data;
+         persistent [page] = hex_decode (json_string_value (data_json));
       }
    }
 
