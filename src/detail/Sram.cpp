@@ -11,7 +11,7 @@
 
 #include "erb/detail/Sram.h"
 
-#if defined (erb_TARGET_VCV_RACK)
+#if defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
    #include "erb/detail/ModuleBoard.h"
 #endif
 
@@ -82,7 +82,7 @@ Sram &  Sram::use_instance ()
    static Sram instance (reinterpret_cast <uint8_t *> (&erb_sram_memory_pool_storage));
    return instance;
 
-#elif defined (erb_TARGET_VCV_RACK)
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
    return ModuleBoard::current ().sram ();
 
 #elif defined (erb_TARGET_UNIT_TEST)

@@ -13,7 +13,7 @@
 
 #if (erb_SDRAM_USE_FLAG)
 
-#if defined (erb_TARGET_VCV_RACK)
+#if defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
    #include "erb/detail/ModuleBoard.h"
 #endif
 
@@ -84,7 +84,7 @@ Sdram &  Sdram::use_instance ()
    static Sdram instance (reinterpret_cast <uint8_t *> (&erb_sdram_memory_pool_storage));
    return instance;
 
-#elif defined (erb_TARGET_VCV_RACK)
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
    return ModuleBoard::current ().sdram ();
 
 #elif defined (erb_TARGET_UNIT_TEST)

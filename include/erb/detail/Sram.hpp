@@ -40,7 +40,7 @@ T *   Sram::allocate (Args &&... args)
 #if defined (erb_TARGET_DAISY)
       asm("bkpt 255");
 
-#elif defined (erb_TARGET_VCV_RACK)
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
       throw std::bad_alloc ();
 
 #endif

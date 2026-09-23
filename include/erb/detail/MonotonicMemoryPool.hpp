@@ -39,7 +39,7 @@ std::size_t MonotonicMemoryPool <MaxSize>::allocate (std::size_t alignment, size
    {
 #if defined (erb_TARGET_DAISY)
       asm ("bkpt 255");
-#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_UNIT_TEST)
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST) || defined (erb_TARGET_UNIT_TEST)
       // The module is consuming more memory than it can on the target platform
       throw std::bad_alloc ();
 #endif
