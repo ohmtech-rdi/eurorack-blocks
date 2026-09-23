@@ -11,12 +11,33 @@
 
 #include "erb/rig/BoardGeneric.h"
 
+#include "erb/detail/ModuleBoard.h"
+
 
 
 namespace erb
 {
 namespace rig
 {
+
+
+
+#if defined (__clang__)
+   #pragma clang diagnostic push
+   #pragma clang diagnostic ignored "-Wexit-time-destructors"
+#endif
+
+// process-lifetime memory pools, allocates before 'main'
+static ModuleBoard module_board;
+
+#if defined (__clang__)
+   #pragma clang diagnostic pop
+#endif
+
+static struct ModuleBoardCurrent
+{
+   ModuleBoardCurrent () { ModuleBoard::impl_set_current (&module_board); }
+} module_board_current;
 
 
 
@@ -36,6 +57,10 @@ BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_anal
 ,  _analog_outputs (nbr_analog_outputs, 0.f)
 ,  _audio_outputs (nbr_audio_outputs, Buffer {})
 {
+   // board is first member, so pools are reset before anything else,
+   // and the previous module is guaranteed to be already gone
+
+   ModuleBoard::current ().impl_reset_pools ();
 }
 
 

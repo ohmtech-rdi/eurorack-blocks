@@ -26,6 +26,8 @@
 
 struct %module.name%Ui
 {
+   // keep first member: constructor resets the memory pools before any
+   // other member allocates
    %type(module.board)% board;
 
 %entities%
