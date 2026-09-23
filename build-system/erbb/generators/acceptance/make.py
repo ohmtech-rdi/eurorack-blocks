@@ -185,6 +185,8 @@ class Make:
 
       module_paths = self.include_sources_erb (module)
 
+      module_paths.append (os.path.abspath (os.path.join (path_acceptance, '../acceptance_glue.cpp')))
+
       for source in sources:
          for file in source.files:
             if file.path.endswith ('.cpp'):
@@ -280,6 +282,7 @@ class Make:
    def replace_actions (self, template, module, path_acceptance):
       lines = ''
       lines += self.replace_actions_ui (module, path_acceptance)
+      lines += self.replace_actions_acceptance (module, path_acceptance)
       lines += self.replace_actions_data (module, path_acceptance)
 
       return template.replace ('%target_actions%', lines)
@@ -302,6 +305,31 @@ class Make:
       lines += 'ACTION_UI: %s Makefile | $(CONFIGURATION)\n' % inputs
       lines += '\t@echo "ACTION UI"\n'
       lines += '\t@%s ../actions/action_ui.py\n\n' % sys.executable.replace ('\\', '/')
+      lines += 'ACTIONS += %s\n\n' % outputs
+
+      return lines
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_acceptance (self, module, path_acceptance):
+      lines = ''
+
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path_acceptance)
+
+      inputs = os.path.join (path_erbui_gens, 'acceptance', 'code.py').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'acceptance', 'code_template.cpp').replace ('\\', '/') + ' '
+      inputs += os.path.join (path_erbui_gens, 'acceptance', 'code_template.h').replace ('\\', '/') + ' '
+      inputs += '../../%s.erbui' % module.name
+
+      outputs = '../acceptance_glue.cpp' + ' '
+      outputs += '../acceptance_glue.h'
+
+      lines += '%s:  ACTION_ACCEPTANCE\n' % outputs
+      lines += '\t@:\n'
+      lines += 'ACTION_ACCEPTANCE: %s Makefile | $(CONFIGURATION)\n' % inputs
+      lines += '\t@echo "ACTION Acceptance"\n'
+      lines += '\t@%s ../actions/action_acceptance.py\n\n' % sys.executable.replace ('\\', '/')
       lines += 'ACTIONS += %s\n\n' % outputs
 
       return lines

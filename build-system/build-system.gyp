@@ -39,6 +39,7 @@
             'erbb/tests/test_parser.py',
 
             # generators/action
+            'erbb/generators/action/action_acceptance_template.py',
             'erbb/generators/action/action_daisy_template.py',
             'erbb/generators/action/action_data_template.py',
             'erbb/generators/action/action_faust_template.py',
@@ -184,6 +185,11 @@
             # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
+
+            # generators/acceptance
+            'erbui/generators/acceptance/code_template.cpp',
+            'erbui/generators/acceptance/code_template.h',
+            'erbui/generators/acceptance/code.py',
 
             # generators/vcvrack
             'erbui/generators/vcvrack/code_template.cpp',
