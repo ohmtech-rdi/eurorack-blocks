@@ -88,6 +88,7 @@
       'detail/GateGenerator.hpp',
       'detail/MonotonicMemoryPool.h',
       'detail/MonotonicMemoryPool.hpp',
+      'detail/Reboot.h',
       'detail/Sdram.h',
       'detail/Sdram.hpp',
       'detail/Sram.h',
