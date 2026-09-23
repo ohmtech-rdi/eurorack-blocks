@@ -17,9 +17,12 @@
    'sources': [
       # headers
       'detail/ModuleBoard.h',
+      'rig/BoardGeneric.h',
+      'rig/BoardGeneric.hpp',
 
       # sources
       '../../src/detail/ModuleBoard.cpp',
+      '../../src/rig/BoardGeneric.cpp',
    ],
 
    'include_dirs': [
