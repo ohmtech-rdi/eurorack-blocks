@@ -105,6 +105,10 @@
             'erbb/generators/fuzz/Makefile_template',
             'erbb/generators/fuzz/make.py',
 
+            # generators/acceptance
+            'erbb/generators/acceptance/Makefile_template',
+            'erbb/generators/acceptance/make.py',
+
             # generators/vscode
             'erbb/generators/vscode/c_cpp_properties_template.json',
             'erbb/generators/vscode/c_cpp_properties.py',

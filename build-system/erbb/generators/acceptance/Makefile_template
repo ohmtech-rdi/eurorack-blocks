@@ -1,0 +1,101 @@
+##############################################################################
+#
+#     Makefile
+#     Copyright (c) 2020 Raphael DINGE
+#
+#Tab=3########################################################################
+
+
+
+# !!! THIS FILE WAS AUTOMATICALLY GENERATED. DO NOT MODIFY !!!
+
+
+%define_PATH_ROOT%
+%define_ARCH%
+%define_CXX%
+
+CONFIGURATION ?= Release
+
+
+
+# C standard
+CFLAGS += -std=gnu11
+
+# C++ standard
+CXXFLAGS += -std=gnu++2a
+
+FLAGS += -I$(PATH_ROOT)/include
+
+ifdef ARCH_MAC
+	FLAGS += -DARCH_MAC
+	CXXFLAGS += -stdlib=libc++
+	LDFLAGS += -stdlib=libc++
+	LDFLAGS += -lc++
+	MAC_SDK_FLAGS = -mmacosx-version-min=10.15
+	FLAGS += $(MAC_SDK_FLAGS)
+	LDFLAGS += $(MAC_SDK_FLAGS)
+endif
+
+ifdef ARCH_LIN
+	FLAGS += -DARCH_LIN
+	LDFLAGS += -static-libstdc++ -static-libgcc
+	CXXFLAGS += -Wsuggest-override
+endif
+
+ifdef ARCH_WIN
+	LDFLAGS += -static-libstdc++
+	FLAGS += -DARCH_WIN
+	FLAGS += -D_USE_MATH_DEFINES
+	CXXFLAGS += -Wsuggest-override
+endif
+
+ifdef ARCH_X64
+	FLAGS += -DARCH_X64
+	FLAGS += -march=nehalem
+endif
+
+ifdef ARCH_ARM64
+	FLAGS += -DARCH_ARM64
+	FLAGS += -march=armv8-a+fp+simd
+endif
+
+# no Asan on windows
+ifndef ARCH_WIN
+	SANITIZE_FLAGS = -fsanitize=address,undefined -fno-omit-frame-pointer
+	FLAGS += $(SANITIZE_FLAGS)
+	LDFLAGS += $(SANITIZE_FLAGS)
+endif
+
+# Optimization: never NDEBUG, asserts are the test
+ifeq ($(CONFIGURATION),Debug)
+FLAGS += -O0 -g -funsafe-math-optimizations -fno-math-errno
+endif
+
+ifeq ($(CONFIGURATION),Release)
+FLAGS += -O2 -g -funsafe-math-optimizations -fno-math-errno
+endif
+
+%warnings%
+ifdef ARCH_MAC
+	FLAGS += -Wno-c99-extensions
+endif
+
+FLAGS += -Derb_TARGET_ACCEPTANCE_TEST
+%define_PROJECT_PATH%
+%defines.entities%
+%bases.entities%
+
+# Apply FLAGS to language-specific flags
+CFLAGS += $(FLAGS)
+CXXFLAGS += $(FLAGS)
+
+
+
+%blocks.all%
+
+%target_actions%
+%sources%
+$(CONFIGURATION):
+	mkdir $@
+
+.DEFAULT_GOAL := all

@@ -60,6 +60,7 @@ from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
 from .generators.perf.make import Make as perfMake
 from .generators.fuzz.make import Make as fuzzMake
+from .generators.acceptance.make import Make as acceptanceMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.extensions import Extensions as vscodeExtensions
@@ -234,6 +235,7 @@ def configure (path, ast):
    configure_daisy (path, ast)
    configure_perf (path, ast)
    configure_fuzz (path, ast)
+   configure_acceptance (path, ast)
    configure_vscode (path, ast)
 
 
@@ -295,6 +297,18 @@ Name: configure_fuzz
 
 def configure_fuzz (path, ast):
    generator = fuzzMake ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: configure_acceptance
+==============================================================================
+"""
+
+def configure_acceptance (path, ast):
+   generator = acceptanceMake ()
    generator.generate (path, ast)
 
 
