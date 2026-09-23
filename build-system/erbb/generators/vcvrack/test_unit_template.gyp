@@ -4,6 +4,7 @@
 
          'defines': [
 %           defines.entities%
+%           test.defines%
          ],
 
          'include_dirs': [

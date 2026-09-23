@@ -476,9 +476,20 @@ class Project:
       template = template.replace ('%test.name%', test.name)
       template = self.replace_includes (template, module, path);
       template = self.replace_defines (template, module.defines)
+      template = self.replace_test_defines (template, path)
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_test_sources (template, test, path)
       return template
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_test_defines (self, template, path):
+      project_path = os.path.abspath (path).replace ('\\', '/').rstrip ('/')
+
+      lines = '            \'erb_PROJECT_PATH="%s"\',\n' % project_path
+
+      return template.replace ('%           test.defines%', lines)
 
 
    #--------------------------------------------------------------------------
