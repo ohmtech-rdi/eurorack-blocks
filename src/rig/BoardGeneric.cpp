@@ -13,6 +13,8 @@
 
 #include "erb/detail/ModuleBoard.h"
 
+#include <cassert>
+
 
 
 namespace erb
@@ -79,6 +81,46 @@ BoardGeneric::PersistentMap & BoardGeneric::use_persistent_map ()
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : impl_setup
+==============================================================================
+*/
+
+void  BoardGeneric::impl_setup ()
+{
+   assert (!_setup_flag);
+   assert (!_boot_flag);
+
+   _persistent_map.clear ();
+
+   _setup_flag = true;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_boot
+==============================================================================
+*/
+
+void  BoardGeneric::impl_boot (Glue glue)
+{
+   assert (_setup_flag);
+   assert (!_boot_flag);
+   assert (glue.preprocess);
+   assert (glue.process);
+   assert (glue.postprocess);
+   assert (glue.idle);
+
+   _glue = std::move (glue);
+
+   _boot_flag = true;
+}
+
+
 
 /*
 ==============================================================================

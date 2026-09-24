@@ -17,6 +17,7 @@
 #include "erb/detail/Clock.h"
 
 #include <array>
+#include <functional>
 #include <map>
 #include <vector>
 
@@ -39,6 +40,18 @@ class BoardGeneric
 
 public:
    using PersistentMap = std::map <std::size_t, std::vector <uint8_t>>;
+
+   struct Glue
+   {
+      std::function <void ()>
+                  preprocess;
+      std::function <void ()>
+                  process;
+      std::function <void ()>
+                  postprocess;
+      std::function <void ()>
+                  idle;
+   };
 
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric () = default;
@@ -65,6 +78,9 @@ public:
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+   void           impl_setup ();
+   void           impl_boot (Glue glue);
 
    virtual void   impl_preprocess ();
    void           impl_postprocess ();
@@ -99,6 +115,10 @@ private:
    uint32_t       _npr_rand_state = 0;
 
    PersistentMap  _persistent_map;
+
+   bool           _setup_flag = false;
+   bool           _boot_flag = false;
+   Glue           _glue;
 
 
 
