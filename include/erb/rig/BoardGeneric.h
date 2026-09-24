@@ -57,6 +57,7 @@ public:
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric () = default;
 
+   void           start ();
    void           run (SystemClockVirtual::duration duration);
 
    inline uint64_t
@@ -145,7 +146,10 @@ private:
 
    bool           _setup_flag = false;
    bool           _boot_flag = false;
+   bool           _start_flag = false;
    Glue           _glue;
+
+   std::size_t    _nbr_measurements = 0;
 
    Mode           _mode = Mode::UiFast;
    uint64_t       _frame_count = 0;

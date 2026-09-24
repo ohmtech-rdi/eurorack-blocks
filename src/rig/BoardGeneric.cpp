@@ -82,6 +82,28 @@ BoardGeneric::PersistentMap & BoardGeneric::use_persistent_map ()
 
 /*
 ==============================================================================
+Name : start
+Description :
+   Ends the "Given" phase.
+   Mode is deduced from there on, when no measurements are done it means
+   we don't care about audio, and so UI can run fast.
+==============================================================================
+*/
+
+void  BoardGeneric::start ()
+{
+   assert (_boot_flag);
+   assert (!_start_flag);
+
+   _start_flag = true;
+
+   _mode = (_nbr_measurements > 0) ? Mode::Lockstep : Mode::UiFast;
+}
+
+
+
+/*
+==============================================================================
 Name : run
 Description :
    Pumps the current mode until 'duration' of system time has passed.
