@@ -19,6 +19,8 @@
       'detail/ModuleBoard.h',
       'rig/BoardGeneric.h',
       'rig/BoardGeneric.hpp',
+      'rig/SystemClockVirtual.h',
+      'rig/SystemClockVirtual.hpp',
 
       # sources
       '../../src/detail/ModuleBoard.cpp',

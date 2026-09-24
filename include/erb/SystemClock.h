@@ -16,7 +16,9 @@
 #if defined (erb_TARGET_DAISY)
    #include "erb/daisy/ClockHal.h"
 
-#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST) || defined (erb_TARGET_UNIT_TEST)
+#elif defined (erb_TARGET_ACCEPTANCE_TEST)
+   #include "erb/rig/SystemClockVirtual.h"
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_UNIT_TEST)
    #include <chrono>
 
 #else
@@ -34,7 +36,9 @@ namespace erb
 #if defined (erb_TARGET_DAISY)
    using SystemClock = ClockHal;
 
-#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST) || defined (erb_TARGET_UNIT_TEST)
+#elif defined (erb_TARGET_ACCEPTANCE_TEST)
+   using SystemClock = rig::SystemClockVirtual;
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_UNIT_TEST)
    using SystemClock = std::chrono::steady_clock;
 
 #endif

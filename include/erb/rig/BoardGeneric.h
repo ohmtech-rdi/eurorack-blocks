@@ -15,6 +15,7 @@
 
 #include "erb/Buffer.h"
 #include "erb/detail/Clock.h"
+#include "erb/rig/SystemClockVirtual.h"
 
 #include <array>
 #include <functional>
@@ -55,6 +56,13 @@ public:
 
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric () = default;
+
+   void           run (SystemClockVirtual::duration duration);
+
+   inline uint64_t
+                  frame_count () const { return _frame_count; }
+   inline uint64_t
+                  idle_count () const { return _idle_count; }
 
    // Clock
    inline const uint64_t &
@@ -116,9 +124,32 @@ private:
 
    PersistentMap  _persistent_map;
 
+   enum class Mode
+   {
+      UiFast,
+      Lockstep,
+   };
+
+   static constexpr uint64_t
+                  IdlePeriodMs = 6; // min period for firmware
+   static constexpr uint64_t
+                  IdlePeriodSamples = (uint64_t (erb_SAMPLE_RATE) * IdlePeriodMs) / 1000;
+   static constexpr uint64_t
+                  FramesPerIdle = (IdlePeriodSamples + erb_BUFFER_SIZE / 2) / erb_BUFFER_SIZE;
+
+   void           impl_step ();
+   void           impl_step_pair ();
+   void           impl_step_frame ();
+   void           impl_frame ();
+   void           impl_idle ();
+
    bool           _setup_flag = false;
    bool           _boot_flag = false;
    Glue           _glue;
+
+   Mode           _mode = Mode::UiFast;
+   uint64_t       _frame_count = 0;
+   uint64_t       _idle_count = 0;
 
 
 

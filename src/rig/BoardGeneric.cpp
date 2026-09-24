@@ -80,6 +80,29 @@ BoardGeneric::PersistentMap & BoardGeneric::use_persistent_map ()
 
 
 
+/*
+==============================================================================
+Name : run
+Description :
+   Pumps the current mode until 'duration' of system time has passed.
+==============================================================================
+*/
+
+void  BoardGeneric::run (SystemClockVirtual::duration duration)
+{
+   assert (_boot_flag);
+
+   const auto target = SystemClockVirtual::now () + duration;
+
+   while (SystemClockVirtual::now () < target)
+   {
+      // last step may overshoot by one, but this is deterministic
+      impl_step ();
+   }
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
@@ -94,6 +117,7 @@ void  BoardGeneric::impl_setup ()
    assert (!_boot_flag);
 
    _persistent_map.clear ();
+   SystemClockVirtual::impl_reset ();
 
    _setup_flag = true;
 }
@@ -118,6 +142,102 @@ void  BoardGeneric::impl_boot (Glue glue)
    _glue = std::move (glue);
 
    _boot_flag = true;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_step
+==============================================================================
+*/
+
+void  BoardGeneric::impl_step ()
+{
+   switch (_mode)
+   {
+   case Mode::UiFast:
+      impl_step_pair ();
+      break;
+
+   case Mode::Lockstep:
+      impl_step_frame ();
+      break;
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : impl_step_pair
+Description :
+   For 'UiFast', one 'process' then one 'idle'. We need 'process' because
+   the UI state is from 'process'.
+==============================================================================
+*/
+
+void  BoardGeneric::impl_step_pair ()
+{
+   impl_frame ();
+   impl_idle ();
+
+   SystemClockVirtual::impl_advance (erb_BUFFER_SIZE * FramesPerIdle);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_step_frame
+Description :
+   For 'Lockstep', one 'process' then many 'idle', eg. 18 for a system with
+   16 buffer size @ 48kHz and around 6ms min period for UI.
+==============================================================================
+*/
+
+void  BoardGeneric::impl_step_frame ()
+{
+   impl_frame ();
+
+   SystemClockVirtual::impl_advance (erb_BUFFER_SIZE);
+
+   if (_frame_count % FramesPerIdle == 0)
+   {
+      impl_idle ();
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : impl_frame
+==============================================================================
+*/
+
+void  BoardGeneric::impl_frame ()
+{
+   _glue.preprocess ();
+   _glue.process ();
+   _glue.postprocess ();
+
+   ++_frame_count;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_idle
+==============================================================================
+*/
+
+void  BoardGeneric::impl_idle ()
+{
+   _glue.idle ();
+
+   ++_idle_count;
 }
 
 
