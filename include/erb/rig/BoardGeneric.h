@@ -17,6 +17,13 @@
 #include "erb/detail/Clock.h"
 #include "erb/rig/SystemClockVirtual.h"
 
+#include "erb/Button.h"
+#include "erb/CvIn.h"
+#include "erb/Encoder.h"
+#include "erb/EncoderButton.h"
+#include "erb/GateIn.h"
+#include "erb/Pot.h"
+
 #include <array>
 #include <functional>
 #include <map>
@@ -52,6 +59,8 @@ public:
                   postprocess;
       std::function <void ()>
                   idle;
+      std::function <const char * (const void * control_ptr)>
+                  control_name;
    };
 
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
@@ -59,6 +68,24 @@ public:
 
    void           start ();
    void           run (SystemClockVirtual::duration duration);
+
+   // ui
+   void           press (Button & button);
+   void           release (Button & button);
+   void           click (Button & button);
+   void           long_press (Button & button, SystemClockVirtual::duration duration);
+   template <EncoderLeadingType LeadingType>
+   void           scroll (Encoder <LeadingType> & encoder, int nbr_detents);
+   template <EncoderLeadingType LeadingType>
+   void           scroll (EncoderButton <LeadingType> & encoder, int nbr_detents);
+   void           trigger (GateIn & gate);
+   void           set (GateIn & gate, bool state);
+   template <FloatRange Range>
+   void           set (Pot <Range> & pot, float value);
+   template <FloatRange Range>
+   void           set (CvIn <Range> & cv, float value);
+
+   const char *   control_name (const void * control_ptr) const;
 
    inline uint64_t
                   frame_count () const { return _frame_count; }
@@ -143,6 +170,14 @@ private:
    void           impl_step_frame ();
    void           impl_frame ();
    void           impl_idle ();
+   void           impl_steps (std::size_t nbr_steps);
+   uint8_t &      impl_digital_slot (const uint8_t & data);
+   float &        impl_analog_slot (const float & data);
+
+   static constexpr std::size_t
+                  DebounceFrames = 8; // debounce win 7hi=pressed 8hi=held
+   static constexpr std::size_t
+                  TriggerFrames = 3; // 1ms at 16 samples 48kHz
 
    bool           _setup_flag = false;
    bool           _boot_flag = false;

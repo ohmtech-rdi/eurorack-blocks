@@ -14,6 +14,7 @@
 #include "erb/detail/ModuleBoard.h"
 
 #include <cassert>
+#include <functional>
 
 
 
@@ -125,6 +126,121 @@ void  BoardGeneric::run (SystemClockVirtual::duration duration)
 
 
 
+/*
+==============================================================================
+Name : press
+Note :
+   Firmware sees 'pressed' and 'held', button stays pressed
+==============================================================================
+*/
+
+void  BoardGeneric::press (Button & button)
+{
+   assert (_boot_flag);
+
+   impl_digital_slot (button.impl_data) = 1;
+   impl_steps (DebounceFrames);
+}
+
+
+
+/*
+==============================================================================
+Name : release
+==============================================================================
+*/
+
+void  BoardGeneric::release (Button & button)
+{
+   assert (_boot_flag);
+
+   impl_digital_slot (button.impl_data) = 0;
+   impl_steps (DebounceFrames);
+}
+
+
+
+/*
+==============================================================================
+Name : click
+==============================================================================
+*/
+
+void  BoardGeneric::click (Button & button)
+{
+   press (button);
+   release (button);
+}
+
+
+
+/*
+==============================================================================
+Name : long_press
+==============================================================================
+*/
+
+void  BoardGeneric::long_press (Button & button, SystemClockVirtual::duration duration)
+{
+   press (button);
+   run (duration);
+   release (button);
+}
+
+
+
+/*
+==============================================================================
+Name : trigger
+==============================================================================
+*/
+
+void  BoardGeneric::trigger (GateIn & gate)
+{
+   assert (_boot_flag);
+
+   auto & data = impl_digital_slot (gate.impl_data);
+
+   data = 1;
+   impl_steps (TriggerFrames);
+   data = 0;
+   impl_steps (1);
+}
+
+
+
+/*
+==============================================================================
+Name : set
+==============================================================================
+*/
+
+void  BoardGeneric::set (GateIn & gate, bool state)
+{
+   assert (_boot_flag);
+
+   impl_digital_slot (gate.impl_data) = state ? 1 : 0;
+}
+
+
+
+/*
+==============================================================================
+Name : control_name
+Description :
+   Returns erbui name of a control mostly for logs
+==============================================================================
+*/
+
+const char *  BoardGeneric::control_name (const void * control_ptr) const
+{
+   assert (_boot_flag);
+
+   return _glue.control_name (control_ptr);
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
@@ -160,6 +276,7 @@ void  BoardGeneric::impl_boot (Glue glue)
    assert (glue.process);
    assert (glue.postprocess);
    assert (glue.idle);
+   assert (glue.control_name);
 
    _glue = std::move (glue);
 
@@ -260,6 +377,65 @@ void  BoardGeneric::impl_idle ()
    _glue.idle ();
 
    ++_idle_count;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_steps
+==============================================================================
+*/
+
+void  BoardGeneric::impl_steps (std::size_t nbr_steps)
+{
+   for (std::size_t i = 0 ; i < nbr_steps ; ++i)
+   {
+      impl_step ();
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : impl_digital_slot
+Description :
+   'data' is the 'impl_data' of the control that is const, and in the
+   vector.
+==============================================================================
+*/
+
+uint8_t &   BoardGeneric::impl_digital_slot (const uint8_t & data)
+{
+   const auto * begin = _digital_inputs.data ();
+   const auto * end = begin + _digital_inputs.size ();
+   assert (!std::less <> {} (&data, begin));
+   assert (std::less <> {} (&data, end));
+
+   const auto index = std::size_t (&data - begin);
+
+   return _digital_inputs [index];
+}
+
+
+
+/*
+==============================================================================
+Name : impl_analog_slot
+==============================================================================
+*/
+
+float &  BoardGeneric::impl_analog_slot (const float & data)
+{
+   const auto * begin = _analog_inputs.data ();
+   const auto * end = begin + _analog_inputs.size ();
+   assert (!std::less <> {} (&data, begin));
+   assert (std::less <> {} (&data, end));
+
+   const auto index = std::size_t (&data - begin);
+
+   return _analog_inputs [index];
 }
 
 

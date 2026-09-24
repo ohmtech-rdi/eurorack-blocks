@@ -54,6 +54,7 @@ public:
    const uint8_t &
                   impl_data_b;
    void           impl_preprocess ();
+   inline size_t  impl_nbr_debounce_zeros () const;
    inline void    impl_postprocess () {}
 
 
