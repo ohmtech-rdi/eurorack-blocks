@@ -70,6 +70,13 @@ public:
                   impl_driver ();
    static void    impl_attach (BYTE pdrv, SdCard * card_ptr);
 
+   // stats
+   static void    impl_reset_stats ();
+   static std::size_t
+                  impl_nbr_bytes_read ();
+   static std::size_t
+                  impl_nbr_bytes_written ();
+
    DSTATUS        impl_status () const;
    DRESULT        impl_read (BYTE * buf, DWORD sector, UINT count) const;
    DRESULT        impl_write (const BYTE * buf, DWORD sector, UINT count);
@@ -111,6 +118,10 @@ private:
 
    static std::array <SdCard *, _VOLUMES>
                   _attached;
+   static std::size_t
+                  _nbr_bytes_read;
+   static std::size_t
+                  _nbr_bytes_written;
 
 
 

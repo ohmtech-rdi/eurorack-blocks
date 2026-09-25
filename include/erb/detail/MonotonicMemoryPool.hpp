@@ -90,6 +90,23 @@ void  MonotonicMemoryPool <MaxSize>::reset ()
 
 
 
+
+/*
+==============================================================================
+Name : impl_position
+Description :
+   Current memory consumption, for statistics purpose.
+==============================================================================
+*/
+
+template <std::size_t MaxSize>
+std::size_t MonotonicMemoryPool <MaxSize>::impl_position () const
+{
+   return _pos.load ();
+}
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

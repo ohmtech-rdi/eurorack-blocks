@@ -68,6 +68,8 @@ Name : save
 template <typename Data>
 void  BoardGeneric::save (size_t page, const Data & data)
 {
+   ++_qspi_saves [page];
+
    // trim trailing 0xff bytes as they can be treated as untouched bits
 
    auto end = std::find_if (
@@ -95,6 +97,8 @@ Name : erase
 
 void  BoardGeneric::erase (size_t page)
 {
+   ++_qspi_erases [page];
+
    _persistent_map.erase (page);
 }
 

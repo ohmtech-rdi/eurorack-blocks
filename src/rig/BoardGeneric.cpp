@@ -13,7 +13,15 @@
 
 #include "erb/detail/ModuleBoard.h"
 
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   #include "erb/rig/SdCard.h"
+#endif
+
+#include <algorithm>
+
 #include <cassert>
+#include <cmath>
+#include <cstdio>
 #include <functional>
 
 
@@ -64,6 +72,63 @@ BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_anal
    // and the previous module is guaranteed to be already gone
 
    ModuleBoard::current ().impl_reset_pools ();
+}
+
+
+
+/*
+==============================================================================
+Name : dtor
+==============================================================================
+*/
+
+BoardGeneric::~BoardGeneric ()
+{
+   if (_boot_flag)
+   {
+      impl_print_stats ();
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : stats
+==============================================================================
+*/
+
+BoardGeneric::Stats  BoardGeneric::stats () const
+{
+   Stats stats;
+
+   stats.qspi_erases = _qspi_erases;
+   stats.qspi_saves = _qspi_saves;
+
+   auto & module_board = ModuleBoard::current ();
+   stats.sram_pool_position = module_board.sram ().impl_pool_position ();
+#if (erb_SDRAM_USE_FLAG)
+   stats.sdram_pool_position = module_board.sdram ().impl_pool_position ();
+#endif
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   stats.sd_bytes_read = SdCard::impl_nbr_bytes_read ();
+   stats.sd_bytes_written = SdCard::impl_nbr_bytes_written ();
+#endif
+
+   stats.frame_count = _frame_count;
+   stats.idle_count = _idle_count;
+
+   if (_boot_flag)
+   {
+      const auto elapsed = std::chrono::steady_clock::now () - _wall_start;
+      stats.wall_seconds = std::chrono::duration <double> (elapsed).count ();
+   }
+
+   stats.output_max_abs = _output_max_abs;
+   stats.output_nbr_non_finite = _output_nbr_non_finite;
+
+   return stats;
 }
 
 
@@ -286,7 +351,66 @@ void  BoardGeneric::impl_boot (Glue glue)
 
    _glue = std::move (glue);
 
+   impl_reset_stats ();
+
    _boot_flag = true;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_reset_stats
+==============================================================================
+*/
+
+void  BoardGeneric::impl_reset_stats ()
+{
+   _qspi_erases.clear ();
+   _qspi_saves.clear ();
+
+#if defined (erb_USE_FATFS) && erb_USE_FATFS
+   SdCard::impl_reset_stats ();
+#endif
+
+   _wall_start = std::chrono::steady_clock::now ();
+   _output_max_abs = 0.f;
+   _output_nbr_non_finite = 0;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_print_stats
+Note :
+   Memory usage is on host, usually 64-bit, so stats are different from
+   the firmware running on the real hardware (32-bit).
+==============================================================================
+*/
+
+void  BoardGeneric::impl_print_stats () const
+{
+   const auto s = stats ();
+
+   auto total = [] (const std::map <std::size_t, std::size_t> & per_page) {
+      std::size_t sum = 0;
+      for (const auto & [page, count] : per_page) sum += count;
+      return sum;
+   };
+
+   std::printf (
+      "stats: frames %llu, idles %llu, wall %.3f s, qspi saves %zu on %zu pages, erases %zu on %zu pages",
+      (unsigned long long) s.frame_count, (unsigned long long) s.idle_count, s.wall_seconds,
+      total (s.qspi_saves), s.qspi_saves.size (), total (s.qspi_erases), s.qspi_erases.size ()
+   );
+
+   std::printf (
+      ", sd read %zu B, written %zu B, sram %zu B, sdram %zu B, out max %f, non-finite %zu\n",
+      s.sd_bytes_read, s.sd_bytes_written, s.sram_pool_position, s.sdram_pool_position,
+      double (s.output_max_abs), s.output_nbr_non_finite
+   );
+   std::fflush (stdout);
 }
 
 
@@ -486,6 +610,22 @@ void  BoardGeneric::impl_postprocess ()
    _npr = _npr_rand_state >> 31;
 
    _clock.tick ();
+
+   // for the stats
+   for (const auto & buffer : _audio_outputs)
+   {
+      for (const auto sample : buffer)
+      {
+         if (!std::isfinite (sample))
+         {
+            ++_output_nbr_non_finite;
+         }
+         else
+         {
+            _output_max_abs = std::max (_output_max_abs, std::abs (sample));
+         }
+      }
+   }
 
    if (_start_flag)
    {

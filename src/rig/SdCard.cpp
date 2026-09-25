@@ -181,6 +181,46 @@ void  SdCard::impl_attach (BYTE pdrv, SdCard * card_ptr)
 
 /*
 ==============================================================================
+Name : impl_reset_stats
+==============================================================================
+*/
+
+void  SdCard::impl_reset_stats ()
+{
+   _nbr_bytes_read = 0;
+   _nbr_bytes_written = 0;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_nbr_bytes_read
+==============================================================================
+*/
+
+std::size_t SdCard::impl_nbr_bytes_read ()
+{
+   return _nbr_bytes_read;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_nbr_bytes_written
+==============================================================================
+*/
+
+std::size_t SdCard::impl_nbr_bytes_written ()
+{
+   return _nbr_bytes_written;
+}
+
+
+
+/*
+==============================================================================
 Name : impl_status
 ==============================================================================
 */
@@ -207,6 +247,7 @@ DRESULT  SdCard::impl_read (BYTE * buf, DWORD sector, UINT count) const
    assert (offset + length <= _bytes.size ());
 
    std::memcpy (buf, _bytes.data () + offset, length);
+   _nbr_bytes_read += length;
 
    return RES_OK;
 }
@@ -228,6 +269,7 @@ DRESULT  SdCard::impl_write (const BYTE * buf, DWORD sector, UINT count)
    assert (offset + length <= _bytes.size ());
 
    std::memcpy (_bytes.data () + offset, buf, length);
+   _nbr_bytes_written += length;
 
    return RES_OK;
 }
@@ -419,6 +461,8 @@ Description :
 */
 
 std::array <SdCard *, _VOLUMES> SdCard::_attached = {};
+std::size_t SdCard::_nbr_bytes_read = 0;
+std::size_t SdCard::_nbr_bytes_written = 0;
 
 
 

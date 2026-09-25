@@ -48,6 +48,8 @@ public:
 
                   Sdram (uint8_t * storage);
    inline void    impl_reset ();
+   inline std::size_t
+                  impl_pool_position () const;
 
 
 

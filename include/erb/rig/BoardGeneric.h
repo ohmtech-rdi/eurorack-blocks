@@ -28,6 +28,7 @@
 #include "erb/Pot.h"
 
 #include <array>
+#include <chrono>
 #include <functional>
 #include <map>
 #include <vector>
@@ -66,8 +67,25 @@ public:
                   control_name;
    };
 
+   struct Stats
+   {
+      std::map <std::size_t, std::size_t>
+                  qspi_erases;   // per page
+      std::map <std::size_t, std::size_t>
+                  qspi_saves;    // per page
+      std::size_t sram_pool_position = 0;
+      std::size_t sdram_pool_position = 0;
+      std::size_t sd_bytes_read = 0;
+      std::size_t sd_bytes_written = 0;
+      uint64_t    frame_count = 0;
+      uint64_t    idle_count = 0;
+      double      wall_seconds = 0.0;
+      float       output_max_abs = 0.f;     // audio outputs
+      std::size_t output_nbr_non_finite = 0;
+   };
+
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
-   virtual        ~BoardGeneric () = default;
+   virtual        ~BoardGeneric ();
 
    template <typename Control, SlotKind Kind>
    void           connect (Control & output, Measurement <Kind> & measurement);
@@ -105,6 +123,8 @@ public:
                   frame_count () const { return _frame_count; }
    inline uint64_t
                   idle_count () const { return _idle_count; }
+
+   Stats          stats () const;
 
    // Clock
    inline const uint64_t &
@@ -179,6 +199,8 @@ private:
    static constexpr uint64_t
                   FramesPerIdle = (IdlePeriodSamples + erb_BUFFER_SIZE / 2) / erb_BUFFER_SIZE;
 
+   void           impl_reset_stats ();
+   void           impl_print_stats () const;
    void           impl_step ();
    void           impl_step_pair ();
    void           impl_step_frame ();
@@ -225,6 +247,15 @@ private:
    Mode           _mode = Mode::UiFast;
    uint64_t       _frame_count = 0;
    uint64_t       _idle_count = 0;
+
+   std::map <std::size_t, std::size_t>
+                  _qspi_erases;
+   std::map <std::size_t, std::size_t>
+                  _qspi_saves;
+   std::chrono::steady_clock::time_point
+                  _wall_start;
+   float          _output_max_abs = 0.f;
+   std::size_t    _output_nbr_non_finite = 0;
 
 
 
