@@ -15,6 +15,7 @@
 
 #include "erb/Buffer.h"
 #include "erb/detail/Clock.h"
+#include "erb/rig/Screen.h"
 #include "erb/rig/SystemClockVirtual.h"
 
 #include "erb/Button.h"
@@ -86,6 +87,11 @@ public:
    void           set (CvIn <Range> & cv, float value);
 
    const char *   control_name (const void * control_ptr) const;
+
+   template <typename Predicate>
+   void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
+   template <typename Format>
+   void           wait_until_equal (Display <Format> & display, const Screen <Format> & screen, SystemClockVirtual::duration timeout);
 
    inline uint64_t
                   frame_count () const { return _frame_count; }
@@ -171,6 +177,8 @@ private:
    void           impl_frame ();
    void           impl_idle ();
    void           impl_steps (std::size_t nbr_steps);
+   template <typename Predicate>
+   bool           impl_wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
    uint8_t &      impl_digital_slot (const uint8_t & data);
    float &        impl_analog_slot (const float & data);
 

@@ -16,6 +16,7 @@
 #include <algorithm>
 
 #include <cassert>
+#include <cstdio>
 #include <cstdlib>
 
 #include <cstring>
@@ -180,6 +181,95 @@ void  BoardGeneric::set (CvIn <Range> & cv, float value)
    assert (value <= CvIn <Range>::ValueMax);
 
    impl_analog_slot (cv.impl_data) = value;
+}
+
+
+
+/*
+==============================================================================
+Name : wait_until
+==============================================================================
+*/
+
+template <typename Predicate>
+void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duration timeout)
+{
+   const bool ok = impl_wait_until (predicate, timeout);
+
+   if (!ok)
+   {
+      const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
+      std::fprintf (stderr, "wait_until: condition not met within %lld ms\n", (long long) ms);
+      std::fflush (stderr);
+   }
+
+   assert (ok);
+}
+
+
+
+/*
+==============================================================================
+Name : wait_until_equal
+==============================================================================
+*/
+
+template <typename Format>
+void  BoardGeneric::wait_until_equal (Display <Format> & display, const Screen <Format> & screen, SystemClockVirtual::duration timeout)
+{
+   const bool ok = impl_wait_until (
+      [&display, &screen] () { return same (display, screen); },
+      timeout
+   );
+
+   const auto actual_path = screen.file.actual_path ();
+
+   if (ok)
+   {
+      std::remove (actual_path.c_str ());   // stale if present
+   }
+   else
+   {
+      const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
+      std::fprintf (
+         stderr,
+         "wait_until_equal: display did not match '%s' within %lld ms, actual written to '%s'\n",
+         screen.file.path.c_str (), (long long) ms, actual_path.c_str ()
+      );
+      std::fflush (stderr);
+
+      write_screen <Format> (display.impl_data, {.path = actual_path, .rotate = screen.file.rotate});
+   }
+
+   assert (ok);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_wait_until
+==============================================================================
+*/
+
+template <typename Predicate>
+bool  BoardGeneric::impl_wait_until (Predicate predicate, SystemClockVirtual::duration timeout)
+{
+   assert (_boot_flag);
+
+   const auto deadline = SystemClockVirtual::now () + timeout;
+
+   while (!predicate ())
+   {
+      if (SystemClockVirtual::now () >= deadline)
+      {
+         return false;
+      }
+
+      impl_step ();
+   }
+
+   return true;
 }
 
 

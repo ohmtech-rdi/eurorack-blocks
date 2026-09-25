@@ -25,6 +25,7 @@ CFLAGS += -std=gnu11
 CXXFLAGS += -std=gnu++2a
 
 FLAGS += -I$(PATH_ROOT)/include
+FLAGS += -I$(PATH_ROOT)/submodules/vcv-rack-sdk/dep/include
 
 ifdef ARCH_MAC
 	FLAGS += -DARCH_MAC

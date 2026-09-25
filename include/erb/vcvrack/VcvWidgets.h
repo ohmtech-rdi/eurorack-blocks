@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/def.h"
+#include "erb/Display.h"
 
 erb_DISABLE_WARNINGS_VCVRACK
 #include <rack.hpp>
@@ -577,7 +578,8 @@ struct Panel_ER_OLEDM066_1
    static constexpr std::size_t width = 64;
    static constexpr std::size_t height = 48;
 
-   using Storage = std::array <std::uint8_t, width * height / 8>;
+   using Format = FormatSsd130x <width, height>;
+   using Storage = Format::Storage;
 
    // mm
    static constexpr float visual_width = 15.42f;
@@ -593,7 +595,7 @@ struct Panel_ER_OLEDM066_1
       {
          for (size_t y = 0 ; y < height ; ++y)
          {
-            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+            const bool on = get_pixel <Format> (data, x, y);
 
             ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
          }
@@ -611,7 +613,8 @@ struct Panel_ER_OLEDM015_2
    static constexpr std::size_t width = 128;
    static constexpr std::size_t height = 64;
 
-   using Storage = std::array <std::uint8_t, width * height / 8>;
+   using Format = FormatSsd130x <width, height>;
+   using Storage = Format::Storage;
 
    // mm
    static constexpr float visual_width = 37.052f;
@@ -627,7 +630,7 @@ struct Panel_ER_OLEDM015_2
       {
          for (size_t y = 0 ; y < height ; ++y)
          {
-            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+            const bool on = get_pixel <Format> (data, x, y);
 
             ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
          }
@@ -645,7 +648,8 @@ struct Panel_ER_OLEDM096_1
    static constexpr std::size_t width = 128;
    static constexpr std::size_t height = 64;
 
-   using Storage = std::array <std::uint8_t, width * height / 8>;
+   using Format = FormatSsd130x <width, height>;
+   using Storage = Format::Storage;
 
    // mm
    static constexpr float visual_width = 23.744f;
@@ -661,7 +665,7 @@ struct Panel_ER_OLEDM096_1
       {
          for (size_t y = 0 ; y < height ; ++y)
          {
-            bool on = data [x + (y / 8) * width] & (1 << (y % 8));
+            const bool on = get_pixel <Format> (data, x, y);
 
             ret [y * width + x] = on ? PixelRgba {255, 255, 255, 255} : PixelRgba {0, 0, 0, 0};
          }

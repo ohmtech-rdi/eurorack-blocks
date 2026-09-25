@@ -19,16 +19,21 @@
       'detail/ModuleBoard.h',
       'rig/BoardGeneric.h',
       'rig/BoardGeneric.hpp',
+      'rig/Screen.h',
+      'rig/Screen.hpp',
       'rig/SystemClockVirtual.h',
       'rig/SystemClockVirtual.hpp',
 
       # sources
       '../../src/detail/ModuleBoard.cpp',
       '../../src/rig/BoardGeneric.cpp',
+      '../../src/rig/Screen.cpp',
+      '../../src/rig/ScreenWrite.cpp',
    ],
 
    'include_dirs': [
       '..',
+      '../../submodules/vcv-rack-sdk/dep/include', # stb
    ],
 
    'direct_dependent_settings': {
