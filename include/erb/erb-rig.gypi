@@ -27,6 +27,8 @@
       'rig/Peak.hpp',
       'rig/Screen.h',
       'rig/Screen.hpp',
+      'rig/SdCard.h',
+      'rig/SdCard.hpp',
       'rig/SystemClockVirtual.h',
       'rig/SystemClockVirtual.hpp',
 
@@ -36,6 +38,7 @@
       '../../src/rig/Context.cpp',
       '../../src/rig/Screen.cpp',
       '../../src/rig/ScreenWrite.cpp',
+      '../../src/rig/SdCard.cpp',
    ],
 
    'include_dirs': [
