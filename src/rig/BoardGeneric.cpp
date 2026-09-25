@@ -327,6 +327,7 @@ void  BoardGeneric::impl_setup (const ContextMap & context)
    SystemClockVirtual::impl_reset ();
 
    context_set (context);
+   probe_reset ();
 
    _setup_flag = true;
 }

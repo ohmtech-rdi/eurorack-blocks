@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include <algorithm>
+#include <sstream>
 
 #include <cassert>
 #include <cstdio>
@@ -257,6 +258,42 @@ void  BoardGeneric::check (const Measurement & measurement, const typename Measu
 
 /*
 ==============================================================================
+Name : probe
+==============================================================================
+*/
+
+template <typename T>
+T  BoardGeneric::probe (const std::string & key) const
+{
+   assert (_boot_flag);
+
+   const ProbeMap & probes = impl_probe_singleton ();
+
+   auto it = probes.find (key);
+
+   if (it == probes.end ())
+   {
+      std::fprintf (stderr, "probe: missing key '%s'\n", key.c_str ());
+      std::fflush (stderr);
+      assert (false);
+   }
+
+   const T * value_ptr = std::any_cast <T> (&it->second);
+
+   if (value_ptr == nullptr)
+   {
+      std::fprintf (stderr, "probe: key '%s' does not hold a '%s'\n", key.c_str (), typeid (T).name ());
+      std::fflush (stderr);
+      assert (false);
+   }
+
+   return *value_ptr;
+}
+
+
+
+/*
+==============================================================================
 Name : wait_until
 ==============================================================================
 */
@@ -333,6 +370,63 @@ std::size_t BoardGeneric::impl_slot_index (const std::vector <T> & slots, const 
    assert (std::less <> {} (&data, end));
 
    return std::size_t (&data - begin);
+}
+
+
+
+/*
+==============================================================================
+Name : wait_until_equal
+==============================================================================
+*/
+
+template <typename T>
+void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout)
+{
+   const bool ok = impl_wait_until (
+      [this, &probe, &expected] () { return this->probe <T> (probe.key) == expected; },
+      timeout
+   );
+
+   if (!ok)
+   {
+      const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
+
+      std::fprintf (
+         stderr,
+         "wait_until_equal: probe '%s' did not equal %s within %lld ms, last value %s\n",
+         probe.key.c_str (), impl_to_string (expected).c_str (), (long long) ms,
+         impl_to_string (this->probe <T> (probe.key)).c_str ()
+      );
+      std::fflush (stderr);
+   }
+
+   assert (ok);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_to_string
+Description :
+   Try to convert the value to string for logs
+==============================================================================
+*/
+
+template <typename T>
+std::string BoardGeneric::impl_to_string (const T & value)
+{
+   if constexpr (requires (std::ostream & os) { os << value; })
+   {
+      std::ostringstream os;
+      os << value;
+      return os.str ();
+   }
+   else
+   {
+      return "(not printable)";
+   }
 }
 
 

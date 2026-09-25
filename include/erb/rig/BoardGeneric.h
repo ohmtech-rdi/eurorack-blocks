@@ -17,6 +17,7 @@
 #include "erb/detail/Clock.h"
 #include "erb/rig/Context.h"
 #include "erb/rig/Measurement.h"
+#include "erb/rig/Probe.h"
 #include "erb/rig/Screen.h"
 #include "erb/rig/SystemClockVirtual.h"
 
@@ -31,6 +32,7 @@
 #include <chrono>
 #include <functional>
 #include <map>
+#include <string>
 #include <vector>
 
 #include <cstddef>
@@ -114,10 +116,15 @@ public:
    template <typename Measurement>
    void           check (const Measurement & measurement, const typename Measurement::Reading & expected, float tolerance);
 
+   template <typename T>
+   T              probe (const std::string & key) const;
+
    template <typename Predicate>
    void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
    template <typename Format>
    void           wait_until_equal (Display <Format> & display, const Screen <Format> & screen, SystemClockVirtual::duration timeout);
+   template <typename T>
+   void           wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout);
 
    inline uint64_t
                   frame_count () const { return _frame_count; }
@@ -209,6 +216,9 @@ private:
    void           impl_steps (std::size_t nbr_steps);
    template <typename Predicate>
    bool           impl_wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
+   template <typename T>
+   static std::string
+                  impl_to_string (const T & value);
    template <typename T>
    static std::size_t
                   impl_slot_index (const std::vector <T> & slots, const T & data);
