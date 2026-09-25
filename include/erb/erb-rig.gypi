@@ -19,6 +19,8 @@
       'detail/ModuleBoard.h',
       'rig/BoardGeneric.h',
       'rig/BoardGeneric.hpp',
+      'rig/Context.h',
+      'rig/Context.hpp',
       'rig/Measurement.h',
       'rig/Measurement.hpp',
       'rig/Peak.h',
@@ -31,6 +33,7 @@
       # sources
       '../../src/detail/ModuleBoard.cpp',
       '../../src/rig/BoardGeneric.cpp',
+      '../../src/rig/Context.cpp',
       '../../src/rig/Screen.cpp',
       '../../src/rig/ScreenWrite.cpp',
    ],

@@ -253,13 +253,15 @@ Name : impl_setup
 ==============================================================================
 */
 
-void  BoardGeneric::impl_setup ()
+void  BoardGeneric::impl_setup (const ContextMap & context)
 {
    assert (!_setup_flag);
    assert (!_boot_flag);
 
    _persistent_map.clear ();
    SystemClockVirtual::impl_reset ();
+
+   context_set (context);
 
    _setup_flag = true;
 }

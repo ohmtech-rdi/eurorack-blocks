@@ -15,6 +15,7 @@
 
 #include "erb/Buffer.h"
 #include "erb/detail/Clock.h"
+#include "erb/rig/Context.h"
 #include "erb/rig/Measurement.h"
 #include "erb/rig/Screen.h"
 #include "erb/rig/SystemClockVirtual.h"
@@ -128,7 +129,7 @@ public:
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   void           impl_setup ();
+   void           impl_setup (const ContextMap & context);
    void           impl_boot (Glue glue);
 
    virtual void   impl_preprocess ();
