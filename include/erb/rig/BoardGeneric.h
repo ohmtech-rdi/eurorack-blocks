@@ -15,6 +15,7 @@
 
 #include "erb/Buffer.h"
 #include "erb/detail/Clock.h"
+#include "erb/rig/Measurement.h"
 #include "erb/rig/Screen.h"
 #include "erb/rig/SystemClockVirtual.h"
 
@@ -67,6 +68,9 @@ public:
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric () = default;
 
+   template <typename Control, SlotKind Kind>
+   void           connect (Control & output, Measurement <Kind> & measurement);
+
    void           start ();
    void           run (SystemClockVirtual::duration duration);
 
@@ -87,6 +91,9 @@ public:
    void           set (CvIn <Range> & cv, float value);
 
    const char *   control_name (const void * control_ptr) const;
+
+   template <typename Measurement>
+   void           check (const Measurement & measurement, const typename Measurement::Reading & expected, float tolerance);
 
    template <typename Predicate>
    void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
@@ -179,8 +186,12 @@ private:
    void           impl_steps (std::size_t nbr_steps);
    template <typename Predicate>
    bool           impl_wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
+   template <typename T>
+   static std::size_t
+                  impl_slot_index (const std::vector <T> & slots, const T & data);
    uint8_t &      impl_digital_slot (const uint8_t & data);
    float &        impl_analog_slot (const float & data);
+   const char *   impl_measurement_output_name (const MeasurementBase & measurement) const;
 
    static constexpr std::size_t
                   DebounceFrames = 8; // debounce win 7hi=pressed 8hi=held
@@ -192,6 +203,22 @@ private:
    bool           _start_flag = false;
    Glue           _glue;
 
+   template <SlotKind Kind>
+   struct Connection
+   {
+      std::size_t index;         // slot
+      const void *
+                  control_ptr;   // for logs
+      Measurement <Kind> *
+                  measurement;
+   };
+
+   std::vector <Connection <SlotKind::Digital>>
+                  _digital_measurements;
+   std::vector <Connection <SlotKind::Analog>>
+                  _analog_measurements;
+   std::vector <Connection <SlotKind::Audio>>
+                  _audio_measurements;
    std::size_t    _nbr_measurements = 0;
 
    Mode           _mode = Mode::UiFast;

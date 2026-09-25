@@ -99,6 +99,10 @@ void  BoardGeneric::start ()
    _start_flag = true;
 
    _mode = (_nbr_measurements > 0) ? Mode::Lockstep : Mode::UiFast;
+
+   for (auto & c : _digital_measurements) c.measurement->impl_start ();
+   for (auto & c : _analog_measurements) c.measurement->impl_start ();
+   for (auto & c : _audio_measurements) c.measurement->impl_start ();
 }
 
 
@@ -408,14 +412,7 @@ Description :
 
 uint8_t &   BoardGeneric::impl_digital_slot (const uint8_t & data)
 {
-   const auto * begin = _digital_inputs.data ();
-   const auto * end = begin + _digital_inputs.size ();
-   assert (!std::less <> {} (&data, begin));
-   assert (std::less <> {} (&data, end));
-
-   const auto index = std::size_t (&data - begin);
-
-   return _digital_inputs [index];
+   return _digital_inputs [impl_slot_index (_digital_inputs, data)];
 }
 
 
@@ -428,14 +425,36 @@ Name : impl_analog_slot
 
 float &  BoardGeneric::impl_analog_slot (const float & data)
 {
-   const auto * begin = _analog_inputs.data ();
-   const auto * end = begin + _analog_inputs.size ();
-   assert (!std::less <> {} (&data, begin));
-   assert (std::less <> {} (&data, end));
+   return _analog_inputs [impl_slot_index (_analog_inputs, data)];
+}
 
-   const auto index = std::size_t (&data - begin);
 
-   return _analog_inputs [index];
+
+/*
+==============================================================================
+Name : impl_measurement_output_name
+Description :
+   The erbui name of the output a measurement is connected to
+   or nullptr when it is not connected.
+==============================================================================
+*/
+
+const char *  BoardGeneric::impl_measurement_output_name (const MeasurementBase & measurement) const
+{
+   const void * control_ptr = nullptr;
+
+   for (const auto & c : _digital_measurements)
+      if (c.measurement == &measurement) control_ptr = c.control_ptr;
+
+   for (const auto & c : _analog_measurements)
+      if (c.measurement == &measurement) control_ptr = c.control_ptr;
+
+   for (const auto & c : _audio_measurements)
+      if (c.measurement == &measurement) control_ptr = c.control_ptr;
+
+   if (control_ptr == nullptr) return nullptr;
+
+   return _boot_flag ? _glue.control_name (control_ptr) : "";
 }
 
 
@@ -465,6 +484,18 @@ void  BoardGeneric::impl_postprocess ()
    _npr = _npr_rand_state >> 31;
 
    _clock.tick ();
+
+   if (_start_flag)
+   {
+      for (auto & c : _digital_measurements)
+         c.measurement->impl_feed (_digital_outputs [c.index]);
+
+      for (auto & c : _analog_measurements)
+         c.measurement->impl_feed (_analog_outputs [c.index]);
+
+      for (auto & c : _audio_measurements)
+         c.measurement->impl_feed (_audio_outputs [c.index]);
+   }
 }
 
 

@@ -187,6 +187,72 @@ void  BoardGeneric::set (CvIn <Range> & cv, float value)
 
 /*
 ==============================================================================
+Name : connect
+==============================================================================
+*/
+
+template <typename Control, SlotKind Kind>
+void  BoardGeneric::connect (Control & output, Measurement <Kind> & measurement)
+{
+   static_assert (slot_kind_of <Control>::value == Kind);
+
+   assert (_setup_flag);
+   assert (!_boot_flag);
+   assert (impl_measurement_output_name (measurement) == nullptr); // only once
+
+   if constexpr (Kind == SlotKind::Digital)
+   {
+      _digital_measurements.push_back ({impl_slot_index (_digital_outputs, output.impl_data), &output, &measurement});
+   }
+   else if constexpr (Kind == SlotKind::Analog)
+   {
+      _analog_measurements.push_back ({impl_slot_index (_analog_outputs, output.impl_data), &output, &measurement});
+   }
+   else
+   {
+      _audio_measurements.push_back ({impl_slot_index (_audio_outputs, output.impl_data), &output, &measurement});
+   }
+
+   ++_nbr_measurements;
+}
+
+
+
+/*
+==============================================================================
+Name : check
+==============================================================================
+*/
+
+template <typename Measurement>
+void  BoardGeneric::check (const Measurement & measurement, const typename Measurement::Reading & expected, float tolerance)
+{
+   assert (_boot_flag);
+   assert (tolerance >= 0.f);
+
+   const auto * output_name = impl_measurement_output_name (measurement);
+   assert (output_name != nullptr);
+
+   const auto reading = measurement.reading ();
+   const bool ok = Measurement::distance (reading, expected) <= tolerance;
+
+   if (!ok)
+   {
+      std::fprintf (stderr, "check: ");
+      Measurement::report (
+         measurement.name (), output_name,
+         reading, expected, tolerance
+      );
+      std::fflush (stderr);
+   }
+
+   assert (ok);
+}
+
+
+
+/*
+==============================================================================
 Name : wait_until
 ==============================================================================
 */
@@ -242,6 +308,27 @@ void  BoardGeneric::wait_until_equal (Display <Format> & display, const Screen <
    }
 
    assert (ok);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_slot_index
+Description :
+   'data' is the 'impl_data' of a control, a reference into 'slots'.
+==============================================================================
+*/
+
+template <typename T>
+std::size_t BoardGeneric::impl_slot_index (const std::vector <T> & slots, const T & data)
+{
+   const auto * begin = slots.data ();
+   const auto * end = begin + slots.size ();
+   assert (!std::less <> {} (&data, begin));
+   assert (std::less <> {} (&data, end));
+
+   return std::size_t (&data - begin);
 }
 
 
