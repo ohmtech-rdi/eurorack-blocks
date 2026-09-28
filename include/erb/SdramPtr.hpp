@@ -191,7 +191,7 @@ void  SdramPtr <T>::release ()
 
    // The following trace in the simulator helps to catch them.
 
-#if defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
+#if defined (erb_TARGET_VCV_RACK)
    std::cout << "Warning: erb::SramPtr::release: Potential memory leak, unless you were removing the module\n";
    std::cout << "         Set a breakpoint to debug.\n";
 #endif
