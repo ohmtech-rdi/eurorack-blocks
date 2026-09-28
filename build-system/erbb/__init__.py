@@ -668,6 +668,7 @@ def run_acceptance_target (path, configuration, names):
    path_acceptance = os.path.join (path, 'artifacts', 'acceptance', configuration)
 
    codes = []
+   seconds = []   # only run (not build)
 
    for name in names:
       print ('RUN %s' % name, flush = True)
@@ -677,18 +678,21 @@ def run_acceptance_target (path, configuration, names):
       if platform.system () == 'Windows':
          executable += '.exe'
 
+      start = time.perf_counter ()
       result = subprocess.run ([executable], cwd = path)
+      elapsed = time.perf_counter () - start
 
-      print ('EXIT %s %d' % (name, result.returncode), flush = True)
+      print ('EXIT %s %d in %.1fs' % (name, result.returncode, elapsed), flush = True)
 
       codes.append (result.returncode)
+      seconds.append (elapsed)
 
    failed = [name for name, code in zip (names, codes) if code != 0]
 
    if failed:
-      print ('FAILED %d of %d: %s' % (len (failed), len (names), ' '.join (failed)), flush = True)
+      print ('FAILED %d of %d in %.1fs: %s' % (len (failed), len (names), sum (seconds), ' '.join (failed)), flush = True)
    else:
-      print ('PASSED %d of %d' % (len (names), len (names)), flush = True)
+      print ('PASSED %d of %d in %.1fs' % (len (names), len (names), sum (seconds)), flush = True)
 
    return codes
 
