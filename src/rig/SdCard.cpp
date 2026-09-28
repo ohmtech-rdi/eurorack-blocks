@@ -33,6 +33,21 @@ namespace rig
 
 /*
 ==============================================================================
+Name : dtor
+==============================================================================
+*/
+
+SdCard::~SdCard ()
+{
+   // if in 'Reboot', fault injector needs to be reset before (and so
+   // consumed)
+   if (_fault_injector) fail ("fault injector still set");
+}
+
+
+
+/*
+==============================================================================
 Name : format
 Note :
    The entire card is into memory. This way we can quickly copy the entire
@@ -147,6 +162,41 @@ std::vector <std::uint8_t>   SdCard::read (const std::string & card_path)
 
 
 
+/*
+==============================================================================
+Name : set_fault_injector
+==============================================================================
+*/
+
+void  SdCard::set_fault_injector (FaultInjector injector)
+{
+   assert (bool (injector));
+
+   if (_fault_injector) fail ("fault injector already set");
+
+   _fault_injector = std::move (injector);
+   _fault_injector_run_flag = false;
+}
+
+
+
+/*
+==============================================================================
+Name : reset_fault_injector
+==============================================================================
+*/
+
+void  SdCard::reset_fault_injector ()
+{
+   if (!_fault_injector) fail ("no fault injector set");
+   if (!_fault_injector_run_flag) fail ("fault injector never run");
+
+   _fault_injector = nullptr;
+   _fault_injector_run_flag = false;
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
@@ -221,12 +271,29 @@ std::size_t SdCard::impl_nbr_bytes_written ()
 
 /*
 ==============================================================================
+Name : impl_init
+==============================================================================
+*/
+
+DSTATUS  SdCard::impl_init () const
+{
+   if (fault (Op::Initialize, 0, 0) != RES_OK) return STA_NOINIT;
+
+   return empty () ? (STA_NOINIT | STA_NODISK) : 0;
+}
+
+
+
+/*
+==============================================================================
 Name : impl_status
 ==============================================================================
 */
 
 DSTATUS  SdCard::impl_status () const
 {
+   if (fault (Op::Status, 0, 0) != RES_OK) return STA_NOINIT;
+
    return empty () ? (STA_NOINIT | STA_NODISK) : 0;
 }
 
@@ -240,6 +307,9 @@ Name : impl_read
 
 DRESULT  SdCard::impl_read (BYTE * buf, DWORD sector, UINT count) const
 {
+   const auto fault_result = fault (Op::Read, sector, count);
+   if (fault_result != RES_OK) return fault_result;
+
    if (empty ()) return RES_NOTRDY;
 
    const std::size_t offset = std::size_t (sector) * SectorSize;
@@ -262,6 +332,9 @@ Name : impl_write
 
 DRESULT  SdCard::impl_write (const BYTE * buf, DWORD sector, UINT count)
 {
+   const auto fault_result = fault (Op::Write, sector, count);
+   if (fault_result != RES_OK) return fault_result;
+
    if (empty ()) return RES_NOTRDY;
 
    const std::size_t offset = std::size_t (sector) * SectorSize;
@@ -381,13 +454,50 @@ void  SdCard::check (FRESULT result, const char * what, const std::string & path
 
 /*
 ==============================================================================
+Name : fail
+==============================================================================
+*/
+
+void  SdCard::fail (const char * what)
+{
+   std::fprintf (stderr, "SdCard: %s\n", what);
+   std::fflush (stderr);
+   std::abort ();
+}
+
+
+
+/*
+==============================================================================
+Name : fault
+==============================================================================
+*/
+
+DRESULT  SdCard::fault (Op op, DWORD sector, UINT count) const
+{
+   if (!_fault_injector) return RES_OK;   // none set
+
+   _fault_injector_run_flag = true;
+
+   const auto result = _fault_injector (op, sector, count);
+   assert ((result == RES_OK) || (result == RES_ERROR) || (result == RES_NOTRDY));
+
+   return result;
+}
+
+
+
+/*
+==============================================================================
 Name : ff_init
 ==============================================================================
 */
 
 DSTATUS  SdCard::ff_init (BYTE pdrv)
 {
-   return ff_status (pdrv);
+   auto * card_ptr = _attached [pdrv];
+
+   return (card_ptr == nullptr) ? (STA_NOINIT | STA_NODISK) : card_ptr->impl_init ();
 }
 
 
