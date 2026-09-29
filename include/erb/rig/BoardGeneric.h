@@ -35,6 +35,7 @@
 #include <source_location>
 #include <span>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include <cstddef>
@@ -94,6 +95,8 @@ public:
 
    void           start ();
    void           run (SystemClockVirtual::duration duration);
+
+   void           mark (const std::string & name);
 
    // ui
    void           press (Button & button);
@@ -156,15 +159,18 @@ public:
 
    // Bench
    std::size_t    impl_bind (SlotKind kind, const void * slot_data) override;
-   void           impl_unbind (SlotKind kind, std::size_t index) override;
+   void           impl_unbind (SlotKind kind, std::size_t slot_index) override;
    std::span <const std::uint8_t>
-                  impl_recording_digital (std::size_t index) const override;
+                  impl_recording_digital (std::size_t slot_index) const override;
    std::span <const float>
-                  impl_recording_analog (std::size_t index) const override;
+                  impl_recording_analog (std::size_t slot_index) const override;
    std::span <const float>
-                  impl_recording_audio (std::size_t index) const override;
+                  impl_recording_audio (std::size_t slot_index) const override;
    std::uint64_t  impl_recorded_blocks () const override;
    bool           impl_pump_until (const std::function <bool ()> & predicate, SystemClockVirtual::duration timeout) override;
+   std::span <const float>
+                  impl_get_golden (SlotKind kind, std::size_t slot_index, std::uint64_t nbr_blocks, const char * instrument_name, std::source_location sloc) override;
+   void           impl_notify_golden_mismatch (SlotKind kind, std::size_t slot_index) override;
 
    virtual void   impl_preprocess ();
    void           impl_postprocess ();
@@ -174,6 +180,9 @@ public:
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
+   void           impl_declare_group (const std::string & name, std::uint32_t sample_rate, std::vector <std::pair <SlotKind, std::size_t>> slots);
+   void           impl_set_region_directory (const std::string & directory);
+
    std::vector <uint8_t>
                   _digital_inputs;
    std::vector <float>
@@ -262,6 +271,35 @@ private:
 
    std::map <std::size_t, Recorded> &
                   impl_recordings (SlotKind kind);
+
+   struct Group
+   {
+      std::string name;
+      std::uint32_t
+                  sample_rate = 0;
+      std::vector <std::pair <SlotKind, std::size_t>>
+                  slots;         // channel order
+      bool        golden_loaded = false;
+      bool        golden_exists = false;
+      std::vector <std::vector <float>>
+                  golden;        // per channel for the current mark
+   };
+
+   std::vector <Group>
+                  _groups;
+   std::string    _region_directory;
+   std::string    _mark_name;
+   bool           _mark_flag = false;
+   bool           _region_flag = false;    // start known
+   uint64_t       _region_start = 0;       // blocks of the recording
+   uint64_t       _region_end = 0;
+
+   Group &        impl_group_of (SlotKind kind, std::size_t slot_index);
+   std::size_t    impl_channel_of (const Group & group, SlotKind kind, std::size_t slot_index) const;
+   std::string    impl_region_path (const Group & group, bool actual) const;
+   void           impl_load_golden (Group & group);
+   void           impl_write_actual (const Group & group);
+   float          impl_recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const;
 
    Mode           _mode = Mode::UiFast;
    uint64_t       _block_count = 0;

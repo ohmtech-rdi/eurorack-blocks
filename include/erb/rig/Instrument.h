@@ -20,7 +20,9 @@
 #include "erb/rig/Bench.h"
 #include "erb/rig/Connection.h"
 #include "erb/rig/SystemClockVirtual.h"
+#include "erb/rig/Wave.h"
 
+#include <source_location>
 #include <span>
 #include <vector>
 
@@ -87,6 +89,14 @@ protected:
    inline std::span <const std::uint8_t>
                   impl_window_digital (std::size_t channel) const;
 
+   inline std::span <const float>
+                  impl_golden_window_audio (std::size_t channel, std::source_location sloc) const;
+   inline std::span <const float>
+                  impl_golden_window_analog (std::size_t channel, std::source_location sloc) const;
+   static inline std::vector <float>
+                  impl_quantised (std::span <const float> window);
+   inline void    impl_notify_golden_mismatch (std::size_t channel) const;
+
    inline const char *
                   impl_channel_name (std::size_t channel) const;
    inline bool    impl_bound () const;
@@ -99,7 +109,7 @@ private:
    struct Channel
    {
       SlotKind    kind;
-      std::size_t index;
+      std::size_t slot_index;
       const void *
                   control_ptr;   // for logs
    };

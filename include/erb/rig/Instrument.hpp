@@ -126,7 +126,7 @@ std::span <const float>  Instrument::impl_window_audio (std::size_t channel) con
    impl_check_window (channel);
    assert (_channels [channel].kind == SlotKind::Audio);
 
-   const auto recording = _bench_ptr->impl_recording_audio (_channels [channel].index);
+   const auto recording = _bench_ptr->impl_recording_audio (_channels [channel].slot_index);
    const auto nbr_samples = std::size_t (_window) * erb_BUFFER_SIZE;
 
    return recording.last (nbr_samples);
@@ -145,7 +145,7 @@ std::span <const float>  Instrument::impl_window_analog (std::size_t channel) co
    impl_check_window (channel);
    assert (_channels [channel].kind == SlotKind::Analog);
 
-   return _bench_ptr->impl_recording_analog (_channels [channel].index).last (std::size_t (_window));
+   return _bench_ptr->impl_recording_analog (_channels [channel].slot_index).last (std::size_t (_window));
 }
 
 
@@ -161,7 +161,72 @@ std::span <const std::uint8_t>   Instrument::impl_window_digital (std::size_t ch
    impl_check_window (channel);
    assert (_channels [channel].kind == SlotKind::Digital);
 
-   return _bench_ptr->impl_recording_digital (_channels [channel].index).last (std::size_t (_window));
+   return _bench_ptr->impl_recording_digital (_channels [channel].slot_index).last (std::size_t (_window));
+}
+
+
+
+/*
+==============================================================================
+Name : impl_golden_window_audio
+==============================================================================
+*/
+
+std::span <const float>  Instrument::impl_golden_window_audio (std::size_t channel, std::source_location sloc) const
+{
+   impl_check_window (channel);
+   assert (_channels [channel].kind == SlotKind::Audio);
+
+   return _bench_ptr->impl_get_golden (SlotKind::Audio, _channels [channel].slot_index, _window, name (), sloc);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_golden_window_analog
+==============================================================================
+*/
+
+std::span <const float>  Instrument::impl_golden_window_analog (std::size_t channel, std::source_location sloc) const
+{
+   impl_check_window (channel);
+   assert (_channels [channel].kind == SlotKind::Analog);
+
+   return _bench_ptr->impl_get_golden (SlotKind::Analog, _channels [channel].slot_index, _window, name (), sloc);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_quantised
+==============================================================================
+*/
+
+std::vector <float>  Instrument::impl_quantised (std::span <const float> window)
+{
+   std::vector <float> ret (window.begin (), window.end ());
+
+   for (auto & sample : ret) sample = quantise (sample);
+
+   return ret;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_notify_golden_mismatch
+==============================================================================
+*/
+
+void  Instrument::impl_notify_golden_mismatch (std::size_t channel) const
+{
+   assert (impl_bound ());
+   assert (channel < _channels.size ());
+
+   _bench_ptr->impl_notify_golden_mismatch (_channels [channel].kind, _channels [channel].slot_index);
 }
 
 
@@ -208,7 +273,7 @@ void  Instrument::impl_unbind ()
 
    for (const auto & channel : _channels)
    {
-      _bench_ptr->impl_unbind (channel.kind, channel.index);
+      _bench_ptr->impl_unbind (channel.kind, channel.slot_index);
    }
 
    _channels.clear ();
