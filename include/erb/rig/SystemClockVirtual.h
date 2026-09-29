@@ -45,6 +45,9 @@ public:
    static inline time_point
                   now ();
 
+   static inline std::uint64_t
+                  to_blocks_nbr (duration d);
+
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

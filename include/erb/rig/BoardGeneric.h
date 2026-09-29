@@ -16,7 +16,7 @@
 #include "erb/Buffer.h"
 #include "erb/detail/Clock.h"
 #include "erb/rig/Context.h"
-#include "erb/rig/Instrument.h"
+#include "erb/rig/Bench.h"
 #include "erb/rig/Probe.h"
 #include "erb/rig/Screen.h"
 #include "erb/rig/SystemClockVirtual.h"
@@ -32,6 +32,7 @@
 #include <chrono>
 #include <functional>
 #include <map>
+#include <span>
 #include <string>
 #include <vector>
 
@@ -48,6 +49,7 @@ namespace rig
 
 
 class BoardGeneric
+:  public Bench
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -79,7 +81,7 @@ public:
       std::size_t sdram_pool_position = 0;
       std::size_t sd_bytes_read = 0;
       std::size_t sd_bytes_written = 0;
-      uint64_t    frame_count = 0;
+      uint64_t    block_count = 0;
       uint64_t    idle_count = 0;
       double      wall_seconds = 0.0;
       float       output_max_abs = 0.f;     // audio outputs
@@ -88,9 +90,6 @@ public:
 
                   BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_analog_inputs, std::size_t nbr_audio_inputs, std::size_t nbr_digital_outputs, std::size_t nbr_analog_outputs, std::size_t nbr_audio_outputs);
    virtual        ~BoardGeneric ();
-
-   template <typename Control, SlotKind Kind>
-   void           connect (Control & output, Instrument <Kind> & instrument);
 
    void           start ();
    void           run (SystemClockVirtual::duration duration);
@@ -111,23 +110,18 @@ public:
    template <FloatRange Range>
    void           set (CvIn <Range> & cv, float value);
 
-   const char *   control_name (const void * control_ptr) const;
-
-   template <typename Instrument>
-   void           check (const Instrument & instrument, const typename Instrument::Reading & expected, float tolerance);
+   const char *   control_name (const void * control_ptr) const override;
 
    template <typename T>
    T              probe (const std::string & key) const;
 
    template <typename Predicate>
    void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
-   template <typename Format>
-   void           wait_until_equal (Display <Format> & display, const Screen <Format> & screen, SystemClockVirtual::duration timeout);
    template <typename T>
    void           wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout);
 
    inline uint64_t
-                  frame_count () const { return _frame_count; }
+                  block_count () const { return _block_count; }
    inline uint64_t
                   idle_count () const { return _idle_count; }
 
@@ -158,6 +152,18 @@ public:
 
    void           impl_setup (const ContextMap & context);
    void           impl_boot (Glue glue);
+
+   // Bench
+   std::size_t    impl_bind (SlotKind kind, const void * slot_data) override;
+   void           impl_unbind (SlotKind kind, std::size_t index) override;
+   std::span <const std::uint8_t>
+                  impl_recording_digital (std::size_t index) const override;
+   std::span <const float>
+                  impl_recording_analog (std::size_t index) const override;
+   std::span <const float>
+                  impl_recording_audio (std::size_t index) const override;
+   std::uint64_t  impl_recorded_blocks () const override;
+   bool           impl_pump_until (const std::function <bool ()> & predicate, SystemClockVirtual::duration timeout) override;
 
    virtual void   impl_preprocess ();
    void           impl_postprocess ();
@@ -204,14 +210,14 @@ private:
    static constexpr uint64_t
                   IdlePeriodSamples = (uint64_t (erb_SAMPLE_RATE) * IdlePeriodMs) / 1000;
    static constexpr uint64_t
-                  FramesPerIdle = (IdlePeriodSamples + erb_BUFFER_SIZE / 2) / erb_BUFFER_SIZE;
+                  BlocksPerIdle = (IdlePeriodSamples + erb_BUFFER_SIZE / 2) / erb_BUFFER_SIZE;
 
    void           impl_reset_stats ();
    void           impl_print_stats () const;
    void           impl_step ();
    void           impl_step_pair ();
-   void           impl_step_frame ();
-   void           impl_frame ();
+   void           impl_step_block ();
+   void           impl_block ();
    void           impl_idle ();
    void           impl_steps (std::size_t nbr_steps);
    template <typename Predicate>
@@ -224,38 +230,40 @@ private:
                   impl_slot_index (const std::vector <T> & slots, const T & data);
    uint8_t &      impl_digital_slot (const uint8_t & data);
    float &        impl_analog_slot (const float & data);
-   const char *   impl_instrument_output_name (const InstrumentBase & instrument) const;
 
    static constexpr std::size_t
-                  DebounceFrames = 8; // debounce win 7hi=pressed 8hi=held
+                  DebounceBlocks = 8; // debounce win 7hi=pressed 8hi=held
    static constexpr std::size_t
-                  TriggerFrames = 3; // 1ms at 16 samples 48kHz
+                  TriggerBlocks = 3; // 1ms at 16 samples 48kHz
 
    bool           _setup_flag = false;
    bool           _boot_flag = false;
    bool           _start_flag = false;
    Glue           _glue;
 
-   template <SlotKind Kind>
-   struct Connection
+   struct Recorded
    {
-      std::size_t index;         // slot
-      const void *
-                  control_ptr;   // for logs
-      Instrument <Kind> *
-                  instrument;
+      std::size_t bindings = 0;
+      std::vector <uint8_t>
+                  digital;
+      std::vector <float>
+                  samples;    // analog and audio
    };
 
-   std::vector <Connection <SlotKind::Digital>>
-                  _digital_instruments;
-   std::vector <Connection <SlotKind::Analog>>
-                  _analog_instruments;
-   std::vector <Connection <SlotKind::Audio>>
-                  _audio_instruments;
-   std::size_t    _nbr_instruments = 0;
+   std::map <std::size_t, Recorded>
+                  _digital_recordings;
+   std::map <std::size_t, Recorded>
+                  _analog_recordings;
+   std::map <std::size_t, Recorded>
+                  _audio_recordings;
+   std::size_t    _nbr_bindings = 0;
+   uint64_t       _recorded_blocks = 0;   // since 'start'
+
+   std::map <std::size_t, Recorded> &
+                  impl_recordings (SlotKind kind);
 
    Mode           _mode = Mode::UiFast;
-   uint64_t       _frame_count = 0;
+   uint64_t       _block_count = 0;
    uint64_t       _idle_count = 0;
 
    std::map <std::size_t, std::size_t>

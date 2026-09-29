@@ -111,7 +111,7 @@ Name : scroll
 Description :
    Convenience to emits multiple events for as many counts.
    Encoder detects a detent when the leading pin reads high then
-   low for the number of frames set by 'configure'
+   low for the number of blocks set by 'configure'
 ==============================================================================
 */
 
@@ -192,72 +192,6 @@ void  BoardGeneric::set (CvIn <Range> & cv, float value)
 
 /*
 ==============================================================================
-Name : connect
-==============================================================================
-*/
-
-template <typename Control, SlotKind Kind>
-void  BoardGeneric::connect (Control & output, Instrument <Kind> & instrument)
-{
-   static_assert (slot_kind_of <Control>::value == Kind);
-
-   assert (_setup_flag);
-   assert (!_boot_flag);
-   assert (impl_instrument_output_name (instrument) == nullptr); // only once
-
-   if constexpr (Kind == SlotKind::Digital)
-   {
-      _digital_instruments.push_back ({impl_slot_index (_digital_outputs, output.impl_data), &output, &instrument});
-   }
-   else if constexpr (Kind == SlotKind::Analog)
-   {
-      _analog_instruments.push_back ({impl_slot_index (_analog_outputs, output.impl_data), &output, &instrument});
-   }
-   else
-   {
-      _audio_instruments.push_back ({impl_slot_index (_audio_outputs, output.impl_data), &output, &instrument});
-   }
-
-   ++_nbr_instruments;
-}
-
-
-
-/*
-==============================================================================
-Name : check
-==============================================================================
-*/
-
-template <typename Instrument>
-void  BoardGeneric::check (const Instrument & instrument, const typename Instrument::Reading & expected, float tolerance)
-{
-   assert (_boot_flag);
-   assert (tolerance >= 0.f);
-
-   const auto * output_name = impl_instrument_output_name (instrument);
-   assert (output_name != nullptr);
-
-   const auto reading = instrument.reading ();
-   const bool ok = Instrument::distance (reading, expected) <= tolerance;
-
-   if (!ok)
-   {
-      std::fprintf (stderr, "check: ");
-      Instrument::report (
-         instrument.name (), output_name,
-         reading, expected, tolerance
-      );
-      std::fflush (stderr);
-   }
-
-   assert (ok);
-}
-
-
-
-/*
-==============================================================================
 Name : probe
 ==============================================================================
 */
@@ -308,44 +242,6 @@ void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duratio
       const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
       std::fprintf (stderr, "wait_until: condition not met within %lld ms\n", (long long) ms);
       std::fflush (stderr);
-   }
-
-   assert (ok);
-}
-
-
-
-/*
-==============================================================================
-Name : wait_until_equal
-==============================================================================
-*/
-
-template <typename Format>
-void  BoardGeneric::wait_until_equal (Display <Format> & display, const Screen <Format> & screen, SystemClockVirtual::duration timeout)
-{
-   const bool ok = impl_wait_until (
-      [&display, &screen] () { return same (display, screen); },
-      timeout
-   );
-
-   const auto actual_path = screen.file.actual_path ();
-
-   if (ok)
-   {
-      std::remove (actual_path.c_str ());   // stale if present
-   }
-   else
-   {
-      const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
-      std::fprintf (
-         stderr,
-         "wait_until_equal: display did not match '%s' within %lld ms, actual written to '%s'\n",
-         screen.file.path.c_str (), (long long) ms, actual_path.c_str ()
-      );
-      std::fflush (stderr);
-
-      write_screen <Format> (display.impl_data, {.path = actual_path, .rotate = screen.file.rotate});
    }
 
    assert (ok);

@@ -116,7 +116,7 @@ BoardGeneric::Stats  BoardGeneric::stats () const
    stats.sd_bytes_written = SdCard::impl_nbr_bytes_written ();
 #endif
 
-   stats.frame_count = _frame_count;
+   stats.block_count = _block_count;
    stats.idle_count = _idle_count;
 
    if (_boot_flag)
@@ -163,11 +163,13 @@ void  BoardGeneric::start ()
 
    _start_flag = true;
 
-   _mode = (_nbr_instruments > 0) ? Mode::Lockstep : Mode::UiFast;
+   _mode = (_nbr_bindings > 0) ? Mode::Lockstep : Mode::UiFast;
 
-   for (auto & c : _digital_instruments) c.instrument->impl_start ();
-   for (auto & c : _analog_instruments) c.instrument->impl_start ();
-   for (auto & c : _audio_instruments) c.instrument->impl_start ();
+   // recordings begin here (doc 4.5)
+   for (auto & r : _digital_recordings) r.second.digital.clear ();
+   for (auto & r : _analog_recordings) r.second.samples.clear ();
+   for (auto & r : _audio_recordings) r.second.samples.clear ();
+   _recorded_blocks = 0;
 }
 
 
@@ -208,7 +210,7 @@ void  BoardGeneric::press (Button & button)
    assert (_boot_flag);
 
    impl_digital_slot (button.impl_data) = 1;
-   impl_steps (DebounceFrames);
+   impl_steps (DebounceBlocks);
 }
 
 
@@ -224,7 +226,7 @@ void  BoardGeneric::release (Button & button)
    assert (_boot_flag);
 
    impl_digital_slot (button.impl_data) = 0;
-   impl_steps (DebounceFrames);
+   impl_steps (DebounceBlocks);
 }
 
 
@@ -271,7 +273,7 @@ void  BoardGeneric::trigger (GateIn & gate)
    auto & data = impl_digital_slot (gate.impl_data);
 
    data = 1;
-   impl_steps (TriggerFrames);
+   impl_steps (TriggerBlocks);
    data = 0;
    impl_steps (1);
 }
@@ -401,8 +403,8 @@ void  BoardGeneric::impl_print_stats () const
    };
 
    std::printf (
-      "stats: frames %llu, idles %llu, wall %.3f s, qspi saves %zu on %zu pages, erases %zu on %zu pages",
-      (unsigned long long) s.frame_count, (unsigned long long) s.idle_count, s.wall_seconds,
+      "stats: blocks %llu, idles %llu, wall %.3f s, qspi saves %zu on %zu pages, erases %zu on %zu pages",
+      (unsigned long long) s.block_count, (unsigned long long) s.idle_count, s.wall_seconds,
       total (s.qspi_saves), s.qspi_saves.size (), total (s.qspi_erases), s.qspi_erases.size ()
    );
 
@@ -431,7 +433,7 @@ void  BoardGeneric::impl_step ()
       break;
 
    case Mode::Lockstep:
-      impl_step_frame ();
+      impl_step_block ();
       break;
    }
 }
@@ -449,30 +451,30 @@ Description :
 
 void  BoardGeneric::impl_step_pair ()
 {
-   impl_frame ();
+   impl_block ();
    impl_idle ();
 
-   SystemClockVirtual::impl_advance (erb_BUFFER_SIZE * FramesPerIdle);
+   SystemClockVirtual::impl_advance (erb_BUFFER_SIZE * BlocksPerIdle);
 }
 
 
 
 /*
 ==============================================================================
-Name : impl_step_frame
+Name : impl_step_block
 Description :
    For 'Lockstep', one 'process' then many 'idle', eg. 18 for a system with
    16 buffer size @ 48kHz and around 6ms min period for UI.
 ==============================================================================
 */
 
-void  BoardGeneric::impl_step_frame ()
+void  BoardGeneric::impl_step_block ()
 {
-   impl_frame ();
+   impl_block ();
 
    SystemClockVirtual::impl_advance (erb_BUFFER_SIZE);
 
-   if (_frame_count % FramesPerIdle == 0)
+   if (_block_count % BlocksPerIdle == 0)
    {
       impl_idle ();
    }
@@ -482,17 +484,17 @@ void  BoardGeneric::impl_step_frame ()
 
 /*
 ==============================================================================
-Name : impl_frame
+Name : impl_block
 ==============================================================================
 */
 
-void  BoardGeneric::impl_frame ()
+void  BoardGeneric::impl_block ()
 {
    _glue.preprocess ();
    _glue.process ();
    _glue.postprocess ();
 
-   ++_frame_count;
+   ++_block_count;
 }
 
 
@@ -559,35 +561,6 @@ float &  BoardGeneric::impl_analog_slot (const float & data)
 
 /*
 ==============================================================================
-Name : impl_instrument_output_name
-Description :
-   The erbui name of the output an instrument is connected to
-   or nullptr when it is not connected.
-==============================================================================
-*/
-
-const char *  BoardGeneric::impl_instrument_output_name (const InstrumentBase & instrument) const
-{
-   const void * control_ptr = nullptr;
-
-   for (const auto & c : _digital_instruments)
-      if (c.instrument == &instrument) control_ptr = c.control_ptr;
-
-   for (const auto & c : _analog_instruments)
-      if (c.instrument == &instrument) control_ptr = c.control_ptr;
-
-   for (const auto & c : _audio_instruments)
-      if (c.instrument == &instrument) control_ptr = c.control_ptr;
-
-   if (control_ptr == nullptr) return nullptr;
-
-   return _boot_flag ? _glue.control_name (control_ptr) : "";
-}
-
-
-
-/*
-==============================================================================
 Name : impl_preprocess
 ==============================================================================
 */
@@ -628,16 +601,168 @@ void  BoardGeneric::impl_postprocess ()
       }
    }
 
-   if (_start_flag)
+   if (_start_flag) // record
    {
-      for (auto & c : _digital_instruments)
-         c.instrument->impl_feed (_digital_outputs [c.index]);
+      for (auto & r : _digital_recordings)
+         r.second.digital.push_back (_digital_outputs [r.first]);
 
-      for (auto & c : _analog_instruments)
-         c.instrument->impl_feed (_analog_outputs [c.index]);
+      for (auto & r : _analog_recordings)
+         r.second.samples.push_back (_analog_outputs [r.first]);
 
-      for (auto & c : _audio_instruments)
-         c.instrument->impl_feed (_audio_outputs [c.index]);
+      for (auto & r : _audio_recordings)
+      {
+         const auto & block = _audio_outputs [r.first];
+         r.second.samples.insert (r.second.samples.end (), block.begin (), block.end ());
+      }
+
+      ++_recorded_blocks;
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind
+Description :
+   Notification from an instrument that the slot will be recorded.
+   This avoids to record everything all the time, and more importantly
+   to know if the running mode is ui-fast or lock-step.
+==============================================================================
+*/
+
+std::size_t BoardGeneric::impl_bind (SlotKind kind, const void * slot_data)
+{
+   assert (!_boot_flag);
+
+   std::size_t index = 0;
+
+   switch (kind)
+   {
+   case SlotKind::Digital:
+      index = impl_slot_index (_digital_outputs, *static_cast <const uint8_t *> (slot_data));
+      break;
+
+   case SlotKind::Analog:
+      index = impl_slot_index (_analog_outputs, *static_cast <const float *> (slot_data));
+      break;
+
+   case SlotKind::Audio:
+      index = impl_slot_index (_audio_outputs, *static_cast <const Buffer *> (slot_data));
+      break;
+   }
+
+   ++impl_recordings (kind) [index].bindings;
+   ++_nbr_bindings;
+
+   return index;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_unbind
+==============================================================================
+*/
+
+void  BoardGeneric::impl_unbind (SlotKind kind, std::size_t index)
+{
+   auto & recordings = impl_recordings (kind);
+   auto it = recordings.find (index);
+   assert (it != recordings.end ());
+   assert (it->second.bindings > 0);
+   assert (_nbr_bindings > 0);
+
+   --it->second.bindings;
+   --_nbr_bindings;
+
+   if (it->second.bindings == 0)
+   {
+      recordings.erase (it);
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : impl_recording_digital
+==============================================================================
+*/
+
+std::span <const uint8_t>  BoardGeneric::impl_recording_digital (std::size_t index) const
+{
+   return _digital_recordings.at (index).digital;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_recording_analog
+==============================================================================
+*/
+
+std::span <const float>   BoardGeneric::impl_recording_analog (std::size_t index) const
+{
+   return _analog_recordings.at (index).samples;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_recording_audio
+==============================================================================
+*/
+
+std::span <const float>   BoardGeneric::impl_recording_audio (std::size_t index) const
+{
+   return _audio_recordings.at (index).samples;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_recorded_blocks
+==============================================================================
+*/
+
+std::uint64_t  BoardGeneric::impl_recorded_blocks () const
+{
+   return _recorded_blocks;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_pump_until
+==============================================================================
+*/
+
+bool  BoardGeneric::impl_pump_until (const std::function <bool ()> & predicate, SystemClockVirtual::duration timeout)
+{
+   return impl_wait_until (predicate, timeout);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_recordings
+==============================================================================
+*/
+
+std::map <std::size_t, BoardGeneric::Recorded> &  BoardGeneric::impl_recordings (SlotKind kind)
+{
+   switch (kind)
+   {
+   case SlotKind::Digital: return _digital_recordings;
+   case SlotKind::Analog: return _analog_recordings;
+   case SlotKind::Audio: default: return _audio_recordings;
    }
 }
 

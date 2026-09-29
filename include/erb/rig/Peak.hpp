@@ -17,7 +17,7 @@
 
 #include <cassert>
 #include <cmath>
-#include <cstdint>
+#include <cstdio>
 
 
 
@@ -28,40 +28,47 @@ namespace rig
 
 
 
-/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
 /*
 ==============================================================================
 Name : ctor
 ==============================================================================
 */
 
-Peak::Peak (SystemClockVirtual::duration window)
+Peak::Peak (Setup setup)
+:  Instrument (setup)
 {
-   assert (window.count () > 0);
-
-   const auto ns = std::uint64_t (window.count ());
-   const auto samples = (ns * std::uint64_t (erb_SAMPLE_RATE) + 999999999ull) / 1000000000ull;
-   const auto frames = (samples + erb_BUFFER_SIZE - 1) / erb_BUFFER_SIZE;
-
-   _frame_peaks.assign (std::size_t (std::max <std::uint64_t> (frames, 1)), 0.f);
 }
 
 
 
 /*
 ==============================================================================
-Name : reading
+Name : bind
 ==============================================================================
 */
 
-Peak::Reading  Peak::reading () const
+Connection  Peak::bind (Bench & bench, AudioOut & output)
+{
+   impl_bind (bench, output);
+
+   return impl_connect ();
+}
+
+
+
+/*
+==============================================================================
+Name : read
+==============================================================================
+*/
+
+Peak::Reading  Peak::read () const
 {
    float ret = 0.f;
 
-   for (std::size_t i = 0 ; i < _count ; ++i)
+   for (auto sample : impl_window_audio (0))
    {
-      ret = std::max (ret, _frame_peaks [i]);
+      ret = std::max (ret, std::abs (sample));
    }
 
    return ret;
@@ -71,31 +78,28 @@ Peak::Reading  Peak::reading () const
 
 /*
 ==============================================================================
-Name : distance
+Name : check
 ==============================================================================
 */
 
-float Peak::distance (Reading a, Reading b)
+void  Peak::check (Reading expected, float tolerance, std::source_location sloc) const
 {
-   return scalar_distance (a, b);
+   assert (tolerance >= 0.f);
+
+   const auto reading = read ();
+   const bool ok = scalar_distance (reading, expected) <= tolerance;
+
+   if (!ok)
+   {
+      std::fprintf (stderr, "check at %s:%u: ", sloc.file_name (), unsigned (sloc.line ()));
+      scalar_report (name (), impl_channel_name (0), reading, expected, tolerance);
+      std::fflush (stderr);
+   }
+
+   assert (ok);
 }
 
 
-
-/*
-==============================================================================
-Name : report
-==============================================================================
-*/
-
-void  Peak::report (const char * name, const char * output_name, Reading reading, Reading expected, float tolerance)
-{
-   scalar_report (name, output_name, reading, expected, tolerance);
-}
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
 ==============================================================================
@@ -106,43 +110,6 @@ Name : name
 const char *   Peak::name () const
 {
    return "Peak";
-}
-
-
-
-/*
-==============================================================================
-Name : impl_start
-==============================================================================
-*/
-
-void  Peak::impl_start ()
-{
-   _pos = 0;
-   _count = 0;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_feed
-==============================================================================
-*/
-
-void  Peak::impl_feed (const Buffer & buffer)
-{
-   float peak = 0.f;
-
-   for (auto sample : buffer)
-   {
-      peak = std::max (peak, std::abs (sample));
-   }
-
-   _frame_peaks [_pos] = peak;
-
-   _pos = (_pos + 1) % _frame_peaks.size ();
-   _count = std::min (_count + 1, _frame_peaks.size ());
 }
 
 

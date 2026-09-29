@@ -17,7 +17,14 @@
 #include "erb/Buffer.h"
 #include "erb/CvOut.h"
 #include "erb/GateOut.h"
+#include "erb/rig/Bench.h"
+#include "erb/rig/Connection.h"
+#include "erb/rig/SystemClockVirtual.h"
 
+#include <span>
+#include <vector>
+
+#include <cstddef>
 #include <cstdint>
 
 
@@ -29,21 +36,6 @@ namespace rig
 
 
 
-enum class SlotKind
-{
-   Digital,
-   Analog,
-   Audio,
-};
-
-template <SlotKind Kind>
-struct SlotKindType;
-
-template <> struct SlotKindType <SlotKind::Digital> { using type = std::uint8_t; };
-template <> struct SlotKindType <SlotKind::Analog> { using type = float; };
-template <> struct SlotKindType <SlotKind::Audio> { using type = Buffer; };
-
-
 template <typename Control>
 struct slot_kind_of;
 
@@ -52,42 +44,91 @@ template <FloatRange Range> struct slot_kind_of <CvOut <Range>> { static constex
 template <> struct slot_kind_of <GateOut> { static constexpr SlotKind value = SlotKind::Digital; };
 
 
-class InstrumentBase
+// lab measurement device abstraction (peak meter, etc.)
+
+class Instrument
 {
+
+/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
 public:
-   virtual        ~InstrumentBase () = default;
+   struct Setup
+   {
+      SystemClockVirtual::duration
+                  analysis_window {};       // one of the two
+      std::uint64_t
+                  analysis_window_nbr_blocks = 0;
+   };
+
+   inline explicit
+                  Instrument (Setup setup);
+   virtual        ~Instrument ();
 
    virtual const char *
                   name () const = 0;
 
-   // session time zero
-   virtual void   impl_start () = 0;
-};
+   inline std::uint64_t
+                  window () const;   // blocks
 
-// lab instrument abstraction (peak meter, etc.), the wording of
-// measurement and instrumentation: a source drives an input, an
-// instrument reads an output, a measurement is what it reads.
-// an instrument is connected before 'boot', and idle before 'start'
-// then it is fed one frame after every postprocess so it can do everything
-// a real-world device could do.
-// Concrete class must support:
-// - Reading: the type of the data measured
-// - reading: the operator simulated look at the equipment
-// - distance: the distance between 2 readings
-// - report: a structured report on failure
 
-template <SlotKind Kind>
-class Instrument
-:  public InstrumentBase
-{
-public:
-   using Slot = typename SlotKindType <Kind>::type;
 
-   static constexpr SlotKind
-                  kind = Kind;
+/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   virtual void   impl_feed (const Slot & slot) = 0;
-};
+protected:
+   template <typename Control>
+   void           impl_bind (Bench & bench, Control & output);
+   inline Connection
+                  impl_connect ();
+
+   inline std::span <const float>
+                  impl_window_audio (std::size_t channel) const;
+   inline std::span <const float>
+                  impl_window_analog (std::size_t channel) const;
+   inline std::span <const std::uint8_t>
+                  impl_window_digital (std::size_t channel) const;
+
+   inline const char *
+                  impl_channel_name (std::size_t channel) const;
+   inline bool    impl_bound () const;
+
+
+
+/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+private:
+   struct Channel
+   {
+      SlotKind    kind;
+      std::size_t index;
+      const void *
+                  control_ptr;   // for logs
+   };
+
+   inline void    impl_unbind ();
+   inline void    impl_check_window (std::size_t channel) const;
+
+   const std::uint64_t
+                  _window;   // blocks
+   Bench *        _bench_ptr = nullptr;
+   std::vector <Channel>
+                  _channels;
+
+
+
+/*\\\ FORBIDDEN MEMBER FUNCTIONS \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+private:
+                  Instrument () = delete;
+                  Instrument (const Instrument & rhs) = delete;
+                  Instrument (Instrument && rhs) = delete;
+   Instrument &   operator = (const Instrument & rhs) = delete;
+   Instrument &   operator = (Instrument && rhs) = delete;
+   bool           operator == (const Instrument & rhs) const = delete;
+   bool           operator != (const Instrument & rhs) const = delete;
+
+
+
+}; // class Instrument
 
 
 

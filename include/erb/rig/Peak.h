@@ -13,12 +13,10 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/AudioOut.h"
 #include "erb/rig/Instrument.h"
-#include "erb/rig/SystemClockVirtual.h"
 
-#include <vector>
-
-#include <cstddef>
+#include <source_location>
 
 
 
@@ -30,7 +28,7 @@ namespace rig
 
 
 class Peak
-:  public Instrument <SlotKind::Audio>
+:  public Instrument
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
@@ -39,40 +37,17 @@ public:
    using Reading = float;
 
    inline explicit
-                  Peak (SystemClockVirtual::duration window);
+                  Peak (Setup setup);
    virtual        ~Peak () override = default;
 
-   inline Reading reading () const;
+   inline Connection
+                  bind (Bench & bench, AudioOut & output);
 
-   static inline float
-                  distance (Reading a, Reading b);
-   static inline void
-                  report (const char * name, const char * output_name, Reading reading, Reading expected, float tolerance);
-
-
-
-/*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+   inline Reading read () const;
+   inline void    check (Reading expected, float tolerance, std::source_location sloc = std::source_location::current ()) const;
 
    inline const char *
                   name () const override;
-   inline void    impl_start () override;
-   inline void    impl_feed (const Buffer & buffer) override;
-
-
-
-/*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-protected:
-
-
-
-/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-private:
-   std::vector <float>
-                  _frame_peaks; // window, ring
-   std::size_t    _pos = 0;
-   std::size_t    _count = 0;
 
 
 
