@@ -38,6 +38,7 @@
       'rig/SdCard.hpp',
       'rig/SystemClockVirtual.h',
       'rig/SystemClockVirtual.hpp',
+      'rig/Wave.h',
 
       # sources
       '../../src/detail/ModuleBoard.cpp',
@@ -47,6 +48,7 @@
       '../../src/rig/Screen.cpp',
       '../../src/rig/ScreenWrite.cpp',
       '../../src/rig/SdCard.cpp',
+      '../../src/rig/Wave.cpp',
    ],
 
    'include_dirs': [
