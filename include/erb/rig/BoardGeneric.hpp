@@ -197,28 +197,28 @@ Name : connect
 */
 
 template <typename Control, SlotKind Kind>
-void  BoardGeneric::connect (Control & output, Measurement <Kind> & measurement)
+void  BoardGeneric::connect (Control & output, Instrument <Kind> & instrument)
 {
    static_assert (slot_kind_of <Control>::value == Kind);
 
    assert (_setup_flag);
    assert (!_boot_flag);
-   assert (impl_measurement_output_name (measurement) == nullptr); // only once
+   assert (impl_instrument_output_name (instrument) == nullptr); // only once
 
    if constexpr (Kind == SlotKind::Digital)
    {
-      _digital_measurements.push_back ({impl_slot_index (_digital_outputs, output.impl_data), &output, &measurement});
+      _digital_instruments.push_back ({impl_slot_index (_digital_outputs, output.impl_data), &output, &instrument});
    }
    else if constexpr (Kind == SlotKind::Analog)
    {
-      _analog_measurements.push_back ({impl_slot_index (_analog_outputs, output.impl_data), &output, &measurement});
+      _analog_instruments.push_back ({impl_slot_index (_analog_outputs, output.impl_data), &output, &instrument});
    }
    else
    {
-      _audio_measurements.push_back ({impl_slot_index (_audio_outputs, output.impl_data), &output, &measurement});
+      _audio_instruments.push_back ({impl_slot_index (_audio_outputs, output.impl_data), &output, &instrument});
    }
 
-   ++_nbr_measurements;
+   ++_nbr_instruments;
 }
 
 
@@ -229,23 +229,23 @@ Name : check
 ==============================================================================
 */
 
-template <typename Measurement>
-void  BoardGeneric::check (const Measurement & measurement, const typename Measurement::Reading & expected, float tolerance)
+template <typename Instrument>
+void  BoardGeneric::check (const Instrument & instrument, const typename Instrument::Reading & expected, float tolerance)
 {
    assert (_boot_flag);
    assert (tolerance >= 0.f);
 
-   const auto * output_name = impl_measurement_output_name (measurement);
+   const auto * output_name = impl_instrument_output_name (instrument);
    assert (output_name != nullptr);
 
-   const auto reading = measurement.reading ();
-   const bool ok = Measurement::distance (reading, expected) <= tolerance;
+   const auto reading = instrument.reading ();
+   const bool ok = Instrument::distance (reading, expected) <= tolerance;
 
    if (!ok)
    {
       std::fprintf (stderr, "check: ");
-      Measurement::report (
-         measurement.name (), output_name,
+      Instrument::report (
+         instrument.name (), output_name,
          reading, expected, tolerance
       );
       std::fflush (stderr);

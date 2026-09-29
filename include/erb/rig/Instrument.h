@@ -1,6 +1,6 @@
 /*****************************************************************************
 
-      Measurement.h
+      Instrument.h
       Copyright (c) 2020 Raphael DINGE
 
 *Tab=3***********************************************************************/
@@ -52,10 +52,10 @@ template <FloatRange Range> struct slot_kind_of <CvOut <Range>> { static constex
 template <> struct slot_kind_of <GateOut> { static constexpr SlotKind value = SlotKind::Digital; };
 
 
-class MeasurementBase
+class InstrumentBase
 {
 public:
-   virtual        ~MeasurementBase () = default;
+   virtual        ~InstrumentBase () = default;
 
    virtual const char *
                   name () const = 0;
@@ -64,8 +64,10 @@ public:
    virtual void   impl_start () = 0;
 };
 
-// lab measurement device abstraction (peak meter, etc.)
-// measurement is connected before 'boot', and idle before 'start'
+// lab instrument abstraction (peak meter, etc.), the wording of
+// measurement and instrumentation: a source drives an input, an
+// instrument reads an output, a measurement is what it reads.
+// an instrument is connected before 'boot', and idle before 'start'
 // then it is fed one frame after every postprocess so it can do everything
 // a real-world device could do.
 // Concrete class must support:
@@ -75,8 +77,8 @@ public:
 // - report: a structured report on failure
 
 template <SlotKind Kind>
-class Measurement
-:  public MeasurementBase
+class Instrument
+:  public InstrumentBase
 {
 public:
    using Slot = typename SlotKindType <Kind>::type;
@@ -99,7 +101,7 @@ inline void    scalar_report (const char * name, const char * output_name, float
 
 
 
-#include "erb/rig/Measurement.hpp"
+#include "erb/rig/Instrument.hpp"
 
 
 

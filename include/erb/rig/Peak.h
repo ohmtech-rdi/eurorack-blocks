@@ -13,7 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-#include "erb/rig/Measurement.h"
+#include "erb/rig/Instrument.h"
 #include "erb/rig/SystemClockVirtual.h"
 
 #include <vector>
@@ -30,7 +30,7 @@ namespace rig
 
 
 class Peak
-:  public Measurement <SlotKind::Audio>
+:  public Instrument <SlotKind::Audio>
 {
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

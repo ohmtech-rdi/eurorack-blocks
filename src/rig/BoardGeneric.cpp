@@ -151,7 +151,7 @@ BoardGeneric::PersistentMap & BoardGeneric::use_persistent_map ()
 Name : start
 Description :
    Ends the "Given" phase.
-   Mode is deduced from there on, when no measurements are done it means
+   Mode is deduced from there on, when no instrument is connected it means
    we don't care about audio, and so UI can run fast.
 ==============================================================================
 */
@@ -163,11 +163,11 @@ void  BoardGeneric::start ()
 
    _start_flag = true;
 
-   _mode = (_nbr_measurements > 0) ? Mode::Lockstep : Mode::UiFast;
+   _mode = (_nbr_instruments > 0) ? Mode::Lockstep : Mode::UiFast;
 
-   for (auto & c : _digital_measurements) c.measurement->impl_start ();
-   for (auto & c : _analog_measurements) c.measurement->impl_start ();
-   for (auto & c : _audio_measurements) c.measurement->impl_start ();
+   for (auto & c : _digital_instruments) c.instrument->impl_start ();
+   for (auto & c : _analog_instruments) c.instrument->impl_start ();
+   for (auto & c : _audio_instruments) c.instrument->impl_start ();
 }
 
 
@@ -559,25 +559,25 @@ float &  BoardGeneric::impl_analog_slot (const float & data)
 
 /*
 ==============================================================================
-Name : impl_measurement_output_name
+Name : impl_instrument_output_name
 Description :
-   The erbui name of the output a measurement is connected to
+   The erbui name of the output an instrument is connected to
    or nullptr when it is not connected.
 ==============================================================================
 */
 
-const char *  BoardGeneric::impl_measurement_output_name (const MeasurementBase & measurement) const
+const char *  BoardGeneric::impl_instrument_output_name (const InstrumentBase & instrument) const
 {
    const void * control_ptr = nullptr;
 
-   for (const auto & c : _digital_measurements)
-      if (c.measurement == &measurement) control_ptr = c.control_ptr;
+   for (const auto & c : _digital_instruments)
+      if (c.instrument == &instrument) control_ptr = c.control_ptr;
 
-   for (const auto & c : _analog_measurements)
-      if (c.measurement == &measurement) control_ptr = c.control_ptr;
+   for (const auto & c : _analog_instruments)
+      if (c.instrument == &instrument) control_ptr = c.control_ptr;
 
-   for (const auto & c : _audio_measurements)
-      if (c.measurement == &measurement) control_ptr = c.control_ptr;
+   for (const auto & c : _audio_instruments)
+      if (c.instrument == &instrument) control_ptr = c.control_ptr;
 
    if (control_ptr == nullptr) return nullptr;
 
@@ -630,14 +630,14 @@ void  BoardGeneric::impl_postprocess ()
 
    if (_start_flag)
    {
-      for (auto & c : _digital_measurements)
-         c.measurement->impl_feed (_digital_outputs [c.index]);
+      for (auto & c : _digital_instruments)
+         c.instrument->impl_feed (_digital_outputs [c.index]);
 
-      for (auto & c : _analog_measurements)
-         c.measurement->impl_feed (_analog_outputs [c.index]);
+      for (auto & c : _analog_instruments)
+         c.instrument->impl_feed (_analog_outputs [c.index]);
 
-      for (auto & c : _audio_measurements)
-         c.measurement->impl_feed (_audio_outputs [c.index]);
+      for (auto & c : _audio_instruments)
+         c.instrument->impl_feed (_audio_outputs [c.index]);
    }
 }
 
