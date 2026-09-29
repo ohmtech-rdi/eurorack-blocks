@@ -24,6 +24,8 @@
       'rig/Camera.hpp',
       'rig/Connection.h',
       'rig/Connection.hpp',
+      'rig/Envelope.h',
+      'rig/Envelope.hpp',
       'rig/Context.h',
       'rig/Context.hpp',
       'rig/Instrument.h',

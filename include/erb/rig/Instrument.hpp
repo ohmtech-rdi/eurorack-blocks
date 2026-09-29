@@ -248,6 +248,21 @@ const char *   Instrument::impl_channel_name (std::size_t channel) const
 
 /*
 ==============================================================================
+Name : impl_recorded_blocks
+==============================================================================
+*/
+
+std::uint64_t  Instrument::impl_recorded_blocks () const
+{
+   assert (impl_bound ());
+
+   return _bench_ptr->impl_recorded_blocks ();
+}
+
+
+
+/*
+==============================================================================
 Name : impl_bound
 ==============================================================================
 */

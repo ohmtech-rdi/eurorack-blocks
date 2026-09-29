@@ -100,6 +100,8 @@ protected:
    inline const char *
                   impl_channel_name (std::size_t channel) const;
    inline bool    impl_bound () const;
+   inline std::uint64_t
+                  impl_recorded_blocks () const;   // since 'start'
 
 
 
