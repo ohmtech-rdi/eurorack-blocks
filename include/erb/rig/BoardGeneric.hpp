@@ -233,14 +233,17 @@ Name : wait_until
 */
 
 template <typename Predicate>
-void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duration timeout)
+void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duration timeout, std::source_location sloc)
 {
    const bool ok = impl_wait_until (predicate, timeout);
 
    if (!ok)
    {
       const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
-      std::fprintf (stderr, "wait_until: condition not met within %lld ms\n", (long long) ms);
+      std::fprintf (
+         stderr, "wait_until at %s:%u: condition not met within %lld ms\n",
+         sloc.file_name (), unsigned (sloc.line ()), (long long) ms
+      );
       std::fflush (stderr);
    }
 
@@ -277,7 +280,7 @@ Name : wait_until_equal
 */
 
 template <typename T>
-void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout)
+void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout, std::source_location sloc)
 {
    const bool ok = impl_wait_until (
       [this, &probe, &expected] () { return this->probe <T> (probe.key) == expected; },
@@ -290,7 +293,8 @@ void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, S
 
       std::fprintf (
          stderr,
-         "wait_until_equal: probe '%s' did not equal %s within %lld ms, last value %s\n",
+         "wait_until_equal at %s:%u: probe '%s' did not equal %s within %lld ms, last value %s\n",
+         sloc.file_name (), unsigned (sloc.line ()),
          probe.key.c_str (), impl_to_string (expected).c_str (), (long long) ms,
          impl_to_string (this->probe <T> (probe.key)).c_str ()
       );

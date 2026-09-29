@@ -32,6 +32,7 @@
 #include <chrono>
 #include <functional>
 #include <map>
+#include <source_location>
 #include <span>
 #include <string>
 #include <vector>
@@ -116,9 +117,9 @@ public:
    T              probe (const std::string & key) const;
 
    template <typename Predicate>
-   void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
+   void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout, std::source_location sloc = std::source_location::current ());
    template <typename T>
-   void           wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout);
+   void           wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout, std::source_location sloc = std::source_location::current ());
 
    inline uint64_t
                   block_count () const { return _block_count; }
