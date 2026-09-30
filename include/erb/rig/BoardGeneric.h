@@ -32,6 +32,7 @@
 #include <chrono>
 #include <functional>
 #include <map>
+#include <set>
 #include <source_location>
 #include <span>
 #include <string>
@@ -113,6 +114,8 @@ public:
    void           set (Pot <Range> & pot, float value);
    template <FloatRange Range>
    void           set (CvIn <Range> & cv, float value);
+
+   void           impl_plug (SlotKind kind, std::size_t slot_index) override;
 
    void           impl_apply_normalling (const uint8_t & data, float value);
    void           impl_apply_normalling (const float & data, float value);
@@ -252,12 +255,8 @@ private:
    static constexpr std::size_t
                   TriggerBlocks = 3; // 1ms at 16 samples 48kHz
 
-   std::vector <bool>
-                  _digital_inputs_plugged;
-   std::vector <bool>
-                  _analog_inputs_plugged;
-   std::vector <bool>
-                  _audio_inputs_plugged;
+   std::set <std::pair <SlotKind, std::size_t>>
+                  _plugged;
 
    bool           _setup_flag = false;
    bool           _boot_flag = false;

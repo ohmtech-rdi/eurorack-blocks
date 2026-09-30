@@ -49,6 +49,8 @@ public:
                   impl_bind (SlotKind kind, const void * slot_data) = 0;
    virtual void   impl_unbind (SlotKind kind, std::size_t slot_index) = 0;
 
+   virtual void   impl_plug (SlotKind kind, std::size_t slot_index) = 0;
+
    virtual std::span <const std::uint8_t>
                   impl_recording_digital (std::size_t slot_index) const = 0;
    virtual std::span <const float>
