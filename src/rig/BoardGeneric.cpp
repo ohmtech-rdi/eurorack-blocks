@@ -1010,8 +1010,6 @@ std::span <const float>   BoardGeneric::impl_get_golden (SlotKind kind, std::siz
       std::abort ();
    }
 
-   std::remove (impl_region_path (group, true).c_str ());   // stale if present
-
    const auto offset = std::size_t (window_start - _region_start) * samples_per_block;
 
    return std::span <const float> (group.golden [channel]).subspan (offset, std::size_t (nbr_blocks) * samples_per_block);

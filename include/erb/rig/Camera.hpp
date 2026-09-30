@@ -114,11 +114,7 @@ void  Camera <Format>::wait_until_same (const std::string & name, SystemClockVir
       timeout
    );
 
-   if (ok)
-   {
-      std::remove (actual_path.c_str ());   // stale if present
-   }
-   else
+   if (!ok)
    {
       const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
       std::fprintf (
@@ -154,11 +150,7 @@ void  Camera <Format>::check_same (const std::string & name, std::source_locatio
 
    const bool ok = rig::same (*_display_ptr, screen);
 
-   if (ok)
-   {
-      std::remove (actual_path.c_str ());   // stale if present
-   }
-   else
+   if (!ok)
    {
       std::fprintf (
          stderr,
