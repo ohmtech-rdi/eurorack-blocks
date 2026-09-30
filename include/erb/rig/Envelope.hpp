@@ -142,7 +142,8 @@ void  Envelope::check (float tolerance_db, std::source_location sloc) const
 {
    assert (tolerance_db >= 0.f);
 
-   const auto golden = process (impl_golden_window_audio (0, sloc));
+   const auto golden_samples = impl_golden_window_audio (0, sloc);
+   const auto golden = process (golden_samples);
    const auto actual_samples = impl_quantised (impl_window_audio (0));
    const auto actual = process (actual_samples);
 
@@ -163,6 +164,11 @@ void  Envelope::check (float tolerance_db, std::source_location sloc) const
    }
 
    const auto distance = 20.f * std::log10 (ratio);
+
+   if (impl_trace () || distance > tolerance_db)
+   {
+      impl_write_trace (0, {actual_samples, actual, golden_samples, golden});
+   }
 
    if (distance > tolerance_db)
    {

@@ -60,6 +60,7 @@ public:
                   analysis_window {};       // one of the two
       std::uint64_t
                   analysis_window_nbr_blocks = 0;
+      bool        trace = false;
    };
 
    inline explicit
@@ -97,6 +98,9 @@ protected:
                   impl_quantised (std::span <const float> window);
    inline void    impl_notify_golden_mismatch (std::size_t channel) const;
 
+   inline bool    impl_trace () const;
+   inline void    impl_write_trace (std::size_t channel, const std::vector <std::span <const float>> & traces) const;
+
    inline const char *
                   impl_channel_name (std::size_t channel) const;
    inline bool    impl_bound () const;
@@ -121,6 +125,7 @@ private:
 
    const std::uint64_t
                   _window;   // blocks
+   const bool     _trace_flag;
    Bench *        _bench_ptr = nullptr;
    std::vector <Channel>
                   _channels;

@@ -18,6 +18,7 @@
 #include <functional>
 #include <source_location>
 #include <span>
+#include <string>
 
 #include <cstddef>
 #include <cstdint>
@@ -68,6 +69,16 @@ public:
    virtual std::span <const float>
                   impl_get_golden (SlotKind kind, std::size_t slot_index, std::uint64_t nbr_blocks, const char * instrument_name, std::source_location sloc) = 0;
    virtual void   impl_notify_golden_mismatch (SlotKind kind, std::size_t slot_index) = 0;
+
+   struct TraceFile
+   {
+      std::string path;
+      std::uint32_t
+                  sample_rate;
+   };
+
+   virtual TraceFile
+                  impl_get_trace_file (SlotKind kind, std::size_t slot_index, const char * control_name, const char * instrument_name) const = 0;
 };
 
 

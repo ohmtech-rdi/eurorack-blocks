@@ -180,6 +180,7 @@ public:
    std::span <const float>
                   impl_get_golden (SlotKind kind, std::size_t slot_index, std::uint64_t nbr_blocks, const char * instrument_name, std::source_location sloc) override;
    void           impl_notify_golden_mismatch (SlotKind kind, std::size_t slot_index) override;
+   TraceFile      impl_get_trace_file (SlotKind kind, std::size_t slot_index, const char * control_name, const char * instrument_name) const override;
 
    virtual void   impl_preprocess ();
    void           impl_postprocess ();
@@ -307,6 +308,7 @@ private:
    uint64_t       _region_end = 0;
 
    Group &        impl_group_of (SlotKind kind, std::size_t slot_index);
+   const Group &  impl_group_of (SlotKind kind, std::size_t slot_index) const;
    std::size_t    impl_channel_of (const Group & group, SlotKind kind, std::size_t slot_index) const;
    std::string    impl_region_path (const Group & group, bool actual) const;
    void           impl_load_golden (Group & group);

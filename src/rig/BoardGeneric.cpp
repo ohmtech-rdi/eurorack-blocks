@@ -23,6 +23,7 @@
 #include <set>
 
 #include <cassert>
+#include <utility>
 #include <cmath>
 #include <cstdio>
 #include <functional>
@@ -1048,6 +1049,13 @@ Name : impl_group_of
 
 BoardGeneric::Group &   BoardGeneric::impl_group_of (SlotKind kind, std::size_t slot_index)
 {
+   return const_cast <Group &> (std::as_const (*this).impl_group_of (kind, slot_index));
+}
+
+
+
+const BoardGeneric::Group &   BoardGeneric::impl_group_of (SlotKind kind, std::size_t slot_index) const
+{
    for (auto & group : _groups)
    {
       for (const auto & slot : group.slots)
@@ -1079,6 +1087,26 @@ std::size_t BoardGeneric::impl_channel_of (const Group & group, SlotKind kind, s
 
    assert (false);
    return 0;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_get_trace_file
+==============================================================================
+*/
+
+Bench::TraceFile  BoardGeneric::impl_get_trace_file (SlotKind kind, std::size_t slot_index, const char * control_name, const char * instrument_name) const
+{
+   assert (_mark_flag);
+
+   const auto & group = impl_group_of (kind, slot_index);
+
+   return {
+      _region_directory + "/" + _mark_name + "." + control_name + "." + instrument_name + ".trace.wav",
+      group.sample_rate
+   };
 }
 
 

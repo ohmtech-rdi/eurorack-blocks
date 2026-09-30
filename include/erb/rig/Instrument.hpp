@@ -40,6 +40,7 @@ Instrument::Instrument (Setup setup)
       ? setup.analysis_window_nbr_blocks
       : SystemClockVirtual::to_blocks_nbr (setup.analysis_window)
    )
+,  _trace_flag (setup.trace)
 {
    // one of the two not both
    assert ((setup.analysis_window_nbr_blocks != 0) != (setup.analysis_window.count () != 0));
@@ -211,6 +212,53 @@ std::vector <float>  Instrument::impl_quantised (std::span <const float> window)
    for (auto & sample : ret) sample = quantise (sample);
 
    return ret;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_trace
+==============================================================================
+*/
+
+bool  Instrument::impl_trace () const
+{
+   return _trace_flag;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_write_trace
+==============================================================================
+*/
+
+void  Instrument::impl_write_trace (std::size_t channel, const std::vector <std::span <const float>> & traces) const
+{
+   assert (impl_bound ());
+   assert (channel < _channels.size ());
+   assert (!traces.empty ());
+
+   const auto file = _bench_ptr->impl_get_trace_file (_channels [channel].kind, _channels [channel].slot_index, impl_channel_name (channel), name ());
+
+   Wave wave;
+   wave.sample_rate = file.sample_rate;
+   wave.nbr_channels = traces.size ();
+
+   const auto nbr_frames = traces [0].size ();
+
+   for (std::size_t i = 0 ; i < nbr_frames ; ++i)
+   {
+      for (const auto & trace : traces)
+      {
+         assert (trace.size () == nbr_frames);
+         wave.samples.push_back (trace [i]);
+      }
+   }
+
+   write_wave (wave, file.path, WaveFormat::Float32);
 }
 
 
