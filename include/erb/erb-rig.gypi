@@ -32,6 +32,8 @@
       'rig/Instrument.hpp',
       'rig/Peak.h',
       'rig/Peak.hpp',
+      'rig/Pitch.h',
+      'rig/Pitch.hpp',
       'rig/Probe.h',
       'rig/Probe.hpp',
       'rig/Screen.h',
