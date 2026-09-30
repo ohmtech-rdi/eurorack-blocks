@@ -88,7 +88,7 @@ protected:
    inline std::span <const float>
                   impl_golden_window_analog (std::size_t channel, std::source_location sloc) const;
    static inline std::vector <float>
-                  impl_quantised (std::span <const float> window);
+                  impl_quantized (std::span <const float> window);
    inline void    impl_notify_golden_mismatch (std::size_t channel) const;
 
    inline bool    impl_trace () const;

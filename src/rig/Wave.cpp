@@ -101,15 +101,15 @@ std::size_t Wave::nbr_frames () const
 
 /*
 ==============================================================================
-Name : quantise
+Name : quantize
 Description :
    We store the wave files in 16-bit to optimise for space in a repo.
    But we need to still be able to compare to the golden, so the actual
-   can be first quantised should we want bit-exact compare
+   can be first quantized should we want bit-exact compare
 ==============================================================================
 */
 
-float quantise (float sample)
+float quantize (float sample)
 {
    return to_float (to_int16 (sample));
 }

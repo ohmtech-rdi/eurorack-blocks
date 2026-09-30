@@ -201,15 +201,15 @@ std::span <const float>  Instrument::impl_golden_window_analog (std::size_t chan
 
 /*
 ==============================================================================
-Name : impl_quantised
+Name : impl_quantized
 ==============================================================================
 */
 
-std::vector <float>  Instrument::impl_quantised (std::span <const float> window)
+std::vector <float>  Instrument::impl_quantized (std::span <const float> window)
 {
    std::vector <float> ret (window.begin (), window.end ());
 
-   for (auto & sample : ret) sample = quantise (sample);
+   for (auto & sample : ret) sample = quantize (sample);
 
    return ret;
 }

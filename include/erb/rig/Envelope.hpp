@@ -144,7 +144,7 @@ void  Envelope::check (float tolerance_db, std::source_location sloc) const
 
    const auto golden_samples = impl_golden_window_audio (0, sloc);
    const auto golden = process (golden_samples);
-   const auto actual_samples = impl_quantised (impl_window_audio (0));
+   const auto actual_samples = impl_quantized (impl_window_audio (0));
    const auto actual = process (actual_samples);
 
    assert (golden.size () == actual.size ());

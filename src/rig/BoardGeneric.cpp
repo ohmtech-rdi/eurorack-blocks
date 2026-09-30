@@ -1268,7 +1268,7 @@ void  BoardGeneric::impl_load_golden (Group & group)
 ==============================================================================
 Name : impl_write_actual
 Note :
-   Write is quantised
+   Write is quantized
 ==============================================================================
 */
 
@@ -1288,7 +1288,7 @@ void  BoardGeneric::impl_write_actual (const Group & group)
       {
          for (const auto & slot : group.slots)
          {
-            wave.samples.push_back (quantise (impl_recorded_sample (slot.first, slot.second, block, sample)));
+            wave.samples.push_back (quantize (impl_recorded_sample (slot.first, slot.second, block, sample)));
          }
       }
    }

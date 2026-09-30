@@ -33,7 +33,7 @@ struct Wave
    std::uint32_t  sample_rate = 0;
    std::size_t    nbr_channels = 0;
    std::vector <float>
-                  samples;       // interleaved, 16-bit "pre-quantised"
+                  samples;       // interleaved, 16-bit "pre-quantized"
 
    std::size_t    nbr_frames () const;
 };
@@ -44,7 +44,7 @@ enum class WaveFormat
    Float32,
 };
 
-float    quantise (float sample);
+float    quantize (float sample);
 
 Wave     read_wave (const std::string & path);
 
