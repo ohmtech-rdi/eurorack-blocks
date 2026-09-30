@@ -22,6 +22,7 @@
 #include <filesystem>
 #include <set>
 
+#include "erb/rig/Source.h"
 #include <cassert>
 #include <utility>
 #include <cmath>
@@ -496,6 +497,12 @@ Name : impl_block
 
 void  BoardGeneric::impl_block ()
 {
+   // idle before 'start', before control for normalling
+   if (_start_flag)
+   {
+      for (auto * source_ptr : _sources) source_ptr->impl_process ();
+   }
+
    _glue.preprocess ();
    _glue.process ();
    _glue.postprocess ();
@@ -577,6 +584,86 @@ Description:
 void  BoardGeneric::impl_plug (SlotKind kind, std::size_t slot_index)
 {
    _plugged.insert ({kind, slot_index});
+}
+
+
+
+/*
+==============================================================================
+Name : impl_bind_input
+==============================================================================
+*/
+
+std::size_t BoardGeneric::impl_bind_input (SlotKind kind, const void * slot_data)
+{
+   assert (!_boot_flag);   // a cable is in before the module boots
+
+   std::size_t slot_index = 0;
+
+   switch (kind)
+   {
+   case SlotKind::Digital:
+      slot_index = impl_slot_index (_digital_inputs, *static_cast <const uint8_t *> (slot_data));
+      break;
+
+   case SlotKind::Analog:
+      slot_index = impl_slot_index (_analog_inputs, *static_cast <const float *> (slot_data));
+      break;
+
+   case SlotKind::Audio:
+      slot_index = impl_slot_index (_audio_inputs, *static_cast <const Buffer *> (slot_data));
+      break;
+   }
+
+   impl_plug (kind, slot_index);
+
+   return slot_index;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_attach
+==============================================================================
+*/
+
+void  BoardGeneric::impl_attach (Source & source)
+{
+   assert (std::find (_sources.begin (), _sources.end (), &source) == _sources.end ());
+
+   _sources.push_back (&source);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_detach
+==============================================================================
+*/
+
+void  BoardGeneric::impl_detach (Source & source)
+{
+   const auto it = std::find (_sources.begin (), _sources.end (), &source);
+   assert (it != _sources.end ());
+
+   _sources.erase (it);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_input_audio
+==============================================================================
+*/
+
+Buffer & BoardGeneric::impl_input_audio (std::size_t slot_index)
+{
+   assert (slot_index < _audio_inputs.size ());
+
+   return _audio_inputs [slot_index];
 }
 
 
@@ -730,7 +817,7 @@ void  BoardGeneric::impl_postprocess ()
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : impl_bind_output
 Description :
    Notification from an instrument that the slot will be recorded.
    This avoids to record everything all the time, and more importantly
@@ -738,7 +825,7 @@ Description :
 ==============================================================================
 */
 
-std::size_t BoardGeneric::impl_bind (SlotKind kind, const void * slot_data)
+std::size_t BoardGeneric::impl_bind_output (SlotKind kind, const void * slot_data)
 {
    assert (!_boot_flag);
 
@@ -769,11 +856,11 @@ std::size_t BoardGeneric::impl_bind (SlotKind kind, const void * slot_data)
 
 /*
 ==============================================================================
-Name : impl_unbind
+Name : impl_unbind_output
 ==============================================================================
 */
 
-void  BoardGeneric::impl_unbind (SlotKind kind, std::size_t slot_index)
+void  BoardGeneric::impl_unbind_output (SlotKind kind, std::size_t slot_index)
 {
    auto & recordings = impl_recordings (kind);
    auto it = recordings.find (slot_index);

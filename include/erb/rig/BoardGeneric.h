@@ -115,14 +115,6 @@ public:
    template <FloatRange Range>
    void           set (CvIn <Range> & cv, float value);
 
-   void           impl_plug (SlotKind kind, std::size_t slot_index) override;
-
-   void           impl_apply_normalling (const uint8_t & data, float value);
-   void           impl_apply_normalling (const float & data, float value);
-   void           impl_apply_normalling (const Buffer & data, float value);
-   void           impl_apply_normalling (const uint8_t & data, const uint8_t & from);
-   void           impl_apply_normalling (const Buffer & data, const Buffer & from);
-
    const char *   control_name (const void * control_ptr) const override;
 
    template <typename T>
@@ -167,8 +159,13 @@ public:
    void           impl_boot (Glue glue);
 
    // Bench
-   std::size_t    impl_bind (SlotKind kind, const void * slot_data) override;
-   void           impl_unbind (SlotKind kind, std::size_t slot_index) override;
+   std::size_t    impl_bind_output (SlotKind kind, const void * slot_data) override;
+   void           impl_unbind_output (SlotKind kind, std::size_t slot_index) override;
+   void           impl_plug (SlotKind kind, std::size_t slot_index) override;
+   std::size_t    impl_bind_input (SlotKind kind, const void * slot_data) override;
+   void           impl_attach (Source & source) override;
+   void           impl_detach (Source & source) override;
+   Buffer &       impl_input_audio (std::size_t slot_index) override;
    std::span <const std::uint8_t>
                   impl_recording_digital (std::size_t slot_index) const override;
    std::span <const float>
@@ -181,6 +178,13 @@ public:
                   impl_get_golden (SlotKind kind, std::size_t slot_index, std::uint64_t nbr_blocks, const char * instrument_name, std::source_location sloc) override;
    void           impl_notify_golden_mismatch (SlotKind kind, std::size_t slot_index) override;
    TraceFile      impl_get_trace_file (SlotKind kind, std::size_t slot_index, const char * control_name, const char * instrument_name) const override;
+
+   // normalling, from the generated glue, before the preprocess
+   void           impl_apply_normalling (const uint8_t & data, float value);
+   void           impl_apply_normalling (const float & data, float value);
+   void           impl_apply_normalling (const Buffer & data, float value);
+   void           impl_apply_normalling (const uint8_t & data, const uint8_t & from);
+   void           impl_apply_normalling (const Buffer & data, const Buffer & from);
 
    virtual void   impl_preprocess ();
    void           impl_postprocess ();
@@ -258,6 +262,8 @@ private:
 
    std::set <std::pair <SlotKind, std::size_t>>
                   _plugged;
+   std::vector <Source *>
+                  _sources;
 
    bool           _setup_flag = false;
    bool           _boot_flag = false;

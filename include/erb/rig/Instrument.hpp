@@ -88,12 +88,12 @@ Note :
 template <typename Control>
 void  Instrument::impl_bind (Bench & bench, Control & output)
 {
-   constexpr auto kind = slot_kind_of <Control>::value;
+   constexpr auto kind = SlotKindTrait <Control>::value;
 
    assert ((_bench_ptr == nullptr) || (_bench_ptr == &bench));
 
    _bench_ptr = &bench;
-   _channels.push_back ({kind, bench.impl_bind (kind, &output.impl_data), &output});
+   _channels.push_back ({kind, bench.impl_bind_output (kind, &output.impl_data), &output});
 }
 
 
@@ -336,7 +336,7 @@ void  Instrument::impl_unbind ()
 
    for (const auto & channel : _channels)
    {
-      _bench_ptr->impl_unbind (channel.kind, channel.slot_index);
+      _bench_ptr->impl_unbind_output (channel.kind, channel.slot_index);
    }
 
    _channels.clear ();

@@ -18,6 +18,7 @@
 #include "erb/CvOut.h"
 #include "erb/GateOut.h"
 #include "erb/rig/Bench.h"
+#include "erb/rig/SlotKindTrait.h"
 #include "erb/rig/Connection.h"
 #include "erb/rig/SystemClockVirtual.h"
 #include "erb/rig/Wave.h"
@@ -36,14 +37,6 @@ namespace erb
 namespace rig
 {
 
-
-
-template <typename Control>
-struct slot_kind_of;
-
-template <> struct slot_kind_of <AudioOut> { static constexpr SlotKind value = SlotKind::Audio; };
-template <FloatRange Range> struct slot_kind_of <CvOut <Range>> { static constexpr SlotKind value = SlotKind::Analog; };
-template <> struct slot_kind_of <GateOut> { static constexpr SlotKind value = SlotKind::Digital; };
 
 
 // lab measurement device abstraction (peak meter, etc.)

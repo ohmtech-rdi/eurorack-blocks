@@ -38,8 +38,13 @@
       'rig/Screen.hpp',
       'rig/SdCard.h',
       'rig/SdCard.hpp',
+      'rig/SlotKindTrait.h',
+      'rig/Source.h',
+      'rig/Source.hpp',
       'rig/SystemClockVirtual.h',
       'rig/SystemClockVirtual.hpp',
+      'rig/Vco.h',
+      'rig/Vco.hpp',
       'rig/Wave.h',
 
       # sources

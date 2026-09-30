@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include "erb/Buffer.h"
 #include "erb/rig/SystemClockVirtual.h"
 
 #include <functional>
@@ -41,16 +42,28 @@ enum class SlotKind
 
 
 
+class Source;
+
 class Bench
 {
 public:
    virtual        ~Bench () = default;
 
+   // Instruments
    virtual std::size_t
-                  impl_bind (SlotKind kind, const void * slot_data) = 0;
-   virtual void   impl_unbind (SlotKind kind, std::size_t slot_index) = 0;
+                  impl_bind_output (SlotKind kind, const void * slot_data) = 0;
+   virtual void   impl_unbind_output (SlotKind kind, std::size_t slot_index) = 0;
 
+   // Inputs (Sources & direct)
    virtual void   impl_plug (SlotKind kind, std::size_t slot_index) = 0;
+
+   // Sources
+   virtual std::size_t
+                  impl_bind_input (SlotKind kind, const void * slot_data) = 0;
+   virtual void   impl_attach (Source & source) = 0;
+   virtual void   impl_detach (Source & source) = 0;
+   virtual Buffer &
+                  impl_input_audio (std::size_t slot_index) = 0;
 
    virtual std::span <const std::uint8_t>
                   impl_recording_digital (std::size_t slot_index) const = 0;
