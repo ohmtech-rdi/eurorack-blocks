@@ -30,6 +30,8 @@
       'rig/Context.hpp',
       'rig/Instrument.h',
       'rig/Instrument.hpp',
+      'rig/Light.h',
+      'rig/Light.hpp',
       'rig/Peak.h',
       'rig/Peak.hpp',
       'rig/Pitch.h',

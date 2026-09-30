@@ -19,6 +19,7 @@
 #include "erb/CvOut.h"
 #include "erb/GateIn.h"
 #include "erb/GateOut.h"
+#include "erb/Led.h"
 #include "erb/rig/Bench.h"
 
 
@@ -43,6 +44,14 @@ template <FloatRange Range> struct SlotKindTrait <CvOut <Range>> {
 
 template <> struct SlotKindTrait <GateOut> {
    static constexpr SlotKind value = SlotKind::Digital;
+};
+
+template <> struct SlotKindTrait <Led <PinType::Gpio>> {
+   static constexpr SlotKind value = SlotKind::Digital;
+};
+
+template <> struct SlotKindTrait <Led <PinType::Pwm>> {
+   static constexpr SlotKind value = SlotKind::Analog;
 };
 
 template <> struct SlotKindTrait <AudioIn> {
