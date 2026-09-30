@@ -114,6 +114,12 @@ public:
    template <FloatRange Range>
    void           set (CvIn <Range> & cv, float value);
 
+   void           impl_apply_normalling (const uint8_t & data, float value);
+   void           impl_apply_normalling (const float & data, float value);
+   void           impl_apply_normalling (const Buffer & data, float value);
+   void           impl_apply_normalling (const uint8_t & data, const uint8_t & from);
+   void           impl_apply_normalling (const Buffer & data, const Buffer & from);
+
    const char *   control_name (const void * control_ptr) const override;
 
    template <typename T>
@@ -245,6 +251,13 @@ private:
                   DebounceBlocks = 8; // debounce win 7hi=pressed 8hi=held
    static constexpr std::size_t
                   TriggerBlocks = 3; // 1ms at 16 samples 48kHz
+
+   std::vector <bool>
+                  _digital_inputs_plugged;
+   std::vector <bool>
+                  _analog_inputs_plugged;
+   std::vector <bool>
+                  _audio_inputs_plugged;
 
    bool           _setup_flag = false;
    bool           _boot_flag = false;

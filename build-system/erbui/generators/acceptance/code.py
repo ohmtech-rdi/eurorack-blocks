@@ -42,12 +42,36 @@ class Code:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
+      template = self.replace_normalling_preprocess (template, module.normalling_eval_list)
       template = self.replace_controls_preprocess (template, module.entities)
       template = self.replace_controls_postprocess (template, module.entities)
       template = self.replace_controls_name (template, module.entities)
 
       with open (path_output, 'w', encoding='utf-8') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_normalling_preprocess (self, template, controls):
+      lines = ''
+
+      for control in controls:
+         if control.normalling_from is None:
+            continue
+         if control.normalling_from.is_nothing:
+            continue
+         elif control.normalling_from.is_board_pin:
+            lines += '   module.ui.board.impl_apply_normalling (module.ui.%s.impl_data, module.ui.board.%s);\n' % (control.name, control.normalling_from.reference.bind.expression)
+         elif control.normalling_from.is_control:
+            reference = control.normalling_from.reference
+            if reference.kind != control.kind:
+               raise Exception ("normalling of '%s' from '%s': %s to %s" % (control.name, reference.name, reference.kind, control.kind))
+            lines += '   module.ui.board.impl_apply_normalling (module.ui.%s.impl_data, module.ui.%s.impl_data);\n' % (control.name, reference.name)
+         else:
+            assert False
+
+      return template.replace ('%  normalling_preprocess%\n', lines)
 
 
    #--------------------------------------------------------------------------

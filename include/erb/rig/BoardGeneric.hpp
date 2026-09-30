@@ -186,6 +186,7 @@ void  BoardGeneric::set (CvIn <Range> & cv, float value)
    assert (value <= CvIn <Range>::ValueMax);
 
    impl_analog_slot (cv.impl_data) = value;
+   _analog_inputs_plugged [impl_slot_index (_analog_inputs, cv.impl_data)] = true;
 }
 
 

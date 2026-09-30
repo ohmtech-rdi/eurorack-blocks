@@ -51,6 +51,7 @@ Name : glue_preprocess
 
 void  glue_preprocess (%module.name% & module)
 {
+%  normalling_preprocess%
    module.ui.board.impl_preprocess ();
 
 %  controls_preprocess%

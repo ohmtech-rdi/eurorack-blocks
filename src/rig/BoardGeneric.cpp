@@ -70,6 +70,9 @@ BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_anal
 ,  _digital_outputs (nbr_digital_outputs, 0)
 ,  _analog_outputs (nbr_analog_outputs, 0.f)
 ,  _audio_outputs (nbr_audio_outputs, Buffer {})
+,  _digital_inputs_plugged (nbr_digital_inputs, false)
+,  _analog_inputs_plugged (nbr_analog_inputs, false)
+,  _audio_inputs_plugged (nbr_audio_inputs, false)
 {
    // board is first member, so pools are reset before anything else,
    // and the previous module is guaranteed to be already gone
@@ -274,6 +277,7 @@ void  BoardGeneric::trigger (GateIn & gate)
    assert (_boot_flag);
 
    auto & data = impl_digital_slot (gate.impl_data);
+   _digital_inputs_plugged [impl_slot_index (_digital_inputs, gate.impl_data)] = true;
 
    data = 1;
    impl_steps (TriggerBlocks);
@@ -294,6 +298,7 @@ void  BoardGeneric::set (GateIn & gate, bool state)
    assert (_boot_flag);
 
    impl_digital_slot (gate.impl_data) = state ? 1 : 0;
+   _digital_inputs_plugged [impl_slot_index (_digital_inputs, gate.impl_data)] = true;
 }
 
 
@@ -558,6 +563,91 @@ Name : impl_analog_slot
 float &  BoardGeneric::impl_analog_slot (const float & data)
 {
    return _analog_inputs [impl_slot_index (_analog_inputs, data)];
+}
+
+
+
+/*
+==============================================================================
+Name : impl_apply_normalling
+==============================================================================
+*/
+
+void  BoardGeneric::impl_apply_normalling (const uint8_t & data, float value)
+{
+   const auto slot_index = impl_slot_index (_digital_inputs, data);
+
+   if (_digital_inputs_plugged [slot_index]) return;
+
+   _digital_inputs [slot_index] = (value > 0.5f) ? 1 : 0;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_apply_normalling
+==============================================================================
+*/
+
+void  BoardGeneric::impl_apply_normalling (const float & data, float value)
+{
+   const auto slot_index = impl_slot_index (_analog_inputs, data);
+
+   if (_analog_inputs_plugged [slot_index]) return;
+
+   _analog_inputs [slot_index] = value;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_apply_normalling
+==============================================================================
+*/
+
+void  BoardGeneric::impl_apply_normalling (const Buffer & data, float value)
+{
+   const auto slot_index = impl_slot_index (_audio_inputs, data);
+
+   if (_audio_inputs_plugged [slot_index]) return;
+
+   _audio_inputs [slot_index].fill (value);
+}
+
+
+
+/*
+==============================================================================
+Name : impl_apply_normalling
+==============================================================================
+*/
+
+void  BoardGeneric::impl_apply_normalling (const uint8_t & data, const uint8_t & from)
+{
+   const auto slot_index = impl_slot_index (_digital_inputs, data);
+
+   if (_digital_inputs_plugged [slot_index]) return;
+
+   _digital_inputs [slot_index] = from;
+}
+
+
+
+/*
+==============================================================================
+Name : impl_apply_normalling
+==============================================================================
+*/
+
+void  BoardGeneric::impl_apply_normalling (const Buffer & data, const Buffer & from)
+{
+   const auto slot_index = impl_slot_index (_audio_inputs, data);
+
+   if (_audio_inputs_plugged [slot_index]) return;
+
+   _audio_inputs [slot_index] = from;
 }
 
 
