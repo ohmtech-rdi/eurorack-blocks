@@ -38,10 +38,17 @@ struct Wave
    std::size_t    nbr_frames () const;
 };
 
+enum class WaveFormat
+{
+   Pcm16,
+   Float32,
+};
+
 float    quantise (float sample);
 
 Wave     read_wave (const std::string & path);
-void     write_wave (const Wave & wave, const std::string & path);
+
+void     write_wave (const Wave & wave, const std::string & path, WaveFormat format = WaveFormat::Pcm16);
 
 
 

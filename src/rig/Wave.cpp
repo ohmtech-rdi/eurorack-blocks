@@ -213,14 +213,15 @@ Name : write_wave
 ==============================================================================
 */
 
-void  write_wave (const Wave & wave, const std::string & path)
+void  write_wave (const Wave & wave, const std::string & path, WaveFormat format)
 {
    assert (wave.sample_rate > 0);
    assert (wave.nbr_channels > 0);
    assert (wave.samples.size () % wave.nbr_channels == 0);
 
-   const auto data_size = std::uint32_t (wave.samples.size () * 2);
-   const auto block_align = std::uint16_t (wave.nbr_channels * 2);
+   const std::size_t bytes_per_sample = (format == WaveFormat::Pcm16) ? 2 : 4;
+   const auto data_size = std::uint32_t (wave.samples.size () * bytes_per_sample);
+   const auto block_align = std::uint16_t (wave.nbr_channels * bytes_per_sample);
 
    std::vector <std::uint8_t> bytes;
    bytes.reserve (44 + data_size);
@@ -231,19 +232,28 @@ void  write_wave (const Wave & wave, const std::string & path)
 
    put_tag (bytes, "fmt ");
    put_u32 (bytes, 16);
-   put_u16 (bytes, 1);  // PCM
+   put_u16 (bytes, (format == WaveFormat::Pcm16) ? 1 : 3);  // PCM, IEEE float
    put_u16 (bytes, std::uint16_t (wave.nbr_channels));
    put_u32 (bytes, wave.sample_rate);
    put_u32 (bytes, wave.sample_rate * block_align); // byte rate
    put_u16 (bytes, block_align);
-   put_u16 (bytes, 16); // bits per sample
+   put_u16 (bytes, std::uint16_t (bytes_per_sample * 8));
 
    put_tag (bytes, "data");
    put_u32 (bytes, data_size);
 
    for (auto sample : wave.samples)
    {
-      put_u16 (bytes, std::uint16_t (to_int16 (sample)));
+      if (format == WaveFormat::Pcm16)
+      {
+         put_u16 (bytes, std::uint16_t (to_int16 (sample)));
+      }
+      else
+      {
+         std::uint32_t bits;
+         std::memcpy (&bits, &sample, 4);
+         put_u32 (bytes, bits);
+      }
    }
 
    std::FILE * file = std::fopen (path.c_str (), "wb");
