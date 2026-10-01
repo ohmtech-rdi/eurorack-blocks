@@ -62,7 +62,7 @@ endif
 
 # no Asan on windows
 ifndef ARCH_WIN
-	SANITIZE_FLAGS = -fsanitize=address,undefined -fno-omit-frame-pointer
+	SANITIZE_FLAGS = -fsanitize=address,undefined -fno-sanitize-recover=undefined -fno-omit-frame-pointer
 	FLAGS += $(SANITIZE_FLAGS)
 	LDFLAGS += $(SANITIZE_FLAGS)
 endif
