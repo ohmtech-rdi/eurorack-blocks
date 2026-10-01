@@ -205,6 +205,11 @@ protected:
                   _audio_inputs;
 
    std::vector <uint8_t>
+                  _digital_inputs_standing;
+   std::vector <float>
+                  _analog_inputs_standing;
+
+   std::vector <uint8_t>
                   _digital_outputs;
    std::vector <float>
                   _analog_outputs;
@@ -252,8 +257,8 @@ private:
    template <typename T>
    static std::size_t
                   impl_slot_index (const std::vector <T> & slots, const T & data);
-   uint8_t &      impl_digital_slot (const uint8_t & data);
-   float &        impl_analog_slot (const float & data);
+   void           impl_set_digital_input (const uint8_t & data, uint8_t value);
+   void           impl_set_analog_input (const float & data, float value);
 
    static constexpr std::size_t
                   DebounceBlocks = 8; // debounce win 7hi=pressed 8hi=held

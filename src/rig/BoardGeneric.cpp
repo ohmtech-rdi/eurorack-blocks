@@ -69,6 +69,8 @@ BoardGeneric::BoardGeneric (std::size_t nbr_digital_inputs, std::size_t nbr_anal
 :  _digital_inputs (nbr_digital_inputs, 0)
 ,  _analog_inputs (nbr_analog_inputs, 0.f)
 ,  _audio_inputs (nbr_audio_inputs, Buffer {})
+,  _digital_inputs_standing (nbr_digital_inputs, 0)
+,  _analog_inputs_standing (nbr_analog_inputs, 0.f)
 ,  _digital_outputs (nbr_digital_outputs, 0)
 ,  _analog_outputs (nbr_analog_outputs, 0.f)
 ,  _audio_outputs (nbr_audio_outputs, Buffer {})
@@ -214,7 +216,7 @@ void  BoardGeneric::press (Button & button)
 {
    assert (_boot_flag);
 
-   impl_digital_slot (button.impl_data) = 1;
+   impl_set_digital_input (button.impl_data, 1);
    impl_steps (DebounceBlocks);
 }
 
@@ -230,7 +232,7 @@ void  BoardGeneric::release (Button & button)
 {
    assert (_boot_flag);
 
-   impl_digital_slot (button.impl_data) = 0;
+   impl_set_digital_input (button.impl_data, 0);
    impl_steps (DebounceBlocks);
 }
 
@@ -275,12 +277,11 @@ void  BoardGeneric::trigger (GateIn & gate)
 {
    assert (_boot_flag);
 
-   auto & data = impl_digital_slot (gate.impl_data);
    impl_plug (SlotKind::Digital, impl_slot_index (_digital_inputs, gate.impl_data));
 
-   data = 1;
+   impl_set_digital_input (gate.impl_data, 1);
    impl_steps (TriggerBlocks);
-   data = 0;
+   impl_set_digital_input (gate.impl_data, 0);
    impl_steps (1);
 }
 
@@ -296,7 +297,7 @@ void  BoardGeneric::set (GateIn & gate, bool state)
 {
    assert (_boot_flag);
 
-   impl_digital_slot (gate.impl_data) = state ? 1 : 0;
+   impl_set_digital_input (gate.impl_data, state ? 1 : 0);
    impl_plug (SlotKind::Digital, impl_slot_index (_digital_inputs, gate.impl_data));
 }
 
@@ -497,6 +498,10 @@ Name : impl_block
 
 void  BoardGeneric::impl_block ()
 {
+   // see rationale in 'impl_set_digital_input'
+   _digital_inputs = _digital_inputs_standing;
+   _analog_inputs = _analog_inputs_standing;
+
    // idle before 'start', before control for normalling
    if (_start_flag)
    {
@@ -545,29 +550,44 @@ void  BoardGeneric::impl_steps (std::size_t nbr_steps)
 
 /*
 ==============================================================================
-Name : impl_digital_slot
+Name : impl_set_digital_input
 Description :
-   'data' is the 'impl_data' of the control that is const, and in the
-   vector.
+   Setting a value is different from the simulator where the host resend
+   the value for every block. A 'set' in our abstraction is an imperative
+   way to describe a test, so are not resent every block. However the
+   value itself should be "standing".
+
+   Some modules happen to mess with that when for example some pins are
+   multiplexed in the hardware, so we need a copy of what the test expects
+   so we can set it for every block like the simulator.
+
+   On the other hand, when setting a value, the test can expect to read back
+   the value it just wrote, so we need also to ensure that.
 ==============================================================================
 */
 
-uint8_t &   BoardGeneric::impl_digital_slot (const uint8_t & data)
+void  BoardGeneric::impl_set_digital_input (const uint8_t & data, uint8_t value)
 {
-   return _digital_inputs [impl_slot_index (_digital_inputs, data)];
+   const auto slot_index = impl_slot_index (_digital_inputs, data);
+
+   _digital_inputs_standing [slot_index] = value;
+   _digital_inputs [slot_index] = value;
 }
 
 
 
 /*
 ==============================================================================
-Name : impl_analog_slot
+Name : impl_set_analog_input
 ==============================================================================
 */
 
-float &  BoardGeneric::impl_analog_slot (const float & data)
+void  BoardGeneric::impl_set_analog_input (const float & data, float value)
 {
-   return _analog_inputs [impl_slot_index (_analog_inputs, data)];
+   const auto slot_index = impl_slot_index (_analog_inputs, data);
+
+   _analog_inputs_standing [slot_index] = value;
+   _analog_inputs [slot_index] = value;
 }
 
 

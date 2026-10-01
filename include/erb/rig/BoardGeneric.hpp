@@ -120,20 +120,17 @@ void  BoardGeneric::scroll (Encoder <LeadingType> & encoder, int nbr_detents)
 {
    assert (_boot_flag);
 
-   auto & data_a = impl_digital_slot (encoder.impl_data_a);
-   auto & data_b = impl_digital_slot (encoder.impl_data_b);
-
    const bool positive = nbr_detents > 0;
    const bool pulse_a = positive == (LeadingType == EncoderLeadingType::B);
-   auto & data = pulse_a ? data_a : data_b;
+   const auto & data = pulse_a ? encoder.impl_data_a : encoder.impl_data_b;
 
    const auto nbr_zeros = encoder.impl_nbr_debounce_zeros ();
 
    for (int i = 0 ; i < std::abs (nbr_detents) ; ++i)
    {
-      data = 1;
+      impl_set_digital_input (data, 1);
       impl_steps (1);
-      data = 0;
+      impl_set_digital_input (data, 0);
       impl_steps (nbr_zeros);
    }
 }
@@ -167,7 +164,7 @@ void  BoardGeneric::set (Pot <Range> & pot, float value)
    assert (value >= Pot <Range>::ValueMin);
    assert (value <= Pot <Range>::ValueMax);
 
-   impl_analog_slot (pot.impl_data) = value;
+   impl_set_analog_input (pot.impl_data, value);
 }
 
 
@@ -185,7 +182,7 @@ void  BoardGeneric::set (CvIn <Range> & cv, float value)
    assert (value >= CvIn <Range>::ValueMin);
    assert (value <= CvIn <Range>::ValueMax);
 
-   impl_analog_slot (cv.impl_data) = value;
+   impl_set_analog_input (cv.impl_data, value);
    impl_plug (SlotKind::Analog, impl_slot_index (_analog_inputs, cv.impl_data));
 }
 
