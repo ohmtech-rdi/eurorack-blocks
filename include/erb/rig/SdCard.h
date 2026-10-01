@@ -68,6 +68,7 @@ public:
    void           format (std::size_t size);
 
    void           add (const std::string & host_path, const std::string & card_path);
+   void           write (const std::string & card_path, const std::vector <std::uint8_t> & content);
    void           remove (const std::string & card_path);
 
    std::vector <std::uint8_t>

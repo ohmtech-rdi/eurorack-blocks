@@ -87,11 +87,24 @@ void  SdCard::add (const std::string & host_path, const std::string & card_path)
    }
 
    host.seekg (0, std::ios::end);
-   std::vector <char> content (std::size_t (host.tellg ()));
+   std::vector <std::uint8_t> content (std::size_t (host.tellg ()));
    host.seekg (0, std::ios::beg);
-   host.read (content.data (), std::streamsize (content.size ()));
+   host.read (reinterpret_cast <char *> (content.data ()), std::streamsize (content.size ()));
    assert (host.gcount () == std::streamsize (content.size ()));
 
+   write (card_path, content);
+}
+
+
+
+/*
+==============================================================================
+Name : write
+==============================================================================
+*/
+
+void  SdCard::write (const std::string & card_path, const std::vector <std::uint8_t> & content)
+{
    ScopedVolume volume (*this, true);
 
    // directories on the way
