@@ -38,6 +38,8 @@
       'rig/Pitch.hpp',
       'rig/Probe.h',
       'rig/Probe.hpp',
+      'rig/Scope.h',
+      'rig/Scope.hpp',
       'rig/Screen.h',
       'rig/Screen.hpp',
       'rig/SdCard.h',
