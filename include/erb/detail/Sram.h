@@ -47,6 +47,7 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
                   Sram (uint8_t * storage);
+   inline void    impl_reset ();
 
 
 

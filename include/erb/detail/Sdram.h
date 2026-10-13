@@ -47,6 +47,7 @@ public:
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
                   Sdram (uint8_t * storage);
+   inline void    impl_reset ();
 
 
 

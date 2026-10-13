@@ -22,6 +22,8 @@ namespace erb
 
 
 
+// Clock derived from the audio codec clock
+
 class Clock
 {
 

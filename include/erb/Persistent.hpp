@@ -57,10 +57,10 @@ void  Persistent <Type, Page, Magic, RateLimitMs>::save (Board & board, Type val
    {
       _value = value;
       _need_commit_flag = true;
-      _earliest_commit_tp = Clock::now () + std::chrono::milliseconds {RateLimitMs};
+      _earliest_commit_tp = SystemClock::now () + std::chrono::milliseconds {RateLimitMs};
    }
 
-   if (_need_commit_flag && (Clock::now () > _earliest_commit_tp || RateLimitMs == 0))
+   if (_need_commit_flag && (SystemClock::now () > _earliest_commit_tp || RateLimitMs == 0))
    {
       _base.save (board, Page, _value);
 

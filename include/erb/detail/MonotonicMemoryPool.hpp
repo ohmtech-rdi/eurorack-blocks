@@ -76,6 +76,20 @@ std::size_t MonotonicMemoryPool <MaxSize>::allocate_npos_on_error (std::size_t a
 
 
 
+/*
+==============================================================================
+Name : reset
+==============================================================================
+*/
+
+template <std::size_t MaxSize>
+void  MonotonicMemoryPool <MaxSize>::reset ()
+{
+   _pos = 0;
+}
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 

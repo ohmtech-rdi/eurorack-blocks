@@ -37,6 +37,8 @@ public:
    std::size_t    allocate (size_t alignment, std::size_t size);
    std::size_t    allocate_npos_on_error (std::size_t alignment, std::size_t size);
 
+   void           reset ();
+
 
 
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
