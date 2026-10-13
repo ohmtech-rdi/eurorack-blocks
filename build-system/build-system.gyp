@@ -39,6 +39,7 @@
             'erbb/tests/test_parser.py',
 
             # generators/action
+            'erbb/generators/action/action_acceptance_template.py',
             'erbb/generators/action/action_daisy_template.py',
             'erbb/generators/action/action_data_template.py',
             'erbb/generators/action/action_faust_template.py',
@@ -89,6 +90,7 @@
             'erbb/generators/simulator/xcscheme_template',
 
             # generators/vcvrack
+            'erbb/generators/vcvrack/acceptance_template.gyp',
             'erbb/generators/vcvrack/project_template.gyp',
             'erbb/generators/vcvrack/project.py',
             'erbb/generators/vcvrack/test_unit_template.gyp',
@@ -104,6 +106,10 @@
             # generators/fuzz
             'erbb/generators/fuzz/Makefile_template',
             'erbb/generators/fuzz/make.py',
+
+            # generators/acceptance
+            'erbb/generators/acceptance/Makefile_template',
+            'erbb/generators/acceptance/make.py',
 
             # generators/vscode
             'erbb/generators/vscode/c_cpp_properties_template.json',
@@ -180,6 +186,11 @@
             # generators/ui
             'erbui/generators/ui/code_template.h',
             'erbui/generators/ui/code.py',
+
+            # generators/acceptance
+            'erbui/generators/acceptance/code_template.cpp',
+            'erbui/generators/acceptance/code_template.h',
+            'erbui/generators/acceptance/code.py',
 
             # generators/vcvrack
             'erbui/generators/vcvrack/code_template.cpp',

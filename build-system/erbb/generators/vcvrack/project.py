@@ -55,6 +55,7 @@ class Project:
       template = self.replace_extra_sources (template, module, path)
       template = self.replace_actions (template, module, path)
       template = self.replace_tests (template, module, path)
+      template = self.replace_acceptances (template, module, path)
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
@@ -480,6 +481,90 @@ class Project:
       template = self.replace_bases (template, module, module.bases, path);
       template = self.replace_test_sources (template, test, path)
       return template
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_acceptances (self, template, module, path):
+      lines = ''
+
+      for acceptance in module.acceptances:
+         lines += self.replace_acceptance (module, acceptance, path)
+
+      return template.replace ('%     acceptances%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_acceptance (self, module, acceptance, path):
+      path_template = os.path.join (PATH_THIS, 'acceptance_template.gyp')
+      with open (path_template, 'r', encoding='utf-8') as file:
+            template = file.read ()
+
+      path_rel_root = os.path.relpath (PATH_ROOT, path)
+
+      template = template.replace ('%acceptance.name%', acceptance.name)
+      template = template.replace ('%module.name%', module.name)
+      template = template.replace ('%PATH_ROOT%', path_rel_root)
+      template = self.replace_defines (template, module.defines)
+      template = self.replace_test_defines (template, path)
+      template = self.replace_include_dirs (template, module, path)
+      template = self.replace_bases (template, module, module.bases, path)
+      template = self.replace_sources (template, module, module.sources, path)
+      template = self.replace_extra_sources (template, module, path)
+      template = self.replace_acceptance_sources (template, acceptance, path)
+      template = self.replace_acceptance_actions (template, module, path)
+      return template
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_acceptance_sources (self, template, acceptance, path):
+      lines = ''
+
+      for file in acceptance.files:
+         file_path = os.path.relpath (file.path, path)
+         lines += '            \'%s\',\n' % file_path
+
+      return template.replace ('%           acceptance.sources%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_acceptance_actions (self, template, module, path):
+      lines = ''
+      lines += self.replace_actions_ui (module, path)
+      lines += self.replace_actions_acceptance (module, path)
+      lines += self.replace_actions_data (module, path)
+
+      return template.replace ('%           target_actions%', lines)
+
+
+   #--------------------------------------------------------------------------
+
+   def replace_actions_acceptance (self, module, path):
+      lines = ''
+
+      path_erbui_gens = os.path.relpath (PATH_ERBUI_GENS, path)
+      python_path = sys.executable
+      action_path = 'artifacts/actions/action_acceptance.py'
+
+      lines += '            {\n'
+      lines += '               \'action_name\': \'Transpile Acceptance\',\n'
+      lines += '               \'inputs\': [\n'
+      lines += '                  \'%s/acceptance/code.py\',\n' % path_erbui_gens
+      lines += '                  \'%s/acceptance/code_template.cpp\',\n' % path_erbui_gens
+      lines += '                  \'%s/acceptance/code_template.h\',\n' % path_erbui_gens
+      lines += '                  \'%s.erbui\',\n' % module.name
+      lines += '               ],\n'
+      lines += '               \'outputs\': [\n'
+      lines += '                  \'artifacts/acceptance_glue.cpp\',\n'
+      lines += '                  \'artifacts/acceptance_glue.h\',\n'
+      lines += '               ],\n'
+      lines += '               \'action\': [ \'%s\', \'%s\' ],\n' % (python_path, action_path)
+      lines += '            },\n'
+
+      return lines
 
 
    #--------------------------------------------------------------------------

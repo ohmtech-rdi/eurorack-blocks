@@ -55,7 +55,7 @@ Pot <Range>::operator float () const
       return impl_data * 2.f - 1.f;
    }
 
-#elif defined (erb_TARGET_VCV_RACK)
+#elif defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
    return impl_data;
 
 #else

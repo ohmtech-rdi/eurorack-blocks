@@ -115,5 +115,12 @@
 #endif
 
 
+#if defined (erb_TARGET_ACCEPTANCE_TEST)
+   #define erb_RIG_PROBE(key, value) erb::rig::probe (key, value)
+#else
+   #define erb_RIG_PROBE(key, value) ((void) 0)
+#endif
+
+
 
 /*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/

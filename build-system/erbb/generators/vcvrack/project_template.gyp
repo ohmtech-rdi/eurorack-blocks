@@ -68,5 +68,6 @@
          ],
       },
 %     tests%
+%     acceptances%
    ],
 }
