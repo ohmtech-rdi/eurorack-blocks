@@ -18,10 +18,7 @@
 #include "ff.h"
 #include "ff_gen_drv.h"
 
-#include <array>
-#include <functional>
 #include <string>
-#include <utility>
 #include <vector>
 
 #include <cstddef>
@@ -45,21 +42,12 @@ public:
    static constexpr std::size_t
                   SectorSize = 512;
 
-   enum class Op
-   {
-      Initialize, Status, Read, Write
-   };
-
-   using FaultInjector = std::function <DRESULT (Op op, DWORD sector, UINT count)>;
-
                   SdCard () = default;
-   virtual        ~SdCard ();
-   inline         SdCard (const SdCard & rhs);
-   inline         SdCard (SdCard && rhs);
-   inline SdCard &
-                  operator = (const SdCard & rhs);
-   inline SdCard &
-                  operator = (SdCard && rhs);
+                  ~SdCard () = default;
+                  SdCard (const SdCard & rhs) = default;
+                  SdCard (SdCard && rhs) = default;
+   SdCard &       operator = (const SdCard & rhs) = default;
+   SdCard &       operator = (SdCard && rhs) = default;
 
    inline bool    empty () const;
    inline std::size_t
@@ -74,24 +62,11 @@ public:
    std::vector <std::uint8_t>
                   read (const std::string & card_path);
 
-   void           set_fault_injector (FaultInjector injector);
-   void           reset_fault_injector ();
-
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
-   static const Diskio_drvTypeDef &
-                  impl_driver ();
-   static void    impl_attach (BYTE pdrv, SdCard * card_ptr);
-
-   // stats
-   static void    impl_reset_stats ();
-   static std::size_t
-                  impl_nbr_bytes_read ();
-   static std::size_t
-                  impl_nbr_bytes_written ();
-
+   // from 'SdCardDriver', the card attached to the volume
    DSTATUS        impl_init () const;
    DSTATUS        impl_status () const;
    DRESULT        impl_read (BYTE * buf, DWORD sector, UINT count) const;
@@ -123,28 +98,8 @@ private:
 
    static void    check (FRESULT result, const char * what, const std::string & path);
 
-   static void    fail (const char * what);
-
-   DRESULT        fault (Op op, DWORD sector, UINT count) const;
-
-   static DSTATUS ff_init (BYTE pdrv);
-   static DSTATUS ff_status (BYTE pdrv);
-   static DRESULT ff_read (BYTE pdrv, BYTE * buf, DWORD sector, UINT count);
-   static DRESULT ff_write (BYTE pdrv, const BYTE * buf, DWORD sector, UINT count);
-   static DRESULT ff_ioctl (BYTE pdrv, BYTE cmd, void * buf);
-
    std::vector <std::uint8_t>
                   _bytes;  // entire card in memory
-
-   FaultInjector  _fault_injector;
-   mutable bool   _fault_injector_run_flag = false;
-
-   static std::array <SdCard *, _VOLUMES>
-                  _attached;
-   static std::size_t
-                  _nbr_bytes_read;
-   static std::size_t
-                  _nbr_bytes_written;
 
 
 

@@ -44,6 +44,8 @@
       'rig/Screen.hpp',
       'rig/SdCard.h',
       'rig/SdCard.hpp',
+      'rig/SdCardDriver.h',
+      'rig/SdCardDriver.hpp',
       'rig/SlotKindTrait.h',
       'rig/Source.h',
       'rig/Source.hpp',
@@ -61,6 +63,7 @@
       '../../src/rig/Screen.cpp',
       '../../src/rig/ScreenWrite.cpp',
       '../../src/rig/SdCard.cpp',
+      '../../src/rig/SdCardDriver.cpp',
       '../../src/rig/Wave.cpp',
    ],
 

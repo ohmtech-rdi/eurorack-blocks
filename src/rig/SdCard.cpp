@@ -13,6 +13,8 @@
 
 #include "erb/rig/SdCard.h"
 
+#include "erb/rig/SdCardDriver.h"
+
 #include <fstream>
 
 #include <cassert>
@@ -30,21 +32,6 @@ namespace rig
 
 
 /*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : dtor
-==============================================================================
-*/
-
-SdCard::~SdCard ()
-{
-   // if in 'Reboot', fault injector needs to be reset before (and so
-   // consumed)
-   if (_fault_injector) fail ("fault injector still set");
-}
-
-
 
 /*
 ==============================================================================
@@ -175,112 +162,7 @@ std::vector <std::uint8_t>   SdCard::read (const std::string & card_path)
 
 
 
-/*
-==============================================================================
-Name : set_fault_injector
-==============================================================================
-*/
-
-void  SdCard::set_fault_injector (FaultInjector injector)
-{
-   assert (bool (injector));
-
-   if (_fault_injector) fail ("fault injector already set");
-
-   _fault_injector = std::move (injector);
-   _fault_injector_run_flag = false;
-}
-
-
-
-/*
-==============================================================================
-Name : reset_fault_injector
-==============================================================================
-*/
-
-void  SdCard::reset_fault_injector ()
-{
-   if (!_fault_injector) fail ("no fault injector set");
-   if (!_fault_injector_run_flag) fail ("fault injector never run");
-
-   _fault_injector = nullptr;
-   _fault_injector_run_flag = false;
-}
-
-
-
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
-
-/*
-==============================================================================
-Name : impl_driver
-==============================================================================
-*/
-
-const Diskio_drvTypeDef &  SdCard::impl_driver ()
-{
-   static const Diskio_drvTypeDef driver = { ff_init, ff_status, ff_read, ff_write, ff_ioctl };
-
-   return driver;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_attach
-==============================================================================
-*/
-
-void  SdCard::impl_attach (BYTE pdrv, SdCard * card_ptr)
-{
-   assert (pdrv < _VOLUMES);
-
-   _attached [pdrv] = card_ptr;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_reset_stats
-==============================================================================
-*/
-
-void  SdCard::impl_reset_stats ()
-{
-   _nbr_bytes_read = 0;
-   _nbr_bytes_written = 0;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_nbr_bytes_read
-==============================================================================
-*/
-
-std::size_t SdCard::impl_nbr_bytes_read ()
-{
-   return _nbr_bytes_read;
-}
-
-
-
-/*
-==============================================================================
-Name : impl_nbr_bytes_written
-==============================================================================
-*/
-
-std::size_t SdCard::impl_nbr_bytes_written ()
-{
-   return _nbr_bytes_written;
-}
-
-
 
 /*
 ==============================================================================
@@ -290,8 +172,6 @@ Name : impl_init
 
 DSTATUS  SdCard::impl_init () const
 {
-   if (fault (Op::Initialize, 0, 0) != RES_OK) return STA_NOINIT;
-
    return empty () ? (STA_NOINIT | STA_NODISK) : 0;
 }
 
@@ -305,8 +185,6 @@ Name : impl_status
 
 DSTATUS  SdCard::impl_status () const
 {
-   if (fault (Op::Status, 0, 0) != RES_OK) return STA_NOINIT;
-
    return empty () ? (STA_NOINIT | STA_NODISK) : 0;
 }
 
@@ -320,9 +198,6 @@ Name : impl_read
 
 DRESULT  SdCard::impl_read (BYTE * buf, DWORD sector, UINT count) const
 {
-   const auto fault_result = fault (Op::Read, sector, count);
-   if (fault_result != RES_OK) return fault_result;
-
    if (empty ()) return RES_NOTRDY;
 
    const std::size_t offset = std::size_t (sector) * SectorSize;
@@ -330,7 +205,6 @@ DRESULT  SdCard::impl_read (BYTE * buf, DWORD sector, UINT count) const
    assert (offset + length <= _bytes.size ());
 
    std::memcpy (buf, _bytes.data () + offset, length);
-   _nbr_bytes_read += length;
 
    return RES_OK;
 }
@@ -345,9 +219,6 @@ Name : impl_write
 
 DRESULT  SdCard::impl_write (const BYTE * buf, DWORD sector, UINT count)
 {
-   const auto fault_result = fault (Op::Write, sector, count);
-   if (fault_result != RES_OK) return fault_result;
-
    if (empty ()) return RES_NOTRDY;
 
    const std::size_t offset = std::size_t (sector) * SectorSize;
@@ -355,7 +226,6 @@ DRESULT  SdCard::impl_write (const BYTE * buf, DWORD sector, UINT count)
    assert (offset + length <= _bytes.size ());
 
    std::memcpy (_bytes.data () + offset, buf, length);
-   _nbr_bytes_written += length;
 
    return RES_OK;
 }
@@ -406,11 +276,13 @@ Name : ScopedVolume::ctor
 
 SdCard::ScopedVolume::ScopedVolume (SdCard & card, bool mount_flag)
 {
-   const auto err = FATFS_LinkDriver (&impl_driver (), path);
+   auto & driver = SdCardDriver::use ();
+
+   const auto err = FATFS_LinkDriver (&driver.diskio (), path);
    assert (err == 0);
 
    pdrv = BYTE (path [0] - '0');
-   impl_attach (pdrv, &card);
+   driver.attach (pdrv, card);
 
    if (mount_flag)
    {
@@ -429,7 +301,7 @@ Name : ScopedVolume::dtor
 SdCard::ScopedVolume::~ScopedVolume ()
 {
    f_mount (nullptr, path, 0);
-   impl_attach (pdrv, nullptr);
+   SdCardDriver::use ().detach (pdrv);
    FATFS_UnLinkDriver (path);
 }
 
@@ -462,130 +334,6 @@ void  SdCard::check (FRESULT result, const char * what, const std::string & path
    std::fflush (stderr);
    std::abort ();
 }
-
-
-
-/*
-==============================================================================
-Name : fail
-==============================================================================
-*/
-
-void  SdCard::fail (const char * what)
-{
-   std::fprintf (stderr, "SdCard: %s\n", what);
-   std::fflush (stderr);
-   std::abort ();
-}
-
-
-
-/*
-==============================================================================
-Name : fault
-==============================================================================
-*/
-
-DRESULT  SdCard::fault (Op op, DWORD sector, UINT count) const
-{
-   if (!_fault_injector) return RES_OK;   // none set
-
-   _fault_injector_run_flag = true;
-
-   const auto result = _fault_injector (op, sector, count);
-   assert ((result == RES_OK) || (result == RES_ERROR) || (result == RES_NOTRDY));
-
-   return result;
-}
-
-
-
-/*
-==============================================================================
-Name : ff_init
-==============================================================================
-*/
-
-DSTATUS  SdCard::ff_init (BYTE pdrv)
-{
-   auto * card_ptr = _attached [pdrv];
-
-   return (card_ptr == nullptr) ? (STA_NOINIT | STA_NODISK) : card_ptr->impl_init ();
-}
-
-
-
-/*
-==============================================================================
-Name : ff_status
-==============================================================================
-*/
-
-DSTATUS  SdCard::ff_status (BYTE pdrv)
-{
-   auto * card_ptr = _attached [pdrv];
-
-   return (card_ptr == nullptr) ? (STA_NOINIT | STA_NODISK) : card_ptr->impl_status ();
-}
-
-
-
-/*
-==============================================================================
-Name : ff_read
-==============================================================================
-*/
-
-DRESULT  SdCard::ff_read (BYTE pdrv, BYTE * buf, DWORD sector, UINT count)
-{
-   auto * card_ptr = _attached [pdrv];
-
-   return (card_ptr == nullptr) ? RES_NOTRDY : card_ptr->impl_read (buf, sector, count);
-}
-
-
-
-/*
-==============================================================================
-Name : ff_write
-==============================================================================
-*/
-
-DRESULT  SdCard::ff_write (BYTE pdrv, const BYTE * buf, DWORD sector, UINT count)
-{
-   auto * card_ptr = _attached [pdrv];
-
-   return (card_ptr == nullptr) ? RES_NOTRDY : card_ptr->impl_write (buf, sector, count);
-}
-
-
-
-/*
-==============================================================================
-Name : ff_ioctl
-==============================================================================
-*/
-
-DRESULT  SdCard::ff_ioctl (BYTE pdrv, BYTE cmd, void * buf)
-{
-   auto * card_ptr = _attached [pdrv];
-
-   return (card_ptr == nullptr) ? RES_NOTRDY : card_ptr->impl_ioctl (cmd, buf);
-}
-
-
-
-/*
-==============================================================================
-Name : _attached
-Description :
-   Cards attached to the driver, one per FatFS volume slot
-==============================================================================
-*/
-
-std::array <SdCard *, _VOLUMES> SdCard::_attached = {};
-std::size_t SdCard::_nbr_bytes_read = 0;
-std::size_t SdCard::_nbr_bytes_written = 0;
 
 
 

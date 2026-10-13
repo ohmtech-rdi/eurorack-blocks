@@ -15,7 +15,7 @@
 #include "erb/detail/ModuleBoard.h"
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
-   #include "erb/rig/SdCard.h"
+   #include "erb/rig/SdCardDriver.h"
 #endif
 
 #include <algorithm>
@@ -119,8 +119,8 @@ BoardGeneric::Stats  BoardGeneric::stats () const
 #endif
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
-   stats.sd_bytes_read = SdCard::impl_nbr_bytes_read ();
-   stats.sd_bytes_written = SdCard::impl_nbr_bytes_written ();
+   stats.sd_bytes_read = SdCardDriver::use ().impl_nbr_bytes_read ();
+   stats.sd_bytes_written = SdCardDriver::use ().impl_nbr_bytes_written ();
 #endif
 
    stats.block_count = _block_count;
@@ -380,7 +380,7 @@ void  BoardGeneric::impl_reset_stats ()
    _qspi_saves.clear ();
 
 #if defined (erb_USE_FATFS) && erb_USE_FATFS
-   SdCard::impl_reset_stats ();
+   SdCardDriver::use ().impl_reset_stats ();
 #endif
 
    _wall_start = std::chrono::steady_clock::now ();
