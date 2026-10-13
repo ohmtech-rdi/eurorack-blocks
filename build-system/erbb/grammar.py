@@ -13,7 +13,7 @@ from .arpeggio import Optional, ZeroOrMore, EOF, Combine, And
 KEYWORDS = (
    'module',
    'import', 'define', 'sources', 'resources', 'section',
-   'file', 'data', 'test', 'flash', 'qspi', 'sram', 'stream', 'mono', 'interleaved', 'planar'
+   'file', 'data', 'test', 'acceptance', 'flash', 'qspi', 'sram', 'stream', 'mono', 'interleaved', 'planar'
 )
 
 SYMBOLS = (',', '{', '}', '=')
@@ -77,6 +77,12 @@ def test_body ():                      return '{', test_entities, '}'
 def test_name ():                      return name
 def test_declaration ():               return 'test', test_name, test_body
 
+# Acceptance
+def acceptance_entities ():            return ZeroOrMore (file_declaration)
+def acceptance_body ():                return '{', acceptance_entities, '}'
+def acceptance_name ():                return name
+def acceptance_declaration ():         return 'acceptance', acceptance_name, acceptance_body
+
 # Base
 def base_declaration ():               return 'base', string_literal
 
@@ -85,7 +91,7 @@ def section_name ():                   return ['flash', 'qspi', 'sram']
 def section_declaration ():            return 'section', section_name
 
 # Module
-def module_entities ():                return ZeroOrMore ([section_declaration, import_declaration, define_declaration, sources_declaration, resources_declaration, test_declaration, base_declaration])
+def module_entities ():                return ZeroOrMore ([section_declaration, import_declaration, define_declaration, sources_declaration, resources_declaration, test_declaration, acceptance_declaration, base_declaration])
 def module_body ():                    return '{', module_entities, '}'
 def module_name ():                    return name
 def module_declaration ():             return 'module', module_name, module_body

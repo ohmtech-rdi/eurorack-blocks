@@ -111,6 +111,55 @@ class TestParser (unittest.TestCase):
       self.assertTrue (file2.is_file)
       self.assertEqual (file2.path, 'bar')
 
+   def test_acceptance_001 (self):
+      source = 'module Foo { acceptance Basics { file "acceptance/Basics.cpp"\nfile "acceptance/Screens.h" } }'
+
+      try:
+         global_namespace = self.parse (source)
+      except:                                # pragma: no cover
+         self.fail (traceback.format_exc ()) # pragma: no cover
+
+      module = global_namespace.entities [0]
+      self.assertEqual (len (module.acceptances), 1)
+      acceptance = module.acceptances [0]
+      self.assertTrue (acceptance.is_acceptance)
+      self.assertEqual (acceptance.name, 'Basics')
+      self.assertEqual (len (acceptance.files), 2)
+      self.assertEqual (acceptance.files [0].path, 'acceptance/Basics.cpp')
+      self.assertEqual (acceptance.files [1].path, 'acceptance/Screens.h')
+      self.assertEqual (len (module.tests), 0)
+
+   def test_acceptance_002 (self):
+      source = 'module Foo { acceptance Basics { file "a.cpp" }\ntest Unit { file "t.cpp" }\nacceptance Live { file "b.cpp" } }'
+
+      try:
+         global_namespace = self.parse (source)
+      except:                                # pragma: no cover
+         self.fail (traceback.format_exc ()) # pragma: no cover
+
+      module = global_namespace.entities [0]
+      self.assertEqual ([a.name for a in module.acceptances], ['Basics', 'Live'])
+      self.assertEqual ([t.name for t in module.tests], ['Unit'])
+
+   def test_acceptance_003 (self):
+      source = 'module Foo { acceptance Empty { } }'
+
+      try:
+         global_namespace = self.parse (source)
+      except:                                # pragma: no cover
+         self.fail (traceback.format_exc ()) # pragma: no cover
+
+      module = global_namespace.entities [0]
+      self.assertEqual (len (module.acceptances), 1)
+      self.assertEqual (module.acceptances [0].name, 'Empty')
+      self.assertEqual (len (module.acceptances [0].files), 0)
+
+   def test_acceptance_004 (self):
+      source = 'module Foo { acceptance Basics { define bar=0 } }'
+
+      with self.assertRaises (parser.ParseError):
+         self.parse (source)
+
    def test_library_001 (self):
       source = 'define bar=0'
 

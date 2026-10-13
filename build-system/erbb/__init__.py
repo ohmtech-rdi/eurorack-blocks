@@ -60,6 +60,7 @@ from .generators.simulator.make import Make as simulatorMake
 from .generators.daisy.make import Make as daisyMake
 from .generators.perf.make import Make as perfMake
 from .generators.fuzz.make import Make as fuzzMake
+from .generators.acceptance.make import Make as acceptanceMake
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.extensions import Extensions as vscodeExtensions
@@ -234,6 +235,7 @@ def configure (path, ast):
    configure_daisy (path, ast)
    configure_perf (path, ast)
    configure_fuzz (path, ast)
+   configure_acceptance (path, ast)
    configure_vscode (path, ast)
 
 
@@ -295,6 +297,18 @@ Name: configure_fuzz
 
 def configure_fuzz (path, ast):
    generator = fuzzMake ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: configure_acceptance
+==============================================================================
+"""
+
+def configure_acceptance (path, ast):
+   generator = acceptanceMake ()
    generator.generate (path, ast)
 
 
@@ -618,6 +632,69 @@ def build_simulator_make_target (target, path, configuration):
    ]
 
    subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
+Name : build_acceptance_target
+==============================================================================
+"""
+
+def build_acceptance_target (path, configuration, names):
+   path_artifacts = os.path.join (path, 'artifacts')
+
+   os.environ ["CONFIGURATION"] = configuration
+
+   cmd = [
+      MAKE_CMD,
+      '--jobs',
+      '--directory=%s' % os.path.join (path_artifacts, 'acceptance'),
+   ]
+
+   cmd.extend (names)
+
+   subprocess.check_call (cmd)
+
+
+
+"""
+==============================================================================
+Name : run_acceptance_target
+==============================================================================
+"""
+
+def run_acceptance_target (path, configuration, names):
+   path_acceptance = os.path.join (path, 'artifacts', 'acceptance', configuration)
+
+   codes = []
+   seconds = []   # only run (not build)
+
+   for name in names:
+      print ('RUN %s' % name, flush = True)
+
+      executable = os.path.join (path_acceptance, name)
+
+      if platform.system () == 'Windows':
+         executable += '.exe'
+
+      start = time.perf_counter ()
+      result = subprocess.run ([executable], cwd = path)
+      elapsed = time.perf_counter () - start
+
+      print ('EXIT %s %d in %.1fs' % (name, result.returncode, elapsed), flush = True)
+
+      codes.append (result.returncode)
+      seconds.append (elapsed)
+
+   failed = [name for name, code in zip (names, codes) if code != 0]
+
+   if failed:
+      print ('FAILED %d of %d in %.1fs: %s' % (len (failed), len (names), sum (seconds), ' '.join (failed)), flush = True)
+   else:
+      print ('PASSED %d of %d in %.1fs' % (len (names), len (names), sum (seconds)), flush = True)
+
+   return codes
 
 
 

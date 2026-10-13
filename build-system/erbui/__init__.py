@@ -15,6 +15,7 @@ from .generators.ui.code import Code as uiCode
 from .generators.vcvrack.panel import Panel as vcvrackPanel
 from .generators.vcvrack.manifest import Manifest as vcvrackManifest
 from .generators.vcvrack.code import Code as vcvrackCode
+from .generators.acceptance.code import Code as acceptanceCode
 from .generators.daisy.code import Code as daisyCode
 from .generators.perf.code import Code as perfCode
 from .generators.fuzz.code import Code as fuzzCode
@@ -141,6 +142,18 @@ Name: generate_vcvrack_code
 
 def generate_vcvrack_code (path, ast):
    generator = vcvrackCode ()
+   generator.generate (path, ast)
+
+
+
+"""
+==============================================================================
+Name: generate_acceptance
+==============================================================================
+"""
+
+def generate_acceptance (path, ast):
+   generator = acceptanceCode ()
    generator.generate (path, ast)
 
 
