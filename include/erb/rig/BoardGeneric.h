@@ -190,8 +190,8 @@ public:
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 protected:
-   void           impl_declare_group (const std::string & name, std::uint32_t sample_rate, std::vector <std::pair <SlotKind, std::size_t>> slots);
-   void           impl_set_region_directory (const std::string & directory);
+   void           declare_track (const std::string & name, std::uint32_t sample_rate, std::vector <std::pair <SlotKind, std::size_t>> slots);
+   void           set_golden_directory (const std::string & directory);
 
    std::vector <uint8_t>
                   _digital_inputs;
@@ -292,7 +292,7 @@ private:
    std::map <std::size_t, Recorded> &
                   impl_recordings (SlotKind kind);
 
-   struct Group
+   struct Track
    {
       std::string name;
       std::uint32_t
@@ -305,21 +305,21 @@ private:
                   golden;        // per channel for the current mark
    };
 
-   std::vector <Group>
-                  _groups;
-   std::string    _region_directory;
+   std::vector <Track>
+                  _tracks;
+   std::string    _golden_directory;
    std::string    _mark_name;
    bool           _mark_flag = false;
    bool           _region_flag = false;    // start known
    uint64_t       _region_start = 0;       // blocks of the recording
    uint64_t       _region_end = 0;
 
-   Group &        impl_group_of (SlotKind kind, std::size_t slot_index);
-   const Group &  impl_group_of (SlotKind kind, std::size_t slot_index) const;
-   std::size_t    impl_channel_of (const Group & group, SlotKind kind, std::size_t slot_index) const;
-   std::string    impl_region_path (const Group & group, bool actual) const;
-   void           impl_load_golden (Group & group);
-   void           impl_write_actual (const Group & group);
+   Track &        track_of (SlotKind kind, std::size_t slot_index);
+   const Track &  track_of (SlotKind kind, std::size_t slot_index) const;
+   std::size_t    impl_channel_of (const Track & track, SlotKind kind, std::size_t slot_index) const;
+   std::string    golden_path (const Track & track, bool actual) const;
+   void           impl_load_golden (Track & track);
+   void           impl_write_actual (const Track & track);
    float          impl_recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const;
 
    Mode           _mode = Mode::UiFast;

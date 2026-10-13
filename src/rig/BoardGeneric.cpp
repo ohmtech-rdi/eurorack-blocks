@@ -992,11 +992,11 @@ void  BoardGeneric::mark (const std::string & name)
    _region_start = 0;
    _region_end = 0;
 
-   for (auto & group : _groups)
+   for (auto & track : _tracks)
    {
-      group.golden_loaded = false;
-      group.golden_exists = false;
-      group.golden.clear ();
+      track.golden_loaded = false;
+      track.golden_exists = false;
+      track.golden.clear ();
    }
 }
 
@@ -1004,14 +1004,16 @@ void  BoardGeneric::mark (const std::string & name)
 
 /*
 ==============================================================================
-Name : impl_declare_group
+Name : declare_track
 Description :
-   A group is a private logical association of multiple outputs, for example
-   the left and right audio output
+   A track is a combination of one or more outputs that defines the content
+   of a golden file. For example left and right audion output, or a single
+   CV. They share the same sample rate and are in channel order.
+   Every output with a golden is in exactly one track.
 ==============================================================================
 */
 
-void  BoardGeneric::impl_declare_group (const std::string & name, std::uint32_t sample_rate, std::vector <std::pair <SlotKind, std::size_t>> slots)
+void  BoardGeneric::declare_track (const std::string & name, std::uint32_t sample_rate, std::vector <std::pair <SlotKind, std::size_t>> slots)
 {
    assert (!_boot_flag);
    assert (!name.empty ());
@@ -1021,29 +1023,29 @@ void  BoardGeneric::impl_declare_group (const std::string & name, std::uint32_t 
    for (const auto & slot : slots)
    {
       assert (slot.first != SlotKind::Digital); // no region file for a gate
-      for (const auto & group : _groups)
+      for (const auto & track : _tracks)
       {
-         for (const auto & other : group.slots) assert (other != slot); // one group per slot
+         for (const auto & other : track.slots) assert (other != slot); // one track per slot
       }
    }
 
-   _groups.push_back ({name, sample_rate, std::move (slots)});
+   _tracks.push_back ({name, sample_rate, std::move (slots)});
 }
 
 
 
 /*
 ==============================================================================
-Name : impl_set_region_directory
+Name : set_golden_directory
 ==============================================================================
 */
 
-void  BoardGeneric::impl_set_region_directory (const std::string & directory)
+void  BoardGeneric::set_golden_directory (const std::string & directory)
 {
    assert (!directory.empty ());
    assert (directory.back () != '/');
 
-   _region_directory = directory;
+   _golden_directory = directory;
 }
 
 
@@ -1067,8 +1069,8 @@ std::span <const float>   BoardGeneric::impl_get_golden (SlotKind kind, std::siz
       assert (false);
    }
 
-   auto & group = impl_group_of (kind, slot_index);
-   const auto channel = impl_channel_of (group, kind, slot_index);
+   auto & track = track_of (kind, slot_index);
+   const auto channel = impl_channel_of (track, kind, slot_index);
 
    const auto window_start = _recorded_blocks - nbr_blocks;
    const auto window_end = _recorded_blocks;
@@ -1093,31 +1095,31 @@ std::span <const float>   BoardGeneric::impl_get_golden (SlotKind kind, std::siz
 
    _region_end = std::max (_region_end, window_end);
 
-   impl_load_golden (group);
+   impl_load_golden (track);
 
    const auto samples_per_block = (kind == SlotKind::Audio) ? std::size_t (erb_BUFFER_SIZE) : std::size_t (1);
    const auto needed = std::size_t (window_end - _region_start) * samples_per_block;
-   const auto path = impl_region_path (group, false);
+   const auto path = golden_path (track, false);
 
-   if (!group.golden_exists || (group.golden [channel].size () < needed))
+   if (!track.golden_exists || (track.golden [channel].size () < needed))
    {
       std::fprintf (
          stderr,
          "check at %s:%u: %s golden '%s' %s, actual written to '%s'\n",
          sloc.file_name (), unsigned (sloc.line ()), instrument_name, path.c_str (),
-         group.golden_exists ? "shorter than the region" : "missing",
-         impl_region_path (group, true).c_str ()
+         track.golden_exists ? "shorter than the region" : "missing",
+         golden_path (track, true).c_str ()
       );
       std::fflush (stderr);
 
-      impl_write_actual (group);
+      impl_write_actual (track);
       assert (false);
       std::abort ();
    }
 
    const auto offset = std::size_t (window_start - _region_start) * samples_per_block;
 
-   return std::span <const float> (group.golden [channel]).subspan (offset, std::size_t (nbr_blocks) * samples_per_block);
+   return std::span <const float> (track.golden [channel]).subspan (offset, std::size_t (nbr_blocks) * samples_per_block);
 }
 
 
@@ -1133,12 +1135,12 @@ void  BoardGeneric::impl_notify_golden_mismatch (SlotKind kind, std::size_t slot
    assert (_mark_flag);
    assert (_region_flag);
 
-   const auto & group = impl_group_of (kind, slot_index);
+   const auto & track = track_of (kind, slot_index);
 
-   std::fprintf (stderr, "actual written to '%s'\n", impl_region_path (group, true).c_str ());
+   std::fprintf (stderr, "actual written to '%s'\n", golden_path (track, true).c_str ());
    std::fflush (stderr);
 
-   impl_write_actual (group);
+   impl_write_actual (track);
    assert (false);
    std::abort ();
 }
@@ -1147,28 +1149,34 @@ void  BoardGeneric::impl_notify_golden_mismatch (SlotKind kind, std::size_t slot
 
 /*
 ==============================================================================
-Name : impl_group_of
+Name : track_of
 ==============================================================================
 */
 
-BoardGeneric::Group &   BoardGeneric::impl_group_of (SlotKind kind, std::size_t slot_index)
+BoardGeneric::Track &   BoardGeneric::track_of (SlotKind kind, std::size_t slot_index)
 {
-   return const_cast <Group &> (std::as_const (*this).impl_group_of (kind, slot_index));
+   return const_cast <Track &> (std::as_const (*this).track_of (kind, slot_index));
 }
 
 
 
-const BoardGeneric::Group &   BoardGeneric::impl_group_of (SlotKind kind, std::size_t slot_index) const
+/*
+==============================================================================
+Name : track_of
+==============================================================================
+*/
+
+const BoardGeneric::Track &   BoardGeneric::track_of (SlotKind kind, std::size_t slot_index) const
 {
-   for (auto & group : _groups)
+   for (auto & track : _tracks)
    {
-      for (const auto & slot : group.slots)
+      for (const auto & slot : track.slots)
       {
-         if ((slot.first == kind) && (slot.second == slot_index)) return group;
+         if ((slot.first == kind) && (slot.second == slot_index)) return track;
       }
    }
 
-   std::fprintf (stderr, "check: output not in any group, no region file for it\n");
+   std::fprintf (stderr, "check: output not in any track, no golden for it\n");
    std::fflush (stderr);
    assert (false);
    std::abort ();
@@ -1182,11 +1190,11 @@ Name : impl_channel_of
 ==============================================================================
 */
 
-std::size_t BoardGeneric::impl_channel_of (const Group & group, SlotKind kind, std::size_t slot_index) const
+std::size_t BoardGeneric::impl_channel_of (const Track & track, SlotKind kind, std::size_t slot_index) const
 {
-   for (std::size_t channel = 0 ; channel < group.slots.size () ; ++channel)
+   for (std::size_t channel = 0 ; channel < track.slots.size () ; ++channel)
    {
-      if (group.slots [channel] == std::make_pair (kind, slot_index)) return channel;
+      if (track.slots [channel] == std::make_pair (kind, slot_index)) return channel;
    }
 
    assert (false);
@@ -1205,11 +1213,11 @@ Bench::TraceFile  BoardGeneric::impl_get_trace_file (SlotKind kind, std::size_t 
 {
    assert (_mark_flag);
 
-   const auto & group = impl_group_of (kind, slot_index);
+   const auto & track = track_of (kind, slot_index);
 
    return {
-      _region_directory + "/" + _mark_name + "." + control_name + "." + instrument_name + ".trace.wav",
-      group.sample_rate
+      _golden_directory + "/" + _mark_name + "." + control_name + "." + instrument_name + ".trace.wav",
+      track.sample_rate
    };
 }
 
@@ -1217,15 +1225,15 @@ Bench::TraceFile  BoardGeneric::impl_get_trace_file (SlotKind kind, std::size_t 
 
 /*
 ==============================================================================
-Name : impl_region_path
+Name : golden_path
 ==============================================================================
 */
 
-std::string BoardGeneric::impl_region_path (const Group & group, bool actual) const
+std::string BoardGeneric::golden_path (const Track & track, bool actual) const
 {
-   assert (!_region_directory.empty ());
+   assert (!_golden_directory.empty ());
 
-   return _region_directory + "/" + _mark_name + "." + group.name + (actual ? ".actual.wav" : ".wav");
+   return _golden_directory + "/" + _mark_name + "." + track.name + (actual ? ".actual.wav" : ".wav");
 }
 
 
@@ -1236,28 +1244,28 @@ Name : impl_load_golden
 ==============================================================================
 */
 
-void  BoardGeneric::impl_load_golden (Group & group)
+void  BoardGeneric::impl_load_golden (Track & track)
 {
-   if (group.golden_loaded) return;
+   if (track.golden_loaded) return;
 
-   group.golden_loaded = true;
-   group.golden.assign (group.slots.size (), {});
+   track.golden_loaded = true;
+   track.golden.assign (track.slots.size (), {});
 
-   const auto path = impl_region_path (group, false);
+   const auto path = golden_path (track, false);
 
    if (!std::filesystem::exists (path))
    {
-      group.golden_exists = false;
+      track.golden_exists = false;
       return;
    }
 
    const auto wave = read_wave (path);
 
-   if ((wave.nbr_channels != group.slots.size ()) || (wave.sample_rate != group.sample_rate))
+   if ((wave.nbr_channels != track.slots.size ()) || (wave.sample_rate != track.sample_rate))
    {
       std::fprintf (
-         stderr, "golden '%s': %zu channels at %u Hz, group '%s' is %zu channels at %u Hz\n",
-         path.c_str (), wave.nbr_channels, wave.sample_rate, group.name.c_str (), group.slots.size (), group.sample_rate
+         stderr, "golden '%s': %zu channels at %u Hz, track '%s' is %zu channels at %u Hz\n",
+         path.c_str (), wave.nbr_channels, wave.sample_rate, track.name.c_str (), track.slots.size (), track.sample_rate
       );
       std::fflush (stderr);
       assert (false);
@@ -1265,9 +1273,9 @@ void  BoardGeneric::impl_load_golden (Group & group)
 
    const auto nbr_frames = wave.nbr_frames ();
 
-   for (std::size_t channel = 0 ; channel < group.slots.size () ; ++channel)
+   for (std::size_t channel = 0 ; channel < track.slots.size () ; ++channel)
    {
-      auto & samples = group.golden [channel];
+      auto & samples = track.golden [channel];
       samples.resize (nbr_frames);
 
       for (std::size_t frame = 0 ; frame < nbr_frames ; ++frame)
@@ -1276,7 +1284,7 @@ void  BoardGeneric::impl_load_golden (Group & group)
       }
    }
 
-   group.golden_exists = true;
+   track.golden_exists = true;
 }
 
 
@@ -1289,28 +1297,28 @@ Note :
 ==============================================================================
 */
 
-void  BoardGeneric::impl_write_actual (const Group & group)
+void  BoardGeneric::impl_write_actual (const Track & track)
 {
    assert (_region_flag);
 
    Wave wave;
-   wave.sample_rate = group.sample_rate;
-   wave.nbr_channels = group.slots.size ();
+   wave.sample_rate = track.sample_rate;
+   wave.nbr_channels = track.slots.size ();
 
-   const auto samples_per_block = (group.slots.front ().first == SlotKind::Audio) ? std::size_t (erb_BUFFER_SIZE) : std::size_t (1);
+   const auto samples_per_block = (track.slots.front ().first == SlotKind::Audio) ? std::size_t (erb_BUFFER_SIZE) : std::size_t (1);
 
    for (auto block = _region_start ; block < _region_end ; ++block)
    {
       for (std::size_t sample = 0 ; sample < samples_per_block ; ++sample)
       {
-         for (const auto & slot : group.slots)
+         for (const auto & slot : track.slots)
          {
             wave.samples.push_back (quantize (impl_recorded_sample (slot.first, slot.second, block, sample)));
          }
       }
    }
 
-   write_wave (wave, impl_region_path (group, true));
+   write_wave (wave, golden_path (track, true));
 }
 
 
