@@ -158,8 +158,9 @@ BoardGeneric::PersistentMap & BoardGeneric::use_persistent_map ()
 Name : start
 Description :
    Ends the "Given" phase.
-   Mode is deduced from there on, when no instrument is connected it means
-   we don't care about audio, and so UI can run fast.
+   Mode is deduced from there on: with nothing bound on the audio thread,
+   neither an instrument on an output or a source on an input, nobody
+   reads what 'process' does, and so UI can run fast.
 ==============================================================================
 */
 
@@ -170,7 +171,7 @@ void  BoardGeneric::start ()
 
    _start_flag = true;
 
-   _mode = (_nbr_bindings > 0) ? Mode::Lockstep : Mode::UiFast;
+   _mode = ((_nbr_output_bindings > 0) || !_sources.empty ()) ? Mode::Lockstep : Mode::UiFast;
 
    // recordings begin here (doc 4.5)
    for (auto & r : _digital_recordings) r.second.digital.clear ();
@@ -863,7 +864,7 @@ std::size_t BoardGeneric::impl_bind_output (SlotKind kind, const void * slot_dat
    }
 
    ++impl_recordings (kind) [slot_index].bindings;
-   ++_nbr_bindings;
+   ++_nbr_output_bindings;
 
    return slot_index;
 }
@@ -882,10 +883,10 @@ void  BoardGeneric::impl_unbind_output (SlotKind kind, std::size_t slot_index)
    auto it = recordings.find (slot_index);
    assert (it != recordings.end ());
    assert (it->second.bindings > 0);
-   assert (_nbr_bindings > 0);
+   assert (_nbr_output_bindings > 0);
 
    --it->second.bindings;
-   --_nbr_bindings;
+   --_nbr_output_bindings;
 
    if (it->second.bindings == 0)
    {

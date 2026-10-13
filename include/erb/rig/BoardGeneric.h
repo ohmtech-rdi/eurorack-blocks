@@ -286,7 +286,7 @@ private:
                   _analog_recordings;
    std::map <std::size_t, Recorded>
                   _audio_recordings;
-   std::size_t    _nbr_bindings = 0;
+   std::size_t    _nbr_output_bindings = 0;
    uint64_t       _recorded_blocks = 0;   // since 'start'
 
    std::map <std::size_t, Recorded> &
