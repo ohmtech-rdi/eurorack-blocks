@@ -42,6 +42,23 @@ class Analyser:
       for resources in module.resources:
          self.analyse_resources (module, resources)
 
+      for acceptance in module.acceptances:
+         self.analyse_acceptance (module, acceptance)
+
+
+   #--------------------------------------------------------------------------
+
+   def analyse_acceptance (self, module, acceptance):
+      assert acceptance.is_acceptance
+
+      if module.source_language != 'cpp':
+         err = error.Error ()
+         context = acceptance.source_context
+         err.add_error ("acceptance blocks are only supported for C++ modules", context)
+         err.add_context (context)
+         raise err
+
+
    #--------------------------------------------------------------------------
 
    def analyse_section (self, module):

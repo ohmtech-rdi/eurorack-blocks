@@ -309,6 +309,29 @@ class Visitor (PTNodeVisitor):
       return list (children)
 
 
+   #-- Acceptance ------------------------------------------------------------
+
+   def visit_acceptance_declaration (self, node, children):
+      acceptance_name_identifier = children.acceptance_name [0]
+
+      acceptance = ast.Acceptance (acceptance_name_identifier)
+
+      if children.acceptance_body:
+         entities = children.acceptance_body [0]
+         acceptance.add (entities)
+
+      return acceptance
+
+   def visit_acceptance_name (self, node, children):
+      return self.visit_identifier (node, children)
+
+   def visit_acceptance_body (self, node, children):
+      return children [0] if children else []
+
+   def visit_acceptance_entities (self, node, children):
+      return list (children)
+
+
    #-- Base ------------------------------------------------------------------
 
    def visit_base_declaration (self, node, children):

@@ -17,7 +17,7 @@
 
 #include <cstdlib>
 
-#if defined (erb_TARGET_VCV_RACK)
+#if defined (erb_TARGET_VCV_RACK) || defined (erb_TARGET_ACCEPTANCE_TEST)
    #include <iostream>
 #endif
 
