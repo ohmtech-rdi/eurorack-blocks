@@ -31,9 +31,7 @@ namespace rig
 
 
 void  glue_init (%module.name% & module);
-void  glue_preprocess (%module.name% & module);
 void  glue_process (%module.name% & module);
-void  glue_postprocess (%module.name% & module);
 void  glue_idle (%module.name% & module);
 
 const char *

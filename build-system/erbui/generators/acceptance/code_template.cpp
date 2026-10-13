@@ -45,41 +45,18 @@ void  glue_init (%module.name% & module)
 
 /*
 ==============================================================================
-Name : glue_preprocess
-==============================================================================
-*/
-
-void  glue_preprocess (%module.name% & module)
-{
-%  normalling_preprocess%
-   module.ui.board.impl_preprocess ();
-
-%  controls_preprocess%
-}
-
-
-
-/*
-==============================================================================
 Name : glue_process
 ==============================================================================
 */
 
 void  glue_process (%module.name% & module)
 {
+%  normalling_preprocess%
+   module.ui.board.impl_preprocess ();
+
+%  controls_preprocess%
    module.process ();
-}
 
-
-
-/*
-==============================================================================
-Name : glue_postprocess
-==============================================================================
-*/
-
-void  glue_postprocess (%module.name% & module)
-{
 %  controls_postprocess%
 
    module.ui.board.impl_postprocess ();

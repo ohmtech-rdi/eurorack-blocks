@@ -63,11 +63,7 @@ public:
    struct Glue
    {
       std::function <void ()>
-                  preprocess;
-      std::function <void ()>
                   process;
-      std::function <void ()>
-                  postprocess;
       std::function <void ()>
                   idle;
       std::function <const char * (const void * control_ptr)>

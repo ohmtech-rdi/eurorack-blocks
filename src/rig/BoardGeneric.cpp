@@ -354,9 +354,7 @@ void  BoardGeneric::impl_boot (Glue glue)
 {
    assert (_setup_flag);
    assert (!_boot_flag);
-   assert (glue.preprocess);
    assert (glue.process);
-   assert (glue.postprocess);
    assert (glue.idle);
    assert (glue.control_name);
 
@@ -508,9 +506,7 @@ void  BoardGeneric::impl_block ()
       for (auto * source_ptr : _sources) source_ptr->impl_process ();
    }
 
-   _glue.preprocess ();
    _glue.process ();
-   _glue.postprocess ();
 
    ++_block_count;
 }
