@@ -15,6 +15,8 @@
 
 #include <array>
 #include <cstddef>
+#include <cstdint>
+#include <type_traits>
 
 
 
@@ -38,6 +40,22 @@ struct FormatSsd130x
 
    using Storage = std::array <std::uint8_t, width * height / 8>;
 };
+
+
+
+template <typename Format>
+struct is_format_ssd130x : std::false_type {};
+
+template <std::size_t W, std::size_t H>
+struct is_format_ssd130x <FormatSsd130x <W, H>> : std::true_type {};
+
+template <typename Format>
+requires is_format_ssd130x <Format>::value
+bool  get_pixel (const typename Format::Storage & storage, std::size_t x, std::size_t y);
+
+template <typename Format>
+requires is_format_ssd130x <Format>::value
+void  set_pixel (typename Format::Storage & storage, std::size_t x, std::size_t y, bool on);
 
 
 

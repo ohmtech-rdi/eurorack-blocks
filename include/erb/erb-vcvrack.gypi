@@ -18,12 +18,12 @@
       # headers
       'vcvrack/BoardGeneric.h',
       'vcvrack/BoardGeneric.hpp',
-      'vcvrack/ModuleBoard.h',
+      'detail/ModuleBoard.h',
       'vcvrack/VcvWidgets.h',
 
       # sources
       '../../src/vcvrack/BoardGeneric.cpp',
-      '../../src/vcvrack/ModuleBoard.cpp',
+      '../../src/detail/ModuleBoard.cpp',
    ],
 
    'include_dirs': [
