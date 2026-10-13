@@ -13,6 +13,7 @@
 
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
+#include <bit>
 #include <cassert>
 
 
@@ -74,6 +75,20 @@ Encoder <LeadingType>::operator int () const
 
 
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : impl_nbr_debounce_zeros
+==============================================================================
+*/
+
+template <EncoderLeadingType LeadingType>
+size_t   Encoder <LeadingType>::impl_nbr_debounce_zeros () const
+{
+   return size_t (std::countr_zero (_test));
+}
+
+
 
 /*
 ==============================================================================
