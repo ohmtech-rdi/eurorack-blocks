@@ -72,6 +72,8 @@ public:
    template <typename Data>
    inline void    save (size_t page, const Data & data);
 
+   inline void    erase (size_t page);
+
    PersistentMap &
                   use_persistent_map ();
 
