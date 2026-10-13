@@ -201,6 +201,24 @@ std::span <const float>  Instrument::impl_golden_window_analog (std::size_t chan
 
 /*
 ==============================================================================
+Name : impl_golden_window_digital
+Note :
+   0 and 1 as floats at block rate.
+==============================================================================
+*/
+
+std::span <const float>  Instrument::impl_golden_window_digital (std::size_t channel, std::source_location sloc) const
+{
+   impl_check_window (channel);
+   assert (_channels [channel].kind == SlotKind::Digital);
+
+   return _bench_ptr->impl_get_golden (SlotKind::Digital, _channels [channel].slot_index, _window, name (), sloc);
+}
+
+
+
+/*
+==============================================================================
 Name : impl_quantized
 ==============================================================================
 */

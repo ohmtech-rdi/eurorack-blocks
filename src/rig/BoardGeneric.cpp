@@ -1022,7 +1022,6 @@ void  BoardGeneric::declare_track (const std::string & name, std::uint32_t sampl
 
    for (const auto & slot : slots)
    {
-      assert (slot.first != SlotKind::Digital); // no region file for a gate
       for (const auto & track : _tracks)
       {
          for (const auto & other : track.slots) assert (other != slot); // one track per slot
@@ -1331,17 +1330,32 @@ Name : impl_recorded_sample
 
 float BoardGeneric::impl_recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const
 {
-   if (kind == SlotKind::Audio)
+   switch (kind)
    {
-      auto it = _audio_recordings.find (slot_index);
-      if (it == _audio_recordings.end ()) return 0.f;
-      return it->second.samples [std::size_t (block) * erb_BUFFER_SIZE + sample];
-   }
-   else
-   {
-      auto it = _analog_recordings.find (slot_index);
-      if (it == _analog_recordings.end ()) return 0.f;
-      return it->second.samples [std::size_t (block)];
+   case SlotKind::Audio:
+      {
+         auto it = _audio_recordings.find (slot_index);
+         if (it == _audio_recordings.end ()) return 0.f;
+         return it->second.samples [std::size_t (block) * erb_BUFFER_SIZE + sample];
+      }
+
+   case SlotKind::Analog:
+      {
+         auto it = _analog_recordings.find (slot_index);
+         if (it == _analog_recordings.end ()) return 0.f;
+         return it->second.samples [std::size_t (block)];
+      }
+
+   case SlotKind::Digital:
+      {
+         auto it = _digital_recordings.find (slot_index);
+         if (it == _digital_recordings.end ()) return 0.f;
+         return float (it->second.digital [std::size_t (block)]); // 0 or 1
+      }
+
+   default:
+      assert (false);
+      return 0.f;
    }
 }
 
