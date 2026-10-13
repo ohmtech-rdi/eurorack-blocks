@@ -72,35 +72,35 @@ public:
 
 protected:
    template <typename Control>
-   void           impl_bind (Bench & bench, Control & output);
+   void           bind_channel (Bench & bench, Control & output);
    inline Connection
-                  impl_connect ();
+                  connect ();
 
    inline std::span <const float>
-                  impl_window_audio (std::size_t channel) const;
+                  window_audio (std::size_t channel) const;
    inline std::span <const float>
-                  impl_window_analog (std::size_t channel) const;
+                  window_analog (std::size_t channel) const;
    inline std::span <const std::uint8_t>
-                  impl_window_digital (std::size_t channel) const;
+                  window_digital (std::size_t channel) const;
 
    inline std::span <const float>
-                  impl_golden_window_audio (std::size_t channel, std::source_location sloc) const;
+                  golden_window_audio (std::size_t channel, std::source_location sloc) const;
    inline std::span <const float>
-                  impl_golden_window_analog (std::size_t channel, std::source_location sloc) const;
+                  golden_window_analog (std::size_t channel, std::source_location sloc) const;
    inline std::span <const float>
-                  impl_golden_window_digital (std::size_t channel, std::source_location sloc) const;
+                  golden_window_digital (std::size_t channel, std::source_location sloc) const;
    static inline std::vector <float>
-                  impl_quantized (std::span <const float> window);
-   inline void    impl_notify_golden_mismatch (std::size_t channel) const;
+                  quantized (std::span <const float> window);
+   inline void    notify_golden_mismatch (std::size_t channel) const;
 
-   inline bool    impl_trace () const;
-   inline void    impl_write_trace (std::size_t channel, const std::vector <std::span <const float>> & traces) const;
+   inline bool    trace () const;
+   inline void    write_trace (std::size_t channel, const std::vector <std::span <const float>> & traces) const;
 
    inline const char *
-                  impl_channel_name (std::size_t channel) const;
-   inline bool    impl_bound () const;
+                  channel_name (std::size_t channel) const;
+   inline bool    bound () const;
    inline std::uint64_t
-                  impl_recorded_blocks () const;   // since 'start'
+                  recorded_blocks () const;   // since 'start'
 
 
 
@@ -115,8 +115,8 @@ private:
                   control_ptr;   // for logs
    };
 
-   inline void    impl_unbind ();
-   inline void    impl_check_window (std::size_t channel) const;
+   inline void    unbind ();
+   inline void    check_window (std::size_t channel) const;
 
    const std::uint64_t
                   _window;   // blocks

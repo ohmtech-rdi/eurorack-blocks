@@ -57,7 +57,7 @@ Name : dtor
 
 Instrument::~Instrument ()
 {
-   assert (!impl_bound ()); // a connection outlived its instrument
+   assert (!bound ()); // a connection outlived its instrument
 }
 
 
@@ -79,14 +79,14 @@ std::uint64_t  Instrument::window () const
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : bind_channel
 Note :
-   One 'impl_bind' per Control and then 'impl_connect'
+   One 'bind_channel' per Control and then 'connect'
 ==============================================================================
 */
 
 template <typename Control>
-void  Instrument::impl_bind (Bench & bench, Control & output)
+void  Instrument::bind_channel (Bench & bench, Control & output)
 {
    constexpr auto kind = SlotKindTrait <Control>::value;
 
@@ -100,31 +100,31 @@ void  Instrument::impl_bind (Bench & bench, Control & output)
 
 /*
 ==============================================================================
-Name : impl_connect
+Name : connect
 ==============================================================================
 */
 
-Connection  Instrument::impl_connect ()
+Connection  Instrument::connect ()
 {
-   assert (impl_bound ());
+   assert (bound ());
 
-   return Connection {[this] () { impl_unbind (); }};
+   return Connection {[this] () { unbind (); }};
 }
 
 
 
 /*
 ==============================================================================
-Name : impl_window_audio
+Name : window_audio
 Description :
    Gets the board recorded data. channel is 0 when instrument has only 1
    input.
 ==============================================================================
 */
 
-std::span <const float>  Instrument::impl_window_audio (std::size_t channel) const
+std::span <const float>  Instrument::window_audio (std::size_t channel) const
 {
-   impl_check_window (channel);
+   check_window (channel);
    assert (_channels [channel].kind == SlotKind::Audio);
 
    const auto recording = _bench_ptr->impl_recording_audio (_channels [channel].slot_index);
@@ -137,13 +137,13 @@ std::span <const float>  Instrument::impl_window_audio (std::size_t channel) con
 
 /*
 ==============================================================================
-Name : impl_window_analog
+Name : window_analog
 ==============================================================================
 */
 
-std::span <const float>  Instrument::impl_window_analog (std::size_t channel) const
+std::span <const float>  Instrument::window_analog (std::size_t channel) const
 {
-   impl_check_window (channel);
+   check_window (channel);
    assert (_channels [channel].kind == SlotKind::Analog);
 
    return _bench_ptr->impl_recording_analog (_channels [channel].slot_index).last (std::size_t (_window));
@@ -153,13 +153,13 @@ std::span <const float>  Instrument::impl_window_analog (std::size_t channel) co
 
 /*
 ==============================================================================
-Name : impl_window_digital
+Name : window_digital
 ==============================================================================
 */
 
-std::span <const std::uint8_t>   Instrument::impl_window_digital (std::size_t channel) const
+std::span <const std::uint8_t>   Instrument::window_digital (std::size_t channel) const
 {
-   impl_check_window (channel);
+   check_window (channel);
    assert (_channels [channel].kind == SlotKind::Digital);
 
    return _bench_ptr->impl_recording_digital (_channels [channel].slot_index).last (std::size_t (_window));
@@ -169,13 +169,13 @@ std::span <const std::uint8_t>   Instrument::impl_window_digital (std::size_t ch
 
 /*
 ==============================================================================
-Name : impl_golden_window_audio
+Name : golden_window_audio
 ==============================================================================
 */
 
-std::span <const float>  Instrument::impl_golden_window_audio (std::size_t channel, std::source_location sloc) const
+std::span <const float>  Instrument::golden_window_audio (std::size_t channel, std::source_location sloc) const
 {
-   impl_check_window (channel);
+   check_window (channel);
    assert (_channels [channel].kind == SlotKind::Audio);
 
    return _bench_ptr->impl_get_golden (SlotKind::Audio, _channels [channel].slot_index, _window, name (), sloc);
@@ -185,13 +185,13 @@ std::span <const float>  Instrument::impl_golden_window_audio (std::size_t chann
 
 /*
 ==============================================================================
-Name : impl_golden_window_analog
+Name : golden_window_analog
 ==============================================================================
 */
 
-std::span <const float>  Instrument::impl_golden_window_analog (std::size_t channel, std::source_location sloc) const
+std::span <const float>  Instrument::golden_window_analog (std::size_t channel, std::source_location sloc) const
 {
-   impl_check_window (channel);
+   check_window (channel);
    assert (_channels [channel].kind == SlotKind::Analog);
 
    return _bench_ptr->impl_get_golden (SlotKind::Analog, _channels [channel].slot_index, _window, name (), sloc);
@@ -201,15 +201,15 @@ std::span <const float>  Instrument::impl_golden_window_analog (std::size_t chan
 
 /*
 ==============================================================================
-Name : impl_golden_window_digital
+Name : golden_window_digital
 Note :
    0 and 1 as floats at block rate.
 ==============================================================================
 */
 
-std::span <const float>  Instrument::impl_golden_window_digital (std::size_t channel, std::source_location sloc) const
+std::span <const float>  Instrument::golden_window_digital (std::size_t channel, std::source_location sloc) const
 {
-   impl_check_window (channel);
+   check_window (channel);
    assert (_channels [channel].kind == SlotKind::Digital);
 
    return _bench_ptr->impl_get_golden (SlotKind::Digital, _channels [channel].slot_index, _window, name (), sloc);
@@ -219,11 +219,11 @@ std::span <const float>  Instrument::impl_golden_window_digital (std::size_t cha
 
 /*
 ==============================================================================
-Name : impl_quantized
+Name : quantized
 ==============================================================================
 */
 
-std::vector <float>  Instrument::impl_quantized (std::span <const float> window)
+std::vector <float>  Instrument::quantized (std::span <const float> window)
 {
    std::vector <float> ret (window.begin (), window.end ());
 
@@ -236,11 +236,11 @@ std::vector <float>  Instrument::impl_quantized (std::span <const float> window)
 
 /*
 ==============================================================================
-Name : impl_trace
+Name : trace
 ==============================================================================
 */
 
-bool  Instrument::impl_trace () const
+bool  Instrument::trace () const
 {
    return _trace_flag;
 }
@@ -249,17 +249,17 @@ bool  Instrument::impl_trace () const
 
 /*
 ==============================================================================
-Name : impl_write_trace
+Name : write_trace
 ==============================================================================
 */
 
-void  Instrument::impl_write_trace (std::size_t channel, const std::vector <std::span <const float>> & traces) const
+void  Instrument::write_trace (std::size_t channel, const std::vector <std::span <const float>> & traces) const
 {
-   assert (impl_bound ());
+   assert (bound ());
    assert (channel < _channels.size ());
    assert (!traces.empty ());
 
-   const auto file = _bench_ptr->impl_get_trace_file (_channels [channel].kind, _channels [channel].slot_index, impl_channel_name (channel), name ());
+   const auto file = _bench_ptr->impl_get_trace_file (_channels [channel].kind, _channels [channel].slot_index, channel_name (channel), name ());
 
    Wave wave;
    wave.sample_rate = file.sample_rate;
@@ -283,13 +283,13 @@ void  Instrument::impl_write_trace (std::size_t channel, const std::vector <std:
 
 /*
 ==============================================================================
-Name : impl_notify_golden_mismatch
+Name : notify_golden_mismatch
 ==============================================================================
 */
 
-void  Instrument::impl_notify_golden_mismatch (std::size_t channel) const
+void  Instrument::notify_golden_mismatch (std::size_t channel) const
 {
-   assert (impl_bound ());
+   assert (bound ());
    assert (channel < _channels.size ());
 
    _bench_ptr->impl_notify_golden_mismatch (_channels [channel].kind, _channels [channel].slot_index);
@@ -299,13 +299,13 @@ void  Instrument::impl_notify_golden_mismatch (std::size_t channel) const
 
 /*
 ==============================================================================
-Name : impl_channel_name
+Name : channel_name
 ==============================================================================
 */
 
-const char *   Instrument::impl_channel_name (std::size_t channel) const
+const char *   Instrument::channel_name (std::size_t channel) const
 {
-   assert (impl_bound ());
+   assert (bound ());
 
    return _bench_ptr->control_name (_channels [channel].control_ptr);
 }
@@ -314,13 +314,13 @@ const char *   Instrument::impl_channel_name (std::size_t channel) const
 
 /*
 ==============================================================================
-Name : impl_recorded_blocks
+Name : recorded_blocks
 ==============================================================================
 */
 
-std::uint64_t  Instrument::impl_recorded_blocks () const
+std::uint64_t  Instrument::recorded_blocks () const
 {
-   assert (impl_bound ());
+   assert (bound ());
 
    return _bench_ptr->impl_recorded_blocks ();
 }
@@ -329,11 +329,11 @@ std::uint64_t  Instrument::impl_recorded_blocks () const
 
 /*
 ==============================================================================
-Name : impl_bound
+Name : bound
 ==============================================================================
 */
 
-bool  Instrument::impl_bound () const
+bool  Instrument::bound () const
 {
    return _bench_ptr != nullptr;
 }
@@ -344,13 +344,13 @@ bool  Instrument::impl_bound () const
 
 /*
 ==============================================================================
-Name : impl_unbind
+Name : unbind
 ==============================================================================
 */
 
-void  Instrument::impl_unbind ()
+void  Instrument::unbind ()
 {
-   assert (impl_bound ());
+   assert (bound ());
 
    for (const auto & channel : _channels)
    {
@@ -365,13 +365,13 @@ void  Instrument::impl_unbind ()
 
 /*
 ==============================================================================
-Name : impl_check_window
+Name : check_window
 ==============================================================================
 */
 
-void  Instrument::impl_check_window (std::size_t channel) const
+void  Instrument::check_window (std::size_t channel) const
 {
-   assert (impl_bound ());
+   assert (bound ());
    assert (channel < _channels.size ());
 
    const auto recorded = _bench_ptr->impl_recorded_blocks ();
@@ -381,7 +381,7 @@ void  Instrument::impl_check_window (std::size_t channel) const
       std::fprintf (
          stderr,
          "check: %s on %s: window of %llu blocks, %llu blocks recorded since start\n",
-         name (), impl_channel_name (channel),
+         name (), channel_name (channel),
          (unsigned long long) _window, (unsigned long long) recorded
       );
       std::fflush (stderr);

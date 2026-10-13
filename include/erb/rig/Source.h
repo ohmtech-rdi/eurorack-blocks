@@ -53,13 +53,13 @@ public:
 
 protected:
    template <typename Control>
-   void           impl_bind (Bench & bench, Control & input);
+   void           bind_channel (Bench & bench, Control & input);
    inline Connection
-                  impl_connect ();
+                  connect ();
 
    inline Buffer &
-                  impl_input_audio (std::size_t channel);
-   inline bool    impl_bound () const;
+                  input_audio (std::size_t channel);
+   inline bool    bound () const;
 
 
 
@@ -74,7 +74,7 @@ private:
                   control_ptr;   // for logs
    };
 
-   inline void    impl_unbind ();
+   inline void    unbind ();
 
    Bench *        _bench_ptr = nullptr;
    std::vector <Channel>

@@ -71,7 +71,7 @@ Connection  Camera <Format>::bind (Bench & bench, Display <Format> & display)
    _bench_ptr = &bench;
    _display_ptr = &display;
 
-   return Connection {[this] () { impl_unbind (); }};
+   return Connection {[this] () { unbind (); }};
 }
 
 
@@ -87,7 +87,7 @@ bool  Camera <Format>::same (const std::string & name) const
 {
    assert (_bench_ptr != nullptr);
 
-   const auto screen = read_screen <Format> (impl_file (name));
+   const auto screen = read_screen <Format> (screen_file (name));
 
    return rig::same (*_display_ptr, screen);
 }
@@ -105,7 +105,7 @@ void  Camera <Format>::wait_until_same (const std::string & name, SystemClockVir
 {
    assert (_bench_ptr != nullptr);
 
-   const auto file = impl_file (name);
+   const auto file = screen_file (name);
    const auto screen = read_screen <Format> (file);
    const auto actual_path = file.actual_path ();
 
@@ -125,7 +125,7 @@ void  Camera <Format>::wait_until_same (const std::string & name, SystemClockVir
       );
       std::fflush (stderr);
 
-      impl_write_actual (file);
+      write_actual (file);
    }
 
    assert (ok);
@@ -144,7 +144,7 @@ void  Camera <Format>::check_same (const std::string & name, std::source_locatio
 {
    assert (_bench_ptr != nullptr);
 
-   const auto file = impl_file (name);
+   const auto file = screen_file (name);
    const auto screen = read_screen <Format> (file);
    const auto actual_path = file.actual_path ();
 
@@ -160,7 +160,7 @@ void  Camera <Format>::check_same (const std::string & name, std::source_locatio
       );
       std::fflush (stderr);
 
-      impl_write_actual (file);
+      write_actual (file);
    }
 
    assert (ok);
@@ -179,7 +179,7 @@ void  Camera <Format>::snapshot (const std::string & name) const
 {
    assert (_bench_ptr != nullptr);
 
-   write_screen <Format> (_display_ptr->impl_data, impl_file (name));
+   write_screen <Format> (_display_ptr->impl_data, screen_file (name));
 }
 
 
@@ -188,12 +188,12 @@ void  Camera <Format>::snapshot (const std::string & name) const
 
 /*
 ==============================================================================
-Name : impl_file
+Name : screen_file
 ==============================================================================
 */
 
 template <typename Format>
-ScreenFile  Camera <Format>::impl_file (const std::string & name) const
+ScreenFile  Camera <Format>::screen_file (const std::string & name) const
 {
    return {.path = _setup.directory + "/" + name, .rotate = _setup.rotate};
 }
@@ -202,12 +202,12 @@ ScreenFile  Camera <Format>::impl_file (const std::string & name) const
 
 /*
 ==============================================================================
-Name : impl_unbind
+Name : unbind
 ==============================================================================
 */
 
 template <typename Format>
-void  Camera <Format>::impl_unbind ()
+void  Camera <Format>::unbind ()
 {
    assert (_bench_ptr != nullptr);
 
@@ -219,12 +219,12 @@ void  Camera <Format>::impl_unbind ()
 
 /*
 ==============================================================================
-Name : impl_write_actual
+Name : write_actual
 ==============================================================================
 */
 
 template <typename Format>
-void  Camera <Format>::impl_write_actual (const ScreenFile & file) const
+void  Camera <Format>::write_actual (const ScreenFile & file) const
 {
    write_screen <Format> (_display_ptr->impl_data, {.path = file.actual_path (), .rotate = file.rotate});
 }

@@ -61,9 +61,9 @@ Name : bind
 
 Connection  Pitch::bind (Bench & bench, AudioOut & output)
 {
-   impl_bind (bench, output);
+   bind_channel (bench, output);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -91,7 +91,7 @@ Name : read
 
 Pitch::Reading Pitch::read () const
 {
-   const auto window = impl_window_audio (0);
+   const auto window = window_audio (0);
    const auto parameters = window_parameters ();
 
    switch (parameters.detector)
@@ -125,7 +125,7 @@ void  Pitch::check (Reading expected_hz, float tolerance_cents, std::source_loca
       std::fprintf (
          stderr,
          "check at %s:%u: Pitch on %s reads %.2f Hz, expected %.2f Hz, distance %.2f cents, tolerance %.2f cents\n",
-         sloc.file_name (), unsigned (sloc.line ()), impl_channel_name (0),
+         sloc.file_name (), unsigned (sloc.line ()), channel_name (0),
          double (reading), double (expected_hz), double (distance), double (tolerance_cents)
       );
       std::fflush (stderr);
@@ -159,7 +159,7 @@ Name : set_breakpoint
 
 void  Pitch::set_breakpoint (Parameters parameters)
 {
-   const auto block = impl_bound () ? impl_recorded_blocks () : 0;
+   const auto block = bound () ? recorded_blocks () : 0;
 
    assert (block >= _breakpoints.back ().block);
 
@@ -176,9 +176,9 @@ Name : window_parameters
 
 Pitch::Parameters Pitch::window_parameters () const
 {
-   assert (impl_bound ());
+   assert (bound ());
 
-   const auto window_end = impl_recorded_blocks ();
+   const auto window_end = recorded_blocks ();
    const auto window_start = window_end - window ();
 
    Parameters ret;

@@ -51,9 +51,9 @@ Name : bind
 
 Connection  Scope::bind (Bench & bench, AudioOut & output)
 {
-   impl_bind (bench, output);
+   bind_channel (bench, output);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -66,7 +66,7 @@ Name : read
 
 Scope::Reading Scope::read () const
 {
-   const auto window = impl_window_audio (0);
+   const auto window = window_audio (0);
 
    return Reading (window.begin (), window.end ());
 }
@@ -116,14 +116,14 @@ void  Scope::check (const Reading & expected, float tolerance, std::source_locat
       {
          std::fprintf (
             stderr, "%s on %s reads %zu samples, expected %zu\n",
-            name (), impl_channel_name (0), reading.size (), expected.size ()
+            name (), channel_name (0), reading.size (), expected.size ()
          );
       }
       else
       {
          std::fprintf (
             stderr, "%s on %s reads %.9g at sample %zu, expected %.9g, distance %.9g, tolerance %.9g\n",
-            name (), impl_channel_name (0), reading [worst], worst, expected [worst], distance, tolerance
+            name (), channel_name (0), reading [worst], worst, expected [worst], distance, tolerance
          );
       }
 

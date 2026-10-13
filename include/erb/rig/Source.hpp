@@ -42,14 +42,14 @@ inline Source::~Source ()
 
 /*
 ==============================================================================
-Name : impl_bind
+Name : bind_channel
 Note :
-   One 'impl_bind' per Control and then 'impl_connect'
+   One 'bind_channel' per Control and then 'connect'
 ==============================================================================
 */
 
 template <typename Control>
-void  Source::impl_bind (Bench & bench, Control & input)
+void  Source::bind_channel (Bench & bench, Control & input)
 {
    constexpr auto kind = SlotKindTrait <Control>::value;
 
@@ -63,30 +63,30 @@ void  Source::impl_bind (Bench & bench, Control & input)
 
 /*
 ==============================================================================
-Name : impl_connect
+Name : connect
 ==============================================================================
 */
 
-Connection  Source::impl_connect ()
+Connection  Source::connect ()
 {
-   assert (impl_bound ());
+   assert (bound ());
 
    _bench_ptr->impl_attach (*this);
 
-   return Connection {[this] () { impl_unbind (); }};
+   return Connection {[this] () { unbind (); }};
 }
 
 
 
 /*
 ==============================================================================
-Name : impl_input_audio
+Name : input_audio
 ==============================================================================
 */
 
-Buffer & Source::impl_input_audio (std::size_t channel)
+Buffer & Source::input_audio (std::size_t channel)
 {
-   assert (impl_bound ());
+   assert (bound ());
    assert (channel < _channels.size ());
    assert (_channels [channel].kind == SlotKind::Audio);
 
@@ -97,11 +97,11 @@ Buffer & Source::impl_input_audio (std::size_t channel)
 
 /*
 ==============================================================================
-Name : impl_bound
+Name : bound
 ==============================================================================
 */
 
-bool  Source::impl_bound () const
+bool  Source::bound () const
 {
    return _bench_ptr != nullptr;
 }
@@ -112,13 +112,13 @@ bool  Source::impl_bound () const
 
 /*
 ==============================================================================
-Name : impl_unbind
+Name : unbind
 ==============================================================================
 */
 
-void  Source::impl_unbind ()
+void  Source::unbind ()
 {
-   assert (impl_bound ());
+   assert (bound ());
 
    _bench_ptr->impl_detach (*this);
 

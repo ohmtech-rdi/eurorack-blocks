@@ -34,9 +34,9 @@ Name : bind
 
 Connection  Vco::bind (Bench & bench, AudioIn & input)
 {
-   impl_bind (bench, input);
+   bind_channel (bench, input);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -92,7 +92,7 @@ Name : impl_process
 
 void  Vco::impl_process ()
 {
-   auto & buffer = impl_input_audio (0);
+   auto & buffer = input_audio (0);
 
    const double increment = double (_frequency_hz) / double (erb_SAMPLE_RATE);
 

@@ -50,9 +50,9 @@ Name : bind
 
 Connection  Envelope::bind (Bench & bench, AudioOut & output)
 {
-   impl_bind (bench, output);
+   bind_channel (bench, output);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -127,7 +127,7 @@ Name : read
 
 Envelope::Reading   Envelope::read () const
 {
-   return process (impl_window_audio (0));
+   return process (window_audio (0));
 }
 
 
@@ -142,9 +142,9 @@ void  Envelope::check (float tolerance_db, std::source_location sloc) const
 {
    assert (tolerance_db >= 0.f);
 
-   const auto golden_samples = impl_golden_window_audio (0, sloc);
+   const auto golden_samples = golden_window_audio (0, sloc);
    const auto golden = process (golden_samples);
-   const auto actual_samples = impl_quantized (impl_window_audio (0));
+   const auto actual_samples = quantized (window_audio (0));
    const auto actual = process (actual_samples);
 
    assert (golden.size () == actual.size ());
@@ -165,9 +165,9 @@ void  Envelope::check (float tolerance_db, std::source_location sloc) const
 
    const auto distance = 20.f * std::log10 (ratio);
 
-   if (impl_trace () || distance > tolerance_db)
+   if (trace () || distance > tolerance_db)
    {
-      impl_write_trace (0, {actual_samples, actual, golden_samples, golden});
+      write_trace (0, {actual_samples, actual, golden_samples, golden});
    }
 
    if (distance > tolerance_db)
@@ -177,13 +177,13 @@ void  Envelope::check (float tolerance_db, std::source_location sloc) const
       std::fprintf (
          stderr,
          "check at %s:%u: Envelope on %s at %.2f ms reads %.2f dB, golden %.2f dB, distance %.2f dB, tolerance %.2f dB, ",
-         sloc.file_name (), unsigned (sloc.line ()), impl_channel_name (0),
+         sloc.file_name (), unsigned (sloc.line ()), channel_name (0),
          ms, double (to_db (actual [worst])), double (to_db (golden [worst])),
          double (distance), double (tolerance_db)
       );
       std::fflush (stderr);
 
-      impl_notify_golden_mismatch (0);
+      notify_golden_mismatch (0);
    }
 }
 
@@ -212,7 +212,7 @@ Name : set_breakpoint
 
 void  Envelope::set_breakpoint (Parameters parameters)
 {
-   const auto block = impl_bound () ? impl_recorded_blocks () : 0;
+   const auto block = bound () ? recorded_blocks () : 0;
 
    assert (block >= _breakpoints.back ().block);
 
@@ -233,8 +233,8 @@ Envelope::Reading   Envelope::process (std::span <const float> window) const
    ret.resize (window.size ());
 
    const auto nbr_blocks = std::uint64_t (window.size () / erb_BUFFER_SIZE);
-   assert (impl_bound ());
-   const auto window_start = impl_recorded_blocks () - nbr_blocks;
+   assert (bound ());
+   const auto window_start = recorded_blocks () - nbr_blocks;
    const auto window_end = window_start + nbr_blocks;
 
    double state = 0.0;

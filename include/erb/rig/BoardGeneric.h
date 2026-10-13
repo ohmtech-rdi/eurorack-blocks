@@ -237,24 +237,24 @@ private:
    static constexpr uint64_t
                   BlocksPerIdle = (IdlePeriodSamples + erb_BUFFER_SIZE / 2) / erb_BUFFER_SIZE;
 
-   void           impl_reset_stats ();
-   void           impl_print_stats () const;
-   void           impl_step ();
-   void           impl_step_pair ();
-   void           impl_step_block ();
-   void           impl_block ();
-   void           impl_idle ();
-   void           impl_steps (std::size_t nbr_steps);
+   void           reset_stats ();
+   void           print_stats () const;
+   void           step ();
+   void           step_pair ();
+   void           step_block ();
+   void           run_block ();
+   void           run_idle ();
+   void           run_steps (std::size_t nbr_steps);
    template <typename Predicate>
-   bool           impl_wait_until (Predicate predicate, SystemClockVirtual::duration timeout);
+   bool           pump_until (Predicate predicate, SystemClockVirtual::duration timeout);
    template <typename T>
    static std::string
-                  impl_to_string (const T & value);
+                  to_string (const T & value);
    template <typename T>
    static std::size_t
-                  impl_slot_index (const std::vector <T> & slots, const T & data);
-   void           impl_set_digital_input (const uint8_t & data, uint8_t value);
-   void           impl_set_analog_input (const float & data, float value);
+                  find_slot_index (const std::vector <T> & slots, const T & data);
+   void           set_digital_input (const uint8_t & data, uint8_t value);
+   void           set_analog_input (const float & data, float value);
 
    static constexpr std::size_t
                   DebounceBlocks = 8; // debounce win 7hi=pressed 8hi=held
@@ -290,7 +290,7 @@ private:
    uint64_t       _recorded_blocks = 0;   // since 'start'
 
    std::map <std::size_t, Recorded> &
-                  impl_recordings (SlotKind kind);
+                  recordings_of (SlotKind kind);
 
    struct Track
    {
@@ -316,11 +316,11 @@ private:
 
    Track &        track_of (SlotKind kind, std::size_t slot_index);
    const Track &  track_of (SlotKind kind, std::size_t slot_index) const;
-   std::size_t    impl_channel_of (const Track & track, SlotKind kind, std::size_t slot_index) const;
+   std::size_t    channel_of (const Track & track, SlotKind kind, std::size_t slot_index) const;
    std::string    golden_path (const Track & track, bool actual) const;
-   void           impl_load_golden (Track & track);
-   void           impl_write_actual (const Track & track);
-   float          impl_recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const;
+   void           load_golden (Track & track);
+   void           write_actual (const Track & track);
+   float          recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const;
 
    Mode           _mode = Mode::UiFast;
    uint64_t       _block_count = 0;

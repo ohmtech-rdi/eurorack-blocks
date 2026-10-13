@@ -63,9 +63,9 @@ public:
 
 private:
    inline ScreenFile
-                  impl_file (const std::string & name) const;
-   inline void    impl_unbind ();
-   inline void    impl_write_actual (const ScreenFile & file) const;
+                  screen_file (const std::string & name) const;
+   inline void    unbind ();
+   inline void    write_actual (const ScreenFile & file) const;
 
    const Setup    _setup;
    Bench *        _bench_ptr = nullptr;

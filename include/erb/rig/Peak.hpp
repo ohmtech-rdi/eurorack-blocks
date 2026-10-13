@@ -49,9 +49,9 @@ Name : bind
 
 Connection  Peak::bind (Bench & bench, AudioOut & output)
 {
-   impl_bind (bench, output);
+   bind_channel (bench, output);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -66,7 +66,7 @@ Peak::Reading  Peak::read () const
 {
    float ret = 0.f;
 
-   for (auto sample : impl_window_audio (0))
+   for (auto sample : window_audio (0))
    {
       ret = std::max (ret, std::abs (sample));
    }
@@ -92,7 +92,7 @@ void  Peak::check (Reading expected, float tolerance, std::source_location sloc)
    if (!ok)
    {
       std::fprintf (stderr, "check at %s:%u: ", sloc.file_name (), unsigned (sloc.line ()));
-      scalar_report (name (), impl_channel_name (0), reading, expected, tolerance);
+      scalar_report (name (), channel_name (0), reading, expected, tolerance);
       std::fflush (stderr);
    }
 

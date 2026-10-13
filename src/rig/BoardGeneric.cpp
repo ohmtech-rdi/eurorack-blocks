@@ -93,7 +93,7 @@ BoardGeneric::~BoardGeneric ()
 {
    if (_boot_flag)
    {
-      impl_print_stats ();
+      print_stats ();
    }
 }
 
@@ -199,7 +199,7 @@ void  BoardGeneric::run (SystemClockVirtual::duration duration)
    while (SystemClockVirtual::now () < target)
    {
       // last step may overshoot by one, but this is deterministic
-      impl_step ();
+      step ();
    }
 }
 
@@ -217,8 +217,8 @@ void  BoardGeneric::press (Button & button)
 {
    assert (_boot_flag);
 
-   impl_set_digital_input (button.impl_data, 1);
-   impl_steps (DebounceBlocks);
+   set_digital_input (button.impl_data, 1);
+   run_steps (DebounceBlocks);
 }
 
 
@@ -233,8 +233,8 @@ void  BoardGeneric::release (Button & button)
 {
    assert (_boot_flag);
 
-   impl_set_digital_input (button.impl_data, 0);
-   impl_steps (DebounceBlocks);
+   set_digital_input (button.impl_data, 0);
+   run_steps (DebounceBlocks);
 }
 
 
@@ -278,12 +278,12 @@ void  BoardGeneric::trigger (GateIn & gate)
 {
    assert (_boot_flag);
 
-   impl_plug (SlotKind::Digital, impl_slot_index (_digital_inputs, gate.impl_data));
+   impl_plug (SlotKind::Digital, find_slot_index (_digital_inputs, gate.impl_data));
 
-   impl_set_digital_input (gate.impl_data, 1);
-   impl_steps (TriggerBlocks);
-   impl_set_digital_input (gate.impl_data, 0);
-   impl_steps (1);
+   set_digital_input (gate.impl_data, 1);
+   run_steps (TriggerBlocks);
+   set_digital_input (gate.impl_data, 0);
+   run_steps (1);
 }
 
 
@@ -298,8 +298,8 @@ void  BoardGeneric::set (GateIn & gate, bool state)
 {
    assert (_boot_flag);
 
-   impl_set_digital_input (gate.impl_data, state ? 1 : 0);
-   impl_plug (SlotKind::Digital, impl_slot_index (_digital_inputs, gate.impl_data));
+   set_digital_input (gate.impl_data, state ? 1 : 0);
+   impl_plug (SlotKind::Digital, find_slot_index (_digital_inputs, gate.impl_data));
 }
 
 
@@ -361,7 +361,7 @@ void  BoardGeneric::impl_boot (Glue glue)
 
    _glue = std::move (glue);
 
-   impl_reset_stats ();
+   reset_stats ();
 
    _boot_flag = true;
 }
@@ -370,11 +370,11 @@ void  BoardGeneric::impl_boot (Glue glue)
 
 /*
 ==============================================================================
-Name : impl_reset_stats
+Name : reset_stats
 ==============================================================================
 */
 
-void  BoardGeneric::impl_reset_stats ()
+void  BoardGeneric::reset_stats ()
 {
    _qspi_erases.clear ();
    _qspi_saves.clear ();
@@ -392,14 +392,14 @@ void  BoardGeneric::impl_reset_stats ()
 
 /*
 ==============================================================================
-Name : impl_print_stats
+Name : print_stats
 Note :
    Memory usage is on host, usually 64-bit, so stats are different from
    the firmware running on the real hardware (32-bit).
 ==============================================================================
 */
 
-void  BoardGeneric::impl_print_stats () const
+void  BoardGeneric::print_stats () const
 {
    const auto s = stats ();
 
@@ -427,20 +427,20 @@ void  BoardGeneric::impl_print_stats () const
 
 /*
 ==============================================================================
-Name : impl_step
+Name : step
 ==============================================================================
 */
 
-void  BoardGeneric::impl_step ()
+void  BoardGeneric::step ()
 {
    switch (_mode)
    {
    case Mode::UiFast:
-      impl_step_pair ();
+      step_pair ();
       break;
 
    case Mode::Lockstep:
-      impl_step_block ();
+      step_block ();
       break;
    }
 }
@@ -449,17 +449,17 @@ void  BoardGeneric::impl_step ()
 
 /*
 ==============================================================================
-Name : impl_step_pair
+Name : step_pair
 Description :
    For 'UiFast', one 'process' then one 'idle'. We need 'process' because
    the UI state is from 'process'.
 ==============================================================================
 */
 
-void  BoardGeneric::impl_step_pair ()
+void  BoardGeneric::step_pair ()
 {
-   impl_block ();
-   impl_idle ();
+   run_block ();
+   run_idle ();
 
    SystemClockVirtual::impl_advance (erb_BUFFER_SIZE * BlocksPerIdle);
 }
@@ -468,22 +468,22 @@ void  BoardGeneric::impl_step_pair ()
 
 /*
 ==============================================================================
-Name : impl_step_block
+Name : step_block
 Description :
    For 'Lockstep', one 'process' then many 'idle', eg. 18 for a system with
    16 buffer size @ 48kHz and around 6ms min period for UI.
 ==============================================================================
 */
 
-void  BoardGeneric::impl_step_block ()
+void  BoardGeneric::step_block ()
 {
-   impl_block ();
+   run_block ();
 
    SystemClockVirtual::impl_advance (erb_BUFFER_SIZE);
 
    if (_block_count % BlocksPerIdle == 0)
    {
-      impl_idle ();
+      run_idle ();
    }
 }
 
@@ -491,13 +491,13 @@ void  BoardGeneric::impl_step_block ()
 
 /*
 ==============================================================================
-Name : impl_block
+Name : run_block
 ==============================================================================
 */
 
-void  BoardGeneric::impl_block ()
+void  BoardGeneric::run_block ()
 {
-   // see rationale in 'impl_set_digital_input'
+   // see rationale in 'set_digital_input'
    _digital_inputs = _digital_inputs_standing;
    _analog_inputs = _analog_inputs_standing;
 
@@ -516,11 +516,11 @@ void  BoardGeneric::impl_block ()
 
 /*
 ==============================================================================
-Name : impl_idle
+Name : run_idle
 ==============================================================================
 */
 
-void  BoardGeneric::impl_idle ()
+void  BoardGeneric::run_idle ()
 {
    _glue.idle ();
 
@@ -531,15 +531,15 @@ void  BoardGeneric::impl_idle ()
 
 /*
 ==============================================================================
-Name : impl_steps
+Name : run_steps
 ==============================================================================
 */
 
-void  BoardGeneric::impl_steps (std::size_t nbr_steps)
+void  BoardGeneric::run_steps (std::size_t nbr_steps)
 {
    for (std::size_t i = 0 ; i < nbr_steps ; ++i)
    {
-      impl_step ();
+      step ();
    }
 }
 
@@ -547,7 +547,7 @@ void  BoardGeneric::impl_steps (std::size_t nbr_steps)
 
 /*
 ==============================================================================
-Name : impl_set_digital_input
+Name : set_digital_input
 Description :
    Setting a value is different from the simulator where the host resend
    the value for every block. A 'set' in our abstraction is an imperative
@@ -563,9 +563,9 @@ Description :
 ==============================================================================
 */
 
-void  BoardGeneric::impl_set_digital_input (const uint8_t & data, uint8_t value)
+void  BoardGeneric::set_digital_input (const uint8_t & data, uint8_t value)
 {
-   const auto slot_index = impl_slot_index (_digital_inputs, data);
+   const auto slot_index = find_slot_index (_digital_inputs, data);
 
    _digital_inputs_standing [slot_index] = value;
    _digital_inputs [slot_index] = value;
@@ -575,13 +575,13 @@ void  BoardGeneric::impl_set_digital_input (const uint8_t & data, uint8_t value)
 
 /*
 ==============================================================================
-Name : impl_set_analog_input
+Name : set_analog_input
 ==============================================================================
 */
 
-void  BoardGeneric::impl_set_analog_input (const float & data, float value)
+void  BoardGeneric::set_analog_input (const float & data, float value)
 {
-   const auto slot_index = impl_slot_index (_analog_inputs, data);
+   const auto slot_index = find_slot_index (_analog_inputs, data);
 
    _analog_inputs_standing [slot_index] = value;
    _analog_inputs [slot_index] = value;
@@ -620,15 +620,15 @@ std::size_t BoardGeneric::impl_bind_input (SlotKind kind, const void * slot_data
    switch (kind)
    {
    case SlotKind::Digital:
-      slot_index = impl_slot_index (_digital_inputs, *static_cast <const uint8_t *> (slot_data));
+      slot_index = find_slot_index (_digital_inputs, *static_cast <const uint8_t *> (slot_data));
       break;
 
    case SlotKind::Analog:
-      slot_index = impl_slot_index (_analog_inputs, *static_cast <const float *> (slot_data));
+      slot_index = find_slot_index (_analog_inputs, *static_cast <const float *> (slot_data));
       break;
 
    case SlotKind::Audio:
-      slot_index = impl_slot_index (_audio_inputs, *static_cast <const Buffer *> (slot_data));
+      slot_index = find_slot_index (_audio_inputs, *static_cast <const Buffer *> (slot_data));
       break;
    }
 
@@ -693,7 +693,7 @@ Name : impl_apply_normalling
 
 void  BoardGeneric::impl_apply_normalling (const uint8_t & data, float value)
 {
-   const auto slot_index = impl_slot_index (_digital_inputs, data);
+   const auto slot_index = find_slot_index (_digital_inputs, data);
 
    if (_plugged.contains ({SlotKind::Digital, slot_index})) return;
 
@@ -710,7 +710,7 @@ Name : impl_apply_normalling
 
 void  BoardGeneric::impl_apply_normalling (const float & data, float value)
 {
-   const auto slot_index = impl_slot_index (_analog_inputs, data);
+   const auto slot_index = find_slot_index (_analog_inputs, data);
 
    if (_plugged.contains ({SlotKind::Analog, slot_index})) return;
 
@@ -727,7 +727,7 @@ Name : impl_apply_normalling
 
 void  BoardGeneric::impl_apply_normalling (const Buffer & data, float value)
 {
-   const auto slot_index = impl_slot_index (_audio_inputs, data);
+   const auto slot_index = find_slot_index (_audio_inputs, data);
 
    if (_plugged.contains ({SlotKind::Audio, slot_index})) return;
 
@@ -744,7 +744,7 @@ Name : impl_apply_normalling
 
 void  BoardGeneric::impl_apply_normalling (const uint8_t & data, const uint8_t & from)
 {
-   const auto slot_index = impl_slot_index (_digital_inputs, data);
+   const auto slot_index = find_slot_index (_digital_inputs, data);
 
    if (_plugged.contains ({SlotKind::Digital, slot_index})) return;
 
@@ -761,7 +761,7 @@ Name : impl_apply_normalling
 
 void  BoardGeneric::impl_apply_normalling (const Buffer & data, const Buffer & from)
 {
-   const auto slot_index = impl_slot_index (_audio_inputs, data);
+   const auto slot_index = find_slot_index (_audio_inputs, data);
 
    if (_plugged.contains ({SlotKind::Audio, slot_index})) return;
 
@@ -851,19 +851,19 @@ std::size_t BoardGeneric::impl_bind_output (SlotKind kind, const void * slot_dat
    switch (kind)
    {
    case SlotKind::Digital:
-      slot_index = impl_slot_index (_digital_outputs, *static_cast <const uint8_t *> (slot_data));
+      slot_index = find_slot_index (_digital_outputs, *static_cast <const uint8_t *> (slot_data));
       break;
 
    case SlotKind::Analog:
-      slot_index = impl_slot_index (_analog_outputs, *static_cast <const float *> (slot_data));
+      slot_index = find_slot_index (_analog_outputs, *static_cast <const float *> (slot_data));
       break;
 
    case SlotKind::Audio:
-      slot_index = impl_slot_index (_audio_outputs, *static_cast <const Buffer *> (slot_data));
+      slot_index = find_slot_index (_audio_outputs, *static_cast <const Buffer *> (slot_data));
       break;
    }
 
-   ++impl_recordings (kind) [slot_index].bindings;
+   ++recordings_of (kind) [slot_index].bindings;
    ++_nbr_output_bindings;
 
    return slot_index;
@@ -879,7 +879,7 @@ Name : impl_unbind_output
 
 void  BoardGeneric::impl_unbind_output (SlotKind kind, std::size_t slot_index)
 {
-   auto & recordings = impl_recordings (kind);
+   auto & recordings = recordings_of (kind);
    auto it = recordings.find (slot_index);
    assert (it != recordings.end ());
    assert (it->second.bindings > 0);
@@ -956,7 +956,7 @@ Name : impl_pump_until
 
 bool  BoardGeneric::impl_pump_until (const std::function <bool ()> & predicate, SystemClockVirtual::duration timeout)
 {
-   return impl_wait_until (predicate, timeout);
+   return pump_until (predicate, timeout);
 }
 
 
@@ -1069,7 +1069,7 @@ std::span <const float>   BoardGeneric::impl_get_golden (SlotKind kind, std::siz
    }
 
    auto & track = track_of (kind, slot_index);
-   const auto channel = impl_channel_of (track, kind, slot_index);
+   const auto channel = channel_of (track, kind, slot_index);
 
    const auto window_start = _recorded_blocks - nbr_blocks;
    const auto window_end = _recorded_blocks;
@@ -1094,7 +1094,7 @@ std::span <const float>   BoardGeneric::impl_get_golden (SlotKind kind, std::siz
 
    _region_end = std::max (_region_end, window_end);
 
-   impl_load_golden (track);
+   load_golden (track);
 
    const auto samples_per_block = (kind == SlotKind::Audio) ? std::size_t (erb_BUFFER_SIZE) : std::size_t (1);
    const auto needed = std::size_t (window_end - _region_start) * samples_per_block;
@@ -1111,7 +1111,7 @@ std::span <const float>   BoardGeneric::impl_get_golden (SlotKind kind, std::siz
       );
       std::fflush (stderr);
 
-      impl_write_actual (track);
+      write_actual (track);
       assert (false);
       std::abort ();
    }
@@ -1139,7 +1139,7 @@ void  BoardGeneric::impl_notify_golden_mismatch (SlotKind kind, std::size_t slot
    std::fprintf (stderr, "actual written to '%s'\n", golden_path (track, true).c_str ());
    std::fflush (stderr);
 
-   impl_write_actual (track);
+   write_actual (track);
    assert (false);
    std::abort ();
 }
@@ -1185,11 +1185,11 @@ const BoardGeneric::Track &   BoardGeneric::track_of (SlotKind kind, std::size_t
 
 /*
 ==============================================================================
-Name : impl_channel_of
+Name : channel_of
 ==============================================================================
 */
 
-std::size_t BoardGeneric::impl_channel_of (const Track & track, SlotKind kind, std::size_t slot_index) const
+std::size_t BoardGeneric::channel_of (const Track & track, SlotKind kind, std::size_t slot_index) const
 {
    for (std::size_t channel = 0 ; channel < track.slots.size () ; ++channel)
    {
@@ -1239,11 +1239,11 @@ std::string BoardGeneric::golden_path (const Track & track, bool actual) const
 
 /*
 ==============================================================================
-Name : impl_load_golden
+Name : load_golden
 ==============================================================================
 */
 
-void  BoardGeneric::impl_load_golden (Track & track)
+void  BoardGeneric::load_golden (Track & track)
 {
    if (track.golden_loaded) return;
 
@@ -1290,13 +1290,13 @@ void  BoardGeneric::impl_load_golden (Track & track)
 
 /*
 ==============================================================================
-Name : impl_write_actual
+Name : write_actual
 Note :
    Write is quantized
 ==============================================================================
 */
 
-void  BoardGeneric::impl_write_actual (const Track & track)
+void  BoardGeneric::write_actual (const Track & track)
 {
    assert (_region_flag);
 
@@ -1312,7 +1312,7 @@ void  BoardGeneric::impl_write_actual (const Track & track)
       {
          for (const auto & slot : track.slots)
          {
-            wave.samples.push_back (quantize (impl_recorded_sample (slot.first, slot.second, block, sample)));
+            wave.samples.push_back (quantize (recorded_sample (slot.first, slot.second, block, sample)));
          }
       }
    }
@@ -1324,11 +1324,11 @@ void  BoardGeneric::impl_write_actual (const Track & track)
 
 /*
 ==============================================================================
-Name : impl_recorded_sample
+Name : recorded_sample
 ==============================================================================
 */
 
-float BoardGeneric::impl_recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const
+float BoardGeneric::recorded_sample (SlotKind kind, std::size_t slot_index, uint64_t block, std::size_t sample) const
 {
    switch (kind)
    {
@@ -1363,11 +1363,11 @@ float BoardGeneric::impl_recorded_sample (SlotKind kind, std::size_t slot_index,
 
 /*
 ==============================================================================
-Name : impl_recordings
+Name : recordings_of
 ==============================================================================
 */
 
-std::map <std::size_t, BoardGeneric::Recorded> &  BoardGeneric::impl_recordings (SlotKind kind)
+std::map <std::size_t, BoardGeneric::Recorded> &  BoardGeneric::recordings_of (SlotKind kind)
 {
    switch (kind)
    {

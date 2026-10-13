@@ -47,9 +47,9 @@ Name : bind
 Connection  Light::bind (Bench & bench, Led <PinType::Gpio> & led)
 {
    _kind = SlotKind::Digital;
-   impl_bind (bench, led);
+   bind_channel (bench, led);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -63,9 +63,9 @@ Name : bind
 Connection  Light::bind (Bench & bench, Led <PinType::Pwm> & led)
 {
    _kind = SlotKind::Analog;
-   impl_bind (bench, led);
+   bind_channel (bench, led);
 
-   return impl_connect ();
+   return connect ();
 }
 
 
@@ -82,14 +82,14 @@ Light::Reading Light::read () const
 
    if (_kind == SlotKind::Digital)
    {
-      for (auto level : impl_window_digital (0))
+      for (auto level : window_digital (0))
       {
          ret.push_back (level ? 1.f : 0.f);
       }
    }
    else
    {
-      const auto window = impl_window_analog (0);
+      const auto window = window_analog (0);
       ret.assign (window.begin (), window.end ());
    }
 
@@ -206,7 +206,7 @@ void  Light::report (const char * expected, const Summary & summary, std::source
    std::fprintf (
       stderr,
       "check at %s:%u: Light on %s expected %s, lit %zu of %zu blocks, %zu transitions\n",
-      sloc.file_name (), unsigned (sloc.line ()), impl_channel_name (0),
+      sloc.file_name (), unsigned (sloc.line ()), channel_name (0),
       expected, summary.nbr_lit, summary.nbr_blocks, summary.nbr_transitions
    );
    std::fflush (stderr);

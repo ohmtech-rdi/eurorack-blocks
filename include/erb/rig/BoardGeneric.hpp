@@ -128,10 +128,10 @@ void  BoardGeneric::scroll (Encoder <LeadingType> & encoder, int nbr_detents)
 
    for (int i = 0 ; i < std::abs (nbr_detents) ; ++i)
    {
-      impl_set_digital_input (data, 1);
-      impl_steps (1);
-      impl_set_digital_input (data, 0);
-      impl_steps (nbr_zeros);
+      set_digital_input (data, 1);
+      run_steps (1);
+      set_digital_input (data, 0);
+      run_steps (nbr_zeros);
    }
 }
 
@@ -164,7 +164,7 @@ void  BoardGeneric::set (Pot <Range> & pot, float value)
    assert (value >= Pot <Range>::ValueMin);
    assert (value <= Pot <Range>::ValueMax);
 
-   impl_set_analog_input (pot.impl_data, value);
+   set_analog_input (pot.impl_data, value);
 }
 
 
@@ -182,8 +182,8 @@ void  BoardGeneric::set (CvIn <Range> & cv, float value)
    assert (value >= CvIn <Range>::ValueMin);
    assert (value <= CvIn <Range>::ValueMax);
 
-   impl_set_analog_input (cv.impl_data, value);
-   impl_plug (SlotKind::Analog, impl_slot_index (_analog_inputs, cv.impl_data));
+   set_analog_input (cv.impl_data, value);
+   impl_plug (SlotKind::Analog, find_slot_index (_analog_inputs, cv.impl_data));
 }
 
 
@@ -233,7 +233,7 @@ Name : wait_until
 template <typename Predicate>
 void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duration timeout, std::source_location sloc)
 {
-   const bool ok = impl_wait_until (predicate, timeout);
+   const bool ok = pump_until (predicate, timeout);
 
    if (!ok)
    {
@@ -252,14 +252,14 @@ void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duratio
 
 /*
 ==============================================================================
-Name : impl_slot_index
+Name : find_slot_index
 Description :
    'data' is the 'impl_data' of a control, a reference into 'slots'.
 ==============================================================================
 */
 
 template <typename T>
-std::size_t BoardGeneric::impl_slot_index (const std::vector <T> & slots, const T & data)
+std::size_t BoardGeneric::find_slot_index (const std::vector <T> & slots, const T & data)
 {
    const auto * begin = slots.data ();
    const auto * end = begin + slots.size ();
@@ -280,7 +280,7 @@ Name : wait_until_equal
 template <typename T>
 void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout, std::source_location sloc)
 {
-   const bool ok = impl_wait_until (
+   const bool ok = pump_until (
       [this, &probe, &expected] () { return this->probe <T> (probe.key) == expected; },
       timeout
    );
@@ -293,8 +293,8 @@ void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, S
          stderr,
          "wait_until_equal at %s:%u: probe '%s' did not equal %s within %lld ms, last value %s\n",
          sloc.file_name (), unsigned (sloc.line ()),
-         probe.key.c_str (), impl_to_string (expected).c_str (), (long long) ms,
-         impl_to_string (this->probe <T> (probe.key)).c_str ()
+         probe.key.c_str (), to_string (expected).c_str (), (long long) ms,
+         to_string (this->probe <T> (probe.key)).c_str ()
       );
       std::fflush (stderr);
    }
@@ -306,14 +306,14 @@ void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, S
 
 /*
 ==============================================================================
-Name : impl_to_string
+Name : to_string
 Description :
    Try to convert the value to string for logs
 ==============================================================================
 */
 
 template <typename T>
-std::string BoardGeneric::impl_to_string (const T & value)
+std::string BoardGeneric::to_string (const T & value)
 {
    if constexpr (requires (std::ostream & os) { os << value; })
    {
@@ -331,12 +331,12 @@ std::string BoardGeneric::impl_to_string (const T & value)
 
 /*
 ==============================================================================
-Name : impl_wait_until
+Name : pump_until
 ==============================================================================
 */
 
 template <typename Predicate>
-bool  BoardGeneric::impl_wait_until (Predicate predicate, SystemClockVirtual::duration timeout)
+bool  BoardGeneric::pump_until (Predicate predicate, SystemClockVirtual::duration timeout)
 {
    assert (_boot_flag);
 
@@ -349,7 +349,7 @@ bool  BoardGeneric::impl_wait_until (Predicate predicate, SystemClockVirtual::du
          return false;
       }
 
-      impl_step ();
+      step ();
    }
 
    return true;
