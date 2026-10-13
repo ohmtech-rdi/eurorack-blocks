@@ -79,10 +79,10 @@ protected:
 
 private:
 
-   std::array <uint8_t, erb_SRAM_MEM_POOL_SIZE>
+   alignas (16) std::array <uint8_t, erb_SRAM_MEM_POOL_SIZE>
                   _sram_memory_pool_storage;
 #if (erb_SDRAM_USE_FLAG)
-   std::array <uint8_t, erb_SDRAM_MEM_POOL_SIZE>
+   alignas (16) std::array <uint8_t, erb_SDRAM_MEM_POOL_SIZE>
                   _sdram_memory_pool_storage;
 #endif
 
