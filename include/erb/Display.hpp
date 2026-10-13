@@ -24,6 +24,39 @@ namespace erb
 
 /*
 ==============================================================================
+Name : get_pixel
+==============================================================================
+*/
+
+template <typename Format>
+requires is_format_ssd130x <Format>::value
+bool  get_pixel (const typename Format::Storage & storage, std::size_t x, std::size_t y)
+{
+   return (storage [x + (y / 8) * Format::width] & (1 << (y % 8))) != 0;
+}
+
+
+
+/*
+==============================================================================
+Name : set_pixel
+==============================================================================
+*/
+
+template <typename Format>
+requires is_format_ssd130x <Format>::value
+void  set_pixel (typename Format::Storage & storage, std::size_t x, std::size_t y, bool on)
+{
+   auto & byte = storage [x + (y / 8) * Format::width];
+   const auto bit = std::uint8_t (1 << (y % 8));
+
+   byte = on ? (byte | bit) : (byte & ~bit);
+}
+
+
+
+/*
+==============================================================================
 Name : ctor
 ==============================================================================
 */
