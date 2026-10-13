@@ -1,0 +1,365 @@
+/*****************************************************************************
+
+      BoardGeneric.hpp
+      Copyright (c) 2020 Raphael DINGE
+
+*Tab=3***********************************************************************/
+
+
+
+#pragma once
+
+
+
+/*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+#include <algorithm>
+#include <sstream>
+
+#include <cassert>
+#include <cstdio>
+#include <cstdlib>
+
+#include <cstring>
+
+
+
+namespace erb
+{
+namespace rig
+{
+
+
+
+/*\\\ PUBLIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*
+==============================================================================
+Name : load
+==============================================================================
+*/
+
+template <std::size_t N>
+std::array <uint8_t, N> BoardGeneric::load (size_t page)
+{
+   // This is a NAND flash so any untouched bits read as 1
+
+   auto ret = std::array <uint8_t, N> {};
+   ret.fill (0xff);
+
+   auto it = _persistent_map.find (page);
+
+   if (it != _persistent_map.end ())
+   {
+      const auto & stored = it->second;
+      std::memcpy (&ret [0], &stored [0], std::min (stored.size (), N));
+   }
+
+   return ret;
+}
+
+
+
+/*
+==============================================================================
+Name : save
+==============================================================================
+*/
+
+template <typename Data>
+void  BoardGeneric::save (size_t page, const Data & data)
+{
+   ++_qspi_saves [page];
+
+   // trim trailing 0xff bytes as they can be treated as untouched bits
+
+   auto end = std::find_if (
+      data.rbegin (), data.rend (),
+      [](uint8_t byte){ return byte != 0xff; }
+   ).base ();
+
+   if (end == data.begin ())
+   {
+      _persistent_map.erase (page);
+   }
+   else
+   {
+      _persistent_map [page] = std::vector <uint8_t> { data.begin (), end };
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : erase
+==============================================================================
+*/
+
+void  BoardGeneric::erase (size_t page)
+{
+   ++_qspi_erases [page];
+
+   _persistent_map.erase (page);
+}
+
+
+
+/*
+==============================================================================
+Name : scroll
+Description :
+   Convenience to emits multiple events for as many counts.
+   Encoder detects a detent when the leading pin reads high then
+   low for the number of blocks set by 'configure'
+==============================================================================
+*/
+
+template <EncoderLeadingType LeadingType>
+void  BoardGeneric::scroll (Encoder <LeadingType> & encoder, int nbr_detents)
+{
+   assert (_boot_flag);
+
+   const bool positive = nbr_detents > 0;
+   const bool pulse_a = positive == (LeadingType == EncoderLeadingType::B);
+   const auto & data = pulse_a ? encoder.impl_data_a : encoder.impl_data_b;
+
+   const auto nbr_zeros = encoder.impl_nbr_debounce_zeros ();
+
+   for (int i = 0 ; i < std::abs (nbr_detents) ; ++i)
+   {
+      set_digital_input (data, 1);
+      run_steps (1);
+      set_digital_input (data, 0);
+      run_steps (nbr_zeros);
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : scroll
+==============================================================================
+*/
+
+template <EncoderLeadingType LeadingType>
+void  BoardGeneric::scroll (EncoderButton <LeadingType> & encoder, int nbr_detents)
+{
+   scroll (encoder.encoder, nbr_detents);
+}
+
+
+
+/*
+==============================================================================
+Name : set
+==============================================================================
+*/
+
+template <FloatRange Range>
+void  BoardGeneric::set (Pot <Range> & pot, float value)
+{
+   assert (_boot_flag);
+   assert (value >= Pot <Range>::ValueMin);
+   assert (value <= Pot <Range>::ValueMax);
+
+   set_analog_input (pot.impl_data, value);
+}
+
+
+
+/*
+==============================================================================
+Name : set
+==============================================================================
+*/
+
+template <FloatRange Range>
+void  BoardGeneric::set (CvIn <Range> & cv, float value)
+{
+   assert (_boot_flag);
+   assert (value >= CvIn <Range>::ValueMin);
+   assert (value <= CvIn <Range>::ValueMax);
+
+   set_analog_input (cv.impl_data, value);
+   impl_plug (SlotKind::Analog, find_slot_index (_analog_inputs, cv.impl_data));
+}
+
+
+
+/*
+==============================================================================
+Name : probe
+==============================================================================
+*/
+
+template <typename T>
+T  BoardGeneric::probe (const std::string & key) const
+{
+   assert (_boot_flag);
+
+   const ProbeMap & probes = impl_probe_singleton ();
+
+   auto it = probes.find (key);
+
+   if (it == probes.end ())
+   {
+      std::fprintf (stderr, "probe: missing key '%s'\n", key.c_str ());
+      std::fflush (stderr);
+      assert (false);
+   }
+
+   const T * value_ptr = std::any_cast <T> (&it->second);
+
+   if (value_ptr == nullptr)
+   {
+      std::fprintf (stderr, "probe: key '%s' does not hold a '%s'\n", key.c_str (), typeid (T).name ());
+      std::fflush (stderr);
+      assert (false);
+   }
+
+   return *value_ptr;
+}
+
+
+
+/*
+==============================================================================
+Name : wait_until
+==============================================================================
+*/
+
+template <typename Predicate>
+void  BoardGeneric::wait_until (Predicate predicate, SystemClockVirtual::duration timeout, std::source_location sloc)
+{
+   const bool ok = pump_until (predicate, timeout);
+
+   if (!ok)
+   {
+      const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
+      std::fprintf (
+         stderr, "wait_until at %s:%u: condition not met within %lld ms\n",
+         sloc.file_name (), unsigned (sloc.line ()), (long long) ms
+      );
+      std::fflush (stderr);
+   }
+
+   assert (ok);
+}
+
+
+
+/*
+==============================================================================
+Name : find_slot_index
+Description :
+   'data' is the 'impl_data' of a control, a reference into 'slots'.
+==============================================================================
+*/
+
+template <typename T>
+std::size_t BoardGeneric::find_slot_index (const std::vector <T> & slots, const T & data)
+{
+   const auto * begin = slots.data ();
+   const auto * end = begin + slots.size ();
+   assert (!std::less <> {} (&data, begin));
+   assert (std::less <> {} (&data, end));
+
+   return std::size_t (&data - begin);
+}
+
+
+
+/*
+==============================================================================
+Name : wait_until_equal
+==============================================================================
+*/
+
+template <typename T>
+void  BoardGeneric::wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout, std::source_location sloc)
+{
+   const bool ok = pump_until (
+      [this, &probe, &expected] () { return this->probe <T> (probe.key) == expected; },
+      timeout
+   );
+
+   if (!ok)
+   {
+      const auto ms = std::chrono::duration_cast <std::chrono::milliseconds> (timeout).count ();
+
+      std::fprintf (
+         stderr,
+         "wait_until_equal at %s:%u: probe '%s' did not equal %s within %lld ms, last value %s\n",
+         sloc.file_name (), unsigned (sloc.line ()),
+         probe.key.c_str (), to_string (expected).c_str (), (long long) ms,
+         to_string (this->probe <T> (probe.key)).c_str ()
+      );
+      std::fflush (stderr);
+   }
+
+   assert (ok);
+}
+
+
+
+/*
+==============================================================================
+Name : to_string
+Description :
+   Try to convert the value to string for logs
+==============================================================================
+*/
+
+template <typename T>
+std::string BoardGeneric::to_string (const T & value)
+{
+   if constexpr (requires (std::ostream & os) { os << value; })
+   {
+      std::ostringstream os;
+      os << value;
+      return os.str ();
+   }
+   else
+   {
+      return "(not printable)";
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : pump_until
+==============================================================================
+*/
+
+template <typename Predicate>
+bool  BoardGeneric::pump_until (Predicate predicate, SystemClockVirtual::duration timeout)
+{
+   assert (_boot_flag);
+
+   const auto deadline = SystemClockVirtual::now () + timeout;
+
+   while (!predicate ())
+   {
+      if (SystemClockVirtual::now () >= deadline)
+      {
+         return false;
+      }
+
+      step ();
+   }
+
+   return true;
+}
+
+
+
+}  // namespace rig
+}  // namespace erb
+
+
+
+/*\\\ EOF \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
