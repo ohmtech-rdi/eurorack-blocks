@@ -38,6 +38,8 @@
       'rig/Pitch.hpp',
       'rig/Probe.h',
       'rig/Probe.hpp',
+      'rig/Rows.h',
+      'rig/Rows.hpp',
       'rig/Scope.h',
       'rig/Scope.hpp',
       'rig/Screen.h',
