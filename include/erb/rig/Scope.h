@@ -14,6 +14,7 @@
 /*\\\ INCLUDE FILES \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 #include "erb/AudioOut.h"
+#include "erb/CvOut.h"
 #include "erb/rig/Instrument.h"
 
 #include <source_location>
@@ -43,12 +44,21 @@ public:
 
    inline Connection
                   bind (Bench & bench, AudioOut & output);
+   template <FloatRange Range>
+   Connection     bind (Bench & bench, CvOut <Range> & output);
 
    inline Reading read () const;
    inline void    check (const Reading & expected, float tolerance, std::source_location sloc = std::source_location::current ()) const;
 
    inline const char *
                   name () const override;
+
+
+
+/*\\\ PRIVATE \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+private:
+   SlotKind       _kind = SlotKind::Audio;
 
 
 
