@@ -52,6 +52,24 @@ Name : bind
 Connection  Scope::bind (Bench & bench, AudioOut & output)
 {
    bind_channel (bench, output);
+   _kind = SlotKind::Audio;
+
+   return connect ();
+}
+
+
+
+/*
+==============================================================================
+Name : bind
+==============================================================================
+*/
+
+template <FloatRange Range>
+Connection  Scope::bind (Bench & bench, CvOut <Range> & output)
+{
+   bind_channel (bench, output);
+   _kind = SlotKind::Analog;
 
    return connect ();
 }
@@ -66,7 +84,7 @@ Name : read
 
 Scope::Reading Scope::read () const
 {
-   const auto window = window_audio (0);
+   const auto window = (_kind == SlotKind::Audio) ? window_audio (0) : window_analog (0);
 
    return Reading (window.begin (), window.end ());
 }
