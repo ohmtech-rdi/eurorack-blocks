@@ -511,7 +511,7 @@ def install_python_requirements ():
          '--log', os.path.join (PATH_TOOLCHAIN, 'pip-install-pip.log.txt'),
          '--target', PATH_PY3_PACKAGES,
          '--no-user',
-         'pip==23.1.2',
+         'pip>=23.1.2',
       ]
    )
 

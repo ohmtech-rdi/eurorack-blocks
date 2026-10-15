@@ -7,7 +7,7 @@ on:
 jobs:
   software_cpp:
     name: Software C++
-    runs-on: macos-latest
+    runs-on: macos-26
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -15,6 +15,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Runner
+        run: |
+          echo "ImageOS=$ImageOS ImageVersion=$ImageVersion arch=$(uname -m)"
+          sw_vers
+          test "$ImageOS" = "macos26" || { echo "::error::expected the macos26 image, got $ImageOS"; exit 1; }
+          test "$(uname -m)" = "arm64" || { echo "::error::expected arm64, got $(uname -m)"; exit 1; }
+          test "${ImageVersion%%.*}" -ge 20261013 || { echo "::error::expected image 20261013 or later, got $ImageVersion"; exit 1; }
       - run: curl https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-x64.dmg --location --output Faust-2.37.3-x64.dmg
       - run: hdiutil attach Faust-2.37.3-x64.dmg
       - run: echo 'export PATH=$PATH:/Volumes/Faust-2.37.3/Faust-2.37.3/bin' >> ~/.bash_profile
@@ -90,7 +97,7 @@ jobs:
 
   software_max:
     name: Software Max/MSP/Gen~
-    runs-on: macos-latest
+    runs-on: macos-26
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -98,6 +105,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Runner
+        run: |
+          echo "ImageOS=$ImageOS ImageVersion=$ImageVersion arch=$(uname -m)"
+          sw_vers
+          test "$ImageOS" = "macos26" || { echo "::error::expected the macos26 image, got $ImageOS"; exit 1; }
+          test "$(uname -m)" = "arm64" || { echo "::error::expected arm64, got $(uname -m)"; exit 1; }
+          test "${ImageVersion%%.*}" -ge 20261013 || { echo "::error::expected image 20261013 or later, got $ImageVersion"; exit 1; }
       - run: brew install --cask vcv-rack
       - name: VCV Rack headless first run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n'
@@ -125,7 +139,7 @@ jobs:
 
   software_faust:
     name: Software Faust
-    runs-on: macos-latest
+    runs-on: macos-26
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -133,6 +147,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Runner
+        run: |
+          echo "ImageOS=$ImageOS ImageVersion=$ImageVersion arch=$(uname -m)"
+          sw_vers
+          test "$ImageOS" = "macos26" || { echo "::error::expected the macos26 image, got $ImageOS"; exit 1; }
+          test "$(uname -m)" = "arm64" || { echo "::error::expected arm64, got $(uname -m)"; exit 1; }
+          test "${ImageVersion%%.*}" -ge 20261013 || { echo "::error::expected image 20261013 or later, got $ImageVersion"; exit 1; }
       - run: curl https://github.com/grame-cncm/faust/releases/download/2.37.3/Faust-2.37.3-x64.dmg --location --output Faust-2.37.3-x64.dmg
       - run: hdiutil attach Faust-2.37.3-x64.dmg
       - run: echo 'export PATH=$PATH:/Volumes/Faust-2.37.3/Faust-2.37.3/bin' >> ~/.bash_profile
@@ -171,7 +192,7 @@ jobs:
 
   hardware:
     name: Hardware
-    runs-on: macos-latest
+    runs-on: macos-26
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -179,6 +200,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Runner
+        run: |
+          echo "ImageOS=$ImageOS ImageVersion=$ImageVersion arch=$(uname -m)"
+          sw_vers
+          test "$ImageOS" = "macos26" || { echo "::error::expected the macos26 image, got $ImageOS"; exit 1; }
+          test "$(uname -m)" = "arm64" || { echo "::error::expected arm64, got $(uname -m)"; exit 1; }
+          test "${ImageVersion%%.*}" -ge 20261013 || { echo "::error::expected image 20261013 or later, got $ImageVersion"; exit 1; }
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: Python diagnostics
@@ -194,11 +222,18 @@ jobs:
 
   unit_tests:
     name: Unit Tests
-    runs-on: macos-latest
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Runner
+        run: |
+          echo "ImageOS=$ImageOS ImageVersion=$ImageVersion arch=$(uname -m)"
+          sw_vers
+          test "$ImageOS" = "macos26" || { echo "::error::expected the macos26 image, got $ImageOS"; exit 1; }
+          test "$(uname -m)" = "arm64" || { echo "::error::expected arm64, got $(uname -m)"; exit 1; }
+          test "${ImageVersion%%.*}" -ge 20261013 || { echo "::error::expected image 20261013 or later, got $ImageVersion"; exit 1; }
       - run: brew install ninja
       - run: python3 test/unit/configure.py
       - run: python3 test/unit/build.py
@@ -206,7 +241,7 @@ jobs:
 
   erbb_tests:
     name: Erbb/Erbui Tests
-    runs-on: macos-latest
+    runs-on: macos-26
     defaults:
       run:
         shell: bash -l {0} # Source profile for each step
@@ -214,6 +249,13 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Runner
+        run: |
+          echo "ImageOS=$ImageOS ImageVersion=$ImageVersion arch=$(uname -m)"
+          sw_vers
+          test "$ImageOS" = "macos26" || { echo "::error::expected the macos26 image, got $ImageOS"; exit 1; }
+          test "$(uname -m)" = "arm64" || { echo "::error::expected arm64, got $(uname -m)"; exit 1; }
+          test "${ImageVersion%%.*}" -ge 20261013 || { echo "::error::expected image 20261013 or later, got $ImageVersion"; exit 1; }
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: Python diagnostics
