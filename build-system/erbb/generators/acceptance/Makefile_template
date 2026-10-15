@@ -68,12 +68,13 @@ ifndef ARCH_WIN
 endif
 
 # Optimization: never NDEBUG, asserts are the test
+# No unsafe math: with -O2, math is different
 ifeq ($(CONFIGURATION),Debug)
-FLAGS += -O0 -g -funsafe-math-optimizations -fno-math-errno
+FLAGS += -O0 -g -fno-math-errno
 endif
 
 ifeq ($(CONFIGURATION),Release)
-FLAGS += -O2 -g -funsafe-math-optimizations -fno-math-errno
+FLAGS += -O2 -g -fno-math-errno
 endif
 
 %warnings%
