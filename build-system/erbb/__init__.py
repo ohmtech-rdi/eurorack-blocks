@@ -660,6 +660,65 @@ def build_acceptance_target (path, configuration, names):
 
 """
 ==============================================================================
+Name : run_acceptance_rows
+Description :
+   Run every own in its own process to continue on a failure (even if it
+   comes from the sanitizer, etc.)
+==============================================================================
+"""
+
+def run_acceptance_rows (path, configuration, names):
+   path_acceptance = os.path.join (path, 'artifacts', 'acceptance', configuration)
+
+   codes = []
+   failed = []
+   nbr_rows = 0
+   seconds = 0.0
+
+   for name in names:
+      executable = os.path.join (path_acceptance, name)
+
+      if platform.system () == 'Windows':
+         executable += '.exe'
+
+      listing = subprocess.run ([executable, '--list'], cwd = path, capture_output = True, text = True)
+
+      if listing.returncode != 0:
+         print ('EXIT %s --list %d' % (name, listing.returncode), flush = True)
+         codes.append (listing.returncode)
+         failed.append (name)
+         continue
+
+      rows = listing.stdout.split ()
+
+      for row in rows:
+         label = '%s/%s' % (name, row)
+         print ('RUN %s' % label, flush = True)
+
+         start = time.perf_counter ()
+         result = subprocess.run ([executable, row], cwd = path)
+         elapsed = time.perf_counter () - start
+
+         print ('EXIT %s %d in %.1fs' % (label, result.returncode, elapsed), flush = True)
+
+         codes.append (result.returncode)
+         nbr_rows += 1
+         seconds += elapsed
+
+         if result.returncode != 0:
+            failed.append (label)
+
+   if failed:
+      print ('FAILED %d of %d rows in %.1fs: %s' % (len (failed), nbr_rows, seconds, ' '.join (failed)), flush = True)
+   else:
+      print ('PASSED %d of %d rows in %.1fs' % (nbr_rows, nbr_rows, seconds), flush = True)
+
+   return codes
+
+
+
+"""
+==============================================================================
 Name : run_acceptance_target
 ==============================================================================
 """

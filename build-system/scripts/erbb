@@ -672,7 +672,11 @@ def run_acceptance (args):
       names = args.blocks
 
    erbb.build_acceptance_target (cwd, configuration, names)
-   codes = erbb.run_acceptance_target (cwd, configuration, names)
+
+   if args.continue_on_failure:
+      codes = erbb.run_acceptance_rows (cwd, configuration, names)
+   else:
+      codes = erbb.run_acceptance_target (cwd, configuration, names)
 
    if any (codes):
       sys.exit (1)
@@ -1028,6 +1032,12 @@ def parse_args_run (parent):
       default = 'release',
       choices = ['debug', 'release'],
       help = 'the build configuration to run, defaults to release'
+   )
+
+   parser_acceptance.add_argument(
+      '--continue-on-failure',
+      action = 'store_true',
+      help = 'don\'t stop on first failure, defaults to stop on first failure'
    )
 
    parser_acceptance.add_argument(
