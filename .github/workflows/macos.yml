@@ -21,6 +21,10 @@ jobs:
       - run: brew install --cask vcv-rack
       - name: VCV Rack headless first run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: python3 build-system/install.py
       #- run: erbb setup --with-xcode-support
       # quick fix, xcode support doesn't work anymore and we can't fix it quickly
@@ -92,6 +96,10 @@ jobs:
       - run: brew install --cask vcv-rack
       - name: VCV Rack headless first run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: test/max
@@ -121,6 +129,10 @@ jobs:
       - run: brew install --cask vcv-rack
       - name: VCV Rack headless first run
         run: /Applications/VCV\ Rack\ 2\ Free.app/Contents/MacOS/Rack -h <<< '\n'
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: python3 build-system/install.py
       - run: erbb setup
       - name: samples/faust
@@ -152,6 +164,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: python3 build-system/install.py
       - run: erbb setup
       - run: ./boards/kivu12/build.py
@@ -164,6 +180,10 @@ jobs:
         with:
           submodules: recursive
       - run: brew install ninja
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: python3 test/unit/configure.py
       - run: python3 test/unit/build.py
       - run: python3 test/unit/run.py
@@ -178,6 +198,10 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: recursive
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
       - run: python3 build-system/install.py
       - run: erbb setup
       #- run: python3 -m pip install coverage
