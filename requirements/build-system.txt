@@ -2,7 +2,7 @@
 
 # SVG & PDF generation
 
-cairocffi>=1.4.0,<1.5.0
+cairocffi>=1.6.0
 CairoSVG>=2.6.0
 freetype-py>=2.4.0
 
