@@ -77,6 +77,11 @@ ifeq ($(CONFIGURATION),Release)
 FLAGS += -O2 -g -fno-math-errno
 endif
 
+ifeq ($(CONFIGURATION),Coverage)
+FLAGS += -O2 -g -fno-math-errno -fprofile-instr-generate -fcoverage-mapping
+LDFLAGS += -fprofile-instr-generate
+endif
+
 %warnings%
 ifdef ARCH_MAC
 	FLAGS += -Wno-c99-extensions

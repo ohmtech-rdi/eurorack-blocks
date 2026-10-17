@@ -322,6 +322,8 @@ def acceptance_configuration (args):
       return 'Release'
    elif args.configuration == 'debug':
       return 'Debug'
+   elif args.configuration == 'coverage':
+      return 'Coverage'
 
 
 
@@ -865,7 +867,7 @@ def parse_args_build (parent):
    parser_acceptance.add_argument(
       '--configuration', '-c',
       default = 'release',
-      choices = ['debug', 'release'],
+      choices = ['debug', 'release', 'coverage'],
       help = 'the build configuration to use, defaults to release'
    )
 
@@ -1030,7 +1032,7 @@ def parse_args_run (parent):
    parser_acceptance.add_argument(
       '--configuration', '-c',
       default = 'release',
-      choices = ['debug', 'release'],
+      choices = ['debug', 'release', 'coverage'],
       help = 'the build configuration to run, defaults to release'
    )
 
