@@ -673,6 +673,16 @@ def run_acceptance (args):
 
       names = args.blocks
 
+   if args.report_only:
+      if configuration != 'Coverage':
+         print ("error: --report-only needs --configuration coverage", file = sys.stderr)
+         sys.exit (1)
+
+      if not erbb.report_acceptance_coverage (cwd, ast_erbb.modules [0], names):
+         sys.exit (1)
+
+      return
+
    erbb.build_acceptance_target (cwd, configuration, names)
 
    if args.continue_on_failure:
@@ -1044,6 +1054,12 @@ def parse_args_run (parent):
       '--continue-on-failure',
       action = 'store_true',
       help = 'don\'t stop on first failure, defaults to stop on first failure'
+   )
+
+   parser_acceptance.add_argument(
+      '--report-only',
+      action = 'store_true',
+      help = 'remake the report from the profiles of the last coverage run'
    )
 
    parser_acceptance.add_argument(
