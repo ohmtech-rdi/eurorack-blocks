@@ -680,6 +680,10 @@ def run_acceptance (args):
    else:
       codes = erbb.run_acceptance_target (cwd, configuration, names)
 
+   if configuration == 'Coverage':
+      if not erbb.report_acceptance_coverage (cwd, ast_erbb.modules [0], names):
+         sys.exit (1)
+
    if any (codes):
       sys.exit (1)
 

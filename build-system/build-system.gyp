@@ -29,6 +29,7 @@
             'erbb/adapter.py',
             'erbb/analyser.py',
             'erbb/ast.py',
+            'erbb/coverage.py',
             'erbb/error.py',
             'erbb/grammar.py',
             'erbb/parser.py',

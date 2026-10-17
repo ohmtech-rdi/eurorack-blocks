@@ -61,6 +61,7 @@ from .generators.daisy.make import Make as daisyMake
 from .generators.perf.make import Make as perfMake
 from .generators.fuzz.make import Make as fuzzMake
 from .generators.acceptance.make import Make as acceptanceMake
+from . import coverage
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.extensions import Extensions as vscodeExtensions
@@ -777,6 +778,17 @@ def run_acceptance_rows (path, configuration, names):
       print ('PASSED %d of %d rows in %.1fs' % (nbr_rows, nbr_rows, seconds), flush = True)
 
    return codes
+
+
+
+"""
+==============================================================================
+Name : report_acceptance_coverage
+==============================================================================
+"""
+
+def report_acceptance_coverage (path, module, names):
+   return coverage.report (path, module, names)
 
 
 
