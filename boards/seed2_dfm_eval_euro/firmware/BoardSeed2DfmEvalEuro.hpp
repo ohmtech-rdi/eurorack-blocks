@@ -259,6 +259,19 @@ void  BoardSeed2DfmEvalEuro::impl_idle ()
 
 
 
+/*
+==============================================================================
+Name : delay
+==============================================================================
+*/
+
+void  BoardSeed2DfmEvalEuro::delay (std::chrono::milliseconds duration)
+{
+   daisy::System::Delay (uint32_t (duration.count ()));
+}
+
+
+
 /*\\\ PROTECTED \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 
