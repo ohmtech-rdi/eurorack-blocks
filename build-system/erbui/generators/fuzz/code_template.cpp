@@ -166,6 +166,9 @@ int main ()
    // Check 'erb::make_sdram_object' to put your buffers in
    // SDRAM.
 
+   using BoardType = decltype (module.ui.board);
+
+%  board_preprocess_boot%
    erb::module_init (module);
 
    struct Osc {
@@ -248,7 +251,6 @@ int main ()
    static Context context;
 
    module.ui.board.run ([&module](){
-      using BoardType = decltype (module.ui.board);
 
 %     controls_context_process%
 

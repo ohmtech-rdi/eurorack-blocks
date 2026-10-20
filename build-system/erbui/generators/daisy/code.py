@@ -35,6 +35,7 @@ class Code:
          template = file.read ()
 
       template = template.replace ('%module.name%', module.name)
+      template = self.replace_board_preprocess_boot (template, module.entities);
       template = self.replace_board_preprocess (template, module.entities);
       template = self.replace_board_postprocess (template, module.entities);
       template = self.replace_controls_preprocess (template, module.entities);
@@ -42,6 +43,26 @@ class Code:
 
       with open (path_cpp, 'w', encoding='utf-8') as file:
          file.write (template)
+
+
+   #--------------------------------------------------------------------------
+   # The digital inputs before 'init' so that the module knows the buttons
+   # held at boot. We can't do this for analog/audio inputs because they
+   # need their ADCs which only starts at 'run'
+
+   def replace_board_preprocess_boot (self, template, entities):
+      lines = ''
+
+      for entity in entities:
+         if entity.is_control and entity.kind in ['Button', 'EncoderButton', 'Switch']:
+            for sub_entity in entity.entities:
+               if sub_entity.is_pin:
+                  lines += '   module.ui.board.impl_preprocess (BoardType::%s);\n' % sub_entity.name
+               elif sub_entity.is_pin_array:
+                  for name in sub_entity.names:
+                     lines += '   module.ui.board.impl_preprocess (BoardType::%s);\n' % name
+
+      return template.replace ('%  board_preprocess_boot%', lines)
 
 
    #--------------------------------------------------------------------------
