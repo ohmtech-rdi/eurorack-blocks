@@ -163,6 +163,7 @@ public:
    std::size_t    impl_bind_output (SlotKind kind, const void * slot_data) override;
    void           impl_unbind_output (SlotKind kind, std::size_t slot_index) override;
    void           impl_plug (SlotKind kind, std::size_t slot_index) override;
+   void           impl_unplug (SlotKind kind, std::size_t slot_index) override;
    std::size_t    impl_bind_input (SlotKind kind, const void * slot_data) override;
    void           impl_attach (Source & source) override;
    void           impl_detach (Source & source) override;

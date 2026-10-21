@@ -114,6 +114,38 @@ float &  Source::input_analog (std::size_t channel)
 
 /*
 ==============================================================================
+Name : plug_channel
+==============================================================================
+*/
+
+void  Source::plug_channel (std::size_t channel)
+{
+   assert (bound ());
+   assert (channel < _channels.size ());
+
+   _bench_ptr->impl_plug (_channels [channel].kind, _channels [channel].slot_index);
+}
+
+
+
+/*
+==============================================================================
+Name : unplug_channel
+==============================================================================
+*/
+
+void  Source::unplug_channel (std::size_t channel)
+{
+   assert (bound ());
+   assert (channel < _channels.size ());
+
+   _bench_ptr->impl_unplug (_channels [channel].kind, _channels [channel].slot_index);
+}
+
+
+
+/*
+==============================================================================
 Name : bound
 ==============================================================================
 */

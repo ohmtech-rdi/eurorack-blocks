@@ -645,14 +645,26 @@ void  BoardGeneric::set_analog_input (const float & data, float value)
 ==============================================================================
 Name : impl_plug
 Description:
-   Plug notification for the normalling system.
-   A plug is assumed to stay for a whole run.
+   Plug notification for the normalling system
 ==============================================================================
 */
 
 void  BoardGeneric::impl_plug (SlotKind kind, std::size_t slot_index)
 {
    _plugged.insert ({kind, slot_index});
+}
+
+
+
+/*
+==============================================================================
+Name : impl_unplug
+==============================================================================
+*/
+
+void  BoardGeneric::impl_unplug (SlotKind kind, std::size_t slot_index)
+{
+   _plugged.erase ({kind, slot_index});
 }
 
 

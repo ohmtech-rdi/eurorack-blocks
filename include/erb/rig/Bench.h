@@ -56,6 +56,7 @@ public:
 
    // Inputs (Sources & direct)
    virtual void   impl_plug (SlotKind kind, std::size_t slot_index) = 0;
+   virtual void   impl_unplug (SlotKind kind, std::size_t slot_index) = 0;
 
    // Sources
    virtual std::size_t
