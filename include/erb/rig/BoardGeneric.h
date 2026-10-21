@@ -167,6 +167,7 @@ public:
    void           impl_attach (Source & source) override;
    void           impl_detach (Source & source) override;
    Buffer &       impl_input_audio (std::size_t slot_index) override;
+   float &        impl_input_analog (std::size_t slot_index) override;
    std::span <const std::uint8_t>
                   impl_recording_digital (std::size_t slot_index) const override;
    std::span <const float>

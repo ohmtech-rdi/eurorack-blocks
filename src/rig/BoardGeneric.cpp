@@ -724,6 +724,21 @@ void  BoardGeneric::impl_detach (Source & source)
 
 /*
 ==============================================================================
+Name : impl_input_analog
+==============================================================================
+*/
+
+float &  BoardGeneric::impl_input_analog (std::size_t slot_index)
+{
+   assert (slot_index < _analog_inputs.size ());
+
+   return _analog_inputs [slot_index];
+}
+
+
+
+/*
+==============================================================================
 Name : impl_input_audio
 ==============================================================================
 */

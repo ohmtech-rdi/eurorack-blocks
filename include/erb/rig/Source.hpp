@@ -97,6 +97,23 @@ Buffer & Source::input_audio (std::size_t channel)
 
 /*
 ==============================================================================
+Name : input_analog
+==============================================================================
+*/
+
+float &  Source::input_analog (std::size_t channel)
+{
+   assert (bound ());
+   assert (channel < _channels.size ());
+   assert (_channels [channel].kind == SlotKind::Analog);
+
+   return _bench_ptr->impl_input_analog (_channels [channel].slot_index);
+}
+
+
+
+/*
+==============================================================================
 Name : bound
 ==============================================================================
 */

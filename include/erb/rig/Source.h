@@ -59,6 +59,7 @@ protected:
 
    inline Buffer &
                   input_audio (std::size_t channel);
+   inline float & input_analog (std::size_t channel);
    inline bool    bound () const;
 
 
