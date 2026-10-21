@@ -40,6 +40,9 @@ inline uint16_t   norm_to_u12 (float norm_val);
 inline uint16_t   norm_to_u16 (float norm_val);
 inline float      to_float_norm (uint16_t val);
 
+template <typename To, typename From>
+To                bit_cast (const From & src) noexcept;
+
 
 
 }  // namespace erb
