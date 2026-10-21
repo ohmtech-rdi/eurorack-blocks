@@ -29,6 +29,7 @@ erb_RESTORE_WARNINGS
 
 
 #include <array>
+#include <chrono>
 
 
 
@@ -149,6 +150,8 @@ public:
    inline void    impl_postprocess () {}
 
    inline void    impl_idle ();
+
+   inline void    delay (std::chrono::milliseconds duration);
 
 
 

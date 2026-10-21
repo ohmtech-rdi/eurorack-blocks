@@ -91,6 +91,8 @@ Name : dtor
 
 BoardGeneric::~BoardGeneric ()
 {
+   _coroutine.stop ();
+
    if (_boot_flag)
    {
       print_stats ();
@@ -125,6 +127,7 @@ BoardGeneric::Stats  BoardGeneric::stats () const
 
    stats.block_count = _block_count;
    stats.idle_count = _idle_count;
+   stats.yield_count = _yield_count;
 
    if (_boot_flag)
    {
@@ -321,6 +324,39 @@ const char *  BoardGeneric::control_name (const void * control_ptr) const
 
 
 
+/*
+==============================================================================
+Name : delay
+Description :
+   A blocking delay in the UI will run the audio in parallel
+==============================================================================
+*/
+
+void  BoardGeneric::delay (SystemClockVirtual::duration duration)
+{
+   run_audio (std::max <uint64_t> (1, SystemClockVirtual::to_blocks_nbr (duration)));
+}
+
+
+
+/*
+==============================================================================
+Name : yield_audio
+Description :
+   Same as delay but only in acceptance tests and explicit.
+   The idea is to estimate roughly how much audio block would run during
+   the same UI run.
+==============================================================================
+*/
+
+void  BoardGeneric::yield_audio (uint64_t nbr_blocks)
+{
+   ++_yield_count;
+   run_audio (nbr_blocks);
+}
+
+
+
 /*\\\ INTERNAL \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
 
 /*
@@ -364,6 +400,8 @@ void  BoardGeneric::impl_boot (Glue glue)
    reset_stats ();
 
    _boot_flag = true;
+
+   _coroutine.start ([this] () { thread_loop (); });
 }
 
 
@@ -410,8 +448,8 @@ void  BoardGeneric::print_stats () const
    };
 
    std::printf (
-      "stats: blocks %llu, idles %llu, wall %.3f s, qspi saves %zu on %zu pages, erases %zu on %zu pages",
-      (unsigned long long) s.block_count, (unsigned long long) s.idle_count, s.wall_seconds,
+      "stats: blocks %llu, idles %llu, yields %llu, wall %.3f s, qspi saves %zu on %zu pages, erases %zu on %zu pages",
+      (unsigned long long) s.block_count, (unsigned long long) s.idle_count, (unsigned long long) s.yield_count, s.wall_seconds,
       total (s.qspi_saves), s.qspi_saves.size (), total (s.qspi_erases), s.qspi_erases.size ()
    );
 
@@ -421,110 +459,6 @@ void  BoardGeneric::print_stats () const
       double (s.output_max_abs), s.output_nbr_non_finite
    );
    std::fflush (stdout);
-}
-
-
-
-/*
-==============================================================================
-Name : step
-==============================================================================
-*/
-
-void  BoardGeneric::step ()
-{
-   switch (_mode)
-   {
-   case Mode::UiFast:
-      step_pair ();
-      break;
-
-   case Mode::Lockstep:
-      step_block ();
-      break;
-   }
-}
-
-
-
-/*
-==============================================================================
-Name : step_pair
-Description :
-   For 'UiFast', one 'process' then one 'idle'. We need 'process' because
-   the UI state is from 'process'.
-==============================================================================
-*/
-
-void  BoardGeneric::step_pair ()
-{
-   run_block ();
-   run_idle ();
-
-   SystemClockVirtual::impl_advance (erb_BUFFER_SIZE * BlocksPerIdle);
-}
-
-
-
-/*
-==============================================================================
-Name : step_block
-Description :
-   For 'Lockstep', one 'process' then many 'idle', eg. 18 for a system with
-   16 buffer size @ 48kHz and around 6ms min period for UI.
-==============================================================================
-*/
-
-void  BoardGeneric::step_block ()
-{
-   run_block ();
-
-   SystemClockVirtual::impl_advance (erb_BUFFER_SIZE);
-
-   if (_block_count % BlocksPerIdle == 0)
-   {
-      run_idle ();
-   }
-}
-
-
-
-/*
-==============================================================================
-Name : run_block
-==============================================================================
-*/
-
-void  BoardGeneric::run_block ()
-{
-   // see rationale in 'set_digital_input'
-   _digital_inputs = _digital_inputs_standing;
-   _analog_inputs = _analog_inputs_standing;
-
-   // idle before 'start', before control for normalling
-   if (_start_flag)
-   {
-      for (auto * source_ptr : _sources) source_ptr->impl_process ();
-   }
-
-   _glue.process ();
-
-   ++_block_count;
-}
-
-
-
-/*
-==============================================================================
-Name : run_idle
-==============================================================================
-*/
-
-void  BoardGeneric::run_idle ()
-{
-   _glue.idle ();
-
-   ++_idle_count;
 }
 
 
@@ -541,6 +475,124 @@ void  BoardGeneric::run_steps (std::size_t nbr_steps)
    {
       step ();
    }
+}
+
+
+
+/*
+==============================================================================
+Name : step
+Description :
+   Block this thread until the module have runned one pump or a suspend.
+   If an exception is thrown (eg. for a reboot), then it is rethrown here.
+==============================================================================
+*/
+
+void  BoardGeneric::step ()
+{
+   _coroutine.resume ();
+}
+
+
+
+/*
+==============================================================================
+Name : thread_loop
+==============================================================================
+*/
+
+void  BoardGeneric::thread_loop ()
+{
+   ModuleBoard::impl_set_current (&module_board);   // thread local
+
+   for (;;)
+   {
+      run_block ();
+
+      switch (_mode)
+      {
+      case Mode::UiFast:
+         run_idle ();
+         SystemClockVirtual::impl_advance (erb_BUFFER_SIZE * BlocksPerIdle);
+         break;
+
+      case Mode::Lockstep:
+         SystemClockVirtual::impl_advance (erb_BUFFER_SIZE);
+
+         while (_blocks_since_idle >= BlocksPerIdle)
+         {
+            run_idle ();
+         }
+         break;
+      }
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : run_idle
+==============================================================================
+*/
+
+void  BoardGeneric::run_idle ()
+{
+   _blocks_since_idle = 0; // period starts with idle
+   _in_idle = true;
+   _glue.idle ();    // can 'delay' or 'yield_audio'
+   _in_idle = false;
+
+   ++_idle_count;
+}
+
+
+
+/*
+==============================================================================
+Name : run_audio
+==============================================================================
+*/
+
+void  BoardGeneric::run_audio (uint64_t nbr_blocks)
+{
+   assert (_in_idle);
+
+   for (uint64_t i = 0 ; i < nbr_blocks ; ++i)
+   {
+      run_block ();
+      SystemClockVirtual::impl_advance (erb_BUFFER_SIZE);
+   }
+}
+
+
+
+/*
+==============================================================================
+Name : run_block
+Note :
+   Module thread
+==============================================================================
+*/
+
+void  BoardGeneric::run_block ()
+{
+   _coroutine.suspend ();
+
+   // see rationale in 'set_digital_input'
+   _digital_inputs = _digital_inputs_standing;
+   _analog_inputs = _analog_inputs_standing;
+
+   // idle before 'start', before control for normalling
+   if (_start_flag)
+   {
+      for (auto * source_ptr : _sources) source_ptr->impl_process ();
+   }
+
+   _glue.process ();
+
+   ++_block_count;
+   ++_blocks_since_idle;
 }
 
 

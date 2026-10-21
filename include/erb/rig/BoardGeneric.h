@@ -17,6 +17,7 @@
 #include "erb/detail/Clock.h"
 #include "erb/rig/Context.h"
 #include "erb/rig/Bench.h"
+#include "erb/rig/Coroutine.h"
 #include "erb/rig/Probe.h"
 #include "erb/rig/Screen.h"
 #include "erb/rig/SystemClockVirtual.h"
@@ -82,6 +83,7 @@ public:
       std::size_t sd_bytes_written = 0;
       uint64_t    block_count = 0;
       uint64_t    idle_count = 0;
+      uint64_t    yield_count = 0;
       double      wall_seconds = 0.0;
       float       output_max_abs = 0.f;     // audio outputs
       std::size_t output_nbr_non_finite = 0;
@@ -120,6 +122,9 @@ public:
    void           wait_until (Predicate predicate, SystemClockVirtual::duration timeout, std::source_location sloc = std::source_location::current ());
    template <typename T>
    void           wait_until_equal (const Probe & probe, const T & expected, SystemClockVirtual::duration timeout, std::source_location sloc = std::source_location::current ());
+
+   void           delay (SystemClockVirtual::duration duration);
+   void           yield_audio (uint64_t nbr_blocks);
 
    inline uint64_t
                   block_count () const { return _block_count; }
@@ -239,12 +244,13 @@ private:
 
    void           reset_stats ();
    void           print_stats () const;
-   void           step ();
-   void           step_pair ();
-   void           step_block ();
-   void           run_block ();
-   void           run_idle ();
+
    void           run_steps (std::size_t nbr_steps);
+   void           step ();
+   void           thread_loop ();
+   void           run_idle ();
+   void           run_audio (uint64_t nbr_blocks);
+   void           run_block ();
    template <typename Predicate>
    bool           pump_until (Predicate predicate, SystemClockVirtual::duration timeout);
    template <typename T>
@@ -325,6 +331,11 @@ private:
    Mode           _mode = Mode::UiFast;
    uint64_t       _block_count = 0;
    uint64_t       _idle_count = 0;
+   uint64_t       _blocks_since_idle = 0;
+   bool           _in_idle = false;
+   uint64_t       _yield_count = 0;
+
+   Coroutine      _coroutine;   // module idle/process
 
    std::map <std::size_t, std::size_t>
                   _qspi_erases;
