@@ -20,6 +20,8 @@
       'rig/BoardGeneric.h',
       'rig/BoardGeneric.hpp',
       'rig/Bench.h',
+      'rig/Cable.h',
+      'rig/Cable.hpp',
       'rig/Camera.h',
       'rig/Camera.hpp',
       'rig/Connection.h',
