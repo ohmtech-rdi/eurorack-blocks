@@ -56,6 +56,7 @@ public:
 
    // Inputs (Sources & direct)
    virtual void   impl_plug (SlotKind kind, std::size_t slot_index) = 0;
+   virtual void   impl_unplug (SlotKind kind, std::size_t slot_index) = 0;
 
    // Sources
    virtual std::size_t
@@ -64,6 +65,8 @@ public:
    virtual void   impl_detach (Source & source) = 0;
    virtual Buffer &
                   impl_input_audio (std::size_t slot_index) = 0;
+   virtual float &
+                  impl_input_analog (std::size_t slot_index) = 0;
 
    virtual std::span <const std::uint8_t>
                   impl_recording_digital (std::size_t slot_index) const = 0;

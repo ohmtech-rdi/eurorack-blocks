@@ -163,10 +163,12 @@ public:
    std::size_t    impl_bind_output (SlotKind kind, const void * slot_data) override;
    void           impl_unbind_output (SlotKind kind, std::size_t slot_index) override;
    void           impl_plug (SlotKind kind, std::size_t slot_index) override;
+   void           impl_unplug (SlotKind kind, std::size_t slot_index) override;
    std::size_t    impl_bind_input (SlotKind kind, const void * slot_data) override;
    void           impl_attach (Source & source) override;
    void           impl_detach (Source & source) override;
    Buffer &       impl_input_audio (std::size_t slot_index) override;
+   float &        impl_input_analog (std::size_t slot_index) override;
    std::span <const std::uint8_t>
                   impl_recording_digital (std::size_t slot_index) const override;
    std::span <const float>
