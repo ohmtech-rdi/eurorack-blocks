@@ -108,6 +108,9 @@ int main ()
    // Check 'erb::make_sdram_object' to put your buffers in
    // SDRAM.
 
+   using BoardType = decltype (module.ui.board);
+
+%  board_preprocess_boot%
    erb::module_init (module);
 
 #if (erb_MONITOR)
@@ -115,8 +118,6 @@ int main ()
 #endif
 
    module.ui.board.run ([&](){
-      using BoardType = decltype (module.ui.board);
-
 #if (erb_MONITOR)
       erb::Monitor::use ().audio_enter ();
 #endif

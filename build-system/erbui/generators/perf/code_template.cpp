@@ -184,6 +184,9 @@ int main ()
    // Check 'erb::make_sdram_object' to put your buffers in
    // SDRAM.
 
+   using BoardType = decltype (module.ui.board);
+
+%  board_preprocess_boot%
    erb::module_init (module);
 
    const auto ts_3 = daisy::System::GetTick ();
@@ -202,7 +205,6 @@ int main ()
    static Timings timings;
 
    module.ui.board.run ([&module](){
-      using BoardType = decltype (module.ui.board);
 
       const auto tsl_1 = daisy::System::GetTick ();
 
