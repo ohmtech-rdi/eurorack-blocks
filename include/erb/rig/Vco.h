@@ -47,6 +47,9 @@ public:
    inline void    set_frequency (float frequency_hz);
    inline void    set_level (float level);
 
+   inline void    plug ();
+   inline void    unplug ();
+
    inline void    impl_process () override;
 
    inline const char *
@@ -61,6 +64,7 @@ private:
    float          _frequency_hz = 440.f;
    float          _level = 0.5f;
    double         _phase = 0.0;   // turns
+   bool           _plugged = true;
 
 
 
