@@ -61,6 +61,7 @@ from .generators.daisy.make import Make as daisyMake
 from .generators.perf.make import Make as perfMake
 from .generators.fuzz.make import Make as fuzzMake
 from .generators.acceptance.make import Make as acceptanceMake
+from . import coverage
 from .generators.vcvrack.project import Project as vcvrackProject
 from .generators.vscode.c_cpp_properties import CCppProperties as vscodeCCppProperties
 from .generators.vscode.extensions import Extensions as vscodeExtensions
@@ -660,6 +661,61 @@ def build_acceptance_target (path, configuration, names):
 
 """
 ==============================================================================
+Name : acceptance_profiles_path
+==============================================================================
+"""
+
+def acceptance_profiles_path (path, configuration):
+   return os.path.join (path, 'artifacts', 'acceptance', configuration, 'profiles')
+
+
+
+"""
+==============================================================================
+Name : clear_acceptance_profiles
+Description :
+   Remove the profiles of a block before its run (row removed or renamed)
+==============================================================================
+"""
+
+def clear_acceptance_profiles (path, configuration, name):
+   if configuration != 'Coverage':
+      return
+
+   path_profiles = acceptance_profiles_path (path, configuration)
+
+   if not os.path.isdir (path_profiles):
+      return
+
+   for filename in os.listdir (path_profiles):
+      if filename == name + '.profraw' or filename.startswith (name + '-'):
+         os.remove (os.path.join (path_profiles, filename))
+
+
+
+"""
+==============================================================================
+Name : acceptance_profile_env
+==============================================================================
+"""
+
+def acceptance_profile_env (path, configuration, label):
+   if configuration != 'Coverage':
+      return None
+
+   path_profiles = acceptance_profiles_path (path, configuration)
+   os.makedirs (path_profiles, exist_ok = True)
+
+   # set path to written profile
+   env = dict (os.environ)
+   env ['LLVM_PROFILE_FILE'] = os.path.join (path_profiles, label + '.profraw')
+
+   return env
+
+
+
+"""
+==============================================================================
 Name : run_acceptance_rows
 Description :
    Run every own in its own process to continue on a failure (even if it
@@ -681,7 +737,11 @@ def run_acceptance_rows (path, configuration, names):
       if platform.system () == 'Windows':
          executable += '.exe'
 
-      listing = subprocess.run ([executable, '--list'], cwd = path, capture_output = True, text = True)
+      listing = subprocess.run (
+         [executable, '--list'], cwd = path, capture_output = True, text = True,
+         env = acceptance_profile_env (path, configuration, 'list')
+      )
+      clear_acceptance_profiles (path, configuration, 'list')
 
       if listing.returncode != 0:
          print ('EXIT %s --list %d' % (name, listing.returncode), flush = True)
@@ -691,12 +751,16 @@ def run_acceptance_rows (path, configuration, names):
 
       rows = listing.stdout.split ()
 
+      clear_acceptance_profiles (path, configuration, name)
+
       for row in rows:
          label = '%s/%s' % (name, row)
          print ('RUN %s' % label, flush = True)
 
+         env = acceptance_profile_env (path, configuration, '%s-%s' % (name, row))
+
          start = time.perf_counter ()
-         result = subprocess.run ([executable, row], cwd = path)
+         result = subprocess.run ([executable, row], cwd = path, env = env)
          elapsed = time.perf_counter () - start
 
          print ('EXIT %s %d in %.1fs' % (label, result.returncode, elapsed), flush = True)
@@ -714,6 +778,17 @@ def run_acceptance_rows (path, configuration, names):
       print ('PASSED %d of %d rows in %.1fs' % (nbr_rows, nbr_rows, seconds), flush = True)
 
    return codes
+
+
+
+"""
+==============================================================================
+Name : report_acceptance_coverage
+==============================================================================
+"""
+
+def report_acceptance_coverage (path, module, names):
+   return coverage.report (path, module, names)
 
 
 
@@ -737,8 +812,11 @@ def run_acceptance_target (path, configuration, names):
       if platform.system () == 'Windows':
          executable += '.exe'
 
+      clear_acceptance_profiles (path, configuration, name)
+      env = acceptance_profile_env (path, configuration, name)
+
       start = time.perf_counter ()
-      result = subprocess.run ([executable], cwd = path)
+      result = subprocess.run ([executable], cwd = path, env = env)
       elapsed = time.perf_counter () - start
 
       print ('EXIT %s %d in %.1fs' % (name, result.returncode, elapsed), flush = True)

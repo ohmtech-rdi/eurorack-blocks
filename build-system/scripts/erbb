@@ -322,6 +322,8 @@ def acceptance_configuration (args):
       return 'Release'
    elif args.configuration == 'debug':
       return 'Debug'
+   elif args.configuration == 'coverage':
+      return 'Coverage'
 
 
 
@@ -671,12 +673,26 @@ def run_acceptance (args):
 
       names = args.blocks
 
+   if args.report_only:
+      if configuration != 'Coverage':
+         print ("error: --report-only needs --configuration coverage", file = sys.stderr)
+         sys.exit (1)
+
+      if not erbb.report_acceptance_coverage (cwd, ast_erbb.modules [0], names):
+         sys.exit (1)
+
+      return
+
    erbb.build_acceptance_target (cwd, configuration, names)
 
    if args.continue_on_failure:
       codes = erbb.run_acceptance_rows (cwd, configuration, names)
    else:
       codes = erbb.run_acceptance_target (cwd, configuration, names)
+
+   if configuration == 'Coverage':
+      if not erbb.report_acceptance_coverage (cwd, ast_erbb.modules [0], names):
+         sys.exit (1)
 
    if any (codes):
       sys.exit (1)
@@ -865,7 +881,7 @@ def parse_args_build (parent):
    parser_acceptance.add_argument(
       '--configuration', '-c',
       default = 'release',
-      choices = ['debug', 'release'],
+      choices = ['debug', 'release', 'coverage'],
       help = 'the build configuration to use, defaults to release'
    )
 
@@ -1030,7 +1046,7 @@ def parse_args_run (parent):
    parser_acceptance.add_argument(
       '--configuration', '-c',
       default = 'release',
-      choices = ['debug', 'release'],
+      choices = ['debug', 'release', 'coverage'],
       help = 'the build configuration to run, defaults to release'
    )
 
@@ -1038,6 +1054,12 @@ def parse_args_run (parent):
       '--continue-on-failure',
       action = 'store_true',
       help = 'don\'t stop on first failure, defaults to stop on first failure'
+   )
+
+   parser_acceptance.add_argument(
+      '--report-only',
+      action = 'store_true',
+      help = 'remake the report from the profiles of the last coverage run'
    )
 
    parser_acceptance.add_argument(
