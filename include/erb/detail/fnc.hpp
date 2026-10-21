@@ -22,6 +22,8 @@
 
 #include <algorithm>
 
+#include <cstring>
+
 
 
 namespace erb
@@ -175,6 +177,28 @@ float to_float_norm (uint16_t val)
 {
    constexpr float scale = 1.f / 65535.f;
    return float (val) * scale;
+}
+
+
+
+/*
+==============================================================================
+Name : bit_cast
+Description :
+   Reimplementation of 'std::bit_cast' (but not 'constexpr') when C++20
+   implementation is incomplete (eg. Xcode 13)
+==============================================================================
+*/
+
+template <typename To, typename From>
+To  bit_cast (const From & src) noexcept
+{
+   static_assert (sizeof (To) == sizeof (From));
+
+   To dst;
+   std::memcpy (&dst, &src, sizeof (To));
+
+   return dst;
 }
 
 
