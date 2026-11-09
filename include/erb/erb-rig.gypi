@@ -24,6 +24,8 @@
       'rig/Cable.hpp',
       'rig/Camera.h',
       'rig/Camera.hpp',
+      'rig/ClickDetector.h',
+      'rig/ClickDetector.hpp',
       'rig/Connection.h',
       'rig/Connection.hpp',
       'rig/Envelope.h',
