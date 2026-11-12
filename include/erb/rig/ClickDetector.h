@@ -16,6 +16,7 @@
 #include "erb/AudioOut.h"
 #include "erb/rig/Instrument.h"
 
+#include <source_location>
 #include <span>
 #include <vector>
 
@@ -45,11 +46,7 @@ public:
       Butterworth8 = 8,
    };
 
-   struct Reading
-   {
-      float       db;   // worst score of the window
-      std::size_t at;   // sample in the window
-   };
+   using Reading = float;   // dB, the worst score of the window
 
    inline explicit
                   ClickDetector (Setup setup);
@@ -59,9 +56,10 @@ public:
                   bind (Bench & bench, AudioOut & output);
 
    inline void    set_highpass (Highpass highpass, float hz);
-   inline void    set_reference (SystemClockVirtual::duration window, float floor_db);
+   inline void    set_background (SystemClockVirtual::duration window, float floor_db);
 
    inline Reading read () const;
+   inline void    check (float threshold_db, std::source_location sloc = std::source_location::current ()) const;
 
    inline const char *
                   name () const override;
@@ -75,13 +73,20 @@ private:
    {
       Highpass    highpass = Highpass::Butterworth4;
       float       highpass_hz = 10000.f;
-      float       reference_s = 0.050f;
+      float       background_s = 0.050f;
       float       floor_db = -90.f;
    };
 
-   static constexpr std::size_t
-                  GapSamples = 48;   // 1 ms, a click out of its own reference
+   struct Worst
+   {
+      float       db;   // the worst score of the window
+      std::size_t at;   // its sample in the window
+   };
 
+   static constexpr std::size_t
+                  GapSamples = 48;   // 1 ms, a click out of its own background
+
+   inline Worst   score () const;
    inline std::vector <float>
                   filter (std::span <const float> window) const;
 
