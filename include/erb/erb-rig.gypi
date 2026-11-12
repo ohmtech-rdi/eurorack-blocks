@@ -56,6 +56,8 @@
       'rig/SlotKindTrait.h',
       'rig/Source.h',
       'rig/Source.hpp',
+      'rig/Spectrogram.h',
+      'rig/Spectrogram.hpp',
       'rig/SystemClockVirtual.h',
       'rig/SystemClockVirtual.hpp',
       'rig/Vco.h',
